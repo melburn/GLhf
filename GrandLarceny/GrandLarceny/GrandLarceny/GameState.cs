@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
@@ -11,7 +12,8 @@ namespace GrandLarceny
 	{
 		private LinkedList<GameObject> m_gameObjectList = new LinkedList<GameObject>();
 		private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
-		private static GameState m_myState;
+		KeyboardState m_previous;
+		KeyboardState m_current;
 
 		public GameState() 
 		{
@@ -25,6 +27,8 @@ namespace GrandLarceny
 		*/
 		public override void update(GameTime a_gameTime)
 		{
+			m_current = Keyboard.GetState();
+			
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.update(a_gameTime);
@@ -37,6 +41,7 @@ namespace GrandLarceny
 			{
 				m_gameObjectList.Remove(t_gameObject);
 			}
+			m_previous = m_current;
 		}
 		/*
 		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 
