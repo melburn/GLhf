@@ -7,5 +7,6 @@ namespace GrandLarceny
 {
 	class Player : Entity
 	{
+		
 	}
 }

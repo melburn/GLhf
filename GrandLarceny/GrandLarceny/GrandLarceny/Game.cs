@@ -13,7 +13,22 @@ namespace GrandLarceny
 {
 	public class Game : Microsoft.Xna.Framework.Game
 	{
+<<<<<<< HEAD
 		private static Game m_myGame;
+=======
+<<<<<<< HEAD
+		GraphicsDeviceManager graphics;
+		SpriteBatch spriteBatch;
+		Camera camera;
+		States currentState;
+=======
+		GraphicsDeviceManager m_graphics;
+		SpriteBatch m_spriteBatch;
+		GameState m_nextState;
+		GameState m_currentState;
+		Camera m_camera;
+>>>>>>> 2ef4895f3e15af1783c0419a609ec0361f9bef4e
+>>>>>>> 6015cf94da6f6044f20207bcbe61ae53ffc1a040
 
         private GraphicsDeviceManager m_graphics;
 		private SpriteBatch m_spriteBatch;
@@ -45,7 +60,12 @@ namespace GrandLarceny
 
 		protected override void Initialize()
 		{
+<<<<<<< HEAD
+			camera = new Camera();
+			currentState = new GameState();
+=======
 			m_camera = new Camera();
+>>>>>>> 2ef4895f3e15af1783c0419a609ec0361f9bef4e
 			base.Initialize();
 		}
 
@@ -61,6 +81,12 @@ namespace GrandLarceny
 
 		protected override void Update(GameTime a_gameTime)
 		{
+<<<<<<< HEAD
+			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+			{
+				this.Exit();
+			}
+=======
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;
@@ -72,6 +98,7 @@ namespace GrandLarceny
 				m_currentState.update(a_gameTime);
 			}
 
+>>>>>>> 2ef4895f3e15af1783c0419a609ec0361f9bef4e
 			base.Update(a_gameTime);
 		}
 
