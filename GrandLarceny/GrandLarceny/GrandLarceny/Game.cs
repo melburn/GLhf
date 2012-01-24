@@ -42,6 +42,10 @@ namespace GrandLarceny
 			Content.RootDirectory = "Content";
 		}
 
+		public SpriteBatch getSpriteBatch() {
+			return m_spriteBatch;
+		}
+
 		protected override void Initialize()
 		{
 			m_currentState = new GameState();

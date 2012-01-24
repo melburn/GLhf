@@ -45,7 +45,6 @@ namespace GrandLarceny
 				a_spriteEffect,
 				a_layer
 			);
-			//TODO fixa color
 			/*
 			            Game1.getInstace().getSpriteBatch().Draw(t_img.getImage(),
                 new Rectangle((int)m_position.X, (int)m_position.Y, t_img.getWidth(), t_img.getHeight()), //destination
