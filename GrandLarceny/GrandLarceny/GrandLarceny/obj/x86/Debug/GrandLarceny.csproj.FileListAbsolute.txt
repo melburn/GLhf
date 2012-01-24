@@ -7,3 +7,6 @@ c:\users\joxe\documents\visual studio 2010\Projects\GrandLarceny\GrandLarceny\Gr
 C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\GrandLarceny.pdb
+C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\GrandLarceny.pdb
