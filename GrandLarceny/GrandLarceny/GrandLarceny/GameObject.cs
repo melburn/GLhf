@@ -11,10 +11,10 @@ namespace GrandLarceny
 		private bool m_dead = false;
         private Position m_myPos;
 
-        public GameObject(int a_posX, int a_posY)
-        {
-            m_myPos = new Position(a_posX, a_posY);
-        }
+		public GameObject(Vector2 a_posV2)
+		{
+			m_myPos = new CartesianCoordinate(a_posV2);
+		}
 
 		public virtual void update(GameTime a_gameTime)
 		{
