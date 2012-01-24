@@ -17,14 +17,13 @@ namespace GrandLarceny
 		{
 
 		}
-
 		/*
 		Update-metod, går igenom alla objekt i scenen och kallas på deras update
 		och kollar sedan om de ska dö och läggs därefter i dödslistan.
 		Dödslistan loopas sedan igenom och tar bort de objekt som ska dö ifrån
 		objektlistan.
 		*/
-		public void update(GameTime a_gameTime)
+		public override void update(GameTime a_gameTime)
 		{
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
@@ -39,11 +38,10 @@ namespace GrandLarceny
 				m_gameObjectList.Remove(t_gameObject);
 			}
 		}
-
 		/*
 		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 
 		*/
-		public void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
+		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
