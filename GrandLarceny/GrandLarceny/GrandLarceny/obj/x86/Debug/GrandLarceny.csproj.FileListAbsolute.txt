@@ -13,3 +13,13 @@ C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\obj
 C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarceny\bin\x86\Debug\GrandLarceny.exe
 C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarceny\bin\x86\Debug\GrandLarceny.pdb
 C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\GrandLarceny.exe
+C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\bin\x86\Debug\GrandLarceny.exe
+C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\bin\x86\Debug\GrandLarceny.pdb
+C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\GrandLarceny.exe
+C:\Users\Yuma\gthub\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Yuma\gthub\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Yuma\gthub\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\bin\x86\Debug\Content\Images\WalkingSquareStand.xnb
+C:\Users\Yuma\gthub\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\bin\x86\Debug\GrandLarceny.exe
+C:\Users\Yuma\gthub\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\bin\x86\Debug\GrandLarceny.pdb
+C:\Users\Yuma\gthub\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\GrandLarceny.exe
+C:\Users\Yuma\gthub\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\obj\x86\Debug\GrandLarceny.pdb

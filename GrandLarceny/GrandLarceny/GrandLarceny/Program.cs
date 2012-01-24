@@ -10,7 +10,7 @@ namespace GrandLarceny
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game game = new Game())
+            using (Game game = Game.getInstance())
             {
                 game.Run();
             }

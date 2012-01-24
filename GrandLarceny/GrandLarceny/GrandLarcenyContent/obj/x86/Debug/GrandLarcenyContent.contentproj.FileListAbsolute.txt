@@ -1,3 +1,4 @@
 c:\users\joxe\documents\visual studio 2010\Projects\GrandLarceny\GrandLarceny\GrandLarcenyContent\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarcenyContent\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarcenyContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Yuma\gthub\GLhf\GrandLarceny\GrandLarceny\GrandLarcenyContent\obj\x86\Debug\ResolveAssemblyReference.cache
