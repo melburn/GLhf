@@ -13,7 +13,6 @@ namespace GrandLarceny
 {
 	public class Game : Microsoft.Xna.Framework.Game
 	{
-
 		GraphicsDeviceManager m_graphics;
 		SpriteBatch m_spriteBatch;
 		States m_nextState;
@@ -45,16 +44,23 @@ namespace GrandLarceny
 
 		protected override void Update(GameTime a_gameTime)
 		{
+			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+			{
+				this.Exit();
+			}
+
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;
 				m_currentState.load();
 				m_nextState = null;
 			}
+
 			if (m_currentState != null)
 			{
 				m_currentState.update(a_gameTime);
 			}
+
 			base.Update(a_gameTime);
 		}
 

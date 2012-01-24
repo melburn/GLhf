@@ -16,7 +16,6 @@ namespace GrandLarceny
 		/*
 		Singleton kontruktor
 		*/
-
 		public GameState() 
 		{
 
