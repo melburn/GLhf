@@ -16,6 +16,7 @@ namespace GrandLarceny
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		Camera camera;
+		States currentState;
 
 		public Game()
 		{
@@ -26,6 +27,7 @@ namespace GrandLarceny
 		protected override void Initialize()
 		{
 			camera = new Camera();
+			currentState = new GameState();
 			base.Initialize();
 		}
 
@@ -42,7 +44,9 @@ namespace GrandLarceny
 		protected override void Update(GameTime a_gameTime)
 		{
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+			{
 				this.Exit();
+			}
 			base.Update(a_gameTime);
 		}
 
