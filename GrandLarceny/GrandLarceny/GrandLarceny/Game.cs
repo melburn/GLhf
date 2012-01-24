@@ -13,27 +13,39 @@ namespace GrandLarceny
 {
 	public class Game : Microsoft.Xna.Framework.Game
 	{
+<<<<<<< HEAD
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 		Camera camera;
 		States currentState;
+=======
+		GraphicsDeviceManager m_graphics;
+		SpriteBatch m_spriteBatch;
+		GameState m_nextState;
+		GameState m_currentState;
+		Camera m_camera;
+>>>>>>> 2ef4895f3e15af1783c0419a609ec0361f9bef4e
 
 		public Game()
 		{
-			graphics = new GraphicsDeviceManager(this);
+			m_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 		}
 
 		protected override void Initialize()
 		{
+<<<<<<< HEAD
 			camera = new Camera();
 			currentState = new GameState();
+=======
+			m_camera = new Camera();
+>>>>>>> 2ef4895f3e15af1783c0419a609ec0361f9bef4e
 			base.Initialize();
 		}
 
 		protected override void LoadContent()
 		{
-			spriteBatch = new SpriteBatch(GraphicsDevice);
+			m_spriteBatch = new SpriteBatch(GraphicsDevice);
 		}
 
 		protected override void UnloadContent()
@@ -43,20 +55,40 @@ namespace GrandLarceny
 
 		protected override void Update(GameTime a_gameTime)
 		{
+<<<<<<< HEAD
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
 			{
 				this.Exit();
 			}
+=======
+			if (m_nextState != null)
+			{
+				m_currentState = m_nextState;
+				m_currentState.load();
+				m_nextState = null;
+			}
+			if (m_currentState != null)
+			{
+				m_currentState.update(a_gameTime);
+			}
+
+>>>>>>> 2ef4895f3e15af1783c0419a609ec0361f9bef4e
 			base.Update(a_gameTime);
 		}
 
 		protected override void Draw(GameTime a_gameTime)
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
-			spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.getTransformation(graphics.GraphicsDevice));
-			spriteBatch.End();
+			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
+			m_currentState.draw(a_gameTime, m_spriteBatch);
+			m_spriteBatch.End();
 
 			base.Draw(a_gameTime);
+		}
+
+		internal void setState(GameState a_newState)
+		{
+			m_nextState = a_newState;
 		}
 	}
 }
