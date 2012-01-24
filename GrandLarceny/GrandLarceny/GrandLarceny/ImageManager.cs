@@ -23,13 +23,7 @@ namespace GrandLarceny
 			m_animationFrames	= a_animationFrames;
 		}
 
-		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect, int a_layer) {
-			if (a_spriteEffect == null) {
-				a_spriteEffect = SpriteEffects.None;
-			}
-			if (a_layer == null) {
-				a_layer = 0;
-			}
+		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, int a_layer = 0) {
 			if (a_color == null) {
 				a_color = Color.White;
 			}
@@ -45,12 +39,6 @@ namespace GrandLarceny
 				a_spriteEffect,
 				a_layer
 			);
-			/*
-			            Game1.getInstace().getSpriteBatch().Draw(t_img.getImage(),
-                new Rectangle((int)m_position.X, (int)m_position.Y, t_img.getWidth(), t_img.getHeight()), //destination
-                new Rectangle(t_img.getWidth() * m_currAniFrame, 0, t_img.getWidth(), t_img.getHeight()), //source
-                Color.White, m_rotation, new Vector2(0,0), t_se, 0);									  //färg, rotation, origin, spriteeffect, lager
-			*/ 
 		}
 	}
 }
