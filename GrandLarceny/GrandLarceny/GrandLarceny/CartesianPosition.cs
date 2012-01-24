@@ -64,5 +64,55 @@ namespace GrandLarceny
         {
             m_coordinates = convertPolarToCartesian(new Vector2(a_radius, a_radians));
         }
+
+        public override void plusWith(Vector2 a_term)
+        {
+            m_coordinates += a_term;
+        }
+
+        public override void setLength(float length)
+        {
+            m_coordinates = Vector2.Normalize(m_coordinates) * length;
+        }
+
+        public override void rotate(float a_radians)
+        {
+            Vector2 t_polar = convertCartesianToPolar(m_coordinates);
+            t_polar.Y += a_radians;
+            m_coordinates = convertPolarToCartesian(t_polar);
+        }
+
+        public override float getLength()
+        {
+            return m_coordinates.Length();
+        }
+
+        public override float getX()
+        {
+            return m_coordinates.X;
+        }
+
+        public override float getY()
+        {
+            return m_coordinates.Y;
+        }
+
+        public override void setParentPositionWithoutMoving(Position a_parentPosition)
+        {
+            //kanske ska vara tvärtom
+            m_coordinates = getGlobalCartesianCoordinates() - a_parentPosition.getGlobalCartesianCoordinates();
+
+            m_parentPosition = a_parentPosition;
+        }
+
+        public override float getSlope()
+        {
+            return (float)Math.Atan2(m_coordinates.Y, m_coordinates.X);
+        }
+
+        public PolarCoordinate convertToPolarCoordinate()
+        {
+            return new PolarCoordinate(convertCartesianToPolar(m_coordinates));
+        }
     }
 }
