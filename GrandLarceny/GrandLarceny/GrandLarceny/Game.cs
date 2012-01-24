@@ -13,10 +13,11 @@ namespace GrandLarceny
 {
 	public class Game : Microsoft.Xna.Framework.Game
 	{
+
 		GraphicsDeviceManager m_graphics;
 		SpriteBatch m_spriteBatch;
-		GameState m_nextState;
-		GameState m_currentState;
+		States m_nextState;
+		States m_currentState;
 		Camera m_camera;
 
 		public Game()
@@ -27,6 +28,7 @@ namespace GrandLarceny
 
 		protected override void Initialize()
 		{
+			m_currentState = new GameState();
 			m_camera = new Camera();
 			base.Initialize();
 		}
@@ -53,7 +55,6 @@ namespace GrandLarceny
 			{
 				m_currentState.update(a_gameTime);
 			}
-
 			base.Update(a_gameTime);
 		}
 
