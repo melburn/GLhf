@@ -13,13 +13,30 @@ namespace GrandLarceny
 {
 	public class Game : Microsoft.Xna.Framework.Game
 	{
-		GraphicsDeviceManager m_graphics;
-		SpriteBatch m_spriteBatch;
-		States m_nextState;
-		States m_currentState;
-		Camera m_camera;
+        private static Game m_myGame;
 
-		public Game()
+        private GraphicsDeviceManager m_graphics;
+		private SpriteBatch m_spriteBatch;
+		
+        private States m_nextState;
+		private States m_currentState;
+
+		private Camera m_camera;
+
+        public static Game getInstance()
+        {
+            if (m_myGame != null)
+            {
+                return m_myGame;
+            }
+            else
+            {
+                m_myGame = new Game();
+                return m_myGame;
+            }
+        }
+
+		private Game()
 		{
 			m_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";

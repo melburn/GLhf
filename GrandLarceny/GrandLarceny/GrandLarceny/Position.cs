@@ -16,6 +16,14 @@ namespace GrandLarceny
         abstract public Vector2 getGlobalPolarCoordinates();
         abstract public void setCartesianCoordinates(Vector2 a_position);
         abstract public void setPolarCoordinates(float a_radius, float a_radians);
+        abstract public void plusWith(Vector2 a_term);
+        abstract public void setLength(float length);
+        abstract public void rotate(float a_radians);
+        abstract public float getLength();
+        abstract public float getX();
+        abstract public float getY();
+        abstract public void setParentPositionWithoutMoving(Position a_parentPosition);
+        abstract public float getSlope();
 
         public void setParentPosition(Position a_parentPosition)
         {
@@ -35,6 +43,18 @@ namespace GrandLarceny
         public static Vector2 convertPolarToCartesian(Vector2 a_polar)
         {
             return new Vector2((float)(a_polar.X * Math.Cos(a_polar.Y)), (float)(a_polar.X * Math.Sin(a_polar.Y)));
+        }
+
+        public float getDistanceTo(Position a_point)
+        {
+            return (a_point.getGlobalCartesianCoordinates()-getGlobalCartesianCoordinates()).Length();
+        }
+
+        public float getAngleTo(Position a_point)
+        {
+            Vector2 t_ThisPoint = getGlobalCartesianCoordinates();
+            Vector2 t_ArgPoint = a_point.getGlobalCartesianCoordinates();
+            return (float) Math.Atan2((double)(t_ThisPoint.Y - t_ArgPoint.Y),(double)(t_ThisPoint.X - t_ArgPoint.X));
         }
     }
 }
