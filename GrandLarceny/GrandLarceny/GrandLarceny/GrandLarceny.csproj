@@ -122,6 +122,7 @@
     <Compile Include="NPE.cs" />
     <Compile Include="PauseState.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PolarCoordinate.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Progress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
