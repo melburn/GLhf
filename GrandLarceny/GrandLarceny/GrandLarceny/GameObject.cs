@@ -13,7 +13,7 @@ namespace GrandLarceny
 
         public GameObject(int a_posX, int a_posY)
         {
-            m_myPos = new ();
+            m_myPos = new CartesianCoordinate(new Vector2(a_posX, a_posY));
         }
 
 		public void update(GameTime a_gameTime)

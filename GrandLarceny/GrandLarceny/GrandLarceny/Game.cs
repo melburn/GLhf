@@ -13,17 +13,35 @@ namespace GrandLarceny
 {
 	public class Game : Microsoft.Xna.Framework.Game
 	{
-		GraphicsDeviceManager m_graphics;
-		SpriteBatch m_spriteBatch;
-		GameState m_nextState;
-		GameState m_currentState;
-		Camera m_camera;
+		private static Game m_myGame;
 
-		public Game()
+        private GraphicsDeviceManager m_graphics;
+		private SpriteBatch m_spriteBatch;
+
+		private GameState m_nextState;
+		private GameState m_currentState;
+
+		private Camera m_camera;
+
+        private Game()
 		{
 			m_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 		}
+
+        public static Game getInstance()
+        {
+            if (m_myGame != null)
+            {
+                return m_myGame;
+            }
+            else
+            {
+                m_myGame = new Game();
+                return m_myGame;
+            }
+        }
+		
 
 		protected override void Initialize()
 		{
@@ -60,8 +78,10 @@ namespace GrandLarceny
 		protected override void Draw(GameTime a_gameTime)
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
-			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
-			m_currentState.draw(a_gameTime, m_spriteBatch);
+			
+            m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
+			
+            m_currentState.draw(a_gameTime, m_spriteBatch);
 			m_spriteBatch.End();
 
 			base.Draw(a_gameTime);

@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace GL
+namespace GrandLarceny
 {
-    class CartesianPosition : Position
+    class CartesianCoordinate : Position
     {
         private Vector2 m_coordinates;
 
-        public CartesianPosition(Vector2 a_coordinates)
+        public CartesianCoordinate(Vector2 a_coordinates)
         {
             m_coordinates = a_coordinates;
         }
 
-        public CartesianPosition(Vector2 a_coordinates, Position a_parentPosition)
+        public CartesianCoordinate(Vector2 a_coordinates, Position a_parentPosition)
         {
             m_coordinates = a_coordinates;
             m_parentPosition = a_parentPosition;
