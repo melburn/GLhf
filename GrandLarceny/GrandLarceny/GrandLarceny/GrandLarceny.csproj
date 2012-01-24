@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="CartesianPosition.cs" />
     <Compile Include="CollisionManager.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Enviroment.cs" />

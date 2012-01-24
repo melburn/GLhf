@@ -7,15 +7,15 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarcenyContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarcenyContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Joxe\Desktop\GIT\GrandL\GLhf\GrandLarceny\GrandLarceny\GrandLarceny\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarcenyContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarceny\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarcenyContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Melburn\Desktop\GL\GrandLarceny\GrandLarceny\GrandLarceny\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2011-11-16T14:35:02.5874349+01:00</Value>
+        <Value>2011-06-11T00:23:18.516+02:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
