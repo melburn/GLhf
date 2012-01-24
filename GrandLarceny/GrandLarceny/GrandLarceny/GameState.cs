@@ -13,27 +13,17 @@ namespace GrandLarceny
 		private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
 		private static GameState m_myState;
 
-		/*
-		Singleton kontruktor
-		*/
-
-		private GameState() 
+		public GameState() 
 		{
 
 		}
 
-		public static GameState getInstance() {
-			if (m_myState != null) 
-			{
-				return m_myState;
-			}
-			else
-			{
-				m_myState = new GameState();
-				return m_myState;
-			}
-		}
-
+		/*
+		Update-metod, går igenom alla objekt i scenen och kallas på deras update
+		och kollar sedan om de ska dö och läggs därefter i dödslistan.
+		Dödslistan loopas sedan igenom och tar bort de objekt som ska dö ifrån
+		objektlistan.
+		*/
 		public void update(GameTime a_gameTime)
 		{
 			foreach (GameObject t_gameObject in m_gameObjectList)
@@ -50,17 +40,15 @@ namespace GrandLarceny
 			}
 		}
 
+		/*
+		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 
+		*/
 		public void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.draw(a_gameTime);
 			}
-		}
-
-		public void addGameObject(GameObject a_gameObject)
-		{
-			m_gameObjectList.AddLast(a_gameObject);
 		}
 	}
 }
