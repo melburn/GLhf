@@ -20,14 +20,15 @@ namespace GrandLarceny
 
         protected Vector2 m_speed;
 
-		public GameObject(Vector2 a_posV2, Texture2D a_img, int a_animationWidth,  int a_animationHeight, int a_animationFrames)
+		public GameObject(Vector2 a_posV2, String a_sprite)
 		{
 			m_position = new CartesianCoordinate(a_posV2);
-            m_img = new ImageManager(a_img, a_animationWidth, a_animationHeight, a_animationFrames);
+            m_img = new ImageManager(a_sprite);
 		}
 
 		public virtual void update(GameTime a_gameTime)
 		{
+            m_img.update(a_gameTime);
 		}
 
 		public virtual void draw(GameTime a_gameTime)
