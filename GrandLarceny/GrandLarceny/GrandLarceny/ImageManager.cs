@@ -12,6 +12,8 @@ namespace GrandLarceny
 		private Texture2D m_image;
 		private int m_animationWidth;
 		private int m_animationFrames;
+        private bool m_looping;
+        private bool m_stopped = false;
 
         //millisecond per frame
         private float m_animationSpeed;
@@ -25,11 +27,27 @@ namespace GrandLarceny
             m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
             m_animationWidth = m_image.Width / m_animationFrames;
             m_animationSpeed = 33f;
+            m_looping = true;
         }
         
         public void update(GameTime a_gameTime)
         {
-            m_subImageNumber += m_animationSpeed*a_gameTime.ElapsedGameTime.Milliseconds;
+            if(!m_stopped)
+            {
+                m_subImageNumber += m_animationSpeed*a_gameTime.ElapsedGameTime.Milliseconds;
+                if(m_subImageNumber>=m_animationFrames)
+                {
+                    if(m_looping)
+                    {
+                        m_subImageNumber = m_subImageNumber % m_animationFrames;
+                    }
+                    else
+                    {
+                        m_subImageNumber = m_animationFrames;
+                        m_stopped = true;
+                    }
+                }
+            }
         }
 
 		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, int a_layer = 0) {
