@@ -50,6 +50,7 @@ namespace GrandLarceny
 		{
 			m_currentState = new GameState();
 			m_camera = new Camera();
+
 			base.Initialize();
 		}
 
@@ -99,5 +100,6 @@ namespace GrandLarceny
 		{
 			m_nextState = a_newState;
 		}
-	}
+
+    }
 }

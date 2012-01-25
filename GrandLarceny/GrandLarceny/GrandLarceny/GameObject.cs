@@ -9,30 +9,30 @@ namespace GrandLarceny
 {
 	class GameObject
 	{
-		private bool m_dead = false;
-        private Position m_myPos;
-        private ImageManager m_img;
+        protected bool m_dead = false;
+        protected Position m_position;
+        protected ImageManager m_img;
 
-        private float m_rotate;
-        private int m_layer;
-        private Color m_color;
-        private SpriteEffects m_spriteEffects;
+        protected float m_rotate;
+        protected int m_layer;
+        protected Color m_color;
+        protected SpriteEffects m_spriteEffects;
 
-		public GameObject(Vector2 a_posV2, ImageManager a_img)
+        protected Vector2 m_speed;
+
+		public GameObject(Vector2 a_posV2, Texture2D a_img, int a_animationWidth,  int a_animationHeight, int a_animationFrames)
 		{
-			m_myPos = new CartesianCoordinate(a_posV2);
-            m_img = a_img;
+			m_position = new CartesianCoordinate(a_posV2);
+            m_img = new ImageManager(a_img, a_animationWidth, a_animationHeight, a_animationFrames);
 		}
 
 		public virtual void update(GameTime a_gameTime)
 		{
-            m_myPos.rotate(a_gameTime.ElapsedGameTime.Milliseconds);
-            //m_myPos.plusWith(new Vector2(-3,-3));
 		}
 
 		public virtual void draw(GameTime a_gameTime)
 		{
-            m_img.draw(m_myPos, m_rotate, m_color, m_spriteEffects, 1);
+            m_img.draw(m_position, m_rotate, m_color, m_spriteEffects, 1);
 		}
 		public bool isDead()
 		{

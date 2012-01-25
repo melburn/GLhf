@@ -15,6 +15,8 @@ namespace GrandLarceny
 		KeyboardState m_previous;
 		KeyboardState m_current;
 
+
+
 		public GameState() 
 		{
           
