@@ -12,14 +12,14 @@ namespace GrandLarceny
 		private Texture2D m_image;
 		private int m_animationWidth;
 		private int m_animationFrames;
-        private bool m_looping;
-        private bool m_stopped = false;
+        public bool m_looping;
+        public bool m_stopped = false;
 
         //millisecond per frame
-        private float m_animationSpeed;
+        public float m_animationSpeed;
 
         //säger vilken subbild i animationen den ligger på, med decimaler.
-		private float m_subImageNumber;
+		public float m_subImageNumber;
 
         public ImageManager(String a_sprite)
         {
