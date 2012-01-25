@@ -18,8 +18,6 @@ namespace GrandLarceny
         protected Color m_color;
         protected SpriteEffects m_spriteEffects;
 
-        protected Vector2 m_speed;
-
 		public GameObject(Vector2 a_posV2, String a_sprite)
 		{
 			m_position = new CartesianCoordinate(a_posV2);
