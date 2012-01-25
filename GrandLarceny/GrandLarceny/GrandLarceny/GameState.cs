@@ -17,7 +17,7 @@ namespace GrandLarceny
 
 		public GameState() 
 		{
-
+          
 		}
 		/*
 		Update-metod, går igenom alla objekt i scenen och kallas på deras update

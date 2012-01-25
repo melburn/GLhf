@@ -9,7 +9,7 @@ namespace GrandLarceny
 	class Enviroment : GameObject
 	{
 		public Enviroment(Vector2 a_posV2)
-			: base(a_posV2)
+			: base(a_posV2, null)
 		{
 		}
 	}
