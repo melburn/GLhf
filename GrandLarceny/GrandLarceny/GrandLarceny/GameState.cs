@@ -13,6 +13,8 @@ namespace GrandLarceny
 		private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
 		private static GameState m_myState;
 
+
+
 		public GameState() 
 		{
           
