@@ -13,7 +13,7 @@ namespace GrandLarceny
 		private int m_animationWidth;
 		private int m_animationFrames;
         public bool m_looping;
-        public bool m_stopped = false;
+        private bool m_stopped = false;
 
         //millisecond per frame
         public float m_animationSpeed;
@@ -23,9 +23,7 @@ namespace GrandLarceny
 
         public ImageManager(String a_sprite)
         {
-            m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
-            m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
-            m_animationWidth = m_image.Width / m_animationFrames;
+            setSprite(a_sprite);
             m_animationSpeed = 33f;
             m_looping = true;
         }
@@ -67,5 +65,30 @@ namespace GrandLarceny
 				a_layer
 			);
 		}
+        public void setSprite(String a_sprite)
+        {
+            if(a_sprite==null)
+            {
+                m_image = null;
+                m_stopped = true;
+            }
+            else
+            {
+                m_stopped = false;
+                m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
+                m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
+                m_animationWidth = m_image.Width / m_animationFrames;
+                m_subImageNumber = 0;
+            }
+        }
+
+        public void stop()
+        {
+            m_stopped = true;
+        }
+        public void run()
+        {
+            m_stopped = (m_image==null);
+        }
 	}
 }
