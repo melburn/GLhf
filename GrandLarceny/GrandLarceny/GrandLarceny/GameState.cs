@@ -28,7 +28,8 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_current = Keyboard.GetState();
-			
+
+
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.update(a_gameTime);
