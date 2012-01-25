@@ -15,10 +15,7 @@ namespace GrandLarceny
 
 		public GameState() 
 		{
-            Texture2D t_theImage = Game.getInstance().Content.Load<Texture2D>("Images/WalkingSquareStand");
-            ImageManager t_img = new ImageManager(t_theImage, 52, 52, 0);
-            GameObject t_obj = new GameObject(new Vector2(30, 30), t_img);
-            m_gameObjectList.AddLast(t_obj);
+          
 		}
 		/*
 		Update-metod, går igenom alla objekt i scenen och kallas på deras update

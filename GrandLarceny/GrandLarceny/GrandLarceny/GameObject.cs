@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
@@ -11,6 +12,11 @@ namespace GrandLarceny
 		private bool m_dead = false;
         private Position m_myPos;
         private ImageManager m_img;
+
+        private float m_rotate;
+        private int m_layer;
+        private Color m_color;
+        private SpriteEffects m_spriteEffects;
 
 		public GameObject(Vector2 a_posV2, ImageManager a_img)
 		{
@@ -26,7 +32,7 @@ namespace GrandLarceny
 
 		public virtual void draw(GameTime a_gameTime)
 		{
-            m_img.draw(m_myPos, 0f, Color.White, new Microsoft.Xna.Framework.Graphics.SpriteEffects(), 1);
+            m_img.draw(m_myPos, m_rotate, m_color, m_spriteEffects, 1);
 		}
 		public bool isDead()
 		{
