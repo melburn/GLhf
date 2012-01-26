@@ -31,7 +31,7 @@ namespace GrandLarceny
 
 			m_animationFrames = new Dictionary<string, int>();
             //addressen till txt filen behövs ändras
-            String[] t_loadedFile = System.IO.File.ReadAllLines("wtf//loadImages");
+            String[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//loadImages.txt");
             
             foreach (String f_currentLine in t_loadedFile)
             {
