@@ -8,8 +8,8 @@ namespace GrandLarceny
 {
 	class NPE : Entity
 	{
-		public NPE(Vector2 a_posV2)
-			: base(a_posV2)
+		public NPE(Vector2 a_posV2, String a_sprite)
+			: base(a_posV2, a_sprite)
 		{
 		}
 	}

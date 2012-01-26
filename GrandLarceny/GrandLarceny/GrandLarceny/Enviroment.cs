@@ -8,8 +8,8 @@ namespace GrandLarceny
 {
 	class Enviroment : GameObject
 	{
-		public Enviroment(Vector2 a_posV2)
-			: base(a_posV2)
+		public Enviroment(Vector2 a_posV2, String a_sprite)
+			: base(a_posV2, a_sprite)
 		{
 		}
 	}
