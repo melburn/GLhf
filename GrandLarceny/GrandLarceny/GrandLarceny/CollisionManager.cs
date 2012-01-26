@@ -7,5 +7,6 @@ namespace GrandLarceny
 {
 	class CollisionManager
 	{
+		private List<Entity> m_entity = new List<Entity>();
 	}
 }

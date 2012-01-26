@@ -10,16 +10,18 @@ namespace GrandLarceny
 {
 	class GameState : States
 	{
-		private LinkedList<GameObject> m_gameObjectList = new LinkedList<GameObject>();
+		private LinkedList<GameObject> m_gameObjectList;
 		private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
 		KeyboardState m_previous;
 		KeyboardState m_current;
 
-		Player player = new Player(new Vector2(0, 0), "Images//WalkingSquareStand");
+		private Player player = new Player(new Vector2(0, 0), "Images//WalkingSquareStand");
 
 		public GameState() 
 		{
-          
+			m_gameObjectList = Loader.getInstance().loadLevel(1);
+			m_gameObjectList.AddLast(player);
+			player.setLayer(0);
 		}
 		/*
 		Update-metod, går igenom alla objekt i scenen och kallas på deras update
@@ -30,7 +32,6 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_current = Keyboard.GetState();
-
 
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{

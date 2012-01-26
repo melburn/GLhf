@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
@@ -18,7 +19,7 @@ namespace GrandLarceny
 
         static public Loader getInstance()
         {
-            if (s_instance==null)
+            if (s_instance == null)
 			{
                 s_instance = new Loader();
             }
@@ -60,5 +61,34 @@ namespace GrandLarceny
             }
             return m_animationFrames[a_sprite];
         }
+
+		public LinkedList<GameObject> loadLevel(int a_levelToLoad)
+		{
+			char[] t_splitter = { ':' };
+			LinkedList<GameObject> t_loadedList = new LinkedList<GameObject>();
+			String[] t_loadedFile = System.IO.File.ReadAllLines("Content//Levels//Level" + a_levelToLoad + ".txt");
+
+			foreach (String t_currentLine in t_loadedFile) 
+			{
+				String[] t_info = t_currentLine.Split(t_splitter);
+				try
+				{
+					if (t_info[0].Equals("Environment"))
+					{
+						t_loadedList.AddLast(new Environment(new Vector2(int.Parse(t_info[1]), int.Parse(t_info[2])), t_info[3]));
+						t_loadedList.Last().setLayer(1);
+					}
+				} 
+				catch (System.FormatException fe)
+				{
+					Console.Out.WriteLine(fe.Message);
+				}
+				catch (System.IndexOutOfRangeException ioore)
+				{
+					Console.Out.WriteLine(ioore.Message);
+				}
+			}
+			return t_loadedList;
+		}
 	}
 }

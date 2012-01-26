@@ -22,6 +22,10 @@ namespace GrandLarceny
 		{
 			m_position = new CartesianCoordinate(a_posV2);
             m_img = new ImageManager(a_sprite);
+			m_rotate = 0.0f;
+			m_layer = 0;
+			m_color = Color.White;
+			m_spriteEffects = SpriteEffects.None;
 		}
 
 		public virtual void update(GameTime a_gameTime)
@@ -31,11 +35,14 @@ namespace GrandLarceny
 
 		public virtual void draw(GameTime a_gameTime)
 		{
-            m_img.draw(m_position, m_rotate, m_color, m_spriteEffects, 1);
+            m_img.draw(m_position, m_rotate, m_color, m_spriteEffects, m_layer);
 		}
 		public bool isDead()
 		{
 			return m_dead;
+		}
+		public void setLayer(int a_layer) {
+			m_layer = a_layer;
 		}
 	}
 }
