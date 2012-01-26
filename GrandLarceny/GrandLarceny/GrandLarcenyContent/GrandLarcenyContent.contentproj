@@ -52,6 +52,7 @@
   <ItemGroup>
     <None Include="wtf\loadImages.txt">
       <Name>loadImages</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
