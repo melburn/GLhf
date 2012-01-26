@@ -66,11 +66,6 @@ namespace GrandLarceny
 
 		protected override void Update(GameTime a_gameTime)
 		{
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-			{
-				this.Exit();
-			}
-
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;

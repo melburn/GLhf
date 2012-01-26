@@ -12,6 +12,9 @@ namespace GrandLarceny
 
         private const int PLAYERSPEED = 200;
 
+		KeyboardState m_currentKeyInput;
+		KeyboardState m_previousKeyInput;
+
         enum State
         {
             Stop,
@@ -31,48 +34,48 @@ namespace GrandLarceny
         {
             base.update(a_gameTime);
 
-            KeyboardState t_keyInput = Keyboard.GetState();
+            m_currentKeyInput = Keyboard.GetState();
 
             switch (m_currentState)
             {
                 case State.Stop:
                 {
-                    updateStop(t_keyInput);
+                    updateStop();
                     break;
                 }
                 case State.Walking:
                 {
-                    updateWalking(t_keyInput);
+                    updateWalking();
                     break;
                 }
                 case State.Jumping:
                 {
-                    updateJumping(t_keyInput);
+                    updateJumping();
                     break;
                 }
                 case State.Sliding:
                 {
-                    updateSliding(t_keyInput);
+                    updateSliding();
                     break;
                 }
                 case State.Climbing:
                 {
-                    updateClimbing(t_keyInput);
+                    updateClimbing();
                     break;
                 }
             }
-
+			m_previousKeyInput = m_currentKeyInput;
 
         }
 
         //TODO, player ska kunna hoppa sig när han står still
-        private void updateStop(KeyboardState t_keyInput)
+        private void updateStop()
         {
-            if (t_keyInput.IsKeyDown(Keys.Left) || t_keyInput.IsKeyDown(Keys.Right))
+            if (m_currentKeyInput.IsKeyDown(Keys.Left) || m_currentKeyInput.IsKeyDown(Keys.Right))
             {
                 m_currentState = State.Walking;
                 changeAnimation();
-                if (t_keyInput.IsKeyDown(Keys.Left))
+                if (m_currentKeyInput.IsKeyDown(Keys.Left))
                 {
                     m_speed.X = -PLAYERSPEED;
                 }
@@ -84,9 +87,9 @@ namespace GrandLarceny
         }
 
         //TODO, player ska kunna hoppa här också, samt kollidering risk finns när han rör sig
-        private void updateWalking(KeyboardState t_keyInput)
+        private void updateWalking()
         {
-            if (!t_keyInput.IsKeyDown(Keys.Left) || !t_keyInput.IsKeyDown(Keys.Right))
+            if (!m_currentKeyInput.IsKeyDown(Keys.Left) || !m_currentKeyInput.IsKeyDown(Keys.Right))
             {
                 m_currentState = State.Stop;
                 changeAnimation();
@@ -94,17 +97,17 @@ namespace GrandLarceny
             }
         }
 
-        private void updateJumping(KeyboardState t_keyInput)
+        private void updateJumping()
         {
             throw new NotImplementedException();
         }
 
-        private void updateSliding(KeyboardState t_keyInput)
+        private void updateSliding()
         {
             throw new NotImplementedException();
         }
         
-        private void updateClimbing(KeyboardState t_keyInput)
+        private void updateClimbing()
         {
             throw new NotImplementedException();
         }
