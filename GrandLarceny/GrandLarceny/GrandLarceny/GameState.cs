@@ -15,7 +15,7 @@ namespace GrandLarceny
 		KeyboardState m_previous;
 		KeyboardState m_current;
 
-
+		Player player = new Player(new Vector2(0, 0), "Images//WalkingSquareStand");
 
 		public GameState() 
 		{

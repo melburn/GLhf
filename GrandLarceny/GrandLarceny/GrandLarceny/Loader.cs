@@ -7,15 +7,31 @@ namespace GrandLarceny
 {
 	class Loader
 	{
+		static private Loader s_instance;
 
         private Dictionary<String, int> m_animationFrames;
+
+		private Loader()
+		{
+			loadAnimationFrames();	
+		}
+
+        static public Loader getInstance()
+        {
+            if (s_instance==null)
+			{
+                s_instance = new Loader();
+            }
+            return s_instance;
+        }
 
         private void loadAnimationFrames()
         {
             char[] t_splitter = { ':' };
 
+			m_animationFrames = new Dictionary<string, int>();
             //addressen till txt filen behövs ändras
-            String[] t_loadedFile = System.IO.File.ReadAllLines(@"Content\loadfiles\loadImages.txt");
+            String[] t_loadedFile = System.IO.File.ReadAllLines("wtf//loadImages");
             
             foreach (String f_currentLine in t_loadedFile)
             {
