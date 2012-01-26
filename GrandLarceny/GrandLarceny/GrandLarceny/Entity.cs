@@ -21,7 +21,7 @@ namespace GrandLarceny
         public override void update(GameTime a_gameTime)
         {
             base.update(a_gameTime);
-			m_speed.Y += m_gravity;
+			//m_speed.Y += m_gravity;
             m_position.plusWith(m_speed);
 			//TODO fan inte ok :D:D:D::D:D:D:D::D:D:D:
         }

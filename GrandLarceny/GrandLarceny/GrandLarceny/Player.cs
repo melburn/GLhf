@@ -29,10 +29,7 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, string a_sprite)
 			: base(a_posV2, a_sprite)
 		{
-			m_rotate = 0.0f;
-			m_layer = 0;
-			m_color = Color.White;
-			m_spriteEffects = SpriteEffects.None;
+			
 		}
 
         public override void update(GameTime a_gameTime)
