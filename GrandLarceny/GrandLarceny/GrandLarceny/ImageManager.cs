@@ -93,5 +93,9 @@ namespace GrandLarceny
 		{
 			m_stopped = (m_image == null);
 		}
+
+		public Vector2 getSize() {
+			return new Vector2(m_animationWidth, m_image.Height);
+		}
 	}
 }

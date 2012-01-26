@@ -19,6 +19,7 @@ namespace GrandLarceny
 
 		public GameState() 
 		{
+			
 			m_gameObjectList.AddLast(player);
 		}
 		/*

@@ -121,6 +121,7 @@
     <Compile Include="MenuState.cs" />
     <Compile Include="NPE.cs" />
     <Compile Include="PauseState.cs" />
+    <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PolarCoordinate.cs" />
     <Compile Include="Position.cs" />
