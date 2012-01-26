@@ -67,7 +67,7 @@ namespace GrandLarceny
 		}
         public void setSprite(String a_sprite)
         {
-            if(a_sprite==null)
+            if (a_sprite==null)
             {
                 m_image = null;
                 m_stopped = true;
