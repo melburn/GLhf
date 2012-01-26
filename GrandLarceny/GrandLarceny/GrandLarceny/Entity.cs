@@ -23,10 +23,10 @@ namespace GrandLarceny
             m_position.plusWith(m_speed);
 			//TODO fan inte ok :D:D:D::D:D:D:D::D:D:D:
         }
-
+		
         public override void draw(GameTime a_gameTime)
         {
-
+			base.draw(a_gameTime);
         }
 	}
 }

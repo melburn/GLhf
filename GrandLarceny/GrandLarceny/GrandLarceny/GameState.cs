@@ -15,11 +15,11 @@ namespace GrandLarceny
 		KeyboardState m_previous;
 		KeyboardState m_current;
 
-		Player player = new Player(new Vector2(0, 0), "Images//WalkingSquareStand");
+		private Player player = new Player(new Vector2(0, 0), "Images//WalkingSquareStand");
 
 		public GameState() 
 		{
-          
+			m_gameObjectList.AddLast(player);
 		}
 		/*
 		Update-metod, går igenom alla objekt i scenen och kallas på deras update
@@ -30,7 +30,6 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_current = Keyboard.GetState();
-
 
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{

@@ -18,7 +18,7 @@ namespace GrandLarceny
 
         static public Loader getInstance()
         {
-            if (s_instance==null)
+            if (s_instance == null)
 			{
                 s_instance = new Loader();
             }
@@ -30,7 +30,7 @@ namespace GrandLarceny
             char[] t_splitter = { ':' };
 
 			m_animationFrames = new Dictionary<string, int>();
-            //addressen till txt filen behövs ändras
+
             String[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//loadImages.txt");
             
             foreach (String f_currentLine in t_loadedFile)

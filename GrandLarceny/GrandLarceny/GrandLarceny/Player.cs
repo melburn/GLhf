@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
@@ -10,7 +11,7 @@ namespace GrandLarceny
 	class Player : Entity
 	{
 
-        private const int PLAYERSPEED = 200;
+        private const int PLAYERSPEED = 20;
 
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
@@ -28,6 +29,10 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, string a_sprite)
 			: base(a_posV2, a_sprite)
 		{
+			m_rotate = 0.0f;
+			m_layer = 0;
+			m_color = Color.White;
+			m_spriteEffects = SpriteEffects.None;
 		}
 
         public override void update(GameTime a_gameTime)
@@ -117,11 +122,10 @@ namespace GrandLarceny
         {
 
         }
-
+		
         public override void draw(GameTime a_gameTime)
         {
-
+			base.draw(a_gameTime);
         }
-
 	}
 }
