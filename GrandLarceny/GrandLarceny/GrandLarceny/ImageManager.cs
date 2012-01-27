@@ -32,7 +32,7 @@ namespace GrandLarceny
 		{
 			if (!m_stopped)
 			{
-				m_subImageNumber += m_animationSpeed * a_gameTime.ElapsedGameTime.Milliseconds;
+				m_subImageNumber += m_animationSpeed * a_gameTime.ElapsedGameTime.Milliseconds/1000;
 				if (m_subImageNumber >= m_animationFrames)
 				{
 					if (m_looping)
