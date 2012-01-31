@@ -21,7 +21,7 @@ namespace GrandLarceny
         private States m_nextState;
 		private States m_currentState;
 
-		private Camera m_camera;
+		internal Camera m_camera;
 
         public static Game getInstance()
         {
@@ -77,7 +77,7 @@ namespace GrandLarceny
 			{
 				m_currentState.update(a_gameTime);
 			}
-
+			
 			base.Update(a_gameTime);
 		}
 

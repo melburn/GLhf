@@ -11,7 +11,7 @@ namespace GrandLarceny
 	class Player : Entity
 	{
 
-        private const int PLAYERSPEED = 20;
+        private const int PLAYERSPEED = 200;
 
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
@@ -29,13 +29,11 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, string a_sprite)
 			: base(a_posV2, a_sprite)
 		{
-			
+			m_currentState = State.Walking;
 		}
 
         public override void update(GameTime a_gameTime)
         {
-            base.update(a_gameTime);
-
             m_currentKeyInput = Keyboard.GetState();
 
             switch (m_currentState)
@@ -66,8 +64,9 @@ namespace GrandLarceny
                     break;
                 }
             }
+			System.Console.WriteLine(m_position.getGlobalCartesianCoordinates());
 			m_previousKeyInput = m_currentKeyInput;
-
+			base.update(a_gameTime);
         }
 
         //TODO, player ska kunna hoppa sig när han står still
@@ -91,7 +90,7 @@ namespace GrandLarceny
         //TODO, player ska kunna hoppa här också, samt kollidering risk finns när han rör sig
         private void updateWalking()
         {
-            if (!m_currentKeyInput.IsKeyDown(Keys.Left) || !m_currentKeyInput.IsKeyDown(Keys.Right))
+            if (!m_currentKeyInput.IsKeyDown(Keys.Left) && !m_currentKeyInput.IsKeyDown(Keys.Right))
             {
                 m_currentState = State.Stop;
                 changeAnimation();

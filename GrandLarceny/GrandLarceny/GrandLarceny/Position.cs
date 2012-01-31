@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
-    abstract class Position
+	public abstract class Position
     {
         protected Position m_parentPosition;
 

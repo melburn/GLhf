@@ -10,14 +10,15 @@ namespace GrandLarceny
 	public class Camera
 	{
 		private float m_zoom;
-		private Vector2 m_position;
+		//private Vector2 m_position;
 		private float m_rotation;
+		private Position m_position;
 
 		public Camera()
 		{
 			m_zoom = 1.0f;
 			m_rotation = 0.0f;
-			m_position = Vector2.Zero;
+			m_position = new CartesianCoordinate(Vector2.Zero);
 		}
 
 		public float getZoom()
@@ -40,20 +41,19 @@ namespace GrandLarceny
 			m_rotation = a_rotation;
 		}
 
-		public Vector2 getPosition()
+		public Position getPosition()
 		{
 			return m_position;
 		}
 
-		public void setPosition(int a_XPos, int a_YPos)
+		public void setPosition(Position a_pos)
 		{
-			m_position.X = a_XPos;
-			m_position.Y = a_YPos;
+			m_position = a_pos;
 		}
 
-		public void move(Vector2 a_v2)
+		public void move(Vector2 a_posV2)
 		{
-			m_position += a_v2;
+			m_position.plusWith(a_posV2);
 		}
 		
 		/*
@@ -61,8 +61,9 @@ namespace GrandLarceny
 		*/ 
 		public Matrix getTransformation(GraphicsDevice a_gd)
 		{
+			Vector2 t_posV2 = m_position.getGlobalCartesianCoordinates();
 			return Matrix.CreateTranslation(
-				new Vector3(-m_position.X, -m_position.Y, 0)) 
+				new Vector3(-t_posV2.X, -t_posV2.Y, 0)) 
 				* Matrix.CreateRotationZ(m_rotation) 
 				* Matrix.CreateScale(new Vector3(m_zoom, m_zoom, 1)) 
 				* Matrix.CreateTranslation(new Vector3(1280 * 0.5f, 720 * 0.5f, 0)
