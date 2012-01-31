@@ -33,6 +33,11 @@ namespace GrandLarceny
             m_img.update(a_gameTime);
 		}
 
+        public virtual void collisionCheck()
+        {
+
+        }
+
 		public virtual void draw(GameTime a_gameTime)
 		{
             m_img.draw(m_position, m_rotate, m_color, m_spriteEffects, m_layer);

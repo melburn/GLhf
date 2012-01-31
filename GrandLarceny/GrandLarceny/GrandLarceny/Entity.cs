@@ -30,6 +30,12 @@ namespace GrandLarceny
 			//TODO fan inte ok :D:D:D::D:D:D:D::D:D:D:
             //Jo fan
         }
+
+        public override void collisionCheck()
+        {
+
+        }
+
 		
         public override void draw(GameTime a_gameTime)
         {
