@@ -12,6 +12,7 @@ namespace GrandLarceny
 	{
 
         private const int PLAYERSPEED = 200;
+		protected float m_gravity = 1.0f;
 
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
@@ -35,6 +36,7 @@ namespace GrandLarceny
         public override void update(GameTime a_gameTime)
         {
             m_currentKeyInput = Keyboard.GetState();
+			m_speed.Y += m_gravity * t_deltaTime;
 
             switch (m_currentState)
             {

@@ -40,7 +40,6 @@ namespace GrandLarceny
 				
 			}
 
-
             foreach (GameObject t_firstGameObject in m_gameObjectList)
             {
                 List<Entity> t_collided = new List<Entity>();
