@@ -114,5 +114,15 @@ namespace GrandLarceny
         {
             return new PolarCoordinate(convertCartesianToPolar(m_coordinates));
         }
-    }
+
+		public override void setY(float y)
+		{
+			m_coordinates.Y = y;
+		}
+
+		public override void setX(float x)
+		{
+			m_coordinates.X = x;
+		}
+	}
 }

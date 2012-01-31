@@ -12,7 +12,6 @@ namespace GrandLarceny
 	{
 
         private const int PLAYERSPEED = 200;
-		protected float m_gravity = 2.0f;
 
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
@@ -30,15 +29,14 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, string a_sprite)
 			: base(a_posV2, a_sprite)
 		{
-			m_currentState = State.Walking;
+			m_currentState = State.Jumping;
+			m_gravity = 3f;
 		}
 
         public override void update(GameTime a_gameTime)
 		{
 			m_previousKeyInput = m_currentKeyInput;
             m_currentKeyInput = Keyboard.GetState();
-
-			m_speed.Y += m_gravity * t_deltaTime;
 
             switch (m_currentState)
             {
@@ -103,7 +101,8 @@ namespace GrandLarceny
 
         private void updateJumping()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+			//sluta kasta error och impelemterarå!
         }
 
         private void updateSliding()
@@ -133,9 +132,11 @@ namespace GrandLarceny
 			{
 				if (t_collider is Platform)
 				{
-					if ((int)(m_lastPosition.getY()+(m_img.getSize().Y/2))-1 <= (int)(t_collider.getLastPosition().getY()-(t_collider.getImg().getSize().Y/2)))
+					if ((int)(m_lastPosition.Y+(m_img.getSize().Y/2)) <= (int)(t_collider.getLastPosition().Y-(t_collider.getImg().getSize().Y/2)))
 					{
-						m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getBox().Y-(m_img.getSize().Y/2)+1));
+						//m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getBox().Y-(m_img.getSize().Y/2)+1));
+						m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2));
+						
 					}
 				}
 			}
