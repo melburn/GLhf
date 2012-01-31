@@ -12,6 +12,7 @@ namespace GrandLarceny
 	{
 
         private const int PLAYERSPEED = 200;
+		private const int m_JumpStrength = 300;
 
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
@@ -30,7 +31,7 @@ namespace GrandLarceny
 			: base(a_posV2, a_sprite)
 		{
 			m_currentState = State.Jumping;
-			m_gravity = 3f;
+			m_gravity = 500f;
 		}
 
         public override void update(GameTime a_gameTime)
@@ -86,20 +87,30 @@ namespace GrandLarceny
                     m_speed.X = PLAYERSPEED;
                 }
             }
+			if (m_currentKeyInput.IsKeyDown(Keys.Up))
+			{
+				m_speed.Y -= m_JumpStrength;
+				m_currentState = State.Jumping;
+			}
         }
 
         //TODO, player ska kunna hoppa här också, samt kollidering risk finns när han rör sig
         private void updateWalking()
         {
-            if ((m_previousKeyInput.IsKeyDown(Keys.Left) &&
-				!m_currentKeyInput.IsKeyDown(Keys.Left)) ||
-				(m_previousKeyInput.IsKeyDown(Keys.Right) &&
-				!m_currentKeyInput.IsKeyDown(Keys.Right)))
+            if ((m_speed.X<0 &&
+				(! m_currentKeyInput.IsKeyDown(Keys.Left)))||
+				(m_speed.X>0 &&
+				(! m_currentKeyInput.IsKeyDown(Keys.Right))))
             {
                 m_currentState = State.Stop;
                 changeAnimation();
                 m_speed.X = 0;
             }
+			if (m_currentKeyInput.IsKeyDown(Keys.Up))
+			{
+				m_speed.Y -= m_JumpStrength;
+				m_currentState = State.Jumping;
+			}
         }
 
         private void updateJumping()
@@ -139,7 +150,17 @@ namespace GrandLarceny
 					{
 						m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2) + 1);
 						m_speed.Y = 0;
-						
+						if (m_currentState == State.Jumping)
+						{
+							if (m_speed.X == 0)
+							{
+								m_currentState = State.Stop;
+							}
+							else
+							{
+								m_currentState = State.Walking;
+							}
+						}
 					}
 				}
 			}

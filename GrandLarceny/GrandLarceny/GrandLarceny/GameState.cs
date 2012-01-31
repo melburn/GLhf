@@ -22,6 +22,7 @@ namespace GrandLarceny
 			m_gameObjectList = Loader.getInstance().loadLevel(1);
 			m_gameObjectList.AddLast(player);
 			player.setLayer(0);
+			Game.getInstance().m_camera.setParentPosition(player.getPosition());
 		}
 		/*
 		Update-metod, går igenom alla objekt i scenen och kallas på deras update
@@ -32,7 +33,6 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_current = Keyboard.GetState();
-			Game.getInstance().m_camera.setPosition(new Vector2(player.getPosition().getX(), player.getPosition().getY()));
 
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{

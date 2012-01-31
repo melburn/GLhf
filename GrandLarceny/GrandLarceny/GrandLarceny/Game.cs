@@ -48,8 +48,8 @@ namespace GrandLarceny
 
 		protected override void Initialize()
 		{
-			m_currentState = new GameState();
 			m_camera = new Camera();
+			m_currentState = new GameState();
 
 			base.Initialize();
 		}
