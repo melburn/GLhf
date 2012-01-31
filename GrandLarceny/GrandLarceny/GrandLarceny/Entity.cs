@@ -14,6 +14,8 @@ namespace GrandLarceny
         //pixel per sekund per sekund
 		protected float m_gravity = 1.0f;
 
+		protected Position m_lastPosition;
+
 		public Entity(Vector2 a_posV2, String a_sprite)
 			: base(a_posV2, a_sprite)
 		{
@@ -22,6 +24,7 @@ namespace GrandLarceny
 
         public override void update(GameTime a_gameTime)
         {
+			m_lastPosition = m_position;
             base.update(a_gameTime);
 
             float t_deltaTime = ((float) (a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
@@ -41,5 +44,9 @@ namespace GrandLarceny
         {
 			base.draw(a_gameTime);
         }
+		internal Position getLastPosition()
+		{
+			return m_lastPosition;
+		}
 	}
 }

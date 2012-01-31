@@ -126,7 +126,16 @@ namespace GrandLarceny
 
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
-
+			foreach (Entity t_collider in a_collisionList)
+			{
+				if (t_collider is Platform)
+				{
+					if (m_lastPosition.getY() < t_collider.getLastPosition().getY())
+					{
+						m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getPosition().getY()-1));
+					}
+				}
+			}
 			m_currentState = State.Stop;
 		}
 	}
