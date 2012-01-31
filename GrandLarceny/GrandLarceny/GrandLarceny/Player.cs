@@ -91,7 +91,10 @@ namespace GrandLarceny
         //TODO, player ska kunna hoppa här också, samt kollidering risk finns när han rör sig
         private void updateWalking()
         {
-            if (!m_currentKeyInput.IsKeyDown(Keys.Left) && !m_currentKeyInput.IsKeyDown(Keys.Right))
+            if ((m_previousKeyInput.IsKeyDown(Keys.Left) &&
+				!m_currentKeyInput.IsKeyDown(Keys.Left)) ||
+				(m_previousKeyInput.IsKeyDown(Keys.Right) &&
+				!m_currentKeyInput.IsKeyDown(Keys.Right)))
             {
                 m_currentState = State.Stop;
                 changeAnimation();
@@ -140,7 +143,7 @@ namespace GrandLarceny
 					}
 				}
 			}
-			m_currentState = State.Stop;
+			//m_currentState = State.Stop;
 		}
 	}
 }
