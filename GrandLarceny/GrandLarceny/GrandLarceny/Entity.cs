@@ -10,9 +10,9 @@ namespace GrandLarceny
 	{
         //pixel per sekund
         protected Vector2 m_speed;
+		protected float t_deltaTime;
 
         //pixel per sekund per sekund
-		protected float m_gravity = 1.0f;
 
 		protected Position m_lastPosition;
 
@@ -27,11 +27,8 @@ namespace GrandLarceny
 			m_lastPosition = m_position;
             base.update(a_gameTime);
 
-            float t_deltaTime = ((float) (a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
-			m_speed.Y += m_gravity * t_deltaTime;
+            t_deltaTime = ((float) (a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
             m_position.plusWith(m_speed * t_deltaTime);
-			//TODO fan inte ok :D:D:D::D:D:D:D::D:D:D:
-            //Jo fan
         }
 
     /*  public override void collisionCheck()
