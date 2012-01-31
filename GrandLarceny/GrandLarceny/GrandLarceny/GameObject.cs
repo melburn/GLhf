@@ -28,6 +28,11 @@ namespace GrandLarceny
 			m_spriteEffects = SpriteEffects.None;
 		}
 
+		public Position getPosition()
+		{
+			return m_position;
+		}
+
 		public virtual void update(GameTime a_gameTime)
 		{
             m_img.update(a_gameTime);
