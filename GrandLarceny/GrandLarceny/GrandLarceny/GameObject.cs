@@ -35,8 +35,7 @@ namespace GrandLarceny
 
 		public Rectangle getBox()
 		{
-			//System.Console.WriteLine("Rect: [" + (int)m_position.getX() + ", " + (int)m_position.getY() + "] [" + (int)m_img.getSize().X + ", " + (int)m_img.getSize().Y + "]");
-			return new Rectangle((int)(m_position.getX() - m_img.getSize().X / 2), (int)(m_position.getY() - m_img.getSize().Y / 2), (int)m_img.getSize().X, (int)m_img.getSize().Y);
+			return new Rectangle((int)m_position.getX()-(int)(m_img.getSize().X /2), (int)m_position.getY()-(int)(m_img.getSize().Y / 2), (int)m_img.getSize().X, (int)m_img.getSize().Y);
 		}
 
 		public virtual void update(GameTime a_gameTime)
@@ -63,6 +62,10 @@ namespace GrandLarceny
 
 		internal virtual void collisionCheck(List<Entity> t_secondGameObject)
 		{
+		}
+		public ImageManager getImg()
+		{
+			return m_img;
 		}
 	}
 }
