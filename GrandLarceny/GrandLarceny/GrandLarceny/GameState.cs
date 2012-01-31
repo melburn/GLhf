@@ -15,7 +15,7 @@ namespace GrandLarceny
 		KeyboardState m_previous;
 		KeyboardState m_current;
 
-		private Player player = new Player(new Vector2(-100, -200), "Images//WalkingSquareStand");
+		private Player player = new Player(new Vector2(0, 0), "Images//WalkingSquareStand");
 
 		public GameState() 
 		{
@@ -32,7 +32,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_current = Keyboard.GetState();
-			Game.getInstance().m_camera.setPosition(player.getPosition());
+			Game.getInstance().m_camera.setPosition(new Vector2(player.getPosition().getX(), player.getPosition().getY()));
 
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{

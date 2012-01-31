@@ -15,7 +15,7 @@ namespace GrandLarceny
 	{
         private static Game m_myGame;
 
-        private GraphicsDeviceManager m_graphics;
+        internal GraphicsDeviceManager m_graphics;
 		private SpriteBatch m_spriteBatch;
 		
         private States m_nextState;
