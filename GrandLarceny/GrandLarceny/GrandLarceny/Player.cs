@@ -133,7 +133,6 @@ namespace GrandLarceny
 			{
 				if (t_collider is Platform)
 				{
-					Console.Out.Write("" + (int)(m_lastPosition.getY() + (m_img.getSize().Y / 2)) + (int)(t_collider.getLastPosition().getY() - (t_collider.getImg().getSize().Y / 2)));
 					if ((int)(m_lastPosition.getY()+(m_img.getSize().Y/2))-1 <= (int)(t_collider.getLastPosition().getY()-(t_collider.getImg().getSize().Y/2)))
 					{
 						m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getBox().Y-(m_img.getSize().Y/2)+1));
