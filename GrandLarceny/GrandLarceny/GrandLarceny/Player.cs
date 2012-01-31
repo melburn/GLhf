@@ -30,7 +30,7 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, string a_sprite)
 			: base(a_posV2, a_sprite)
 		{
-			m_currentState = State.Walking;
+			//m_currentState = State.Walking;
 		}
 
         public override void update(GameTime a_gameTime)
@@ -93,7 +93,10 @@ namespace GrandLarceny
         //TODO, player ska kunna hoppa här också, samt kollidering risk finns när han rör sig
         private void updateWalking()
         {
-            if (!m_currentKeyInput.IsKeyDown(Keys.Left) && !m_currentKeyInput.IsKeyDown(Keys.Right))
+            if ((m_previousKeyInput.IsKeyDown(Keys.Left) &&
+				!m_currentKeyInput.IsKeyDown(Keys.Left)) ||
+				(m_previousKeyInput.IsKeyDown(Keys.Right) &&
+				!m_currentKeyInput.IsKeyDown(Keys.Right)))
             {
                 m_currentState = State.Stop;
                 changeAnimation();
@@ -133,13 +136,13 @@ namespace GrandLarceny
 			{
 				if (t_collider is Platform)
 				{
-					if ((int)(m_lastPosition.getY()+(m_img.getSize().Y/2)) <= (int)(t_collider.getLastPosition().getY()-(t_collider.getImg().getSize().Y/2)))
+					if ((int)(m_lastPosition.getY()+(m_img.getSize().Y/2))-1 <= (int)(t_collider.getLastPosition().getY()-(t_collider.getImg().getSize().Y/2)))
 					{
 						m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getBox().Y-(m_img.getSize().Y/2)+1));
 					}
 				}
 			}
-			m_currentState = State.Stop;
+			//m_currentState = State.Stop;
 		}
 	}
 }
