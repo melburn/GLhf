@@ -132,9 +132,9 @@ namespace GrandLarceny
 			{
 				if (t_collider is Platform)
 				{
-					if (m_lastPosition.getY() < t_collider.getLastPosition().getY())
+					if (m_lastPosition.getY()+m_img.getSize().Y < t_collider.getLastPosition().getY())
 					{
-						m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getPosition().getY()-1));
+						m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getPosition().getY()-m_img.getSize().Y));
 					}
 				}
 			}
