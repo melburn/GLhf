@@ -12,7 +12,7 @@ namespace GrandLarceny
 	{
 
         private const int PLAYERSPEED = 200;
-		protected float m_gravity = 1.0f;
+		protected float m_gravity = 2.0f;
 
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
@@ -34,8 +34,10 @@ namespace GrandLarceny
 		}
 
         public override void update(GameTime a_gameTime)
-        {
+		{
+			m_previousKeyInput = m_currentKeyInput;
             m_currentKeyInput = Keyboard.GetState();
+
 			m_speed.Y += m_gravity * t_deltaTime;
 
             switch (m_currentState)
@@ -66,9 +68,8 @@ namespace GrandLarceny
                     break;
                 }
             }
-			System.Console.WriteLine(m_position.getGlobalCartesianCoordinates());
-			m_previousKeyInput = m_currentKeyInput;
 			base.update(a_gameTime);
+			System.Console.WriteLine(m_position.getGlobalCartesianCoordinates());
         }
 
         //TODO, player ska kunna hoppa sig när han står still
@@ -132,9 +133,9 @@ namespace GrandLarceny
 			{
 				if (t_collider is Platform)
 				{
-					if (m_lastPosition.getY()+m_img.getSize().Y < t_collider.getLastPosition().getY())
+					if ((int)(m_lastPosition.getY()/*+(m_img.getSize().Y/2))*/) <= (int)(t_collider.getLastPosition().getY()/*-(t_collider.getImg().getSize().Y/2)*/))
 					{
-						m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getPosition().getY()-m_img.getSize().Y));
+						m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getBox().Y-(m_img.getSize().Y/2)+1));
 					}
 				}
 			}
