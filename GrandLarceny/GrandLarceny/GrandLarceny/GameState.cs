@@ -51,9 +51,10 @@ namespace GrandLarceny
                     {
                         if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject && checkBoxCollision(t_firstGameObject, t_secondGameObject))
                         {
-                        
+							t_collided.Add((Entity)t_secondGameObject);
                         }
                     }
+					t_firstGameObject.collisionCheck(t_collided);
                 }
                     
                 if (t_firstGameObject.isDead())
@@ -81,7 +82,7 @@ namespace GrandLarceny
 
         public bool checkBoxCollision(GameObject a_first, GameObject a_second)
         {
-            return true;
+			return a_first.getBox().Intersects(a_second.getBox());
         }
 	}
 }

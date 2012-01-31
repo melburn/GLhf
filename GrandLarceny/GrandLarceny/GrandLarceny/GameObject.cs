@@ -33,6 +33,11 @@ namespace GrandLarceny
 			return m_position;
 		}
 
+		public Rectangle getBox()
+		{
+			return new Rectangle((int)m_position.getX(), (int)m_position.getY(), (int)m_img.getSize().X, (int)m_img.getSize().Y);
+		}
+
 		public virtual void update(GameTime a_gameTime)
 		{
             m_img.update(a_gameTime);
@@ -53,6 +58,10 @@ namespace GrandLarceny
 		}
 		public void setLayer(int a_layer) {
 			m_layer = a_layer;
+		}
+
+		internal virtual void collisionCheck(List<Entity> t_secondGameObject)
+		{
 		}
 	}
 }

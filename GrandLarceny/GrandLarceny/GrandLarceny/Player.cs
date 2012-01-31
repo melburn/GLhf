@@ -123,5 +123,11 @@ namespace GrandLarceny
         {
 			base.draw(a_gameTime);
         }
+
+		internal override void collisionCheck(List<Entity> a_collisionList)
+		{
+
+			m_currentState = State.Stop;
+		}
 	}
 }
