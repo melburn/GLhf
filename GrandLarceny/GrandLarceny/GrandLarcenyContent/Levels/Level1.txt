@@ -1,3 +1,5 @@
+Environment:0:0:Images//ZeroMarkerV
+Environment:0:0:Images//ZeroMarkerH
 Environment:-100:50:Images//test
 Platform:0:100:Images//platform
 Player:0:0:Images//WalkingSquareStand

@@ -66,7 +66,6 @@ namespace GrandLarceny
                     break;
                 }
             }
-			System.Console.WriteLine(m_position.getGlobalCartesianCoordinates());
 			m_previousKeyInput = m_currentKeyInput;
 			base.update(a_gameTime);
         }
@@ -132,7 +131,7 @@ namespace GrandLarceny
 			{
 				if (t_collider is Platform)
 				{
-					if (m_lastPosition.getY()+m_img.getSize().Y < t_collider.getLastPosition().getY())
+					if (m_lastPosition.getY()/*+m_img.getSize().Y*/ < t_collider.getLastPosition().getY())
 					{
 						m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getPosition().getY()-m_img.getSize().Y));
 					}
