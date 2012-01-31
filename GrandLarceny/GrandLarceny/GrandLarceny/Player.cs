@@ -135,10 +135,10 @@ namespace GrandLarceny
 			{
 				if (t_collider is Platform)
 				{
-					if ((int)(m_lastPosition.Y+(m_img.getSize().Y/2)) <= (int)(t_collider.getLastPosition().Y-(t_collider.getImg().getSize().Y/2)))
+					if ((int)(m_lastPosition.Y+(m_img.getSize().Y/2)) - 2 <= (int)(t_collider.getLastPosition().Y-(t_collider.getImg().getSize().Y/2)))
 					{
-						//m_position.setCartesianCoordinates(new Vector2(m_position.getX(), t_collider.getBox().Y-(m_img.getSize().Y/2)+1));
-						m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2));
+						m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2) + 1);
+						m_speed.Y = 0;
 						
 					}
 				}
