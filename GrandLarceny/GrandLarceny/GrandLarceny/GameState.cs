@@ -37,11 +37,31 @@ namespace GrandLarceny
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.update(a_gameTime);
-				if (t_gameObject.isDead())
-				{
-					m_killList.AddLast(t_gameObject);
-				}
+				
 			}
+
+
+            foreach (GameObject t_firstGameObject in m_gameObjectList)
+            {
+                List<Entity> t_collided = new List<Entity>();
+                
+                if (t_firstGameObject is Entity)
+                {
+                    foreach (GameObject t_secondGameObject in m_gameObjectList)
+                    {
+                        if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject && checkBoxCollision(t_firstGameObject, t_secondGameObject))
+                        {
+                        
+                        }
+                    }
+                }
+                    
+                if (t_firstGameObject.isDead())
+				{
+					m_killList.AddLast(t_firstGameObject);
+				}
+            }
+
 			foreach (GameObject t_gameObject in m_killList)
 			{
 				m_gameObjectList.Remove(t_gameObject);
@@ -58,5 +78,10 @@ namespace GrandLarceny
 				t_gameObject.draw(a_gameTime);
 			}
 		}
+
+        public bool checkBoxCollision(GameObject a_first, GameObject a_second)
+        {
+            return true;
+        }
 	}
 }
