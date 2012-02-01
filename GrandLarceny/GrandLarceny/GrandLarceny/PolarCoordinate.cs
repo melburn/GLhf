@@ -121,5 +121,10 @@ namespace GrandLarceny
 			t_cartesian.X = x;
 			m_coordinates = convertCartesianToPolar(t_cartesian);
 		}
+
+		public override void smoothStep(Vector2 a_vec, float a_amount)
+		{
+			m_coordinates = convertCartesianToPolar(Vector2.SmoothStep(convertPolarToCartesian(m_coordinates),a_vec,a_amount));
+		}
 	}
 }

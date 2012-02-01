@@ -12,10 +12,15 @@ namespace GrandLarceny
 	{
 
         private const int PLAYERSPEED = 200;
-		private const int m_JumpStrength = 300;
+		private const int JUMPSTREANGTH = 300;
+		private Vector2 m_cameraPoint = new Vector2(0,0);
+		private const int CAMERAMAXDISTANCE = 100;
+		private const float CAMERASPEED = 0.1f;
 
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
+
+		private Boolean m_faceingRight = false;
 
         enum State
         {
@@ -68,7 +73,7 @@ namespace GrandLarceny
                 }
             }
 			base.update(a_gameTime);
-			System.Console.WriteLine(m_position.getGlobalCartesianCoordinates());
+			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
         }
 
         //TODO, player ska kunna hoppa sig när han står still
@@ -81,17 +86,21 @@ namespace GrandLarceny
                 if (m_currentKeyInput.IsKeyDown(Keys.Left))
                 {
                     m_speed.X = -PLAYERSPEED;
+					m_faceingRight = false;
                 }
                 else
                 {
                     m_speed.X = PLAYERSPEED;
+					m_faceingRight = true;
                 }
             }
 			if (m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
-				m_speed.Y -= m_JumpStrength;
+				m_speed.Y -= JUMPSTREANGTH;
 				m_currentState = State.Jumping;
 			}
+
+			//Game.getInstance().m_camera.getPosition().smoothStep(Vector2.Zero, CAMERASPEED);
         }
 
         //TODO, player ska kunna hoppa här också, samt kollidering risk finns när han rör sig
@@ -108,15 +117,15 @@ namespace GrandLarceny
             }
 			if (m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
-				m_speed.Y -= m_JumpStrength;
+				m_speed.Y -= JUMPSTREANGTH;
 				m_currentState = State.Jumping;
 			}
+			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X/10), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
         }
 
         private void updateJumping()
         {
-            //throw new NotImplementedException();
-			//sluta kasta error och impelemterarå!
+			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X / 10), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
         }
 
         private void updateSliding()

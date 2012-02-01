@@ -26,6 +26,7 @@ namespace GrandLarceny
 		abstract public float getSlope();
 		abstract public void setY(float y);
 		abstract public void setX(float x);
+		abstract public void smoothStep(Vector2 a_vec, float a_amount);
 
         public void setParentPosition(Position a_parentPosition)
         {
