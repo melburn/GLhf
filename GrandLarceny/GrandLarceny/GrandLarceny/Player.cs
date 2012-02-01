@@ -155,9 +155,10 @@ namespace GrandLarceny
 			{
 				if (t_collider is Platform)
 				{
+					//Colliding with ze floor
 					if ((int)(m_lastPosition.Y+(m_img.getSize().Y/2)) - 2 <= (int)(t_collider.getLastPosition().Y-(t_collider.getImg().getSize().Y/2)))
 					{
-						m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2) + 1);
+						m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2));
 						m_speed.Y = 0;
 						if (m_currentState == State.Jumping)
 						{
@@ -170,6 +171,24 @@ namespace GrandLarceny
 								m_currentState = State.Walking;
 							}
 						}
+					}
+					//Colliding with ze zeeling
+					if ((int)(m_lastPosition.Y - (m_img.getSize().Y / 2)) + 2 >= (int)(t_collider.getLastPosition().Y + (t_collider.getImg().getSize().Y / 2)))
+					{
+						m_position.setY(t_collider.getBox().Y + t_collider.getBox().Height + (m_img.getSize().Y / 2));
+						m_speed.Y = 0;
+					}
+					//Colliding with ze left wall
+					if ((int)(m_lastPosition.X - (m_img.getSize().X / 2)) + 2 >= (int)(t_collider.getLastPosition().X + (t_collider.getImg().getSize().X / 2)))
+					{
+						m_position.setX(t_collider.getBox().X + t_collider.getBox().Width + (m_img.getSize().X / 2) -1);
+						m_speed.X = 0;
+					}
+					//Colliding with ze right wall
+					if ((int)(m_lastPosition.X + (m_img.getSize().X / 2)) - 2 <= (int)(t_collider.getLastPosition().X - (t_collider.getImg().getSize().X / 2)))
+					{
+						m_position.setX(t_collider.getBox().X - (m_img.getSize().X / 2) + 1);
+						m_speed.X = 0;
 					}
 				}
 			}
