@@ -217,13 +217,17 @@ namespace GrandLarceny
 					//Colliding with ze left wall
 					if ((int)(m_lastPosition.X - (m_img.getSize().X / 2)) + 2 >= (int)(t_collider.getLastPosition().X + (t_collider.getImg().getSize().X / 2)))
 					{
-						setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getBox().Width);
+						if(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X < 0)
+							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
+						else
+							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
 						m_speed.X = 0;
+						Console.Out.WriteLine(getLeftPoint() - t_collider.getRightPoint());
 					}
 					//Colliding with ze right wall
 					if ((int)(m_lastPosition.X + (m_img.getSize().X / 2)) - 2 <= (int)(t_collider.getLastPosition().X - (t_collider.getImg().getSize().X / 2)))
 					{
-						setLeftPoint(t_collider.getBox().X - (m_img.getSize().X));
+						setLeftPoint(t_collider.getTopLeftPoint().X - (m_img.getSize().X));
 						m_speed.X = 0;
 					}
 				}

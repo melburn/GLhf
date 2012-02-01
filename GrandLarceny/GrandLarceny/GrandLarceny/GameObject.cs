@@ -43,11 +43,6 @@ namespace GrandLarceny
             m_img.update(a_gameTime);
 		}
 
-        public virtual void collisionCheck()
-        {
-
-        }
-
 		public virtual void draw(GameTime a_gameTime)
 		{
             m_img.draw(m_position, m_rotate, m_color, m_spriteEffects, m_layer);
@@ -82,6 +77,23 @@ namespace GrandLarceny
 		public void setTopPoint(float a_y)
 		{
 			m_position.setY(a_y + (m_img.getSize().Y / 2));
+		}
+
+		public float getLeftPoint()
+		{
+			return m_position.getX() - (m_img.getSize().X / 2);
+		}
+		public float getRightPoint()
+		{
+			return m_position.getX() + (m_img.getSize().X / 2);
+		}
+		public float getTopPoint()
+		{
+			return m_position.getY() - (m_img.getSize().Y / 2);
+		}
+		public float getBottomPoint()
+		{
+			return m_position.getY() + (m_img.getSize().Y / 2);
 		}
 	}
 }
