@@ -75,6 +75,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="Images\zeromarkerH.png">
       <Name>zeromarkerH</Name>
       <Importer>TextureImporter</Importer>
@@ -82,6 +83,17 @@
     </Compile>
     <Compile Include="Images\zeromarkerV.png">
       <Name>zeromarkerV</Name>
+=======
+    <Compile Include="Images\wall.png">
+      <Name>wall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\WalkingSquareWalking.png">
+      <Name>WalkingSquareWalking</Name>
+>>>>>>> 410bc4d51aeccb139aaba80f40951679a73e367e
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

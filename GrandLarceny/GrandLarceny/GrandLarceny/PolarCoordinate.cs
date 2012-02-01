@@ -108,5 +108,23 @@ namespace GrandLarceny
         {
             return new CartesianCoordinate(convertPolarToCartesian(m_coordinates));
         }
-    }
+
+		public override void setY(float y)
+		{
+			Vector2 t_cartesian = convertPolarToCartesian(m_coordinates);
+			t_cartesian.Y = y;
+			m_coordinates = convertCartesianToPolar(t_cartesian);
+		}
+		public override void setX(float x)
+		{
+			Vector2 t_cartesian = convertPolarToCartesian(m_coordinates);
+			t_cartesian.X = x;
+			m_coordinates = convertCartesianToPolar(t_cartesian);
+		}
+
+		public override void smoothStep(Vector2 a_vec, float a_amount)
+		{
+			m_coordinates = convertCartesianToPolar(Vector2.SmoothStep(convertPolarToCartesian(m_coordinates),a_vec,a_amount));
+		}
+	}
 }
