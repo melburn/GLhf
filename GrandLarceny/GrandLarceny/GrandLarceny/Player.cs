@@ -103,6 +103,7 @@ namespace GrandLarceny
 			{
 				m_speed.Y -= JUMPSTREANGTH;
 				m_currentState = State.Jumping;
+				changeAnimation();
 			}
 
 			//Game.getInstance().m_camera.getPosition().smoothStep(Vector2.Zero, CAMERASPEED);
@@ -141,6 +142,7 @@ namespace GrandLarceny
 			{
 				m_speed.Y -= JUMPSTREANGTH;
 				m_currentState = State.Jumping;
+				changeAnimation();
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
@@ -176,6 +178,18 @@ namespace GrandLarceny
 			{
 				m_img.setSprite("Images//WalkingSquareWalking");
 			}
+			else if (m_currentState == State.Jumping)
+			{
+				if (m_speed.Y > 0)
+				{
+					m_img.setSprite("Images//WalkingSquareJumping");
+				}
+				else
+				{
+					m_img.setSprite("Images//WalkingSquareFalling");
+				}
+			}
+
 
 
         }
@@ -208,6 +222,7 @@ namespace GrandLarceny
 							}
 						}
 					}
+					
 					//Colliding with ze zeeling
 					if ((int)(m_lastPosition.Y - (m_img.getSize().Y / 2)) + 2 >= (int)(t_collider.getLastPosition().Y + (t_collider.getImg().getSize().Y / 2)))
 					{
@@ -228,7 +243,9 @@ namespace GrandLarceny
 					}
 				}
 			}
+
 			//m_currentState = State.Stop;
 		}
 	}
 }
+
