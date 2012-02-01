@@ -68,10 +68,8 @@ namespace GrandLarceny
                     break;
                 }
             }
-<<<<<<< HEAD
 			m_previousKeyInput = m_currentKeyInput;
-=======
->>>>>>> cfaea17153b71ada6b184cd3f0f796101fd9bd16
+
 			base.update(a_gameTime);
 			System.Console.WriteLine(m_position.getGlobalCartesianCoordinates());
         }
