@@ -17,6 +17,9 @@ namespace GrandLarceny
 		private const int CAMERAMAXDISTANCE = 100;
 		private const float CAMERASPEED = 0.1f;
 
+		private const int ACCELERATION = 2000;
+		private const int DEACCELERATION = 800;
+
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
 
@@ -43,7 +46,7 @@ namespace GrandLarceny
 		{
 			m_previousKeyInput = m_currentKeyInput;
             m_currentKeyInput = Keyboard.GetState();
-
+			float t_deltaTime = ((float) a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
             switch (m_currentState)
             {
                 case State.Stop:
@@ -53,7 +56,7 @@ namespace GrandLarceny
                 }
                 case State.Walking:
                 {
-                    updateWalking();
+					updateWalking(t_deltaTime);
                     break;
                 }
                 case State.Jumping:
@@ -85,12 +88,10 @@ namespace GrandLarceny
                 changeAnimation();
                 if (m_currentKeyInput.IsKeyDown(Keys.Left))
                 {
-                    m_speed.X = -PLAYERSPEED;
 					m_faceingRight = false;
                 }
                 else
                 {
-                    m_speed.X = PLAYERSPEED;
 					m_faceingRight = true;
                 }
             }
@@ -104,22 +105,36 @@ namespace GrandLarceny
         }
 
         //TODO, player ska kunna hoppa här också, samt kollidering risk finns när han rör sig
-        private void updateWalking()
+        private void updateWalking(float a_deltaTime)
         {
-            if ((m_speed.X<0 &&
-				(! m_currentKeyInput.IsKeyDown(Keys.Left)))||
-				(m_speed.X>0 &&
-				(! m_currentKeyInput.IsKeyDown(Keys.Right))))
+			if(m_currentKeyInput.IsKeyDown(Keys.Right))
+			{
+				m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), PLAYERSPEED);
+			}
+			if (m_currentKeyInput.IsKeyDown(Keys.Left))
+			{
+				m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -PLAYERSPEED);
+			}
+			if (m_speed.X > 0)
+			{
+				m_speed.X = Math.Max(m_speed.X - (DEACCELERATION * a_deltaTime), 0);
+			}
+			else if (m_speed.X < 0)
+			{
+				m_speed.X = Math.Min(m_speed.X + (DEACCELERATION * a_deltaTime), 0);
+			}
+
+            if (m_speed.X == 0)
             {
                 m_currentState = State.Stop;
                 changeAnimation();
-                m_speed.X = 0;
             }
 			if (m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
 				m_speed.Y -= JUMPSTREANGTH;
 				m_currentState = State.Jumping;
 			}
+
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X/10), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
         }
 
