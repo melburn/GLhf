@@ -61,7 +61,7 @@ namespace GrandLarceny
                 }
                 case State.Jumping:
                 {
-                    updateJumping();
+					updateJumping(t_deltaTime);
                     break;
                 }
                 case State.Sliding:
@@ -135,12 +135,12 @@ namespace GrandLarceny
 				m_currentState = State.Jumping;
 			}
 
-			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X/10), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
+			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
         }
 
-        private void updateJumping()
+		private void updateJumping(float a_deltaTime)
         {
-			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X / 10), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
+			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
         }
 
         private void updateSliding()
