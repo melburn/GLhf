@@ -20,6 +20,7 @@ namespace GrandLarceny
 		private const int ACCELERATION = 2000;
 		private const int DEACCELERATION = 800;
 
+
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
 
@@ -35,8 +36,8 @@ namespace GrandLarceny
         }
         State m_currentState = State.Stop;
 
-		public Player(Vector2 a_posV2, string a_sprite)
-			: base(a_posV2, a_sprite)
+		public Player(Vector2 a_posV2)
+			: base(a_posV2, "Images//WalkingSquareStand")
 		{
 			m_currentState = State.Jumping;
 			m_gravity = 500f;
@@ -89,10 +90,13 @@ namespace GrandLarceny
                 if (m_currentKeyInput.IsKeyDown(Keys.Left))
                 {
 					m_faceingRight = false;
+					m_spriteEffects = SpriteEffects.FlipHorizontally;
                 }
                 else
                 {
 					m_faceingRight = true;
+					m_spriteEffects = SpriteEffects.None;
+						
                 }
             }
 			if (m_currentKeyInput.IsKeyDown(Keys.Up))
@@ -118,10 +122,14 @@ namespace GrandLarceny
 			if (m_speed.X > 0)
 			{
 				m_speed.X = Math.Max(m_speed.X - (DEACCELERATION * a_deltaTime), 0);
+				m_faceingRight = true;
+				m_spriteEffects = SpriteEffects.None;
 			}
 			else if (m_speed.X < 0)
 			{
 				m_speed.X = Math.Min(m_speed.X + (DEACCELERATION * a_deltaTime), 0);
+				m_faceingRight = false;
+				m_spriteEffects = SpriteEffects.FlipHorizontally;
 			}
 
             if (m_speed.X == 0)
@@ -136,6 +144,10 @@ namespace GrandLarceny
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
+
+		
+			m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
+			
         }
 
 		private void updateJumping(float a_deltaTime)
@@ -156,6 +168,15 @@ namespace GrandLarceny
         //TODO, titta sin state och ändra till rätt animation
         private void changeAnimation()
         {
+			if (m_currentState == State.Stop)
+			{
+				m_img.setSprite("Images//WalkingSquareStand");
+			}
+			else if (m_currentState == State.Walking)
+			{
+				m_img.setSprite("Images//WalkingSquareWalking");
+			}
+
 
         }
 		

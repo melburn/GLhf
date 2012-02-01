@@ -97,5 +97,14 @@ namespace GrandLarceny
 		public Vector2 getSize() {
 			return new Vector2(m_animationWidth, m_image.Height);
 		}
+
+		public void setAnimationSpeed(float a_speed)
+		{
+			if (a_speed < 0)
+			{
+				throw new ArgumentException("AnimaitionSpeed cannot be negative");
+			}
+			m_animationSpeed = a_speed;
+		}
 	}
 }

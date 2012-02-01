@@ -15,7 +15,7 @@ namespace GrandLarceny
 		KeyboardState m_previous;
 		KeyboardState m_current;
 
-		private Player player = new Player(new Vector2(0, 0), "Images//WalkingSquareWalking");
+		private Player player = new Player(new Vector2(0, 0));
 
 		public GameState() 
 		{
