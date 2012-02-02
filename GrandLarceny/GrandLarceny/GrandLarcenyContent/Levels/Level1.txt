@@ -8,4 +8,9 @@ Platform:900:160:Images//platform
 Platform:1200:160:Images//platform
 Platform:-300:100:Images//wall
 Platform:-300:0:Images//wall
+Platform:0:-150:Images//wall
+Platform:-300:-150:Images//wall
+Platform:0:-300:Images//wall
+Platform:-300:-300:Images//wall
+Platform:0:-450:Images//wall
 Platform:400:200:Images//wall
