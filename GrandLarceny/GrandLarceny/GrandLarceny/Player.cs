@@ -177,10 +177,16 @@ namespace GrandLarceny
 
 		private void updateJumping(float a_deltaTime)
         {
+			if (m_currentKeyInput.IsKeyUp(Keys.Left) && m_currentKeyInput.IsKeyUp(Keys.Right)) {
+				if (m_facingRight && m_speed.X > 0) {
+					m_speed.X = m_speed.X - (300 * a_deltaTime);
+				} else if (!m_facingRight && m_speed.X < 0) {
+					m_speed.X = m_speed.X + (300 * a_deltaTime);
+				}
+			}
 			if (m_currentKeyInput.IsKeyDown(Keys.Left)) {
 				m_speed.X = Math.Max(-PLAYERSPEED, m_speed.X - 500 * a_deltaTime);
-			}
-			if (m_currentKeyInput.IsKeyDown(Keys.Right)) {
+			} else if (m_currentKeyInput.IsKeyDown(Keys.Right)) {
 				m_speed.X = Math.Min(PLAYERSPEED, m_speed.X + 500 * a_deltaTime);
 			}
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
@@ -197,8 +203,11 @@ namespace GrandLarceny
         }
 
 		private void updateRolling() {
+			if (m_currentKeyInput.IsKeyDown(Keys.Up)) {
+				m_speed.Y -= JUMPSTREANGTH;
+				m_currentState = State.Jumping;
+			}
 			if (--m_rollTimer <= 0) {
-				System.Console.WriteLine("rullning slut");
 				m_currentState = State.Walking;
 			} else {
 				if (m_facingRight) {

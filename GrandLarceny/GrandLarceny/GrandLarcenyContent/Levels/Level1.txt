@@ -3,6 +3,9 @@ Platform:0:80:Images//platform
 Player:0:0:Images//WalkingSquareWalking
 Platform:-300:80:Images//platform
 Platform:300:160:Images//platform
+Platform:600:160:Images//platform
+Platform:900:160:Images//platform
+Platform:1200:160:Images//platform
 Platform:-300:100:Images//wall
 Platform:-300:0:Images//wall
 Platform:400:200:Images//wall
