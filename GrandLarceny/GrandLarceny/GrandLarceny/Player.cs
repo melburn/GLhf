@@ -18,7 +18,8 @@ namespace GrandLarceny
 
 		private const int ACCELERATION = 2000;
 		private const int DEACCELERATION = 800;
-		private const int cm_airDeacceleration = 300;
+		private const int AIRDEACCELERATION = 300;
+		private const int SLIDESPEED = 25;
 
 		private float m_rollTimer;
 
@@ -190,52 +191,82 @@ namespace GrandLarceny
 			if (m_currentKeyInput.IsKeyUp(Keys.Left) && m_currentKeyInput.IsKeyUp(Keys.Right))
 			{
 				if (m_facingRight && m_speed.X > 0)
-					m_speed.X = Math.Max(m_speed.X - (cm_airDeacceleration * a_deltaTime), 0);
+					m_speed.X = Math.Max(m_speed.X - (AIRDEACCELERATION * a_deltaTime), 0);
 				else if (!m_facingRight && m_speed.X < 0)
-					m_speed.X = Math.Min(m_speed.X + (cm_airDeacceleration * a_deltaTime), 0);
+					m_speed.X = Math.Min(m_speed.X + (AIRDEACCELERATION * a_deltaTime), 0);
 			}
 			else if (m_currentKeyInput.IsKeyDown(Keys.Left))
 			{
-				m_speed.X = Math.Max(-PLAYERSPEED, m_speed.X - 500 * a_deltaTime);
+				if (m_speed.X < -PLAYERSPEED)
+				{
+					m_speed.X += AIRDEACCELERATION * a_deltaTime;
+				}
+				else
+				{
+					m_speed.X = Math.Max(-PLAYERSPEED, m_speed.X - AIRDEACCELERATION * a_deltaTime);
+				}
 			}
 			else if (m_currentKeyInput.IsKeyDown(Keys.Right))
 			{
-				m_speed.X = Math.Min(PLAYERSPEED, m_speed.X + 500 * a_deltaTime);
+				if (m_speed.X > PLAYERSPEED)
+				{
+					m_speed.X -= AIRDEACCELERATION * a_deltaTime;
+				}
+				else
+				{
+					m_speed.X = Math.Min(PLAYERSPEED, m_speed.X + AIRDEACCELERATION * a_deltaTime);
+				}
 			}
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
         }
 
-		//TODO Implement :3
+		//TODO Byta animation :3
 		private void updateRightSliding(float a_deltaTime)
 		{
-			if (m_lastPosition.Y != m_position.getY()) {
-				if (m_currentKeyInput.IsKeyDown(Keys.Right)) {
-					//changeAnimation
-					if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up)) {
+			if (m_lastPosition.Y != m_position.getY())
+			{
+				if (m_currentKeyInput.IsKeyDown(Keys.Right))
+				{
+					if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
+					{
 						m_speed.Y = 0;
 						m_speed.Y -= JUMPSTRENGTH;
 						m_speed.X -= JUMPSTRENGTH;
 						m_currentState = State.Jumping;
+						return;
 					}
-					m_speed.Y -= m_gravity / 2 * a_deltaTime;
+					m_speed.Y += SLIDESPEED;
+					if (m_speed.Y > SLIDESPEED)
+						m_speed.Y = SLIDESPEED;
+					return;
 				}
+				m_currentState = State.Jumping;
 				return;
 			}
 			m_currentState = State.Walking;
 		}
 
-		private void updateLeftSliding(float a_deltaTime) {
-			if (m_lastPosition.Y != m_position.getY()) {
-				if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Left)) {
-					//changeAnimation
-					if (m_currentKeyInput.IsKeyDown(Keys.Up)) {
+		//TODO Byta animation
+		private void updateLeftSliding(float a_deltaTime)
+		{
+			if (m_lastPosition.Y != m_position.getY())
+			{
+				if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Left))
+				{
+					if (m_currentKeyInput.IsKeyDown(Keys.Up))
+					{
 						m_speed.Y = 0;
 						m_speed.Y -= JUMPSTRENGTH;
 						m_speed.X += JUMPSTRENGTH;
 						m_currentState = State.Jumping;
+						return;
 					}
-					m_speed.Y -= m_gravity / 2 * a_deltaTime;
+					m_speed.Y += m_gravity;
+					if (m_speed.Y > SLIDESPEED)
+						m_speed.Y = SLIDESPEED;
+					return;
 				}
+				m_currentState = State.Jumping;
 				return;
 			}
 			m_currentState = State.Walking;
@@ -249,7 +280,7 @@ namespace GrandLarceny
 
 		private void updateRolling()
 		{
-			if (m_currentKeyInput.IsKeyDown(Keys.Up))
+			if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
