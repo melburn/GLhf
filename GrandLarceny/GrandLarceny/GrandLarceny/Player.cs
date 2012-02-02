@@ -20,6 +20,7 @@ namespace GrandLarceny
 		private const int ACCELERATION = 2000;
 		private const int DEACCELERATION = 800;
 
+
 		KeyboardState m_currentKeyInput;
 		KeyboardState m_previousKeyInput;
 
@@ -35,8 +36,8 @@ namespace GrandLarceny
         }
         State m_currentState = State.Stop;
 
-		public Player(Vector2 a_posV2, string a_sprite)
-			: base(a_posV2, a_sprite)
+		public Player(Vector2 a_posV2)
+			: base(a_posV2, "Images//WalkingSquareStand")
 		{
 			m_currentState = State.Jumping;
 			m_gravity = 500f;
@@ -91,10 +92,13 @@ namespace GrandLarceny
                 if (m_currentKeyInput.IsKeyDown(Keys.Left))
                 {
 					m_faceingRight = false;
+					m_spriteEffects = SpriteEffects.FlipHorizontally;
                 }
                 else
                 {
 					m_faceingRight = true;
+					m_spriteEffects = SpriteEffects.None;
+						
                 }
             }
 			if (m_currentKeyInput.IsKeyDown(Keys.Up))
@@ -120,10 +124,14 @@ namespace GrandLarceny
 			if (m_speed.X > 0)
 			{
 				m_speed.X = Math.Max(m_speed.X - (DEACCELERATION * a_deltaTime), 0);
+				m_faceingRight = true;
+				m_spriteEffects = SpriteEffects.None;
 			}
 			else if (m_speed.X < 0)
 			{
 				m_speed.X = Math.Min(m_speed.X + (DEACCELERATION * a_deltaTime), 0);
+				m_faceingRight = false;
+				m_spriteEffects = SpriteEffects.FlipHorizontally;
 			}
 
             if (m_speed.X == 0)
@@ -138,6 +146,10 @@ namespace GrandLarceny
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
+
+		
+			m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
+			
         }
 
 		private void updateJumping(float a_deltaTime)
@@ -158,6 +170,15 @@ namespace GrandLarceny
         //TODO, titta sin state och ändra till rätt animation
         private void changeAnimation()
         {
+			if (m_currentState == State.Stop)
+			{
+				m_img.setSprite("Images//WalkingSquareStand");
+			}
+			else if (m_currentState == State.Walking)
+			{
+				m_img.setSprite("Images//WalkingSquareWalking");
+			}
+
 
         }
 		
@@ -192,19 +213,23 @@ namespace GrandLarceny
 					//Colliding with ze zeeling
 					if ((int)(m_lastPosition.Y - (m_img.getSize().Y / 2)) + 2 >= (int)(t_collider.getLastPosition().Y + (t_collider.getImg().getSize().Y / 2)))
 					{
-						m_position.setY(t_collider.getBox().Y + t_collider.getBox().Height + (m_img.getSize().Y / 2)-1);
+						m_position.setY(t_collider.getBox().Y + t_collider.getBox().Height + (m_img.getSize().Y / 2));
 						m_speed.Y = 0;
 					}
 					//Colliding with ze left wall
 					if ((int)(m_lastPosition.X - (m_img.getSize().X / 2)) + 2 >= (int)(t_collider.getLastPosition().X + (t_collider.getImg().getSize().X / 2)))
 					{
-						m_position.setX(t_collider.getBox().X + t_collider.getBox().Width + (m_img.getSize().X / 2) - 1);
+						if (t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X < 0)
+							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
+						else
+							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
 						m_speed.X = 0;
+						Console.Out.WriteLine(getLeftPoint() - t_collider.getRightPoint());
 					}
 					//Colliding with ze right wall
 					if ((int)(m_lastPosition.X + (m_img.getSize().X / 2)) - 2 <= (int)(t_collider.getLastPosition().X - (t_collider.getImg().getSize().X / 2)))
 					{
-						m_position.setX(t_collider.getBox().X - (m_img.getSize().X / 2));
+						setLeftPoint(t_collider.getTopLeftPoint().X - (m_img.getSize().X));
 						m_speed.X = 0;
 					}
 				}

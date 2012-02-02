@@ -54,7 +54,7 @@ namespace GrandLarceny
 				a_color = Color.White;
 			}
 			Vector2 t_worldPosV2 = a_position.getGlobalCartesianCoordinates();
-
+		
 			Game.getInstance().getSpriteBatch().Draw(
 				m_image,
 				new Rectangle((int)t_worldPosV2.X, (int)t_worldPosV2.Y, m_animationWidth, m_image.Height),
@@ -96,6 +96,15 @@ namespace GrandLarceny
 
 		public Vector2 getSize() {
 			return new Vector2(m_animationWidth, m_image.Height);
+		}
+
+		public void setAnimationSpeed(float a_speed)
+		{
+			if (a_speed < 0)
+			{
+				throw new ArgumentException("AnimaitionSpeed cannot be negative");
+			}
+			m_animationSpeed = a_speed;
 		}
 	}
 }
