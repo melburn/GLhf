@@ -154,6 +154,12 @@ namespace GrandLarceny
 
 		private void updateJumping(float a_deltaTime)
         {
+			if (m_currentKeyInput.IsKeyDown(Keys.Left)) {
+				m_speed.X -= 500 * a_deltaTime;
+			}
+			if (m_currentKeyInput.IsKeyDown(Keys.Right)) {
+				m_speed.X += 500 * a_deltaTime;
+			}
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
         }
 

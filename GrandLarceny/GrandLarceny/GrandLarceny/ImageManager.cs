@@ -102,7 +102,7 @@ namespace GrandLarceny
 		{
 			if (a_speed < 0)
 			{
-				throw new ArgumentException("AnimaitionSpeed cannot be negative");
+				throw new ArgumentException("Animation speed cannot be negative");
 			}
 			m_animationSpeed = a_speed;
 		}

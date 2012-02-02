@@ -40,6 +40,11 @@ namespace GrandLarceny
 				
 			}
 
+			if (m_current.IsKeyDown(Keys.R))
+			{
+				Game.getInstance().setState(new GameState());
+			}
+
             foreach (GameObject t_firstGameObject in m_gameObjectList)
             {
                 List<Entity> t_collided = new List<Entity>();
