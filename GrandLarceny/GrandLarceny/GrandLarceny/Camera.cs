@@ -10,7 +10,6 @@ namespace GrandLarceny
 	public class Camera
 	{
 		private float m_zoom;
-		//private Vector2 m_position;
 		private float m_rotation;
 		private Position m_position;
 

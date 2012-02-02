@@ -76,6 +76,8 @@ namespace GrandLarceny
                     break;
                 }
             }
+			m_previousKeyInput = m_currentKeyInput;
+
 			base.update(a_gameTime);
 			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
         }
@@ -217,7 +219,7 @@ namespace GrandLarceny
 					//Colliding with ze left wall
 					if ((int)(m_lastPosition.X - (m_img.getSize().X / 2)) + 2 >= (int)(t_collider.getLastPosition().X + (t_collider.getImg().getSize().X / 2)))
 					{
-						if(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X < 0)
+						if (t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X < 0)
 							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
 						else
 							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
