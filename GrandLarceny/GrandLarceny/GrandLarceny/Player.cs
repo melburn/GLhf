@@ -89,7 +89,8 @@ namespace GrandLarceny
         //TODO, player ska kunna hoppa när han står still
         private void updateStop(float a_deltaTime)
         {
-			if (m_currentKeyInput.IsKeyDown(Keys.Down)) {
+			if (m_currentKeyInput.IsKeyDown(Keys.Down))
+			{
 				m_currentState = State.Rolling;
 				m_rollTimer = a_deltaTime + 15;
 				return;
@@ -177,16 +178,23 @@ namespace GrandLarceny
 
 		private void updateJumping(float a_deltaTime)
         {
-			if (m_currentKeyInput.IsKeyUp(Keys.Left) && m_currentKeyInput.IsKeyUp(Keys.Right)) {
-				if (m_facingRight && m_speed.X > 0) {
+			if (m_currentKeyInput.IsKeyUp(Keys.Left) && m_currentKeyInput.IsKeyUp(Keys.Right))
+			{
+				if (m_facingRight && m_speed.X > 0)
+				{
 					m_speed.X = m_speed.X - (300 * a_deltaTime);
-				} else if (!m_facingRight && m_speed.X < 0) {
+				}
+				else if (!m_facingRight && m_speed.X < 0)
+				{
 					m_speed.X = m_speed.X + (300 * a_deltaTime);
 				}
 			}
-			if (m_currentKeyInput.IsKeyDown(Keys.Left)) {
+			else if (m_currentKeyInput.IsKeyDown(Keys.Left))
+			{
 				m_speed.X = Math.Max(-PLAYERSPEED, m_speed.X - 500 * a_deltaTime);
-			} else if (m_currentKeyInput.IsKeyDown(Keys.Right)) {
+			}
+			else if (m_currentKeyInput.IsKeyDown(Keys.Right))
+			{
 				m_speed.X = Math.Min(PLAYERSPEED, m_speed.X + 500 * a_deltaTime);
 			}
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
@@ -202,19 +210,24 @@ namespace GrandLarceny
             throw new NotImplementedException();
         }
 
-		private void updateRolling() {
-			if (m_currentKeyInput.IsKeyDown(Keys.Up)) {
+		private void updateRolling()
+		{
+			if (m_currentKeyInput.IsKeyDown(Keys.Up))
+			{
 				m_speed.Y -= JUMPSTREANGTH;
 				m_currentState = State.Jumping;
+				return;
 			}
-			if (--m_rollTimer <= 0) {
+			if (--m_rollTimer <= 0)
+			{
 				m_currentState = State.Walking;
-			} else {
-				if (m_facingRight) {
+			}
+			else
+			{
+				if (m_facingRight)
 					m_speed.X = 500;
-				} else {
+				else
 					m_speed.X = -500;
-				}
 			}
 		}
 
