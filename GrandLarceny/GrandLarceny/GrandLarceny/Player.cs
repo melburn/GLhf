@@ -11,13 +11,14 @@ namespace GrandLarceny
 	class Player : Entity
 	{
         private const int PLAYERSPEED = 200;
-		private const int JUMPSTREANGTH = 300;
+		private const int JUMPSTRENGTH = 300;
 		private Vector2 m_cameraPoint = new Vector2(0,0);
 		private const int CAMERAMAXDISTANCE = 100;
 		private const float CAMERASPEED = 0.1f;
 
 		private const int ACCELERATION = 2000;
 		private const int DEACCELERATION = 800;
+		private const int cm_airDeacceleration = 300;
 
 		private float m_rollTimer;
 
@@ -86,10 +87,9 @@ namespace GrandLarceny
 			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
         }
 
-        //TODO, player ska kunna hoppa när han står still
-        private void updateStop(float a_deltaTime)
+		private void updateStop(float a_deltaTime)
         {
-			if (m_currentKeyInput.IsKeyDown(Keys.Down))
+			if (m_previousKeyInput.IsKeyUp(Keys.Down) && m_currentKeyInput.IsKeyDown(Keys.Down))
 			{
 				m_currentState = State.Rolling;
 				m_rollTimer = a_deltaTime + 15;
@@ -112,17 +112,16 @@ namespace GrandLarceny
             }
 			if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
-				m_speed.Y -= JUMPSTREANGTH;
+				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
 			}
 
 			//Game.getInstance().m_camera.getPosition().smoothStep(Vector2.Zero, CAMERASPEED);
         }
 
-        //TODO, player ska kunna hoppa här också, samt kollidering risk finns när han rör sig
-        private void updateWalking(float a_deltaTime)
+		private void updateWalking(float a_deltaTime)
         {
-			if (m_currentKeyInput.IsKeyDown(Keys.Down)) {
+			if (m_previousKeyInput.IsKeyUp(Keys.Down) && m_currentKeyInput.IsKeyDown(Keys.Down)) {
 				m_currentState = State.Rolling;
 				m_rollTimer = a_deltaTime + 15;
 				return;
@@ -166,7 +165,7 @@ namespace GrandLarceny
             }
 			if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
-				m_speed.Y -= JUMPSTREANGTH;
+				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
 			}
 
@@ -181,13 +180,9 @@ namespace GrandLarceny
 			if (m_currentKeyInput.IsKeyUp(Keys.Left) && m_currentKeyInput.IsKeyUp(Keys.Right))
 			{
 				if (m_facingRight && m_speed.X > 0)
-				{
-					m_speed.X = m_speed.X - (300 * a_deltaTime);
-				}
+					m_speed.X = Math.Max(m_speed.X - (cm_airDeacceleration * a_deltaTime), 0);
 				else if (!m_facingRight && m_speed.X < 0)
-				{
-					m_speed.X = m_speed.X + (300 * a_deltaTime);
-				}
+					m_speed.X = Math.Min(m_speed.X + (cm_airDeacceleration * a_deltaTime), 0);
 			}
 			else if (m_currentKeyInput.IsKeyDown(Keys.Left))
 			{
@@ -200,12 +195,14 @@ namespace GrandLarceny
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
         }
 
+		//TODO Implement :3
         private void updateSliding()
         {
             throw new NotImplementedException();
         }
         
-        private void updateClimbing()
+		//TODO Implement :3
+		private void updateClimbing()
         {
             throw new NotImplementedException();
         }
@@ -214,7 +211,7 @@ namespace GrandLarceny
 		{
 			if (m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
-				m_speed.Y -= JUMPSTREANGTH;
+				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
 				return;
 			}
