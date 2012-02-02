@@ -57,7 +57,7 @@ namespace GrandLarceny
 
 			Game.getInstance().getSpriteBatch().Draw(
 				m_image,
-				new Rectangle((int)t_worldPosV2.X, (int)t_worldPosV2.Y, m_animationWidth, m_image.Height),
+				new Rectangle((int)(Math.Floor(t_worldPosV2.X) + 0.5), (int)(Math.Floor(t_worldPosV2.Y) + 0.5), m_animationWidth, m_image.Height),
                 new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
 				a_color,
 				a_rotation,
@@ -102,7 +102,7 @@ namespace GrandLarceny
 		{
 			if (a_speed < 0)
 			{
-				throw new ArgumentException("AnimaitionSpeed cannot be negative");
+				throw new ArgumentException("Animation speed cannot be negative");
 			}
 			m_animationSpeed = a_speed;
 		}

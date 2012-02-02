@@ -40,6 +40,11 @@ namespace GrandLarceny
 				
 			}
 
+			if (m_current.IsKeyDown(Keys.R))
+			{
+				Game.getInstance().setState(new GameState());
+			}
+
             foreach (GameObject t_firstGameObject in m_gameObjectList)
             {
                 List<Entity> t_collided = new List<Entity>();
@@ -81,10 +86,10 @@ namespace GrandLarceny
 
         public bool checkBoxCollision(GameObject a_first, GameObject a_second)
         {
-			return (a_first.getLeftPoint() <= a_second.getRightPoint() &&
-				a_first.getRightPoint() >= a_second.getLeftPoint()) &&
-				(a_first.getTopPoint() <= a_second.getBottomPoint() &&
-				a_first.getBottomPoint() >= a_second.getTopPoint());
+			return (a_first.getLeftPoint() < a_second.getRightPoint() &&
+				a_first.getRightPoint() > a_second.getLeftPoint()) &&
+				(a_first.getTopPoint() < a_second.getBottomPoint() &&
+				a_first.getBottomPoint() > a_second.getTopPoint());
         }
 	}
 }
