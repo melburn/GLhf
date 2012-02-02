@@ -68,7 +68,7 @@ namespace GrandLarceny
 		{
 			Vector2 t_posV2 = m_position.getGlobalCartesianCoordinates();
 			return Matrix.CreateTranslation(
-				new Vector3((int)-t_posV2.X, (int)-t_posV2.Y, 0)) 
+				new Vector3(-t_posV2.X, -t_posV2.Y, 0)) 
 				* Matrix.CreateRotationZ(m_rotation) 
 				* Matrix.CreateScale(new Vector3(m_zoom, m_zoom, 1)) 
 				* Matrix.CreateTranslation(new Vector3(Game.getInstance().m_graphics.PreferredBackBufferWidth * 0.5f, Game.getInstance().m_graphics.PreferredBackBufferHeight * 0.5f, 0)
