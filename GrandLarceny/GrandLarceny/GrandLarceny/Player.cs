@@ -82,7 +82,7 @@ namespace GrandLarceny
 			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
         }
 
-        //TODO, player ska kunna hoppa sig när han står still
+        //TODO, player ska kunna hoppa när han står still
         private void updateStop()
         {
             if (m_currentKeyInput.IsKeyDown(Keys.Left) || m_currentKeyInput.IsKeyDown(Keys.Right))
@@ -101,7 +101,7 @@ namespace GrandLarceny
 						
                 }
             }
-			if (m_currentKeyInput.IsKeyDown(Keys.Up))
+			if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
 				m_speed.Y -= JUMPSTREANGTH;
 				m_currentState = State.Jumping;
@@ -113,7 +113,7 @@ namespace GrandLarceny
         //TODO, player ska kunna hoppa här också, samt kollidering risk finns när han rör sig
         private void updateWalking(float a_deltaTime)
         {
-			if(m_currentKeyInput.IsKeyDown(Keys.Right))
+			if (m_currentKeyInput.IsKeyDown(Keys.Right))
 			{
 				m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), PLAYERSPEED);
 			}
@@ -139,7 +139,7 @@ namespace GrandLarceny
                 m_currentState = State.Stop;
                 changeAnimation();
             }
-			if (m_currentKeyInput.IsKeyDown(Keys.Up))
+			if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
 				m_speed.Y -= JUMPSTREANGTH;
 				m_currentState = State.Jumping;
