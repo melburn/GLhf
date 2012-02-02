@@ -172,6 +172,10 @@ namespace GrandLarceny
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		
 			m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
+			if (m_position.getY() != getLastPosition().Y)
+			{
+				m_currentState = State.Jumping;
+			}
 			
         }
 
