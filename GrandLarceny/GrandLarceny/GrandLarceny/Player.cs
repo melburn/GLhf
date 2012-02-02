@@ -155,6 +155,8 @@ namespace GrandLarceny
 		private void updateJumping(float a_deltaTime)
         {
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
+
+
         }
 
         private void updateSliding()
@@ -180,7 +182,7 @@ namespace GrandLarceny
 			}
 			else if (m_currentState == State.Jumping)
 			{
-				if (m_speed.Y > 0)
+				if (m_speed.Y < 0)
 				{
 					m_img.setSprite("Images//WalkingSquareJumping");
 				}
@@ -215,10 +217,12 @@ namespace GrandLarceny
 							if (m_speed.X == 0)
 							{
 								m_currentState = State.Stop;
+								changeAnimation();
 							}
 							else
 							{
 								m_currentState = State.Walking;
+								changeAnimation();
 							}
 						}
 					}
