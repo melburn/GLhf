@@ -138,7 +138,7 @@ namespace GrandLarceny
 			}
 			if (m_currentKeyInput.IsKeyDown(Keys.Left))
 			{
-				if (m_speed.X > PLAYERSPEED)
+				if (m_speed.X < -PLAYERSPEED)
 				{
 					m_speed.X = m_speed.X + (DEACCELERATION * a_deltaTime);
 				} else {
