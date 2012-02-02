@@ -54,10 +54,10 @@ namespace GrandLarceny
 				a_color = Color.White;
 			}
 			Vector2 t_worldPosV2 = a_position.getGlobalCartesianCoordinates();
-			
+
 			Game.getInstance().getSpriteBatch().Draw(
 				m_image,
-				new Rectangle((int)Math.Round(t_worldPosV2.X), (int)Math.Round(t_worldPosV2.Y), m_animationWidth, m_image.Height),
+				new Rectangle((int)(Math.Floor(t_worldPosV2.X) + 0.5), (int)(Math.Floor(t_worldPosV2.Y) + 0.5), m_animationWidth, m_image.Height),
                 new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
 				a_color,
 				a_rotation,
