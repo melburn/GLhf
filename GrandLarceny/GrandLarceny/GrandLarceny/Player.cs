@@ -209,6 +209,7 @@ namespace GrandLarceny
 								m_currentState = State.Walking;
 							}
 						}
+						continue;
 					}
 					//Colliding with ze zeeling
 					if ((int)(m_lastPosition.Y - (m_img.getSize().Y / 2)) + 2 >= (int)(t_collider.getLastPosition().Y + (t_collider.getImg().getSize().Y / 2)))
