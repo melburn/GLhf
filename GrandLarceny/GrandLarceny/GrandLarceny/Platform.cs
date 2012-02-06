@@ -8,7 +8,8 @@ namespace GrandLarceny
 {
 	class Platform : NPE
 	{
-		public Platform(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite) {
+		public Platform(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite)
+		{
 			
 		}
 	}

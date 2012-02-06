@@ -9,6 +9,10 @@ namespace GrandLarceny
 {
 	class MenuState : States
 	{
+		public override void setPlayer(Player a_player)
+		{
+			;
+		}
 		public override void update(GameTime a_gameTime)
 		{
 

@@ -23,26 +23,29 @@ namespace GrandLarceny
 
 		internal Camera m_camera;
 
-        public static Game getInstance()
-        {
-            if (m_myGame != null)
-            {
-                return m_myGame;
-            }
-            else
-            {
-                m_myGame = new Game();
-                return m_myGame;
-            }
-        }
+		public static Game getInstance()
+		{
+			if (m_myGame != null)
+			{
+				return m_myGame;
+			}
+			else
+			{
+				m_myGame = new Game();
+				return m_myGame;
+			}
+		}
 
 		private Game()
 		{
 			m_graphics = new GraphicsDeviceManager(this);
+			m_graphics.PreferredBackBufferWidth = 1280;
+			m_graphics.PreferredBackBufferHeight = 720;
 			Content.RootDirectory = "Content";
 		}
 
-		public SpriteBatch getSpriteBatch() {
+		public SpriteBatch getSpriteBatch()
+		{
 			return m_spriteBatch;
 		}
 
@@ -50,6 +53,7 @@ namespace GrandLarceny
 		{
 			m_camera = new Camera();
 			m_currentState = new GameState();
+			m_currentState.load();
 
 			base.Initialize();
 		}
@@ -95,6 +99,9 @@ namespace GrandLarceny
 		{
 			m_nextState = a_newState;
 		}
-
+		internal States getState()
+		{
+			return m_currentState;
+		}
     }
 }
