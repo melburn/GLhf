@@ -1,2 +1,3 @@
 Images//WalkingSquareStand:1
 Images//WalkingSquareWalking:4
+Images//guardWalking:8
