@@ -11,7 +11,7 @@ namespace GrandLarceny
 	public class Player : Entity
 	{
 		private const int PLAYERSPEED = 200;
-		private const int JUMPSTRENGTH = 300;
+		private const int JUMPSTRENGTH = 600;
 		private Vector2 m_cameraPoint = new Vector2(0,0);
 		private const int CAMERAMAXDISTANCE = 100;
 		private const float CAMERASPEED = 0.1f;
@@ -43,7 +43,7 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite)
 		{
 			m_currentState = State.Jumping;
-			m_gravity = 500f;
+			m_gravity = 1000f;
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -244,7 +244,6 @@ namespace GrandLarceny
 						m_currentState = State.Jumping;
 						return;
 					}
-					m_speed.Y += SLIDESPEED;
 					if (m_speed.Y > SLIDESPEED)
 						m_speed.Y = SLIDESPEED;
 					return;
@@ -260,9 +259,9 @@ namespace GrandLarceny
 		{
 			if (m_lastPosition.Y != m_position.getY())
 			{
-				if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Left))
+				if (m_currentKeyInput.IsKeyDown(Keys.Left))
 				{
-					if (m_currentKeyInput.IsKeyDown(Keys.Up))
+					if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
 					{
 						m_speed.Y = 0;
 						m_speed.Y -= JUMPSTRENGTH;
@@ -270,7 +269,6 @@ namespace GrandLarceny
 						m_currentState = State.Jumping;
 						return;
 					}
-					m_speed.Y += m_gravity;
 					if (m_speed.Y > SLIDESPEED)
 						m_speed.Y = SLIDESPEED;
 					return;
@@ -313,22 +311,26 @@ namespace GrandLarceny
 		{
 			if (m_currentState == State.Stop)
 			{
-				m_img.setSprite("Images//WalkingSquareStand");
+				m_img.setSprite("Images//PlayerPH");
+				//m_img.setSprite("Images//WalkingSquareStand");
 			}
 			else if (m_currentState == State.Walking)
 			{
-				m_img.setSprite("Images//WalkingSquareWalking");
+				m_img.setSprite("Images//PlayerPH");
+				//m_img.setSprite("Images//WalkingSquareWalking");
 			}
 
 			else if (m_currentState == State.Jumping)
 			{
 				if (m_speed.Y < 0)
 				{
-					m_img.setSprite("Images//WalkingSquareJumping");
+					m_img.setSprite("Images//PlayerPH");
+					//m_img.setSprite("Images//WalkingSquareJumping");
 				}
 				else
 				{
-					m_img.setSprite("Images//WalkingSquareFalling");
+					m_img.setSprite("Images//PlayerPH");
+					//m_img.setSprite("Images//WalkingSquareFalling");
 				}
 			}
         }
@@ -371,6 +373,7 @@ namespace GrandLarceny
 					{
 						m_position.setY(t_collider.getBox().Y + t_collider.getBox().Height + (m_img.getSize().Y / 2));
 						m_speed.Y = 0;
+						continue;
 					}
 					//Colliding with ze left wall
 					if ((int)(m_lastPosition.X - (m_img.getSize().X / 2)) + 2 >= (int)(t_collider.getLastPosition().X + (t_collider.getImg().getSize().X / 2)))
@@ -378,7 +381,6 @@ namespace GrandLarceny
 						setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
 						m_currentState = State.LeftSlide;
 						m_speed.X = 0;
-						m_speed.Y = 0;
 					}
 					//Colliding with ze right wall
 					if ((int)(m_lastPosition.X + (m_img.getSize().X / 2)) - 2 <= (int)(t_collider.getLastPosition().X - (t_collider.getImg().getSize().X / 2)))
@@ -386,7 +388,6 @@ namespace GrandLarceny
 						setLeftPoint(t_collider.getTopLeftPoint().X - (m_img.getSize().X));
 						m_currentState = State.RightSlide;
 						m_speed.X = 0;
-						m_speed.Y = 0;
 					}
 				}
 			}

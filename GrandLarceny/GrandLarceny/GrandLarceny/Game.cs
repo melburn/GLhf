@@ -42,6 +42,7 @@ namespace GrandLarceny
 			m_graphics.PreferredBackBufferWidth = 1280;
 			m_graphics.PreferredBackBufferHeight = 720;
 			Content.RootDirectory = "Content";
+			IsMouseVisible = true;
 		}
 
 		public SpriteBatch getSpriteBatch()

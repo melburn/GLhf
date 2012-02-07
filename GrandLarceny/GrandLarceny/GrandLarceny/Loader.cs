@@ -79,7 +79,7 @@ namespace GrandLarceny
 					}
 					if (t_info[0].Equals("Platform"))
 					{
-						t_loadedList.AddLast(new Platform(new Vector2(int.Parse(t_info[1]), int.Parse(t_info[2])), t_info[3]));
+						t_loadedList.AddLast(new Platform(new Vector2(int.Parse(t_info[1]) * 72, int.Parse(t_info[2]) * 72), t_info[3]));
 					}
 					if (t_info[0].Equals("Player"))
 					{
