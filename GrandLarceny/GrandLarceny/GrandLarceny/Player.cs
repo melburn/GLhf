@@ -343,51 +343,58 @@ namespace GrandLarceny
 
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
+			if (a_collisionList.Count == 0)
+				m_currentState = State.Jumping;
 			foreach (Entity t_collider in a_collisionList)
 			{
-				if (t_collider is Platform)
+				if (GameState.checkBoxCollision(this, t_collider))
 				{
-					//Colliding with ze floor
-					if ((int)(m_lastPosition.Y+(m_img.getSize().Y/2)) - 2 <= (int)(t_collider.getLastPosition().Y-(t_collider.getImg().getSize().Y/2)))
+					if (t_collider is Platform)
 					{
-						m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2));
-						m_speed.Y = 0;
-						if (m_currentState == State.Jumping)
+						//Colliding with ze floor
+						if ((int)(m_lastPosition.Y + (m_img.getSize().Y / 2)) - 2 <= (int)(t_collider.getLastPosition().Y - (t_collider.getImg().getSize().Y / 2)))
 						{
-							if (m_speed.X == 0)
+							m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2));
+							m_speed.Y = 0;
+							if (m_currentState == State.Jumping)
 							{
-								m_currentState = State.Stop;
-								changeAnimation();
+								if (m_speed.X == 0)
+								{
+									m_currentState = State.Stop;
+									changeAnimation();
+								}
+								else
+								{
+									m_currentState = State.Walking;
+									changeAnimation();
+								}
 							}
-							else
-							{
-								m_currentState = State.Walking;
-								changeAnimation();
-							}
+							continue;
 						}
-						continue;
-					}
-					
-					//Colliding with ze zeeling
-					if ((int)(m_lastPosition.Y - (m_img.getSize().Y / 2)) + 2 >= (int)(t_collider.getLastPosition().Y + (t_collider.getImg().getSize().Y / 2)))
-					{
-						m_position.setY(t_collider.getBox().Y + t_collider.getBox().Height + (m_img.getSize().Y / 2));
-						m_speed.Y = 0;
-						continue;
-					}
-					//Colliding with ze left wall
-					if ((int)(m_lastPosition.X - (m_img.getSize().X / 2)) + 2 >= (int)(t_collider.getLastPosition().X + (t_collider.getImg().getSize().X / 2)))
-					{
-						setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
-						m_currentState = State.LeftSlide;
-						m_speed.X = 0;
-					}
-					//Colliding with ze right wall
-					if ((int)(m_lastPosition.X + (m_img.getSize().X / 2)) - 2 <= (int)(t_collider.getLastPosition().X - (t_collider.getImg().getSize().X / 2)))
-					{
-						setLeftPoint(t_collider.getTopLeftPoint().X - (m_img.getSize().X));
-						m_currentState = State.RightSlide;
-						m_speed.X = 0;
+
+						//Colliding with ze zeeling
+						if ((int)(m_lastPosition.Y - (m_img.getSize().Y / 2)) + 2 >= (int)(t_collider.getLastPosition().Y + (t_collider.getImg().getSize().Y / 2)))
+						{
+							m_position.setY(t_collider.getBox().Y + t_collider.getBox().Height + (m_img.getSize().Y / 2));
+							m_speed.Y = 0;
+							continue;
+						}
+						//Colliding with ze left wall
+						if ((int)(m_lastPosition.X - (m_img.getSize().X / 2)) + 2 >= (int)(t_collider.getLastPosition().X + (t_collider.getImg().getSize().X / 2)))
+						{
+							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
+							if(m_currentState == State.Jumping)
+								m_currentState = State.LeftSlide;
+							m_speed.X = 0;
+						}
+						//Colliding with ze right wall
+						if ((int)(m_lastPosition.X + (m_img.getSize().X / 2)) - 2 <= (int)(t_collider.getLastPosition().X - (t_collider.getImg().getSize().X / 2)))
+						{
+							setLeftPoint(t_collider.getTopLeftPoint().X - (m_img.getSize().X));
+							if (m_currentState == State.Jumping)
+								m_currentState = State.RightSlide;
+							m_speed.X = 0;
+						}
 					}
 				}
 			}

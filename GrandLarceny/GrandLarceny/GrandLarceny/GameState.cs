@@ -46,7 +46,6 @@ namespace GrandLarceny
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.update(a_gameTime);
-				
 			}
 
 			if (m_current.IsKeyDown(Keys.R))
@@ -62,7 +61,7 @@ namespace GrandLarceny
 				{
 					foreach (GameObject t_secondGameObject in m_gameObjectList)
 					{
-						if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject && checkBoxCollision(t_firstGameObject, t_secondGameObject))
+						if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject && checkBigBoxCollision(t_firstGameObject, t_secondGameObject))
 						{
 							t_collided.Add((Entity)t_secondGameObject);
 						}
@@ -93,12 +92,19 @@ namespace GrandLarceny
 			}
 		}
 
-		public bool checkBoxCollision(GameObject a_first, GameObject a_second)
+		public static bool checkBigBoxCollision(GameObject a_first, GameObject a_second)
+		{
+			return (a_first.getLeftPoint()-1 < a_second.getRightPoint() &&
+				a_first.getRightPoint()+1 > a_second.getLeftPoint()) &&
+				(a_first.getTopPoint() < a_second.getBottomPoint() &&
+				a_first.getBottomPoint() > a_second.getTopPoint());
+        }
+		public static bool checkBoxCollision(GameObject a_first, GameObject a_second)
 		{
 			return (a_first.getLeftPoint() < a_second.getRightPoint() &&
 				a_first.getRightPoint() > a_second.getLeftPoint()) &&
 				(a_first.getTopPoint() < a_second.getBottomPoint() &&
 				a_first.getBottomPoint() > a_second.getTopPoint());
-        }
+		}
 	}
 }
