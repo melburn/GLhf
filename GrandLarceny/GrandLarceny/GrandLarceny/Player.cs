@@ -196,9 +196,9 @@ namespace GrandLarceny
 		{
 			if (m_currentKeyInput.IsKeyUp(Keys.Left) && m_currentKeyInput.IsKeyUp(Keys.Right))
 			{
-				if (m_facingRight && m_speed.X > 0)
+				if (m_speed.X > 0)
 					m_speed.X = Math.Max(m_speed.X - (AIRDEACCELERATION * a_deltaTime), 0);
-				else if (!m_facingRight && m_speed.X < 0)
+				else if (m_speed.X < 0)
 					m_speed.X = Math.Min(m_speed.X + (AIRDEACCELERATION * a_deltaTime), 0);
 			}
 			else if (m_currentKeyInput.IsKeyDown(Keys.Left))
@@ -224,9 +224,6 @@ namespace GrandLarceny
 				}
 			}
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
-
-
-
         }
 
 		//TODO Byta animation :3
@@ -311,12 +308,12 @@ namespace GrandLarceny
 		{
 			if (m_currentState == State.Stop)
 			{
-				m_img.setSprite("Images//PlayerPH");
+				m_img.setSprite("Images//hero_idle");
 				//m_img.setSprite("Images//WalkingSquareStand");
 			}
 			else if (m_currentState == State.Walking)
 			{
-				m_img.setSprite("Images//PlayerPH");
+				m_img.setSprite("Images//hero_idle");
 				//m_img.setSprite("Images//WalkingSquareWalking");
 			}
 
@@ -324,18 +321,17 @@ namespace GrandLarceny
 			{
 				if (m_speed.Y < 0)
 				{
-					m_img.setSprite("Images//PlayerPH");
+					m_img.setSprite("Images//hero_idle");
 					//m_img.setSprite("Images//WalkingSquareJumping");
 				}
 				else
 				{
-					m_img.setSprite("Images//PlayerPH");
+					m_img.setSprite("Images//hero_idle");
 					//m_img.setSprite("Images//WalkingSquareFalling");
 				}
 			}
         }
 
-		
 		public override void draw(GameTime a_gameTime)
 		{
 			base.draw(a_gameTime);
@@ -391,7 +387,6 @@ namespace GrandLarceny
 					}
 				}
 			}
-
 			//m_currentState = State.Stop;
 		}
 	}
