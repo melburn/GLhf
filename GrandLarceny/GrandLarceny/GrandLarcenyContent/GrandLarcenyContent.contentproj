@@ -89,8 +89,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\WalkingSquareJumping.png">
-      <Name>WalkingSquareJumping</Name>
+    <Compile Include="Images\tile.png">
+      <Name>tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\playerPH.png">
+      <Name>playerPH</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\guardWalking.png">
+      <Name>guardWalking</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -98,6 +112,11 @@
   <ItemGroup>
     <Compile Include="Images\WalkingSquareFalling.png">
       <Name>WalkingSquareFalling</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\WalkingSquareJumping.png">
+      <Name>WalkingSquareJumping</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

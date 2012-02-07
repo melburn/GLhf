@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
-	class ImageManager
+	public class ImageManager
 	{
 		private Texture2D m_image;
 		private int m_animationWidth;
@@ -48,7 +48,8 @@ namespace GrandLarceny
 			}
 		}
 
-		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, int a_layer = 0) {
+		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, int a_layer = 0)
+		{
 			if (a_color == null)
 			{
 				a_color = Color.White;
@@ -94,7 +95,8 @@ namespace GrandLarceny
 			m_stopped = (m_image == null);
 		}
 
-		public Vector2 getSize() {
+		public Vector2 getSize()
+		{
 			return new Vector2(m_animationWidth, m_image.Height);
 		}
 

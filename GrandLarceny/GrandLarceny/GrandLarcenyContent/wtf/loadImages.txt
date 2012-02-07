@@ -1,4 +1,8 @@
 Images//WalkingSquareStand:1
 Images//WalkingSquareWalking:4
+<<<<<<< HEAD
 Images//WalkingSquareJumping:1
 Images//WalkingSquareFalling:1
+=======
+Images//guardWalking:8
+>>>>>>> be929050f9c9485b19597c6118f01e9551ba1826

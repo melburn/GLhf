@@ -15,15 +15,24 @@ namespace GrandLarceny
 		KeyboardState m_previous;
 		KeyboardState m_current;
 
-		private Player player = new Player(new Vector2(0, 0));
+		private Player player;
 
 		public GameState() 
 		{
+
+		}
+
+		public override void load()
+		{
 			m_gameObjectList = Loader.getInstance().loadLevel(1);
-			m_gameObjectList.AddLast(player);
-			player.setLayer(0);
 			Game.getInstance().m_camera.setParentPosition(player.getPosition());
 		}
+
+		public override void setPlayer(Player a_player)
+		{
+			player = a_player;
+		}
+
 		/*
 		Update-metod, går igenom alla objekt i scenen och kallas på deras update
 		och kollar sedan om de ska dö och läggs därefter i dödslistan.
@@ -46,26 +55,26 @@ namespace GrandLarceny
 			}
 
             foreach (GameObject t_firstGameObject in m_gameObjectList)
-            {
-                List<Entity> t_collided = new List<Entity>();
+			{
+				List<Entity> t_collided = new List<Entity>();
                 
-                if (t_firstGameObject is Entity)
-                {
-                    foreach (GameObject t_secondGameObject in m_gameObjectList)
-                    {
-                        if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject && checkBoxCollision(t_firstGameObject, t_secondGameObject))
+				if (t_firstGameObject is Entity)
+				{
+					foreach (GameObject t_secondGameObject in m_gameObjectList)
+					{
+						if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject && checkBoxCollision(t_firstGameObject, t_secondGameObject))
 						{
 							t_collided.Add((Entity)t_secondGameObject);
-                        }
-                    }
+						}
+					}
 					t_firstGameObject.collisionCheck(t_collided);
-                }
-                    
-                if (t_firstGameObject.isDead())
+				}
+
+				if (t_firstGameObject.isDead())
 				{
 					m_killList.AddLast(t_firstGameObject);
 				}
-            }
+			}
 
 			foreach (GameObject t_gameObject in m_killList)
 			{
@@ -84,8 +93,8 @@ namespace GrandLarceny
 			}
 		}
 
-        public bool checkBoxCollision(GameObject a_first, GameObject a_second)
-        {
+		public bool checkBoxCollision(GameObject a_first, GameObject a_second)
+		{
 			return (a_first.getLeftPoint() < a_second.getRightPoint() &&
 				a_first.getRightPoint() > a_second.getLeftPoint()) &&
 				(a_first.getTopPoint() < a_second.getBottomPoint() &&
