@@ -30,6 +30,16 @@ namespace GrandLarceny
 			m_zoom = Math.Max(a_zoom, 0.1f);
 		}
 
+		public void zoomIn(float a_zoom)
+		{
+			m_zoom = Math.Min(m_zoom + a_zoom, 2.0f);
+		}
+
+		public void zoomOut(float a_zoom)
+		{
+			m_zoom = Math.Max(m_zoom - a_zoom, 0.5f);
+		}
+
 		public float getRotation()
 		{
 			return m_rotation;
