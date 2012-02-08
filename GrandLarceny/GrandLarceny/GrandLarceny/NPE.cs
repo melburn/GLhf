@@ -19,6 +19,7 @@ namespace GrandLarceny
             {
                 m_aiState = m_aiState.Execute(this);
             }
+			base.update(a_gameTime);
         }
 	}
 }
