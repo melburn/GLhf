@@ -11,8 +11,20 @@ namespace GrandLarceny
 {
 	class Serializer
 	{
-		public Serializer()
+		private static Serializer m_instace;
+
+		private Serializer()
 		{
+		}
+
+		public static Serializer getInstace()
+		{
+			if (m_instace == null)
+			{
+				m_instace = new Serializer();
+			}
+
+			return m_instace;
 		}
 
 		public void SaveLevel(string a_fileName, Level a_save)
@@ -42,7 +54,7 @@ namespace GrandLarceny
 			Stream t_stream = null;
 			try
 			{
-				t_stream = File.Open(a_fileName, FileMode.Open);
+				t_stream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
 				BinaryFormatter t_bFormatter = new BinaryFormatter();
 				t_loadingLevel = (Level)t_bFormatter.Deserialize(t_stream);
 			}

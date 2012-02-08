@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class PolarCoordinate : Position
 	{
 		//X är radien Y är vinkeln i form a radianer

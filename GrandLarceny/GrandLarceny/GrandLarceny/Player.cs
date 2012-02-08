@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class Player : Entity
 	{
 		private Vector2 m_cameraPoint = new Vector2(0,0);
@@ -25,7 +26,9 @@ namespace GrandLarceny
 
 		private float m_rollTimer;
 
+		[NonSerialized]
 		private KeyboardState m_currentKeyInput;
+		[NonSerialized]
 		private KeyboardState m_previousKeyInput;
 		private State m_currentState = State.Stop;
 
