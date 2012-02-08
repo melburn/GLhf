@@ -12,6 +12,8 @@ namespace GrandLarceny
 	{
 		private LinkedList<GameObject> m_gameObjectList;
 		private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
+		MouseState m_previousMouse;
+		MouseState m_currentMouse;
 		KeyboardState m_previous;
 		KeyboardState m_current;
 
@@ -42,11 +44,29 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_current = Keyboard.GetState();
+			m_currentMouse = Mouse.GetState();
 
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.update(a_gameTime);
 				
+			}
+
+			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released) 
+			{
+				Rectangle t_mouseClick = new Rectangle(
+					Mouse.GetState().X + (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X - (Game.getInstance().m_graphics.PreferredBackBufferWidth / 2),
+					Mouse.GetState().Y + (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y - (Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 72), 
+					1, 1
+				);
+
+				foreach (GameObject t_gameObject in m_gameObjectList)
+				{
+					if (t_mouseClick.Intersects(t_gameObject.getBox()))
+					{
+						
+					}
+				}
 			}
 
 			if (m_current.IsKeyDown(Keys.R))
@@ -80,6 +100,7 @@ namespace GrandLarceny
 			{
 				m_gameObjectList.Remove(t_gameObject);
 			}
+			m_previousMouse = m_currentMouse;
 			m_previous = m_current;
 		}
 		/*
