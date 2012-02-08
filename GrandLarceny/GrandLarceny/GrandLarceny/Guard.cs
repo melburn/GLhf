@@ -14,7 +14,8 @@ namespace GrandLarceny
         private Boolean m_hasFlashLight;
         public Boolean m_inALightArea = false;
         private Boolean m_isCarryingFlashLight;
-        private float MOVEMENTSPEED = 250;
+        private float MOVEMENTSPEED = 100;
+		private float CHASEINGSPEED = 250;
 
         //flashlight addicted guard always has their flashlight up
         private Boolean m_FlashLightAddicted;
@@ -29,12 +30,15 @@ namespace GrandLarceny
             m_FlashLightAddicted = a_flashLightAddicted;
             m_aiState = AIStatePatrolling.getInstance();
 		}
-        public Guard(Vector2 a_posV2, String a_sprite, Boolean a_hasFlashLight, Boolean a_flashLightAddicted)
+        public Guard(Vector2 a_posV2, String a_sprite, float a_patrollPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted)
 			: base(a_posV2, a_sprite)
 		{
             m_hasPatroll = false;
             m_hasFlashLight = a_hasFlashLight;
             m_FlashLightAddicted = a_flashLightAddicted;
+            m_leftPatrollPoint = a_patrollPoint;
+            m_rightPatrollPoint = a_patrollPoint;
+			m_aiState = AIStatePatrolling.getInstance();
 		}
         internal void goRight()
         {

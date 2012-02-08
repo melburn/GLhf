@@ -28,6 +28,31 @@ namespace GrandLarceny
                         t_guard.goLeft();
                     }
                 }
+                else
+                {
+                    float t_guardPoint = t_guard.getLeftPatrollPoint();
+                    if(t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
+                    {
+                        if(t_guard.getHorizontalSpeed() >= 0)
+                        {
+                            t_guard.goRight();
+                        }
+                    }
+                    else if(t_guard.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
+                    {
+                        if(t_guard.getHorizontalSpeed() <= 0)
+                        {
+                            t_guard.goLeft();
+                        }
+                    }
+                    else
+                    {
+                        if(t_guard.getHorizontalSpeed() != 0)
+                        {
+                            t_guard.stop();
+                        }
+                    }
+                }
  	            return this;
             }
             else

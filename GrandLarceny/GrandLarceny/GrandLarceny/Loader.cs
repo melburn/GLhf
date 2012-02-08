@@ -91,6 +91,17 @@ namespace GrandLarceny
 						Game.getInstance().getState().setPlayer(t_player); 
 						t_loadedList.AddLast(t_player);
 					}
+					if(t_info[0].Equals("Guard"))
+					{
+						if(t_info[1].Equals("stationary"))
+						{
+							t_loadedList.AddLast(new Guard(new Vector2(int.Parse(t_info[2]), int.Parse(t_info[3])), t_info[4], float.Parse(t_info[5]) * 72,parseBoolean(t_info[6]),parseBoolean(t_info[7])));
+						}
+						else if (t_info[1].Equals("mobile"))
+						{
+							t_loadedList.AddLast(new Guard(new Vector2(int.Parse(t_info[2]),int.Parse(t_info[3])), t_info[4], float.Parse(t_info[5]) * 72, float.Parse(t_info[6]) * 72, parseBoolean(t_info[7]), parseBoolean(t_info[8])));
+						}
+					}
 				}
 				catch (System.FormatException fe)
 				{
@@ -102,6 +113,22 @@ namespace GrandLarceny
 				}
 			}
 			return t_loadedList;
+		}
+
+		private bool parseBoolean(string p)
+		{
+			if(p.Equals("true"))
+			{
+				return true;
+			}
+			else if (p.Equals("false"))
+			{
+				return false;
+			}
+			else
+			{
+				throw new ArgumentException(p+" cannot be parsed into a boolean");
+			}
 		}
 	}
 }
