@@ -46,5 +46,9 @@ namespace GrandLarceny
 		{
 			return m_lastPosition;
 		}
+        internal float getHorizontalSpeed()
+        {
+            return m_speed.X;
+        }
 	}
 }

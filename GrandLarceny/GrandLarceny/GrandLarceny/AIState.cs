@@ -7,6 +7,7 @@ namespace GrandLarceny
 {
     public abstract class AIState
     {
-        abstract public AIState Execute(NPE);
+        abstract public AIState execute(NPE a_agent);
+        abstract public AIState getInstance();
     }
 }
