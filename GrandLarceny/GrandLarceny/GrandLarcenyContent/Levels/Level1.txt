@@ -23,11 +23,11 @@ Platform:4:0:Images//tile
 Platform:5:0:Images//tile
 Platform:6:0:Images//tile
 Platform:7:0:Images//tile
-Platform:8:0:Images//tile
-Platform:8:1:Images//tile
-Platform:8:2:Images//tile
-Platform:8:3:Images//tile
-Platform:8:4:Images//tile
+Ladder:8:0:Images//tile
+Ladder:8:1:Images//tile
+Ladder:8:2:Images//tile
+Ladder:8:3:Images//tile
+Ladder:8:4:Images//tile
 Platform:5:12:Images//tile
 Platform:6:12:Images//tile
 Platform:7:12:Images//tile
@@ -57,10 +57,10 @@ Platform:1:5:Images//tile
 Platform:2:5:Images//tile
 Platform:3:5:Images//tile
 Platform:4:5:Images//tile
-Platform:8:6:Images//tile
-Platform:8:7:Images//tile
-Platform:8:8:Images//tile
-Platform:8:9:Images//tile
+Ladder:8:6:Images//tile
+Ladder:8:7:Images//tile
+Ladder:8:8:Images//tile
+Ladder:8:9:Images//tile
 Platform:4:6:Images//tile
 Platform:4:7:Images//tile
 Platform:4:8:Images//tile
@@ -68,7 +68,7 @@ Platform:4:9:Images//tile
 Platform:4:10:Images//tile
 Platform:4:11:Images//tile
 Platform:4:12:Images//tile
-Platform:8:5:Images//tile
+Ladder:8:5:Images//tile
 
 Platform:20:10:Images//tile
 Platform:19:6:Images//tile
