@@ -22,6 +22,11 @@ namespace GrandLarceny
 		{
 		}
 
+		public Level(SerializationInfo info, StreamingContext context)
+		{
+			m_loadedGameObject = (LinkedList<GameObject>)info.GetValue("GameObjects", typeof(LinkedList<GameObject>));
+		}
+
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("GameObjects", m_loadedGameObject);
