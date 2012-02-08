@@ -17,9 +17,9 @@ namespace GrandLarceny
 		}
         public override void update(GameTime a_gameTime)
 		{
-            if(m_aiState!=null)
-            {
-                m_aiState = m_aiState.Execute(this);
+			if (m_aiState != null)
+			{
+                m_aiState = m_aiState.execute(this);
             }
 			base.update(a_gameTime);
         }

@@ -123,7 +123,7 @@ namespace GrandLarceny
 					m_spriteEffects = SpriteEffects.None;
 				}
 			}
-			if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
+			if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -181,7 +181,7 @@ namespace GrandLarceny
 				m_currentState = State.Stop;
 				changeAnimation();
 			}
-			if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
+			if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -238,10 +238,9 @@ namespace GrandLarceny
 			{
 				if (m_currentKeyInput.IsKeyDown(Keys.Right))
 				{
-					if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
+					if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
 					{
-						m_speed.Y = 0;
-						m_speed.Y -= JUMPSTRENGTH;
+						m_speed.Y = -JUMPSTRENGTH;
 						m_speed.X -= JUMPSTRENGTH;
 						m_currentState = State.Jumping;
 						return;
@@ -263,10 +262,9 @@ namespace GrandLarceny
 			{
 				if (m_currentKeyInput.IsKeyDown(Keys.Left))
 				{
-					if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
+					if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
 					{
-						m_speed.Y = 0;
-						m_speed.Y -= JUMPSTRENGTH;
+						m_speed.Y = -JUMPSTRENGTH;
 						m_speed.X += JUMPSTRENGTH;
 						m_currentState = State.Jumping;
 						return;
@@ -297,11 +295,28 @@ namespace GrandLarceny
 				m_gravity = 0;
 				m_speed.Y = 0;
 			}
+			if (m_currentKeyInput.IsKeyDown(Keys.Space) && m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Right))
+			{
+				m_speed.Y = -JUMPSTRENGTH;
+				m_speed.X += JUMPSTRENGTH;
+				m_currentState = State.Jumping;
+			}
+			else if (m_currentKeyInput.IsKeyDown(Keys.Space) && m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Left))
+			{
+				m_speed.Y = -JUMPSTRENGTH;
+				m_speed.X -= JUMPSTRENGTH;
+				m_currentState = State.Jumping;
+			}
+			else if (m_currentKeyInput.IsKeyDown(Keys.Space) && m_previousKeyInput.IsKeyUp(Keys.Space))
+			{
+				m_speed.Y = 0;
+				m_currentState = State.Jumping;
+			}
 		}
 
 		private void updateRolling()
 		{
-			if (m_previousKeyInput.IsKeyUp(Keys.Up) && m_currentKeyInput.IsKeyDown(Keys.Up))
+			if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
