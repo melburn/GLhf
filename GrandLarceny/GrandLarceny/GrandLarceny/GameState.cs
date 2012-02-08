@@ -16,17 +16,18 @@ namespace GrandLarceny
 		MouseState m_currentMouse;
 		KeyboardState m_previous;
 		KeyboardState m_current;
+		private int m_currentLevel;
 
 		private Player player;
 
 		public GameState() 
 		{
-
+			m_currentLevel = 1;
 		}
 
 		public override void load()
 		{
-			m_gameObjectList = Loader.getInstance().loadLevel(1);
+			m_gameObjectList = Loader.getInstance().loadLevel(m_currentLevel);
 			Game.getInstance().m_camera.setParentPosition(player.getPosition());
 		}
 
@@ -51,21 +52,8 @@ namespace GrandLarceny
 				t_gameObject.update(a_gameTime);
 			}
 
-			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released) 
-			{
-				Rectangle t_mouseClick = new Rectangle(
-					Mouse.GetState().X + (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X - (Game.getInstance().m_graphics.PreferredBackBufferWidth / 2),
-					Mouse.GetState().Y + (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y - (Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 72), 
-					1, 1
-				);
-
-				foreach (GameObject t_gameObject in m_gameObjectList)
-				{
-					if (t_mouseClick.Intersects(t_gameObject.getBox()))
-					{
-						
-					}
-				}
+			if (m_current.IsKeyDown(Keys.D)) {
+				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
 
 			if (m_current.IsKeyDown(Keys.R))
