@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
-	class NPE : Entity
+	public class NPE : Entity
 	{
         protected AIState m_aiState;
 		public NPE(Vector2 a_posV2, String a_sprite)
