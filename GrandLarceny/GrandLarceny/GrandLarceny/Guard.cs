@@ -12,7 +12,7 @@ namespace GrandLarceny
         private float m_rightPatrollPoint;
         private Boolean m_hasPatroll;
         private Boolean m_hasFlashLight;
-        public Boolean m_inALightArea;
+        public Boolean m_inALightArea = false;
         private Boolean m_isCarryingFlashLight;
         private float MOVEMENTSPEED = 250;
 
@@ -26,7 +26,7 @@ namespace GrandLarceny
             m_rightPatrollPoint = a_rightPatrollPoint;
             m_hasPatroll = true;
             m_hasFlashLight = a_hasFlashLight;
-            m_hasFlashLight = a_flashLightAddicted;
+            m_FlashLightAddicted = a_flashLightAddicted;
             m_aiState = AIStatePatrolling.getInstance();
 		}
         public Guard(Vector2 a_posV2, String a_sprite, Boolean a_hasFlashLight, Boolean a_flashLightAddicted)
@@ -34,7 +34,7 @@ namespace GrandLarceny
 		{
             m_hasPatroll = false;
             m_hasFlashLight = a_hasFlashLight;
-            m_hasFlashLight = a_flashLightAddicted;
+            m_FlashLightAddicted = a_flashLightAddicted;
 		}
         internal void goRight()
         {

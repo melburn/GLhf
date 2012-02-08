@@ -108,9 +108,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIState.cs" />
+    <Compile Include="AIStatePatrolling.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CartesianPosition.cs" />
+    <Compile Include="DevelopmentState.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="CollisionManager.cs" />
     <Compile Include="Entity.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="Loader.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuState.cs" />
+    <Compile Include="NonMovingPlatform.cs" />
     <Compile Include="NPE.cs" />
     <Compile Include="PauseState.cs" />
     <Compile Include="Platform.cs" />
