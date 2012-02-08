@@ -28,7 +28,7 @@ namespace GrandLarceny
             base.update(a_gameTime);
 
 			float t_deltaTime = ((float)(a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
-			m_speed.Y += m_gravity;
+			m_speed.Y += m_gravity * t_deltaTime;
             m_position.plusWith(m_speed * t_deltaTime);
         }
 

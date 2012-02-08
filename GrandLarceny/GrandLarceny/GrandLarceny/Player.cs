@@ -45,11 +45,11 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite)
 		{
 			m_currentState = State.Jumping;
-			m_gravity = 15f;
 		}
 
 		public override void update(GameTime a_gameTime)
 		{
+			m_gravity = 1000f;
 			m_previousKeyInput = m_currentKeyInput;
 			m_currentKeyInput = Keyboard.GetState();
 			float t_deltaTime = ((float) a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
@@ -291,7 +291,8 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_speed.Y = -m_gravity;
+				m_gravity = 0;
+				m_speed.Y = 0;
 			}
 		}
 
