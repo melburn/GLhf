@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GrandLarceny
 {
-    public abstract class AIState
-    {
-        abstract public AIState execute(NPE a_agent);
-    }
+	public abstract class AIState
+	{
+		abstract public AIState execute(NPE npe);
+	}
 }

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class Entity : GameObject
 	{
         //pixel per sekund
@@ -21,8 +22,8 @@ namespace GrandLarceny
 		{
 		}
 
-        public override void update(GameTime a_gameTime)
-        {
+		public override void update(GameTime a_gameTime)
+		{
 			m_lastPosition = m_position.getGlobalCartesianCoordinates();
             base.update(a_gameTime);
 
@@ -32,15 +33,15 @@ namespace GrandLarceny
         }
 
     /*  public override void collisionCheck()
-        {
+		{
 
         }
 		*/
 		
-        public override void draw(GameTime a_gameTime)
-        {
+		public override void draw(GameTime a_gameTime)
+		{
 			base.draw(a_gameTime);
-        }
+		}
 		internal Vector2 getLastPosition()
 		{
 			return m_lastPosition;

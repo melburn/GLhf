@@ -6,11 +6,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
-{
+{	
+	[Serializable()]
 	public class GameObject
 	{
 		protected bool m_dead = false;
 		protected Position m_position;
+		[NonSerialized]
 		protected ImageManager m_img;
 
 		protected float m_rotate;
@@ -18,14 +20,23 @@ namespace GrandLarceny
 		protected Color m_color;
 		protected SpriteEffects m_spriteEffects;
 
+		private string m_spritePath;
+
 		public GameObject(Vector2 a_posV2, String a_sprite)
 		{
 			m_position = new CartesianCoordinate(a_posV2);
-			m_img = new ImageManager(a_sprite);
+			//m_img = new ImageManager(a_sprite);
 			m_rotate = 0.0f;
 			m_layer = 0;
 			m_color = Color.White;
 			m_spriteEffects = SpriteEffects.None;
+			m_spritePath = a_sprite;
+			initImage();
+		}
+
+		public void initImage()
+		{
+			m_img = new ImageManager(m_spritePath);
 		}
 
 		public Position getPosition()

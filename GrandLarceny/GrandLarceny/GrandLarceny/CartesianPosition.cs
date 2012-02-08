@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class CartesianCoordinate : Position
 	{
 		private Vector2 m_coordinates;

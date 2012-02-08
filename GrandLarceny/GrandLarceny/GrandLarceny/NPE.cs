@@ -6,8 +6,10 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class NPE : Entity
 	{
+		[NonSerialized]
         protected AIState m_aiState;
 		public NPE(Vector2 a_posV2, String a_sprite)
 			: base(a_posV2, a_sprite)
@@ -15,8 +17,8 @@ namespace GrandLarceny
 		}
         public override void update(GameTime a_gameTime)
 		{
-            if(m_aiState!=null)
-            {
+			if (m_aiState != null)
+			{
                 m_aiState = m_aiState.execute(this);
             }
 			base.update(a_gameTime);
