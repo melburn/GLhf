@@ -10,12 +10,14 @@ namespace GrandLarceny
 {
 	public class Player : Entity
 	{
-		private const int PLAYERSPEED = 200;
-		private const int JUMPSTRENGTH = 600;
 		private Vector2 m_cameraPoint = new Vector2(0,0);
-		private const int CAMERAMAXDISTANCE = 100;
+
 		private const float CAMERASPEED = 0.1f;
 
+		private const int CLIMBINGSPEED = 200;
+		private const int PLAYERSPEED = 200;
+		private const int JUMPSTRENGTH = 600;
+		private const int CAMERAMAXDISTANCE = 100;
 		private const int ACCELERATION = 2000;
 		private const int DEACCELERATION = 800;
 		private const int AIRDEACCELERATION = 300;
@@ -43,11 +45,11 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite)
 		{
 			m_currentState = State.Jumping;
-			m_gravity = 1000f;
 		}
 
 		public override void update(GameTime a_gameTime)
 		{
+			m_gravity = 1000f;
 			m_previousKeyInput = m_currentKeyInput;
 			m_currentKeyInput = Keyboard.GetState();
 			float t_deltaTime = ((float) a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
@@ -279,7 +281,19 @@ namespace GrandLarceny
 		//TODO Implement :3
 		private void updateClimbing()
 		{
-			throw new NotImplementedException();
+			if (m_currentKeyInput.IsKeyDown(Keys.Up))
+			{
+				m_speed.Y = -CLIMBINGSPEED;
+			}
+			else if (m_currentKeyInput.IsKeyDown(Keys.Down))
+			{
+				m_speed.Y = CLIMBINGSPEED;
+			}
+			else
+			{
+				m_gravity = 0;
+				m_speed.Y = 0;
+			}
 		}
 
 		private void updateRolling()
@@ -390,6 +404,20 @@ namespace GrandLarceny
 							if (m_currentState == State.Jumping)
 								m_currentState = State.RightSlide;
 							m_speed.X = 0;
+						}
+					}
+					else if (t_collider is Ladder)
+					{
+						//Colliding with ze ladd0rz
+						Rectangle t_rect = new Rectangle(t_collider.getBox().X + ((t_collider.getBox().Width / 2) - 2),
+							t_collider.getBox().Y, 4, t_collider.getBox().Height);
+						if (t_rect.Contains((int)m_lastPosition.X, (int)m_lastPosition.Y) && (m_currentKeyInput.IsKeyDown(Keys.Up) || m_currentKeyInput.IsKeyDown(Keys.Down)))
+						{
+							m_speed.X = 0;
+							m_currentState = State.Climbing;
+							if (m_speed.Y < -CLIMBINGSPEED || m_speed.Y > CLIMBINGSPEED)
+								m_speed.Y = 0;
+							setLeftPoint(t_collider.getLeftPoint());
 						}
 					}
 				}

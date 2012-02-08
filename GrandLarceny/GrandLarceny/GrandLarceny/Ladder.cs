@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
-	class Platform : NonMovingPlatform
+	class Ladder : NonMovingPlatform
 	{
-		public Platform(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite)
+		public Ladder(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite)
 		{
 			
 		}

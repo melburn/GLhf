@@ -96,7 +96,7 @@ namespace GrandLarceny
 			base.Draw(a_gameTime);
 		}
 
-		internal void setState(GameState a_newState)
+		internal void setState(States a_newState)
 		{
 			m_nextState = a_newState;
 		}
