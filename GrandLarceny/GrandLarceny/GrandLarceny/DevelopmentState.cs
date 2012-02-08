@@ -103,8 +103,10 @@ namespace GrandLarceny
 					if (t_mouseClick.Intersects(t_gameObject.getBox()))
 					{
 						m_selectedObject = t_gameObject;
-						t_gameObject.setColor(Color.Yellow);
 					}
+				}
+				if (m_selectedObject != null) {
+					m_selectedObject.setColor(Color.Yellow);
 				}
 			}
 		}
