@@ -1,6 +1,6 @@
-.Environment:-100:50:Images//test
+Environment:0:0:Images//test
 .Platform:0:80:Images//platform
-Player:0:0:Images//hero_idle
+Player:0:150:Images//hero_idle
 .Platform:-300:80:Images//platform
 .Platform:300:160:Images//platform
 .Platform:600:160:Images//platform

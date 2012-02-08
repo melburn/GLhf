@@ -20,12 +20,16 @@ namespace GrandLarceny
 		private GameObject m_selectedObject;
 		private int m_leveltoLoad;
 
+		private SpriteFont m_testFont;
+		private String m_selectedInfo;
+
 		public DevelopmentState(int a_levelToLoad) {
 			m_leveltoLoad = a_levelToLoad;
 		}
 
 		public override void load()
 		{
+			m_testFont = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New");
 			m_gameObjectList = Loader.getInstance().loadLevel(m_leveltoLoad);
 			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
 		}
@@ -34,6 +38,15 @@ namespace GrandLarceny
 		{
 			m_currentKeyboard = Keyboard.GetState();
 			m_currentMouse = Mouse.GetState();
+
+			if (m_selectedObject != null) {
+				m_selectedInfo = (
+					m_selectedObject.getPosition().getGlobalCartesianCoordinates().X / 72).ToString() 
+					+ ", " 
+					+ (m_selectedObject.getPosition().getGlobalCartesianCoordinates().Y / 72).ToString();
+			} else {
+				m_selectedInfo = "Joxe!";
+			}
 
 			updateKeyboard();
 			updateMouse();
@@ -90,20 +103,16 @@ namespace GrandLarceny
 				, m_currentMouse.Y + (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y - (Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 72)
 			);
 			
-			if (t_v2.X % 72 > 36) {
+			if (t_v2.X % 72 >= 36) {
 				t_v2.X = t_v2.X + (72 - (t_v2.X % 72));	
-			} else if (t_v2.Y % 72 < 36) {
+			} else if (t_v2.X % 72 < 36) {
 				t_v2.X = t_v2.X - (t_v2.X % 72);
-			} else {
-				;
 			}
 
-			if (t_v2.Y % 72 > 36) {
+			if (t_v2.Y % 72 >= 36) {
 				t_v2.Y = t_v2.Y + (72 - (t_v2.Y % 72));
 			} else if (t_v2.Y % 72 < 36) {
 				t_v2.Y = t_v2.Y - (t_v2.Y % 72);
-			} else {
-				;
 			}
 			
 			m_selectedObject.setLeftPoint(t_v2.X - (m_selectedObject.getImg().getSize().X / 2));
@@ -112,6 +121,9 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
+			if (m_selectedObject != null) {
+				a_spriteBatch.DrawString(m_testFont, m_selectedInfo, new Vector2(m_selectedObject.getRightPoint() + 20, m_selectedObject.getTopPoint()), Color.White);
+			}
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.draw(a_gameTime);
