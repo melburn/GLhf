@@ -79,7 +79,10 @@ namespace GrandLarceny
 		{
 			m_position.setY(a_y + (m_img.getSize().Y / 2));
 		}
-
+		public void setColor(Color a_color)
+		{
+			m_color = a_color;
+		}
 		public float getLeftPoint()
 		{
 			return m_position.getX() - (m_img.getSize().X / 2);
