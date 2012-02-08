@@ -17,7 +17,7 @@ namespace GrandLarceny
 		{
 			if (m_aiState != null)
 			{
-                m_aiState = m_aiState.Execute(this);
+                m_aiState = m_aiState.execute(this);
             }
 			base.update(a_gameTime);
         }
