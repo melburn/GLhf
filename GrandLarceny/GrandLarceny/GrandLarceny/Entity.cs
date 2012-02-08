@@ -19,7 +19,6 @@ namespace GrandLarceny
 		public Entity(Vector2 a_posV2, String a_sprite)
 			: base(a_posV2, a_sprite)
 		{
-			
 		}
 
         public override void update(GameTime a_gameTime)

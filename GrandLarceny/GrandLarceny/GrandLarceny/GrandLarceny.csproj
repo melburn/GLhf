@@ -120,6 +120,7 @@
     <Compile Include="GameState.cs" />
     <Compile Include="ImageManager.cs" />
     <Compile Include="Ladder.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuState.cs" />
