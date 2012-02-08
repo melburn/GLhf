@@ -6,8 +6,10 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class NPE : Entity
 	{
+		[NonSerialized]
         protected AIState m_aiState;
 		public NPE(Vector2 a_posV2, String a_sprite)
 			: base(a_posV2, a_sprite)

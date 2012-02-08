@@ -69,6 +69,23 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.zoomIn(0.1f);
 			if (m_currentKeyboard.IsKeyDown(Keys.X))
 				Game.getInstance().m_camera.zoomOut(0.1f);
+
+			if(m_currentKeyboard.IsKeyDown(Keys.S))
+			{
+				Level t_saveLevel = new Level();
+				t_saveLevel.setLevelObjects(m_gameObjectList);
+				Serializer.getInstace().SaveLevel("Level3.txt", t_saveLevel);
+
+			}
+			if(m_currentKeyboard.IsKeyDown(Keys.L))
+			{
+				Level t_newLevel = Serializer.getInstace().loadLevel("Level3.txt");
+				m_gameObjectList = t_newLevel.getLevelObjects();
+				foreach(GameObject f_gb in m_gameObjectList)
+				{
+					f_gb.initImage();
+				}
+			}
 		}
 
 		private void updateMouse()
