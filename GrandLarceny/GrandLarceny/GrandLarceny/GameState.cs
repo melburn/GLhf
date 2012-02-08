@@ -12,19 +12,22 @@ namespace GrandLarceny
 	{
 		private LinkedList<GameObject> m_gameObjectList;
 		private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
+		MouseState m_previousMouse;
+		MouseState m_currentMouse;
 		KeyboardState m_previous;
 		KeyboardState m_current;
+		private int m_currentLevel;
 
 		private Player player;
 
 		public GameState() 
 		{
-
+			m_currentLevel = 1;
 		}
 
 		public override void load()
 		{
-			m_gameObjectList = Loader.getInstance().loadLevel(1);
+			m_gameObjectList = Loader.getInstance().loadLevel(m_currentLevel);
 			Game.getInstance().m_camera.setParentPosition(player.getPosition());
 		}
 
@@ -42,10 +45,15 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_current = Keyboard.GetState();
+			m_currentMouse = Mouse.GetState();
 
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.update(a_gameTime);
+			}
+
+			if (m_current.IsKeyDown(Keys.D)) {
+				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
 
 			if (m_current.IsKeyDown(Keys.R))
@@ -79,6 +87,7 @@ namespace GrandLarceny
 			{
 				m_gameObjectList.Remove(t_gameObject);
 			}
+			m_previousMouse = m_currentMouse;
 			m_previous = m_current;
 		}
 		/*
