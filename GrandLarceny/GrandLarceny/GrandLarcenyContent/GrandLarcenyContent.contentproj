@@ -127,7 +127,6 @@
       <Name>hero_idle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +155,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Folder Include="Levels\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Images\ladder.png">
@@ -171,40 +169,30 @@
       <Name>hero_fall</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\hero_jump.png">
       <Name>hero_jump</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\hero_roll.png">
       <Name>hero_roll</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\hero_slide.png">
       <Name>hero_slide</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\hero_stand.png">
       <Name>hero_stand</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Levels\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
