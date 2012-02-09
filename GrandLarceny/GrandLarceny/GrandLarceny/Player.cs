@@ -45,7 +45,7 @@ namespace GrandLarceny
 			Rolling
 		}
 
-		public Player(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite)
+		public Player(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
 		{
 			m_currentState = State.Jumping;
 		}
@@ -441,11 +441,11 @@ namespace GrandLarceny
 						}
 						t_onLadder = true;
 					}
-				}
-				if (!t_onLadder && m_currentState == State.Climbing)
-				{
-					m_currentState = State.Jumping;
-				}
+				}	
+			}
+			if (!t_onLadder && m_currentState == State.Climbing)
+			{
+				m_currentState = State.Jumping;
 			}
 			//m_currentState = State.Stop;
 		}

@@ -20,7 +20,7 @@ namespace GrandLarceny
 
 		private Player player;
 
-		public GameState() 
+		public GameState()
 		{
 			m_currentLevel = "Level3.txt";
 		}

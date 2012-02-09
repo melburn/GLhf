@@ -48,7 +48,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, int a_layer = 0)
+		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f)
 		{
 			if (a_color == null)
 			{

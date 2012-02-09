@@ -11,22 +11,26 @@ namespace GrandLarceny
 	class DevelopmentState : States
 	{
 		private LinkedList<GameObject> m_gameObjectList;
+		private LinkedList<GameObject> m_buildObjectList;
 		private MouseState m_previousMouse;
 		private MouseState m_currentMouse;
 		private KeyboardState m_previousKeyboard;
 		private KeyboardState m_currentKeyboard;
 
 		private GameObject m_selectedObject;
+		private GameObject m_buildSelectedObject;
 		private string m_leveltoLoad;
 
 		private SpriteFont m_testFont;
 		private String m_selectedInfo;
 		private Vector2 m_worldMouse;
+		private Player m_player = null;
 
 		private State m_itemToCreate = State.None;
 		private enum State
 		{
 			Platform,
+			Player,
 			Background,
 			Ladder,
 			None
@@ -42,6 +46,8 @@ namespace GrandLarceny
 			m_testFont = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New");
 			m_gameObjectList = Loader.getInstance().loadLevel(m_leveltoLoad);
 			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
+
+			m_buildObjectList = new LinkedList<GameObject>();
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -102,6 +108,9 @@ namespace GrandLarceny
 			if (m_currentKeyboard.IsKeyDown(Keys.B))
 				m_itemToCreate = State.Background;
 
+			if (m_currentKeyboard.IsKeyDown(Keys.H))
+				m_itemToCreate = State.Player;
+
 			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_selectedObject != null) {
 				m_gameObjectList.Remove(m_selectedObject);
 				m_selectedObject = null;
@@ -109,6 +118,10 @@ namespace GrandLarceny
 
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
+				if (m_selectedObject != null) {
+					m_selectedObject.setColor(Color.White);
+					m_selectedObject = null;
+				}
 				Level t_saveLevel = new Level();
 				t_saveLevel.setLevelObjects(m_gameObjectList);
 				Serializer.getInstace().SaveLevel("Level3.txt", t_saveLevel);
@@ -134,6 +147,11 @@ namespace GrandLarceny
 			{
 				switch (m_itemToCreate)
 				{
+					case State.Player:
+					{
+						createPlayer();
+						break;
+					}
 					case State.Background:
 					{
 						createBackground();
@@ -166,7 +184,7 @@ namespace GrandLarceny
 
 				foreach (GameObject t_gameObject in m_gameObjectList)
 				{
-					if (t_mouseClick.Intersects(t_gameObject.getBox()))
+					if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
 					{
 						m_selectedObject = t_gameObject;
 					}
@@ -193,9 +211,29 @@ namespace GrandLarceny
 			m_selectedObject.getPosition().setY((a_worldMouse.Y - (m_selectedObject.getImg().getSize().Y / 2)) + 36);
 		}
 
+		private void createPlayer()
+		{
+			if (m_player != null) {
+				return;
+			}
+			m_player = new Player(m_worldMouse, "Images//hero_idle", 0.250f);
+
+			if (m_player.getLeftPoint() % 72 >= 36)
+				m_player.setLeftPoint(m_player.getLeftPoint() + (72 - (m_player.getLeftPoint() % 72)) - 36);
+			else if (m_player.getLeftPoint() % 72 < 36)
+				m_player.setLeftPoint(m_player.getLeftPoint() - (m_player.getLeftPoint() % 72) + 36);
+
+			if (m_player.getTopPoint() % 72 >= 36)
+				m_player.setTopPoint(m_player.getTopPoint() + (72 - (m_player.getTopPoint() % 72)) - 36);
+			else if (m_player.getTopPoint() % 72 < 36)
+				m_player.setTopPoint(m_player.getTopPoint() - (m_player.getTopPoint() % 72) + 36);
+
+			m_gameObjectList.AddLast(m_player);
+		}
+
 		private void createPlatform()
 		{
-			Platform t_platform = new Platform(m_worldMouse, "Images//tile");
+			Platform t_platform = new Platform(m_worldMouse, "Images//tile", 0.350f);
 
 			if (t_platform.getLeftPoint() % 72 >= 36)
 				t_platform.setLeftPoint(t_platform.getLeftPoint() + (72 - (t_platform.getLeftPoint() % 72)) - 36);
@@ -212,7 +250,7 @@ namespace GrandLarceny
 
 		private void createLadder()
 		{
-			Ladder t_ladder = new Ladder(m_worldMouse, "Images//ladder");
+			Ladder t_ladder = new Ladder(m_worldMouse, "Images//ladder", 0.350f);
 
 			if (t_ladder.getLeftPoint() % 72 >= 36)
 				t_ladder.setLeftPoint(t_ladder.getLeftPoint() + (72 - (t_ladder.getLeftPoint() % 72)) - 36);
@@ -229,7 +267,7 @@ namespace GrandLarceny
 
 		private void createBackground()
 		{
-			Environment t_environment = new Environment(m_worldMouse, "Images//test");
+			Environment t_environment = new Environment(m_worldMouse, "Images//test", 0.750f);
 
 			if (t_environment.getLeftPoint() % 72 >= 36)
 				t_environment.setLeftPoint(t_environment.getLeftPoint() + (72 - (t_environment.getLeftPoint() % 72)) - 36);

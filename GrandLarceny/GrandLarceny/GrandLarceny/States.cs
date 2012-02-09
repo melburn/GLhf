@@ -21,6 +21,10 @@ namespace GrandLarceny
 		public virtual void setPlayer(Player a_player)
 		{
 		}
+		public virtual Player getPlayer()
+		{
+			return null;
+		}
 		public abstract void update(GameTime a_gameTime);
 		public abstract void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch);
 	}
