@@ -64,10 +64,10 @@ namespace GrandLarceny
 		public LinkedList<GameObject> loadLevel(string a_levelName)
 		{
 
-				LinkedList<GameObject> t_returnObjekts;
+				LinkedList<GameObject> t_returnObjects;
 				Level t_newLevel = Serializer.getInstace().loadLevel(a_levelName);
-				t_returnObjekts = t_newLevel.getLevelObjects();
-				foreach(GameObject f_gb in t_returnObjekts)
+				t_returnObjects = t_newLevel.getLevelObjects();
+				foreach(GameObject f_gb in t_returnObjects)
 				{
 					f_gb.initImage();
 
@@ -77,7 +77,7 @@ namespace GrandLarceny
 					}
 				}
 
-				return t_returnObjekts;
+				return t_returnObjects;
 
 			
 		}
