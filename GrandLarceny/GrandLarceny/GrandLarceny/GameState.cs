@@ -22,9 +22,14 @@ namespace GrandLarceny
 
 		private Player player;
 
-		public GameState() 
+		public GameState()
 		{
 			m_currentLevel = "Level3.txt";
+		}
+
+		public GameState(string a_levelToLoad)
+		{
+			m_currentLevel = a_levelToLoad;
 		}
 
 		public override void load()
@@ -64,10 +69,10 @@ namespace GrandLarceny
 				Game.getInstance().setState(new GameState());
 			}
 
-            foreach (GameObject t_firstGameObject in m_gameObjectList)
+			foreach (GameObject t_firstGameObject in m_gameObjectList)
 			{
 				List<Entity> t_collided = new List<Entity>();
-                
+
 				if (t_firstGameObject is Entity)
 				{
 					foreach (GameObject t_secondGameObject in m_gameObjectList)
@@ -107,7 +112,7 @@ namespace GrandLarceny
 				a_first.getRightPoint()+1 > a_second.getLeftPoint()) &&
 				(a_first.getTopPoint() < a_second.getBottomPoint() &&
 				a_first.getBottomPoint() > a_second.getTopPoint());
-        }
+		}
 		public static bool checkBoxCollision(GameObject a_first, GameObject a_second)
 		{
 			return (a_first.getLeftPoint() < a_second.getRightPoint() &&
