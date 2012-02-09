@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class SpotLight : Entity
 	{
 		Boolean m_lit;
@@ -17,7 +18,17 @@ namespace GrandLarceny
 			m_lit = a_lit;
 			if (m_lit)
 			{
-				m_light = new LightCone(this, "LAMPA",a_layer , 100f, 50f);
+				m_light = new LightCone(this, "Images\\BeconOfLight",a_layer , 100f, 50f);
+
+				(Game.getInstance().getState()).addObject(m_light);
+			}
+		}
+		public override void loadContent()
+		{
+			base.loadContent();
+			if (m_lit)
+			{
+				m_light = new LightCone(this, "Images\\BeconOfLight", m_layer + 1, 100f, 50f);
 				((GameState)(Game.getInstance().getState())).addObject(m_light);
 			}
 		}

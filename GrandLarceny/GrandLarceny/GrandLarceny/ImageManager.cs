@@ -48,7 +48,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f)
+		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f, float a_xScale = 1, float a_yScale = 1)
 		{
 			if (a_color == null)
 			{
@@ -58,7 +58,7 @@ namespace GrandLarceny
 
 			Game.getInstance().getSpriteBatch().Draw(
 				m_image,
-				new Rectangle((int)(Math.Floor(t_worldPosV2.X) + 0.5), (int)(Math.Floor(t_worldPosV2.Y) + 0.5), m_animationWidth, m_image.Height),
+				new Rectangle((int)(Math.Floor(t_worldPosV2.X) + 0.5), (int)(Math.Floor(t_worldPosV2.Y) + 0.5), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
 				new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
 				a_color,
 				a_rotation,

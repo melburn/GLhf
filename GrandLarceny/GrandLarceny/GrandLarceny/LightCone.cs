@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
-	public class LightCone : GameObject
+	public class LightCone : Entity
 	{
 		private float m_length;
 		private float m_width;
@@ -16,6 +17,10 @@ namespace GrandLarceny
 		{
 			m_position.setParentPosition(a_parent.getPosition());
 			m_parent = a_parent;
+			m_length = a_length;
+			m_width = a_width;
+			m_XScale = a_width / 100;
+			m_YScale = a_length / 100;
 		}
 		public override void update(GameTime a_gameTime)
 		{
