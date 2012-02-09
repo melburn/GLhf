@@ -40,7 +40,17 @@ namespace GrandLarceny
 		{
 			m_prevMouseState = m_currMouseState;
 			m_currMouseState = Mouse.GetState();
-			if (m_bounds.Contains(m_currMouseState.X, m_currMouseState.Y))
+			Vector2 t_worldMouse;
+			t_worldMouse.X =
+				Mouse.GetState().X / Game.getInstance().m_camera.getZoom()
+				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X
+				- ((Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / Game.getInstance().m_camera.getZoom());
+			t_worldMouse.Y =
+				Mouse.GetState().Y / Game.getInstance().m_camera.getZoom()
+				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y
+				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom() + 72);
+
+			if (m_bounds.Contains((int)t_worldMouse.X, (int)t_worldMouse.Y))
 			{
 				m_isFocused = true;
 				if (m_currMouseState != m_prevMouseState && m_currMouseState.LeftButton == ButtonState.Pressed)
