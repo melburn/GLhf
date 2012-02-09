@@ -11,7 +11,9 @@ namespace GrandLarceny
 	class GameState : States
 	{
 		private LinkedList<GameObject> m_gameObjectList;
-		private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
+		//private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
+		//private LinkedList<GameObject> m_addList = new LinkedList<GameObject>();
+		private LinkedList<GameObject> m_changeList = new LinkedList<GameObject>();
 		MouseState m_previousMouse;
 		MouseState m_currentMouse;
 		KeyboardState m_previous;
@@ -80,14 +82,11 @@ namespace GrandLarceny
 
 				if (t_firstGameObject.isDead())
 				{
-					m_killList.AddLast(t_firstGameObject);
+					m_changeList.AddLast(t_firstGameObject);
 				}
 			}
-
-			foreach (GameObject t_gameObject in m_killList)
-			{
-				m_gameObjectList.Remove(t_gameObject);
-			}
+			m_gameObjectList.Except(m_changeList);
+			m_changeList.Clear();
 			m_previousMouse = m_currentMouse;
 			m_previous = m_current;
 		}
@@ -115,6 +114,11 @@ namespace GrandLarceny
 				a_first.getRightPoint() > a_second.getLeftPoint()) &&
 				(a_first.getTopPoint() < a_second.getBottomPoint() &&
 				a_first.getBottomPoint() > a_second.getTopPoint());
+		}
+
+		public void addObject(GameObject a_object)
+		{
+			m_changeList.AddLast(a_object);
 		}
 	}
 }
