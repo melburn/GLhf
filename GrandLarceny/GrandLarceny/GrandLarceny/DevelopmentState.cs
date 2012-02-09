@@ -11,12 +11,14 @@ namespace GrandLarceny
 	class DevelopmentState : States
 	{
 		private LinkedList<GameObject> m_gameObjectList;
+		private LinkedList<GameObject> m_buildObjectList;
 		private MouseState m_previousMouse;
 		private MouseState m_currentMouse;
 		private KeyboardState m_previousKeyboard;
 		private KeyboardState m_currentKeyboard;
 
 		private GameObject m_selectedObject;
+		private GameObject m_buildSelectedObject;
 		private string m_leveltoLoad;
 
 		private SpriteFont m_testFont;
@@ -32,6 +34,10 @@ namespace GrandLarceny
 			m_testFont = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New");
 			m_gameObjectList = Loader.getInstance().loadLevel(m_leveltoLoad);
 			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
+
+			m_buildObjectList = new LinkedList<GameObject>();
+			
+
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -113,11 +119,11 @@ namespace GrandLarceny
 					m_selectedObject.setColor(Color.White);
 					m_selectedObject = null;
 				}
-				Rectangle t_mouseClick = new Rectangle((int)t_worldMouse.X, (int)t_worldMouse.Y, 1, 1);
+			
 
 				foreach (GameObject t_gameObject in m_gameObjectList)
 				{
-					if (t_mouseClick.Intersects(t_gameObject.getBox()))
+					if (t_gameObject.getBox().Contains((int)t_worldMouse.X, (int)t_worldMouse.Y))
 					{
 						m_selectedObject = t_gameObject;
 					}
