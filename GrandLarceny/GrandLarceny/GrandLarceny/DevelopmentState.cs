@@ -21,6 +21,8 @@ namespace GrandLarceny
 		private GameObject m_buildSelectedObject;
 		private string m_levelToLoad;
 
+		private string m_currentMode;
+
 		private SpriteFont m_testFont;
 		private String m_selectedInfo;
 		private Vector2 m_worldMouse;
@@ -33,6 +35,7 @@ namespace GrandLarceny
 			Player,
 			Background,
 			Ladder,
+			Delete,
 			None
 		}
 
@@ -99,26 +102,29 @@ namespace GrandLarceny
 
 		private void updateKeyboard()
 		{
-			if (m_currentKeyboard.IsKeyDown(Keys.R))
+			if (m_currentKeyboard.IsKeyDown(Keys.R)) {
 				Game.getInstance().setState(new GameState(m_levelToLoad));
-
-			if (m_currentKeyboard.IsKeyDown(Keys.P))
-				m_itemToCreate = State.Platform;
-
-			if (m_currentKeyboard.IsKeyDown(Keys.L))
-				m_itemToCreate = State.Ladder;
-
-			if (m_currentKeyboard.IsKeyDown(Keys.B))
-				m_itemToCreate = State.Background;
-
-			if (m_currentKeyboard.IsKeyDown(Keys.H))
-				m_itemToCreate = State.Player;
-
-			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_selectedObject != null) {
-				m_gameObjectList.Remove(m_selectedObject);
-				m_selectedObject = null;
 			}
-
+			if (m_currentKeyboard.IsKeyDown(Keys.P) && m_previousKeyboard.IsKeyUp(Keys.P)) {
+				m_itemToCreate = State.Platform;
+				m_currentMode = "Create Platform";
+			}
+			if (m_currentKeyboard.IsKeyDown(Keys.L) && m_previousKeyboard.IsKeyUp(Keys.L)) {
+				m_itemToCreate = State.Ladder;
+				m_currentMode = "Create Ladder";
+			}
+			if (m_currentKeyboard.IsKeyDown(Keys.B) && m_previousKeyboard.IsKeyUp(Keys.B)) {
+				m_itemToCreate = State.Background;
+				m_currentMode = "Create Background";
+			}
+			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_previousKeyboard.IsKeyUp(Keys.D)) {
+				m_itemToCreate = State.Delete;
+				m_currentMode = "Delete Object";
+			}
+			if (m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H)) {
+				m_itemToCreate = State.Player;
+				m_currentMode = "Create Hero";
+			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
 				if (m_selectedObject != null) {
@@ -173,8 +179,10 @@ namespace GrandLarceny
 				}
 			}
 
-			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None)
+			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None) {
 				m_itemToCreate = State.None;
+				m_currentMode = "Selection";
+			}
 
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released) 
 			{
@@ -191,6 +199,9 @@ namespace GrandLarceny
 					{
 						m_selectedObject = t_gameObject;
 					}
+				}
+				if (m_selectedObject != null && m_itemToCreate == State.Delete) {
+					deleteObject(m_selectedObject);
 				}
 				if (m_selectedObject != null) {
 					m_selectedObject.setColor(Color.Yellow);
@@ -282,8 +293,11 @@ namespace GrandLarceny
 			else if (t_environment.getTopPoint() % 72 < 36)
 				t_environment.setTopPoint(t_environment.getTopPoint() - (t_environment.getTopPoint() % 72) + 36);
 			
-			t_environment.setLayer(1);
 			m_gameObjectList.AddLast(t_environment);
+		}
+
+		private void deleteObject(GameObject a_gameObject) {
+			m_gameObjectList.Remove(a_gameObject);
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
@@ -291,6 +305,7 @@ namespace GrandLarceny
 			if (m_selectedObject != null)
 			{
 				a_spriteBatch.DrawString(m_testFont, m_selectedInfo, new Vector2(m_selectedObject.getRightPoint() + 20, m_selectedObject.getTopPoint()), Color.White);
+				a_spriteBatch.DrawString(m_testFont, m_currentMode, new Vector2(m_worldMouse.X + 10, m_worldMouse.Y + 10), Color.Red);
 			}
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{

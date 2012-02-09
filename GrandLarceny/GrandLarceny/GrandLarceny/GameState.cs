@@ -26,10 +26,6 @@ namespace GrandLarceny
 		{
 			m_currentLevel = "Level3.txt";
 		}
-		public GameState(int a_level)
-		{
-			m_currentLevel = "level" + a_level;
-		}
 
 		public GameState(string a_levelToLoad)
 		{
