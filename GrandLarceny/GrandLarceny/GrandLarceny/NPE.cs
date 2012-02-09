@@ -10,18 +10,18 @@ namespace GrandLarceny
 	public class NPE : Entity
 	{
 		[NonSerialized]
-        protected AIState m_aiState;
-		public NPE(Vector2 a_posV2, String a_sprite)
-			: base(a_posV2, a_sprite)
+		protected AIState m_aiState;
+		public NPE(Vector2 a_posV2, String a_sprite, float a_layer)
+			: base(a_posV2, a_sprite, a_layer)
 		{
 		}
-        public override void update(GameTime a_gameTime)
+		public override void update(GameTime a_gameTime)
 		{
 			if (m_aiState != null)
 			{
-                m_aiState = m_aiState.execute(this);
-            }
+				m_aiState = m_aiState.execute(this);
+			}
 			base.update(a_gameTime);
-        }
+		}
 	}
 }

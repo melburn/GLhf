@@ -13,12 +13,12 @@ namespace GrandLarceny
 {
 	public class Game : Microsoft.Xna.Framework.Game
 	{
-        private static Game m_myGame;
+		private static Game m_myGame;
 
-        internal GraphicsDeviceManager m_graphics;
+		internal GraphicsDeviceManager m_graphics;
 		private SpriteBatch m_spriteBatch;
 		
-        private States m_nextState;
+		private States m_nextState;
 		private States m_currentState;
 
 		internal Camera m_camera;
@@ -104,5 +104,5 @@ namespace GrandLarceny
 		{
 			return m_currentState;
 		}
-    }
+	}
 }

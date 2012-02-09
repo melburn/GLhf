@@ -16,22 +16,33 @@ namespace GrandLarceny
 		protected ImageManager m_img;
 
 		protected float m_rotate;
-		protected int m_layer;
+		protected float m_layer;
 		protected Color m_color;
 		protected SpriteEffects m_spriteEffects;
 
 		private string m_spritePath;
 
-		public GameObject(Vector2 a_posV2, String a_sprite)
+		public GameObject(Vector2 a_posV2, String a_sprite, float a_layer)
 		{
 			m_position = new CartesianCoordinate(a_posV2);
 			//m_img = new ImageManager(a_sprite);
 			m_rotate = 0.0f;
-			m_layer = 0;
+			m_layer = a_layer;
 			m_color = Color.White;
 			m_spriteEffects = SpriteEffects.None;
 			m_spritePath = a_sprite;
 			initImage();
+		}
+		public GameObject(Position a_position, String a_sprite, float a_layer)
+		{
+			m_position = a_position;
+			m_rotate = 0.0f;
+			m_layer = a_layer;
+			m_color = Color.White;
+			m_spriteEffects = SpriteEffects.None;
+			m_spritePath = a_sprite;
+			initImage();
+
 		}
 
 		public void initImage()
@@ -109,6 +120,11 @@ namespace GrandLarceny
 		public float getBottomPoint()
 		{
 			return m_position.getY() + (m_img.getSize().Y / 2);
+		}
+
+		public float getRotation()
+		{
+			return m_rotate;
 		}
 	}
 }

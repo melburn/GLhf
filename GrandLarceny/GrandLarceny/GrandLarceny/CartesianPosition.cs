@@ -130,5 +130,12 @@ namespace GrandLarceny
 		{
 			m_coordinates = Vector2.SmoothStep(m_coordinates, a_vec, a_amount);
 		}
+
+		public override void setSlope(float m_rotation)
+		{
+			Vector2 t_polarCoordinate = convertCartesianToPolar(m_coordinates);
+			t_polarCoordinate.Y = m_rotation;
+			m_coordinates = convertPolarToCartesian(t_polarCoordinate);
+		}
 	}
 }

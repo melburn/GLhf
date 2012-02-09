@@ -10,7 +10,7 @@ namespace GrandLarceny
 	{
 		static private Loader s_instance;
 
-        private Dictionary<String, int> m_animationFrames;
+		private Dictionary<String, int> m_animationFrames;
 
 		private Loader()
 		{
@@ -33,7 +33,7 @@ namespace GrandLarceny
 			m_animationFrames = new Dictionary<string, int>();
 
 			String[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//loadImages.txt");
-            
+
 			foreach (String f_currentLine in t_loadedFile)
 			{
 				String[] t_info = f_currentLine.Split(t_splitter);

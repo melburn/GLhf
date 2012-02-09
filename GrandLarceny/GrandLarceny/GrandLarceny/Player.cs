@@ -45,7 +45,7 @@ namespace GrandLarceny
 			Rolling
 		}
 
-		public Player(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite)
+		public Player(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
 		{
 			m_currentState = State.Jumping;
 		}
@@ -229,7 +229,7 @@ namespace GrandLarceny
 				}
 			}
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
-        }
+		}
 
 		//TODO Byta animation :3
 		private void updateRightSliding(float a_deltaTime)
@@ -362,7 +362,7 @@ namespace GrandLarceny
 					//m_img.setSprite("Images//WalkingSquareFalling");
 				}
 			}
-        }
+		}
 
 		public override void draw(GameTime a_gameTime)
 		{
@@ -429,7 +429,7 @@ namespace GrandLarceny
 					}
 					else if (t_collider is Ladder)
 					{
-						t_onLadder = true;
+						
 						//Colliding with ze ladd0rz
 						Rectangle t_rect = new Rectangle(t_collider.getBox().X + ((t_collider.getBox().Width / 2) - 2),
 							t_collider.getBox().Y, 4, t_collider.getBox().Height);
@@ -444,8 +444,13 @@ namespace GrandLarceny
 								setLeftPoint(t_collider.getLeftPoint());
 							}
 						}
+						t_onLadder = true;
 					}
-				}
+				}	
+			}
+			if (!t_onLadder && m_currentState == State.Climbing)
+			{
+				m_currentState = State.Jumping;
 			}
 			if (!t_onLadder && m_currentState == State.Climbing)
 			{
@@ -454,4 +459,3 @@ namespace GrandLarceny
 		}
 	}
 }
-
