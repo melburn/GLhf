@@ -7,6 +7,7 @@ namespace GrandLarceny
 {
     class AIStatePatrolling : AIState
     {
+		private AIStatePatrolling() { }
         static AIStatePatrolling instance;
         public override AIState execute(NPE a_agent)
         {
@@ -19,7 +20,7 @@ namespace GrandLarceny
                 Guard t_guard = (Guard)a_agent;
                 if(t_guard.hasPatroll())
                 {
-                    if(t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftPatrollPoint()&&t_guard.getHorizontalSpeed() <= 0)
+                    if(t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftPatrollPoint() && t_guard.getHorizontalSpeed() <= 0)
                     {
                         t_guard.goRight();
                     }

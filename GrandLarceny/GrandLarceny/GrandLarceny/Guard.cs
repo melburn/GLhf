@@ -15,6 +15,8 @@ namespace GrandLarceny
         public Boolean m_inALightArea = false;
         private Boolean m_isCarryingFlashLight;
         private float MOVEMENTSPEED = 250;
+        private Entity m_chaseTarget = null;
+		private Boolean m_running = false;
 
         //flashlight addicted guard always has their flashlight up
         private Boolean m_FlashLightAddicted;
@@ -102,5 +104,45 @@ namespace GrandLarceny
         {
             return m_rightPatrollPoint;
         }
-    }
+
+        internal Entity getChaseTarget()
+        {
+			return m_chaseTarget;
+        }
+
+		internal bool isRunning()
+		{
+			return m_running;
+		}
+
+		internal void setRunning(bool a_running)
+		{
+			m_running = a_running;
+			if (m_speed.X != 0)
+			{
+				if (m_running)
+				{
+					if (m_isCarryingFlashLight)
+					{
+						//m_img.setSprite(running with the flash);
+					}
+					else
+					{
+						//m_img.setSprite(running like a boss);
+					}
+				}
+				else
+				{
+					if (m_isCarryingFlashLight)
+					{
+						//m_img.setSprite(walking with the flash);
+					}
+					else
+					{
+						//m_img.setSprite(walking like a boss);
+					}
+				}
+			}
+		}
+	}
 }
