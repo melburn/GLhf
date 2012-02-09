@@ -17,12 +17,12 @@ namespace GrandLarceny
 		private KeyboardState m_currentKeyboard;
 
 		private GameObject m_selectedObject;
-		private int m_leveltoLoad;
+		private string m_leveltoLoad;
 
 		private SpriteFont m_testFont;
 		private String m_selectedInfo;
 
-		public DevelopmentState(int a_levelToLoad)
+		public DevelopmentState(string a_levelToLoad)
 		{
 			m_leveltoLoad = a_levelToLoad;
 		}
