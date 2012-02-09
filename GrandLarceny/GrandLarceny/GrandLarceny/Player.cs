@@ -229,7 +229,7 @@ namespace GrandLarceny
 				}
 			}
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
-        }
+		}
 
 		//TODO Byta animation :3
 		private void updateRightSliding(float a_deltaTime)
@@ -362,7 +362,7 @@ namespace GrandLarceny
 					//m_img.setSprite("Images//WalkingSquareFalling");
 				}
 			}
-        }
+		}
 
 		public override void draw(GameTime a_gameTime)
 		{
@@ -444,4 +444,3 @@ namespace GrandLarceny
 		}
 	}
 }
-
