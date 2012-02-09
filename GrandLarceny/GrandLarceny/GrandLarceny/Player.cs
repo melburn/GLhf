@@ -374,6 +374,7 @@ namespace GrandLarceny
 			if (a_collisionList.Count == 0)
 				m_currentState = State.Jumping;
 			bool t_onLadder = false;
+			bool t_onFloor = false;
 			foreach (Entity t_collider in a_collisionList)
 			{
 				if (GameState.checkBoxCollision(this, t_collider))
@@ -385,7 +386,7 @@ namespace GrandLarceny
 						{
 							m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2));
 							m_speed.Y = 0;
-							if (m_currentState == State.Jumping)
+							if (m_currentState == State.Jumping || m_currentState ==  State.Climbing)
 							{
 								if (m_speed.X == 0)
 								{
@@ -398,6 +399,7 @@ namespace GrandLarceny
 									changeAnimation();
 								}
 							}
+							t_onFloor = true;
 							continue;
 						}
 
@@ -431,22 +433,24 @@ namespace GrandLarceny
 						//Colliding with ze ladd0rz
 						Rectangle t_rect = new Rectangle(t_collider.getBox().X + ((t_collider.getBox().Width / 2) - 2),
 							t_collider.getBox().Y, 4, t_collider.getBox().Height);
-						if (t_rect.Contains((int)m_lastPosition.X, (int)m_lastPosition.Y) && (m_currentKeyInput.IsKeyDown(Keys.Up) || m_currentKeyInput.IsKeyDown(Keys.Down)))
+						if (t_rect.Contains((int)m_lastPosition.X, (int)m_lastPosition.Y))
 						{
-							m_speed.X = 0;
-							m_currentState = State.Climbing;
-							if (m_speed.Y < -CLIMBINGSPEED || m_speed.Y > CLIMBINGSPEED)
-								m_speed.Y = 0;
-							setLeftPoint(t_collider.getLeftPoint());
+							if (m_currentKeyInput.IsKeyDown(Keys.Up) || (m_currentKeyInput.IsKeyDown(Keys.Down) && !t_onFloor))
+							{
+								m_speed.X = 0;
+								m_currentState = State.Climbing;
+								if (m_speed.Y < -CLIMBINGSPEED || m_speed.Y > CLIMBINGSPEED)
+									m_speed.Y = 0;
+								setLeftPoint(t_collider.getLeftPoint());
+							}
 						}
 					}
 				}
-				if (!t_onLadder && m_currentState == State.Climbing)
-				{
-					m_currentState = State.Jumping;
-				}
 			}
-			//m_currentState = State.Stop;
+			if (!t_onLadder && m_currentState == State.Climbing)
+			{
+				m_currentState = State.Jumping;
+			}
 		}
 	}
 }
