@@ -23,7 +23,7 @@ namespace GrandLarceny
 		private String m_selectedInfo;
 		private Vector2 m_worldMouse;
 
-		private State m_itemToCreate;
+		private State m_itemToCreate = State.None;
 		private enum State
 		{
 			Platform,
@@ -97,7 +97,7 @@ namespace GrandLarceny
 				m_itemToCreate = State.Platform;
 
 			if (m_currentKeyboard.IsKeyDown(Keys.L))
-				m_itemToCreate = State.Platform;
+				m_itemToCreate = State.Ladder;
 
 			if (m_currentKeyboard.IsKeyDown(Keys.B))
 				m_itemToCreate = State.Background;
@@ -212,7 +212,7 @@ namespace GrandLarceny
 
 		private void createLadder()
 		{
-			Ladder t_ladder = new Ladder(m_worldMouse, "Images//tile");
+			Ladder t_ladder = new Ladder(m_worldMouse, "Images//ladder");
 
 			if (t_ladder.getLeftPoint() % 72 >= 36)
 				t_ladder.setLeftPoint(t_ladder.getLeftPoint() + (72 - (t_ladder.getLeftPoint() % 72)) - 36);

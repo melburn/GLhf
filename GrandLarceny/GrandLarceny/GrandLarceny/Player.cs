@@ -427,7 +427,7 @@ namespace GrandLarceny
 					}
 					else if (t_collider is Ladder)
 					{
-						t_onLadder = true;
+						
 						//Colliding with ze ladd0rz
 						Rectangle t_rect = new Rectangle(t_collider.getBox().X + ((t_collider.getBox().Width / 2) - 2),
 							t_collider.getBox().Y, 4, t_collider.getBox().Height);
@@ -439,6 +439,7 @@ namespace GrandLarceny
 								m_speed.Y = 0;
 							setLeftPoint(t_collider.getLeftPoint());
 						}
+						t_onLadder = true;
 					}
 				}
 				if (!t_onLadder && m_currentState == State.Climbing)
