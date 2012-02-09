@@ -124,6 +124,7 @@
     <Compile Include="ImageManager.cs" />
     <Compile Include="Ladder.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="LightCone.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuState.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="Sound.cs" />
+    <Compile Include="SpotLight.cs" />
     <Compile Include="States.cs" />
   </ItemGroup>
   <ItemGroup>

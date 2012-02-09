@@ -33,6 +33,17 @@ namespace GrandLarceny
 			m_spritePath = a_sprite;
 			initImage();
 		}
+		public GameObject(Position a_position, String a_sprite, float a_layer)
+		{
+			m_position = a_position;
+			m_rotate = 0.0f;
+			m_layer = a_layer;
+			m_color = Color.White;
+			m_spriteEffects = SpriteEffects.None;
+			m_spritePath = a_sprite;
+			initImage();
+
+		}
 
 		public void initImage()
 		{
@@ -109,6 +120,11 @@ namespace GrandLarceny
 		public float getBottomPoint()
 		{
 			return m_position.getY() + (m_img.getSize().Y / 2);
+		}
+
+		public float getRotation()
+		{
+			return m_rotate;
 		}
 	}
 }
