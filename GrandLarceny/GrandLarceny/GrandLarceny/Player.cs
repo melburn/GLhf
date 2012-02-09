@@ -137,6 +137,7 @@ namespace GrandLarceny
 		{
 			if (m_previousKeyInput.IsKeyUp(Keys.Down) && m_currentKeyInput.IsKeyDown(Keys.Down))
 			{
+				System.Console.WriteLine("asdfsaghewrherh");
 				m_currentState = State.Rolling;
 				m_rollTimer = a_deltaTime + 15;
 				return;
@@ -216,6 +217,7 @@ namespace GrandLarceny
 				{
 					m_speed.X = Math.Max(-PLAYERSPEED, m_speed.X - AIRDEACCELERATION * a_deltaTime);
 				}
+				m_spriteEffects = SpriteEffects.FlipHorizontally;
 			}
 			else if (m_currentKeyInput.IsKeyDown(Keys.Right))
 			{
@@ -227,7 +229,9 @@ namespace GrandLarceny
 				{
 					m_speed.X = Math.Min(PLAYERSPEED, m_speed.X + AIRDEACCELERATION * a_deltaTime);
 				}
+				m_spriteEffects = SpriteEffects.None;
 			}
+			changeAnimation();
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		}
 
@@ -340,27 +344,19 @@ namespace GrandLarceny
 		{
 			if (m_currentState == State.Stop)
 			{
-				m_img.setSprite("Images//hero_idle");
-				//m_img.setSprite("Images//WalkingSquareStand");
+				m_img.setSprite("Images//hero_stand");
 			}
 			else if (m_currentState == State.Walking)
 			{
-				m_img.setSprite("Images//hero_idle");
-				//m_img.setSprite("Images//WalkingSquareWalking");
+				m_img.setSprite("Images//hero_stand");
 			}
 
 			else if (m_currentState == State.Jumping)
 			{
 				if (m_speed.Y < 0)
-				{
-					m_img.setSprite("Images//hero_idle");
-					//m_img.setSprite("Images//WalkingSquareJumping");
-				}
+					m_img.setSprite("Images//hero_jump");
 				else
-				{
-					m_img.setSprite("Images//hero_idle");
-					//m_img.setSprite("Images//WalkingSquareFalling");
-				}
+					m_img.setSprite("Images//hero_fall");
 			}
 		}
 

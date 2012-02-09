@@ -219,7 +219,7 @@ namespace GrandLarceny
 			if (m_player != null) {
 				return;
 			}
-			m_player = new Player(m_worldMouse, "Images//hero_idle", 0.250f);
+			m_player = new Player(m_worldMouse, "Images//hero_stand", 0.250f);
 
 			if (m_player.getLeftPoint() % 72 >= 36)
 				m_player.setLeftPoint(m_player.getLeftPoint() + (72 - (m_player.getLeftPoint() % 72)) - 36);
