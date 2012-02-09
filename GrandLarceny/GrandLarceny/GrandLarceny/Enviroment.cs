@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class Environment : GameObject
 	{
 		public Environment(Vector2 a_posV2, String a_sprite)
