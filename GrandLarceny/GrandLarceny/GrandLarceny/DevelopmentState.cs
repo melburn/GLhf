@@ -19,7 +19,7 @@ namespace GrandLarceny
 
 		private GameObject m_selectedObject;
 		private GameObject m_buildSelectedObject;
-		private string m_leveltoLoad;
+		private string m_levelToLoad;
 
 		private SpriteFont m_testFont;
 		private String m_selectedInfo;
@@ -38,13 +38,13 @@ namespace GrandLarceny
 
 		public DevelopmentState(string a_levelToLoad)
 		{
-			m_leveltoLoad = a_levelToLoad;
+			m_levelToLoad = a_levelToLoad;
 		}
 
 		public override void load()
 		{
 			m_testFont = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New");
-			m_gameObjectList = Loader.getInstance().loadLevel(m_leveltoLoad);
+			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
 			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
 
 			m_buildObjectList = new LinkedList<GameObject>();
@@ -99,6 +99,9 @@ namespace GrandLarceny
 
 		private void updateKeyboard()
 		{
+			if (m_currentKeyboard.IsKeyDown(Keys.R))
+				Game.getInstance().setState(new GameState(m_levelToLoad));
+
 			if (m_currentKeyboard.IsKeyDown(Keys.P))
 				m_itemToCreate = State.Platform;
 
@@ -293,11 +296,6 @@ namespace GrandLarceny
 			{
 				t_gameObject.draw(a_gameTime);
 			}
-		}
-
-		public override void setPlayer(Player a_player)
-		{
-			
 		}
 	}
 }

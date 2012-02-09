@@ -25,6 +25,11 @@ namespace GrandLarceny
 			m_currentLevel = "Level3.txt";
 		}
 
+		public GameState(string a_levelToLoad)
+		{
+			m_currentLevel = a_levelToLoad;
+		}
+
 		public override void load()
 		{
 			m_gameObjectList = Loader.getInstance().loadLevel(m_currentLevel);
