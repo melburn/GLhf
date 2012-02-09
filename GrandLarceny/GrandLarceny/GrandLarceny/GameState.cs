@@ -16,13 +16,13 @@ namespace GrandLarceny
 		MouseState m_currentMouse;
 		KeyboardState m_previous;
 		KeyboardState m_current;
-		private int m_currentLevel;
+		private string m_currentLevel;
 
 		private Player player;
 
 		public GameState() 
 		{
-			m_currentLevel = 1;
+			m_currentLevel = "Level3.txt";
 		}
 
 		public override void load()

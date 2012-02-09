@@ -61,47 +61,26 @@ namespace GrandLarceny
 			return m_animationFrames[a_sprite];
 		}
 
-		public LinkedList<GameObject> loadLevel(int a_levelToLoad)
+		public LinkedList<GameObject> loadLevel(string a_levelName)
 		{
-			char[] t_splitter = { ':' };
-			LinkedList<GameObject> t_loadedList = new LinkedList<GameObject>();
-			String[] t_loadedFile = System.IO.File.ReadAllLines("Content//Levels//Level" + a_levelToLoad + ".txt");
 
-			foreach (String t_currentLine in t_loadedFile) 
-			{
-				String[] t_info = t_currentLine.Split(t_splitter);
-				try
+				LinkedList<GameObject> t_returnObjects;
+				Level t_newLevel = Serializer.getInstace().loadLevel(a_levelName);
+				t_returnObjects = t_newLevel.getLevelObjects();
+				foreach(GameObject f_gb in t_returnObjects)
 				{
-					if (t_info[0].Equals("Environment"))
+					f_gb.initImage();
+
+					if(f_gb is Player)
 					{
-						t_loadedList.AddLast(new Environment(new Vector2(int.Parse(t_info[1]), int.Parse(t_info[2])), t_info[3]));
-						t_loadedList.Last().setLayer(1);
-					}
-					if (t_info[0].Equals("Platform"))
-					{
-						t_loadedList.AddLast(new Platform(new Vector2(int.Parse(t_info[1]) * 72, int.Parse(t_info[2]) * 72), t_info[3]));
-					}
-					if (t_info[0].Equals("Ladder"))
-					{
-						t_loadedList.AddLast(new Ladder(new Vector2(int.Parse(t_info[1]) * 72, int.Parse(t_info[2]) * 72), t_info[3]));
-					}
-					if (t_info[0].Equals("Player"))
-					{
-						Player t_player = new Player(new Vector2(int.Parse(t_info[1]), int.Parse(t_info[2])), t_info[3]);
-						Game.getInstance().getState().setPlayer(t_player); 
-						t_loadedList.AddLast(t_player);
+						Game.getInstance().getState().setPlayer((Player)f_gb);
 					}
 				}
-				catch (System.FormatException fe)
-				{
-					Console.Out.WriteLine(fe.Message);
-				}
-				catch (System.IndexOutOfRangeException ioore)
-				{
-					Console.Out.WriteLine(ioore.Message);
-				}
-			}
-			return t_loadedList;
+
+				return t_returnObjects;
+
+			
 		}
+
 	}
 }
