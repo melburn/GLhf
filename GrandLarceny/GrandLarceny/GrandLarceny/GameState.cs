@@ -59,7 +59,7 @@ namespace GrandLarceny
 				t_gameObject.update(a_gameTime);
 			}
 
-			if (m_current.IsKeyDown(Keys.D))
+			if (m_current.IsKeyDown(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
