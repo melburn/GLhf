@@ -39,8 +39,6 @@ namespace GrandLarceny
 			Stop,
 			Walking,
 			Jumping,
-			RightSlide,
-			LeftSlide,
 			Slide,
 			Climbing, 
 			Rolling
@@ -79,11 +77,6 @@ namespace GrandLarceny
 					updateSliding(t_deltaTime);
 					break;
 				}
-				/*case State.LeftSlide:
-				{
-					updateLeftSliding(t_deltaTime);
-					break;
-				}*/
 				case State.Climbing:
 				{
 					updateClimbing();
@@ -97,8 +90,21 @@ namespace GrandLarceny
 			}
 			m_previousKeyInput = m_currentKeyInput;
 			changeAnimation();
+			flipSprite();
 			base.update(a_gameTime);
 			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
+		}
+
+		private void flipSprite()
+		{
+			if (m_facingRight)
+			{
+				m_spriteEffects = SpriteEffects.None;
+			}
+			else
+			{
+				m_spriteEffects = SpriteEffects.FlipHorizontally;
+			}
 		}
 
 		private void updateStop(float a_deltaTime)
@@ -116,12 +122,10 @@ namespace GrandLarceny
 				if (m_currentKeyInput.IsKeyDown(Keys.Left))
 				{
 					m_facingRight = false;
-					m_spriteEffects = SpriteEffects.FlipHorizontally;
 				}
 				else
 				{
 					m_facingRight = true;
-					m_spriteEffects = SpriteEffects.None;
 				}
 			}
 			if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
@@ -131,14 +135,14 @@ namespace GrandLarceny
 				
 			}
 
-			//Game.getInstance().m_camera.getPosition().smoothStep(Vector2.Zero, CAMERASPEED);
+			
 		}
 
 		private void updateWalking(float a_deltaTime)
 		{
 			if (m_previousKeyInput.IsKeyUp(Keys.Down) && m_currentKeyInput.IsKeyDown(Keys.Down))
 			{
-				System.Console.WriteLine("asdfsaghewrherh");
+
 				m_currentState = State.Rolling;
 				m_rollTimer = a_deltaTime + 15;
 				return;
@@ -170,13 +174,11 @@ namespace GrandLarceny
 			{
 				m_speed.X = Math.Max(m_speed.X - (DEACCELERATION * a_deltaTime), 0);
 				m_facingRight = true;
-				m_spriteEffects = SpriteEffects.None;
 			}
 			else if (m_speed.X < 0)
 			{
 				m_speed.X = Math.Min(m_speed.X + (DEACCELERATION * a_deltaTime), 0);
 				m_facingRight = false;
-				m_spriteEffects = SpriteEffects.FlipHorizontally;
 			}
 			if (m_speed.X == 0)
 			{
@@ -218,7 +220,7 @@ namespace GrandLarceny
 				{
 					m_speed.X = Math.Max(-PLAYERSPEED, m_speed.X - AIRDEACCELERATION * a_deltaTime);
 				}
-				m_spriteEffects = SpriteEffects.FlipHorizontally;
+				m_facingRight = false;
 			}
 			else if (m_currentKeyInput.IsKeyDown(Keys.Right))
 			{
@@ -230,16 +232,11 @@ namespace GrandLarceny
 				{
 					m_speed.X = Math.Min(PLAYERSPEED, m_speed.X + AIRDEACCELERATION * a_deltaTime);
 				}
-				m_spriteEffects = SpriteEffects.None;
+				m_facingRight = true;
 			}
-			/*if(m_speed.Y > 0)
-			{
-				changeAnimation();
-			}*/
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		}
 
-		//TODO Byta animation :3
 		private void updateSliding(float a_deltaTime)
 		{
 			if (m_lastPosition.Y != m_position.getY())
@@ -266,31 +263,6 @@ namespace GrandLarceny
 			m_currentState = State.Walking;
 		}
 
-		//TODO Byta animation
-		/*private void updateLeftSliding(float a_deltaTime)
-		{
-			if (m_lastPosition.Y != m_position.getY())
-			{
-				if (m_currentKeyInput.IsKeyDown(Keys.Left))
-				{
-					if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
-					{
-						m_speed.Y = -JUMPSTRENGTH;
-						m_speed.X += JUMPSTRENGTH;
-						m_currentState = State.Jumping;
-						return;
-					}
-					if (m_speed.Y > SLIDESPEED)
-						m_speed.Y = SLIDESPEED;
-					return;
-				}
-				m_currentState = State.Jumping;
-				return;
-			}
-			m_currentState = State.Walking;
-		}*/
-
-		//TODO Implement :3
 		private void updateClimbing()
 		{
 			if (m_currentKeyInput.IsKeyDown(Keys.Up))
@@ -313,10 +285,12 @@ namespace GrandLarceny
 					m_speed.Y = -JUMPSTRENGTH;
 					if (m_currentKeyInput.IsKeyDown(Keys.Left))
 					{
+						m_facingRight = false;
 						m_speed.X -= JUMPSTRENGTH;
 					}
 					else
 					{
+						m_facingRight = true;
 						m_speed.X += JUMPSTRENGTH;
 					}
 					
@@ -327,17 +301,7 @@ namespace GrandLarceny
 				}
 				m_currentState = State.Jumping;
 			}
-			/*else if (m_currentKeyInput.IsKeyDown(Keys.Space) && m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Left))
-			{
-				m_speed.Y = -JUMPSTRENGTH;
-				m_speed.X -= JUMPSTRENGTH;
-				m_currentState = State.Jumping;
-			}
-			else if (m_currentKeyInput.IsKeyDown(Keys.Space) && m_previousKeyInput.IsKeyUp(Keys.Space))
-			{
-				m_speed.Y = 0;
-				m_currentState = State.Jumping;
-			}*/
+		
 		}
 
 		private void updateRolling()
@@ -361,7 +325,6 @@ namespace GrandLarceny
 			}
 		}
 
-		//TODO, titta sin state och ändra till rätt animation
 		private void changeAnimation()
 		{
 			
@@ -447,8 +410,6 @@ namespace GrandLarceny
 							{
 								m_currentState = State.Slide;
 								m_facingRight = true;
-								m_spriteEffects = SpriteEffects.None;
-
 							}
 							m_speed.X = 0;
 						}
@@ -460,7 +421,6 @@ namespace GrandLarceny
 							{
 								m_currentState = State.Slide;
 								m_facingRight = false;
-								m_spriteEffects = SpriteEffects.FlipHorizontally;
 							}
 							m_speed.X = 0;
 						}
@@ -484,16 +444,13 @@ namespace GrandLarceny
 						}
 						t_onLadder = true;
 					}
-				}	
+				}
 			}
 			if (!t_onLadder && m_currentState == State.Climbing)
 			{
 				m_currentState = State.Jumping;
 			}
-			if (!t_onLadder && m_currentState == State.Climbing)
-			{
-				m_currentState = State.Jumping;
-			}
+
 		}
 	}
 }
