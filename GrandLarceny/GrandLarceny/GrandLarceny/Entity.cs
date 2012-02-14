@@ -21,6 +21,10 @@ namespace GrandLarceny
 			: base(a_posV2, a_sprite, a_layer)
 		{
 		}
+		public Entity(Position a_pos, String a_sprite, float a_layer)
+			: base(a_pos, a_sprite, a_layer)
+		{
+		}
 
 		public override void update(GameTime a_gameTime)
 		{

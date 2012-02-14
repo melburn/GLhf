@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
-	public class LightCone : GameObject
+	public class LightCone : Entity
 	{
 		private float m_length;
 		private float m_width;
