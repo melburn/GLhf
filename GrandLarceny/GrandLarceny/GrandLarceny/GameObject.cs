@@ -12,6 +12,7 @@ namespace GrandLarceny
 	{
 		protected bool m_dead = false;
 		protected Position m_position;
+		private bool m_isInLight;
 		[NonSerialized]
 		protected ImageManager m_img;
 
@@ -80,7 +81,7 @@ namespace GrandLarceny
 			m_layer = a_layer;
 		}
 
-		internal virtual void collisionCheck(List<Entity> t_secondGameObject)
+		internal virtual void collisionCheck(List<Entity> a_collisionList)
 		{
 		}
 		public ImageManager getImg()
