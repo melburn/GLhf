@@ -195,6 +195,12 @@
     <Folder Include="Levels\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Images\guiderp.png">
+      <Name>guiderp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Images\BeconOfLight.png">
       <Name>BeconOfLight</Name>
       <Importer>TextureImporter</Importer>

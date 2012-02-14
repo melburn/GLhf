@@ -139,5 +139,10 @@ namespace GrandLarceny
 		{
 			m_coordinates.Y = m_rotation;
 		}
+
+		public override Position getProductWith(float p)
+		{
+			return new CartesianCoordinate(convertPolarToCartesian(m_coordinates)*p,m_parentPosition);
+		}
 	}
 }

@@ -15,6 +15,14 @@ namespace GrandLarceny
 		public LightCone(GameObject a_parent, string a_sprite, float a_layer, float a_length, float a_width) :
 			base(new PolarCoordinate(a_length/2,a_parent.getRotation()), a_sprite, a_layer)
 		{
+			if (a_length <= 0)
+			{
+				throw new ArgumentException("length has to be positive. was "+a_length);
+			}
+			if (a_width <= 0)
+			{
+				throw new ArgumentException("width has to be positive. was "+a_width);
+			}
 			m_position.setParentPosition(a_parent.getPosition());
 			m_parent = a_parent;
 			m_length = a_length;

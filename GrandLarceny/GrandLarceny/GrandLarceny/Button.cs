@@ -51,7 +51,7 @@ namespace GrandLarceny
 			t_worldMouse.Y =
 				Mouse.GetState().Y / Game.getInstance().m_camera.getZoom()
 				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y
-				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom() + 72);
+				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom());
 
 			if (m_bounds.Contains((int)t_worldMouse.X, (int)t_worldMouse.Y))
 			{

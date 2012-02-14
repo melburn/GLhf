@@ -49,8 +49,16 @@ namespace GrandLarceny
 			}
 		}
 
-		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f, float a_xScale = 1, float a_yScale = 1)
+		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f, float a_xScale = 1.0f, float a_yScale = 1.0f)
 		{
+			if (a_xScale <= 0)
+			{
+				throw new ArgumentException("xScale has to be positive. was "+a_xScale);
+			}
+			if (a_yScale <= 0)
+			{
+				throw new ArgumentException("yScale has to be positive. was "+a_yScale);
+			}
 			if (a_color == null)
 			{
 				a_color = Color.White;

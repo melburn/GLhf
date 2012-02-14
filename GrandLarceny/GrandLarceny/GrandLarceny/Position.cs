@@ -29,6 +29,7 @@ namespace GrandLarceny
 		abstract public void setX(float x);
 		abstract public void smoothStep(Vector2 a_vec, float a_amount);
 		abstract public void setSlope(float m_rotation);
+		public abstract Position getProductWith(float p);
 
 		public void setParentPosition(Position a_parentPosition)
 		{
@@ -61,6 +62,7 @@ namespace GrandLarceny
 			Vector2 t_ArgPoint = a_point.getGlobalCartesianCoordinates();
 			return (float) Math.Atan2((double)(t_ThisPoint.Y - t_ArgPoint.Y),(double)(t_ThisPoint.X - t_ArgPoint.X));
 		}
+
 
 	}
 }
