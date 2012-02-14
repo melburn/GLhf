@@ -31,7 +31,7 @@ namespace GrandLarceny
 				Button t_levelButton = new Button(Game.getInstance().Content.Load<Texture2D>("Images//Empty"),
 					Game.getInstance().Content.Load<Texture2D>("Images//Empty"),
 					Game.getInstance().Content.Load<Texture2D>("Images//Empty"),
-					new Vector2(0, 80*t_count - 500),
+					new Vector2(0, 80 * t_count - 500),
 					t_count);
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
 				m_buttons.Add(t_levelButton);
