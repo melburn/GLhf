@@ -35,5 +35,9 @@ namespace GrandLarceny
 				m_position.setSlope(m_rotate);
 			}
 		}
+		internal override void collisionCheck(List<Entity> a_collisionList)
+		{
+			//con collision?
+		}
 	}
 }
