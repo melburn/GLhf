@@ -61,16 +61,17 @@ namespace GrandLarceny
 			catch (FileLoadException e)
 			{
 				System.Console.WriteLine("Fail to LoadLevel(DeSerialize) : " + e);
-				t_loadingLevel = new Level();
 			}
 			catch (FileNotFoundException e)
 			{
 				System.Console.WriteLine("Fail to find file : " + e);
-				t_loadingLevel = new Level();
 			}
 			catch (SerializationException e)
 			{
 				System.Console.WriteLine("Fail to DeSerialize : " + e);
+			}
+			finally
+			{
 				t_loadingLevel = new Level();
 			}
 			
