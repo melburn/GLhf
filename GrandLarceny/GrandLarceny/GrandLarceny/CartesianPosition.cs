@@ -140,7 +140,7 @@ namespace GrandLarceny
 
 		public override Position getProductWith(float p)
 		{
-			return new CartesianCoordinate(m_coordinates * p);
+			return new CartesianCoordinate(m_coordinates * p,m_parentPosition);
 		}
 	}
 }

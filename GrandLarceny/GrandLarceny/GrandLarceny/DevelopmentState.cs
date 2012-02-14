@@ -37,6 +37,7 @@ namespace GrandLarceny
 			Player,
 			Background,
 			Ladder,
+			SpotLight,
 			Delete,
 			None
 		}
@@ -87,8 +88,8 @@ namespace GrandLarceny
 			m_UIcurrentModePosition.setY(-Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 40);
 
 			m_UItextBackground.getPosition().setParentPosition(Game.getInstance().m_camera.getPosition());
-			m_UItextBackground.getPosition().setX((-Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) + (m_UItextBackground.getImg().getSize().X / 2));
-			m_UItextBackground.getPosition().setY((-Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) + (m_UItextBackground.getImg().getSize().Y / 2));
+			m_UItextBackground.getPosition().setX(m_UItextBackground.getImg().getSize().X / 2 - 1);
+			m_UItextBackground.getPosition().setY(m_UItextBackground.getImg().getSize().Y / 2 - 1);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -173,6 +174,11 @@ namespace GrandLarceny
 				m_itemToCreate = State.None;
 				m_currentMode = "Select";
 			}
+			if (m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.T))
+			{
+				m_itemToCreate = State.SpotLight;
+				m_currentMode = "Create SpotLight";
+			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
 				if (m_selectedObject != null) {
@@ -190,7 +196,7 @@ namespace GrandLarceny
 				m_gameObjectList = t_newLevel.getLevelObjects();
 				foreach (GameObject f_gb in m_gameObjectList)
 				{
-					f_gb.initImage();
+					f_gb.loadContent();
 				}
 			}
 		}
@@ -222,6 +228,11 @@ namespace GrandLarceny
 					case State.Platform:
 					{
 						createPlatform();
+						break;
+					}
+					case State.SpotLight:
+					{
+						createSpotLight();
 						break;
 					}
 				}
@@ -288,6 +299,23 @@ namespace GrandLarceny
 			m_gameObjectList.AddLast(t_ladder);
 		}
 
+		private void createSpotLight()
+		{
+			SpotLight t_sl = new SpotLight(m_worldMouse, "Images//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
+
+			if (t_sl.getLeftPoint() % 72 >= 36)
+				t_sl.setLeftPoint(t_sl.getLeftPoint() + (72 - (t_sl.getLeftPoint() % 72)) - 36);
+			else if (t_sl.getLeftPoint() % 72 < 36)
+				t_sl.setLeftPoint(t_sl.getLeftPoint() - (t_sl.getLeftPoint() % 72) + 36);
+
+			if (t_sl.getTopPoint() % 72 >= 36)
+				t_sl.setTopPoint(t_sl.getTopPoint() + (72 - (t_sl.getTopPoint() % 72)) - 36);
+			else if (t_sl.getTopPoint() % 72 < 36)
+				t_sl.setTopPoint(t_sl.getTopPoint() - (t_sl.getTopPoint() % 72) + 36);
+
+			m_gameObjectList.AddLast(t_sl);
+		}
+
 		private void createBackground()
 		{
 			Environment t_environment = new Environment(getTile(m_worldMouse), "Images//test", 0.750f);
@@ -312,6 +340,10 @@ namespace GrandLarceny
 			{
 				t_gameObject.draw(a_gameTime);
 			}
+		}
+		public override void addObject(GameObject a_object)
+		{
+			m_gameObjectList.AddLast(a_object);
 		}
 	}
 }

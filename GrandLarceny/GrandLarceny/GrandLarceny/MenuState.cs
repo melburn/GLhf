@@ -20,5 +20,10 @@ namespace GrandLarceny
 		{
 
 		}
+
+		public override void addObject(GameObject a_object)
+		{
+			//throw new NotImplementedException();
+		}
 	}
 }

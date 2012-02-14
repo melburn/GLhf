@@ -68,7 +68,10 @@ namespace GrandLarceny
 
 		public override void plusWith(Vector2 a_term)
 		{
-			m_coordinates = convertCartesianToPolar(convertPolarToCartesian(m_coordinates)+a_term);
+			if (a_term.Length() != 0)
+			{
+				m_coordinates = convertCartesianToPolar(convertPolarToCartesian(m_coordinates) + a_term);
+			}
 		}
 
 		public override void setLength(float length)
@@ -139,7 +142,7 @@ namespace GrandLarceny
 
 		public override Position getProductWith(float p)
 		{
-			return new CartesianCoordinate(convertPolarToCartesian(m_coordinates)*p);
+			return new CartesianCoordinate(convertPolarToCartesian(m_coordinates)*p,m_parentPosition);
 		}
 	}
 }

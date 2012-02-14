@@ -14,6 +14,7 @@ namespace GrandLarceny
 		private int m_animationFrames;
 		public bool m_looping;
 		private bool m_stopped = false;
+		private string m_imagePath;
 
 		//millisecond per frame
 		public float m_animationSpeed;
@@ -48,8 +49,16 @@ namespace GrandLarceny
 			}
 		}
 
-		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f)
+		public void draw(Position a_position, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f, float a_xScale = 1.0f, float a_yScale = 1.0f)
 		{
+			if (a_xScale <= 0)
+			{
+				throw new ArgumentException("xScale has to be positive. was "+a_xScale);
+			}
+			if (a_yScale <= 0)
+			{
+				throw new ArgumentException("yScale has to be positive. was "+a_yScale);
+			}
 			if (a_color == null)
 			{
 				a_color = Color.White;
@@ -58,7 +67,7 @@ namespace GrandLarceny
 
 			Game.getInstance().getSpriteBatch().Draw(
 				m_image,
-				new Rectangle((int)(Math.Floor(t_worldPosV2.X) + 0.5), (int)(Math.Floor(t_worldPosV2.Y) + 0.5), m_animationWidth, m_image.Height),
+				new Rectangle((int)(Math.Floor(t_worldPosV2.X) + 0.5), (int)(Math.Floor(t_worldPosV2.Y) + 0.5), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
 				new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
 				a_color,
 				a_rotation,
@@ -70,19 +79,22 @@ namespace GrandLarceny
 
 		public void setSprite(String a_sprite)
 		{
+			
 			if (a_sprite == null)
 			{
 				m_image = null;
 				m_stopped = true;
 			}
-			else
+			else if (!a_sprite.Equals(m_imagePath))
 			{
 				m_stopped = false;
 				m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
 				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
 				m_animationWidth = m_image.Width / m_animationFrames;
 				m_subImageNumber = 0;
+				
 			}
+			m_imagePath = a_sprite;
 		}
 
 		public void stop()
@@ -107,6 +119,11 @@ namespace GrandLarceny
 				throw new ArgumentException("Animation speed cannot be negative");
 			}
 			m_animationSpeed = a_speed;
+		}
+
+		public string getImagePath()
+		{
+			return m_imagePath;
 		}
 	}
 }

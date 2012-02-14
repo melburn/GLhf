@@ -69,7 +69,7 @@ namespace GrandLarceny
 				t_returnObjects = t_newLevel.getLevelObjects();
 				foreach(GameObject f_gb in t_returnObjects)
 				{
-					f_gb.initImage();
+					f_gb.loadContent();
 
 					if(f_gb is Player)
 					{

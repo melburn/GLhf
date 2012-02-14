@@ -66,10 +66,23 @@ namespace GrandLarceny
 			{
 				System.Console.WriteLine("Fail to find file : " + e);
 			}
+			catch (SerializationException e)
+			{
+				System.Console.WriteLine("Fail to DeSerialize : " + e);
+			}
+
+			
+			
+			
 
 			if (t_stream != null)
 			{
 				t_stream.Close();
+			}
+			
+			if(t_loadingLevel == null)
+			{
+				t_loadingLevel = new Level();
 			}
 
 			return t_loadingLevel;

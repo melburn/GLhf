@@ -41,6 +41,7 @@ namespace GrandLarceny
 			Jumping,
 			RightSlide,
 			LeftSlide,
+			Slide,
 			Climbing, 
 			Rolling
 		}
@@ -73,16 +74,16 @@ namespace GrandLarceny
 					updateJumping(t_deltaTime);
 					break;
 				}
-				case State.RightSlide:
+				case State.Slide:
 				{
-					updateRightSliding(t_deltaTime);
+					updateSliding(t_deltaTime);
 					break;
 				}
-				case State.LeftSlide:
+				/*case State.LeftSlide:
 				{
 					updateLeftSliding(t_deltaTime);
 					break;
-				}
+				}*/
 				case State.Climbing:
 				{
 					updateClimbing();
@@ -95,7 +96,7 @@ namespace GrandLarceny
 				}
 			}
 			m_previousKeyInput = m_currentKeyInput;
-
+			changeAnimation();
 			base.update(a_gameTime);
 			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
 		}
@@ -111,7 +112,7 @@ namespace GrandLarceny
 			if (m_currentKeyInput.IsKeyDown(Keys.Left) || m_currentKeyInput.IsKeyDown(Keys.Right))
 			{
 				m_currentState = State.Walking;
-				changeAnimation();
+				
 				if (m_currentKeyInput.IsKeyDown(Keys.Left))
 				{
 					m_facingRight = false;
@@ -127,7 +128,7 @@ namespace GrandLarceny
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
-				changeAnimation();
+				
 			}
 
 			//Game.getInstance().m_camera.getPosition().smoothStep(Vector2.Zero, CAMERASPEED);
@@ -180,13 +181,13 @@ namespace GrandLarceny
 			if (m_speed.X == 0)
 			{
 				m_currentState = State.Stop;
-				changeAnimation();
+				
 			}
 			if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
-				changeAnimation();
+				
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
@@ -231,21 +232,27 @@ namespace GrandLarceny
 				}
 				m_spriteEffects = SpriteEffects.None;
 			}
-			changeAnimation();
+			/*if(m_speed.Y > 0)
+			{
+				changeAnimation();
+			}*/
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		}
 
 		//TODO Byta animation :3
-		private void updateRightSliding(float a_deltaTime)
+		private void updateSliding(float a_deltaTime)
 		{
 			if (m_lastPosition.Y != m_position.getY())
 			{
-				if (m_currentKeyInput.IsKeyDown(Keys.Right))
+				if ((!m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Right)) || (m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Left)))
 				{
 					if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
 					{
 						m_speed.Y = -JUMPSTRENGTH;
-						m_speed.X -= JUMPSTRENGTH;
+						if (m_facingRight == true)
+							m_speed.X += JUMPSTRENGTH;
+						else
+							m_speed.X -= JUMPSTRENGTH;
 						m_currentState = State.Jumping;
 						return;
 					}
@@ -260,7 +267,7 @@ namespace GrandLarceny
 		}
 
 		//TODO Byta animation
-		private void updateLeftSliding(float a_deltaTime)
+		/*private void updateLeftSliding(float a_deltaTime)
 		{
 			if (m_lastPosition.Y != m_position.getY())
 			{
@@ -281,7 +288,7 @@ namespace GrandLarceny
 				return;
 			}
 			m_currentState = State.Walking;
-		}
+		}*/
 
 		//TODO Implement :3
 		private void updateClimbing()
@@ -299,13 +306,28 @@ namespace GrandLarceny
 				m_gravity = 0;
 				m_speed.Y = 0;
 			}
-			if (m_currentKeyInput.IsKeyDown(Keys.Space) && m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Right))
+			if (m_currentKeyInput.IsKeyDown(Keys.Space) && m_previousKeyInput.IsKeyUp(Keys.Space))
 			{
-				m_speed.Y = -JUMPSTRENGTH;
-				m_speed.X += JUMPSTRENGTH;
+				if (m_currentKeyInput.IsKeyDown(Keys.Right) || m_currentKeyInput.IsKeyDown(Keys.Left))
+				{
+					m_speed.Y = -JUMPSTRENGTH;
+					if (m_currentKeyInput.IsKeyDown(Keys.Left))
+					{
+						m_speed.X -= JUMPSTRENGTH;
+					}
+					else
+					{
+						m_speed.X += JUMPSTRENGTH;
+					}
+					
+				}
+				else
+				{
+					m_speed.Y = 0;
+				}
 				m_currentState = State.Jumping;
 			}
-			else if (m_currentKeyInput.IsKeyDown(Keys.Space) && m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Left))
+			/*else if (m_currentKeyInput.IsKeyDown(Keys.Space) && m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Left))
 			{
 				m_speed.Y = -JUMPSTRENGTH;
 				m_speed.X -= JUMPSTRENGTH;
@@ -315,7 +337,7 @@ namespace GrandLarceny
 			{
 				m_speed.Y = 0;
 				m_currentState = State.Jumping;
-			}
+			}*/
 		}
 
 		private void updateRolling()
@@ -342,22 +364,33 @@ namespace GrandLarceny
 		//TODO, titta sin state och ändra till rätt animation
 		private void changeAnimation()
 		{
-			if (m_currentState == State.Stop)
-			{
-				m_img.setSprite("Images//hero_stand");
-			}
-			else if (m_currentState == State.Walking)
-			{
-				m_img.setSprite("Images//hero_stand");
-			}
+			
+				if (m_currentState == State.Stop)
+				{
+					m_img.setSprite("Images//hero_stand");
+				}
+				else if (m_currentState == State.Walking)
+				{
+					m_img.setSprite("Images//hero_stand");
+				}
 
-			else if (m_currentState == State.Jumping)
-			{
-				if (m_speed.Y < 0)
-					m_img.setSprite("Images//hero_jump");
-				else
-					m_img.setSprite("Images//hero_fall");
-			}
+				if (m_currentState == State.Jumping)
+				{
+					if (m_speed.Y < 0)
+						m_img.setSprite("Images//hero_jump");
+					else
+						m_img.setSprite("Images//hero_fall");
+				}
+				
+				else if (m_currentState == State.Rolling)
+				{
+					m_img.setSprite("Images//hero_roll");
+				}
+				else if (m_currentState == State.Slide)
+				{
+					m_img.setSprite("Images//hero_slide");
+				}
+			
 		}
 
 		public override void draw(GameTime a_gameTime)
@@ -387,12 +420,12 @@ namespace GrandLarceny
 								if (m_speed.X == 0)
 								{
 									m_currentState = State.Stop;
-									changeAnimation();
+									
 								}
 								else
 								{
 									m_currentState = State.Walking;
-									changeAnimation();
+									
 								}
 							}
 							t_onFloor = true;
@@ -411,7 +444,12 @@ namespace GrandLarceny
 						{
 							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
 							if(m_currentState == State.Jumping)
-								m_currentState = State.LeftSlide;
+							{
+								m_currentState = State.Slide;
+								m_facingRight = true;
+								m_spriteEffects = SpriteEffects.None;
+
+							}
 							m_speed.X = 0;
 						}
 						//Colliding with ze right wall
@@ -419,7 +457,11 @@ namespace GrandLarceny
 						{
 							setLeftPoint(t_collider.getTopLeftPoint().X - (m_img.getSize().X));
 							if (m_currentState == State.Jumping)
-								m_currentState = State.RightSlide;
+							{
+								m_currentState = State.Slide;
+								m_facingRight = false;
+								m_spriteEffects = SpriteEffects.FlipHorizontally;
+							}
 							m_speed.X = 0;
 						}
 					}

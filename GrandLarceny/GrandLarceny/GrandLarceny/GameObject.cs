@@ -12,6 +12,7 @@ namespace GrandLarceny
 	{
 		protected bool m_dead = false;
 		protected Position m_position;
+		private bool m_isInLight;
 		[NonSerialized]
 		protected ImageManager m_img;
 
@@ -19,6 +20,8 @@ namespace GrandLarceny
 		protected float m_layer;
 		protected Color m_color;
 		protected SpriteEffects m_spriteEffects;
+		protected float m_XScale = 1;
+		protected float m_YScale = 1;
 
 		private string m_spritePath;
 
@@ -31,7 +34,7 @@ namespace GrandLarceny
 			m_color = Color.White;
 			m_spriteEffects = SpriteEffects.None;
 			m_spritePath = a_sprite;
-			initImage();
+			loadContent();
 		}
 		public GameObject(Position a_position, String a_sprite, float a_layer)
 		{
@@ -41,11 +44,11 @@ namespace GrandLarceny
 			m_color = Color.White;
 			m_spriteEffects = SpriteEffects.None;
 			m_spritePath = a_sprite;
-			initImage();
+			loadContent();
 
 		}
 
-		public void initImage()
+		public virtual void loadContent()
 		{
 			m_img = new ImageManager(m_spritePath);
 		}
@@ -67,7 +70,7 @@ namespace GrandLarceny
 
 		public virtual void draw(GameTime a_gameTime)
 		{
-			m_img.draw(m_position, m_rotate, m_color, m_spriteEffects, m_layer);
+			m_img.draw(m_position, m_rotate, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
 		}
 		public bool isDead()
 		{
@@ -78,7 +81,7 @@ namespace GrandLarceny
 			m_layer = a_layer;
 		}
 
-		internal virtual void collisionCheck(List<Entity> t_secondGameObject)
+		internal virtual void collisionCheck(List<Entity> a_collisionList)
 		{
 		}
 		public ImageManager getImg()
