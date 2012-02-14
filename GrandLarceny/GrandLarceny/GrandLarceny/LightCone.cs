@@ -16,6 +16,9 @@ namespace GrandLarceny
 		{
 			m_position.setParentPosition(a_parent.getPosition());
 			m_parent = a_parent;
+			m_length = a_length;
+			m_width = a_width;
+			
 		}
 		public override void update(GameTime a_gameTime)
 		{
