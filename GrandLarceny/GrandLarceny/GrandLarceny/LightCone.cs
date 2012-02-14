@@ -19,8 +19,8 @@ namespace GrandLarceny
 			m_parent = a_parent;
 			m_length = a_length;
 			m_width = a_width;
-			m_XScale = a_width / 100;
-			m_YScale = a_length / 100;
+			m_XScale = a_width / 500;
+			m_YScale = a_length / 500;
 		}
 		public override void update(GameTime a_gameTime)
 		{
