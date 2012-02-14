@@ -35,7 +35,10 @@ namespace GrandLarceny
 		public override void load()
 		{
 			m_gameObjectList = Loader.getInstance().loadLevel(m_currentLevel);
-			Game.getInstance().m_camera.setParentPosition(player.getPosition());
+			if (player != null)
+			{
+				Game.getInstance().m_camera.setParentPosition(player.getPosition());
+			}
 		}
 
 		public override void setPlayer(Player a_player)
