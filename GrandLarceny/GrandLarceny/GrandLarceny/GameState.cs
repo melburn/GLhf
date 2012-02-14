@@ -80,7 +80,8 @@ namespace GrandLarceny
 				{
 					foreach (GameObject t_secondGameObject in m_gameObjectList)
 					{
-						if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject && checkBigBoxCollision(t_firstGameObject, t_secondGameObject))
+						if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject 
+							&& checkBigBoxCollision(t_firstGameObject, t_secondGameObject))
 						{
 							t_collided.Add((Entity)t_secondGameObject);
 						}

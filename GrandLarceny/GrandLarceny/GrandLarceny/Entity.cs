@@ -17,6 +17,8 @@ namespace GrandLarceny
 
 		protected Vector2 m_lastPosition;
 
+		protected CollisionShape m_collisionShape;
+		
 		public Entity(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
@@ -42,12 +44,10 @@ namespace GrandLarceny
 			m_position.plusWith(m_speed * t_deltaTime);
 		}
 
-		/*
-		public override void collisionCheck()
+		public CollisionShape getHitBox()
 		{
-
+			return m_collisionShape;
 		}
-		*/
 		
 		public override void draw(GameTime a_gameTime)
 		{
