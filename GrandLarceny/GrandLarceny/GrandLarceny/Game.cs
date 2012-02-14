@@ -71,6 +71,10 @@ namespace GrandLarceny
 
 		protected override void Update(GameTime a_gameTime)
 		{
+			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+			{
+				Exit();
+			}
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;

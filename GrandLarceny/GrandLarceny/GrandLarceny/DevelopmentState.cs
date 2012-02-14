@@ -21,14 +21,13 @@ namespace GrandLarceny
 		private GameObject m_buildSelectedObject;
 		private string m_levelToLoad;
 
-		private string m_currentMode;
+		private string m_currentMode = "Selection";
 
 		private SpriteFont m_testFont;
 		private String m_selectedInfo;
 		private Vector2 m_worldMouse;
-		private Player m_player = null;
+		private GameObject m_player;
 
-		private State m_itemToCreate = State.None;
 		private enum State
 		{
 			Platform,
@@ -39,6 +38,7 @@ namespace GrandLarceny
 			Delete,
 			None
 		}
+		private State m_itemToCreate = State.None;
 
 		public DevelopmentState(string a_levelToLoad)
 		{
@@ -49,9 +49,17 @@ namespace GrandLarceny
 		{
 			m_testFont = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New");
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
+			foreach (GameObject t_gameObject in m_gameObjectList)
+			{
+				if (t_gameObject is Player)
+				{
+					m_player = t_gameObject;
+				}
+			}
 			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
 
 			m_buildObjectList = new LinkedList<GameObject>();
+			m_itemToCreate = State.None;
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -103,26 +111,32 @@ namespace GrandLarceny
 
 		private void updateKeyboard()
 		{
-			if (m_currentKeyboard.IsKeyDown(Keys.R)) {
+			if (m_currentKeyboard.IsKeyDown(Keys.R))
+			{
 				Game.getInstance().setState(new GameState(m_levelToLoad));
 			}
-			if (m_currentKeyboard.IsKeyDown(Keys.P) && m_previousKeyboard.IsKeyUp(Keys.P)) {
+			if (m_currentKeyboard.IsKeyDown(Keys.P) && m_previousKeyboard.IsKeyUp(Keys.P))
+			{
 				m_itemToCreate = State.Platform;
 				m_currentMode = "Create Platform";
 			}
-			if (m_currentKeyboard.IsKeyDown(Keys.L) && m_previousKeyboard.IsKeyUp(Keys.L)) {
+			if (m_currentKeyboard.IsKeyDown(Keys.L) && m_previousKeyboard.IsKeyUp(Keys.L))
+			{
 				m_itemToCreate = State.Ladder;
 				m_currentMode = "Create Ladder";
 			}
-			if (m_currentKeyboard.IsKeyDown(Keys.B) && m_previousKeyboard.IsKeyUp(Keys.B)) {
+			if (m_currentKeyboard.IsKeyDown(Keys.B) && m_previousKeyboard.IsKeyUp(Keys.B))
+			{
 				m_itemToCreate = State.Background;
 				m_currentMode = "Create Background";
 			}
-			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_previousKeyboard.IsKeyUp(Keys.D)) {
+			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_previousKeyboard.IsKeyUp(Keys.D))
+			{
 				m_itemToCreate = State.Delete;
 				m_currentMode = "Delete Object";
 			}
-			if (m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H)) {
+			if (m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H))
+			{
 				m_itemToCreate = State.Player;
 				m_currentMode = "Create Hero";
 			}
@@ -190,7 +204,8 @@ namespace GrandLarceny
 				}
 			}
 
-			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None) {
+			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None)
+			{
 				m_itemToCreate = State.None;
 				m_currentMode = "Selection";
 			}
@@ -238,22 +253,21 @@ namespace GrandLarceny
 
 		private void createPlayer()
 		{
-			if (m_player != null) {
-				return;
+			if (m_player == null) {
+				m_player = new Player(m_worldMouse, "Images//hero_stand", 0.250f);
+
+				if (m_player.getLeftPoint() % 72 >= 36)
+					m_player.setLeftPoint(m_player.getLeftPoint() + (72 - (m_player.getLeftPoint() % 72)) - 36);
+				else if (m_player.getLeftPoint() % 72 < 36)
+					m_player.setLeftPoint(m_player.getLeftPoint() - (m_player.getLeftPoint() % 72) + 36);
+
+				if (m_player.getTopPoint() % 72 >= 36)
+					m_player.setTopPoint(m_player.getTopPoint() + (72 - (m_player.getTopPoint() % 72)) - 36);
+				else if (m_player.getTopPoint() % 72 < 36)
+					m_player.setTopPoint(m_player.getTopPoint() - (m_player.getTopPoint() % 72) + 36);
+
+				m_gameObjectList.AddLast(m_player);
 			}
-			m_player = new Player(m_worldMouse, "Images//hero_stand", 0.250f);
-
-			if (m_player.getLeftPoint() % 72 >= 36)
-				m_player.setLeftPoint(m_player.getLeftPoint() + (72 - (m_player.getLeftPoint() % 72)) - 36);
-			else if (m_player.getLeftPoint() % 72 < 36)
-				m_player.setLeftPoint(m_player.getLeftPoint() - (m_player.getLeftPoint() % 72) + 36);
-
-			if (m_player.getTopPoint() % 72 >= 36)
-				m_player.setTopPoint(m_player.getTopPoint() + (72 - (m_player.getTopPoint() % 72)) - 36);
-			else if (m_player.getTopPoint() % 72 < 36)
-				m_player.setTopPoint(m_player.getTopPoint() - (m_player.getTopPoint() % 72) + 36);
-
-			m_gameObjectList.AddLast(m_player);
 		}
 
 		private void createPlatform()
@@ -324,7 +338,12 @@ namespace GrandLarceny
 			m_gameObjectList.AddLast(t_environment);
 		}
 
-		private void deleteObject(GameObject a_gameObject) {
+		private void deleteObject(GameObject a_gameObject)
+		{
+			if (a_gameObject is Player)
+			{
+				m_player = null;
+			}
 			m_gameObjectList.Remove(a_gameObject);
 		}
 
