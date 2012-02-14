@@ -10,6 +10,7 @@ namespace GrandLarceny
 	class SpotLight : Entity
 	{
 		Boolean m_lit;
+		[NonSerialized]
 		LightCone m_light;
 		public SpotLight(Vector2 a_position, string a_sprite, float a_layer, float a_rotation, bool a_lit) :
 			base(a_position, a_sprite, a_layer)

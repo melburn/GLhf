@@ -340,9 +340,9 @@ namespace GrandLarceny
 				t_gameObject.draw(a_gameTime);
 			}
 		}
-	}
-	public override void addObject(GameObject a_object)
+		public override void addObject(GameObject a_object)
 		{
 			m_gameObjectList.AddLast(a_object);
 		}
+	}
 }
