@@ -69,6 +69,9 @@ namespace GrandLarceny
 			catch (SerializationException e)
 			{
 				System.Console.WriteLine("Fail to DeSerialize : " + e);
+			}
+			finally
+			{
 				t_loadingLevel = new Level();
 			}
 			
