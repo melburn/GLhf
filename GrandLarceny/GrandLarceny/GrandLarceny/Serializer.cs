@@ -70,16 +70,19 @@ namespace GrandLarceny
 			{
 				System.Console.WriteLine("Fail to DeSerialize : " + e);
 			}
-			finally
-			{
-				t_loadingLevel = new Level();
-			}
+
+			
 			
 			
 
 			if (t_stream != null)
 			{
 				t_stream.Close();
+			}
+			
+			if(t_loadingLevel == null)
+			{
+				t_loadingLevel = new Level();
 			}
 
 			return t_loadingLevel;
