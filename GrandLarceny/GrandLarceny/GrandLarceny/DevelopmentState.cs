@@ -34,6 +34,7 @@ namespace GrandLarceny
 			Player,
 			Background,
 			Ladder,
+			SpotLight,
 			Delete,
 			None
 		}
@@ -139,6 +140,11 @@ namespace GrandLarceny
 				m_itemToCreate = State.Player;
 				m_currentMode = "Create Hero";
 			}
+			if (m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.H))
+			{
+				m_itemToCreate = State.SpotLight;
+				m_currentMode = "Create SpotLight";
+			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
 				if (m_selectedObject != null) {
@@ -156,7 +162,7 @@ namespace GrandLarceny
 				m_gameObjectList = t_newLevel.getLevelObjects();
 				foreach (GameObject f_gb in m_gameObjectList)
 				{
-					f_gb.initImage();
+					f_gb.loadContent();
 				}
 			}
 		}
@@ -188,6 +194,11 @@ namespace GrandLarceny
 					case State.Platform:
 					{
 						createPlatform();
+						break;
+					}
+					case State.SpotLight:
+					{
+						createSpotLight();
 						break;
 					}
 				}
@@ -293,6 +304,23 @@ namespace GrandLarceny
 			m_gameObjectList.AddLast(t_ladder);
 		}
 
+		private void createSpotLight()
+		{
+			SpotLight t_sl = new SpotLight(m_worldMouse, "Images//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
+
+			if (t_sl.getLeftPoint() % 72 >= 36)
+				t_sl.setLeftPoint(t_sl.getLeftPoint() + (72 - (t_sl.getLeftPoint() % 72)) - 36);
+			else if (t_sl.getLeftPoint() % 72 < 36)
+				t_sl.setLeftPoint(t_sl.getLeftPoint() - (t_sl.getLeftPoint() % 72) + 36);
+
+			if (t_sl.getTopPoint() % 72 >= 36)
+				t_sl.setTopPoint(t_sl.getTopPoint() + (72 - (t_sl.getTopPoint() % 72)) - 36);
+			else if (t_sl.getTopPoint() % 72 < 36)
+				t_sl.setTopPoint(t_sl.getTopPoint() - (t_sl.getTopPoint() % 72) + 36);
+
+			m_gameObjectList.AddLast(t_sl);
+		}
+
 		private void createBackground()
 		{
 			Environment t_environment = new Environment(m_worldMouse, "Images//test", 0.750f);
@@ -330,6 +358,10 @@ namespace GrandLarceny
 			{
 				t_gameObject.draw(a_gameTime);
 			}
+		}
+		public override void addObject(GameObject a_object)
+		{
+			m_gameObjectList.AddLast(a_object);
 		}
 	}
 }

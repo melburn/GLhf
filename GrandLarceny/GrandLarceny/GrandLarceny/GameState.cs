@@ -35,7 +35,10 @@ namespace GrandLarceny
 		public override void load()
 		{
 			m_gameObjectList = Loader.getInstance().loadLevel(m_currentLevel);
-			Game.getInstance().m_camera.setParentPosition(player.getPosition());
+			if (player != null)
+			{
+				Game.getInstance().m_camera.setParentPosition(player.getPosition());
+			}
 		}
 
 		public override void setPlayer(Player a_player)
@@ -120,8 +123,7 @@ namespace GrandLarceny
 				(a_first.getTopPoint() < a_second.getBottomPoint() &&
 				a_first.getBottomPoint() > a_second.getTopPoint());
 		}
-
-		public void addObject(GameObject a_object)
+		public override void addObject(GameObject a_object)
 		{
 			m_changeList.AddLast(a_object);
 		}
