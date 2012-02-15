@@ -52,12 +52,5 @@ namespace GrandLarceny
 			}
 			return false;
 		}
-		public bool contains(Vector2 a_point)
-		{
-			return a_point.X <= m_x + m_width &&
-				a_point.X >= m_x &&
-				a_point.Y <= m_y + m_height &&
-				a_point.Y >= m_y;
-		}
 	}
 }
