@@ -14,8 +14,8 @@ namespace GrandLarceny
 		{
 			m_resolution = new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth, Game.getInstance().m_graphics.PreferredBackBufferHeight);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
-			m_position.setX(m_position.getGlobalX() - m_resolution.X / 2);
-			m_position.setY(m_position.getGlobalY() - m_resolution.Y / 2);
+			m_position.setX(m_position.getGlobalX() - m_resolution.X);
+			m_position.setY(m_position.getGlobalY() - m_resolution.Y);
 		}
 
 		public override void draw(GameTime a_gameTime)
