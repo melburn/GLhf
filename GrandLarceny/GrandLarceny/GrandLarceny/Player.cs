@@ -369,7 +369,7 @@ namespace GrandLarceny
 			bool t_onFloor = false;
 			foreach (Entity t_collider in a_collisionList)
 			{
-				if (GameState.checkBoxCollision(this, t_collider))
+				if (CollisionManager.Collides(this.getHitBox(), t_collider.getHitBox()))
 				{
 					if (t_collider is Platform)
 					{

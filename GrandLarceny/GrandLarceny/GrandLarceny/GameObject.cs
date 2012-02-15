@@ -59,10 +59,10 @@ namespace GrandLarceny
 			return m_position;
 		}
 
-		/*public Rectangle getBox()
+		public Rectangle getBox()
 		{
-			return new Rectangle((int)getTopLeftPoint().X, (int)getTopLeftPoint().Y, (int)m_img.getSize().X, (int)m_img.getSize().Y);
-		}*/
+			return new Rectangle((int)getPosition().getX(), (int)getPosition().getY(), (int)m_img.getSize().X, (int)m_img.getSize().Y);
+		}
 
 		public virtual void update(GameTime a_gameTime)
 		{
