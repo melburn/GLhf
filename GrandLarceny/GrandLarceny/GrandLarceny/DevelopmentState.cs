@@ -34,6 +34,10 @@ namespace GrandLarceny
 		private GuiObject m_UItextBackground;
 
 		private Button m_btnLadderHotkey;
+		private Button m_btnTileHotkey;
+		private Button m_btnBackgroundHotkey;
+		private Button m_btnDeleteHotkey;
+		private Button m_btnHeroHotkey;
 
 		private enum State
 		{
@@ -51,7 +55,8 @@ namespace GrandLarceny
 		public DevelopmentState(string a_levelToLoad)
 		{
 			m_levelToLoad = a_levelToLoad;
-			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
+			Game.getInstance().m_camera.getPosition().setParentPosition(null);
+			Game.getInstance().m_camera.setPosition(new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth / 2, Game.getInstance().m_graphics.PreferredBackBufferHeight / 2));
 		}
 
 		private Vector2 getTile(Vector2 a_pixelPosition)
@@ -83,7 +88,6 @@ namespace GrandLarceny
 					m_player = t_gameObject;
 				}
 			}
-			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
 
 			m_buildObjectList = new LinkedList<GameObject>();
 			m_itemToCreate = State.None;
@@ -96,8 +100,21 @@ namespace GrandLarceny
 			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//GUI//dev_bg_info");
 			m_guiList.AddLast(m_UItextBackground);
 
-			m_btnLadderHotkey = new Button("Images//GUI//btn_ladder_hotkey_normal", "Images//GUI//btn_ladder_hotkey_hover", "Images//GUI//btn_ladder_hotkey_pressed", new Vector2(100, 100), 0);
+			m_btnLadderHotkey = new Button("Images//GUI//btn_ladder_hotkey_normal", "Images//GUI//btn_ladder_hotkey_hover", "Images//GUI//btn_ladder_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 72, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+			m_btnTileHotkey = new Button("Images//GUI//btn_tile_hotkey_normal", "Images//GUI//btn_tile_hotkey_hover", "Images//GUI//btn_tile_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 144, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+			m_btnBackgroundHotkey = new Button("Images//GUI//btn_background_hotkey_normal", "Images//GUI//btn_background_hotkey_hover", "Images//GUI//btn_background_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 216, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+			m_btnDeleteHotkey = new Button("Images//GUI//btn_delete_hotkey_normal", "Images//GUI//btn_delete_hotkey_hover", "Images//GUI//btn_delete_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 288, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+			m_btnHeroHotkey = new Button("Images//GUI//btn_hero_hotkey_normal", "Images//GUI//btn_hero_hotkey_hover", "Images//GUI//btn_hero_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 72, Game.getInstance().m_graphics.PreferredBackBufferHeight - 144), 0);
 			m_buttonList.AddLast(m_btnLadderHotkey);
+			m_buttonList.AddLast(m_btnTileHotkey);
+			m_buttonList.AddLast(m_btnBackgroundHotkey);
+			m_buttonList.AddLast(m_btnDeleteHotkey);
+			m_buttonList.AddLast(m_btnHeroHotkey);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -165,41 +182,57 @@ namespace GrandLarceny
 			if (m_currentKeyboard.IsKeyDown(Keys.P) && m_previousKeyboard.IsKeyUp(Keys.P))
 			{
 				m_itemToCreate = State.Platform;
+				resetButtonStates();
+				m_btnTileHotkey.setState(2);
 				m_textCurrentMode.setText("Create Platform");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.L) && m_previousKeyboard.IsKeyUp(Keys.L))
 			{
 				m_itemToCreate = State.Ladder;
+				resetButtonStates();
+				m_btnLadderHotkey.setState(2);
 				m_textCurrentMode.setText("Create Ladder");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.B) && m_previousKeyboard.IsKeyUp(Keys.B))
 			{
 				m_itemToCreate = State.Background;
+				resetButtonStates();
+				m_btnBackgroundHotkey.setState(2);
 				m_textCurrentMode.setText("Create Background");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_previousKeyboard.IsKeyUp(Keys.D))
 			{
 				m_itemToCreate = State.Delete;
+				resetButtonStates();
+				m_btnDeleteHotkey.setState(2);
 				m_textCurrentMode.setText("Delete Object");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H))
 			{
 				m_itemToCreate = State.Player;
+				resetButtonStates();
+				m_btnHeroHotkey.setState(2);
 				m_textCurrentMode.setText("Create Hero");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
 				m_itemToCreate = State.None;
+				resetButtonStates();
+				//m_btnSelectHotkey.setState(2);
 				m_textCurrentMode.setText("Select");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.T))
 			{
 				m_itemToCreate = State.SpotLight;
+				resetButtonStates();
+				//m_btnSpotlightHotkey.setState(2);
 				m_textCurrentMode.setText("Create SpotLight");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.G) && m_previousKeyboard.IsKeyUp(Keys.G))
 			{
 				m_itemToCreate = State.Guard;
+				resetButtonStates();
+				//m_btnGuardHotkey.setState(2);
 				m_textCurrentMode.setText("Create Guard");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
@@ -308,6 +341,12 @@ namespace GrandLarceny
 
 			m_selectedObject.getPosition().setX(t_mousePosition.X);
 			m_selectedObject.getPosition().setY(t_mousePosition.Y);
+		}
+
+		private void resetButtonStates() {
+			foreach (Button t_button in m_buttonList) {
+				t_button.setState(0);
+			}
 		}
 
 		private void createPlayer()
