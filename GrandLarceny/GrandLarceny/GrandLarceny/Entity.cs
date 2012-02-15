@@ -16,7 +16,7 @@ namespace GrandLarceny
 		protected float m_gravity = 0f;
 
 		protected Vector2 m_lastPosition;
-
+		[NonSerialized]
 		protected CollisionShape m_collisionShape;
 		
 		public Entity(Vector2 a_posV2, String a_sprite, float a_layer)

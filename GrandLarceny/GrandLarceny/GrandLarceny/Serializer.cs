@@ -36,7 +36,7 @@ namespace GrandLarceny
 				BinaryFormatter t_bFormatter = new BinaryFormatter();
 				t_bFormatter.Serialize(t_stream, a_save);
 			}
-			catch
+			catch(FileNotFoundException)
 			{
 				System.Console.WriteLine("Fail to SaveLevel(Serializer) : ");
 			}
