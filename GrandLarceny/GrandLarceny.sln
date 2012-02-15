@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrandLarceny", "GrandLarceny\GrandLarceny\GrandLarceny.csproj", "{1FAB15C2-022F-4808-9921-27BEC3706943}"
 EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "GrandLarcenyContent", "GrandLarceny\GrandLarcenyContent\GrandLarcenyContent.contentproj", "{E110AA7A-B83A-4C6B-BF33-AD4E16160744}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
