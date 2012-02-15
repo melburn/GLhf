@@ -12,6 +12,7 @@ namespace GrandLarceny
 	{
 		private LinkedList<GameObject> m_gameObjectList;
 		private LinkedList<GameObject> m_buildObjectList;
+		private LinkedList<GuiObject> m_guiList;
 		private MouseState m_previousMouse;
 		private MouseState m_currentMouse;
 		private KeyboardState m_previousKeyboard;
@@ -301,18 +302,7 @@ namespace GrandLarceny
 
 		private void createSpotLight()
 		{
-			SpotLight t_sl = new SpotLight(m_worldMouse, "Images//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
-
-			if (t_sl.getLeftPoint() % 72 >= 36)
-				t_sl.setLeftPoint(t_sl.getLeftPoint() + (72 - (t_sl.getLeftPoint() % 72)) - 36);
-			else if (t_sl.getLeftPoint() % 72 < 36)
-				t_sl.setLeftPoint(t_sl.getLeftPoint() - (t_sl.getLeftPoint() % 72) + 36);
-
-			if (t_sl.getTopPoint() % 72 >= 36)
-				t_sl.setTopPoint(t_sl.getTopPoint() + (72 - (t_sl.getTopPoint() % 72)) - 36);
-			else if (t_sl.getTopPoint() % 72 < 36)
-				t_sl.setTopPoint(t_sl.getTopPoint() - (t_sl.getTopPoint() % 72) + 36);
-
+			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
 			m_gameObjectList.AddLast(t_sl);
 		}
 
@@ -335,7 +325,9 @@ namespace GrandLarceny
 		{
 			a_spriteBatch.DrawString(m_courierNew, m_selectedInfoV2.ToString(), m_UIselectedObjectPosition.getGlobalCartesianCoordinates(), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
 			a_spriteBatch.DrawString(m_courierNew, m_currentMode, m_UIcurrentModePosition.getGlobalCartesianCoordinates(), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
-			m_UItextBackground.draw(a_gameTime);
+			foreach (GuiObject t_guiObject in m_guiList) {
+				t_guiObject.draw(a_gameTime);
+			}
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.draw(a_gameTime);

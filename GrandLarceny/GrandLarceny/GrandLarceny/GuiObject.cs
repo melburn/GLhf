@@ -17,8 +17,7 @@ namespace GrandLarceny
 		public override void draw(GameTime a_gameTime)
 		{
 			float t_zoom = Game.getInstance().m_camera.getZoom();
-			//m_img.draw(new CartesianCoordinate(m_resolution, m_position), m_rotate, m_color, m_spriteEffects, m_layer, 1 / t_zoom, 1 / t_zoom);
-			m_img.draw(new CartesianCoordinate((m_position.getLocalCartesianCoordinates() - m_resolution / 2) / t_zoom, m_position.getParentPosition()), m_rotate, m_color, m_spriteEffects, m_layer, 1/t_zoom, 1/t_zoom);
+			m_img.draw(new CartesianCoordinate((m_position.getLocalCartesianCoordinates() - m_resolution / 2) / t_zoom, m_position.getParentPosition()), m_rotate, m_color, m_spriteEffects, m_layer, 1.0f / t_zoom, 1.0f / t_zoom);
 		}
 	}
 }
