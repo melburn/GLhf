@@ -28,9 +28,9 @@ namespace GrandLarceny
 		private Vector2 m_worldMouse;
 		private GameObject m_player;
 
-		private Position m_UIcurrentModePosition = new CartesianCoordinate(new Vector2(0, 0));
-		private Position m_UIselectedObjectPosition = new CartesianCoordinate(new Vector2(0, 0));
-		private GuiObject m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//guiderp");
+		private Text m_UIcurrentModePosition = new Text(new Vector2(0, 0), "null", false);
+		private Text m_UIselectedObjectPosition = new Text(new Vector2(0, 0), "null", false);
+		private GuiObject m_UItextBackground;
 
 		private enum State
 		{
@@ -68,6 +68,7 @@ namespace GrandLarceny
 		{
 			m_courierNew = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New");
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
+			m_guiList = new LinkedList<GuiObject>();
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				if (t_gameObject is Player)
@@ -80,17 +81,19 @@ namespace GrandLarceny
 			m_buildObjectList = new LinkedList<GameObject>();
 			m_itemToCreate = State.None;
 
-			m_UIselectedObjectPosition.setParentPosition(Game.getInstance().m_camera.getPosition());
-			m_UIselectedObjectPosition.setX(-Game.getInstance().m_graphics.PreferredBackBufferWidth / 2 + 10);
-			m_UIselectedObjectPosition.setY(-Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 8);
+			//m_UIselectedObjectPosition.setParentPosition(Game.getInstance().m_camera.getPosition());
+			//m_UIselectedObjectPosition.setX(-Game.getInstance().m_graphics.PreferredBackBufferWidth / 2 + 10);
+			//m_UIselectedObjectPosition.setY(-Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 8);
 
-			m_UIcurrentModePosition.setParentPosition(Game.getInstance().m_camera.getPosition());
-			m_UIcurrentModePosition.setX(-Game.getInstance().m_graphics.PreferredBackBufferWidth / 2 + 10);
-			m_UIcurrentModePosition.setY(-Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 40);
+			//m_UIcurrentModePosition.setParentPosition(Game.getInstance().m_camera.getPosition());
+			//m_UIcurrentModePosition.setX(-Game.getInstance().m_graphics.PreferredBackBufferWidth / 2 + 10);
+			//m_UIcurrentModePosition.setY(-Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 40);
 
+			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//guiderp");
 			m_UItextBackground.getPosition().setParentPosition(Game.getInstance().m_camera.getPosition());
-			m_UItextBackground.getPosition().setX(m_UItextBackground.getImg().getSize().X / 2 - 1);
-			m_UItextBackground.getPosition().setY(m_UItextBackground.getImg().getSize().Y / 2 - 1);
+			m_UItextBackground.getPosition().setX(m_UItextBackground.getImg().getSize().X / 2 - 2);
+			m_UItextBackground.getPosition().setY(m_UItextBackground.getImg().getSize().Y / 2 - 2);
+			m_guiList.AddLast(m_UItextBackground);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -323,8 +326,8 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			a_spriteBatch.DrawString(m_courierNew, m_selectedInfoV2.ToString(), m_UIselectedObjectPosition.getGlobalCartesianCoordinates(), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
-			a_spriteBatch.DrawString(m_courierNew, m_currentMode, m_UIcurrentModePosition.getGlobalCartesianCoordinates(), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+			//a_spriteBatch.DrawString(m_courierNew, m_selectedInfoV2.ToString(), m_UIselectedObjectPosition.getGlobalCartesianCoordinates(), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+			//a_spriteBatch.DrawString(m_courierNew, m_currentMode, m_UIcurrentModePosition.getGlobalCartesianCoordinates(), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
 			foreach (GuiObject t_guiObject in m_guiList) {
 				t_guiObject.draw(a_gameTime);
 			}
