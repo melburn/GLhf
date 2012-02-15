@@ -8,13 +8,14 @@ namespace GrandLarceny
 {
 	public abstract class CollisionShape
 	{
-		protected Rectangle OutBox;
+		protected Rectangle m_OutBox;
+		protected Position m_position;
 
 		public abstract bool Collides(CollisionShape a_cs2);
-
+		
 		public Rectangle getOutBox()
 		{
-			return OutBox;
+			return m_OutBox;
 		}
 	}
 }

@@ -35,6 +35,7 @@ namespace GrandLarceny
 			m_spriteEffects = SpriteEffects.None;
 			m_spritePath = a_sprite;
 			loadContent();
+
 		}
 		public GameObject(Position a_position, String a_sprite, float a_layer)
 		{
@@ -58,10 +59,10 @@ namespace GrandLarceny
 			return m_position;
 		}
 
-		public Rectangle getBox()
+		/*public Rectangle getBox()
 		{
 			return new Rectangle((int)getTopLeftPoint().X, (int)getTopLeftPoint().Y, (int)m_img.getSize().X, (int)m_img.getSize().Y);
-		}
+		}*/
 
 		public virtual void update(GameTime a_gameTime)
 		{
@@ -81,14 +82,12 @@ namespace GrandLarceny
 			m_layer = a_layer;
 		}
 
+
 		internal virtual void collisionCheck(List<Entity> a_collisionList)
 		{
 		}
-		public ImageManager getImg()
-		{
-			return m_img;
-		}
-		public Vector2 getTopLeftPoint()
+		
+		/*public Vector2 getTopLeftPoint()
 		{
 			return m_position.getGlobalCartesianCoordinates() - (m_img.getSize() / 2);
 		}
@@ -104,10 +103,7 @@ namespace GrandLarceny
 		{
 			m_position.setY(a_y + (m_img.getSize().Y / 2));
 		}
-		public void setColor(Color a_color)
-		{
-			m_color = a_color;
-		}
+
 		public float getLeftPoint()
 		{
 			return m_position.getX() - (m_img.getSize().X / 2);
@@ -123,8 +119,16 @@ namespace GrandLarceny
 		public float getBottomPoint()
 		{
 			return m_position.getY() + (m_img.getSize().Y / 2);
+		}*/
+		public void setColor(Color a_color)
+		{
+			m_color = a_color;
 		}
 
+		public ImageManager getImg()
+		{
+			return m_img;
+		}
 		public float getRotation()
 		{
 			return m_rotate;
