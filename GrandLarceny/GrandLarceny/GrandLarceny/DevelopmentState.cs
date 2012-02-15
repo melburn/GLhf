@@ -12,6 +12,8 @@ namespace GrandLarceny
 	{
 		private LinkedList<GameObject> m_gameObjectList;
 		private LinkedList<GameObject> m_buildObjectList;
+		private LinkedList<GuiObject> m_guiList;
+		private LinkedList<Text> m_textList;
 		private MouseState m_previousMouse;
 		private MouseState m_currentMouse;
 		private KeyboardState m_previousKeyboard;
@@ -20,16 +22,15 @@ namespace GrandLarceny
 		private GameObject m_selectedObject;
 		private string m_levelToLoad;
 
-		private string m_currentMode = "Select";
 		private Vector2 m_selectedInfoV2;
 
 		private SpriteFont m_courierNew;
 		private Vector2 m_worldMouse;
 		private GameObject m_player;
 
-		private Position m_UIcurrentModePosition = new CartesianCoordinate(new Vector2(0, 0));
-		private Position m_UIselectedObjectPosition = new CartesianCoordinate(new Vector2(0, 0));
-		private GuiObject m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//guiderp");
+		private Text m_textCurrentMode;
+		private Text m_textSelectedObjectPosition;
+		private GuiObject m_UItextBackground;
 
 		private enum State
 		{
@@ -67,6 +68,8 @@ namespace GrandLarceny
 		{
 			m_courierNew = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New");
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
+			m_guiList = new LinkedList<GuiObject>();
+			m_textList = new LinkedList<Text>();
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				if (t_gameObject is Player)
@@ -79,17 +82,13 @@ namespace GrandLarceny
 			m_buildObjectList = new LinkedList<GameObject>();
 			m_itemToCreate = State.None;
 
-			m_UIselectedObjectPosition.setParentPosition(Game.getInstance().m_camera.getPosition());
-			m_UIselectedObjectPosition.setX(-Game.getInstance().m_graphics.PreferredBackBufferWidth / 2 + 10);
-			m_UIselectedObjectPosition.setY(-Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 8);
+			m_textCurrentMode = new Text(new Vector2(12, 10), "Select", m_courierNew, Color.Black, false);
+			m_textList.AddLast(m_textCurrentMode);
+			m_textSelectedObjectPosition = new Text(new Vector2(12, 42), "Nothing Selected", m_courierNew, Color.Black, true);
+			m_textList.AddLast(m_textSelectedObjectPosition);
 
-			m_UIcurrentModePosition.setParentPosition(Game.getInstance().m_camera.getPosition());
-			m_UIcurrentModePosition.setX(-Game.getInstance().m_graphics.PreferredBackBufferWidth / 2 + 10);
-			m_UIcurrentModePosition.setY(-Game.getInstance().m_graphics.PreferredBackBufferHeight / 2 + 40);
-
-			m_UItextBackground.getPosition().setParentPosition(Game.getInstance().m_camera.getPosition());
-			m_UItextBackground.getPosition().setX(m_UItextBackground.getImg().getSize().X / 2 - 1);
-			m_UItextBackground.getPosition().setY(m_UItextBackground.getImg().getSize().Y / 2 - 1);
+			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//guiderp");
+			m_guiList.AddLast(m_UItextBackground);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -100,11 +99,13 @@ namespace GrandLarceny
 			m_worldMouse.X = 
 				Mouse.GetState().X / Game.getInstance().m_camera.getZoom()
 				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X
-				- ((Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / Game.getInstance().m_camera.getZoom());
+				- ((Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / Game.getInstance().m_camera.getZoom())
+				- 36;
 			m_worldMouse.Y = 
 				Mouse.GetState().Y / Game.getInstance().m_camera.getZoom() 
 				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y
-				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom());
+				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom())
+				- 36;
 
 			updateCamera();
 			updateKeyboard();
@@ -135,6 +136,7 @@ namespace GrandLarceny
 			if (m_selectedObject != null) {
 				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / 72;
 				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y / 72;
+				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
 			}
 		}
 
@@ -147,37 +149,37 @@ namespace GrandLarceny
 			if (m_currentKeyboard.IsKeyDown(Keys.P) && m_previousKeyboard.IsKeyUp(Keys.P))
 			{
 				m_itemToCreate = State.Platform;
-				m_currentMode = "Create Platform";
+				m_textCurrentMode.setText("Create Platform");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.L) && m_previousKeyboard.IsKeyUp(Keys.L))
 			{
 				m_itemToCreate = State.Ladder;
-				m_currentMode = "Create Ladder";
+				m_textCurrentMode.setText("Create Ladder");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.B) && m_previousKeyboard.IsKeyUp(Keys.B))
 			{
 				m_itemToCreate = State.Background;
-				m_currentMode = "Create Background";
+				m_textCurrentMode.setText("Create Background");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_previousKeyboard.IsKeyUp(Keys.D))
 			{
 				m_itemToCreate = State.Delete;
-				m_currentMode = "Delete Object";
+				m_textCurrentMode.setText("Delete Object");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H))
 			{
 				m_itemToCreate = State.Player;
-				m_currentMode = "Create Hero";
+				m_textCurrentMode.setText("Create Hero");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
 				m_itemToCreate = State.None;
-				m_currentMode = "Select";
+				m_textCurrentMode.setText("Select");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.T))
 			{
 				m_itemToCreate = State.SpotLight;
-				m_currentMode = "Create SpotLight";
+				m_textCurrentMode.setText("Create SpotLight");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
@@ -241,7 +243,7 @@ namespace GrandLarceny
 			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None)
 			{
 				m_itemToCreate = State.None;
-				m_currentMode = "Selection";
+				m_textCurrentMode.setText("Select");
 			}
 
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released) 
@@ -275,8 +277,8 @@ namespace GrandLarceny
 		{
 			Vector2 t_mousePosition = getTile(m_worldMouse);
 
-			m_selectedObject.getPosition().setX((t_mousePosition.X - (m_selectedObject.getImg().getSize().X / 2)) + 36);
-			m_selectedObject.getPosition().setY((t_mousePosition.Y - (m_selectedObject.getImg().getSize().Y / 2)) + 36);
+			m_selectedObject.getPosition().setX(t_mousePosition.X);
+			m_selectedObject.getPosition().setY(t_mousePosition.Y);
 		}
 
 		private void createPlayer()
@@ -301,18 +303,7 @@ namespace GrandLarceny
 
 		private void createSpotLight()
 		{
-			SpotLight t_sl = new SpotLight(m_worldMouse, "Images//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
-
-			if (t_sl.getLeftPoint() % 72 >= 36)
-				t_sl.setLeftPoint(t_sl.getLeftPoint() + (72 - (t_sl.getLeftPoint() % 72)) - 36);
-			else if (t_sl.getLeftPoint() % 72 < 36)
-				t_sl.setLeftPoint(t_sl.getLeftPoint() - (t_sl.getLeftPoint() % 72) + 36);
-
-			if (t_sl.getTopPoint() % 72 >= 36)
-				t_sl.setTopPoint(t_sl.getTopPoint() + (72 - (t_sl.getTopPoint() % 72)) - 36);
-			else if (t_sl.getTopPoint() % 72 < 36)
-				t_sl.setTopPoint(t_sl.getTopPoint() - (t_sl.getTopPoint() % 72) + 36);
-
+			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
 			m_gameObjectList.AddLast(t_sl);
 		}
 
@@ -333,9 +324,12 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			a_spriteBatch.DrawString(m_courierNew, m_selectedInfoV2.ToString(), m_UIselectedObjectPosition.getGlobalCartesianCoordinates(), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
-			a_spriteBatch.DrawString(m_courierNew, m_currentMode, m_UIcurrentModePosition.getGlobalCartesianCoordinates(), Color.Black, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
-			m_UItextBackground.draw(a_gameTime);
+			foreach (Text t_textObject in m_textList) {
+				t_textObject.draw(a_spriteBatch);
+			}
+			foreach (GuiObject t_guiObject in m_guiList) {
+				t_guiObject.draw(a_gameTime);
+			}
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.draw(a_gameTime);
