@@ -16,13 +16,14 @@ namespace GrandLarceny
 		private const float CAMERASPEED = 0.1f;
 
 		private const int CLIMBINGSPEED = 200;
-		private const int PLAYERSPEED = 200;
+		private const int PLAYERSPEED = 600;
 		private const int JUMPSTRENGTH = 600;
 		private const int CAMERAMAXDISTANCE = 100;
 		private const int ACCELERATION = 2000;
 		private const int DEACCELERATION = 800;
 		private const int AIRDEACCELERATION = 300;
 		private const int SLIDESPEED = 25;
+		private const int ROLLSPEED = 1000;
 
 		private float m_rollTimer;
 
@@ -318,9 +319,9 @@ namespace GrandLarceny
 			else
 			{
 				if (m_facingRight)
-					m_speed.X = 500;
+					m_speed.X = ROLLSPEED;
 				else
-					m_speed.X = -500;
+					m_speed.X = -ROLLSPEED;
 			}
 		}
 
