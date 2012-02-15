@@ -13,12 +13,12 @@ namespace GrandLarceny
 {
 	public class Game : Microsoft.Xna.Framework.Game
 	{
-        private static Game m_myGame;
+		private static Game m_myGame;
 
-        internal GraphicsDeviceManager m_graphics;
+		internal GraphicsDeviceManager m_graphics;
 		private SpriteBatch m_spriteBatch;
 		
-        private States m_nextState;
+		private States m_nextState;
 		private States m_currentState;
 
 		internal Camera m_camera;
@@ -53,7 +53,7 @@ namespace GrandLarceny
 		protected override void Initialize()
 		{
 			m_camera = new Camera();
-			m_currentState = new GameState();
+			m_currentState = new MainMenu();
 			m_currentState.load();
 
 			base.Initialize();
@@ -71,6 +71,10 @@ namespace GrandLarceny
 
 		protected override void Update(GameTime a_gameTime)
 		{
+			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+			{
+				Exit();
+			}
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;
@@ -104,5 +108,5 @@ namespace GrandLarceny
 		{
 			return m_currentState;
 		}
-    }
+	}
 }

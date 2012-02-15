@@ -12,29 +12,43 @@ namespace GrandLarceny
 	{
 		protected bool m_dead = false;
 		protected Position m_position;
+		private bool m_isInLight;
 		[NonSerialized]
 		protected ImageManager m_img;
 
 		protected float m_rotate;
-		protected int m_layer;
+		protected float m_layer;
 		protected Color m_color;
 		protected SpriteEffects m_spriteEffects;
+		protected float m_XScale = 1;
+		protected float m_YScale = 1;
 
 		private string m_spritePath;
 
-		public GameObject(Vector2 a_posV2, String a_sprite)
+		public GameObject(Vector2 a_posV2, String a_sprite, float a_layer)
 		{
 			m_position = new CartesianCoordinate(a_posV2);
 			//m_img = new ImageManager(a_sprite);
 			m_rotate = 0.0f;
-			m_layer = 0;
+			m_layer = a_layer;
 			m_color = Color.White;
 			m_spriteEffects = SpriteEffects.None;
 			m_spritePath = a_sprite;
-			initImage();
+			loadContent();
+		}
+		public GameObject(Position a_position, String a_sprite, float a_layer)
+		{
+			m_position = a_position;
+			m_rotate = 0.0f;
+			m_layer = a_layer;
+			m_color = Color.White;
+			m_spriteEffects = SpriteEffects.None;
+			m_spritePath = a_sprite;
+			loadContent();
+
 		}
 
-		public void initImage()
+		public virtual void loadContent()
 		{
 			m_img = new ImageManager(m_spritePath);
 		}
@@ -56,7 +70,7 @@ namespace GrandLarceny
 
 		public virtual void draw(GameTime a_gameTime)
 		{
-			m_img.draw(m_position, m_rotate, m_color, m_spriteEffects, m_layer);
+			m_img.draw(m_position, m_rotate, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
 		}
 		public bool isDead()
 		{
@@ -67,7 +81,7 @@ namespace GrandLarceny
 			m_layer = a_layer;
 		}
 
-		internal virtual void collisionCheck(List<Entity> t_secondGameObject)
+		internal virtual void collisionCheck(List<Entity> a_collisionList)
 		{
 		}
 		public ImageManager getImg()
@@ -109,6 +123,11 @@ namespace GrandLarceny
 		public float getBottomPoint()
 		{
 			return m_position.getY() + (m_img.getSize().Y / 2);
+		}
+
+		public float getRotation()
+		{
+			return m_rotate;
 		}
 	}
 }

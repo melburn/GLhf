@@ -8,8 +8,16 @@ namespace GrandLarceny
     class AIStatePatrolling : AIState
     {
         static AIStatePatrolling instance;
+		public static AIStatePatrolling getInstance()
+		{
+			if(instance == null)
+			{
+				instance = new AIStatePatrolling();
+			}
+			return instance;
+        }
         public override AIState execute(NPE a_agent)
-        {
+		{
             if(a_agent==null)
             {
                 throw new ArgumentException("The Agent cannot be null");
@@ -60,14 +68,5 @@ namespace GrandLarceny
                 throw new ArgumentException("Only guards can patroll");
             }
         }
-
-        public static AIStatePatrolling getInstance()
-        {
- 	        if(instance==null)
-            {
-                instance = new AIStatePatrolling();
-            }
-            return instance;
-        }
-    }
+	}
 }

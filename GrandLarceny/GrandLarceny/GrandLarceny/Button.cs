@@ -13,6 +13,8 @@ namespace GrandLarceny
 		public delegate void clickDelegate(Button a_button);
 		public event clickDelegate m_clickEvent;
 
+		private int m_level;
+
 		private Vector2 m_position;
 		private Vector2 m_size;
 
@@ -28,19 +30,30 @@ namespace GrandLarceny
 		private MouseState m_currMouseState;
 		private MouseState m_prevMouseState;
 
-		public Button(Texture2D a_normal, Texture2D a_hover, Texture2D a_pressed, Vector2 a_position)
+		public Button(Texture2D a_normal, Texture2D a_hover, Texture2D a_pressed, Vector2 a_position, int a_level)
 		{
 			setHoverTexture(a_hover);
 			setNormalTexture(a_normal);
 			setPressedTexture(a_pressed);
 			setPosition(a_position);
+			m_level = a_level;
 		}
 
 		public void update()
 		{
 			m_prevMouseState = m_currMouseState;
 			m_currMouseState = Mouse.GetState();
-			if (m_bounds.Contains(m_currMouseState.X, m_currMouseState.Y))
+			Vector2 t_worldMouse;
+			t_worldMouse.X =
+				Mouse.GetState().X / Game.getInstance().m_camera.getZoom()
+				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X
+				- ((Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / Game.getInstance().m_camera.getZoom());
+			t_worldMouse.Y =
+				Mouse.GetState().Y / Game.getInstance().m_camera.getZoom()
+				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y
+				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom());
+
+			if (m_bounds.Contains((int)t_worldMouse.X, (int)t_worldMouse.Y))
 			{
 				m_isFocused = true;
 				if (m_currMouseState != m_prevMouseState && m_currMouseState.LeftButton == ButtonState.Pressed)
@@ -84,6 +97,10 @@ namespace GrandLarceny
 			m_position = a_position;
 			m_bounds.X = (int)a_position.X;
 			m_bounds.Y = (int)a_position.Y;
+		}
+		public int getLevel()
+		{
+			return m_level;
 		}
 		public Vector2 getSize()
 		{

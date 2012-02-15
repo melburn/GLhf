@@ -16,6 +16,10 @@ namespace GrandLarceny
 		{
 			m_coordinates = a_coordinates;
 		}
+		public PolarCoordinate(float a_radie, float a_slope)
+		{
+			m_coordinates = new Vector2(a_radie, a_slope);
+		}
 
 		public override Vector2 getLocalCartesianCoordinates()
 		{
@@ -64,7 +68,10 @@ namespace GrandLarceny
 
 		public override void plusWith(Vector2 a_term)
 		{
-			m_coordinates = convertCartesianToPolar(convertPolarToCartesian(m_coordinates)+a_term);
+			if (a_term.Length() != 0)
+			{
+				m_coordinates = convertCartesianToPolar(convertPolarToCartesian(m_coordinates) + a_term);
+			}
 		}
 
 		public override void setLength(float length)
@@ -126,6 +133,16 @@ namespace GrandLarceny
 		public override void smoothStep(Vector2 a_vec, float a_amount)
 		{
 			m_coordinates = convertCartesianToPolar(Vector2.SmoothStep(convertPolarToCartesian(m_coordinates),a_vec,a_amount));
+		}
+
+		public override void setSlope(float m_rotation)
+		{
+			m_coordinates.Y = m_rotation;
+		}
+
+		public override Position getProductWith(float p)
+		{
+			return new CartesianCoordinate(convertPolarToCartesian(m_coordinates)*p,m_parentPosition);
 		}
 	}
 }

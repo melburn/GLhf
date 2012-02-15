@@ -108,10 +108,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIState.cs" />
+    <Compile Include="AIStateChasing.cs" />
+    <Compile Include="AIStateGoingToTheSwitch.cs" />
     <Compile Include="AIStatePatrolling.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CartesianPosition.cs" />
+    <Compile Include="CollisionRectangle.cs" />
+    <Compile Include="CollisionShape.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="CollisionManager.cs" />
@@ -119,9 +123,11 @@
     <Compile Include="Enviroment.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="GuiObject.cs" />
     <Compile Include="ImageManager.cs" />
     <Compile Include="Ladder.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="LightCone.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuState.cs" />
@@ -138,6 +144,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="Sound.cs" />
+    <Compile Include="SpotLight.cs" />
     <Compile Include="States.cs" />
   </ItemGroup>
   <ItemGroup>

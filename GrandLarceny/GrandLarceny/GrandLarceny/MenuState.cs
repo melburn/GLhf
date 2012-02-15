@@ -9,10 +9,8 @@ namespace GrandLarceny
 {
 	class MenuState : States
 	{
-		public override void setPlayer(Player a_player)
-		{
-			;
-		}
+		internal List<Button> m_buttons = new List<Button>();
+
 		public override void update(GameTime a_gameTime)
 		{
 
@@ -21,6 +19,11 @@ namespace GrandLarceny
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 
+		}
+
+		public override void addObject(GameObject a_object)
+		{
+			//throw new NotImplementedException();
 		}
 	}
 }
