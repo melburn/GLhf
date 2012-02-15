@@ -329,28 +329,28 @@ namespace GrandLarceny
 			
 				if (m_currentState == State.Stop)
 				{
-					m_img.setSprite("Images//hero_stand");
+					m_img.setSprite("Images//Sprite//hero_stand");
 				}
 				else if (m_currentState == State.Walking)
 				{
-					m_img.setSprite("Images//hero_stand");
+					m_img.setSprite("Images//Sprite//hero_stand");
 				}
 
 				if (m_currentState == State.Jumping)
 				{
 					if (m_speed.Y < 0)
-						m_img.setSprite("Images//hero_jump");
+						m_img.setSprite("Images//Sprite//hero_jump");
 					else
-						m_img.setSprite("Images//hero_fall");
+						m_img.setSprite("Images//Sprite//hero_fall");
 				}
 				
 				else if (m_currentState == State.Rolling)
 				{
-					m_img.setSprite("Images//hero_roll");
+					m_img.setSprite("Images//Sprite//hero_roll");
 				}
 				else if (m_currentState == State.Slide)
 				{
-					m_img.setSprite("Images//hero_slide");
+					m_img.setSprite("Images//Sprite//hero_slide");
 				}
 			
 		}

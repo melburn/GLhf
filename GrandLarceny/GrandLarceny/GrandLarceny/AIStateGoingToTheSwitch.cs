@@ -7,7 +7,9 @@ namespace GrandLarceny
 {
 	public class AIStateGoingToTheSwitch : AIState
 	{
-		private AIStateGoingToTheSwitch() { }
+		private AIStateGoingToTheSwitch()
+		{
+		}
 		private static AIStateGoingToTheSwitch instance;
 		public static AIStateGoingToTheSwitch getInstance()
 		{

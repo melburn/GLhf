@@ -19,7 +19,7 @@ namespace GrandLarceny
 			m_lit = a_lit;
 			if (m_lit)
 			{
-				m_light = new LightCone(this, "Images\\Ljus",a_layer , 100f, 50f);
+				m_light = new LightCone(this, "Images//LightCone//Ljus",a_layer , 100f, 50f);
 
 				(Game.getInstance().getState()).addObject(m_light);
 			}
@@ -29,7 +29,7 @@ namespace GrandLarceny
 			base.loadContent();
 			if (m_lit)
 			{
-				m_light = new LightCone(this, "Images\\BeconOfLight", m_layer + 1, 100f, 50f);
+				m_light = new LightCone(this, "Images//LightCone//BeaconOfLight", m_layer + 1, 100f, 50f);
 				((GameState)(Game.getInstance().getState())).addObject(m_light);
 			}
 		}
