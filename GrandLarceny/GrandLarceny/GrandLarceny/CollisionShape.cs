@@ -13,7 +13,7 @@ namespace GrandLarceny
 
 		public abstract bool Collides(CollisionShape a_cs2);
 		
-		public Rectangle getOutBox()
+		public virtual Rectangle getOutBox()
 		{
 			return m_OutBox;
 		}

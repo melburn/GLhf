@@ -5,9 +5,11 @@ using System.Text;
 
 namespace GrandLarceny
 {
-    class AIStateChasing : AIState
-    {
-		private AIStateChasing() { }
+	public class AIStateChasing : AIState
+	{
+		private AIStateChasing()
+		{
+		}
 		private static AIStateChasing instance;
 		public static AIStateChasing getInstance()
 		{
@@ -17,20 +19,20 @@ namespace GrandLarceny
 			}
 			return instance;
 		}
-        public override AIState execute(NPE a_agent)
-        {
-            if(a_agent==null)
-            {
-                throw new ArgumentNullException("The Agent cannot be null");
-            }
-            if(a_agent is Guard)
-            {
-                Guard t_guard = (Guard)a_agent;
-                Entity t_target = t_guard.getChaseTarget();
-                if (t_target == null)
-                {
+		public override AIState execute(NPE a_agent)
+		{
+			if (a_agent == null)
+			{
+				throw new ArgumentNullException("The Agent cannot be null");
+			}
+			if(a_agent is Guard)
+			{
+				Guard t_guard = (Guard)a_agent;
+				Entity t_target = t_guard.getChaseTarget();
+				if (t_target == null)
+				{
 					return AIStatePatrolling.getInstance();
-                }
+				}
 				if (! t_guard.isRunning())
 				{
 					t_guard.setRunning(true);
@@ -49,12 +51,12 @@ namespace GrandLarceny
 						t_guard.goLeft();
 					}
 				}
-                return this;
-            }
-            else
-            {
-                throw new ArgumentException("Only guards can chase");
-            }
+				return this;
+			}
+			else
+			{
+				throw new ArgumentException("Only guards can chase");
+			}
         }
     }
 }

@@ -6,7 +6,8 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
-	class Guard : NPE
+	[Serializable()]
+	public class Guard : NPE
 	{
         private float m_leftPatrollPoint;
         private float m_rightPatrollPoint;
@@ -15,7 +16,7 @@ namespace GrandLarceny
         public Boolean m_inALightArea = false;
         private Boolean m_isCarryingFlashLight;
         private float MOVEMENTSPEED = 100;
-		private float CHASEINGSPEED = 250;
+		private float CHASINGSPEED = 250;
         private Entity m_chaseTarget = null;
 		private Boolean m_running = false;
 

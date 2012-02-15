@@ -38,17 +38,23 @@ namespace GrandLarceny
 			m_OutBox.Height = (int)m_height;
 		}
 
+		public override Rectangle getOutBox()
+		{
+			m_OutBox.X = (int)(m_xOffset + m_position.getX());
+			m_OutBox.Y = (int)(m_yOffset + m_position.getY());
+			return m_OutBox;
+		}
+
 		public override bool Collides(CollisionShape a_cs)
 		{
 			if (a_cs is CollisionRectangle)
 			{
-				//CollisionRectangle a_cr = (CollisionRectangle)a_cs;
-				return true;
-					
-					/*(m_xOffset <= a_cr.m_xOffset + a_cr.m_width &&
-					m_xOffset + m_width >= a_cr.m_xOffset &&
-					m_yOffset <= a_cr.m_yOffset + a_cr.m_height &&
-					m_yOffset + m_height >= a_cr.m_yOffset);*/
+				CollisionRectangle t_cr = (CollisionRectangle)a_cs;
+
+				return (m_xOffset + m_position.getX() + 1 <= t_cr.m_xOffset + t_cr.m_position.getX() + t_cr.m_width &&
+					m_xOffset + m_position.getX() + m_width - 1 >= t_cr.m_xOffset + t_cr.m_position.getX() &&
+					m_yOffset + m_position.getY() <= t_cr.m_yOffset + t_cr.m_position.getY() + t_cr.m_height &&
+					m_yOffset + m_position.getY() + m_height >= t_cr.m_yOffset + t_cr.m_position.getY());
 			}
 			return false;
 		}

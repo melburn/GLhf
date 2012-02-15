@@ -13,6 +13,7 @@ namespace GrandLarceny
 		private LinkedList<GameObject> m_gameObjectList;
 		private LinkedList<GameObject> m_buildObjectList;
 		private LinkedList<GuiObject> m_guiList;
+		private LinkedList<Button> m_buttonList;
 		private LinkedList<Text> m_textList;
 		private MouseState m_previousMouse;
 		private MouseState m_currentMouse;
@@ -32,6 +33,8 @@ namespace GrandLarceny
 		private Text m_textSelectedObjectPosition;
 		private GuiObject m_UItextBackground;
 
+		private Button m_btnLadderHotkey;
+
 		private enum State
 		{
 			Platform,
@@ -40,7 +43,8 @@ namespace GrandLarceny
 			Ladder,
 			SpotLight,
 			Delete,
-			None
+			None,
+			Guard
 		}
 		private State m_itemToCreate = State.None;
 
@@ -50,7 +54,8 @@ namespace GrandLarceny
 			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
 		}
 
-		private Vector2 getTile(Vector2 a_pixelPosition) {
+		private Vector2 getTile(Vector2 a_pixelPosition)
+		{
 			if (a_pixelPosition.X % 72 >= 36)
 				a_pixelPosition.X = a_pixelPosition.X + (72 - (a_pixelPosition.X % 72));	
 			else if (a_pixelPosition.X % 72 < 36)
@@ -70,6 +75,7 @@ namespace GrandLarceny
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
 			m_guiList = new LinkedList<GuiObject>();
 			m_textList = new LinkedList<Text>();
+			m_buttonList = new LinkedList<Button>();
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				if (t_gameObject is Player)
@@ -82,13 +88,16 @@ namespace GrandLarceny
 			m_buildObjectList = new LinkedList<GameObject>();
 			m_itemToCreate = State.None;
 
-			m_textCurrentMode = new Text(new Vector2(12, 10), "Select", m_courierNew, Color.Black, false);
+			m_textCurrentMode				= new Text(new Vector2(12, 10), "Select", m_courierNew, Color.Black, false);
+			m_textSelectedObjectPosition	= new Text(new Vector2(12, 42), "Nothing Selected", m_courierNew, Color.Black, false);
 			m_textList.AddLast(m_textCurrentMode);
-			m_textSelectedObjectPosition = new Text(new Vector2(12, 42), "Nothing Selected", m_courierNew, Color.Black, true);
 			m_textList.AddLast(m_textSelectedObjectPosition);
 
-			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//guiderp");
+			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//GUI//dev_bg_info");
 			m_guiList.AddLast(m_UItextBackground);
+
+			m_btnLadderHotkey = new Button("Images//GUI//btn_ladder_hotkey_normal", "Images//GUI//btn_ladder_hotkey_hover", "Images//GUI//btn_ladder_hotkey_pressed", new Vector2(100, 100), 0);
+			m_buttonList.AddLast(m_btnLadderHotkey);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -112,6 +121,11 @@ namespace GrandLarceny
 			updateMouse();
 			updateGUI();
 
+			foreach (Button t_button in m_buttonList)
+			{
+				t_button.update();
+			}
+
 			m_previousKeyboard = m_currentKeyboard;
 			m_previousMouse = m_currentMouse;
 		}
@@ -132,8 +146,10 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.zoomOut(0.1f);
 		}
 
-		private void updateGUI() {
-			if (m_selectedObject != null) {
+		private void updateGUI()
+		{
+			if (m_selectedObject != null)
+			{
 				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / 72;
 				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y / 72;
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
@@ -181,9 +197,15 @@ namespace GrandLarceny
 				m_itemToCreate = State.SpotLight;
 				m_textCurrentMode.setText("Create SpotLight");
 			}
+			if (m_currentKeyboard.IsKeyDown(Keys.G) && m_previousKeyboard.IsKeyUp(Keys.G))
+			{
+				m_itemToCreate = State.Guard;
+				m_textCurrentMode.setText("Create Guard");
+			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
-				if (m_selectedObject != null) {
+				if (m_selectedObject != null)
+				{
 					m_selectedObject.setColor(Color.White);
 					m_selectedObject = null;
 				}
@@ -237,6 +259,11 @@ namespace GrandLarceny
 						createSpotLight();
 						break;
 					}
+					case State.Guard:
+					{
+						createGuard();
+						break;
+					}
 				}
 			}
 
@@ -263,11 +290,13 @@ namespace GrandLarceny
 						m_selectedObject = t_gameObject;
 					}
 				}
-				if (m_selectedObject != null && m_itemToCreate == State.Delete) {
+				if (m_selectedObject != null && m_itemToCreate == State.Delete)
+				{
 					deleteObject(m_selectedObject);
 					m_selectedInfoV2 = Vector2.Zero;
 				}
-				if (m_selectedObject != null) {
+				if (m_selectedObject != null)
+				{
 					m_selectedObject.setColor(Color.Yellow);
 				}
 			}
@@ -283,34 +312,41 @@ namespace GrandLarceny
 
 		private void createPlayer()
 		{
-			if (m_player == null) {
-				m_player = new Player(getTile(m_worldMouse), "Images//hero_stand", 0.250f);
+			if (m_player == null)
+			{
+				m_player = new Player(getTile(m_worldMouse), "Images//Sprite//hero_stand", 0.250f);
 				m_gameObjectList.AddLast(m_player);
 			}
 		}
 
 		private void createPlatform()
 		{
-			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//tile", 0.350f);
+			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.350f);
 			m_gameObjectList.AddLast(t_platform);
 		}
 
 		private void createLadder()
 		{
-			Ladder t_ladder = new Ladder(getTile(m_worldMouse), "Images//ladder", 0.350f);
+			Ladder t_ladder = new Ladder(getTile(m_worldMouse), "Images//Tile//1x1_ladder_ph", 0.350f);
 			m_gameObjectList.AddLast(t_ladder);
 		}
 
 		private void createSpotLight()
 		{
-			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
+			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//LightCone//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
 			m_gameObjectList.AddLast(t_sl);
 		}
 
 		private void createBackground()
 		{
-			Environment t_environment = new Environment(getTile(m_worldMouse), "Images//test", 0.750f);
+			Environment t_environment = new Environment(getTile(m_worldMouse), "Images//Background//ph", 0.750f);
 			m_gameObjectList.AddLast(t_environment);
+		}
+
+		private void createGuard()
+		{
+			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//guard_idle", getTile(m_worldMouse).X, true, true, 0.300f);
+			m_gameObjectList.AddLast(t_guard);
 		}
 
 		private void deleteObject(GameObject a_gameObject)
@@ -324,15 +360,21 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			foreach (Text t_textObject in m_textList) {
+			foreach (Text t_textObject in m_textList)
+			{
 				t_textObject.draw(a_spriteBatch);
 			}
-			foreach (GuiObject t_guiObject in m_guiList) {
+			foreach (GuiObject t_guiObject in m_guiList)
+			{
 				t_guiObject.draw(a_gameTime);
 			}
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.draw(a_gameTime);
+			}
+			foreach (Button t_button in m_buttonList)
+			{
+				t_button.draw(a_gameTime, a_spriteBatch);
 			}
 		}
 		public override void addObject(GameObject a_object)
