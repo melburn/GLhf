@@ -87,20 +87,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\GUI\btn_hover_test.png">
-      <Name>btn_hover_test</Name>
+    <Compile Include="Images\GUI\btn_test_hover.png">
+      <Name>btn_test_hover</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Images\GUI\btn_normal_test.png">
-      <Name>btn_normal_test</Name>
+    <Compile Include="Images\GUI\btn_test_normal.png">
+      <Name>btn_test_normal</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Images\GUI\btn_pressed_test.png">
-      <Name>btn_pressed_test</Name>
+    <Compile Include="Images\GUI\btn_test_pressed.png">
+      <Name>btn_test_pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -147,8 +147,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\GUI\btn_empty_test.png">
-      <Name>btn_empty_test</Name>
+    <Compile Include="Images\GUI\btn_test_empty.png">
+      <Name>btn_test_empty</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -182,6 +182,23 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\btn_ladder_hotkey_hover.png">
+      <Name>btn_ladder_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_ladder_hotkey_normal.png">
+      <Name>btn_ladder_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_ladder_hotkey_pressed.png">
+      <Name>btn_ladder_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

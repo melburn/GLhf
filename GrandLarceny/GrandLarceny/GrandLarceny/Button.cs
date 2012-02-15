@@ -39,6 +39,15 @@ namespace GrandLarceny
 			m_level = a_level;
 		}
 
+		public Button(string a_normal, string a_hover, string a_pressed, Vector2 a_position, int a_level)
+		{
+			setNormalTexture(Game.getInstance().Content.Load<Texture2D>(a_normal));
+			setHoverTexture(Game.getInstance().Content.Load<Texture2D>(a_hover));
+			setPressedTexture(Game.getInstance().Content.Load<Texture2D>(a_pressed));
+			setPosition(a_position);
+			m_level = a_level;
+		}
+
 		public void update()
 		{
 			m_prevMouseState = m_currMouseState;

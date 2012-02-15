@@ -13,6 +13,7 @@ namespace GrandLarceny
 		private LinkedList<GameObject> m_gameObjectList;
 		private LinkedList<GameObject> m_buildObjectList;
 		private LinkedList<GuiObject> m_guiList;
+		private LinkedList<Button> m_buttonList;
 		private LinkedList<Text> m_textList;
 		private MouseState m_previousMouse;
 		private MouseState m_currentMouse;
@@ -31,6 +32,8 @@ namespace GrandLarceny
 		private Text m_textCurrentMode;
 		private Text m_textSelectedObjectPosition;
 		private GuiObject m_UItextBackground;
+
+		private Button m_btnLadderHotkey;
 
 		private enum State
 		{
@@ -72,6 +75,7 @@ namespace GrandLarceny
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
 			m_guiList = new LinkedList<GuiObject>();
 			m_textList = new LinkedList<Text>();
+			m_buttonList = new LinkedList<Button>();
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				if (t_gameObject is Player)
@@ -91,6 +95,9 @@ namespace GrandLarceny
 
 			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//GUI//dev_bg_info");
 			m_guiList.AddLast(m_UItextBackground);
+
+			m_btnLadderHotkey = new Button("Images//GUI//btn_ladder_hotkey_normal", "Images//GUI//btn_ladder_hotkey_hover", "Images//GUI//btn_ladder_hotkey_pressed", new Vector2(100, 100), 0);
+			m_buttonList.AddLast(m_btnLadderHotkey);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -113,6 +120,11 @@ namespace GrandLarceny
 			updateKeyboard();
 			updateMouse();
 			updateGUI();
+
+			foreach (Button t_button in m_buttonList)
+			{
+				t_button.update();
+			}
 
 			m_previousKeyboard = m_currentKeyboard;
 			m_previousMouse = m_currentMouse;
@@ -359,6 +371,10 @@ namespace GrandLarceny
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.draw(a_gameTime);
+			}
+			foreach (Button t_button in m_buttonList)
+			{
+				t_button.draw(a_gameTime, a_spriteBatch);
 			}
 		}
 		public override void addObject(GameObject a_object)
