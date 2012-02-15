@@ -25,8 +25,8 @@ namespace GrandLarceny
 			{
 				m_resolution = new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth, Game.getInstance().m_graphics.PreferredBackBufferHeight);
 				m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
-				m_position.setX(m_position.getX() - m_resolution.X / 2);
-				m_position.setY(m_position.getY() - m_resolution.Y / 2);
+				m_position.setX(m_position.getLocalX() - m_resolution.X / 2);
+				m_position.setY(m_position.getLocalY() - m_resolution.Y / 2);
 			}
 			m_text = a_text;
 			m_spriteFont = a_spriteFont;
@@ -42,8 +42,8 @@ namespace GrandLarceny
 			{
 				m_resolution = new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth, Game.getInstance().m_graphics.PreferredBackBufferHeight);
 				m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
-				m_position.setX(m_position.getX() - m_resolution.X / 2);
-				m_position.setY(m_position.getY() - m_resolution.Y / 2);
+				m_position.setX(m_position.getLocalX() - m_resolution.X / 2);
+				m_position.setY(m_position.getLocalY() - m_resolution.Y / 2);
 			}
 			m_text = a_text;
 			m_spriteFont = a_spriteFont;

@@ -16,13 +16,14 @@ namespace GrandLarceny
 		private const float CAMERASPEED = 0.1f;
 
 		private const int CLIMBINGSPEED = 200;
-		private const int PLAYERSPEED = 200;
+		private const int PLAYERSPEED = 600;
 		private const int JUMPSTRENGTH = 600;
 		private const int CAMERAMAXDISTANCE = 100;
 		private const int ACCELERATION = 2000;
 		private const int DEACCELERATION = 800;
 		private const int AIRDEACCELERATION = 300;
 		private const int SLIDESPEED = 25;
+		private const int ROLLSPEED = 1000;
 
 		private float m_rollTimer;
 
@@ -194,7 +195,7 @@ namespace GrandLarceny
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		
 			m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
-			if (m_position.getY() != getLastPosition().Y)
+			if (m_position.getGlobalY() != getLastPosition().Y)
 			{
 				m_currentState = State.Jumping;
 			}		
@@ -238,7 +239,7 @@ namespace GrandLarceny
 
 		private void updateSliding(float a_deltaTime)
 		{
-			if (m_lastPosition.Y != m_position.getY())
+			if (m_lastPosition.Y != m_position.getGlobalY())
 			{
 				if ((!m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Right)) || (m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Left)))
 				{
@@ -318,9 +319,9 @@ namespace GrandLarceny
 			else
 			{
 				if (m_facingRight)
-					m_speed.X = 500;
+					m_speed.X = ROLLSPEED;
 				else
-					m_speed.X = -500;
+					m_speed.X = -ROLLSPEED;
 			}
 		}
 
@@ -375,7 +376,7 @@ namespace GrandLarceny
 						//Colliding with ze floor
 						if ((int)m_lastPosition.Y + getHitBox().getOutBox().Height <= (int)t_collider.getLastPosition().Y)
 						{
-							m_position.setY(t_collider.getPosition().getY() - m_collisionShape.getOutBox().Height);
+							m_position.setY(t_collider.getPosition().getGlobalY() - m_collisionShape.getOutBox().Height);
 							m_speed.Y = 0;
 							if (m_currentState == State.Jumping || m_currentState ==  State.Climbing)
 							{
@@ -397,14 +398,14 @@ namespace GrandLarceny
 						//Colliding with ze zeeling
 						if ((int)m_lastPosition.Y >= (int)t_collider.getLastPosition().Y + t_collider.getHitBox().getOutBox().Height)
 						{
-							m_position.setY(t_collider.getPosition().getY() + t_collider.getHitBox().getOutBox().Height);
+							m_position.setY(t_collider.getPosition().getGlobalY() + t_collider.getHitBox().getOutBox().Height);
 							m_speed.Y = 0;
 							continue;
 						}
 						//Colliding with ze left wall
 						if ((int)m_lastPosition.X + 1 >= (int)t_collider.getLastPosition().X + t_collider.getHitBox().getOutBox().Width)
 						{
-							m_position.setX(t_collider.getPosition().getX() + t_collider.getHitBox().getOutBox().Width);
+							m_position.setX(t_collider.getPosition().getGlobalX() + t_collider.getHitBox().getOutBox().Width);
 							if(m_currentState == State.Jumping)
 							{
 								m_currentState = State.Slide;
@@ -415,7 +416,7 @@ namespace GrandLarceny
 						//Colliding with ze right wall
 						if ((int)m_lastPosition.X + getHitBox().getOutBox().Width - 1 <= (int)t_collider.getLastPosition().X)
 						{
-							m_position.setX(t_collider.getPosition().getX() - (getHitBox().getOutBox().Width));
+							m_position.setX(t_collider.getPosition().getGlobalX() - (getHitBox().getOutBox().Width));
 							if (m_currentState == State.Jumping)
 							{
 								m_currentState = State.Slide;
@@ -429,7 +430,7 @@ namespace GrandLarceny
 						
 						//Colliding with ze ladd0rz
 						Rectangle t_rect = new Rectangle(t_collider.getHitBox().getOutBox().X - 2,
-							(int)t_collider.getPosition().getY(), 4, t_collider.getHitBox().getOutBox().Height);
+							(int)t_collider.getPosition().getGlobalY(), 4, t_collider.getHitBox().getOutBox().Height);
 						if (t_rect.Contains((int)m_lastPosition.X, (int)m_lastPosition.Y))
 						{
 							if (m_currentKeyInput.IsKeyDown(Keys.Up) || (m_currentKeyInput.IsKeyDown(Keys.Down) && !t_onFloor))
@@ -438,7 +439,7 @@ namespace GrandLarceny
 								m_currentState = State.Climbing;
 								if (m_speed.Y < -CLIMBINGSPEED || m_speed.Y > CLIMBINGSPEED)
 									m_speed.Y = 0;
-								m_position.setX(t_collider.getPosition().getX());
+								m_position.setX(t_collider.getPosition().getGlobalX());
 							}
 						}
 						t_onLadder = true;

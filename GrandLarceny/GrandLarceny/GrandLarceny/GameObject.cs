@@ -61,7 +61,7 @@ namespace GrandLarceny
 
 		public Rectangle getBox()
 		{
-			return new Rectangle((int)getPosition().getX(), (int)getPosition().getY(), (int)m_img.getSize().X, (int)m_img.getSize().Y);
+			return new Rectangle((int)getPosition().getGlobalX(), (int)getPosition().getGlobalY(), (int)m_img.getSize().X, (int)m_img.getSize().Y);
 		}
 
 		public virtual void update(GameTime a_gameTime)

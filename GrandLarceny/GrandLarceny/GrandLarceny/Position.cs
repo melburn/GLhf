@@ -21,8 +21,10 @@ namespace GrandLarceny
 		abstract public void setLength(float length);
 		abstract public void rotate(float a_radians);
 		abstract public float getLength();
-		abstract public float getX();
-		abstract public float getY();
+		abstract public float getLocalX();
+		abstract public float getLocalY();
+		abstract public float getGlobalX();
+		abstract public float getGlobalY();
 		abstract public void setParentPositionWithoutMoving(Position a_parentPosition);
 		abstract public float getSlope();
 		abstract public void setY(float y);

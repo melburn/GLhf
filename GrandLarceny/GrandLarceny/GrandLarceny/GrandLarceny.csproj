@@ -116,6 +116,7 @@
     <Compile Include="CartesianPosition.cs" />
     <Compile Include="CollisionRectangle.cs" />
     <Compile Include="CollisionShape.cs" />
+    <Compile Include="CollisionTriangle.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Guard.cs" />

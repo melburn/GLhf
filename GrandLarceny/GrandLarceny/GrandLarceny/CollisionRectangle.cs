@@ -20,15 +20,15 @@ namespace GrandLarceny
 			m_width = a_width;
 			m_height = a_height;
 			m_position = a_position;	
-			m_OutBox = new Rectangle((int)(m_xOffset + m_position.getX()), (int)(m_yOffset + m_position.getY()), (int)m_width, (int)m_height);
+			m_OutBox = new Rectangle((int)(m_xOffset + m_position.getGlobalX()), (int)(m_yOffset + m_position.getGlobalY()), (int)m_width, (int)m_height);
 		}
 
 		public void setPosition(Vector2 a_pos)
 		{
 			m_xOffset = a_pos.X;
 			m_yOffset = a_pos.Y;
-			m_OutBox.X = (int)(m_xOffset + m_position.getX());
-			m_OutBox.Y = (int)(m_yOffset + m_position.getY());
+			m_OutBox.X = (int)(m_xOffset + m_position.getGlobalX());
+			m_OutBox.Y = (int)(m_yOffset + m_position.getGlobalY());
 		}
 		public void setSize(Vector2 a_size)
 		{
@@ -40,8 +40,8 @@ namespace GrandLarceny
 
 		public override Rectangle getOutBox()
 		{
-			m_OutBox.X = (int)(m_xOffset + m_position.getX());
-			m_OutBox.Y = (int)(m_yOffset + m_position.getY());
+			m_OutBox.X = (int)(m_xOffset + m_position.getGlobalX());
+			m_OutBox.Y = (int)(m_yOffset + m_position.getGlobalY());
 			return m_OutBox;
 		}
 
@@ -51,12 +51,31 @@ namespace GrandLarceny
 			{
 				CollisionRectangle t_cr = (CollisionRectangle)a_cs;
 
-				return (m_xOffset + m_position.getX() + 1 <= t_cr.m_xOffset + t_cr.m_position.getX() + t_cr.m_width &&
-					m_xOffset + m_position.getX() + m_width - 1 >= t_cr.m_xOffset + t_cr.m_position.getX() &&
-					m_yOffset + m_position.getY() <= t_cr.m_yOffset + t_cr.m_position.getY() + t_cr.m_height &&
-					m_yOffset + m_position.getY() + m_height >= t_cr.m_yOffset + t_cr.m_position.getY());
+				return (m_xOffset + m_position.getGlobalX() + 1 <= t_cr.m_xOffset + t_cr.m_position.getGlobalX() + t_cr.m_width &&
+					m_xOffset + m_position.getGlobalX() + m_width - 1 >= t_cr.m_xOffset + t_cr.m_position.getGlobalX() &&
+					m_yOffset + m_position.getGlobalY() <= t_cr.m_yOffset + t_cr.m_position.getGlobalY() + t_cr.m_height &&
+					m_yOffset + m_position.getGlobalY() + m_height >= t_cr.m_yOffset + t_cr.m_position.getGlobalY());
 			}
 			return false;
+		}
+
+		public Vector2[] getFivePoints()
+		{
+			Vector2[] t_ret = new Vector2[5];
+			t_ret[4] = new Vector2(m_xOffset + m_position.getGlobalX(), m_yOffset + m_position.getGlobalY());
+			t_ret[1] = new Vector2(m_xOffset + m_width + m_position.getGlobalX(), m_yOffset + m_position.getGlobalY());
+			t_ret[2] = new Vector2(m_xOffset + m_position.getGlobalX(), m_yOffset + m_height + m_position.getGlobalY());
+			t_ret[3] = new Vector2(m_xOffset + m_width + m_position.getGlobalX(), m_yOffset + m_height + m_position.getGlobalY());
+			t_ret[0] = new Vector2(m_xOffset + (m_width / 2) + m_position.getGlobalX(), m_yOffset + (m_height / 2) + m_position.getGlobalY());
+			return t_ret;
+		}
+
+		public bool contains(Vector2 v)
+		{
+			return v.X <= m_xOffset + m_width + m_position.getGlobalX() &&
+				v.X >= m_xOffset + m_position.getGlobalX() &&
+				v.Y <= m_yOffset + m_height + m_position.getGlobalY() &&
+				v.Y >= m_yOffset + m_position.getGlobalY();
 		}
 	}
 }
