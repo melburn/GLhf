@@ -88,7 +88,6 @@ namespace GrandLarceny
 					break;
 				}
 			}
-			m_previousKeyInput = m_currentKeyInput;
 			changeAnimation();
 			flipSprite();
 			base.update(a_gameTime);
@@ -374,7 +373,7 @@ namespace GrandLarceny
 					if (t_collider is Platform)
 					{
 						//Colliding with ze floor
-						if ((int)m_lastPosition.Y - 2 <= (int)t_collider.getLastPosition().Y)
+						if ((int)m_lastPosition.Y + getHitBox().getOutBox().Height <= (int)t_collider.getLastPosition().Y)
 						{
 							m_position.setY(t_collider.getPosition().getY() - m_collisionShape.getOutBox().Height);
 							m_speed.Y = 0;
@@ -396,14 +395,14 @@ namespace GrandLarceny
 						}
 
 						//Colliding with ze zeeling
-						if ((int)m_lastPosition.Y + 2 >= (int)t_collider.getLastPosition().Y)
+						if ((int)m_lastPosition.Y >= (int)t_collider.getLastPosition().Y + t_collider.getHitBox().getOutBox().Height)
 						{
 							m_position.setY(t_collider.getPosition().getY() + t_collider.getHitBox().getOutBox().Height);
 							m_speed.Y = 0;
 							continue;
 						}
 						//Colliding with ze left wall
-						if ((int)m_lastPosition.X + 2 >= (int)t_collider.getLastPosition().X)
+						if ((int)m_lastPosition.X + 1 >= (int)t_collider.getLastPosition().X + t_collider.getHitBox().getOutBox().Width)
 						{
 							m_position.setX(t_collider.getPosition().getX() + t_collider.getHitBox().getOutBox().Width);
 							if(m_currentState == State.Jumping)
@@ -414,9 +413,9 @@ namespace GrandLarceny
 							m_speed.X = 0;
 						}
 						//Colliding with ze right wall
-						if ((int)m_lastPosition.X - 2 <= (int)t_collider.getLastPosition().X)
+						if ((int)m_lastPosition.X + getHitBox().getOutBox().Width - 1 <= (int)t_collider.getLastPosition().X)
 						{
-							m_position.setX(t_collider.getPosition().getX() - (getHitBox().getOutBox().X));
+							m_position.setX(t_collider.getPosition().getX() - (getHitBox().getOutBox().Width));
 							if (m_currentState == State.Jumping)
 							{
 								m_currentState = State.Slide;
