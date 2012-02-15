@@ -71,7 +71,7 @@ namespace GrandLarceny
 				new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
 				a_color,
 				a_rotation,
-				new Vector2(m_animationWidth / 2, m_image.Height / 2),
+				Vector2.Zero,
 				a_spriteEffect,
 				a_layer
 			);
