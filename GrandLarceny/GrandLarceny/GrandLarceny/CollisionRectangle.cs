@@ -28,7 +28,7 @@ namespace GrandLarceny
 			m_xOffset = a_pos.X;
 			m_yOffset = a_pos.Y;
 			m_OutBox.X = (int)(m_xOffset + m_position.getX());
-			m_OutBox.Y = (int)(m_yOffset + m_position.getY(;
+			m_OutBox.Y = (int)(m_yOffset + m_position.getY());
 		}
 		public void setSize(Vector2 a_size)
 		{
