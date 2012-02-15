@@ -40,7 +40,8 @@ namespace GrandLarceny
 			Ladder,
 			SpotLight,
 			Delete,
-			None
+			None,
+			Guard
 		}
 		private State m_itemToCreate = State.None;
 
@@ -84,7 +85,7 @@ namespace GrandLarceny
 
 			m_textCurrentMode = new Text(new Vector2(12, 10), "Select", m_courierNew, Color.Black, false);
 			m_textList.AddLast(m_textCurrentMode);
-			m_textSelectedObjectPosition = new Text(new Vector2(12, 42), "Nothing Selected", m_courierNew, Color.Black, true);
+			m_textSelectedObjectPosition = new Text(new Vector2(12, 42), "Nothing Selected", m_courierNew, Color.Black, false);
 			m_textList.AddLast(m_textSelectedObjectPosition);
 
 			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//guiderp");
@@ -181,6 +182,11 @@ namespace GrandLarceny
 				m_itemToCreate = State.SpotLight;
 				m_textCurrentMode.setText("Create SpotLight");
 			}
+			if (m_currentKeyboard.IsKeyDown(Keys.G) && m_previousKeyboard.IsKeyUp(Keys.G))
+			{
+				m_itemToCreate = State.Guard;
+				m_textCurrentMode.setText("Create Guard");
+			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
 				if (m_selectedObject != null) {
@@ -235,6 +241,11 @@ namespace GrandLarceny
 					case State.SpotLight:
 					{
 						createSpotLight();
+						break;
+					}
+					case State.Guard:
+					{
+						createGuard();
 						break;
 					}
 				}
@@ -311,6 +322,12 @@ namespace GrandLarceny
 		{
 			Environment t_environment = new Environment(getTile(m_worldMouse), "Images//test", 0.750f);
 			m_gameObjectList.AddLast(t_environment);
+		}
+
+		private void createGuard()
+		{
+			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//guard_idle", getTile(m_worldMouse).X, true, true, 0.400f);
+			m_gameObjectList.AddLast(t_guard);
 		}
 
 		private void deleteObject(GameObject a_gameObject)
