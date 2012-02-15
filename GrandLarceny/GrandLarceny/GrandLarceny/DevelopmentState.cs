@@ -84,9 +84,9 @@ namespace GrandLarceny
 			m_buildObjectList = new LinkedList<GameObject>();
 			m_itemToCreate = State.None;
 
-			m_textCurrentMode = new Text(new Vector2(12, 10), "Select", m_courierNew, Color.Black, false);
+			m_textCurrentMode				= new Text(new Vector2(12, 10), "Select", m_courierNew, Color.Black, false);
+			m_textSelectedObjectPosition	= new Text(new Vector2(12, 42), "Nothing Selected", m_courierNew, Color.Black, false);
 			m_textList.AddLast(m_textCurrentMode);
-			m_textSelectedObjectPosition = new Text(new Vector2(12, 42), "Nothing Selected", m_courierNew, Color.Black, false);
 			m_textList.AddLast(m_textSelectedObjectPosition);
 
 			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//guiderp");
