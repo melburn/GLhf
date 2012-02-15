@@ -51,7 +51,8 @@ namespace GrandLarceny
 			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
 		}
 
-		private Vector2 getTile(Vector2 a_pixelPosition) {
+		private Vector2 getTile(Vector2 a_pixelPosition)
+		{
 			if (a_pixelPosition.X % 72 >= 36)
 				a_pixelPosition.X = a_pixelPosition.X + (72 - (a_pixelPosition.X % 72));	
 			else if (a_pixelPosition.X % 72 < 36)
@@ -133,8 +134,10 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.zoomOut(0.1f);
 		}
 
-		private void updateGUI() {
-			if (m_selectedObject != null) {
+		private void updateGUI()
+		{
+			if (m_selectedObject != null)
+			{
 				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / 72;
 				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y / 72;
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
@@ -189,7 +192,8 @@ namespace GrandLarceny
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
-				if (m_selectedObject != null) {
+				if (m_selectedObject != null)
+				{
 					m_selectedObject.setColor(Color.White);
 					m_selectedObject = null;
 				}
@@ -274,11 +278,13 @@ namespace GrandLarceny
 						m_selectedObject = t_gameObject;
 					}
 				}
-				if (m_selectedObject != null && m_itemToCreate == State.Delete) {
+				if (m_selectedObject != null && m_itemToCreate == State.Delete)
+				{
 					deleteObject(m_selectedObject);
 					m_selectedInfoV2 = Vector2.Zero;
 				}
-				if (m_selectedObject != null) {
+				if (m_selectedObject != null)
+				{
 					m_selectedObject.setColor(Color.Yellow);
 				}
 			}
@@ -294,7 +300,8 @@ namespace GrandLarceny
 
 		private void createPlayer()
 		{
-			if (m_player == null) {
+			if (m_player == null)
+			{
 				m_player = new Player(getTile(m_worldMouse), "Images//hero_stand", 0.250f);
 				m_gameObjectList.AddLast(m_player);
 			}
@@ -341,10 +348,12 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			foreach (Text t_textObject in m_textList) {
+			foreach (Text t_textObject in m_textList)
+			{
 				t_textObject.draw(a_spriteBatch);
 			}
-			foreach (GuiObject t_guiObject in m_guiList) {
+			foreach (GuiObject t_guiObject in m_guiList)
+			{
 				t_guiObject.draw(a_gameTime);
 			}
 			foreach (GameObject t_gameObject in m_gameObjectList)
