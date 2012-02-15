@@ -374,9 +374,9 @@ namespace GrandLarceny
 					if (t_collider is Platform)
 					{
 						//Colliding with ze floor
-						if ((int)(m_lastPosition.Y + (m_img.getSize().Y / 2)) - 2 <= (int)(t_collider.getLastPosition().Y - (t_collider.getImg().getSize().Y / 2)))
+						if ((int)m_lastPosition.Y - 2 <= (int)t_collider.getLastPosition().Y)
 						{
-							m_position.setY(t_collider.getBox().Y - (m_img.getSize().Y / 2));
+							m_position.setY(t_collider.getBox().Y);
 							m_speed.Y = 0;
 							if (m_currentState == State.Jumping || m_currentState ==  State.Climbing)
 							{
@@ -396,14 +396,14 @@ namespace GrandLarceny
 						}
 
 						//Colliding with ze zeeling
-						if ((int)(m_lastPosition.Y - (m_img.getSize().Y / 2)) + 2 >= (int)(t_collider.getLastPosition().Y + (t_collider.getImg().getSize().Y / 2)))
+						if ((int)m_lastPosition.Y + 2 >= (int)t_collider.getLastPosition().Y)
 						{
-							m_position.setY(t_collider.getBox().Y + t_collider.getBox().Height + (m_img.getSize().Y / 2));
+							m_position.setY(t_collider.getPosition().getY() + t_collider.getBox().Height);
 							m_speed.Y = 0;
 							continue;
 						}
 						//Colliding with ze left wall
-						if ((int)(m_lastPosition.X - (m_img.getSize().X / 2)) + 2 >= (int)(t_collider.getLastPosition().X + (t_collider.getImg().getSize().X / 2)))
+						if ((int)m_lastPosition.X + 2 >= (int)t_collider.getLastPosition().X)
 						{
 							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
 							if(m_currentState == State.Jumping)
@@ -414,9 +414,9 @@ namespace GrandLarceny
 							m_speed.X = 0;
 						}
 						//Colliding with ze right wall
-						if ((int)(m_lastPosition.X + (m_img.getSize().X / 2)) - 2 <= (int)(t_collider.getLastPosition().X - (t_collider.getImg().getSize().X / 2)))
+						if ((int)m_lastPosition.X - 2 <= (int)t_collider.getLastPosition().X)
 						{
-							setLeftPoint(t_collider.getTopLeftPoint().X - (m_img.getSize().X));
+							setLeftPoint(t_collider.getPosition().getX() - (m_img.getSize().X));
 							if (m_currentState == State.Jumping)
 							{
 								m_currentState = State.Slide;
