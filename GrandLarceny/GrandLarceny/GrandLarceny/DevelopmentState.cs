@@ -89,7 +89,7 @@ namespace GrandLarceny
 			m_textList.AddLast(m_textCurrentMode);
 			m_textList.AddLast(m_textSelectedObjectPosition);
 
-			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//guiderp");
+			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//GUI//dev_bg_info");
 			m_guiList.AddLast(m_UItextBackground);
 		}
 
@@ -302,38 +302,38 @@ namespace GrandLarceny
 		{
 			if (m_player == null)
 			{
-				m_player = new Player(getTile(m_worldMouse), "Images//hero_stand", 0.250f);
+				m_player = new Player(getTile(m_worldMouse), "Images//Sprite//hero_stand", 0.250f);
 				m_gameObjectList.AddLast(m_player);
 			}
 		}
 
 		private void createPlatform()
 		{
-			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//tile", 0.350f);
+			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.350f);
 			m_gameObjectList.AddLast(t_platform);
 		}
 
 		private void createLadder()
 		{
-			Ladder t_ladder = new Ladder(getTile(m_worldMouse), "Images//ladder", 0.350f);
+			Ladder t_ladder = new Ladder(getTile(m_worldMouse), "Images//Tile//1x1_ladder_ph", 0.350f);
 			m_gameObjectList.AddLast(t_ladder);
 		}
 
 		private void createSpotLight()
 		{
-			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
+			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//LightCone//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
 			m_gameObjectList.AddLast(t_sl);
 		}
 
 		private void createBackground()
 		{
-			Environment t_environment = new Environment(getTile(m_worldMouse), "Images//test", 0.750f);
+			Environment t_environment = new Environment(getTile(m_worldMouse), "Images//Background//ph", 0.750f);
 			m_gameObjectList.AddLast(t_environment);
 		}
 
 		private void createGuard()
 		{
-			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//guard_idle", getTile(m_worldMouse).X, true, true, 0.400f);
+			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//guard_idle", getTile(m_worldMouse).X, true, true, 0.300f);
 			m_gameObjectList.AddLast(t_guard);
 		}
 
