@@ -110,6 +110,8 @@ namespace GrandLarceny
 			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
 		}
 
+		
+
 		private void flipSprite()
 		{
 			if (m_facingRight)
