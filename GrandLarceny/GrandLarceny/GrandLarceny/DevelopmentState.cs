@@ -194,10 +194,6 @@ namespace GrandLarceny
 			}
 		}
 
-		private void updateButtons() {
-
-		}
-
 		private void updateKeyboard()
 		{
 			if (m_currentKeyboard.IsKeyDown(Keys.R))
@@ -295,8 +291,14 @@ namespace GrandLarceny
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) 
 				updateMouseDrag();
 			
-			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released && m_itemToCreate != State.None)
+			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released && m_itemToCreate != State.None && !collidedWithGui())
 			{
+				Rectangle t_rectangle = new Rectangle((int)getTile(m_worldMouse).X, (int)getTile(m_worldMouse).Y, 1, 1);
+				foreach (GameObject t_gameObject in m_gameObjectList) {
+					if (t_gameObject.getBox().Contains(t_rectangle)) {
+						return;
+					}
+				}
 				switch (m_itemToCreate)
 				{
 					case State.Player:
@@ -352,24 +354,8 @@ namespace GrandLarceny
 					m_selectedInfoV2 = Vector2.Zero;
 				}
 				Rectangle t_mouseClick = new Rectangle((int)m_worldMouse.X, (int)m_worldMouse.Y, 1, 1);
-				bool t_clickedGUI = false;
 
-
-				foreach (GuiObject t_guiObject in m_guiList) {
-					if (t_guiObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-					{
-						t_clickedGUI = true;
-						break;
-					}
-				}
-
-				foreach (Button t_button in m_buttonList) {
-					if (t_button.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-					{
-						t_clickedGUI = true;
-					}
-				}
-				if (!t_clickedGUI) {
+				if (!collidedWithGui()) {
 					foreach (GameObject t_gameObject in m_gameObjectList)
 					{
 						if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
@@ -402,6 +388,26 @@ namespace GrandLarceny
 			foreach (Button t_button in m_buttonList) {
 				t_button.setState(0);
 			}
+		}
+
+		private bool collidedWithGui()
+		{
+			foreach (GuiObject t_guiObject in m_guiList)
+			{
+				if (t_guiObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
+				{
+					return true;
+				}
+			}
+
+			foreach (Button t_button in m_buttonList)
+			{
+				if (t_button.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private void createPlayer()
@@ -443,7 +449,8 @@ namespace GrandLarceny
 			m_gameObjectList.AddLast(t_guard);
 		}
 
-		private void createWall() {
+		private void createWall()
+		{
 			Wall t_wall = new Wall(getTile(m_worldMouse), "Images//Tile//1x1_wall2_ph", 0.350f);
 			m_gameObjectList.AddLast(t_wall);
 		}
