@@ -27,11 +27,12 @@ namespace GrandLarceny
 		abstract public float getGlobalY();
 		abstract public void setParentPositionWithoutMoving(Position a_parentPosition);
 		abstract public float getSlope();
-		abstract public void setY(float y);
-		abstract public void setX(float x);
+		abstract public void setY(float a_y);
+		abstract public void setX(float a_x);
+		abstract public void plusYWith(float a_y);
+		abstract public void plusXWith(float a_x);
 		abstract public void smoothStep(Vector2 a_vec, float a_amount);
-		abstract public void setSlope(float m_rotation);
-		public abstract Position getProductWith(float p);
+		abstract public void setSlope(float a_rotation);
 
 		public void setParentPosition(Position a_parentPosition)
 		{

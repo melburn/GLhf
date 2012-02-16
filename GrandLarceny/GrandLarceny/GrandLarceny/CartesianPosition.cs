@@ -157,16 +157,21 @@ namespace GrandLarceny
 			m_coordinates = Vector2.SmoothStep(m_coordinates, a_vec, a_amount);
 		}
 
-		public override void setSlope(float m_rotation)
+		public override void setSlope(float a_rotation)
 		{
 			Vector2 t_polarCoordinate = convertCartesianToPolar(m_coordinates);
-			t_polarCoordinate.Y = m_rotation;
+			t_polarCoordinate.Y = a_rotation;
 			m_coordinates = convertPolarToCartesian(t_polarCoordinate);
 		}
 
-		public override Position getProductWith(float p)
+		public override void plusYWith(float a_y)
 		{
-			return new CartesianCoordinate(m_coordinates * p,m_parentPosition);
+			m_coordinates.Y += a_y;
+		}
+
+		public override void plusXWith(float a_x)
+		{
+			m_coordinates.X += a_x;
 		}
 	}
 }
