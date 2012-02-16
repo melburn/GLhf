@@ -146,6 +146,11 @@ namespace GrandLarceny
 			m_bounds.Width = (int)a_size.X;
 			m_bounds.Height = (int)a_size.Y;
 		}
+
+		public Rectangle getBox()
+		{
+			return new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), (int)m_size.X, (int)m_size.Y);
+		}
 		private void setNormalTexture(Texture2D a_texture)
 		{
 			m_normalTexture = a_texture;
