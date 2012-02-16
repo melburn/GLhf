@@ -148,6 +148,7 @@
     <Compile Include="Sound.cs" />
     <Compile Include="SpotLight.cs" />
     <Compile Include="States.cs" />
+    <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
