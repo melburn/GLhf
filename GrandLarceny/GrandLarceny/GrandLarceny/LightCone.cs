@@ -7,13 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class LightCone : Entity
 	{
 		private float m_length;
 		private float m_width;
 		private GameObject m_parent;
 		public LightCone(GameObject a_parent, string a_sprite, float a_layer, float a_length, float a_width) :
-			base(new PolarCoordinate(a_length/2,a_parent.getRotation()), a_sprite, a_layer)
+			base(new PolarCoordinate(a_width/2,(float)(Math.PI/2+a_parent.getRotation()),a_parent.getPosition()), a_sprite, a_layer)
 		{
 			if (a_length <= 0)
 			{
@@ -23,7 +24,6 @@ namespace GrandLarceny
 			{
 				throw new ArgumentException("width has to be positive. was "+a_width);
 			}
-			m_position.setParentPosition(a_parent.getPosition());
 			m_parent = a_parent;
 			m_length = a_length;
 			m_width = a_width;
@@ -40,7 +40,7 @@ namespace GrandLarceny
 			else
 			{
 				m_rotate = m_parent.getRotation();
-				m_position.setSlope(m_rotate);
+				m_position.setSlope((float)(Math.PI / 2 + m_rotate));
 			}
 		}
 		public override void loadContent()
@@ -59,7 +59,7 @@ namespace GrandLarceny
 		}
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
-			//con collision?
+			//I don't care 'bout your collisions, I'm freakin' nonsolid!
 		}
 	}
 }

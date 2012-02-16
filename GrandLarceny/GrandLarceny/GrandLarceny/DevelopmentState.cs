@@ -58,7 +58,7 @@ namespace GrandLarceny
 			Guard,
 			Wall
 		}
-		private State m_itemToCreate = State.None;
+		private State m_itemToCreate;
 
 		public DevelopmentState(string a_levelToLoad)
 		{
@@ -69,8 +69,15 @@ namespace GrandLarceny
 
 		private Vector2 getTile(Vector2 a_pixelPosition)
 		{
-			a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % TILE_WIDTH);
-			a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % TILE_HEIGHT);
+			if (a_pixelPosition.X >= 0)
+				a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % TILE_WIDTH);
+			else
+				a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % TILE_WIDTH) - TILE_WIDTH;
+
+			if (a_pixelPosition.Y >= 0)
+				a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % TILE_HEIGHT);
+			else
+				a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % TILE_HEIGHT) - TILE_HEIGHT;
 
 			return a_pixelPosition;
 		}
@@ -129,6 +136,7 @@ namespace GrandLarceny
 			m_btnWallHotkey = new Button("Images//GUI//btn_wall_hotkey_normal", "Images//GUI//btn_wall_hotkey_hover", "Images//GUI//btn_wall_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
 					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), 0);
+
 			m_buttonList.AddLast(m_btnLadderHotkey);
 			m_buttonList.AddLast(m_btnTileHotkey);
 			m_buttonList.AddLast(m_btnBackgroundHotkey);
@@ -138,6 +146,17 @@ namespace GrandLarceny
 			m_buttonList.AddLast(m_btnSpotlightHotkey);
 			m_buttonList.AddLast(m_btnGuardHotkey);
 			m_buttonList.AddLast(m_btnWallHotkey);
+
+			m_btnLadderHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+			m_btnTileHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+			m_btnBackgroundHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+			m_btnHeroHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+			m_btnSelectHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+			m_btnSpotlightHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+			m_btnGuardHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+			m_btnWallHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+
+			setBuildingState(State.None);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -194,79 +213,44 @@ namespace GrandLarceny
 			}
 		}
 
-		private void updateButtons() {
-
-		}
-
 		private void updateKeyboard()
 		{
-			if (m_currentKeyboard.IsKeyDown(Keys.R))
+			if (m_currentKeyboard.IsKeyDown(Keys.R) && m_previousKeyboard.IsKeyUp(Keys.R))
 			{
 				Game.getInstance().setState(new GameState(m_levelToLoad));
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.P) && m_previousKeyboard.IsKeyUp(Keys.P))
-			{
-				m_itemToCreate = State.Platform;
-				resetButtonStates();
-				m_btnTileHotkey.setState(2);
-				m_textCurrentMode.setText("Create Platform");
-			}
+				setBuildingState(State.Platform);
+
 			if (m_currentKeyboard.IsKeyDown(Keys.L) && m_previousKeyboard.IsKeyUp(Keys.L))
-			{
-				m_itemToCreate = State.Ladder;
-				resetButtonStates();
-				m_btnLadderHotkey.setState(2);
-				m_textCurrentMode.setText("Create Ladder");
-			}
+				setBuildingState(State.Ladder);
+
 			if (m_currentKeyboard.IsKeyDown(Keys.B) && m_previousKeyboard.IsKeyUp(Keys.B))
-			{
-				m_itemToCreate = State.Background;
-				resetButtonStates();
-				m_btnBackgroundHotkey.setState(2);
-				m_textCurrentMode.setText("Create Background");
-			}
+				setBuildingState(State.Background);
+
 			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_previousKeyboard.IsKeyUp(Keys.D))
-			{
-				m_itemToCreate = State.Delete;
-				resetButtonStates();
-				m_btnDeleteHotkey.setState(2);
-				m_textCurrentMode.setText("Delete Object");
-			}
+				setBuildingState(State.Delete);
+
 			if (m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H))
-			{
-				m_itemToCreate = State.Player;
-				resetButtonStates();
-				m_btnHeroHotkey.setState(2);
-				m_textCurrentMode.setText("Create Hero");
-			}
+				setBuildingState(State.Player);
+
 			if (m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
-			{
-				m_itemToCreate = State.None;
-				resetButtonStates();
-				m_btnSelectHotkey.setState(2);
-				m_textCurrentMode.setText("Select");
-			}
+				setBuildingState(State.None);
+
 			if (m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.T))
-			{
-				m_itemToCreate = State.SpotLight;
-				resetButtonStates();
-				m_btnSpotlightHotkey.setState(2);
-				m_textCurrentMode.setText("Create SpotLight");
-			}
+				setBuildingState(State.SpotLight);
+
 			if (m_currentKeyboard.IsKeyDown(Keys.G) && m_previousKeyboard.IsKeyUp(Keys.G))
-			{
-				m_itemToCreate = State.Guard;
-				resetButtonStates();
-				m_btnGuardHotkey.setState(2);
-				m_textCurrentMode.setText("Create Guard");
-			}
+				setBuildingState(State.Guard);
+
 			if (m_currentKeyboard.IsKeyDown(Keys.W) && m_previousKeyboard.IsKeyUp(Keys.W))
-			{
-				m_itemToCreate = State.Wall;
-				resetButtonStates();
-				m_btnWallHotkey.setState(2);
-				m_textCurrentMode.setText("Create Wall");	
-			}
+				setBuildingState(State.Wall);
+
+			if (m_currentKeyboard.IsKeyDown(Keys.O) && m_previousKeyboard.IsKeyUp(Keys.O)) {
+				if (m_selectedObject != null)
+					m_selectedObject.addRotation((float)Math.PI / 2);
+			}	
+
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
 				if (m_selectedObject != null)
@@ -289,13 +273,12 @@ namespace GrandLarceny
 				}
 			}
 		}
-
 		private void updateMouse()
 		{
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) 
 				updateMouseDrag();
 			
-			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released && m_itemToCreate != State.None)
+			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released && m_itemToCreate != State.None && !collidedWithGui())
 			{
 				switch (m_itemToCreate)
 				{
@@ -335,13 +318,11 @@ namespace GrandLarceny
 						break;
 					}
 				}
+				return;
 			}
 
 			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None)
-			{
-				m_itemToCreate = State.None;
-				m_textCurrentMode.setText("Select");
-			}
+				setBuildingState(State.None);
 
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released) 
 			{
@@ -352,28 +333,14 @@ namespace GrandLarceny
 					m_selectedInfoV2 = Vector2.Zero;
 				}
 				Rectangle t_mouseClick = new Rectangle((int)m_worldMouse.X, (int)m_worldMouse.Y, 1, 1);
-				bool t_clickedGUI = false;
 
-
-				foreach (GuiObject t_guiObject in m_guiList) {
-					if (t_guiObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-					{
-						t_clickedGUI = true;
-						break;
-					}
-				}
-
-				foreach (Button t_button in m_buttonList) {
-					if (t_button.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-					{
-						t_clickedGUI = true;
-					}
-				}
-				if (!t_clickedGUI) {
+				if (!collidedWithGui()) {
 					foreach (GameObject t_gameObject in m_gameObjectList)
 					{
 						if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
 						{
+							if (t_gameObject is LightCone)
+								continue;
 							m_selectedObject = t_gameObject;
 						}
 					}
@@ -404,10 +371,137 @@ namespace GrandLarceny
 			}
 		}
 
+		private bool collidedWithGui()
+		{
+			foreach (GuiObject t_guiObject in m_guiList)
+			{
+				if (t_guiObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
+				{
+					return true;
+				}
+			}
+
+			foreach (Button t_button in m_buttonList)
+			{
+				if (t_button.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public bool collidedWithObject() {
+			Rectangle t_rectangle = new Rectangle((int)getTile(m_worldMouse).X, (int)getTile(m_worldMouse).Y, 1, 1);
+
+			foreach (GameObject t_gameObject in m_gameObjectList) {
+				if (t_gameObject is Environment)
+					continue;
+				if (t_gameObject.getBox().Contains(t_rectangle)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public void guiButtonClick(Button a_button)
+		{
+			if (a_button == m_btnLadderHotkey)
+				setBuildingState(State.Ladder);
+
+			if (a_button == m_btnTileHotkey)
+				setBuildingState(State.Platform);
+
+			if (a_button == m_btnBackgroundHotkey)
+				setBuildingState(State.Background);
+
+			if (a_button == m_btnDeleteHotkey)
+				setBuildingState(State.Delete);
+
+			if (a_button == m_btnHeroHotkey)
+				setBuildingState(State.Player);
+
+			if (a_button == m_btnSelectHotkey)
+				setBuildingState(State.None);
+
+			if (a_button == m_btnSpotlightHotkey)
+				setBuildingState(State.SpotLight);
+
+			if (a_button == m_btnGuardHotkey)
+				setBuildingState(State.Guard);
+
+			if (a_button == m_btnWallHotkey)
+				setBuildingState(State.Wall);
+		}
+
+		private void setBuildingState(State a_state) {
+			m_itemToCreate = a_state;
+			resetButtonStates();
+
+			switch (m_itemToCreate) {
+				case State.Platform:
+				{
+					m_btnTileHotkey.setState(2);
+					m_textCurrentMode.setText("Create Platform");
+					break;
+				}
+				case State.Ladder:
+				{
+					m_btnLadderHotkey.setState(2);
+					m_textCurrentMode.setText("Create Ladder");
+					break;
+				}
+				case State.Background:
+				{
+					m_btnBackgroundHotkey.setState(2);
+					m_textCurrentMode.setText("Create Background");
+					break;
+				}
+				case State.Delete:
+				{
+					m_btnDeleteHotkey.setState(2);
+					m_textCurrentMode.setText("Delete Object");
+					break;
+				}
+				case State.Player:
+				{
+					m_btnHeroHotkey.setState(2);
+					m_textCurrentMode.setText("Create Hero");
+					break;
+				}
+				case State.None:
+				{
+					m_btnSelectHotkey.setState(2);
+					m_textCurrentMode.setText("Select");
+					break;
+				}
+				case State.SpotLight:
+				{
+					m_btnSpotlightHotkey.setState(2);
+					m_textCurrentMode.setText("Create SpotLight");
+					break;
+				}
+				case State.Guard:
+				{
+					m_btnGuardHotkey.setState(2);
+					m_textCurrentMode.setText("Create Guard");
+					break;
+				}
+				case State.Wall:
+				{
+					m_btnWallHotkey.setState(2);
+					m_textCurrentMode.setText("Create Wall");
+					break;
+				}
+			}
+		}
+
 		private void createPlayer()
 		{
 			if (m_player == null)
 			{
+				if (collidedWithObject())
+					return;
 				m_player = new Player(getTile(m_worldMouse), "Images//Sprite//hero_stand", 0.250f);
 				m_gameObjectList.AddLast(m_player);
 			}
@@ -415,18 +509,24 @@ namespace GrandLarceny
 
 		private void createPlatform()
 		{
+			if (collidedWithObject())
+				return;
 			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//1x1_floor2_ph", 0.350f);
 			m_gameObjectList.AddLast(t_platform);
 		}
 
 		private void createLadder()
 		{
+			if (collidedWithObject())
+				return;
 			Ladder t_ladder = new Ladder(getTile(m_worldMouse), "Images//Tile//1x1_ladder_ph", 0.350f);
 			m_gameObjectList.AddLast(t_ladder);
 		}
 
 		private void createSpotLight()
 		{
+			if (collidedWithObject())
+				return;
 			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//LightCone//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
 			m_gameObjectList.AddLast(t_sl);
 		}
@@ -439,11 +539,16 @@ namespace GrandLarceny
 
 		private void createGuard()
 		{
+			if (collidedWithObject())
+				return;
 			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//guard_idle", getTile(m_worldMouse).X, true, true, 0.300f);
 			m_gameObjectList.AddLast(t_guard);
 		}
 
-		private void createWall() {
+		private void createWall()
+		{
+			if (collidedWithObject())
+				return;
 			Wall t_wall = new Wall(getTile(m_worldMouse), "Images//Tile//1x1_wall2_ph", 0.350f);
 			m_gameObjectList.AddLast(t_wall);
 		}
@@ -476,6 +581,7 @@ namespace GrandLarceny
 				t_button.draw(a_gameTime, a_spriteBatch);
 			}
 		}
+
 		public override void addObject(GameObject a_object)
 		{
 			m_gameObjectList.AddLast(a_object);
