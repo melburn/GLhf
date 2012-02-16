@@ -10,8 +10,9 @@ namespace GrandLarceny
 	{
 		private Vector2 m_resolution;
 		public GuiObject(Vector2 a_posV2, String a_sprite)
-			: base(a_posV2, a_sprite, 0.001f) {
+			: base(a_posV2, a_sprite, 0.002f) {
 			m_resolution = new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth, Game.getInstance().m_graphics.PreferredBackBufferHeight);
+			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 		}
 
 		public override void draw(GameTime a_gameTime)

@@ -117,7 +117,7 @@
     <Compile Include="CollisionRectangle.cs" />
     <Compile Include="CollisionShape.cs" />
     <Compile Include="DevelopmentState.cs" />
-    <Compile Include="Font.cs" />
+    <Compile Include="Text.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="CollisionManager.cs" />
     <Compile Include="Entity.cs" />
