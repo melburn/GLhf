@@ -11,6 +11,26 @@ namespace GrandLarceny
 		public Vector2 m_AOffset;
 		public Vector2 m_BOffset;
 		public Vector2 m_COffset;
+
+		public CollisionTriangle(Vector2[] a_points, Position a_position)
+		{
+			if (a_points == null)
+			{
+				throw new ArgumentNullException("points in triangle cannot be null");
+			}
+			if (m_position == null)
+			{
+				throw new ArgumentNullException("position for triangle cannot be null");
+			}
+			if (a_points.Length != 3)
+			{
+				throw new ArgumentException("triangle needs exactly 3 points, got " + a_points.Length);
+			}
+			m_AOffset = a_points[0];
+			m_BOffset = a_points[1];
+			m_COffset = a_points[2];
+			m_position = a_position;
+		}
 		public override bool Collides(CollisionShape a_cs)
 		{
 			if (a_cs is CollisionRectangle)
@@ -45,12 +65,15 @@ namespace GrandLarceny
 		}
 		public bool contains(Vector2 a_point)
 		{
-			return (getAngle(m_AOffset, m_BOffset, a_point) <= getAngle(m_AOffset, m_BOffset, m_COffset) &&
-				getAngle(m_AOffset, m_COffset, a_point) <= getAngle(m_AOffset, m_COffset, m_BOffset) &&
-				getAngle(m_BOffset, m_AOffset, a_point) <= getAngle(m_BOffset, m_AOffset, m_COffset)) &&
-				getAngle(m_BOffset, m_COffset, a_point) <= getAngle(m_BOffset, m_COffset, m_AOffset) &&
-				getAngle(m_COffset, m_AOffset, a_point) <= getAngle(m_COffset, m_AOffset, m_BOffset) &&
-				getAngle(m_COffset, m_BOffset, a_point) <= getAngle(m_COffset, m_BOffset, m_AOffset);
+			Vector2 t_pointA = m_AOffset + m_position.getGlobalCartesianCoordinates();
+			Vector2 t_pointB = m_BOffset + m_position.getGlobalCartesianCoordinates();
+			Vector2 t_pointC = m_COffset + m_position.getGlobalCartesianCoordinates();
+			return (getAngle(t_pointA, t_pointB, a_point) <= getAngle(t_pointA, t_pointB, t_pointC) &&
+				getAngle(t_pointA, t_pointC, a_point) <= getAngle(t_pointA, t_pointC, t_pointB) &&
+				getAngle(t_pointB, t_pointA, a_point) <= getAngle(t_pointB, t_pointA, t_pointC)) &&
+				getAngle(t_pointB, t_pointC, a_point) <= getAngle(t_pointB, t_pointC, t_pointA) &&
+				getAngle(t_pointC, t_pointA, a_point) <= getAngle(t_pointC, t_pointA, t_pointB) &&
+				getAngle(t_pointC, t_pointB, a_point) <= getAngle(t_pointC, t_pointB, t_pointA);
 		}
 		public static double getAngle(Vector2 a_A, Vector2 a_B, Vector2 a_C)
 		{
