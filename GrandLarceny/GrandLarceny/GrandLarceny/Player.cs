@@ -42,7 +42,8 @@ namespace GrandLarceny
 			Jumping,
 			Slide,
 			Climbing, 
-			Rolling
+			Rolling,
+			Hanging
 		}
 
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
@@ -86,6 +87,11 @@ namespace GrandLarceny
 				case State.Rolling:
 				{
 					updateRolling();
+					break;
+				}
+				case State.Hanging:
+				{
+					updateHanging();
 					break;
 				}
 			}
@@ -325,6 +331,25 @@ namespace GrandLarceny
 			}
 		}
 
+		private void updateHanging()
+		{
+			m_gravity = 0;
+			if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
+			{
+				m_speed.Y -= JUMPSTRENGTH;
+				m_currentState = State.Jumping;
+				return;
+			}
+			if (m_currentKeyInput.IsKeyDown(Keys.Left) && m_facingRight)
+			{
+				m_currentState = State.Jumping;
+			}
+			if (m_currentKeyInput.IsKeyDown(Keys.Right) && !m_facingRight)
+			{
+				m_currentState = State.Jumping;
+			}
+		}
+
 		private void changeAnimation()
 		{
 			
@@ -438,12 +463,26 @@ namespace GrandLarceny
 						{
 							m_position.setX(t_collider.getPosition().getGlobalX() + t_collider.getHitBox().getOutBox().Width);
 							m_speed.X = 0;
+							if (!t_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 2,(int)m_lastPosition.Y)
+								&& t_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 2,(int)m_lastPosition.Y + 3))
+							{
+								m_speed.Y = 0;
+								m_currentState = State.Hanging;
+								m_facingRight = false;
+							}
 						}
 						//Colliding with ze right wall
 						if ((int)m_lastPosition.X + getHitBox().getOutBox().Width - 1 <= (int)t_collider.getLastPosition().X)
 						{
 							m_position.setX(t_collider.getPosition().getGlobalX() - (getHitBox().getOutBox().Width));
 							m_speed.X = 0;
+							if (!t_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X + getHitBox().getOutBox().Width + 2, (int)m_lastPosition.Y)
+								&& t_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X + getHitBox().getOutBox().Width + 2, (int)m_lastPosition.Y + 3))
+							{
+								m_speed.Y = 0;
+								m_currentState = State.Hanging;
+								m_facingRight = true;
+							}
 						}
 					}
 					else if (t_collider is Ladder)
