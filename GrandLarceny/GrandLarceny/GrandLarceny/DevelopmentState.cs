@@ -215,7 +215,7 @@ namespace GrandLarceny
 
 		private void updateKeyboard()
 		{
-			if (m_currentKeyboard.IsKeyDown(Keys.R))
+			if (m_currentKeyboard.IsKeyDown(Keys.R) && m_previousKeyboard.IsKeyUp(Keys.R))
 			{
 				Game.getInstance().setState(new GameState(m_levelToLoad));
 			}
@@ -244,7 +244,12 @@ namespace GrandLarceny
 				setBuildingState(State.Guard);
 
 			if (m_currentKeyboard.IsKeyDown(Keys.W) && m_previousKeyboard.IsKeyUp(Keys.W))
-				setBuildingState(State.Wall);	
+				setBuildingState(State.Wall);
+
+			if (m_currentKeyboard.IsKeyDown(Keys.O) && m_previousKeyboard.IsKeyUp(Keys.O)) {
+				if (m_selectedObject != null)
+					m_selectedObject.addRotation((float)Math.PI / 2);
+			}	
 
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
