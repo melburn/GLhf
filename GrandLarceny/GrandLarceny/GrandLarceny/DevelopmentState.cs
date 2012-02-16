@@ -65,14 +65,14 @@ namespace GrandLarceny
 
 		private Vector2 getTile(Vector2 a_pixelPosition)
 		{
-			if (a_pixelPosition.X % 72 >= 36)
-				a_pixelPosition.X = a_pixelPosition.X + (72 - (a_pixelPosition.X % 72));	
-			else if (a_pixelPosition.X % 72 < 36)
+		//	if (a_pixelPosition.X % 72 >= 36)
+		//		a_pixelPosition.X = a_pixelPosition.X + (72 - (a_pixelPosition.X % 72));	
+		//	else if (a_pixelPosition.X % 72 < 36)
 				a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % 72);
 
-			if (a_pixelPosition.Y % 72 >= 36)
-				a_pixelPosition.Y = a_pixelPosition.Y + (72 - (a_pixelPosition.Y % 72));
-			else if (a_pixelPosition.Y % 72 < 36)
+		//	if (a_pixelPosition.Y % 72 >= 36)
+		//		a_pixelPosition.Y = a_pixelPosition.Y + (72 - (a_pixelPosition.Y % 72));
+		//	else if (a_pixelPosition.Y % 72 < 36)
 				a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % 72);
 
 			return a_pixelPosition;
@@ -135,7 +135,7 @@ namespace GrandLarceny
 		{
 			m_currentKeyboard = Keyboard.GetState();
 			m_currentMouse = Mouse.GetState();
-			
+
 			m_worldMouse.X = 
 				Mouse.GetState().X / Game.getInstance().m_camera.getZoom()
 				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X
@@ -384,7 +384,7 @@ namespace GrandLarceny
 
 		private void createPlatform()
 		{
-			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.350f);
+			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//1x1_floor2_ph", 0.350f);
 			m_gameObjectList.AddLast(t_platform);
 		}
 
@@ -413,7 +413,7 @@ namespace GrandLarceny
 		}
 
 		private void createWall() {
-			Wall t_wall = new Wall(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.350f);
+			Wall t_wall = new Wall(getTile(m_worldMouse), "Images//Tile//1x1_wall2_ph", 0.350f);
 			m_gameObjectList.AddLast(t_wall);
 		}
 
