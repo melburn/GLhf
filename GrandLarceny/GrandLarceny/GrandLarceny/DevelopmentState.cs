@@ -318,7 +318,6 @@ namespace GrandLarceny
 						break;
 					}
 				}
-				return;
 			}
 
 			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None)
