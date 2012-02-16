@@ -56,6 +56,10 @@ namespace GrandLarceny
 					m_yOffset + m_position.getGlobalY() <= t_cr.m_yOffset + t_cr.m_position.getGlobalY() + t_cr.m_height &&
 					m_yOffset + m_position.getGlobalY() + m_height >= t_cr.m_yOffset + t_cr.m_position.getGlobalY());
 			}
+			else if (a_cs is CollisionTriangle)
+			{
+				return a_cs.Collides(this);
+			}
 			return false;
 		}
 

@@ -13,7 +13,7 @@ namespace GrandLarceny
 	{
 		private Vector2 m_cameraPoint = new Vector2(0,0);
 
-		private const float CAMERASPEED = 0.1f;
+		private const float CAMERASPEED = 10f;
 
 		private const int CLIMBINGSPEED = 200;
 		private const int PLAYERSPEED = 600;
@@ -92,7 +92,7 @@ namespace GrandLarceny
 			changeAnimation();
 			flipSprite();
 			base.update(a_gameTime);
-			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
+			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED * t_deltaTime);
 		}
 
 		private void flipSprite()
