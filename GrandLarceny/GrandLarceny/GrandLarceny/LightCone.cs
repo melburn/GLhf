@@ -14,7 +14,7 @@ namespace GrandLarceny
 		private float m_width;
 		private GameObject m_parent;
 		public LightCone(GameObject a_parent, string a_sprite, float a_layer, float a_length, float a_width) :
-			base(new PolarCoordinate(a_width/2,(float)(Math.PI/2+a_parent.getRotation()),a_parent.getPosition()), a_sprite, a_layer)
+			base(new PolarCoordinate(a_parent.getImg().getSize().Y/2,(float)(1.5f*Math.PI+a_parent.getRotation()),a_parent.getPosition()), a_sprite, a_layer)
 		{
 			if (a_length <= 0)
 			{
@@ -27,8 +27,9 @@ namespace GrandLarceny
 			m_parent = a_parent;
 			m_length = a_length;
 			m_width = a_width;
-			m_XScale = a_width / 500;
-			m_YScale = a_length / 500;
+			m_XScale = a_length / 500;
+			m_YScale = a_width / 500;
+			m_rotate = a_parent.getRotation();
 		}
 		public override void update(GameTime a_gameTime)
 		{
@@ -40,7 +41,7 @@ namespace GrandLarceny
 			else
 			{
 				m_rotate = m_parent.getRotation();
-				m_position.setSlope((float)(Math.PI / 2 + m_rotate));
+				m_position.setSlope((float)(1.5f*Math.PI + m_rotate));
 			}
 		}
 		public override void loadContent()
