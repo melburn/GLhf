@@ -18,7 +18,7 @@ namespace GrandLarceny
 			{
 				throw new ArgumentNullException("points in triangle cannot be null");
 			}
-			if (m_position == null)
+			if (a_position == null)
 			{
 				throw new ArgumentNullException("position for triangle cannot be null");
 			}
