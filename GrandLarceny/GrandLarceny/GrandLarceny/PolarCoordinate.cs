@@ -21,6 +21,12 @@ namespace GrandLarceny
 			m_coordinates = new Vector2(a_radie, a_slope);
 		}
 
+		public PolarCoordinate(float a_radie, float a_slope, Position a_parent)
+		{
+			m_coordinates = new Vector2(a_radie, a_slope);
+			m_parentPosition = a_parent;
+		}
+
 		public override Vector2 getLocalCartesianCoordinates()
 		{
 			return convertPolarToCartesian(m_coordinates);
