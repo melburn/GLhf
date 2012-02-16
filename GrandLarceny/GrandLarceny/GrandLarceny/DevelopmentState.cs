@@ -295,7 +295,7 @@ namespace GrandLarceny
 			{
 				Rectangle t_rectangle = new Rectangle((int)getTile(m_worldMouse).X, (int)getTile(m_worldMouse).Y, 1, 1);
 				foreach (GameObject t_gameObject in m_gameObjectList) {
-					if (t_gameObject.getBox().Contains(t_rectangle)) {
+					if (t_gameObject.getBox().Contains(t_rectangle) && (m_itemToCreate != State.Delete || m_itemToCreate != State.Background)) {
 						return;
 					}
 				}
