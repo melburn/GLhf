@@ -318,6 +318,7 @@ namespace GrandLarceny
 						break;
 					}
 				}
+				return;
 			}
 
 			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None)
@@ -338,6 +339,8 @@ namespace GrandLarceny
 					{
 						if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
 						{
+							if (t_gameObject is LightCone)
+								continue;
 							m_selectedObject = t_gameObject;
 						}
 					}
@@ -392,6 +395,8 @@ namespace GrandLarceny
 			Rectangle t_rectangle = new Rectangle((int)getTile(m_worldMouse).X, (int)getTile(m_worldMouse).Y, 1, 1);
 
 			foreach (GameObject t_gameObject in m_gameObjectList) {
+				if (t_gameObject is Environment)
+					continue;
 				if (t_gameObject.getBox().Contains(t_rectangle)) {
 					return true;
 				}
