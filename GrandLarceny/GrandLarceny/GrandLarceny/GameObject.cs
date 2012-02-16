@@ -132,5 +132,11 @@ namespace GrandLarceny
 		{
 			return m_rotate;
 		}
+		public void addRotation(float a_rotation)
+		{
+			m_rotate += a_rotation;
+			if (m_rotate >= Math.PI * 2)
+				m_rotate = 0.0f;
+		}
 	}
 }

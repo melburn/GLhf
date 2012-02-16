@@ -189,7 +189,9 @@ namespace GrandLarceny
 		{
 			return Game.getInstance().getState().getPlayer().isInLight() &&
 				isFaceingTowards(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()) &&
-				Math.Abs(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()-m_position.getGlobalX()) < m_sightRange;
+				Math.Abs(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()-m_position.getGlobalX()) < m_sightRange &&
+				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
+				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200;
 		}
 
 		public bool isFaceingTowards(float a_x)

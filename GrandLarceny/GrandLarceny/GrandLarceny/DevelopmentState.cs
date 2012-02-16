@@ -215,7 +215,7 @@ namespace GrandLarceny
 
 		private void updateKeyboard()
 		{
-			if (m_currentKeyboard.IsKeyDown(Keys.R))
+			if (m_currentKeyboard.IsKeyDown(Keys.R) && m_previousKeyboard.IsKeyUp(Keys.R))
 			{
 				Game.getInstance().setState(new GameState(m_levelToLoad));
 			}
@@ -244,7 +244,12 @@ namespace GrandLarceny
 				setBuildingState(State.Guard);
 
 			if (m_currentKeyboard.IsKeyDown(Keys.W) && m_previousKeyboard.IsKeyUp(Keys.W))
-				setBuildingState(State.Wall);	
+				setBuildingState(State.Wall);
+
+			if (m_currentKeyboard.IsKeyDown(Keys.O) && m_previousKeyboard.IsKeyUp(Keys.O)) {
+				if (m_selectedObject != null)
+					m_selectedObject.addRotation((float)Math.PI / 2);
+			}	
 
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
@@ -313,6 +318,7 @@ namespace GrandLarceny
 						break;
 					}
 				}
+				return;
 			}
 
 			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None)
@@ -333,6 +339,8 @@ namespace GrandLarceny
 					{
 						if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
 						{
+							if (t_gameObject is LightCone)
+								continue;
 							m_selectedObject = t_gameObject;
 						}
 					}
@@ -387,6 +395,8 @@ namespace GrandLarceny
 			Rectangle t_rectangle = new Rectangle((int)getTile(m_worldMouse).X, (int)getTile(m_worldMouse).Y, 1, 1);
 
 			foreach (GameObject t_gameObject in m_gameObjectList) {
+				if (t_gameObject is Environment)
+					continue;
 				if (t_gameObject.getBox().Contains(t_rectangle)) {
 					return true;
 				}
