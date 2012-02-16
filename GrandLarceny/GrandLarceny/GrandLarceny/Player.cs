@@ -373,12 +373,12 @@ namespace GrandLarceny
 			}
 			if ((m_currentKeyInput.IsKeyDown(Keys.Left)  || m_currentKeyInput.IsKeyDown(Keys.Down)) && m_facingRight)
 			{
-				m_position.plusYWith(-1);
+				m_position.plusYWith(1);
 				m_currentState = State.Jumping;
 			}
 			if ((m_currentKeyInput.IsKeyDown(Keys.Right) || m_currentKeyInput.IsKeyDown(Keys.Down)) && !m_facingRight)
 			{
-				m_position.plusYWith(-1);
+				m_position.plusYWith(1);
 				m_currentState = State.Jumping;
 			}
 		}
