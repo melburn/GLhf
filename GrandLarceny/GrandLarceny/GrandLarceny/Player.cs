@@ -373,12 +373,12 @@ namespace GrandLarceny
 			}
 			if ((m_currentKeyInput.IsKeyDown(Keys.Left)  || m_currentKeyInput.IsKeyDown(Keys.Down)) && m_facingRight)
 			{
-				m_position.plusYWith(-1);
+				m_position.plusYWith(1);
 				m_currentState = State.Jumping;
 			}
 			if ((m_currentKeyInput.IsKeyDown(Keys.Right) || m_currentKeyInput.IsKeyDown(Keys.Down)) && !m_facingRight)
 			{
-				m_position.plusYWith(-1);
+				m_position.plusYWith(1);
 				m_currentState = State.Jumping;
 			}
 		}
@@ -548,6 +548,7 @@ namespace GrandLarceny
 				&& a_collider.getHitBox().getOutBox().Contains((int)m_position.getGlobalX() + getHitBox().getOutBox().Width + 4, (int)m_position.getGlobalY())
 				&& m_speed.Y >= 0)
 			{
+				m_position.setY(a_collider.getPosition().getGlobalY());
 				m_speed.Y = 0;
 				m_currentState = State.Hanging;
 				m_facingRight = true;
@@ -556,6 +557,7 @@ namespace GrandLarceny
 				&& a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y + 6)
 				&& m_speed.Y >= 0)
 			{
+				m_position.setY(a_collider.getPosition().getGlobalY());
 				m_speed.Y = 0;
 				m_currentState = State.Hanging;
 				m_facingRight = false;
