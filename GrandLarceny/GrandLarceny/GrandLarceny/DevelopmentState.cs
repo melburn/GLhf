@@ -58,7 +58,7 @@ namespace GrandLarceny
 			Guard,
 			Wall
 		}
-		private State m_itemToCreate = State.None;
+		private State m_itemToCreate;
 
 		public DevelopmentState(string a_levelToLoad)
 		{
@@ -136,6 +136,7 @@ namespace GrandLarceny
 			m_btnWallHotkey = new Button("Images//GUI//btn_wall_hotkey_normal", "Images//GUI//btn_wall_hotkey_hover", "Images//GUI//btn_wall_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
 					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), 0);
+
 			m_buttonList.AddLast(m_btnLadderHotkey);
 			m_buttonList.AddLast(m_btnTileHotkey);
 			m_buttonList.AddLast(m_btnBackgroundHotkey);
@@ -145,6 +146,7 @@ namespace GrandLarceny
 			m_buttonList.AddLast(m_btnSpotlightHotkey);
 			m_buttonList.AddLast(m_btnGuardHotkey);
 			m_buttonList.AddLast(m_btnWallHotkey);
+
 			m_btnLadderHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
 			m_btnTileHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
 			m_btnBackgroundHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -153,6 +155,8 @@ namespace GrandLarceny
 			m_btnSpotlightHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
 			m_btnGuardHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
 			m_btnWallHotkey.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+
+			setBuildingState(State.None);
 		}
 
 		public override void update(GameTime a_gameTime)
