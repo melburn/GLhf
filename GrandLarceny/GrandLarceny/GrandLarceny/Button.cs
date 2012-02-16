@@ -13,7 +13,12 @@ namespace GrandLarceny
 		public delegate void clickDelegate(Button a_button);
 		public event clickDelegate m_clickEvent;
 
-		private int m_level;
+		private float m_layer;
+
+		private string m_buttonText = null;
+		private SpriteFont m_font;
+		private Vector2 m_textOffset = Vector2.Zero;
+		private Color m_textColor = Color.Black;
 
 		private Position m_position;
 		private Vector2 m_size;
@@ -39,28 +44,30 @@ namespace GrandLarceny
 			Pressed
 		}
 
-		public Button(Texture2D a_normal, Texture2D a_hover, Texture2D a_pressed, Vector2 a_position, int a_level)
+		public Button(Texture2D a_normal, Texture2D a_hover, Texture2D a_pressed, Vector2 a_position, float a_layer)
 		{
 			setHoverTexture(a_hover);
 			setNormalTexture(a_normal);
 			setPressedTexture(a_pressed);
+			m_font = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New");
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
 			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
-			m_level = a_level;
+			m_layer = a_layer;
 		}
 
-		public Button(string a_normal, string a_hover, string a_pressed, Vector2 a_position, int a_level)
+		public Button(string a_normal, string a_hover, string a_pressed, Vector2 a_position, float a_layer)
 		{
 			setNormalTexture(Game.getInstance().Content.Load<Texture2D>(a_normal));
 			setHoverTexture(Game.getInstance().Content.Load<Texture2D>(a_hover));
 			setPressedTexture(Game.getInstance().Content.Load<Texture2D>(a_pressed));
+			m_font = Game.getInstance().Content.Load<SpriteFont>("Font//Courier New");
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
 			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
-			m_level = a_level;
+			m_layer = a_layer;
 		}
 
 		public void update()
@@ -92,11 +99,13 @@ namespace GrandLarceny
 		{
 			CartesianCoordinate t_cartCoord = new CartesianCoordinate(m_position.getLocalCartesianCoordinates() / Game.getInstance().m_camera.getZoom(), m_position.getParentPosition());
 			if (m_isPressed || m_currentState == State.Pressed)
-				a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, 0.0f);
+				a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			else if (m_isFocused || m_currentState == State.Hover)
-				a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, 0.0f);
+				a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			else
-				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, 0.0f);
+				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+			if (m_buttonText != null)
+				a_spriteBatch.DrawString(m_font, m_buttonText, new Vector2(m_position.getLocalX() + m_textOffset.X, m_position.getLocalY() + m_textOffset.Y), m_textColor, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.001f);
 		}
 
 		public void setState(int a_state)
@@ -132,10 +141,6 @@ namespace GrandLarceny
 			a_position.Y -= Game.getInstance().m_graphics.PreferredBackBufferHeight / 2;
 			m_position.setCartesianCoordinates(a_position);
 		}
-		public int getLevel()
-		{
-			return m_level;
-		}
 		public Vector2 getSize()
 		{
 			return m_size;
@@ -164,6 +169,15 @@ namespace GrandLarceny
 		private void setPressedTexture(Texture2D a_texture)
 		{
 			m_pressedTexture = a_texture;
+		}
+
+		public void setText(String a_string)
+		{
+			m_buttonText = a_string;
+		}
+		public string getText()
+		{
+			return m_buttonText;
 		}
 	}
 }
