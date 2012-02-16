@@ -559,7 +559,16 @@ namespace GrandLarceny
 			{
 				m_player = null;
 			}
+			else if (a_gameObject is SpotLight)
+			{
+				LightCone t_lc = ((SpotLight)a_gameObject).getLightCone();
+				if (t_lc != null)
+				{
+					m_gameObjectList.Remove(t_lc);
+				}
+			}
 			m_gameObjectList.Remove(a_gameObject);
+
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)

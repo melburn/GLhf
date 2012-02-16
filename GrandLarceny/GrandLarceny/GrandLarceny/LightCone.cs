@@ -33,7 +33,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
-			if (m_parent.isDead())
+			if (m_parent == null || m_parent.isDead())
 			{
 				m_dead = true;
 			}
