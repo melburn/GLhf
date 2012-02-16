@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class LightCone : Entity
 	{
 		private float m_length;

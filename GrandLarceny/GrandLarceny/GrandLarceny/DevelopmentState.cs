@@ -268,7 +268,6 @@ namespace GrandLarceny
 				}
 			}
 		}
-
 		private void updateMouse()
 		{
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) 
