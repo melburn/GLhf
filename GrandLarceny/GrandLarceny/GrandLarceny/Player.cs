@@ -38,7 +38,9 @@ namespace GrandLarceny
 		private KeyboardState m_currentKeyInput;
 		[NonSerialized]
 		private KeyboardState m_previousKeyInput;
+
 		private State m_currentState = State.Stop;
+		private State m_lastState = State.Stop;
 
 		[NonSerialized]
 		private bool m_isInLight;
@@ -114,10 +116,12 @@ namespace GrandLarceny
 				}
 			}
 			changeAnimation();
+			m_lastState = m_currentState;
 			flipSprite();
 			base.update(a_gameTime);
 			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
 		}
+
 
 		private void flipSprite()
 		{
@@ -137,9 +141,6 @@ namespace GrandLarceny
 			{
 				m_currentState = State.Rolling;
 				m_rollTimer = 0.3f;
-				m_collisionShape = rollHitBox;
-				m_position.setY(m_position.getLocalY() + ROLLSTANDDIFF);
-				Game.getInstance().m_camera.getPosition().plusYWith(-ROLLSTANDDIFF);
 				return;
 			}
 			if (m_currentKeyInput.IsKeyDown(Keys.Left) || m_currentKeyInput.IsKeyDown(Keys.Right))
@@ -172,9 +173,6 @@ namespace GrandLarceny
 
 				m_currentState = State.Rolling;
 				m_rollTimer = 0.3f;
-				m_collisionShape = rollHitBox;
-				m_position.setY(m_position.getLocalY() + ROLLSTANDDIFF);
-				Game.getInstance().m_camera.getPosition().plusYWith(-ROLLSTANDDIFF);
 				return;
 			}
 
@@ -337,28 +335,33 @@ namespace GrandLarceny
 		private void updateRolling(float a_deltaTime)
 		{
 			m_rollTimer -= a_deltaTime;
-			if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
+
+		
+			if ((m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space)) || m_rollTimer <= 0)
 			{
-				m_speed.Y -= JUMPSTRENGTH;
-				m_currentState = State.Jumping;
-				m_collisionShape = standHitBox;
-				m_position.setY(m_position.getLocalY() - ROLLSTANDDIFF);
-				Game.getInstance().m_camera.getPosition().plusYWith(+ROLLSTANDDIFF);
-				return;
-			}
-			if (m_rollTimer <= 0)
-			{
-				m_currentState = State.Walking;
-				m_collisionShape = standHitBox;
-				m_position.setY(m_position.getLocalY() - ROLLSTANDDIFF);
-				Game.getInstance().m_camera.getPosition().plusYWith(+ROLLSTANDDIFF);
+				
+
+				if (m_rollTimer <= 0)
+				{
+					m_currentState = State.Walking;
+				}
+				else
+				{
+					m_speed.Y -= JUMPSTRENGTH;
+					m_currentState = State.Jumping;
+				}
+
 			}
 			else
 			{
 				if (m_facingRight)
+				{
 					m_speed.X = ROLLSPEED;
+				}
 				else
+				{
 					m_speed.X = -ROLLSPEED;
+				}
 			}
 		}
 
@@ -406,11 +409,31 @@ namespace GrandLarceny
 				else if (m_currentState == State.Rolling)
 				{
 					m_img.setSprite("Images//Sprite//hero_roll");
-
 				}
 				else if (m_currentState == State.Slide)
 				{
 					m_img.setSprite("Images//Sprite//hero_slide");
+				}
+
+				if (m_currentState != m_lastState)
+				{
+					if (m_lastState == State.Rolling)
+					{
+						m_collisionShape = standHitBox;
+						m_position.setY(m_position.getLocalY() - ROLLSTANDDIFF);
+						Game.getInstance().m_camera.getPosition().plusYWith(ROLLSTANDDIFF);
+						m_imgOffsetX = 0;
+					}
+					else if (m_currentState == State.Rolling)
+					{
+						if (m_facingRight)
+						{
+							m_imgOffsetX = -72;
+						}
+						m_collisionShape = rollHitBox;
+						m_position.setY(m_position.getLocalY() + ROLLSTANDDIFF);
+						Game.getInstance().m_camera.getPosition().plusYWith(-ROLLSTANDDIFF);
+					}
 				}
 			
 		}
@@ -422,7 +445,7 @@ namespace GrandLarceny
 
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
-			if (a_collisionList.Count == 0 && m_currentState != State.Rolling)
+			if (a_collisionList.Count == 0)
 				m_currentState = State.Jumping;
 			bool t_onLadder = false;
 			bool t_notSupposedToSlide = true;

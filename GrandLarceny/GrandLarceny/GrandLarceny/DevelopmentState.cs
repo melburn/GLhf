@@ -343,7 +343,7 @@ namespace GrandLarceny
 							m_selectedObject = t_gameObject;
 						}
 					}
-					if (m_selectedObject != null && m_itemToCreate == State.Delete)
+					if (m_itemToCreate == State.Delete)
 					{
 						deleteObject(m_selectedObject);
 						m_selectedInfoV2 = Vector2.Zero;
