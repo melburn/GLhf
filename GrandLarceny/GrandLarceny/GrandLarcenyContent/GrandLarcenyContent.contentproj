@@ -71,14 +71,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\1x1_platform_ph.png">
-      <Name>1x1_platform_ph</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Tile\1x1_tile_ph.png">
       <Name>1x1_tile_ph</Name>
       <Importer>TextureImporter</Importer>
@@ -316,6 +308,35 @@
     </Compile>
     <Compile Include="Images\GUI\btn_spotlight_hotkey_pressed.png">
       <Name>btn_spotlight_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\1x1_floor_ph.png">
+      <Name>1x1_floor_ph</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\1x1_ladder2_ph.png">
+      <Name>1x1_ladder2_ph</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\1x1_wall_ph.png">
+      <Name>1x1_wall_ph</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\1x1_floor2_ph.png">
+      <Name>1x1_floor2_ph</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\1x1_wall2_ph.png">
+      <Name>1x1_wall2_ph</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

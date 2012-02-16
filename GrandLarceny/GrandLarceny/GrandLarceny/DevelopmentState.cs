@@ -384,7 +384,7 @@ namespace GrandLarceny
 
 		private void createPlatform()
 		{
-			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.350f);
+			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//1x1_floor2_ph", 0.350f);
 			m_gameObjectList.AddLast(t_platform);
 		}
 
@@ -413,7 +413,7 @@ namespace GrandLarceny
 		}
 
 		private void createWall() {
-			Wall t_wall = new Wall(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.350f);
+			Wall t_wall = new Wall(getTile(m_worldMouse), "Images//Tile//1x1_wall2_ph", 0.350f);
 			m_gameObjectList.AddLast(t_wall);
 		}
 
