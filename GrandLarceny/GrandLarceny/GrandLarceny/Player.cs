@@ -554,7 +554,7 @@ namespace GrandLarceny
 				m_facingRight = true;
 			}
 			else if (!a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y)
-				&& a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y + 6)
+				&& a_collider.getHitBox().getOutBox().Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
 				&& m_speed.Y >= 0)
 			{
 				m_position.setY(a_collider.getPosition().getGlobalY());
