@@ -12,7 +12,6 @@ namespace GrandLarceny
 	{
 		protected bool m_dead = false;
 		protected Position m_position;
-		private bool m_isInLight;
 		[NonSerialized]
 		protected ImageManager m_img;
 

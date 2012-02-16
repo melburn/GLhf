@@ -40,6 +40,9 @@ namespace GrandLarceny
 		private KeyboardState m_previousKeyInput;
 		private State m_currentState = State.Stop;
 
+		[NonSerialized]
+		private bool m_isInLight;
+
 		private bool m_facingRight = false;
 
 		enum State
@@ -398,6 +401,7 @@ namespace GrandLarceny
 				m_currentState = State.Jumping;
 			bool t_onLadder = false;
 			bool t_onFloor = false;
+			m_isInLight = false;
 			foreach (Entity t_collider in a_collisionList)
 			{
 				if (CollisionManager.Collides(this.getHitBox(), t_collider.getHitBox()))
@@ -475,6 +479,10 @@ namespace GrandLarceny
 						}
 						t_onLadder = true;
 					}
+					else if (t_collider is LightCone)
+					{
+						m_isInLight = true;
+					}
 				}
 			}
 			if (!t_onLadder && m_currentState == State.Climbing)
@@ -482,6 +490,10 @@ namespace GrandLarceny
 				m_currentState = State.Jumping;
 			}
 
+		}
+		public bool isInLight()
+		{
+			return m_isInLight;
 		}
 	}
 }
