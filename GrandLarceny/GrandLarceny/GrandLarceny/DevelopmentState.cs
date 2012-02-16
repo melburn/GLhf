@@ -293,12 +293,6 @@ namespace GrandLarceny
 			
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released && m_itemToCreate != State.None && !collidedWithGui())
 			{
-				Rectangle t_rectangle = new Rectangle((int)getTile(m_worldMouse).X, (int)getTile(m_worldMouse).Y, 1, 1);
-				foreach (GameObject t_gameObject in m_gameObjectList) {
-					if (t_gameObject.getBox().Contains(t_rectangle) && (m_itemToCreate != State.Delete || m_itemToCreate != State.Background)) {
-						return;
-					}
-				}
 				switch (m_itemToCreate)
 				{
 					case State.Player:
@@ -410,10 +404,23 @@ namespace GrandLarceny
 			return false;
 		}
 
+		public bool collidedWithObject() {
+			Rectangle t_rectangle = new Rectangle((int)getTile(m_worldMouse).X, (int)getTile(m_worldMouse).Y, 1, 1);
+
+			foreach (GameObject t_gameObject in m_gameObjectList) {
+				if (t_gameObject.getBox().Contains(t_rectangle)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 		private void createPlayer()
 		{
 			if (m_player == null)
 			{
+				if (collidedWithObject())
+					return;
 				m_player = new Player(getTile(m_worldMouse), "Images//Sprite//hero_stand", 0.250f);
 				m_gameObjectList.AddLast(m_player);
 			}
@@ -421,18 +428,24 @@ namespace GrandLarceny
 
 		private void createPlatform()
 		{
+			if (collidedWithObject())
+				return;
 			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//1x1_floor2_ph", 0.350f);
 			m_gameObjectList.AddLast(t_platform);
 		}
 
 		private void createLadder()
 		{
+			if (collidedWithObject())
+				return;
 			Ladder t_ladder = new Ladder(getTile(m_worldMouse), "Images//Tile//1x1_ladder_ph", 0.350f);
 			m_gameObjectList.AddLast(t_ladder);
 		}
 
 		private void createSpotLight()
 		{
+			if (collidedWithObject())
+				return;
 			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//LightCone//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
 			m_gameObjectList.AddLast(t_sl);
 		}
@@ -445,12 +458,16 @@ namespace GrandLarceny
 
 		private void createGuard()
 		{
+			if (collidedWithObject())
+				return;
 			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//guard_idle", getTile(m_worldMouse).X, true, true, 0.300f);
 			m_gameObjectList.AddLast(t_guard);
 		}
 
 		private void createWall()
 		{
+			if (collidedWithObject())
+				return;
 			Wall t_wall = new Wall(getTile(m_worldMouse), "Images//Tile//1x1_wall2_ph", 0.350f);
 			m_gameObjectList.AddLast(t_wall);
 		}
