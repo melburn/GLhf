@@ -467,17 +467,17 @@ namespace GrandLarceny
 						{
 							m_position.setY(t_collider.getPosition().getGlobalY() - m_collisionShape.getOutBox().Height);
 							m_speed.Y = 0;
-							if (m_currentState == State.Jumping || m_currentState ==  State.Climbing)
+							if (m_currentState == State.Jumping || m_currentState == State.Climbing)
 							{
 								if (m_speed.X == 0)
 								{
 									m_currentState = State.Stop;
-									
+
 								}
 								else
 								{
 									m_currentState = State.Walking;
-									
+
 								}
 							}
 							t_onFloor = true;
@@ -496,33 +496,19 @@ namespace GrandLarceny
 						{
 							m_position.setX(t_collider.getPosition().getGlobalX() + t_collider.getHitBox().getOutBox().Width);
 							m_speed.X = 0;
-							if (!t_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 2,(int)m_lastPosition.Y)
-								&& t_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 2,(int)m_lastPosition.Y + 3)
-								&& m_speed.Y >= 0)
-							{
-								m_speed.Y = 0;
-								m_currentState = State.Hanging;
-								m_facingRight = false;
-							}
+							climb(t_collider);
 						}
 						//Colliding with ze right wall
 						if ((int)m_lastPosition.X + getHitBox().getOutBox().Width - 1 <= (int)t_collider.getLastPosition().X)
 						{
 							m_position.setX(t_collider.getPosition().getGlobalX() - (getHitBox().getOutBox().Width));
 							m_speed.X = 0;
-							if (!t_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X + getHitBox().getOutBox().Width + 2, (int)m_lastPosition.Y)
-								&& t_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X + getHitBox().getOutBox().Width + 2, (int)m_lastPosition.Y + 3)
-								&& m_speed.Y >= 0)
-							{
-								m_speed.Y = 0;
-								m_currentState = State.Hanging;
-								m_facingRight = true;
-							}
+							climb(t_collider);
 						}
 					}
 					else if (t_collider is Ladder)
 					{
-						
+
 						//Colliding with ze ladd0rz
 						Rectangle t_rect = new Rectangle(t_collider.getHitBox().getOutBox().X - 2,
 							(int)t_collider.getPosition().getGlobalY(), 4, t_collider.getHitBox().getOutBox().Height);
@@ -542,6 +528,8 @@ namespace GrandLarceny
 					else if (t_collider is LightCone)
 						m_isInLight = true;
 				}
+				else if (t_collider is Platform)
+					climb(t_collider);
 			}
 			if (t_notSupposedToSlide && m_currentState == State.Slide)
 				m_currentState = State.Jumping;
@@ -551,6 +539,25 @@ namespace GrandLarceny
 		public bool isInLight()
 		{
 			return m_isInLight;
+		}
+		private void climb(Entity a_collider)
+		{
+			if (!a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X + getHitBox().getOutBox().Width + 4, (int)m_lastPosition.Y)
+				&& a_collider.getHitBox().getOutBox().Contains((int)m_position.getGlobalX() + getHitBox().getOutBox().Width + 4, (int)m_position.getGlobalY())
+				&& m_speed.Y >= 0)
+			{
+				m_speed.Y = 0;
+				m_currentState = State.Hanging;
+				m_facingRight = true;
+			}
+			else if (!a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y)
+				&& a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y + 6)
+				&& m_speed.Y >= 0)
+			{
+				m_speed.Y = 0;
+				m_currentState = State.Hanging;
+				m_facingRight = false;
+			}
 		}
 	}
 }
