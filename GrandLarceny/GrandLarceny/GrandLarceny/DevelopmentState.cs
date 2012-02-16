@@ -13,6 +13,7 @@ namespace GrandLarceny
 		private LinkedList<GameObject> m_gameObjectList;
 		private LinkedList<GameObject> m_buildObjectList;
 		private LinkedList<GuiObject> m_guiList;
+		private LinkedList<Button> m_buttonList;
 		private LinkedList<Text> m_textList;
 		private MouseState m_previousMouse;
 		private MouseState m_currentMouse;
@@ -32,6 +33,12 @@ namespace GrandLarceny
 		private Text m_textSelectedObjectPosition;
 		private GuiObject m_UItextBackground;
 
+		private Button m_btnLadderHotkey;
+		private Button m_btnTileHotkey;
+		private Button m_btnBackgroundHotkey;
+		private Button m_btnDeleteHotkey;
+		private Button m_btnHeroHotkey;
+
 		private enum State
 		{
 			Platform,
@@ -40,17 +47,20 @@ namespace GrandLarceny
 			Ladder,
 			SpotLight,
 			Delete,
-			None
+			None,
+			Guard
 		}
 		private State m_itemToCreate = State.None;
 
 		public DevelopmentState(string a_levelToLoad)
 		{
 			m_levelToLoad = a_levelToLoad;
-			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
+			Game.getInstance().m_camera.getPosition().setParentPosition(null);
+			Game.getInstance().m_camera.setPosition(new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth / 2, Game.getInstance().m_graphics.PreferredBackBufferHeight / 2));
 		}
 
-		private Vector2 getTile(Vector2 a_pixelPosition) {
+		private Vector2 getTile(Vector2 a_pixelPosition)
+		{
 			if (a_pixelPosition.X % 72 >= 36)
 				a_pixelPosition.X = a_pixelPosition.X + (72 - (a_pixelPosition.X % 72));	
 			else if (a_pixelPosition.X % 72 < 36)
@@ -70,6 +80,7 @@ namespace GrandLarceny
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
 			m_guiList = new LinkedList<GuiObject>();
 			m_textList = new LinkedList<Text>();
+			m_buttonList = new LinkedList<Button>();
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				if (t_gameObject is Player)
@@ -77,18 +88,33 @@ namespace GrandLarceny
 					m_player = t_gameObject;
 				}
 			}
-			Game.getInstance().m_camera.setPosition(new Vector2(0, 0));
 
 			m_buildObjectList = new LinkedList<GameObject>();
 			m_itemToCreate = State.None;
 
-			m_textCurrentMode = new Text(new Vector2(12, 10), "Select", m_courierNew, Color.Black, false);
+			m_textCurrentMode				= new Text(new Vector2(12, 10), "Select", m_courierNew, Color.Black, false);
+			m_textSelectedObjectPosition	= new Text(new Vector2(12, 42), "Nothing Selected", m_courierNew, Color.Black, false);
 			m_textList.AddLast(m_textCurrentMode);
-			m_textSelectedObjectPosition = new Text(new Vector2(12, 42), "Nothing Selected", m_courierNew, Color.Black, true);
 			m_textList.AddLast(m_textSelectedObjectPosition);
 
-			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//guiderp");
+			m_UItextBackground = new GuiObject(new Vector2(0, 0), "Images//GUI//dev_bg_info");
 			m_guiList.AddLast(m_UItextBackground);
+
+			m_btnLadderHotkey = new Button("Images//GUI//btn_ladder_hotkey_normal", "Images//GUI//btn_ladder_hotkey_hover", "Images//GUI//btn_ladder_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 72, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+			m_btnTileHotkey = new Button("Images//GUI//btn_tile_hotkey_normal", "Images//GUI//btn_tile_hotkey_hover", "Images//GUI//btn_tile_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 144, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+			m_btnBackgroundHotkey = new Button("Images//GUI//btn_background_hotkey_normal", "Images//GUI//btn_background_hotkey_hover", "Images//GUI//btn_background_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 216, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+			m_btnDeleteHotkey = new Button("Images//GUI//btn_delete_hotkey_normal", "Images//GUI//btn_delete_hotkey_hover", "Images//GUI//btn_delete_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 288, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+			m_btnHeroHotkey = new Button("Images//GUI//btn_hero_hotkey_normal", "Images//GUI//btn_hero_hotkey_hover", "Images//GUI//btn_hero_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 72, Game.getInstance().m_graphics.PreferredBackBufferHeight - 144), 0);
+			m_buttonList.AddLast(m_btnLadderHotkey);
+			m_buttonList.AddLast(m_btnTileHotkey);
+			m_buttonList.AddLast(m_btnBackgroundHotkey);
+			m_buttonList.AddLast(m_btnDeleteHotkey);
+			m_buttonList.AddLast(m_btnHeroHotkey);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -99,16 +125,23 @@ namespace GrandLarceny
 			m_worldMouse.X = 
 				Mouse.GetState().X / Game.getInstance().m_camera.getZoom()
 				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X
-				- ((Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / Game.getInstance().m_camera.getZoom());
+				- ((Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / Game.getInstance().m_camera.getZoom())
+				- 36;
 			m_worldMouse.Y = 
 				Mouse.GetState().Y / Game.getInstance().m_camera.getZoom() 
 				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y
-				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom());
+				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom())
+				- 36;
 
 			updateCamera();
 			updateKeyboard();
 			updateMouse();
 			updateGUI();
+
+			foreach (Button t_button in m_buttonList)
+			{
+				t_button.update();
+			}
 
 			m_previousKeyboard = m_currentKeyboard;
 			m_previousMouse = m_currentMouse;
@@ -130,8 +163,10 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.zoomOut(0.1f);
 		}
 
-		private void updateGUI() {
-			if (m_selectedObject != null) {
+		private void updateGUI()
+		{
+			if (m_selectedObject != null)
+			{
 				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / 72;
 				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y / 72;
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
@@ -147,41 +182,63 @@ namespace GrandLarceny
 			if (m_currentKeyboard.IsKeyDown(Keys.P) && m_previousKeyboard.IsKeyUp(Keys.P))
 			{
 				m_itemToCreate = State.Platform;
+				resetButtonStates();
+				m_btnTileHotkey.setState(2);
 				m_textCurrentMode.setText("Create Platform");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.L) && m_previousKeyboard.IsKeyUp(Keys.L))
 			{
 				m_itemToCreate = State.Ladder;
+				resetButtonStates();
+				m_btnLadderHotkey.setState(2);
 				m_textCurrentMode.setText("Create Ladder");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.B) && m_previousKeyboard.IsKeyUp(Keys.B))
 			{
 				m_itemToCreate = State.Background;
+				resetButtonStates();
+				m_btnBackgroundHotkey.setState(2);
 				m_textCurrentMode.setText("Create Background");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_previousKeyboard.IsKeyUp(Keys.D))
 			{
 				m_itemToCreate = State.Delete;
+				resetButtonStates();
+				m_btnDeleteHotkey.setState(2);
 				m_textCurrentMode.setText("Delete Object");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H))
 			{
 				m_itemToCreate = State.Player;
+				resetButtonStates();
+				m_btnHeroHotkey.setState(2);
 				m_textCurrentMode.setText("Create Hero");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
 				m_itemToCreate = State.None;
+				resetButtonStates();
+				//m_btnSelectHotkey.setState(2);
 				m_textCurrentMode.setText("Select");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.T))
 			{
 				m_itemToCreate = State.SpotLight;
+				resetButtonStates();
+				//m_btnSpotlightHotkey.setState(2);
 				m_textCurrentMode.setText("Create SpotLight");
+			}
+			if (m_currentKeyboard.IsKeyDown(Keys.G) && m_previousKeyboard.IsKeyUp(Keys.G))
+			{
+				m_itemToCreate = State.Guard;
+				resetButtonStates();
+				//m_btnGuardHotkey.setState(2);
+				m_textCurrentMode.setText("Create Guard");
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
-				if (m_selectedObject != null) {
+				if (m_selectedObject != null)
+				{
 					m_selectedObject.setColor(Color.White);
 					m_selectedObject = null;
 				}
@@ -235,6 +292,11 @@ namespace GrandLarceny
 						createSpotLight();
 						break;
 					}
+					case State.Guard:
+					{
+						createGuard();
+						break;
+					}
 				}
 			}
 
@@ -261,11 +323,13 @@ namespace GrandLarceny
 						m_selectedObject = t_gameObject;
 					}
 				}
-				if (m_selectedObject != null && m_itemToCreate == State.Delete) {
+				if (m_selectedObject != null && m_itemToCreate == State.Delete)
+				{
 					deleteObject(m_selectedObject);
 					m_selectedInfoV2 = Vector2.Zero;
 				}
-				if (m_selectedObject != null) {
+				if (m_selectedObject != null)
+				{
 					m_selectedObject.setColor(Color.Yellow);
 				}
 			}
@@ -275,40 +339,53 @@ namespace GrandLarceny
 		{
 			Vector2 t_mousePosition = getTile(m_worldMouse);
 
-			m_selectedObject.getPosition().setX(t_mousePosition.X - (m_selectedObject.getImg().getSize().X / 2));
-			m_selectedObject.getPosition().setY(t_mousePosition.Y - (m_selectedObject.getImg().getSize().Y / 2));
+			m_selectedObject.getPosition().setX(t_mousePosition.X);
+			m_selectedObject.getPosition().setY(t_mousePosition.Y);
+		}
+
+		private void resetButtonStates() {
+			foreach (Button t_button in m_buttonList) {
+				t_button.setState(0);
+			}
 		}
 
 		private void createPlayer()
 		{
-			if (m_player == null) {
-				m_player = new Player(getTile(m_worldMouse), "Images//hero_stand", 0.250f);
+			if (m_player == null)
+			{
+				m_player = new Player(getTile(m_worldMouse), "Images//Sprite//hero_stand", 0.250f);
 				m_gameObjectList.AddLast(m_player);
 			}
 		}
 
 		private void createPlatform()
 		{
-			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//tile", 0.350f);
+			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.350f);
 			m_gameObjectList.AddLast(t_platform);
 		}
 
 		private void createLadder()
 		{
-			Ladder t_ladder = new Ladder(getTile(m_worldMouse), "Images//ladder", 0.350f);
+			Ladder t_ladder = new Ladder(getTile(m_worldMouse), "Images//Tile//1x1_ladder_ph", 0.350f);
 			m_gameObjectList.AddLast(t_ladder);
 		}
 
 		private void createSpotLight()
 		{
-			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
+			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//LightCone//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
 			m_gameObjectList.AddLast(t_sl);
 		}
 
 		private void createBackground()
 		{
-			Environment t_environment = new Environment(getTile(m_worldMouse), "Images//test", 0.750f);
+			Environment t_environment = new Environment(getTile(m_worldMouse), "Images//Background//ph", 0.750f);
 			m_gameObjectList.AddLast(t_environment);
+		}
+
+		private void createGuard()
+		{
+			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//guard_idle", getTile(m_worldMouse).X, true, true, 0.300f);
+			m_gameObjectList.AddLast(t_guard);
 		}
 
 		private void deleteObject(GameObject a_gameObject)
@@ -322,15 +399,21 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			foreach (Text t_textObject in m_textList) {
+			foreach (Text t_textObject in m_textList)
+			{
 				t_textObject.draw(a_spriteBatch);
 			}
-			foreach (GuiObject t_guiObject in m_guiList) {
+			foreach (GuiObject t_guiObject in m_guiList)
+			{
 				t_guiObject.draw(a_gameTime);
 			}
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				t_gameObject.draw(a_gameTime);
+			}
+			foreach (Button t_button in m_buttonList)
+			{
+				t_button.draw(a_gameTime, a_spriteBatch);
 			}
 		}
 		public override void addObject(GameObject a_object)

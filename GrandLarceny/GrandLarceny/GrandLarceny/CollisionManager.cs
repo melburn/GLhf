@@ -7,7 +7,9 @@ namespace GrandLarceny
 {
 	class CollisionManager
 	{
-		private CollisionManager() { } //lol statisk
+		private CollisionManager()
+		{
+		} //lol statisk
 
 		public static bool Collides(CollisionShape a_cs1, CollisionShape a_cs2)
 		{

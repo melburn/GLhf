@@ -16,13 +16,14 @@ namespace GrandLarceny
 		private const float CAMERASPEED = 0.1f;
 
 		private const int CLIMBINGSPEED = 200;
-		private const int PLAYERSPEED = 200;
+		private const int PLAYERSPEED = 600;
 		private const int JUMPSTRENGTH = 600;
 		private const int CAMERAMAXDISTANCE = 100;
 		private const int ACCELERATION = 2000;
 		private const int DEACCELERATION = 800;
 		private const int AIRDEACCELERATION = 300;
 		private const int SLIDESPEED = 25;
+		private const int ROLLSPEED = 1000;
 
 		private float m_rollTimer;
 
@@ -88,7 +89,6 @@ namespace GrandLarceny
 					break;
 				}
 			}
-			m_previousKeyInput = m_currentKeyInput;
 			changeAnimation();
 			flipSprite();
 			base.update(a_gameTime);
@@ -195,7 +195,7 @@ namespace GrandLarceny
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		
 			m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
-			if (m_position.getY() != getLastPosition().Y)
+			if (m_position.getGlobalY() != getLastPosition().Y)
 			{
 				m_currentState = State.Jumping;
 			}		
@@ -239,7 +239,7 @@ namespace GrandLarceny
 
 		private void updateSliding(float a_deltaTime)
 		{
-			if (m_lastPosition.Y != m_position.getY())
+			if (m_lastPosition.Y != m_position.getGlobalY())
 			{
 				if ((!m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Right)) || (m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Left)))
 				{
@@ -319,9 +319,9 @@ namespace GrandLarceny
 			else
 			{
 				if (m_facingRight)
-					m_speed.X = 500;
+					m_speed.X = ROLLSPEED;
 				else
-					m_speed.X = -500;
+					m_speed.X = -ROLLSPEED;
 			}
 		}
 
@@ -330,28 +330,28 @@ namespace GrandLarceny
 			
 				if (m_currentState == State.Stop)
 				{
-					m_img.setSprite("Images//hero_stand");
+					m_img.setSprite("Images//Sprite//hero_stand");
 				}
 				else if (m_currentState == State.Walking)
 				{
-					m_img.setSprite("Images//hero_stand");
+					m_img.setSprite("Images//Sprite//hero_stand");
 				}
 
 				if (m_currentState == State.Jumping)
 				{
 					if (m_speed.Y < 0)
-						m_img.setSprite("Images//hero_jump");
+						m_img.setSprite("Images//Sprite//hero_jump");
 					else
-						m_img.setSprite("Images//hero_fall");
+						m_img.setSprite("Images//Sprite//hero_fall");
 				}
 				
 				else if (m_currentState == State.Rolling)
 				{
-					m_img.setSprite("Images//hero_roll");
+					m_img.setSprite("Images//Sprite//hero_roll");
 				}
 				else if (m_currentState == State.Slide)
 				{
-					m_img.setSprite("Images//hero_slide");
+					m_img.setSprite("Images//Sprite//hero_slide");
 				}
 			
 		}
@@ -369,14 +369,14 @@ namespace GrandLarceny
 			bool t_onFloor = false;
 			foreach (Entity t_collider in a_collisionList)
 			{
-				if (GameState.checkBoxCollision(this, t_collider))
+				if (CollisionManager.Collides(this.getHitBox(), t_collider.getHitBox()))
 				{
 					if (t_collider is Platform)
 					{
 						//Colliding with ze floor
-						if ((int)m_lastPosition.Y - 2 <= (int)t_collider.getLastPosition().Y)
+						if ((int)m_lastPosition.Y + getHitBox().getOutBox().Height <= (int)t_collider.getLastPosition().Y)
 						{
-							m_position.setY(t_collider.getBox().Y);
+							m_position.setY(t_collider.getPosition().getGlobalY() - m_collisionShape.getOutBox().Height);
 							m_speed.Y = 0;
 							if (m_currentState == State.Jumping || m_currentState ==  State.Climbing)
 							{
@@ -396,16 +396,16 @@ namespace GrandLarceny
 						}
 
 						//Colliding with ze zeeling
-						if ((int)m_lastPosition.Y + 2 >= (int)t_collider.getLastPosition().Y)
+						if ((int)m_lastPosition.Y >= (int)t_collider.getLastPosition().Y + t_collider.getHitBox().getOutBox().Height)
 						{
-							m_position.setY(t_collider.getPosition().getY() + t_collider.getBox().Height);
+							m_position.setY(t_collider.getPosition().getGlobalY() + t_collider.getHitBox().getOutBox().Height);
 							m_speed.Y = 0;
 							continue;
 						}
 						//Colliding with ze left wall
-						if ((int)m_lastPosition.X + 2 >= (int)t_collider.getLastPosition().X)
+						if ((int)m_lastPosition.X + 1 >= (int)t_collider.getLastPosition().X + t_collider.getHitBox().getOutBox().Width)
 						{
-							setLeftPoint(t_collider.getTopLeftPoint().X + t_collider.getImg().getSize().X);
+							m_position.setX(t_collider.getPosition().getGlobalX() + t_collider.getHitBox().getOutBox().Width);
 							if(m_currentState == State.Jumping)
 							{
 								m_currentState = State.Slide;
@@ -414,9 +414,9 @@ namespace GrandLarceny
 							m_speed.X = 0;
 						}
 						//Colliding with ze right wall
-						if ((int)m_lastPosition.X - 2 <= (int)t_collider.getLastPosition().X)
+						if ((int)m_lastPosition.X + getHitBox().getOutBox().Width - 1 <= (int)t_collider.getLastPosition().X)
 						{
-							setLeftPoint(t_collider.getPosition().getX() - (m_img.getSize().X));
+							m_position.setX(t_collider.getPosition().getGlobalX() - (getHitBox().getOutBox().Width));
 							if (m_currentState == State.Jumping)
 							{
 								m_currentState = State.Slide;
@@ -429,8 +429,8 @@ namespace GrandLarceny
 					{
 						
 						//Colliding with ze ladd0rz
-						Rectangle t_rect = new Rectangle(t_collider.getBox().X + ((t_collider.getBox().Width / 2) - 2),
-							t_collider.getBox().Y, 4, t_collider.getBox().Height);
+						Rectangle t_rect = new Rectangle(t_collider.getHitBox().getOutBox().X - 2,
+							(int)t_collider.getPosition().getGlobalY(), 4, t_collider.getHitBox().getOutBox().Height);
 						if (t_rect.Contains((int)m_lastPosition.X, (int)m_lastPosition.Y))
 						{
 							if (m_currentKeyInput.IsKeyDown(Keys.Up) || (m_currentKeyInput.IsKeyDown(Keys.Down) && !t_onFloor))
@@ -439,7 +439,7 @@ namespace GrandLarceny
 								m_currentState = State.Climbing;
 								if (m_speed.Y < -CLIMBINGSPEED || m_speed.Y > CLIMBINGSPEED)
 									m_speed.Y = 0;
-								setLeftPoint(t_collider.getLeftPoint());
+								m_position.setX(t_collider.getPosition().getGlobalX());
 							}
 						}
 						t_onLadder = true;

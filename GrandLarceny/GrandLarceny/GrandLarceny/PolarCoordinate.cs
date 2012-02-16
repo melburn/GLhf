@@ -89,21 +89,46 @@ namespace GrandLarceny
 			return m_coordinates.Y;
 		}
 
-		public override float getX()
+		public override float getLocalX()
 		{
 			return (float)(m_coordinates.X * Math.Cos(m_coordinates.Y));
 		}
 
-		public override float getY()
+		public override float getLocalY()
 		{
 			return (float)(m_coordinates.X * Math.Sin(m_coordinates.Y));
 		}
-
+		public override float getGlobalX()
+		{
+			if (m_parentPosition == null)
+			{
+				return (float)(m_coordinates.X * Math.Cos(m_coordinates.Y));
+			}
+			else
+			{
+				return (float)(m_coordinates.X * Math.Cos(m_coordinates.Y) + m_parentPosition.getGlobalX());
+			}
+		}
+		public override float getGlobalY()
+		{
+			if (m_parentPosition == null)
+			{
+				return (float)(m_coordinates.X * Math.Sin(m_coordinates.Y));
+			}
+			else
+			{
+				return (float)(m_coordinates.X * Math.Sin(m_coordinates.Y) + m_parentPosition.getGlobalY());
+			}
+		}
 		public override void setParentPositionWithoutMoving(Position a_parentPosition)
 		{
-			//kanske ska vara tvärtom
+			if (a_parentPosition == null)
+			{
+				m_coordinates = getGlobalPolarCoordinates();
+			}
+			else{
 			m_coordinates = convertCartesianToPolar(getGlobalCartesianCoordinates() - a_parentPosition.getGlobalCartesianCoordinates());
-
+			}
 			m_parentPosition = a_parentPosition;
 		}
 

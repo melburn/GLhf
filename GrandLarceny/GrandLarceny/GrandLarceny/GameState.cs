@@ -81,7 +81,7 @@ namespace GrandLarceny
 					foreach (GameObject t_secondGameObject in m_gameObjectList)
 					{
 						if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject 
-							&& checkBigBoxCollision(t_firstGameObject, t_secondGameObject))
+							&& checkBigBoxCollision((Entity)t_firstGameObject, (Entity)t_secondGameObject))
 						{
 							t_collided.Add((Entity)t_secondGameObject);
 						}
@@ -110,19 +110,12 @@ namespace GrandLarceny
 			}
 		}
 
-		public static bool checkBigBoxCollision(GameObject a_first, GameObject a_second)
+		public static bool checkBigBoxCollision(Entity a_first, Entity a_second)
 		{
-			return (a_first.getLeftPoint()-1 < a_second.getRightPoint() &&
-				a_first.getRightPoint()+1 > a_second.getLeftPoint()) &&
-				(a_first.getTopPoint() < a_second.getBottomPoint() &&
-				a_first.getBottomPoint() > a_second.getTopPoint());
-		}
-		public static bool checkBoxCollision(GameObject a_first, GameObject a_second)
-		{
-			return (a_first.getLeftPoint() < a_second.getRightPoint() &&
-				a_first.getRightPoint() > a_second.getLeftPoint()) &&
-				(a_first.getTopPoint() < a_second.getBottomPoint() &&
-				a_first.getBottomPoint() > a_second.getTopPoint());
+			return (a_first.getPosition().getGlobalX() - 1 < a_second.getPosition().getGlobalX() + a_second.getHitBox().getOutBox().Width &&
+				a_first.getPosition().getGlobalX() + a_first.getHitBox().getOutBox().Width + 1 > a_second.getPosition().getGlobalX()) &&
+				(a_first.getPosition().getGlobalY() < a_second.getPosition().getGlobalY() + a_second.getHitBox().getOutBox().Height &&
+				a_first.getPosition().getGlobalY() + a_first.getHitBox().getOutBox().Height > a_second.getPosition().getGlobalY());
 		}
 		public override void addObject(GameObject a_object)
 		{

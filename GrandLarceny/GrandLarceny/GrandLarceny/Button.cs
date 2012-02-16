@@ -15,7 +15,7 @@ namespace GrandLarceny
 
 		private int m_level;
 
-		private Vector2 m_position;
+		private Position m_position;
 		private Vector2 m_size;
 
 		private Texture2D m_normalTexture;
@@ -30,12 +30,36 @@ namespace GrandLarceny
 		private MouseState m_currMouseState;
 		private MouseState m_prevMouseState;
 
+		private State m_currentState = State.Normal;
+
+		enum State
+		{
+			Normal,
+			Hover,
+			Pressed
+		}
+
 		public Button(Texture2D a_normal, Texture2D a_hover, Texture2D a_pressed, Vector2 a_position, int a_level)
 		{
 			setHoverTexture(a_hover);
 			setNormalTexture(a_normal);
 			setPressedTexture(a_pressed);
+			m_position = new CartesianCoordinate(a_position);
+			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
+			m_level = a_level;
+		}
+
+		public Button(string a_normal, string a_hover, string a_pressed, Vector2 a_position, int a_level)
+		{
+			setNormalTexture(Game.getInstance().Content.Load<Texture2D>(a_normal));
+			setHoverTexture(Game.getInstance().Content.Load<Texture2D>(a_hover));
+			setPressedTexture(Game.getInstance().Content.Load<Texture2D>(a_pressed));
+			m_position = new CartesianCoordinate(a_position);
+			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
+			setPosition(a_position);
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
 			m_level = a_level;
 		}
 
@@ -43,17 +67,8 @@ namespace GrandLarceny
 		{
 			m_prevMouseState = m_currMouseState;
 			m_currMouseState = Mouse.GetState();
-			Vector2 t_worldMouse;
-			t_worldMouse.X =
-				Mouse.GetState().X / Game.getInstance().m_camera.getZoom()
-				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X
-				- ((Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / Game.getInstance().m_camera.getZoom());
-			t_worldMouse.Y =
-				Mouse.GetState().Y / Game.getInstance().m_camera.getZoom()
-				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y
-				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom());
 
-			if (m_bounds.Contains((int)t_worldMouse.X, (int)t_worldMouse.Y))
+			if (m_bounds.Contains(Mouse.GetState().X, Mouse.GetState().Y))
 			{
 				m_isFocused = true;
 				if (m_currMouseState != m_prevMouseState && m_currMouseState.LeftButton == ButtonState.Pressed)
@@ -75,12 +90,31 @@ namespace GrandLarceny
 		}
 		public void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			if (m_isPressed)
-				a_spriteBatch.Draw(m_pressedTexture, m_position, null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f, 1.0f), SpriteEffects.None, 0.0f);
-			else if (m_isFocused)
-				a_spriteBatch.Draw(m_hoverTexture, m_position, null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f, 1.0f), SpriteEffects.None, 0.0f);
+			CartesianCoordinate t_cartCoord = new CartesianCoordinate(m_position.getLocalCartesianCoordinates() / Game.getInstance().m_camera.getZoom(), m_position.getParentPosition());
+			if (m_isPressed || m_currentState == State.Pressed)
+				a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, 0.0f);
+			else if (m_isFocused || m_currentState == State.Hover)
+				a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, 0.0f);
 			else
-				a_spriteBatch.Draw(m_normalTexture, m_position, null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f, 1.0f), SpriteEffects.None, 0.0f);
+				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, 0.0f);
+		}
+
+		public void setState(int a_state)
+		{
+			switch (a_state) {
+				case 0:
+					m_currentState = State.Normal;
+					break;
+				case 1:
+					m_currentState = State.Hover;
+					break;
+				case 2:
+					m_currentState = State.Pressed;
+					break;
+				default:
+					m_currentState = State.Normal;
+					break;
+			}
 		}
 
 		public bool isButtonPressed()
@@ -88,15 +122,15 @@ namespace GrandLarceny
 			return m_isPressed;
 		}
 
-		public Vector2 getPosition()
+		public Position getPosition()
 		{
 			return m_position;
 		}
 		public void setPosition(Vector2 a_position)
 		{
-			m_position = a_position;
-			m_bounds.X = (int)a_position.X;
-			m_bounds.Y = (int)a_position.Y;
+			a_position.X -= Game.getInstance().m_graphics.PreferredBackBufferWidth / 2;
+			a_position.Y -= Game.getInstance().m_graphics.PreferredBackBufferHeight / 2;
+			m_position.setCartesianCoordinates(a_position);
 		}
 		public int getLevel()
 		{
