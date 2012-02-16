@@ -41,6 +41,10 @@ namespace GrandLarceny
 		private Button m_btnSelectHotkey;
 		private Button m_btnSpotlightHotkey;
 		private Button m_btnGuardHotkey;
+		private Button m_btnWallHotkey;
+
+		private int TILE_WIDTH = 72;
+		private int TILE_HEIGHT = 72;
 
 		private enum State
 		{
@@ -65,15 +69,8 @@ namespace GrandLarceny
 
 		private Vector2 getTile(Vector2 a_pixelPosition)
 		{
-		//	if (a_pixelPosition.X % 72 >= 36)
-		//		a_pixelPosition.X = a_pixelPosition.X + (72 - (a_pixelPosition.X % 72));	
-		//	else if (a_pixelPosition.X % 72 < 36)
-				a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % 72);
-
-		//	if (a_pixelPosition.Y % 72 >= 36)
-		//		a_pixelPosition.Y = a_pixelPosition.Y + (72 - (a_pixelPosition.Y % 72));
-		//	else if (a_pixelPosition.Y % 72 < 36)
-				a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % 72);
+			a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % TILE_WIDTH);
+			a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % TILE_HEIGHT);
 
 			return a_pixelPosition;
 		}
@@ -106,21 +103,32 @@ namespace GrandLarceny
 			m_guiList.AddLast(m_UItextBackground);
 
 			m_btnLadderHotkey = new Button("Images//GUI//btn_ladder_hotkey_normal", "Images//GUI//btn_ladder_hotkey_hover", "Images//GUI//btn_ladder_hotkey_pressed"
-				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 72, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), 0);
 			m_btnTileHotkey = new Button("Images//GUI//btn_tile_hotkey_normal", "Images//GUI//btn_tile_hotkey_hover", "Images//GUI//btn_tile_hotkey_pressed"
-				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 144, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 2
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), 0);
 			m_btnBackgroundHotkey = new Button("Images//GUI//btn_background_hotkey_normal", "Images//GUI//btn_background_hotkey_hover", "Images//GUI//btn_background_hotkey_pressed"
-				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 216, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 3
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), 0);
 			m_btnDeleteHotkey = new Button("Images//GUI//btn_delete_hotkey_normal", "Images//GUI//btn_delete_hotkey_hover", "Images//GUI//btn_delete_hotkey_pressed"
-				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 288, Game.getInstance().m_graphics.PreferredBackBufferHeight - 72), 0);
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 4
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), 0);
 			m_btnHeroHotkey = new Button("Images//GUI//btn_hero_hotkey_normal", "Images//GUI//btn_hero_hotkey_hover", "Images//GUI//btn_hero_hotkey_pressed"
-				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 72, Game.getInstance().m_graphics.PreferredBackBufferHeight - 144), 0);
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
+				, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), 0);
 			m_btnSelectHotkey = new Button("Images//GUI//btn_select_hotkey_normal", "Images//GUI//btn_select_hotkey_hover", "Images//GUI//btn_select_hotkey_pressed"
-				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 144, Game.getInstance().m_graphics.PreferredBackBufferHeight - 144), 0);
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 2
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), 0);
 			m_btnSpotlightHotkey = new Button("Images//GUI//btn_spotlight_hotkey_normal", "Images//GUI//btn_spotlight_hotkey_hover", "Images//GUI//btn_spotlight_hotkey_pressed"
-				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 216, Game.getInstance().m_graphics.PreferredBackBufferHeight - 144), 0);
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 3
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), 0);
 			m_btnGuardHotkey = new Button("Images//GUI//btn_guard_hotkey_normal", "Images//GUI//btn_guard_hotkey_hover", "Images//GUI//btn_guard_hotkey_pressed"
-				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 288, Game.getInstance().m_graphics.PreferredBackBufferHeight - 144), 0);
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 4
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), 0);
+			m_btnWallHotkey = new Button("Images//GUI//btn_wall_hotkey_normal", "Images//GUI//btn_wall_hotkey_hover", "Images//GUI//btn_wall_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), 0);
 			m_buttonList.AddLast(m_btnLadderHotkey);
 			m_buttonList.AddLast(m_btnTileHotkey);
 			m_buttonList.AddLast(m_btnBackgroundHotkey);
@@ -129,6 +137,7 @@ namespace GrandLarceny
 			m_buttonList.AddLast(m_btnSelectHotkey);
 			m_buttonList.AddLast(m_btnSpotlightHotkey);
 			m_buttonList.AddLast(m_btnGuardHotkey);
+			m_buttonList.AddLast(m_btnWallHotkey);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -179,10 +188,14 @@ namespace GrandLarceny
 		{
 			if (m_selectedObject != null)
 			{
-				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / 72;
-				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y / 72;
+				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / TILE_WIDTH;
+				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y / TILE_HEIGHT;
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
 			}
+		}
+
+		private void updateButtons() {
+
 		}
 
 		private void updateKeyboard()
@@ -251,7 +264,7 @@ namespace GrandLarceny
 			{
 				m_itemToCreate = State.Wall;
 				resetButtonStates();
-				//m_btnWallHotkey.setState(2);
+				m_btnWallHotkey.setState(2);
 				m_textCurrentMode.setText("Create Wall");	
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
@@ -339,22 +352,40 @@ namespace GrandLarceny
 					m_selectedInfoV2 = Vector2.Zero;
 				}
 				Rectangle t_mouseClick = new Rectangle((int)m_worldMouse.X, (int)m_worldMouse.Y, 1, 1);
+				bool t_clickedGUI = false;
 
-				foreach (GameObject t_gameObject in m_gameObjectList)
-				{
-					if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
+
+				foreach (GuiObject t_guiObject in m_guiList) {
+					if (t_guiObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
 					{
-						m_selectedObject = t_gameObject;
+						t_clickedGUI = true;
+						break;
 					}
 				}
-				if (m_selectedObject != null && m_itemToCreate == State.Delete)
-				{
-					deleteObject(m_selectedObject);
-					m_selectedInfoV2 = Vector2.Zero;
+
+				foreach (Button t_button in m_buttonList) {
+					if (t_button.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
+					{
+						t_clickedGUI = true;
+					}
 				}
-				if (m_selectedObject != null)
-				{
-					m_selectedObject.setColor(Color.Yellow);
+				if (!t_clickedGUI) {
+					foreach (GameObject t_gameObject in m_gameObjectList)
+					{
+						if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
+						{
+							m_selectedObject = t_gameObject;
+						}
+					}
+					if (m_selectedObject != null && m_itemToCreate == State.Delete)
+					{
+						deleteObject(m_selectedObject);
+						m_selectedInfoV2 = Vector2.Zero;
+					}
+					if (m_selectedObject != null)
+					{
+						m_selectedObject.setColor(Color.Yellow);
+					}
 				}
 			}
 		}
