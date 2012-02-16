@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
@@ -16,9 +17,11 @@ namespace GrandLarceny
         public Boolean m_inALightArea = false;
         private Boolean m_isCarryingFlashLight;
         private float MOVEMENTSPEED = 100;
-		private float CHASINGSPEED = 250;
+		private float CHASINGSPEED = 350;
         private Entity m_chaseTarget = null;
 		private Boolean m_running = false;
+		private Boolean m_faceingRight;
+		private float m_sightRange = 576f;
 
 		//flashlight addicted guard always has their flashlight up
 		private Boolean m_FlashLightAddicted;
@@ -45,7 +48,15 @@ namespace GrandLarceny
 		}
 		internal void goRight()
 		{
-			m_speed.X = MOVEMENTSPEED;
+			if (m_running)
+			{
+				m_speed.X = CHASINGSPEED;
+			}
+			else
+			{
+				m_speed.X = MOVEMENTSPEED;
+			}
+			m_faceingRight = true;
 			if(m_isCarryingFlashLight)
 			{
 				//m_img.setSprite("goRightWithFlashLight");
@@ -57,10 +68,18 @@ namespace GrandLarceny
 		}
 		internal void goLeft()
 		{
-			m_speed.X = -MOVEMENTSPEED;
+			if (m_running)
+			{
+				m_speed.X = -CHASINGSPEED;
+			}
+			else
+			{
+				m_speed.X = -MOVEMENTSPEED;
+			}
+			m_faceingRight = false;
 			if(m_isCarryingFlashLight)
 			{
-				//m_img.setSprite("goLeftWithFlashLight");
+				//m_img.setSprite("goWithflahs");
 			}
 			else
 			{
@@ -76,7 +95,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				//m_img.setSprite("idleing");
+				m_img.setSprite("Images//Sprite//guard_idle");
 			}
 		}
 		internal void toogleFlashLight()
@@ -135,6 +154,14 @@ namespace GrandLarceny
 					{
 						//m_img.setSprite(running like a boss);
 					}
+					if (m_speed.X < 0)
+					{
+						m_speed.X = -CHASINGSPEED;
+					}
+					else
+					{
+						m_speed.X = CHASINGSPEED;
+					}
 				}
 				else
 				{
@@ -146,8 +173,46 @@ namespace GrandLarceny
 					{
 						//m_img.setSprite(walking like a boss);
 					}
+					if (m_speed.X < 0)
+					{
+						m_speed.X = -MOVEMENTSPEED;
+					}
+					else
+					{
+						m_speed.X = MOVEMENTSPEED;
+					}
 				}
 			}
+		}
+
+		public bool canSeePlayer()
+		{
+			return Game.getInstance().getState().getPlayer().isInLight() &&
+				isFaceingTowards(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()) &&
+				Math.Abs(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()-m_position.getGlobalX()) < m_sightRange;
+		}
+
+		public bool isFaceingTowards(float a_x)
+		{
+			return (a_x <= m_position.getGlobalX() && ! m_faceingRight)
+				|| (a_x >= m_position.getGlobalX() && m_faceingRight);
+		}
+		public override void update(GameTime a_gameTime)
+		{
+			base.update(a_gameTime);
+			if (m_faceingRight)
+			{
+				m_spriteEffects = SpriteEffects.None;
+			}
+			else
+			{
+				m_spriteEffects = SpriteEffects.FlipHorizontally;
+			}
+		}
+
+		internal void chasePlayer()
+		{
+			m_chaseTarget = Game.getInstance().getState().getPlayer();
 		}
 	}
 }

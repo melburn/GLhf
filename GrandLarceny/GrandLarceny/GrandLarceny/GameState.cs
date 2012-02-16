@@ -121,5 +121,9 @@ namespace GrandLarceny
 		{
 			m_changeList.AddLast(a_object);
 		}
+		public override Player getPlayer()
+		{
+			return player;
+		}
 	}
 }

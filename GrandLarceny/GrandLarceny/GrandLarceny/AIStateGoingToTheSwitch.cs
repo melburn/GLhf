@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class AIStateGoingToTheSwitch : AIState
 	{
 		private AIStateGoingToTheSwitch()

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class AIStateChasing : AIState
 	{
 		private AIStateChasing()
