@@ -32,7 +32,7 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X - 2, m_img.getSize().Y - 2, m_position);
+			m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
 		}
 
 		public override void update(GameTime a_gameTime)

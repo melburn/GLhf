@@ -25,7 +25,15 @@ namespace GrandLarceny
 		private const int SLIDESPEED = 25;
 		private const int ROLLSPEED = 1000;
 
+		private const int ROLLSTANDDIFF = 65;
+		private const int STANDNORMAL = 100;
+
 		private float m_rollTimer;
+
+		[NonSerialized]
+		private CollisionShape standHitBox;
+		[NonSerialized]
+		private CollisionShape rollHitBox;
 
 		[NonSerialized]
 		private KeyboardState m_currentKeyInput;
@@ -48,6 +56,14 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
 		{
 			m_currentState = State.Jumping;
+		}
+
+		public override void loadContent()
+		{
+			base.loadContent();
+			standHitBox = new CollisionRectangle(0, 0, 72 - 1, 138 - 1, m_position);
+			rollHitBox = new CollisionRectangle(0, 0, 72, 72, m_position);
+			m_collisionShape = standHitBox;
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -113,6 +129,9 @@ namespace GrandLarceny
 			{
 				m_currentState = State.Rolling;
 				m_rollTimer = a_deltaTime + 15;
+				m_collisionShape = rollHitBox;
+				m_position.setY(m_position.getLocalY() + ROLLSTANDDIFF);
+				
 				return;
 			}
 			if (m_currentKeyInput.IsKeyDown(Keys.Left) || m_currentKeyInput.IsKeyDown(Keys.Right))
@@ -145,6 +164,8 @@ namespace GrandLarceny
 
 				m_currentState = State.Rolling;
 				m_rollTimer = a_deltaTime + 15;
+				m_collisionShape = rollHitBox;
+				m_position.setY(m_position.getLocalY() + ROLLSTANDDIFF);
 				return;
 			}
 
@@ -191,7 +212,7 @@ namespace GrandLarceny
 				m_currentState = State.Jumping;
 				
 			}
-
+			
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		
 			m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
@@ -310,11 +331,15 @@ namespace GrandLarceny
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
+				m_collisionShape = standHitBox;
+				m_position.setY(m_position.getLocalY() - ROLLSTANDDIFF);
 				return;
 			}
 			if (--m_rollTimer <= 0)
 			{
 				m_currentState = State.Walking;
+				m_collisionShape = standHitBox;
+				m_position.setY(m_position.getLocalY() - ROLLSTANDDIFF);
 			}
 			else
 			{
@@ -348,6 +373,7 @@ namespace GrandLarceny
 				else if (m_currentState == State.Rolling)
 				{
 					m_img.setSprite("Images//Sprite//hero_roll");
+
 				}
 				else if (m_currentState == State.Slide)
 				{
@@ -363,7 +389,7 @@ namespace GrandLarceny
 
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
-			if (a_collisionList.Count == 0)
+			if (a_collisionList.Count == 0 && m_currentState != State.Rolling)
 				m_currentState = State.Jumping;
 			bool t_onLadder = false;
 			bool t_onFloor = false;
