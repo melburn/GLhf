@@ -51,7 +51,8 @@ namespace GrandLarceny
 			SpotLight,
 			Delete,
 			None,
-			Guard
+			Guard,
+			Wall
 		}
 		private State m_itemToCreate = State.None;
 
@@ -246,6 +247,13 @@ namespace GrandLarceny
 				m_btnGuardHotkey.setState(2);
 				m_textCurrentMode.setText("Create Guard");
 			}
+			if (m_currentKeyboard.IsKeyDown(Keys.W) && m_previousKeyboard.IsKeyUp(Keys.W))
+			{
+				m_itemToCreate = State.Wall;
+				resetButtonStates();
+				//m_btnWallHotkey.setState(2);
+				m_textCurrentMode.setText("Create Wall");	
+			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
 				if (m_selectedObject != null)
@@ -306,6 +314,11 @@ namespace GrandLarceny
 					case State.Guard:
 					{
 						createGuard();
+						break;
+					}
+					case State.Wall:
+					{
+						createWall();
 						break;
 					}
 				}
@@ -397,6 +410,11 @@ namespace GrandLarceny
 		{
 			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//guard_idle", getTile(m_worldMouse).X, true, true, 0.300f);
 			m_gameObjectList.AddLast(t_guard);
+		}
+
+		private void createWall() {
+			Wall t_wall = new Wall(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.350f);
+			m_gameObjectList.AddLast(t_wall);
 		}
 
 		private void deleteObject(GameObject a_gameObject)
