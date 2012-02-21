@@ -28,7 +28,7 @@ namespace GrandLarceny
 				Guard t_guard = (Guard)a_agent;
 				if (t_guard.canSeePlayer())
 				{
-					((Guard)a_agent).chasePlayer();
+					t_guard.chasePlayer();
 					return AIStateChasing.getInstance();
 				}
 				else
@@ -72,9 +72,58 @@ namespace GrandLarceny
 					return this;
 				}
 			}
+			else if (a_agent is GuardDog)
+			{
+				GuardDog t_guardDog = (GuardDog)a_agent;
+				if (t_guardDog.canSencePlayer())
+				{
+					t_guardDog.chasePlayer();
+					return AIStateChasing.getInstance();
+				}
+				else
+				{
+					if (t_guardDog.hasPatroll())
+					{
+						if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X < t_guardDog.getLeftPatrollPoint() && t_guardDog.getHorizontalSpeed() <= 0)
+						{
+							t_guardDog.goRight();
+						}
+						else if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X > t_guardDog.getRightPatrollPoint() && t_guardDog.getHorizontalSpeed() >= 0)
+						{
+							t_guardDog.goLeft();
+						}
+					}
+					else
+					{
+						float t_guardPoint = t_guardDog.getLeftPatrollPoint();
+						if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
+						{
+							if (t_guardDog.getHorizontalSpeed() >= 0)
+							{
+								t_guardDog.goRight();
+							}
+						}
+						else if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
+						{
+							if (t_guardDog.getHorizontalSpeed() <= 0)
+							{
+								t_guardDog.goLeft();
+							}
+						}
+						else
+						{
+							if (t_guardDog.getHorizontalSpeed() != 0)
+							{
+								t_guardDog.stop();
+							}
+						}
+					}
+					return this;
+				}
+			}
 			else
 			{
-				throw new ArgumentException("Only guards can patroll");
+				throw new ArgumentException("Only guards and guarddogs can patroll");
 			}
 		}
 	}
