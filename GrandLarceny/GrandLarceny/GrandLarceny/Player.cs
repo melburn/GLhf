@@ -446,7 +446,9 @@ namespace GrandLarceny
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
 			if (a_collisionList.Count == 0)
+			{
 				m_currentState = State.Jumping;
+			}
 			bool t_onLadder = false;
 			bool t_notSupposedToSlide = true;
 			bool t_onFloor = false;
