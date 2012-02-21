@@ -10,9 +10,9 @@ namespace GrandLarceny
 	[Serializable()]
 	public class Guard : NPE
 	{
-        private float m_leftPatrollPoint;
-        private float m_rightPatrollPoint;
-        private Boolean m_hasPatroll;
+        private float m_leftPatrolPoint;
+        private float m_rightPatrolPoint;
+        private Boolean m_hasPatrol;
         private Boolean m_hasFlashLight;
         public Boolean m_inALightArea = false;
         private float MOVEMENTSPEED = 100;
@@ -26,46 +26,46 @@ namespace GrandLarceny
 		//flashlight addicted guard always has their flashlight up
 		private Boolean m_FlashLightAddicted;
 
-		public Guard(Vector2 a_posV2, String a_sprite, float a_leftPatrollPoint, float a_rightPatrollPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
+		public Guard(Vector2 a_posV2, String a_sprite, float a_leftpatrolPoint, float a_rightpatrolPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			m_leftPatrollPoint = a_leftPatrollPoint;
-			m_rightPatrollPoint = a_rightPatrollPoint;
-			m_hasPatroll = true;
+			m_leftPatrolPoint = a_leftpatrolPoint;
+			m_rightPatrolPoint = a_rightpatrolPoint;
+			m_hasPatrol = true;
 			m_hasFlashLight = a_hasFlashLight;
 			m_FlashLightAddicted = a_flashLightAddicted;
-			m_aiState = AIStatePatrolling.getInstance();
+			m_aiState = AIStatepatroling.getInstance();
 			if (m_hasFlashLight && m_FlashLightAddicted)
 			{
 				m_flashLight = new LightCone(this, "Images//LightCone//Ljus",  m_layer + 1, 300,70);
 			}
 		}
-        public Guard(Vector2 a_posV2, String a_sprite, float a_patrollPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
+        public Guard(Vector2 a_posV2, String a_sprite, float a_patrolPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-            m_hasPatroll = false;
+            m_hasPatrol = false;
             m_hasFlashLight = a_hasFlashLight;
             m_FlashLightAddicted = a_flashLightAddicted;
-            m_leftPatrollPoint = a_patrollPoint;
-            m_rightPatrollPoint = a_patrollPoint;
-			m_aiState = AIStatePatrolling.getInstance();
+            m_leftPatrolPoint = a_patrolPoint;
+            m_rightPatrolPoint = a_patrolPoint;
+			m_aiState = AIStatepatroling.getInstance();
 		}
 		public void setLeftGuardPoint(float a_x)
 		{
-			m_hasPatroll = true;
-			m_leftPatrollPoint = a_x;
+			m_hasPatrol = true;
+			m_leftPatrolPoint = a_x;
 		}
 
 		public void setRightGuardPoint(float a_x)
 		{
-			m_hasPatroll = true;
-			m_rightPatrollPoint = a_x;
+			m_hasPatrol = true;
+			m_rightPatrolPoint = a_x;
 		}
 		public void setGuardPoint(float a_x)
 		{
-			m_hasPatroll = false;
-			m_leftPatrollPoint = a_x;
-			m_rightPatrollPoint = a_x;
+			m_hasPatrol = false;
+			m_leftPatrolPoint = a_x;
+			m_rightPatrolPoint = a_x;
 		}
 		internal void goRight()
 		{
@@ -132,20 +132,20 @@ namespace GrandLarceny
 			m_speed.X = 0;
 		}
 
-		internal float getLeftPatrollPoint()
+		internal float getLeftpatrolPoint()
 		{
-			return m_leftPatrollPoint;
+			return m_leftPatrolPoint;
 		}
 
 
-		internal bool hasPatroll()
+		internal bool haspatrol()
 		{
-			return m_hasPatroll;
+			return m_hasPatrol;
 		}
 
-		internal float getRightPatrollPoint()
+		internal float getRightpatrolPoint()
 		{
-			return m_rightPatrollPoint;
+			return m_rightPatrolPoint;
 		}
 
 		internal Entity getChaseTarget()

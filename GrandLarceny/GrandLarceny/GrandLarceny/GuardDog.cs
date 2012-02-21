@@ -9,9 +9,9 @@ namespace GrandLarceny
 {
 	class GuardDog : NPE
 	{
-		private float m_leftPatrollPoint;
-		private float m_rightPatrollPoint;
-		private Boolean m_hasPatroll;
+		private float m_leftPatrolPoint;
+		private float m_rightPatrolPoint;
+		private Boolean m_hasPatrol;
 		private float MOVEMENTSPEED = 80;
 		private float CHARGEINGSPEED = 400;
 		private Boolean m_chargeing = false;
@@ -21,13 +21,13 @@ namespace GrandLarceny
 		private float m_chargeEndPoint;
 		private Entity m_chaseTarget = null;
 
-		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftPatrollPoint, float a_rightPatrollPoint, float a_layer)
+		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftPatrolPoint, float a_rightPatrolPoint, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			m_leftPatrollPoint = a_leftPatrollPoint;
-			m_rightPatrollPoint = a_rightPatrollPoint;
-			m_hasPatroll = true;
-			m_aiState = AIStatePatrolling.getInstance();
+			m_leftPatrolPoint = a_leftPatrolPoint;
+			m_rightPatrolPoint = a_rightPatrolPoint;
+			m_hasPatrol = true;
+			m_aiState = AIStatepatroling.getInstance();
 		}
 
 		internal bool canSencePlayer()
@@ -46,14 +46,14 @@ namespace GrandLarceny
 				|| (a_x >= m_position.getGlobalX() && m_faceingRight);
 		}
 
-		internal bool hasPatroll()
+		internal bool haspatrol()
 		{
-			return m_hasPatroll;
+			return m_hasPatrol;
 		}
 
-		internal float getLeftPatrollPoint()
+		internal float getLeftpatrolPoint()
 		{
-			return m_leftPatrollPoint;
+			return m_leftPatrolPoint;
 		}
 
 		internal void goRight()
@@ -69,9 +69,9 @@ namespace GrandLarceny
 			m_faceingRight = true;
 		}
 
-		internal float getRightPatrollPoint()
+		internal float getRightpatrolPoint()
 		{
-			return m_rightPatrollPoint;
+			return m_rightPatrolPoint;
 		}
 
 		internal void goLeft()
@@ -146,6 +146,25 @@ namespace GrandLarceny
 		internal void setChargePoint(float a_x)
 		{
 			m_chargeEndPoint = a_x;
+		}
+
+		public bool isBarkingPrefered()
+		{
+			//retunerar om hunden föredrar att skälla i denna situation.
+			//if player is hidden
+			//return true
+			//else
+			return false;
+		}
+
+		internal void chasePlayer()
+		{
+			m_chaseTarget = Game.getInstance().getState().getPlayer();
+		}
+
+		internal void forgetChaseTarget()
+		{
+			m_chaseTarget = null;
 		}
 	}
 }

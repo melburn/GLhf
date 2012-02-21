@@ -6,15 +6,14 @@ using System.Text;
 namespace GrandLarceny
 {
 	[Serializable()]
-	public class AIStatePatrolling : AIState
+	public class AIStatepatroling : AIState
 	{
-		private float CHARGEDISTANCE = 200;
-		private static AIStatePatrolling instance;
-		public static AIStatePatrolling getInstance()
+		private static AIStatepatroling instance;
+		public static AIStatepatroling getInstance()
 		{
 			if(instance == null)
 			{
-				instance = new AIStatePatrolling();
+				instance = new AIStatepatroling();
 			}
 			return instance;
 		}
@@ -34,20 +33,20 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (t_guard.hasPatroll())
+					if (t_guard.haspatrol())
 					{
-						if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftPatrollPoint() && t_guard.getHorizontalSpeed() <= 0)
+						if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftpatrolPoint() && t_guard.getHorizontalSpeed() <= 0)
 						{
 							t_guard.goRight();
 						}
-						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightPatrollPoint() && t_guard.getHorizontalSpeed() >= 0)
+						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightpatrolPoint() && t_guard.getHorizontalSpeed() >= 0)
 						{
 							t_guard.goLeft();
 						}
 					}
 					else
 					{
-						float t_guardPoint = t_guard.getLeftPatrollPoint();
+						float t_guardPoint = t_guard.getLeftpatrolPoint();
 						if (t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
 						{
 							if (t_guard.getHorizontalSpeed() >= 0)
@@ -78,26 +77,35 @@ namespace GrandLarceny
 				GuardDog t_guardDog = (GuardDog)a_agent;
 				if (t_guardDog.canSencePlayer())
 				{
-					t_guardDog.setChargePoint(Math.Sign(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - t_guardDog.getPosition().getGlobalX()) * CHARGEDISTANCE
-						+ Game.getInstance().getState().getPlayer().getPosition().getGlobalX());
-					return AIStateChargeing.getInstance();
+					if (t_guardDog.isBarkingPrefered())
+					{
+						//om hunden föredrar att skälla så ser vi honom att jaga spelaren tills han är tillräkligt nära för att skälla.
+						t_guardDog.chasePlayer();
+						return AIStateChasing.getInstance();
+					}
+					else
+					{
+						t_guardDog.setChargePoint(Math.Sign(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - t_guardDog.getPosition().getGlobalX()) * AIStateChargeing.CHARGEDISTANCE
+							+ Game.getInstance().getState().getPlayer().getPosition().getGlobalX());
+						return AIStateChargeing.getInstance();
+					}
 				}
 				else
 				{
-					if (t_guardDog.hasPatroll())
+					if (t_guardDog.haspatrol())
 					{
-						if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X < t_guardDog.getLeftPatrollPoint() && t_guardDog.getHorizontalSpeed() <= 0)
+						if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X < t_guardDog.getLeftpatrolPoint() && t_guardDog.getHorizontalSpeed() <= 0)
 						{
 							t_guardDog.goRight();
 						}
-						else if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X > t_guardDog.getRightPatrollPoint() && t_guardDog.getHorizontalSpeed() >= 0)
+						else if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X > t_guardDog.getRightpatrolPoint() && t_guardDog.getHorizontalSpeed() >= 0)
 						{
 							t_guardDog.goLeft();
 						}
 					}
 					else
 					{
-						float t_guardPoint = t_guardDog.getLeftPatrollPoint();
+						float t_guardPoint = t_guardDog.getLeftpatrolPoint();
 						if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
 						{
 							if (t_guardDog.getHorizontalSpeed() >= 0)
@@ -125,7 +133,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				throw new ArgumentException("Only guards and guarddogs can patroll");
+				throw new ArgumentException("Only guards and guarddogs can patrol");
 			}
 		}
 	}

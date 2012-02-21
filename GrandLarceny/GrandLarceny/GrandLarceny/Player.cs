@@ -200,9 +200,9 @@ namespace GrandLarceny
 				else
 				{
 					if (m_currentKeyInput.IsKeyDown(Keys.LeftShift)) {
-						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), -200);
+						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -200);
 					} else {
-						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), -PLAYERSPEED);
+						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -PLAYERSPEED);
 					}
 				}
 			}
