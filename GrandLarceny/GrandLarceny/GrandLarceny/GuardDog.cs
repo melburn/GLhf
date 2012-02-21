@@ -8,9 +8,9 @@ namespace GrandLarceny
 {
 	class GuardDog : NPE
 	{
-		private float m_leftPatrollPoint;
-		private float m_rightPatrollPoint;
-		private Boolean m_hasPatroll;
+		private float m_leftpatrolPoint;
+		private float m_rightpatrolPoint;
+		private Boolean m_haspatrol;
 		private float MOVEMENTSPEED = 100;
 		private float CHASINGSPEED = 350;
 		private Entity m_chaseTarget = null;
@@ -19,13 +19,13 @@ namespace GrandLarceny
 		private float m_sightRange = 576f;
 		private float m_senceRange = 72 * 2;
 
-		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftPatrollPoint, float a_rightPatrollPoint, float a_layer)
+		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftpatrolPoint, float a_rightpatrolPoint, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			m_leftPatrollPoint = a_leftPatrollPoint;
-			m_rightPatrollPoint = a_rightPatrollPoint;
-			m_hasPatroll = true;
-			m_aiState = AIStatePatrolling.getInstance();
+			m_leftpatrolPoint = a_leftpatrolPoint;
+			m_rightpatrolPoint = a_rightpatrolPoint;
+			m_haspatrol = true;
+			m_aiState = AIStatepatroling.getInstance();
 		}
 
 		internal bool canSencePlayer()
@@ -49,12 +49,12 @@ namespace GrandLarceny
 			throw new NotImplementedException();
 		}
 
-		internal bool hasPatroll()
+		internal bool haspatrol()
 		{
 			throw new NotImplementedException();
 		}
 
-		internal float getLeftPatrollPoint()
+		internal float getLeftpatrolPoint()
 		{
 			throw new NotImplementedException();
 		}
@@ -64,7 +64,7 @@ namespace GrandLarceny
 			throw new NotImplementedException();
 		}
 
-		internal float getRightPatrollPoint()
+		internal float getRightpatrolPoint()
 		{
 			throw new NotImplementedException();
 		}
