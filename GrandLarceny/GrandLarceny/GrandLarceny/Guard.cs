@@ -189,9 +189,9 @@ namespace GrandLarceny
 		{
 			return Game.getInstance().getState().getPlayer().isInLight() &&
 				isFaceingTowards(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()) &&
-				Math.Abs(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange/* &&
+				Math.Abs(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
 				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
-				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200*/;
+				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200;
 		}
 
 		public bool isFaceingTowards(float a_x)
@@ -215,6 +215,24 @@ namespace GrandLarceny
 		internal void chasePlayer()
 		{
 			m_chaseTarget = Game.getInstance().getState().getPlayer();
+		}
+		internal override void collisionCheck(List<Entity> a_collisionList)
+		{
+			foreach (Entity t_collision in a_collisionList)
+			{
+				if (t_collision is Wall)
+				{
+					if (m_speed.X < 0)
+					{
+						m_position.setX(t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+					}
+					else if (m_speed.X > 0)
+					{
+						m_position.setX(t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+					}
+					m_speed.X = 0;
+				}
+			}
 		}
 	}
 }
