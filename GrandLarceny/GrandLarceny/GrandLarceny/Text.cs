@@ -56,14 +56,23 @@ namespace GrandLarceny
 		{
 			m_text = a_text;
 		}
-
+		public string getText()
+		{
+			return m_text;
+		}
 		public void setLayer(float a_layer)
 		{
 			m_layer = a_layer;
 		}
+		public void setOffset(Vector2 a_offset)
+		{
+			m_position.plusWith(a_offset);
+		}
 
 		public void draw(SpriteBatch a_spriteBatch)
 		{
+			if (m_text == null)
+				return;
 			if (m_worldFont)
 			{
 				a_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesianCoordinates(), m_color);

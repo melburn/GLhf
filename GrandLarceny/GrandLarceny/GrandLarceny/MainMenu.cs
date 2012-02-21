@@ -18,8 +18,7 @@ namespace GrandLarceny
 			Button t_button = new Button(Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_normal"),
 				Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_hover"),
 				Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_pressed"),
-				new Vector2(15, 38),
-				0.002f);
+				new Vector2(15, 38), null, 0.002f);
 			t_button.m_clickEvent += new Button.clickDelegate(playClick);
 			m_buttons.Add(t_button);
 
@@ -29,13 +28,11 @@ namespace GrandLarceny
 			foreach (string t_level in m_levelList)
 			{
 				t_count++;
+				string[] t_splitPath = Regex.Split(t_level, "//");
 				Button t_levelButton = new Button(Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
 					Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
 					Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
-					new Vector2(200, 200 * t_count),
-					0.002f);
-				string[] t_splitPath = Regex.Split(t_level, "//");
-				t_levelButton.setText(t_splitPath[t_splitPath.Length - 1]);
+					new Vector2(200, 200 * t_count), t_splitPath[t_splitPath.Length - 1], 0.002f);
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
 				m_buttons.Add(t_levelButton);
 			}

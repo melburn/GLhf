@@ -24,6 +24,7 @@ namespace GrandLarceny
 		private KeyboardState m_currentKeyboard;
 
 		private GameObject m_selectedObject;
+		private GameObject m_objectPreview;
 		private string m_levelToLoad;
 
 		private Vector2 m_selectedInfoV2;
@@ -95,6 +96,8 @@ namespace GrandLarceny
 			m_buttonList		= new LinkedList<Button>();
 			m_buildObjectList	= new LinkedList<GameObject>();
 			m_assetButtonList	= new LinkedList<Button>();
+			m_objectPreview = null;
+
 			foreach (GameObject t_gameObject in m_gameObjectList)
 			{
 				if (t_gameObject is Player)
@@ -114,31 +117,31 @@ namespace GrandLarceny
 
 			m_btnLadderHotkey = new Button("Images//GUI//btn_ladder_hotkey_normal", "Images//GUI//btn_ladder_hotkey_hover", "Images//GUI//btn_ladder_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
-					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), 0.002f);
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), null, 0.002f);
 			m_btnTileHotkey = new Button("Images//GUI//btn_tile_hotkey_normal", "Images//GUI//btn_tile_hotkey_hover", "Images//GUI//btn_tile_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 2
-					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), 0.002f);
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), null, 0.002f);
 			m_btnBackgroundHotkey = new Button("Images//GUI//btn_background_hotkey_normal", "Images//GUI//btn_background_hotkey_hover", "Images//GUI//btn_background_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 3
-					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), 0.002f);
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), null, 0.002f);
 			m_btnDeleteHotkey = new Button("Images//GUI//btn_delete_hotkey_normal", "Images//GUI//btn_delete_hotkey_hover", "Images//GUI//btn_delete_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 4
-					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), 0.002f);
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 1), null, 0.002f);
 			m_btnHeroHotkey = new Button("Images//GUI//btn_hero_hotkey_normal", "Images//GUI//btn_hero_hotkey_hover", "Images//GUI//btn_hero_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
-				, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), 0.002f);
+				, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), null, 0.002f);
 			m_btnSelectHotkey = new Button("Images//GUI//btn_select_hotkey_normal", "Images//GUI//btn_select_hotkey_hover", "Images//GUI//btn_select_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 2
-					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), 0.002f);
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), null, 0.002f);
 			m_btnSpotlightHotkey = new Button("Images//GUI//btn_spotlight_hotkey_normal", "Images//GUI//btn_spotlight_hotkey_hover", "Images//GUI//btn_spotlight_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 3
-					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), 0.002f);
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), null, 0.002f);
 			m_btnGuardHotkey = new Button("Images//GUI//btn_guard_hotkey_normal", "Images//GUI//btn_guard_hotkey_hover", "Images//GUI//btn_guard_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 4
-					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), 0.002f);
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 2), null, 0.002f);
 			m_btnWallHotkey = new Button("Images//GUI//btn_wall_hotkey_normal", "Images//GUI//btn_wall_hotkey_hover", "Images//GUI//btn_wall_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
-					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), 0.002f);
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), null, 0.002f);
 
 			m_buttonList.AddLast(m_btnLadderHotkey);
 			m_buttonList.AddLast(m_btnTileHotkey);
@@ -288,57 +291,44 @@ namespace GrandLarceny
 			
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released && m_itemToCreate != State.None && !collidedWithGui())
 			{
-				switch (m_itemToCreate)
-				{
-					case State.Player:
+				if (assetToCreate != null)
+					switch (m_itemToCreate)
 					{
-						if (assetToCreate == null)
+						case State.Player:
+						{
+							createPlayer();
 							break;
-						createPlayer();
-						break;
-					}
-					case State.Background:
-					{
-						if (assetToCreate == null)
+						}
+						case State.Background:
+						{
+							createBackground();
 							break;
-						createBackground();
-						break;
-					}
-					case State.Ladder:
-					{
-						if (assetToCreate == null)
+						}
+						case State.Ladder:
+						{
+							createLadder();
 							break;
-						createLadder();
-						break;
-					}
-					case State.Platform:
-					{
-						if (assetToCreate == null)
+						}
+						case State.Platform:
+						{
+							createPlatform();
 							break;
-						createPlatform();
-						break;
-					}
-					case State.SpotLight:
-					{
-						if (assetToCreate == null)
+						}
+						case State.SpotLight:
+						{
+							createSpotLight();
 							break;
-						createSpotLight();
-						break;
-					}
-					case State.Guard:
-					{
-						if (assetToCreate == null)
+						}
+						case State.Guard:
+						{
+							createGuard();
 							break;
-						createGuard();
-						break;
-					}
-					case State.Wall:
-					{
-						if (assetToCreate == null)
+						}
+						case State.Wall:
+						{
+							createWall();
 							break;
-						createWall();
-						break;
-					}
+						}
 				}
 			}
 
@@ -362,7 +352,8 @@ namespace GrandLarceny
 						{
 							if (t_gameObject is LightCone)
 								continue;
-							m_selectedObject = t_gameObject;
+							if (m_selectedObject == null || m_selectedObject.getLayer() > t_gameObject.getLayer())
+								m_selectedObject = t_gameObject;
 						}
 					}
 					if (m_itemToCreate == State.Delete)
@@ -464,11 +455,10 @@ namespace GrandLarceny
 			string[] t_levelList = Directory.GetFiles(a_assetDirectory);
 			for (int i = 0; i < t_levelList.Length; i++) {
 				Button t_button = new Button("Images//GUI//btn_asset_list_normal", "Images//GUI//btn_asset_list_hover", "Images//GUI//btn_asset_list_pressed",
-					new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 160, 21 * i),
-					0.002f
+					new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 160, 21 * i), null, 0.002f
 				);
 				string[] t_splitPath = Regex.Split(t_levelList[i], "//");
-				t_button.setText(t_splitPath[t_splitPath.Length - 1].Remove(t_splitPath[t_splitPath.Length - 1].Length - 4), new Vector2(5, 1));
+				t_button.setText(t_splitPath[t_splitPath.Length - 1].Remove(t_splitPath[t_splitPath.Length - 1].Length - 4), new Vector2(7, 1));
 				t_button.m_clickEvent += new Button.clickDelegate(selectAsset);
 				m_assetButtonList.AddLast(t_button);
 			}
@@ -545,7 +535,8 @@ namespace GrandLarceny
 			}
 		}
 
-		private void selectAsset(Button a_button) {
+		private void selectAsset(Button a_button)
+		{
 			assetToCreate = a_button.getText();
 		}
 
@@ -645,6 +636,9 @@ namespace GrandLarceny
 			foreach (Button t_button in m_assetButtonList)
 			{
 				t_button.draw(a_gameTime, a_spriteBatch);
+			}
+			if (m_objectPreview != null) {
+				m_objectPreview.draw(a_gameTime);
 			}
 		}
 
