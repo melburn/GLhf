@@ -54,9 +54,28 @@ namespace GrandLarceny
 				}
 				return this;
 			}
+			else if (a_agent is GuardDog)
+			{
+				GuardDog t_guardDog = (GuardDog)a_agent;
+				if (t_guardDog.canSencePlayer() && ! t_guardDog.isBarkingPrefered())
+				{
+					t_guardDog.forgetChaseTarget();
+					t_guardDog.setChargePoint(Math.Sign(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - t_guardDog.getPosition().getGlobalX()) * AIStateChargeing.CHARGEDISTANCE
+							+ Game.getInstance().getState().getPlayer().getPosition().getGlobalX());
+					return AIStateChargeing.getInstance();
+				}
+				if ((Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesianCoordinates() - t_guardDog.getPosition().getGlobalCartesianCoordinates()).Length() <= AIStateBark.BARKDISTANCE)
+				{
+					return AIStateBark.getInstance();
+				}
+				else
+				{
+					return this;
+				}
+			}
 			else
 			{
-				throw new ArgumentException("Only guards can chase");
+				throw new ArgumentException("Only guards and dogs can chase");
 			}
         }
     }

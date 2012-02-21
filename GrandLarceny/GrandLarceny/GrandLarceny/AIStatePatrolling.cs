@@ -77,8 +77,18 @@ namespace GrandLarceny
 				GuardDog t_guardDog = (GuardDog)a_agent;
 				if (t_guardDog.canSencePlayer())
 				{
-					t_guardDog.chasePlayer();
-					return AIStateChasing.getInstance();
+					if (t_guardDog.isBarkingPrefered())
+					{
+						//om hunden föredrar att skälla så ser vi honom att jaga spelaren tills han är tillräkligt nära för att skälla.
+						t_guardDog.chasePlayer();
+						return AIStateChasing.getInstance();
+					}
+					else
+					{
+						t_guardDog.setChargePoint(Math.Sign(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - t_guardDog.getPosition().getGlobalX()) * AIStateChargeing.CHARGEDISTANCE
+							+ Game.getInstance().getState().getPlayer().getPosition().getGlobalX());
+						return AIStateChargeing.getInstance();
+					}
 				}
 				else
 				{
