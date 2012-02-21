@@ -13,12 +13,13 @@ namespace GrandLarceny
 		private float m_rightPatrollPoint;
 		private Boolean m_hasPatroll;
 		private float MOVEMENTSPEED = 80;
-		private float CHASINGSPEED = 400;
-		private Entity m_chaseTarget = null;
-		private Boolean m_running = false;
+		private float CHARGEINGSPEED = 400;
+		private Boolean m_chargeing = false;
 		private Boolean m_faceingRight;
 		private float m_sightRange = 576f;
 		private float m_senceRange = 72 * 2;
+		private float m_chargeEndPoint;
+		private Entity m_chaseTarget = null;
 
 		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftPatrollPoint, float a_rightPatrollPoint, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
@@ -39,15 +40,10 @@ namespace GrandLarceny
 				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200);
 		}
 
-		private bool isFaceingTowards(float a_x)
+		public bool isFaceingTowards(float a_x)
 		{
 			return (a_x <= m_position.getGlobalX() && !m_faceingRight)
 				|| (a_x >= m_position.getGlobalX() && m_faceingRight);
-		}
-
-		internal void chasePlayer()
-		{
-			m_chaseTarget = Game.getInstance().getState().getPlayer();
 		}
 
 		internal bool hasPatroll()
@@ -62,9 +58,9 @@ namespace GrandLarceny
 
 		internal void goRight()
 		{
-			if (m_running)
+			if (m_chargeing)
 			{
-				m_speed.X = CHASINGSPEED;
+				m_speed.X = CHARGEINGSPEED;
 			}
 			else
 			{
@@ -80,9 +76,9 @@ namespace GrandLarceny
 
 		internal void goLeft()
 		{
-			if (m_running)
+			if (m_chargeing)
 			{
-				m_speed.X = -CHASINGSPEED;
+				m_speed.X = -CHARGEINGSPEED;
 			}
 			else
 			{
@@ -106,6 +102,50 @@ namespace GrandLarceny
 			{
 				m_spriteEffects = SpriteEffects.FlipHorizontally;
 			}
+		}
+
+		public float getChargeingPoint()
+		{
+			return m_chargeEndPoint;
+		}
+
+		internal void setChargeing(bool a_chargeing)
+		{
+			if (m_chargeing)
+			{
+				if (!a_chargeing)
+				{
+					m_chargeing = false;
+					if (m_speed.X > 0)
+					{
+						m_speed.X = CHARGEINGSPEED;
+					}
+					else if (m_speed.X< 0)
+					{
+						m_speed.X = -CHARGEINGSPEED;
+					}
+				}
+			}
+			else
+			{
+				if (a_chargeing)
+				{
+					m_chargeing = true;
+					if (m_speed.X > 0)
+					{
+						m_speed.X = MOVEMENTSPEED;
+					}
+					else if (m_speed.X < 0)
+					{
+						m_speed.X = -MOVEMENTSPEED;
+					}
+				}
+			}
+		}
+
+		internal void setChargePoint(float a_x)
+		{
+			m_chargeEndPoint = a_x;
 		}
 	}
 }

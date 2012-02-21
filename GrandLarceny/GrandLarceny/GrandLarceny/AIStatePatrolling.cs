@@ -8,6 +8,7 @@ namespace GrandLarceny
 	[Serializable()]
 	public class AIStatePatrolling : AIState
 	{
+		private float CHARGEDISTANCE = 200;
 		private static AIStatePatrolling instance;
 		public static AIStatePatrolling getInstance()
 		{
@@ -77,8 +78,9 @@ namespace GrandLarceny
 				GuardDog t_guardDog = (GuardDog)a_agent;
 				if (t_guardDog.canSencePlayer())
 				{
-					t_guardDog.chasePlayer();
-					return AIStateChasing.getInstance();
+					t_guardDog.setChargePoint(Math.Sign(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - t_guardDog.getPosition().getGlobalX()) * CHARGEDISTANCE
+						+ Game.getInstance().getState().getPlayer().getPosition().getGlobalX());
+					return AIStateChargeing.getInstance();
 				}
 				else
 				{
