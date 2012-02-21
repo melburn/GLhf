@@ -50,6 +50,23 @@ namespace GrandLarceny
             m_rightPatrollPoint = a_patrollPoint;
 			m_aiState = AIStatePatrolling.getInstance();
 		}
+		public void setLeftGuardPoint(float a_x)
+		{
+			m_hasPatroll = true;
+			m_leftPatrollPoint = a_x;
+		}
+
+		public void setRightGuardPoint(float a_x)
+		{
+			m_hasPatroll = true;
+			m_rightPatrollPoint = a_x;
+		}
+		public void setGuardPoint(float a_x)
+		{
+			m_hasPatroll = false;
+			m_leftPatrollPoint = a_x;
+			m_rightPatrollPoint = a_x;
+		}
 		internal void goRight()
 		{
 			if (m_running)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
@@ -11,8 +12,8 @@ namespace GrandLarceny
 		private float m_leftPatrollPoint;
 		private float m_rightPatrollPoint;
 		private Boolean m_hasPatroll;
-		private float MOVEMENTSPEED = 100;
-		private float CHASINGSPEED = 350;
+		private float MOVEMENTSPEED = 80;
+		private float CHASINGSPEED = 400;
 		private Entity m_chaseTarget = null;
 		private Boolean m_running = false;
 		private Boolean m_faceingRight;
@@ -46,37 +47,65 @@ namespace GrandLarceny
 
 		internal void chasePlayer()
 		{
-			throw new NotImplementedException();
+			m_chaseTarget = Game.getInstance().getState().getPlayer();
 		}
 
 		internal bool hasPatroll()
 		{
-			throw new NotImplementedException();
+			return m_hasPatroll;
 		}
 
 		internal float getLeftPatrollPoint()
 		{
-			throw new NotImplementedException();
+			return m_leftPatrollPoint;
 		}
 
 		internal void goRight()
 		{
-			throw new NotImplementedException();
+			if (m_running)
+			{
+				m_speed.X = CHASINGSPEED;
+			}
+			else
+			{
+				m_speed.X = MOVEMENTSPEED;
+			}
+			m_faceingRight = true;
 		}
 
 		internal float getRightPatrollPoint()
 		{
-			throw new NotImplementedException();
+			return m_rightPatrollPoint;
 		}
 
 		internal void goLeft()
 		{
-			throw new NotImplementedException();
+			if (m_running)
+			{
+				m_speed.X = -CHASINGSPEED;
+			}
+			else
+			{
+				m_speed.X = -MOVEMENTSPEED;
+			}
+			m_faceingRight = false;
 		}
 
 		internal void stop()
 		{
-			throw new NotImplementedException();
+			m_speed.X = 0;
+		}
+		public override void update(GameTime a_gameTime)
+		{
+			base.update(a_gameTime);
+			if (m_faceingRight)
+			{
+				m_spriteEffects = SpriteEffects.None;
+			}
+			else
+			{
+				m_spriteEffects = SpriteEffects.FlipHorizontally;
+			}
 		}
 	}
 }
