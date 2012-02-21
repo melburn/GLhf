@@ -5,11 +5,13 @@ using System.Text;
 
 namespace GrandLarceny
 {
-	class AIStateChargeing : AIState
+	[Serializable()]
+	public class AIStateChargeing : AIState
 	{
 		static public float CHARGEDISTANCE = 200;
 		private static AIStateChargeing s_instance;
-		private AIStateChargeing();
+		private AIStateChargeing() {}
+
 		public static AIStateChargeing getInstance()
 		{
 			if (s_instance == null)
@@ -33,7 +35,7 @@ namespace GrandLarceny
 				else
 				{
 					t_guardDog.setChargeing(false);
-					return AIStatePatrolling.getInstance();
+					return AIStatepatroling.getInstance();
 				}
 			}
 			else

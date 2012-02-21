@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class AIStateBark : AIState
 	{
 		//hur långt ifrån hunden vakterna hör hundens skall.
