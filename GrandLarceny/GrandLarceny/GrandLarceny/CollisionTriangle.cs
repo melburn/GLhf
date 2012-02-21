@@ -30,6 +30,18 @@ namespace GrandLarceny
 			m_BOffset = a_points[1];
 			m_COffset = a_points[2];
 			m_position = a_position;
+			
+			int t_lowestX = (int)Math.Floor(Math.Min(Math.Min(m_AOffset.X,m_BOffset.X),m_COffset.X) + m_position.getGlobalX());
+			int t_lowestY = (int)Math.Floor(Math.Min(Math.Min(m_AOffset.Y, m_BOffset.Y), m_COffset.Y) + m_position.getGlobalY());
+			int t_width = (int)Math.Ceiling(Math.Max(Math.Max(m_AOffset.X, m_BOffset.X), m_COffset.X) - Math.Min(Math.Min(m_AOffset.X, m_BOffset.X), m_COffset.X));
+			int t_height = (int)Math.Ceiling(Math.Max(Math.Max(m_AOffset.Y, m_BOffset.Y), m_COffset.Y) - Math.Min(Math.Min(m_AOffset.Y, m_BOffset.Y), m_COffset.Y));
+			m_OutBox = new Rectangle(t_lowestX, t_lowestY, t_width, t_height);
+		}
+		public override Rectangle getOutBox()
+		{
+			m_OutBox.Y = (int)Math.Floor(Math.Min(Math.Min(m_AOffset.Y, m_BOffset.Y), m_COffset.Y) + m_position.getGlobalY());
+			m_OutBox.X = (int)Math.Floor(Math.Min(Math.Min(m_AOffset.X, m_BOffset.X), m_COffset.X) + m_position.getGlobalX());
+			return base.getOutBox();
 		}
 		public override bool Collides(CollisionShape a_cs)
 		{

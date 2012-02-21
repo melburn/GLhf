@@ -526,7 +526,7 @@ namespace GrandLarceny
 		{
 			if (collidedWithObject())
 				return;
-			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//LightCone//WalkingSquareStand", 0.2f, (float)(Math.PI * 1.5f), true);
+			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//LightCone//WalkingSquareStand", 0.2f, (float)(Math.PI * 0.5f), true);
 			m_gameObjectList.AddLast(t_sl);
 		}
 
