@@ -230,6 +230,10 @@ namespace GrandLarceny
 				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / TILE_WIDTH;
 				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y / TILE_HEIGHT;
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
+				if (m_selectedObject is Guard) {
+					Guard t_guard = (Guard)m_selectedObject;
+					m_textGuardInfo.setText("R: " + t_guard.getRightpatrolPoint() + " L: " + t_guard.getLeftpatrolPoint());
+				}
 			}
 		}
 
@@ -265,6 +269,12 @@ namespace GrandLarceny
 
 			if (m_currentKeyboard.IsKeyDown(Keys.W) && m_previousKeyboard.IsKeyUp(Keys.W))
 				setBuildingState(State.Wall);
+
+			if (m_currentKeyboard.IsKeyDown(Keys.N) && m_previousKeyboard.IsKeyUp(Keys.N))
+				setBuildingState(State.GuardLeft);
+
+			if (m_currentKeyboard.IsKeyDown(Keys.M) && m_previousKeyboard.IsKeyUp(Keys.M))
+				setBuildingState(State.GuardRight);
 
 			if (m_currentKeyboard.IsKeyDown(Keys.Space) && m_previousKeyboard.IsKeyUp(Keys.Space))
 				if (m_gameObjectList != null)
@@ -311,7 +321,7 @@ namespace GrandLarceny
 			
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released && m_itemToCreate != State.Delete && m_itemToCreate != State.None && !collidedWithGui())
 			{
-				if (assetToCreate != null)
+				if (assetToCreate != null) {
 					switch (m_itemToCreate)
 					{
 						case State.Player:
@@ -349,16 +359,20 @@ namespace GrandLarceny
 							createWall();
 							break;
 						}
+					}
+				} else {
+					switch (m_itemToCreate) {
 						case State.GuardLeft:
-						{
-							setGuardPoint((Guard)m_selectedObject, true);
-							break;
-						}
-						case State.GuardRight:
 						{
 							setGuardPoint((Guard)m_selectedObject, false);
 							break;
 						}
+						case State.GuardRight:
+						{
+							setGuardPoint((Guard)m_selectedObject, true);
+							break;
+						}
+					}
 				}
 				return;
 			}
@@ -567,6 +581,16 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Tile//");
 					break;
 				}
+				case State.GuardRight:
+				{
+					m_textCurrentMode.setText("Set Right Point");
+					break;
+				}
+				case State.GuardLeft:
+				{
+					m_textCurrentMode.setText("Set Left Point");
+					break;
+				}
 			}
 		}
 
@@ -660,7 +684,7 @@ namespace GrandLarceny
 		{
 			if (collidedWithObject())
 				return;
-			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//" + assetToCreate, getTile(m_worldMouse).X, getTile(m_worldMouse).Y, false, false, 0.300f);
+			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//" + assetToCreate, 0.0f, 0.0f, false, false, 0.300f);
 			m_gameObjectList.AddLast(t_guard);
 		}
 

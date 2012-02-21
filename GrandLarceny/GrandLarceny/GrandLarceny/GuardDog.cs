@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
 	class GuardDog : NPE
 	{
-		private float m_leftpatrolPoint;
-		private float m_rightpatrolPoint;
-		private Boolean m_haspatrol;
-		private float MOVEMENTSPEED = 100;
-		private float CHASINGSPEED = 350;
+		private float m_leftPatrolPoint;
+		private float m_rightPatrolPoint;
+		private Boolean m_hasPatrol;
+		private float MOVEMENTSPEED = 80;
+		private float CHASINGSPEED = 400;
 		private Entity m_chaseTarget = null;
 		private Boolean m_running = false;
 		private Boolean m_faceingRight;
 		private float m_sightRange = 576f;
 		private float m_senceRange = 72 * 2;
 
-		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftpatrolPoint, float a_rightpatrolPoint, float a_layer)
+		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftPatrolPoint, float a_rightPatrolPoint, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			m_leftpatrolPoint = a_leftpatrolPoint;
-			m_rightpatrolPoint = a_rightpatrolPoint;
-			m_haspatrol = true;
+			m_leftPatrolPoint = a_leftPatrolPoint;
+			m_rightPatrolPoint = a_rightPatrolPoint;
+			m_hasPatrol = true;
 			m_aiState = AIStatepatroling.getInstance();
 		}
 
@@ -46,37 +47,65 @@ namespace GrandLarceny
 
 		internal void chasePlayer()
 		{
-			throw new NotImplementedException();
+			m_chaseTarget = Game.getInstance().getState().getPlayer();
 		}
 
 		internal bool haspatrol()
 		{
-			throw new NotImplementedException();
+			return m_hasPatrol;
 		}
 
 		internal float getLeftpatrolPoint()
 		{
-			throw new NotImplementedException();
+			return m_leftPatrolPoint;
 		}
 
 		internal void goRight()
 		{
-			throw new NotImplementedException();
+			if (m_running)
+			{
+				m_speed.X = CHASINGSPEED;
+			}
+			else
+			{
+				m_speed.X = MOVEMENTSPEED;
+			}
+			m_faceingRight = true;
 		}
 
 		internal float getRightpatrolPoint()
 		{
-			throw new NotImplementedException();
+			return m_rightPatrolPoint;
 		}
 
 		internal void goLeft()
 		{
-			throw new NotImplementedException();
+			if (m_running)
+			{
+				m_speed.X = -CHASINGSPEED;
+			}
+			else
+			{
+				m_speed.X = -MOVEMENTSPEED;
+			}
+			m_faceingRight = false;
 		}
 
 		internal void stop()
 		{
-			throw new NotImplementedException();
+			m_speed.X = 0;
+		}
+		public override void update(GameTime a_gameTime)
+		{
+			base.update(a_gameTime);
+			if (m_faceingRight)
+			{
+				m_spriteEffects = SpriteEffects.None;
+			}
+			else
+			{
+				m_spriteEffects = SpriteEffects.FlipHorizontally;
+			}
 		}
 	}
 }

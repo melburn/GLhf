@@ -10,9 +10,9 @@ namespace GrandLarceny
 	[Serializable()]
 	public class Guard : NPE
 	{
-        private float m_leftpatrolPoint;
-        private float m_rightpatrolPoint;
-        private Boolean m_haspatrol;
+        private float m_leftPatrolPoint;
+        private float m_rightPatrolPoint;
+        private Boolean m_hasPatrol;
         private Boolean m_hasFlashLight;
         public Boolean m_inALightArea = false;
         private float MOVEMENTSPEED = 100;
@@ -29,9 +29,9 @@ namespace GrandLarceny
 		public Guard(Vector2 a_posV2, String a_sprite, float a_leftpatrolPoint, float a_rightpatrolPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			m_leftpatrolPoint = a_leftpatrolPoint;
-			m_rightpatrolPoint = a_rightpatrolPoint;
-			m_haspatrol = true;
+			m_leftPatrolPoint = a_leftpatrolPoint;
+			m_rightPatrolPoint = a_rightpatrolPoint;
+			m_hasPatrol = true;
 			m_hasFlashLight = a_hasFlashLight;
 			m_FlashLightAddicted = a_flashLightAddicted;
 			m_aiState = AIStatepatroling.getInstance();
@@ -43,12 +43,29 @@ namespace GrandLarceny
         public Guard(Vector2 a_posV2, String a_sprite, float a_patrolPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-            m_haspatrol = false;
+            m_hasPatrol = false;
             m_hasFlashLight = a_hasFlashLight;
             m_FlashLightAddicted = a_flashLightAddicted;
-            m_leftpatrolPoint = a_patrolPoint;
-            m_rightpatrolPoint = a_patrolPoint;
+            m_leftPatrolPoint = a_patrolPoint;
+            m_rightPatrolPoint = a_patrolPoint;
 			m_aiState = AIStatepatroling.getInstance();
+		}
+		public void setLeftGuardPoint(float a_x)
+		{
+			m_hasPatrol = true;
+			m_leftPatrolPoint = a_x;
+		}
+
+		public void setRightGuardPoint(float a_x)
+		{
+			m_hasPatrol = true;
+			m_rightPatrolPoint = a_x;
+		}
+		public void setGuardPoint(float a_x)
+		{
+			m_hasPatrol = false;
+			m_leftPatrolPoint = a_x;
+			m_rightPatrolPoint = a_x;
 		}
 		internal void goRight()
 		{
@@ -117,18 +134,18 @@ namespace GrandLarceny
 
 		internal float getLeftpatrolPoint()
 		{
-			return m_leftpatrolPoint;
+			return m_leftPatrolPoint;
 		}
 
 
 		internal bool haspatrol()
 		{
-			return m_haspatrol;
+			return m_hasPatrol;
 		}
 
 		internal float getRightpatrolPoint()
 		{
-			return m_rightpatrolPoint;
+			return m_rightPatrolPoint;
 		}
 
 		internal Entity getChaseTarget()
