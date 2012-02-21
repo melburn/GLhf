@@ -144,5 +144,9 @@ namespace GrandLarceny
 			if (m_rotate >= Math.PI * 2)
 				m_rotate = 0.0f;
 		}
+
+		public float getLayer() {
+			return m_layer;
+		}
 	}
 }
