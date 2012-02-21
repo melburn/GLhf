@@ -48,7 +48,7 @@ namespace GrandLarceny
 
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
-		private string assetToCreate;
+		private string assetToCreate = null;
 
 		private enum State
 		{
@@ -280,6 +280,7 @@ namespace GrandLarceny
 				}
 			}
 		}
+
 		private void updateMouse()
 		{
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) 
@@ -298,31 +299,43 @@ namespace GrandLarceny
 					}
 					case State.Background:
 					{
+						if (assetToCreate == null)
+							break;
 						createBackground();
 						break;
 					}
 					case State.Ladder:
 					{
+						if (assetToCreate == null)
+							break;
 						createLadder();
 						break;
 					}
 					case State.Platform:
 					{
+						if (assetToCreate == null)
+							break;
 						createPlatform();
 						break;
 					}
 					case State.SpotLight:
 					{
+						if (assetToCreate == null)
+							break;
 						createSpotLight();
 						break;
 					}
 					case State.Guard:
 					{
+						if (assetToCreate == null)
+							break;
 						createGuard();
 						break;
 					}
 					case State.Wall:
 					{
+						if (assetToCreate == null)
+							break;
 						createWall();
 						break;
 					}
@@ -356,6 +369,8 @@ namespace GrandLarceny
 					{
 						deleteObject(m_selectedObject);
 						m_selectedInfoV2 = Vector2.Zero;
+						m_selectedObject = null;
+						return;
 					}
 					if (m_selectedObject != null)
 					{
