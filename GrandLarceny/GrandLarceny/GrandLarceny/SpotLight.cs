@@ -37,5 +37,13 @@ namespace GrandLarceny
 		{
 			return m_light;
 		}
+		public override void update(GameTime a_gameTime)
+		{
+			base.update(a_gameTime);
+			if (m_light != null)
+			{
+				m_light.setRotation(m_rotate);
+			}
+		}
 	}
 }

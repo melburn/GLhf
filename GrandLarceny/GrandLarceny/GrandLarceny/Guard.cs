@@ -15,13 +15,13 @@ namespace GrandLarceny
         private Boolean m_hasPatroll;
         private Boolean m_hasFlashLight;
         public Boolean m_inALightArea = false;
-        private Boolean m_isCarryingFlashLight;
         private float MOVEMENTSPEED = 100;
 		private float CHASINGSPEED = 350;
         private Entity m_chaseTarget = null;
 		private Boolean m_running = false;
 		private Boolean m_faceingRight;
 		private float m_sightRange = 576f;
+		private LightCone m_flashLight;
 
 		//flashlight addicted guard always has their flashlight up
 		private Boolean m_FlashLightAddicted;
@@ -35,6 +35,10 @@ namespace GrandLarceny
 			m_hasFlashLight = a_hasFlashLight;
 			m_FlashLightAddicted = a_flashLightAddicted;
 			m_aiState = AIStatePatrolling.getInstance();
+			if (m_hasFlashLight && m_FlashLightAddicted)
+			{
+				m_flashLight = new LightCone(this, "Images//LightCone//Ljus",  m_layer + 1, 300,70);
+			}
 		}
         public Guard(Vector2 a_posV2, String a_sprite, float a_patrollPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
@@ -57,13 +61,13 @@ namespace GrandLarceny
 				m_speed.X = MOVEMENTSPEED;
 			}
 			m_faceingRight = true;
-			if(m_isCarryingFlashLight)
+			if(m_flashLight==null)
 			{
-				//m_img.setSprite("goRightWithFlashLight");
+				//m_img.setSprite("goRight");
 			}
 			else
 			{
-				//m_img.setSprite("goRight");
+				//m_img.setSprite("goRightWithFlashLight");
 			}
 		}
 		internal void goLeft()
@@ -77,38 +81,36 @@ namespace GrandLarceny
 				m_speed.X = -MOVEMENTSPEED;
 			}
 			m_faceingRight = false;
-			if(m_isCarryingFlashLight)
+			if (m_flashLight == null)
 			{
-				//m_img.setSprite("goWithflahs");
+				//m_img.setSprite("goLeft");
 			}
 			else
 			{
-				//m_img.setSprite("goLeft");
+				//m_img.setSprite("goWithflahs");
 			}
 		}
 		internal void stop()
 		{
 			m_speed.X = 0;
-			if(m_isCarryingFlashLight)
+			if (m_flashLight == null)
 			{
-				//m_img.setSprite("idleing");
+				m_img.setSprite("Images//Sprite//guard_idle");
 			}
 			else
 			{
-				m_img.setSprite("Images//Sprite//guard_idle");
+				//setsprite
 			}
 		}
 		internal void toogleFlashLight()
 		{
-			if(m_isCarryingFlashLight)
+			if (m_flashLight == null)
 			{
-				m_isCarryingFlashLight = false;
-				//m_img.setSprite("putthataway");
+				//m_img.setSprite("getthatup");
 			}
 			else
 			{
-				m_isCarryingFlashLight = true;
-				//m_img.setSprite("getthatup");
+				//m_img.setSprite("putthataway");
 			}
 			m_speed.X = 0;
 		}
@@ -146,13 +148,13 @@ namespace GrandLarceny
 			{
 				if (m_running)
 				{
-					if (m_isCarryingFlashLight)
+					if (m_flashLight == null)
 					{
-						//m_img.setSprite(running with the flash);
+						//m_img.setSprite(running like a boss);
 					}
 					else
 					{
-						//m_img.setSprite(running like a boss);
+						//m_img.setSprite(running with the flash);
 					}
 					if (m_speed.X < 0)
 					{
@@ -165,13 +167,13 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (m_isCarryingFlashLight)
+					if (m_flashLight == null)
 					{
-						//m_img.setSprite(walking with the flash);
+						//m_img.setSprite(walking like a boss);
 					}
 					else
 					{
-						//m_img.setSprite(walking like a boss);
+						//m_img.setSprite(walking with the flash);
 					}
 					if (m_speed.X < 0)
 					{

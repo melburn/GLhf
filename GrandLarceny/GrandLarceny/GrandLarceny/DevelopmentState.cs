@@ -631,7 +631,6 @@ namespace GrandLarceny
 			if (collidedWithObject())
 				return;
 			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//" + assetToCreate, getTile(m_worldMouse).X, true, true, 0.300f);
-			m_gameObjectList.AddLast(t_guard);
 		}
 
 		private void createWall()
