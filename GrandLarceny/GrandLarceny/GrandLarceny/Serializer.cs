@@ -43,7 +43,6 @@ namespace GrandLarceny
 
 			if (t_stream != null)
 			{
-				System.Console.WriteLine("asdf");
 				t_stream.Close();
 			}
 		}

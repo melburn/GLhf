@@ -16,7 +16,7 @@ namespace GrandLarceny
 		private const float CAMERASPEED = 0.1f;
 
 		private const int CLIMBINGSPEED = 200;
-		private const int PLAYERSPEED = 600;
+		private const int PLAYERSPEED = 400;
 		private const int JUMPSTRENGTH = 600;
 		private const int CAMERAMAXDISTANCE = 100;
 		private const int ACCELERATION = 2000;
@@ -184,7 +184,11 @@ namespace GrandLarceny
 				}
 				else
 				{
-					m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), PLAYERSPEED);
+					if (m_currentKeyInput.IsKeyDown(Keys.LeftShift)) {
+						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), 200);
+					} else {
+						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), PLAYERSPEED);
+					}
 				}
 			}
 			if (m_currentKeyInput.IsKeyDown(Keys.Left))
@@ -195,7 +199,11 @@ namespace GrandLarceny
 				}
 				else
 				{
-					m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -PLAYERSPEED);
+					if (m_currentKeyInput.IsKeyDown(Keys.LeftShift)) {
+						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), -200);
+					} else {
+						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), -PLAYERSPEED);
+					}
 				}
 			}
 			if (m_speed.X > 0)

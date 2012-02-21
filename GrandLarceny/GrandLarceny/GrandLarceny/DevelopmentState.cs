@@ -212,6 +212,10 @@ namespace GrandLarceny
 
 		private void updateGUI()
 		{
+			if (m_objectPreview != null) {
+				m_objectPreview.getPosition().setX(m_worldMouse.X + 15);
+				m_objectPreview.getPosition().setY(m_worldMouse.Y + 15);
+			}
 			foreach (Button t_button in m_assetButtonList) {
 				t_button.update();
 			}
@@ -256,6 +260,10 @@ namespace GrandLarceny
 			if (m_currentKeyboard.IsKeyDown(Keys.W) && m_previousKeyboard.IsKeyUp(Keys.W))
 				setBuildingState(State.Wall);
 
+			if (m_currentKeyboard.IsKeyDown(Keys.Space) && m_previousKeyboard.IsKeyUp(Keys.Space))
+				if (m_gameObjectList != null)
+					Game.getInstance().m_camera.setPosition(m_gameObjectList.First().getPosition().getGlobalCartesianCoordinates());
+
 			if (m_currentKeyboard.IsKeyDown(Keys.O) && m_previousKeyboard.IsKeyUp(Keys.O)) {
 				if (m_selectedObject != null)
 					m_selectedObject.addRotation((float)Math.PI / 2);
@@ -286,6 +294,12 @@ namespace GrandLarceny
 
 		private void updateMouse()
 		{
+			if (m_currentMouse.MiddleButton == ButtonState.Pressed && m_previousMouse.MiddleButton == ButtonState.Pressed) {
+				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates();
+				t_difference.X = (Mouse.GetState().X - Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / 10;
+				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / 10;
+				Game.getInstance().m_camera.getPosition().plusWith(t_difference);
+			}
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) 
 				updateMouseDrag();
 			
@@ -466,6 +480,8 @@ namespace GrandLarceny
 
 		private void setBuildingState(State a_state) {
 			m_itemToCreate = a_state;
+			assetToCreate = null;
+			m_objectPreview = null;
 			resetButtonStates();
 
 			switch (m_itemToCreate) {
@@ -538,6 +554,35 @@ namespace GrandLarceny
 		private void selectAsset(Button a_button)
 		{
 			assetToCreate = a_button.getText();
+			switch (m_itemToCreate) {
+				case State.Platform:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//" + assetToCreate, 0.000f);
+					break;
+				case State.Wall:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//" + assetToCreate, 0.000f);
+					break;
+				case State.Delete:
+					m_objectPreview = null;
+					break;
+				case State.Guard:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Sprite//" + assetToCreate, 0.000f);
+					break;
+				case State.Ladder:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//" + assetToCreate, 0.000f);
+					break;
+				case State.None:
+					m_objectPreview = null;
+					break;
+				case State.Player:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Sprite//" + assetToCreate, 0.000f);
+					break;
+				case State.SpotLight:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//LightCone//" + assetToCreate, 0.000f);
+					break;
+				case State.Background:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Background//" + assetToCreate, 0.000f);
+					break;
+			}
 		}
 
 		private void createPlayer()
