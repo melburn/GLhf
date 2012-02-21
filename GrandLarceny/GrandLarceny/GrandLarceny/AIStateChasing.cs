@@ -32,7 +32,7 @@ namespace GrandLarceny
 				Entity t_target = t_guard.getChaseTarget();
 				if (t_target == null)
 				{
-					return AIStatePatrolling.getInstance();
+					return AIStatepatroling.getInstance();
 				}
 				if (! t_guard.isRunning())
 				{

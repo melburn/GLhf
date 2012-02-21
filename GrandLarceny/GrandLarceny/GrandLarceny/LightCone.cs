@@ -38,10 +38,14 @@ namespace GrandLarceny
 			{
 				m_dead = true;
 			}
-			else
+		}
+		public void setRotation(float a_rotation)
+		{
+			if (m_rotate != a_rotation)
 			{
-				m_rotate = m_parent.getRotation();
-				m_position.setSlope((float)(1.5f*Math.PI + m_rotate));
+				m_rotate = a_rotation;
+				m_position.setSlope((float)(1.5f * Math.PI + m_rotate));
+				m_collisionShape = new CollisionTriangle(getTrianglePointsOffset(), m_position);
 			}
 		}
 		public override void loadContent()

@@ -196,7 +196,11 @@ namespace GrandLarceny
 				}
 				else
 				{
-					m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), PLAYERSPEED);
+					if (m_currentKeyInput.IsKeyDown(Keys.LeftShift)) {
+						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), 200);
+					} else {
+						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), PLAYERSPEED);
+					}
 				}
 			}
 			if (m_currentKeyInput.IsKeyDown(Keys.Left))
@@ -207,7 +211,11 @@ namespace GrandLarceny
 				}
 				else
 				{
-					m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -PLAYERSPEED);
+					if (m_currentKeyInput.IsKeyDown(Keys.LeftShift)) {
+						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -200);
+					} else {
+						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -PLAYERSPEED);
+					}
 				}
 			}
 			if (m_speed.X > 0)
@@ -481,6 +489,7 @@ namespace GrandLarceny
 				}
 			}
 			/*bool t_onLadder = false;
+			bool t_onLadder = false;
 			bool t_notSupposedToSlide = true;
 			
 			foreach (Entity t_collider in a_collisionList)
