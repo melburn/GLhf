@@ -86,45 +86,7 @@ namespace GrandLarceny
 		{
 			m_layer = a_layer;
 		}
-
-
-		internal virtual void collisionCheck(List<Entity> a_collisionList)
-		{
-		}
 		
-		/*public Vector2 getTopLeftPoint()
-		{
-			return m_position.getGlobalCartesianCoordinates() - (m_img.getSize() / 2);
-		}
-		public void setTopLeftPoint(Vector2 a_position)
-		{
-			m_position.setCartesianCoordinates(a_position + (m_img.getSize() / 2));
-		}
-		public void setLeftPoint(float a_x)
-		{
-			m_position.setX(a_x + (m_img.getSize().X / 2));
-		}
-		public void setTopPoint(float a_y)
-		{
-			m_position.setY(a_y + (m_img.getSize().Y / 2));
-		}
-
-		public float getLeftPoint()
-		{
-			return m_position.getX() - (m_img.getSize().X / 2);
-		}
-		public float getRightPoint()
-		{
-			return m_position.getX() + (m_img.getSize().X / 2);
-		}
-		public float getTopPoint()
-		{
-			return m_position.getY() - (m_img.getSize().Y / 2);
-		}
-		public float getBottomPoint()
-		{
-			return m_position.getY() + (m_img.getSize().Y / 2);
-		}*/
 		public void setColor(Color a_color)
 		{
 			m_color = a_color;

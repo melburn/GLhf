@@ -63,5 +63,27 @@ namespace GrandLarceny
 			return m_speed.X;
 		}
 
+		internal virtual void updateCollisionWith(Entity a_collid)
+		{
+
+		}
+
+		public void setSpeedX(float a_speedX)
+		{
+			m_speed.X = a_speedX;
+		}
+		public void setSpeedY(float a_speedY)
+		{
+			m_speed.Y = a_speedY;
+		}
+		public Vector2 getSpeed()
+		{
+			return m_speed;
+		}
+
+		public CollisionShape getCollisionShape()
+		{
+			return m_collisionShape;
+		}
 	}
 }

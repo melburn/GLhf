@@ -13,19 +13,19 @@ namespace GrandLarceny
 	{
 		private Vector2 m_cameraPoint = new Vector2(0,0);
 
-		private const float CAMERASPEED = 0.1f;
+		public const float CAMERASPEED = 0.1f;
 
-		private const int CLIMBINGSPEED = 200;
-		private const int PLAYERSPEED = 600;
-		private const int JUMPSTRENGTH = 600;
-		private const int CAMERAMAXDISTANCE = 100;
-		private const int ACCELERATION = 2000;
-		private const int DEACCELERATION = 800;
-		private const int AIRDEACCELERATION = 300;
-		private const int SLIDESPEED = 25;
-		private const int ROLLSPEED = 1000;
+		public const int CLIMBINGSPEED = 200;
+		public const int PLAYERSPEED = 600;
+		public const int JUMPSTRENGTH = 600;
+		public const int CAMERAMAXDISTANCE = 100;
+		public const int ACCELERATION = 2000;
+		public const int DEACCELERATION = 800;
+		public const int AIRDEACCELERATION = 300;
+		public const int SLIDESPEED = 25;
+		public const int ROLLSPEED = 1000;
 
-		private const int ROLLSTANDDIFF = 65;
+		public const int ROLLSTANDDIFF = 65;
 
 		private float m_rollTimer;
 
@@ -49,7 +49,7 @@ namespace GrandLarceny
 
 		private bool m_facingRight = false;
 
-		enum State
+		public enum State
 		{
 			Stop,
 			Walking,
@@ -126,6 +126,14 @@ namespace GrandLarceny
 			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
 		}
 
+		public State getCurrentState()
+		{
+			return m_currentState;
+		}
+		public void setState(State a_state)
+		{
+			m_currentState = a_state;
+		}
 
 		private void flipSprite()
 		{
@@ -453,18 +461,28 @@ namespace GrandLarceny
 
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
+			
+			m_isInLight = false;
 			if (a_collisionList.Count == 0)
 			{
 				m_currentState = State.Jumping;
 			}
 			else
 			{
-
+				foreach (Entity t_entity in a_collisionList)
+				{
+					if (CollisionManager.Collides(this.getHitBox(), t_entity.getHitBox()))
+					{
+						t_entity.updateCollisionWith(this);
+						
+					}
+					if (t_entity is Platform)
+							climb(t_entity);
+				}
 			}
-			bool t_onLadder = false;
+			/*bool t_onLadder = false;
 			bool t_notSupposedToSlide = true;
-			bool t_onFloor = false;
-			m_isInLight = false;
+			
 			foreach (Entity t_collider in a_collisionList)
 			{
 				if (t_collider is Wall)
@@ -553,14 +571,14 @@ namespace GrandLarceny
 							(int)t_collider.getPosition().getGlobalY(), 4, t_collider.getHitBox().getOutBox().Height);
 						if (t_rect.Contains((int)m_lastPosition.X, (int)m_lastPosition.Y))
 						{
-							if (m_currentKeyInput.IsKeyDown(Keys.Up) || (m_currentKeyInput.IsKeyDown(Keys.Down) && !t_onFloor))
-							{
+							//if (m_currentKeyInput.IsKeyDown(Keys.Up) || (m_currentKeyInput.IsKeyDown(Keys.Down) && !t_onFloor))
+							//{
 								m_speed.X = 0;
 								m_currentState = State.Climbing;
 								if (m_speed.Y < -CLIMBINGSPEED || m_speed.Y > CLIMBINGSPEED)
 									m_speed.Y = 0;
 								m_position.setX(t_collider.getPosition().getGlobalX());
-							}
+							//}
 						}
 						t_onLadder = true;
 					}
@@ -574,12 +592,22 @@ namespace GrandLarceny
 				m_currentState = State.Jumping;
 			if (!t_onLadder && m_currentState == State.Climbing)
 				m_currentState = State.Jumping;
+			*/
 		}
 		public bool isInLight()
 		{
 			return m_isInLight;
 		}
-		private void climb(Entity a_collider)
+		public bool isFacingRight()
+		{
+			return m_facingRight;
+		}
+		public void setFacingRight(bool a_facingRight)
+		{
+			m_facingRight = a_facingRight;
+		}
+
+		public void climb(Entity a_collider)
 		{
 			if (!a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X + getHitBox().getOutBox().Width + 4, (int)m_lastPosition.Y)
 				&& a_collider.getHitBox().getOutBox().Contains((int)m_position.getGlobalX() + getHitBox().getOutBox().Width + 4, (int)m_position.getGlobalY())
@@ -600,5 +628,12 @@ namespace GrandLarceny
 				m_facingRight = false;
 			}
 		}
+	
+		public void setIsInLight(bool a_isInLight)
+		{
+ 			m_isInLight = a_isInLight;
+		}
+
+
 	}
 }
