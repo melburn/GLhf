@@ -449,10 +449,6 @@ namespace GrandLarceny
 			{
 				m_currentState = State.Jumping;
 			}
-			else
-			{
-
-			}
 			bool t_onLadder = false;
 			bool t_notSupposedToSlide = true;
 			bool t_onFloor = false;

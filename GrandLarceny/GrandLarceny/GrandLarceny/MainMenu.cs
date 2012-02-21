@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace GrandLarceny
 {
@@ -18,7 +19,7 @@ namespace GrandLarceny
 				Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_hover"),
 				Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_pressed"),
 				new Vector2(15, 38),
-				0);
+				0.002f);
 			t_button.m_clickEvent += new Button.clickDelegate(playClick);
 			m_buttons.Add(t_button);
 
@@ -31,8 +32,10 @@ namespace GrandLarceny
 				Button t_levelButton = new Button(Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
 					Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
 					Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
-					new Vector2(0, 80 * t_count - 500),
-					t_count);
+					new Vector2(200, 200 * t_count),
+					0.002f);
+				string[] t_splitPath = Regex.Split(t_level, "//");
+				t_levelButton.setText(t_splitPath[t_splitPath.Length - 1]);
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
 				m_buttons.Add(t_levelButton);
 			}
@@ -58,7 +61,7 @@ namespace GrandLarceny
 		}
 		public void startLevelClick(Button a_b)
 		{
-			Game.getInstance().setState(new GameState("level" + a_b.getLevel() + ".txt"));
+			Game.getInstance().setState(new GameState(a_b.getText()));
 		}
 	}
 }

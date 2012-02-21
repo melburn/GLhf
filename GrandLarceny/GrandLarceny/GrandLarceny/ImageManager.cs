@@ -22,7 +22,7 @@ namespace GrandLarceny
 		//säger vilken subbild i animationen den ligger på, med decimaler.
 		public float m_subImageNumber;
 
-		public ImageManager(String a_sprite)
+		public ImageManager(string a_sprite)
 		{
 			setSprite(a_sprite);
 			m_animationSpeed = 33f;
@@ -77,7 +77,7 @@ namespace GrandLarceny
 			);
 		}
 
-		public void setSprite(String a_sprite)
+		public void setSprite(string a_sprite)
 		{
 			
 			if (a_sprite == null)
