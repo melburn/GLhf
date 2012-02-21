@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 namespace GrandLarceny
 {
 	[Serializable()]
-	public class NPE : Entity
+	public class NPE : MovingObject
 	{
 		protected AIState m_aiState;
 		public NPE(Vector2 a_posV2, String a_sprite, float a_layer)

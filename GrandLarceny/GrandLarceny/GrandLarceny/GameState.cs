@@ -74,19 +74,23 @@ namespace GrandLarceny
 
 			foreach (GameObject t_firstGameObject in m_gameObjectList)
 			{
-				List<Entity> t_collided = new List<Entity>();
-
-				if (t_firstGameObject is Entity)
+				if (t_firstGameObject is MovingObject)
 				{
-					foreach (GameObject t_secondGameObject in m_gameObjectList)
+
+					List<Entity> t_collided = new List<Entity>();
+
+					if (t_firstGameObject is Entity)
 					{
-						if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject 
-							&& checkBigBoxCollision((Entity)t_firstGameObject, (Entity)t_secondGameObject))
+						foreach (GameObject t_secondGameObject in m_gameObjectList)
 						{
-							t_collided.Add((Entity)t_secondGameObject);
+							if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject
+								&& checkBigBoxCollision((Entity)t_firstGameObject, (Entity)t_secondGameObject))
+							{
+								t_collided.Add((Entity)t_secondGameObject);
+							}
 						}
+						t_firstGameObject.collisionCheck(t_collided);
 					}
-					t_firstGameObject.collisionCheck(t_collided);
 				}
 
 				if (t_firstGameObject.isDead())

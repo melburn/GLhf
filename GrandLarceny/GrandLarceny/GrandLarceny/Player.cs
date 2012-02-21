@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 namespace GrandLarceny
 {
 	[Serializable()]
-	public class Player : Entity
+	public class Player : MovingObject
 	{
 		private Vector2 m_cameraPoint = new Vector2(0,0);
 
@@ -29,10 +29,12 @@ namespace GrandLarceny
 
 		private float m_rollTimer;
 
+		private string m_standHiding = "";
+		private string m_currentHidingImage;
 		[NonSerialized]
-		private CollisionShape standHitBox;
+		private CollisionShape m_standHitBox;
 		[NonSerialized]
-		private CollisionShape rollHitBox;
+		private CollisionShape m_rollHitBox;
 
 		[NonSerialized]
 		private KeyboardState m_currentKeyInput;
@@ -55,20 +57,22 @@ namespace GrandLarceny
 			Slide,
 			Climbing, 
 			Rolling,
+			Hiding,
 			Hanging
 		}
 
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
 		{
 			m_currentState = State.Jumping;
+			m_currentHidingImage = m_standHiding;
 		}
 
 		public override void loadContent()
 		{
 			base.loadContent();
-			standHitBox = new CollisionRectangle(0, 0, 72 - 1, 138 - 1, m_position);
-			rollHitBox = new CollisionRectangle(0, 0, 72, 72, m_position);
-			m_collisionShape = standHitBox;
+			m_standHitBox = new CollisionRectangle(0, 0, 72 - 1, 138 - 1, m_position);
+			m_rollHitBox = new CollisionRectangle(0, 0, 72, 72, m_position);
+			m_collisionShape = m_standHitBox;
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -414,12 +418,16 @@ namespace GrandLarceny
 				{
 					m_img.setSprite("Images//Sprite//hero_slide");
 				}
+				else if (m_currentState == State.Hiding)
+				{
+					m_img.setSprite(m_currentHidingImage);
+				}
 
 				if (m_currentState != m_lastState)
 				{
 					if (m_lastState == State.Rolling)
 					{
-						m_collisionShape = standHitBox;
+						m_collisionShape = m_standHitBox;
 						m_position.setY(m_position.getLocalY() - ROLLSTANDDIFF);
 						Game.getInstance().m_camera.getPosition().plusYWith(ROLLSTANDDIFF);
 						m_imgOffsetX = 0;
@@ -430,7 +438,7 @@ namespace GrandLarceny
 						{
 							m_imgOffsetX = -72;
 						}
-						m_collisionShape = rollHitBox;
+						m_collisionShape = m_rollHitBox;
 						m_position.setY(m_position.getLocalY() + ROLLSTANDDIFF);
 						Game.getInstance().m_camera.getPosition().plusYWith(-ROLLSTANDDIFF);
 					}
