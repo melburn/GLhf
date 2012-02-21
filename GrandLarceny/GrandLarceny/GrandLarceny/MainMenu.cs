@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace GrandLarceny
 {
@@ -33,7 +34,8 @@ namespace GrandLarceny
 					Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
 					new Vector2(200, 200 * t_count),
 					0.002f);
-				t_levelButton.setText(t_level);
+				string[] t_splitPath = Regex.Split(t_level, "//");
+				t_levelButton.setText(t_splitPath[t_splitPath.Length - 1]);
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
 				m_buttons.Add(t_levelButton);
 			}

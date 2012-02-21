@@ -57,6 +57,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fonts\Courier New10.spritefont">
+      <Name>Courier New10</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="wtf\loadImages.txt">
       <Name>loadImages</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -354,6 +359,23 @@
     </Compile>
     <Compile Include="Images\GUI\btn_wall_hotkey_pressed.png">
       <Name>btn_wall_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\btn_asset_list_hover.png">
+      <Name>btn_asset_list_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_asset_list_normal.png">
+      <Name>btn_asset_list_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_asset_list_pressed.png">
+      <Name>btn_asset_list_pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

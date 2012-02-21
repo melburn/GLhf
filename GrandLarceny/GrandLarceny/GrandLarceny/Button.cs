@@ -49,7 +49,7 @@ namespace GrandLarceny
 			setHoverTexture(a_hover);
 			setNormalTexture(a_normal);
 			setPressedTexture(a_pressed);
-			m_font = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New");
+			m_font = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New10");
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
@@ -62,7 +62,7 @@ namespace GrandLarceny
 			setNormalTexture(Game.getInstance().Content.Load<Texture2D>(a_normal));
 			setHoverTexture(Game.getInstance().Content.Load<Texture2D>(a_hover));
 			setPressedTexture(Game.getInstance().Content.Load<Texture2D>(a_pressed));
-			m_font = Game.getInstance().Content.Load<SpriteFont>("Font//Courier New");
+			m_font = Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New10");
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
@@ -105,7 +105,7 @@ namespace GrandLarceny
 			else
 				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			if (m_buttonText != null)
-				a_spriteBatch.DrawString(m_font, m_buttonText, new Vector2(m_position.getLocalX() + m_textOffset.X, m_position.getLocalY() + m_textOffset.Y), m_textColor, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.001f);
+				a_spriteBatch.DrawString(m_font, m_buttonText, new Vector2(m_position.getGlobalX() + m_textOffset.X, m_position.getGlobalY() + m_textOffset.Y), m_textColor, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.001f);
 		}
 
 		public void setState(int a_state)
@@ -174,6 +174,11 @@ namespace GrandLarceny
 		public void setText(String a_string)
 		{
 			m_buttonText = a_string;
+		}
+		public void setText(string a_string, Vector2 a_offset)
+		{
+			m_buttonText = a_string;
+			m_textOffset = a_offset;
 		}
 		public string getText()
 		{
