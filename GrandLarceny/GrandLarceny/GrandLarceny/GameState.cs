@@ -112,10 +112,10 @@ namespace GrandLarceny
 
 		public static bool checkBigBoxCollision(Entity a_first, Entity a_second)
 		{
-			return (a_first.getPosition().getGlobalX() - 1 < a_second.getPosition().getGlobalX() + a_second.getHitBox().getOutBox().Width &&
-				a_first.getPosition().getGlobalX() + a_first.getHitBox().getOutBox().Width + 1 > a_second.getPosition().getGlobalX()) &&
-				(a_first.getPosition().getGlobalY() < a_second.getPosition().getGlobalY() + a_second.getHitBox().getOutBox().Height &&
-				a_first.getPosition().getGlobalY() + a_first.getHitBox().getOutBox().Height > a_second.getPosition().getGlobalY());
+			return (a_first.getHitBox().getOutBox().X - 1 < a_second.getHitBox().getOutBox().X + a_second.getHitBox().getOutBox().Width &&
+				a_first.getHitBox().getOutBox().X + a_first.getHitBox().getOutBox().Width + 1 > a_second.getHitBox().getOutBox().X &&
+				a_first.getHitBox().getOutBox().Y - 1 < a_second.getHitBox().getOutBox().Y + a_second.getHitBox().getOutBox().Height &&
+				a_first.getHitBox().getOutBox().Y + a_first.getHitBox().getOutBox().Height + 1 > a_second.getHitBox().getOutBox().Y);
 		}
 		public override void addObject(GameObject a_object)
 		{
