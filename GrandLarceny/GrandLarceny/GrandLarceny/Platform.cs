@@ -21,7 +21,6 @@ namespace GrandLarceny
 				Player t_player = (Player)a_collider;
 				if (CollisionManager.Collides(this.getHitBox(), a_collider.getHitBox()))
 				{
-					
 					//Colliding with ze floor
 					if ((int)t_player.getLastPosition().Y + t_player.getHitBox().getOutBox().Height <= (int)getLastPosition().Y)
 					{

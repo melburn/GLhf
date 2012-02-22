@@ -317,6 +317,7 @@ namespace GrandLarceny
 
 		private void updateClimbing()
 		{
+			m_gravity = 0;
 			if (GameState.m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
 				m_speed.Y = -CLIMBINGSPEED;
@@ -327,7 +328,6 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_gravity = 0;
 				m_speed.Y = 0;
 			}
 			if (GameState.m_currentKeyInput.IsKeyDown(Keys.Space) && GameState.m_previousKeyInput.IsKeyUp(Keys.Space))

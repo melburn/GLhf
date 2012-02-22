@@ -22,10 +22,10 @@ namespace GrandLarceny
 			Stack<Entity> t_ret = new Stack<Entity>();
 			foreach (GameObject t_go in Game.getInstance().getState().getObjectList())
 			{
-				if (t_go is Entity && ((Entity)t_go).getHitBox().collidesWithLine(a_point1, a_point2))
+		/*		if (t_go is Entity && ((Entity)t_go).getHitBox().collidesWithLine(a_point1, a_point2))
 				{
 					t_ret.Push((Entity)t_go);
-				}
+				}*/
 			}
 			return t_ret;
 		}
