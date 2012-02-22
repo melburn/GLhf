@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {	
@@ -82,7 +83,7 @@ namespace GrandLarceny
 		{
 			return m_dead;
 		}
-		public void setLayer(int a_layer)
+		public void setLayer(float a_layer)
 		{
 			m_layer = a_layer;
 		}

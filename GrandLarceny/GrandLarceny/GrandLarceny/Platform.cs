@@ -14,12 +14,12 @@ namespace GrandLarceny
 			
 		}
 
-		internal override void updateCollisionWith(Entity a_collid)
+		internal override void updateCollisionWith(Entity a_collider)
 		{
-			if (a_collid is Player)
+			if (a_collider is Player)
 			{
-				Player t_player = (Player)a_collid;
-				if (CollisionManager.Collides(this.getHitBox(), a_collid.getHitBox()))
+				Player t_player = (Player)a_collider;
+				if (CollisionManager.Collides(this.getHitBox(), a_collider.getHitBox()))
 				{
 					
 					//Colliding with ze floor
