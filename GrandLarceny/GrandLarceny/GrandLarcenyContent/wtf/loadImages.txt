@@ -2,4 +2,4 @@ Images//WalkingSquareStand:1
 Images//WalkingSquareWalking:4
 Images//WalkingSquareJumping:1
 Images//WalkingSquareFalling:1
-Images//guardWalking:8
+Images//Sprite//guard_walk:8

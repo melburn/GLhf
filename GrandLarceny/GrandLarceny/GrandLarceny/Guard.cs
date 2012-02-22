@@ -15,13 +15,20 @@ namespace GrandLarceny
         private Boolean m_hasPatrol;
         private Boolean m_hasFlashLight;
         public Boolean m_inALightArea = false;
-        private float MOVEMENTSPEED = 100;
-		private float CHASINGSPEED = 350;
+
+        private const float MOVEMENTSPEED = 150;
+		private const float CHASINGSPEED = 350;
+		private const float WALKINGANIMATIONSPEED = MOVEMENTSPEED / 16;
+
         private Entity m_chaseTarget = null;
 		private Boolean m_running = false;
 		private Boolean m_faceingRight;
 		private float m_sightRange = 576f;
 		private LightCone m_flashLight;
+		private static Vector2[] s_lightConePositionsWhileWalkingRight;
+		private static Vector2[] s_lightConePositionsWhileWalkingLeft;
+		private static float[] s_lightConeRotationsWhileWalkingRight;
+		private static float[] s_lightConeRotationsWhileWalkingLeft;
 
 		//flashlight addicted guard always has their flashlight up
 		private Boolean m_FlashLightAddicted;
@@ -31,7 +38,7 @@ namespace GrandLarceny
 		{
 			m_leftPatrolPoint = a_leftpatrolPoint;
 			m_rightPatrolPoint = a_rightpatrolPoint;
-			m_hasPatrol = true;
+			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
 			m_hasFlashLight = a_hasFlashLight;
 			m_FlashLightAddicted = a_flashLightAddicted;
 			m_aiState = AIStatepatroling.getInstance();
@@ -52,14 +59,14 @@ namespace GrandLarceny
 		}
 		public void setLeftGuardPoint(float a_x)
 		{
-			m_hasPatrol = true;
 			m_leftPatrolPoint = a_x;
+			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
 		}
 
 		public void setRightGuardPoint(float a_x)
 		{
-			m_hasPatrol = true;
 			m_rightPatrolPoint = a_x;
+			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
 		}
 		public void setGuardPoint(float a_x)
 		{
@@ -80,7 +87,8 @@ namespace GrandLarceny
 			m_faceingRight = true;
 			if(m_flashLight==null)
 			{
-				//m_img.setSprite("goRight");
+				m_img.setSprite("Images//Sprite//guard_walk");
+				m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 			}
 			else
 			{
@@ -100,7 +108,8 @@ namespace GrandLarceny
 			m_faceingRight = false;
 			if (m_flashLight == null)
 			{
-				//m_img.setSprite("goLeft");
+				m_img.setSprite("Images//Sprite//guard_walk");
+				m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 			}
 			else
 			{
@@ -186,7 +195,8 @@ namespace GrandLarceny
 				{
 					if (m_flashLight == null)
 					{
-						//m_img.setSprite(walking like a boss);
+						m_img.setSprite("Images//Sprite//guard_walk");
+						m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 					}
 					else
 					{
@@ -224,10 +234,20 @@ namespace GrandLarceny
 			if (m_faceingRight)
 			{
 				m_spriteEffects = SpriteEffects.None;
+				if (m_flashLight != null && m_img.getImagePath().Equals("guardwalking"))
+				{
+					m_flashLight.getPosition().setCartesianCoordinates(s_lightConePositionsWhileWalkingRight[(int)m_img.getSubImageIndex()]);
+					m_flashLight.setRotation(s_lightConeRotationsWhileWalkingRight[(int)m_img.getSubImageIndex()]);
+				}
 			}
 			else
 			{
 				m_spriteEffects = SpriteEffects.FlipHorizontally;
+				if (m_flashLight != null && m_img.getImagePath().Equals("guardwalking"))
+				{
+					m_flashLight.getPosition().setCartesianCoordinates(s_lightConePositionsWhileWalkingLeft[(int)m_img.getSubImageIndex()]);
+					m_flashLight.setRotation(s_lightConeRotationsWhileWalkingLeft[(int)m_img.getSubImageIndex()]);
+				}
 			}
 		}
 
