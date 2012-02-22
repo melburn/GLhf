@@ -16,10 +16,12 @@ namespace GrandLarceny
 		{
 			return false;
 		}
+		public abstract bool collidesWithLineSegment(Vector2 a_point1, Vector2 a_point2);
 		
 		public virtual Rectangle getOutBox()
 		{
 			return m_OutBox;
 		}
+
 	}
 }

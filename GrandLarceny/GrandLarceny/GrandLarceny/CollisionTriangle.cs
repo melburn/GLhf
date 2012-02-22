@@ -93,5 +93,11 @@ namespace GrandLarceny
 				(2 * (a_C - a_A).Length() * (a_B - a_A).Length()));
 			return t_ret;
 		}
+
+		public override bool collidesWithLineSegment(Vector2 a_point1, Vector2 a_point2)
+		{
+			//trianglar gillar inte linjer
+			return false;
+		}
 	}
 }

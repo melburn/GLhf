@@ -25,7 +25,7 @@ namespace GrandLarceny
 			if (a_collid is Player)
 			{
 				Vector2 t_playerGlobalCoordinate = a_collid.getPosition().getGlobalCartesianCoordinates();
-				if (CollisionManager.Collides(this.getHitBox(), t_playerGlobalCoordinate))
+				if (CollisionManager.Contains(this.getHitBox(), t_playerGlobalCoordinate))
 				{
 					Player t_player = (Player)a_collid;				
 					if (Keyboard.GetState().IsKeyDown(Keys.Up))

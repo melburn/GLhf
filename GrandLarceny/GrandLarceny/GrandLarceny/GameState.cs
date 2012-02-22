@@ -127,5 +127,9 @@ namespace GrandLarceny
 		{
 			return player;
 		}
+		public override LinkedList<GameObject> getObjectList()
+		{
+			return m_gameObjectList;
+		}
 	}
 }

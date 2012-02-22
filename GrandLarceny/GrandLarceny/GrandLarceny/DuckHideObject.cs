@@ -26,7 +26,7 @@ namespace GrandLarceny
 				Player t_player = (Player)a_collider;
 				Vector2 t_playerGlobalPosition = a_collider.getPosition().getGlobalCartesianCoordinates();
 				Rectangle t_playerOutBox = a_collider.getHitBox().getOutBox();
-				if (CollisionManager.Collides(this.getHitBox(), 
+				if (CollisionManager.Contains(this.getHitBox(), 
 					new Vector2(t_playerGlobalPosition.X + t_playerOutBox.Width/2, t_playerGlobalPosition.Y + t_playerOutBox.Height/2)))
 				{
 					if (GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up)
