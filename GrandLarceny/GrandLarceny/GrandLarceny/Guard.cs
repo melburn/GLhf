@@ -60,6 +60,11 @@ namespace GrandLarceny
 			m_aiState = AIStatepatroling.getInstance();
 			m_gravity = 1000;
 		}
+		public override void loadContent()
+		{
+			base.loadContent();
+			m_collisionShape = new CollisionRectangle(5, 10, m_img.getSize().X - 10, m_img.getSize().Y - 10, m_position);
+		}
 		public void setLeftGuardPoint(float a_x)
 		{
 			m_leftPatrolPoint = a_x;

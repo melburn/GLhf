@@ -23,12 +23,24 @@ namespace GrandLarceny
 			m_connectedSpotLights.AddLast(a_spotlight);
 			a_spotlight.setLit(m_switchedOn);
 		}
+		public void disconnectSpotLight(SpotLight a_spotlight)
+		{
+			m_connectedSpotLights.Remove(a_spotlight);
+		}
 		public void toogleSwitch()
 		{
 			m_switchedOn = !m_switchedOn;
 			foreach (SpotLight t_spotlight in m_connectedSpotLights)
 			{
 				t_spotlight.setLit(m_switchedOn);
+			}
+			if (m_switchedOn)
+			{
+				//m_img.setSprite(on);
+			}
+			else
+			{
+				//m_img.setSprite(off);
 			}
 		}
 		public void setSwitch(bool a_on)
@@ -37,6 +49,14 @@ namespace GrandLarceny
 			foreach (SpotLight t_spotlight in m_connectedSpotLights)
 			{
 				t_spotlight.setLit(m_switchedOn);
+			}
+			if (m_switchedOn)
+			{
+				//m_img.setSprite(on);
+			}
+			else
+			{
+				//m_img.setSprite(off);
 			}
 		}
 	}
