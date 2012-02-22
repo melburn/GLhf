@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
-	class GameState : States
+	public class GameState : States
 	{
 		private LinkedList<GameObject> m_gameObjectList;
 		//private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
