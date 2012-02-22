@@ -68,11 +68,14 @@ namespace GrandLarceny
 		{
 			if (a_collid is Player)
 			{
-
-				Player t_player = (Player)a_collid;
-				if (t_player.getCurrentState() != Player.State.Hiding)
+				if (CollisionManager.Collides(this.getHitBox(), a_collid.getHitBox()))
 				{
-					t_player.setIsInLight(true);
+					Player t_player = (Player)a_collid;
+					if (t_player.getCurrentState() != Player.State.Hiding)
+					{
+						t_player.setIsInLight(true);
+					}
+
 				}
 			}
 
