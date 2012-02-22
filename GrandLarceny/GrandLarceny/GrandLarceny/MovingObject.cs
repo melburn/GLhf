@@ -22,10 +22,10 @@ namespace GrandLarceny
 		{
 			foreach (Entity t_entity in a_collisionList)
 			{
-				if (CollisionManager.Collides(this.getHitBox(), t_entity.getHitBox()))
-				{
+				//if (CollisionManager.Collides(this.getHitBox(), t_entity.getHitBox()))
+				//{
 					t_entity.updateCollisionWith(this);
-				}
+				//}
 			}
 		}
 	}

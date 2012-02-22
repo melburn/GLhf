@@ -46,6 +46,7 @@ namespace GrandLarceny
 		private bool m_isInLight;
 
 		private bool m_facingRight = false;
+		private bool m_collidedWithWall = false;
 
 		public enum State
 		{
@@ -288,7 +289,8 @@ namespace GrandLarceny
 		{
 			if (m_lastPosition.Y != m_position.getGlobalY())
 			{
-				if ((!m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Right)) || (m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Left)))
+				if (((!m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Right)) || (m_facingRight && m_currentKeyInput.IsKeyDown(Keys.Left)))
+					&& m_collidedWithWall)
 				{
 					if (m_previousKeyInput.IsKeyUp(Keys.Space) && m_currentKeyInput.IsKeyDown(Keys.Space))
 					{
@@ -470,7 +472,7 @@ namespace GrandLarceny
 
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
-			
+			m_collidedWithWall = false;
 			m_isInLight = false;
 			if (a_collisionList.Count == 0)
 			{
@@ -478,7 +480,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				foreach (Entity t_entity in a_collisionList)
+				/*foreach (Entity t_entity in a_collisionList)
 				{
 					if (CollisionManager.Collides(this.getHitBox(), t_entity.getHitBox()))
 					{
@@ -489,7 +491,9 @@ namespace GrandLarceny
 					{
 						climb(t_entity);
 					}
-				}
+					
+				}*/
+				base.collisionCheck(a_collisionList);
 			}
 			/*bool t_onLadder = false;
 			bool t_onLadder = false;
@@ -646,6 +650,11 @@ namespace GrandLarceny
 		public void setIsInLight(bool a_isInLight)
 		{
  			m_isInLight = a_isInLight;
+		}
+
+		public void setCollidedWithWall(bool a_collided)
+		{
+			m_collidedWithWall = a_collided;
 		}
 
 

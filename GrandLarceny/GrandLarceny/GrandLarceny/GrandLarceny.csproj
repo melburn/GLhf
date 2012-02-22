@@ -137,7 +137,7 @@
     <Compile Include="Loader.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuState.cs" />
-    <Compile Include="NonMovingPlatform.cs" />
+    <Compile Include="NonMovingObject.cs" />
     <Compile Include="NPE.cs" />
     <Compile Include="PauseState.cs" />
     <Compile Include="Platform.cs" />
