@@ -47,7 +47,7 @@ namespace GrandLarceny
 			{
 				m_flashLight = new LightCone(this, "Images//LightCone//Ljus",  m_layer + 1, 300,70);
 			}
-			m_gravity = 5000;
+			m_gravity = 1000;
 		}
         public Guard(Vector2 a_posV2, String a_sprite, float a_patrolPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
@@ -58,7 +58,7 @@ namespace GrandLarceny
             m_leftPatrolPoint = a_patrolPoint;
             m_rightPatrolPoint = a_patrolPoint;
 			m_aiState = AIStatepatroling.getInstance();
-			m_gravity = 5000;
+			m_gravity = 1000;
 		}
 		public void setLeftGuardPoint(float a_x)
 		{
@@ -277,7 +277,7 @@ namespace GrandLarceny
 				}
 				else if (t_collision is Platform)
 				{
-					if (t_collision.getPosition().getGlobalY() < m_position.getGlobalY() + m_img.getSize().Y - 10)
+					if (t_collision.getPosition().getGlobalY() < m_position.getGlobalY() + m_img.getSize().Y - 50)
 					{
 						if (m_speed.X < 0)
 						{

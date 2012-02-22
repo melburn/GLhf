@@ -120,6 +120,7 @@
     <Compile Include="CollisionShape.cs" />
     <Compile Include="CollisionTriangle.cs" />
     <Compile Include="DevelopmentState.cs" />
+    <Compile Include="LampSwitch.cs" />
     <Compile Include="MovingObject.cs" />
     <Compile Include="GuardDog.cs" />
     <Compile Include="Text.cs" />
