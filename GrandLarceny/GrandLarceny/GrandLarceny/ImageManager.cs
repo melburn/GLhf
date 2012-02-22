@@ -125,5 +125,10 @@ namespace GrandLarceny
 		{
 			return m_imagePath;
 		}
+
+		public float getSubImageIndex()
+		{
+			return m_subImageNumber;
+		}
 	}
 }
