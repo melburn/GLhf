@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class Wall : NonMovingPlatform
+	class Wall : NonMovingObject
 	{
 		public Wall(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
 		{
