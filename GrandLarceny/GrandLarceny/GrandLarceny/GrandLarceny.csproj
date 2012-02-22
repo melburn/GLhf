@@ -120,8 +120,10 @@
     <Compile Include="CollisionShape.cs" />
     <Compile Include="CollisionTriangle.cs" />
     <Compile Include="DevelopmentState.cs" />
+    <Compile Include="DuckHideObject.cs" />
     <Compile Include="MovingObject.cs" />
     <Compile Include="GuardDog.cs" />
+    <Compile Include="StandHideObject.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="CollisionManager.cs" />
