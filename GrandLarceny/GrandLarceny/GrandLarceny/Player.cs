@@ -486,7 +486,9 @@ namespace GrandLarceny
 						
 					}
 					if (t_entity is Platform)
-							climb(t_entity);
+					{
+						climb(t_entity);
+					}
 				}
 			}
 			/*bool t_onLadder = false;

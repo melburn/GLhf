@@ -19,6 +19,7 @@ namespace GrandLarceny
         private const float MOVEMENTSPEED = 150;
 		private const float CHASINGSPEED = 350;
 		private const float WALKINGANIMATIONSPEED = MOVEMENTSPEED / 16;
+		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 16;
 
         private Entity m_chaseTarget = null;
 		private Boolean m_running = false;
@@ -79,21 +80,21 @@ namespace GrandLarceny
 			if (m_running)
 			{
 				m_speed.X = CHASINGSPEED;
+				if (m_flashLight == null)
+				{
+					//m_img.setSprite("Images//Sprite//guard_run");
+				}
 			}
 			else
 			{
 				m_speed.X = MOVEMENTSPEED;
+				m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
+				if(m_flashLight==null)
+				{
+					m_img.setSprite("Images//Sprite//guard_walk");
+				}
 			}
 			m_faceingRight = true;
-			if(m_flashLight==null)
-			{
-				m_img.setSprite("Images//Sprite//guard_walk");
-				m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
-			}
-			else
-			{
-				//m_img.setSprite("goRightWithFlashLight");
-			}
 		}
 		internal void goLeft()
 		{
