@@ -16,8 +16,8 @@ namespace GrandLarceny
 		private LinkedList<GameObject> m_changeList = new LinkedList<GameObject>();
 		MouseState m_previousMouse;
 		MouseState m_currentMouse;
-		KeyboardState m_previous;
-		KeyboardState m_current;
+		public static KeyboardState m_previousKeyInput;
+		public static KeyboardState m_currentKeyInput;
 		private string m_currentLevel;
 
 		private Player player;
@@ -54,7 +54,7 @@ namespace GrandLarceny
 		*/
 		public override void update(GameTime a_gameTime)
 		{
-			m_current = Keyboard.GetState();
+			m_currentKeyInput = Keyboard.GetState();
 			m_currentMouse = Mouse.GetState();
 
 			foreach (GameObject t_gameObject in m_gameObjectList)
@@ -62,12 +62,12 @@ namespace GrandLarceny
 				t_gameObject.update(a_gameTime);
 			}
 
-			if (m_current.IsKeyDown(Keys.Q))
+			if (m_currentKeyInput.IsKeyDown(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
 
-			if (m_current.IsKeyDown(Keys.R))
+			if (m_currentKeyInput.IsKeyDown(Keys.R))
 			{
 				Game.getInstance().setState(new GameState());
 			}
@@ -98,7 +98,7 @@ namespace GrandLarceny
 			m_gameObjectList.Except(m_changeList);
 			m_changeList.Clear();
 			m_previousMouse = m_currentMouse;
-			m_previous = m_current;
+			m_previousKeyInput = m_currentKeyInput;
 		}
 		/*
 		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 
