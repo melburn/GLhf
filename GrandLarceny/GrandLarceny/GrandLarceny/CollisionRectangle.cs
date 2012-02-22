@@ -81,5 +81,72 @@ namespace GrandLarceny
 				v.Y <= m_yOffset + m_height + m_position.getGlobalY() &&
 				v.Y >= m_yOffset + m_position.getGlobalY();
 		}
+
+		public override bool collidesWithLineSegment(Vector2 a_point1, Vector2 a_point2)
+		{
+			// Find min and max X for the segment
+
+			double minX = Math.Min(a_point1.X,a_point2.X);
+			double maxX = Math.Max(a_point1.X,a_point2.X);
+
+			if(a_point1.X > a_point2.X)
+			{
+			  minX = a_point2.X;
+			  maxX = a_point1.X;
+			}
+
+			// Find the intersection of the segment's and rectangle's x-projections
+
+			maxX = Math.Min(maxX, m_position.getGlobalX() + m_xOffset + m_width);
+
+			minX = Math.Max(minX, m_position.getGlobalX() + m_xOffset);
+
+
+			if(minX > maxX) // If their projections do not intersect return false
+			{
+			  return false;
+			}
+
+			// Find corresponding min and max Y for min and max X we found before
+			
+			double minY = a_point1.Y;
+			double maxY = a_point2.Y;
+
+			double dx = a_point2.X - a_point1.X;
+
+			if(Math.Abs(dx) > 0.0000001)
+			{
+			  double a = (a_point2.Y - a_point1.Y) / dx;
+			  double b = a_point1.Y - a * a_point1.X;
+			  minY = a * minX + b;
+			  maxY = a * maxX + b;
+			}
+
+			if(minY > maxY)
+			{
+			  double tmp = maxY;
+			  maxY = minY;
+			  minY = tmp;
+			}
+
+			// Find the intersection of the segment's and rectangle's y-projections
+
+			if(maxY > m_position.getGlobalY() + m_yOffset + m_height)
+			{
+			  maxY = m_position.getGlobalY() + m_yOffset + m_height;
+			}
+
+			if (minY < m_position.getGlobalY() + m_yOffset)
+			{
+				minY = m_position.getGlobalY() + m_yOffset;
+			}
+
+			if(minY > maxY) // If Y-projections do not intersect return false
+			{
+			  return false;
+			}
+
+			return true;
+		  }
 	}
 }

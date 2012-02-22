@@ -12,10 +12,12 @@ namespace GrandLarceny
 		protected Position m_position;
 
 		public abstract bool Collides(CollisionShape a_cs2);
+		public abstract bool collidesWithLineSegment(Vector2 a_point1, Vector2 a_point2);
 		
 		public virtual Rectangle getOutBox()
 		{
 			return m_OutBox;
 		}
+
 	}
 }
