@@ -25,6 +25,7 @@ namespace GrandLarceny
 		public const int SLIDESPEED = 25;
 		public const int ROLLSPEED = 1000;
 
+		private float m_originalLayer;
 		private float m_rollTimer;
 
 		public const string STANDHIDINGIMAGE = "Images//Sprite//hero_wallhide";
@@ -59,6 +60,7 @@ namespace GrandLarceny
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
+			m_originalLayer = a_layer;
 			m_currentState = State.Jumping;
 			m_currentHidingImage = STANDHIDINGIMAGE;
 		}
@@ -415,6 +417,7 @@ namespace GrandLarceny
 				|| (GameState.m_currentKeyInput.IsKeyDown(Keys.Space) && GameState.m_previousKeyInput.IsKeyUp(Keys.Space)))
 			{
 				m_currentState  = State.Stop;
+				m_layer = m_originalLayer;
 			}
 		}
 
