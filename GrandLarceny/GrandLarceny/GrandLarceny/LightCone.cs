@@ -62,10 +62,6 @@ namespace GrandLarceny
 			t_ret[2] = t_ret[0] + new Vector2((float)((m_length*Math.Cos(m_rotate))+((m_width/2)*Math.Cos(0.5*Math.PI+m_rotate))),(float)((m_length*Math.Sin(m_rotate))+((m_width/2)*Math.Sin(0.5*Math.PI+m_rotate))));
 			return t_ret;
 		}
-		internal override void collisionCheck(List<Entity> a_collisionList)
-		{
-			//I don't care 'bout your collisions, I'm freakin' nonsolid!
-		}
 
 
 		internal override void updateCollisionWith(Entity a_collid)
@@ -73,11 +69,10 @@ namespace GrandLarceny
 			if (a_collid is Player)
 			{
 
-				if (a_collid is LightCone)
+				Player t_player = (Player)a_collid;
+				if (t_player.getCurrentState() != Player.State.Hiding)
 				{
-					Player t_player = (Player)a_collid;
-					if(t_player.getCurrentState() != Player.State.Hiding)
-						t_player.setIsInLight(true);
+					t_player.setIsInLight(true);
 				}
 			}
 

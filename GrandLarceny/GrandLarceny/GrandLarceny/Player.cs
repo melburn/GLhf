@@ -446,14 +446,16 @@ namespace GrandLarceny
 					m_position.setY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
 					Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
 					m_imgOffsetX = 0;
+					m_imgOffsetY = 0;
 				}
 				else if (m_currentState == State.Rolling)
 				{
 					if (m_facingRight)
 					{
-						m_imgOffsetX = -72;
+						m_imgOffsetX = -m_rollHitBox.getOutBox().Width;
 					}
 					m_collisionShape = m_rollHitBox;
+					m_imgOffsetY -=  m_img.getSize().Y -m_rollHitBox.getOutBox().Height;
 					m_position.setY(m_position.getLocalY() + (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
 					Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.getOutBox().Height);
 				}
