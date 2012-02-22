@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GrandLarceny
 {
 	[Serializable()]
-	public class LightCone : Entity
+	public class LightCone : MovingObject
 	{
 		private float m_length;
 		private float m_width;
@@ -38,10 +38,14 @@ namespace GrandLarceny
 			{
 				m_dead = true;
 			}
-			else
+		}
+		public void setRotation(float a_rotation)
+		{
+			if (m_rotate != a_rotation)
 			{
-				m_rotate = m_parent.getRotation();
-				m_position.setSlope((float)(1.5f*Math.PI + m_rotate));
+				m_rotate = a_rotation;
+				m_position.setSlope((float)(1.5f * Math.PI + m_rotate));
+				m_collisionShape = new CollisionTriangle(getTrianglePointsOffset(), m_position);
 			}
 		}
 		public override void loadContent()
@@ -61,6 +65,22 @@ namespace GrandLarceny
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
 			//I don't care 'bout your collisions, I'm freakin' nonsolid!
+		}
+
+
+		internal override void updateCollisionWith(Entity a_collid)
+		{
+			if (a_collid is Player)
+			{
+
+				if (a_collid is LightCone)
+				{
+					Player t_player = (Player)a_collid;
+					if(t_player.getCurrentState() != Player.State.Hiding)
+						t_player.setIsInLight(true);
+				}
+			}
+
 		}
 	}
 }

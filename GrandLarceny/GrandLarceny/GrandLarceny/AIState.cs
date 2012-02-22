@@ -8,6 +8,6 @@ namespace GrandLarceny
 	[Serializable()]
 	public abstract class AIState
 	{
-		abstract public AIState execute(NPE npe);
+		abstract public AIState execute(NPE a_agent);
 	}
 }

@@ -89,8 +89,9 @@ namespace GrandLarceny
 		}
 		public static double getAngle(Vector2 a_A, Vector2 a_B, Vector2 a_C)
 		{
-			return Math.Acos(Math.Pow((a_C - a_A).Length(),2)+Math.Pow((a_B - a_A).Length(),2)-Math.Pow((a_B - a_C).Length(),2) /
-				(2 * (a_C - a_A).Length() * (a_C - a_A).Length()));
+			double t_ret = Math.Acos((Math.Pow((a_C - a_A).Length(), 2) + Math.Pow((a_B - a_A).Length(), 2) - Math.Pow((a_B - a_C).Length(), 2)) /
+				(2 * (a_C - a_A).Length() * (a_B - a_A).Length()));
+			return t_ret;
 		}
 	}
 }
