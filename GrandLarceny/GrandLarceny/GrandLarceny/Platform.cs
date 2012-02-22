@@ -69,7 +69,11 @@ namespace GrandLarceny
 					t_player.climb(this);
 				}
 			}
-			
+		}
+
+		public override bool isTransparent()
+		{
+			return false;
 		}
 	}
 }

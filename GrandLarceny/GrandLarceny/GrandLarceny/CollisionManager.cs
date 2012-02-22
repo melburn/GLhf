@@ -29,5 +29,17 @@ namespace GrandLarceny
 			}
 			return t_ret;
 		}
+
+		public static bool possibleLineOfSight(Vector2 a_point1, Vector2 a_point2)
+		{
+			foreach(Entity t_entity in getCollisionsWithLineSegment(a_point1, a_point2))
+			{
+				if(! t_entity.isTransparent())
+				{
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 }

@@ -85,5 +85,10 @@ namespace GrandLarceny
 		{
 			return m_collisionShape;
 		}
+
+		public virtual bool isTransparent()
+		{
+			return true;
+		}
 	}
 }

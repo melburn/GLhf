@@ -56,5 +56,10 @@ namespace GrandLarceny
 				t_player.setCollidedWithWall(true);
 			}
 		}
+
+		public override bool isTransparent()
+		{
+			return false;
+		}
 	}
 }

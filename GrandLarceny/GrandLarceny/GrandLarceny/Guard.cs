@@ -224,11 +224,15 @@ namespace GrandLarceny
 
 		public bool canSeePlayer()
 		{
-			return Game.getInstance().getState().getPlayer().isInLight() &&
+			return Game.getInstance().getState().getPlayer() != null &&
+				Game.getInstance().getState().getPlayer().isInLight() &&
 				isFaceingTowards(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()) &&
 				Math.Abs(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
 				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
-				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200;
+				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200 &&
+				CollisionManager.possibleLineOfSight(
+				Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesianCoordinates() + (Game.getInstance().getState().getPlayer().getImg().getSize() / new Vector2(2,4)),
+				m_position.getGlobalCartesianCoordinates() + (m_img.getSize() / 2));
 		}
 
 		public bool isFaceingTowards(float a_x)
