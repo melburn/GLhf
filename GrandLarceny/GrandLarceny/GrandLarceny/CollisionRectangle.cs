@@ -74,7 +74,7 @@ namespace GrandLarceny
 			return t_ret;
 		}
 
-		public bool contains(Vector2 v)
+		public override bool contains(Vector2 v)
 		{
 			return v.X <= m_xOffset + m_width + m_position.getGlobalX() &&
 				v.X >= m_xOffset + m_position.getGlobalX() &&

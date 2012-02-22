@@ -12,6 +12,10 @@ namespace GrandLarceny
 		protected Position m_position;
 
 		public abstract bool Collides(CollisionShape a_cs2);
+		public virtual bool contains(Vector2 a_cs2)
+		{
+			return false;
+		}
 		
 		public virtual Rectangle getOutBox()
 		{

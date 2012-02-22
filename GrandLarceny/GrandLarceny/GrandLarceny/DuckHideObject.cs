@@ -14,18 +14,28 @@ namespace GrandLarceny
 		{
 			
 		}
+		public override void loadContent()
+		{
+			base.loadContent();
+			m_collisionShape = new CollisionRectangle(m_img.getSize().X / 2 - 10, 0, 20, m_img.getSize().Y, m_position);
+		}
 		internal override void updateCollisionWith(Entity a_collider)
 		{
 			if (a_collider is Player)
 			{
 				Player t_player = (Player)a_collider;
-				if (CollisionManager.Collides(this.getHitBox(), a_collider.getHitBox()))
+				Vector2 t_playerGlobalPosition = a_collider.getPosition().getGlobalCartesianCoordinates();
+				Rectangle t_playerOutBox = a_collider.getHitBox().getOutBox();
+				if (CollisionManager.Collides(this.getHitBox(), 
+					new Vector2(t_playerGlobalPosition.X + t_playerOutBox.Width/2, t_playerGlobalPosition.Y + t_playerOutBox.Height/2)))
 				{
-					if (GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up))
+					if (GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up)
+						&& t_player.getLastState() != Player.State.Hiding)
 					{
 						t_player.setState(Player.State.Hiding);
 						t_player.setLayer(0.725f);
 						t_player.setHidingImage(Player.DUCKHIDINGIMAGE);
+						t_player.setSpeedX(0);
 					}
 				}
 			}

@@ -14,28 +14,27 @@ namespace GrandLarceny
 		{
 			
 		}
-
+		public override void loadContent()
+		{
+			base.loadContent();
+			m_collisionShape = new CollisionRectangle(-3,
+						0, 6, m_img.getSize().Y, m_position);
+		}
 		internal override void updateCollisionWith(Entity a_collid)
 		{
 			if (a_collid is Player)
 			{
-				if (CollisionManager.Collides(this.getHitBox(), a_collid.getHitBox()))
+				Vector2 t_playerGlobalCoordinate = a_collid.getPosition().getGlobalCartesianCoordinates();
+				if (CollisionManager.Collides(this.getHitBox(), t_playerGlobalCoordinate))
 				{
-					Player t_player = (Player)a_collid;
-					//Colliding with ze ladd0rz
-					Rectangle t_rect = new Rectangle(getHitBox().getOutBox().X - 2,
-						(int)getPosition().getGlobalY(), 4, getHitBox().getOutBox().Height);
-					if (t_rect.Contains((int)t_player.getLastPosition().X, (int)t_player.getLastPosition().Y))
+					Player t_player = (Player)a_collid;				
+					if (Keyboard.GetState().IsKeyDown(Keys.Up))
 					{
-						if (Keyboard.GetState().IsKeyDown(Keys.Up))
-						{
-							t_player.setSpeedX(0);
-							t_player.setState(Player.State.Climbing);
-							if (t_player.getSpeed().Y < -Player.CLIMBINGSPEED || t_player.getSpeed().Y > Player.CLIMBINGSPEED)
-								t_player.setSpeedY(0);
-							t_player.getPosition().setX(getPosition().getGlobalX());
-						}
-
+						t_player.setSpeedX(0);
+						t_player.setState(Player.State.Climbing);
+						if (t_player.getSpeed().Y < -Player.CLIMBINGSPEED || t_player.getSpeed().Y > Player.CLIMBINGSPEED)
+							t_player.setSpeedY(0);
+						t_player.getPosition().setX(getPosition().getGlobalX());
 					}
 				}
 			}
