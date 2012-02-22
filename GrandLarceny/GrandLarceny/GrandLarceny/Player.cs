@@ -197,12 +197,9 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (m_currentKeyInput.IsKeyDown(Keys.LeftShift))
-					{
+					if (m_currentKeyInput.IsKeyDown(Keys.LeftShift)) {
 						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), 200);
-					}
-					else
-					{
+					} else {
 						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), PLAYERSPEED);
 					}
 				}
@@ -215,12 +212,9 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (m_currentKeyInput.IsKeyDown(Keys.LeftShift))
-					{
+					if (m_currentKeyInput.IsKeyDown(Keys.LeftShift)) {
 						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -200);
-					}
-					else
-					{
+					} else {
 						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -PLAYERSPEED);
 					}
 				}
@@ -445,13 +439,14 @@ namespace GrandLarceny
 			{
 				m_img.setSprite("Images//Sprite//hero_hang");
 			}
+
 			if (m_currentState != m_lastState)
 			{
 				if (m_lastState == State.Rolling)
 				{
 					m_collisionShape = m_standHitBox;
 					m_position.setY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
-					Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height);
+					Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
 					m_imgOffsetX = 0;
 				}
 				else if (m_currentState == State.Rolling)
@@ -462,12 +457,10 @@ namespace GrandLarceny
 					}
 					m_collisionShape = m_rollHitBox;
 					m_position.setY(m_position.getLocalY() + (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
-					Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
+					Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.getOutBox().Height);
 				}
-				m_collisionShape = m_rollHitBox;
-				m_position.setY(m_position.getLocalY() + (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
-				Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.getOutBox().Height);
 			}
+
 		}
 
 		public override void draw(GameTime a_gameTime)
@@ -477,7 +470,7 @@ namespace GrandLarceny
 
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
-
+			
 			m_isInLight = false;
 			if (a_collisionList.Count == 0)
 			{
@@ -490,10 +483,10 @@ namespace GrandLarceny
 					if (CollisionManager.Collides(this.getHitBox(), t_entity.getHitBox()))
 					{
 						t_entity.updateCollisionWith(this);
-
+						
 					}
 					if (t_entity is Platform)
-						climb(t_entity);
+							climb(t_entity);
 				}
 			}
 			/*bool t_onLadder = false;
@@ -647,10 +640,10 @@ namespace GrandLarceny
 				m_facingRight = false;
 			}
 		}
-
+	
 		public void setIsInLight(bool a_isInLight)
 		{
-			m_isInLight = a_isInLight;
+ 			m_isInLight = a_isInLight;
 		}
 
 
