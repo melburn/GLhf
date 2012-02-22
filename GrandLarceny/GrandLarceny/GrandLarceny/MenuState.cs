@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
-	class MenuState : States
+	public class MenuState : States
 	{
 		internal List<Button> m_buttons = new List<Button>();
 
