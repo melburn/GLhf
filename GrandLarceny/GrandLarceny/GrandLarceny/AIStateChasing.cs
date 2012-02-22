@@ -12,6 +12,7 @@ namespace GrandLarceny
 		{
 		}
 		private static AIStateChasing instance;
+		private const float MINIMUMDISTANCE = 40;
 		public static AIStateChasing getInstance()
 		{
 			if (instance == null)
@@ -38,18 +39,28 @@ namespace GrandLarceny
 				{
 					t_guard.setRunning(true);
 				}
-				if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_target.getPosition().getGlobalCartesianCoordinates().X)
+				if (Math.Abs(t_guard.getPosition().getGlobalCartesianCoordinates().X - t_target.getPosition().getGlobalCartesianCoordinates().X) < MINIMUMDISTANCE)
 				{
-					if (t_guard.getHorizontalSpeed() <= 0)
+					if(t_guard.getHorizontalSpeed() != 0)
 					{
-						t_guard.goRight();
+						t_guard.stop();
 					}
 				}
 				else
 				{
-					if (t_guard.getHorizontalSpeed() >= 0)
+					if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_target.getPosition().getGlobalCartesianCoordinates().X)
 					{
-						t_guard.goLeft();
+						if (t_guard.getHorizontalSpeed() <= 0)
+						{
+							t_guard.goRight();
+						}
+					}
+					else
+					{
+						if (t_guard.getHorizontalSpeed() >= 0)
+						{
+							t_guard.goLeft();
+						}
 					}
 				}
 				return this;

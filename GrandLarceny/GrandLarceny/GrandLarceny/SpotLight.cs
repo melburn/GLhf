@@ -38,5 +38,22 @@ namespace GrandLarceny
 				m_light.setRotation(m_rotate);
 			}
 		}
+
+		public void setLit(bool a_switchedOn)
+		{
+			if (a_switchedOn)
+			{
+				if (m_light == null)
+				{
+					m_light = new LightCone(this, "Images//LightCone//Ljus", m_layer, 300f, 200f);
+					Game.getInstance().getState().addOrRemoveObject(m_light);
+				}
+			}
+			else if(m_light != null)
+			{
+				Game.getInstance().getState().addOrRemoveObject(m_light);
+				m_light = null;
+			}
+		}
 	}
 }

@@ -118,7 +118,7 @@ namespace GrandLarceny
 				a_first.getHitBox().getOutBox().Y - 1 < a_second.getHitBox().getOutBox().Y + a_second.getHitBox().getOutBox().Height &&
 				a_first.getHitBox().getOutBox().Y + a_first.getHitBox().getOutBox().Height + 1 > a_second.getHitBox().getOutBox().Y);
 		}
-		public override void addObject(GameObject a_object)
+		public override void addOrRemoveObject(GameObject a_object)
 		{
 			m_changeList.AddLast(a_object);
 		}
