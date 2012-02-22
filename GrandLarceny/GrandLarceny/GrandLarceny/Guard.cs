@@ -305,6 +305,15 @@ namespace GrandLarceny
 						}
 					}
 				}
+				else if (t_collision is Player)
+				{
+					Player t_player = (Player)t_collision;
+					if (t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
+					{
+						m_chaseTarget = t_collision;
+						m_aiState = AIStateChasing.getInstance();
+					}
+				}
 			}
 			if (m_gravity == 0)
 			{
