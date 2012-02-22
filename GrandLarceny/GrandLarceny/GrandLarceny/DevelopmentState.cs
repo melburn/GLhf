@@ -152,7 +152,7 @@ namespace GrandLarceny
 					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), null, 0.002f);
 			m_btnPropHotkey = new Button("btn_tile_hotkey_normal", "btn_tile_hotkey_hover", "btn_tile_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 2
-					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 4), null, 0.002f);
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), null, 0.002f);
 
 			m_buttonList.AddLast(m_btnLadderHotkey);
 			m_buttonList.AddLast(m_btnTileHotkey);
