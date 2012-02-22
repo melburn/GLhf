@@ -47,6 +47,7 @@ namespace GrandLarceny
 			{
 				m_flashLight = new LightCone(this, "Images//LightCone//Ljus",  m_layer + 1, 300,70);
 			}
+			m_gravity = 5000;
 		}
         public Guard(Vector2 a_posV2, String a_sprite, float a_patrolPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
@@ -57,6 +58,7 @@ namespace GrandLarceny
             m_leftPatrolPoint = a_patrolPoint;
             m_rightPatrolPoint = a_patrolPoint;
 			m_aiState = AIStatepatroling.getInstance();
+			m_gravity = 5000;
 		}
 		public void setLeftGuardPoint(float a_x)
 		{
@@ -258,6 +260,7 @@ namespace GrandLarceny
 		}
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
+			Platform t_supportingPlatform = null;
 			foreach (Entity t_collision in a_collisionList)
 			{
 				if (t_collision is Wall)
@@ -270,7 +273,63 @@ namespace GrandLarceny
 					{
 						m_position.setX(t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
 					}
-					m_speed.X = 0;
+					stop();
+				}
+				else if (t_collision is Platform)
+				{
+					if (t_collision.getPosition().getGlobalY() < m_position.getGlobalY() + m_img.getSize().Y - 10)
+					{
+						if (m_speed.X < 0)
+						{
+							m_position.setX(t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+						}
+						else if (m_speed.X > 0)
+						{
+							m_position.setX(t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+						}
+						stop();
+					}
+					else
+					{
+						if (m_gravity > 0)
+						{
+							m_gravity = 0;
+							m_speed.Y = 0;
+							m_position.setY(t_collision.getPosition().getGlobalY() - m_img.getSize().Y);
+						}
+						if (t_supportingPlatform == null ||
+							(m_faceingRight && t_collision.getPosition().getGlobalX() > t_supportingPlatform.getPosition().getGlobalX()) ||
+							(!m_faceingRight && t_collision.getPosition().getGlobalX() < t_supportingPlatform.getPosition().getGlobalX()))
+						{
+							t_supportingPlatform = (Platform)t_collision;
+						}
+					}
+				}
+			}
+			if (m_gravity == 0)
+			{
+				if (t_supportingPlatform == null)
+				{
+					m_gravity = 500;
+				}
+				else
+				{
+					if (m_speed.X > 0)
+					{
+						if (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X < m_position.getGlobalX() + m_img.getSize().X)
+						{
+							m_position.setX(t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X - m_img.getSize().X);
+							stop();
+						}
+					}
+					else if (m_speed.X < 0)
+					{
+						if (t_supportingPlatform.getPosition().getGlobalX() > m_position.getGlobalX())
+						{
+							m_position.setX(t_supportingPlatform.getPosition().getGlobalX());
+							stop();
+						}
+					}
 				}
 			}
 		}
