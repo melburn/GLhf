@@ -59,9 +59,9 @@ namespace GrandLarceny
 
 		public Button(string a_normal, string a_hover, string a_pressed, Vector2 a_position, string a_buttonText, float a_layer)
 		{
-			setNormalTexture(Game.getInstance().Content.Load<Texture2D>(a_normal));
-			setHoverTexture(Game.getInstance().Content.Load<Texture2D>(a_hover));
-			setPressedTexture(Game.getInstance().Content.Load<Texture2D>(a_pressed));
+			setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_normal));
+			setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_hover));
+			setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_pressed));
 			m_text = new Text(a_position, m_buttonText, Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New10"), Color.Black, false);
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
@@ -154,7 +154,15 @@ namespace GrandLarceny
 
 		public Rectangle getBox()
 		{
-			return new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), (int)m_size.X, (int)m_size.Y);
+			return m_bounds;
+			/*
+			return new Rectangle(
+				(int)(m_position.getGlobalX()),
+				(int)(m_position.getGlobalY()),
+				(int)(m_size.X / Game.getInstance().m_camera.getZoom()),
+				(int)(m_size.Y / Game.getInstance().m_camera.getZoom())
+			);
+			*/
 		}
 		private void setNormalTexture(Texture2D a_texture)
 		{

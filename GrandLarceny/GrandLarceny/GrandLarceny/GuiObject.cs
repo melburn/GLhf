@@ -10,7 +10,7 @@ namespace GrandLarceny
 	{
 		private Vector2 m_resolution;
 
-		public GuiObject(Vector2 a_posV2, String a_sprite) : base(a_posV2, a_sprite, 0.002f)
+		public GuiObject(Vector2 a_posV2, String a_sprite) : base(a_posV2, "Images//GUI//" + a_sprite, 0.002f)
 		{
 			m_resolution = new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth, Game.getInstance().m_graphics.PreferredBackBufferHeight);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
@@ -21,7 +21,6 @@ namespace GrandLarceny
 		public override void draw(GameTime a_gameTime)
 		{
 			float t_zoom = Game.getInstance().m_camera.getZoom();
-			//CartesianCoordinate t_cartCoord2 = new CartesianCoordinate(m_position.getLocalCartesianCoordinates() / t_zoom, m_position.getParentPosition());
 			Vector2 t_cartCoord;
 			t_cartCoord.X = m_position.getLocalX() / t_zoom + m_position.getParentPosition().getGlobalX();
 			t_cartCoord.Y = m_position.getLocalY() / t_zoom + m_position.getParentPosition().getGlobalY();
