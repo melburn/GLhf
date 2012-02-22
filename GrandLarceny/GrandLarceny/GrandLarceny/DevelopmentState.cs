@@ -66,7 +66,7 @@ namespace GrandLarceny
 			Wall,
 			GuardLeft,
 			GuardRight,
-			Prop
+			HidingObject
 		}
 		private State m_itemToCreate;
 
@@ -150,7 +150,7 @@ namespace GrandLarceny
 			m_btnWallHotkey = new Button("btn_wall_hotkey_normal", "btn_wall_hotkey_hover", "btn_wall_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
 					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), null, 0.002f);
-			m_btnPropHotkey = new Button("btn_tile_hotkey_normal", "btn_tile_hotkey_hover", "btn_tile_hotkey_pressed"
+			m_btnPropHotkey = new Button("btn_props_hotkey_normal", "btn_props_hotkey_hover", "btn_props_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 2
 					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), null, 0.002f);
 
@@ -273,7 +273,7 @@ namespace GrandLarceny
 				setBuildingState(State.GuardRight);
 
 			if (m_currentKeyboard.IsKeyDown(Keys.O) && m_previousKeyboard.IsKeyUp(Keys.O))
-				setBuildingState(State.Prop);
+				setBuildingState(State.HidingObject);
 
 			if (m_currentKeyboard.IsKeyDown(Keys.Space) && m_previousKeyboard.IsKeyUp(Keys.Space))
 				if (m_gameObjectList != null)
@@ -362,9 +362,9 @@ namespace GrandLarceny
 							createWall();
 							break;
 						}
-						case State.Prop:
+						case State.HidingObject:
 						{
-							createProp();
+							createHidingObject();
 							break;
 						}
 					}
@@ -489,7 +489,7 @@ namespace GrandLarceny
 			if (a_button == m_btnDeleteHotkey)
 				setBuildingState(State.Delete);
 			if (a_button == m_btnPropHotkey)
-				setBuildingState(State.Prop);
+				setBuildingState(State.HidingObject);
 		}
 		
 		private void createAssetList(string a_assetDirectory) {
@@ -599,7 +599,7 @@ namespace GrandLarceny
 					m_textCurrentMode.setText("Set Left Point");
 					break;
 				}
-				case State.Prop:
+				case State.HidingObject:
 				{
 					m_btnPropHotkey.setState(2);
 					m_textCurrentMode.setText("Create Prop");
@@ -652,7 +652,7 @@ namespace GrandLarceny
 				case State.Background:
 					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Background//" + assetToCreate, 0.000f);
 					break;
-				case State.Prop:
+				case State.HidingObject:
 					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Prop//" + assetToCreate, 0.000f);
 					break;
 			}
@@ -729,11 +729,11 @@ namespace GrandLarceny
 
 		}
 
-		private void createProp()
+		private void createHidingObject()
 		{
 			if (collidedWithObject())
 				return;
-			Environment t_prop = new Environment(getTile(m_worldMouse), "Images//Prop//" + assetToCreate, 0.749f);
+			NonMovingObject t_prop = new NonMovingObject(getTile(m_worldMouse), "Images//Prop//" + assetToCreate, 0.749f);
 			m_gameObjectList.AddLast(t_prop);
 		}
 
