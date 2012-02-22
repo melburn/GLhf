@@ -122,6 +122,7 @@
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="MovingObject.cs" />
     <Compile Include="GuardDog.cs" />
+    <Compile Include="NonMovingObject.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="CollisionManager.cs" />
@@ -137,7 +138,6 @@
     <Compile Include="Loader.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuState.cs" />
-    <Compile Include="NonMovingPlatform.cs" />
     <Compile Include="NPE.cs" />
     <Compile Include="PauseState.cs" />
     <Compile Include="Platform.cs" />

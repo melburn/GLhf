@@ -16,7 +16,7 @@ namespace GrandLarceny
 			m_rotate = a_rotation;
 			if (a_lit)
 			{
-				m_light = new LightCone(this, "Images//LightCone//Ljus",a_layer , 300f, 200f);
+				m_light = new LightCone(this, "Images//LightCone//Ljus", a_layer, 300f, 200f);
 
 				(Game.getInstance().getState()).addObject(m_light);
 			}
