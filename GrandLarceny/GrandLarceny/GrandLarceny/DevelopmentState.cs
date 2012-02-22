@@ -47,6 +47,7 @@ namespace GrandLarceny
 		private Button m_btnSpotlightHotkey;
 		private Button m_btnGuardHotkey;
 		private Button m_btnWallHotkey;
+		private Button m_btnPropHotkey;
 
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
@@ -64,7 +65,8 @@ namespace GrandLarceny
 			Guard,
 			Wall,
 			GuardLeft,
-			GuardRight
+			GuardRight,
+			Prop
 		}
 		private State m_itemToCreate;
 
@@ -148,6 +150,9 @@ namespace GrandLarceny
 			m_btnWallHotkey = new Button("btn_wall_hotkey_normal", "btn_wall_hotkey_hover", "btn_wall_hotkey_pressed"
 				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 1
 					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 3), null, 0.002f);
+			m_btnPropHotkey = new Button("btn_tile_hotkey_normal", "btn_tile_hotkey_hover", "btn_tile_hotkey_pressed"
+				, new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - TILE_WIDTH * 2
+					, Game.getInstance().m_graphics.PreferredBackBufferHeight - TILE_HEIGHT * 4), null, 0.002f);
 
 			m_buttonList.AddLast(m_btnLadderHotkey);
 			m_buttonList.AddLast(m_btnTileHotkey);
@@ -158,6 +163,7 @@ namespace GrandLarceny
 			m_buttonList.AddLast(m_btnSpotlightHotkey);
 			m_buttonList.AddLast(m_btnGuardHotkey);
 			m_buttonList.AddLast(m_btnWallHotkey);
+			m_buttonList.AddLast(m_btnPropHotkey);
 
 			m_btnLadderHotkey.m_clickEvent		+= new Button.clickDelegate(guiButtonClick);
 			m_btnTileHotkey.m_clickEvent		+= new Button.clickDelegate(guiButtonClick);
@@ -168,6 +174,7 @@ namespace GrandLarceny
 			m_btnGuardHotkey.m_clickEvent		+= new Button.clickDelegate(guiButtonClick);
 			m_btnWallHotkey.m_clickEvent		+= new Button.clickDelegate(guiButtonClick);
 			m_btnDeleteHotkey.m_clickEvent		+= new Button.clickDelegate(guiButtonClick);
+			m_btnPropHotkey.m_clickEvent		+= new Button.clickDelegate(guiButtonClick);
 
 			setBuildingState(State.None);
 		}
@@ -265,14 +272,12 @@ namespace GrandLarceny
 			if (m_currentKeyboard.IsKeyDown(Keys.M) && m_previousKeyboard.IsKeyUp(Keys.M))
 				setBuildingState(State.GuardRight);
 
+			if (m_currentKeyboard.IsKeyDown(Keys.O) && m_previousKeyboard.IsKeyUp(Keys.O))
+				setBuildingState(State.Prop);
+
 			if (m_currentKeyboard.IsKeyDown(Keys.Space) && m_previousKeyboard.IsKeyUp(Keys.Space))
 				if (m_gameObjectList != null)
 					Game.getInstance().m_camera.setPosition(m_gameObjectList.First().getPosition().getGlobalCartesianCoordinates());
-
-			if (m_currentKeyboard.IsKeyDown(Keys.O) && m_previousKeyboard.IsKeyUp(Keys.O)) {
-				if (m_selectedObject != null)
-					m_selectedObject.addRotation((float)Math.PI / 2);
-			}	
 
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
 			{
@@ -355,6 +360,11 @@ namespace GrandLarceny
 						case State.Wall:
 						{
 							createWall();
+							break;
+						}
+						case State.Prop:
+						{
+							createProp();
 							break;
 						}
 					}
@@ -478,6 +488,8 @@ namespace GrandLarceny
 				setBuildingState(State.Wall);
 			if (a_button == m_btnDeleteHotkey)
 				setBuildingState(State.Delete);
+			if (a_button == m_btnPropHotkey)
+				setBuildingState(State.Prop);
 		}
 		
 		private void createAssetList(string a_assetDirectory) {
@@ -587,6 +599,14 @@ namespace GrandLarceny
 					m_textCurrentMode.setText("Set Left Point");
 					break;
 				}
+				case State.Prop:
+				{
+					m_btnPropHotkey.setState(2);
+					m_textCurrentMode.setText("Create Prop");
+					createAssetList("Content//Images//Prop//");
+					selectAsset(m_assetButtonList.First());
+					break;
+				}
 			}
 		}
 
@@ -631,6 +651,9 @@ namespace GrandLarceny
 					break;
 				case State.Background:
 					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Background//" + assetToCreate, 0.000f);
+					break;
+				case State.Prop:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Prop//" + assetToCreate, 0.000f);
 					break;
 			}
 		}
@@ -704,6 +727,14 @@ namespace GrandLarceny
 			}
 			m_gameObjectList.Remove(a_gameObject);
 
+		}
+
+		private void createProp()
+		{
+			if (collidedWithObject())
+				return;
+			Environment t_prop = new Environment(getTile(m_worldMouse), "Images//Prop//" + assetToCreate, 0.749f);
+			m_gameObjectList.AddLast(t_prop);
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
