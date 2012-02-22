@@ -17,6 +17,11 @@ namespace GrandLarceny
 			return a_cs1.Collides(a_cs2);
 		}
 
+		public static bool Contains(CollisionShape a_cs1, Vector2 a_cs2)
+		{
+			return a_cs1.contains(a_cs2);
+		}
+
 		public static Stack<Entity> getCollisionsWithLineSegment(Vector2 a_point1, Vector2 a_point2)
 		{
 			Stack<Entity> t_ret = new Stack<Entity>();
