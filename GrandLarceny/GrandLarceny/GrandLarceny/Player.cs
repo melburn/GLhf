@@ -25,8 +25,6 @@ namespace GrandLarceny
 		public const int SLIDESPEED = 25;
 		public const int ROLLSPEED = 1000;
 
-		public const int ROLLSTANDDIFF = 65;
-
 		private float m_rollTimer;
 
 		private string m_standHiding = "";
