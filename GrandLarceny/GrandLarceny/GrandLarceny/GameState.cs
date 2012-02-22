@@ -34,6 +34,7 @@ namespace GrandLarceny
 
 		public override void load()
 		{
+			Game.getInstance().m_camera.setZoom(1.0f);
 			m_gameObjectList = Loader.getInstance().loadLevel(m_currentLevel);
 			if (player != null)
 			{
