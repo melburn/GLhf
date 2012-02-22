@@ -733,7 +733,7 @@ namespace GrandLarceny
 		{
 			if (collidedWithObject())
 				return;
-			NonMovingObject t_prop = new NonMovingObject(getTile(m_worldMouse), "Images//Prop//" + assetToCreate, 0.749f);
+			DuckHideObject t_prop = new DuckHideObject(getTile(m_worldMouse), "Images//Prop//" + assetToCreate, 0.700f);
 			m_gameObjectList.AddLast(t_prop);
 		}
 
