@@ -23,5 +23,13 @@ namespace GrandLarceny
 			}
 			base.update(a_gameTime);
 		}
+		public AIState getAIState()
+		{
+			return m_aiState;
+		}
+		public void setAIState(AIState a_aIState)
+		{
+			m_aiState = a_aIState;
+		}
 	}
 }
