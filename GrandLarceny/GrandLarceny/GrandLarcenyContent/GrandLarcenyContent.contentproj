@@ -520,13 +520,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\wall_tile_basic_01.png">
-      <Name>wall_tile_basic_01</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Sprite\hero_climb.png">
       <Name>hero_climb</Name>
       <Importer>TextureImporter</Importer>
