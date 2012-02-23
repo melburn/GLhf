@@ -35,11 +35,15 @@ namespace GrandLarceny
 				{
 					if (t_guard.haspatrol())
 					{
-						if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftpatrolPoint() && t_guard.getHorizontalSpeed() <= 0)
+						if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftpatrolPoint())
 						{
 							t_guard.goRight();
 						}
-						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightpatrolPoint() && t_guard.getHorizontalSpeed() >= 0)
+						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightpatrolPoint())
+						{
+							t_guard.goLeft();
+						}
+						else if (t_guard.getHorizontalSpeed() == 0)
 						{
 							t_guard.goLeft();
 						}
