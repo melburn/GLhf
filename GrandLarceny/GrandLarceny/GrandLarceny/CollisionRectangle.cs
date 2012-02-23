@@ -148,5 +148,9 @@ namespace GrandLarceny
 
 			return true;
 		  }
+		public override Position getPosition()
+		{
+			return new CartesianCoordinate(new Vector2(m_position.getGlobalX() + m_xOffset, m_position.getGlobalY() + m_yOffset));
+		}
 	}
 }

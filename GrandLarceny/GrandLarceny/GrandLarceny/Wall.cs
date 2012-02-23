@@ -35,7 +35,7 @@ namespace GrandLarceny
 
 					}
 					//Colliding with ze right Wall wall
-					else if ((int)t_player.getLastPosition().X + getHitBox().getOutBox().Width - 1 <= (int)getLastPosition().X)
+					else if ((int)t_player.getLastPosition().X + t_player.getHitBox().getOutBox().Width - 1 <= (int)getLastPosition().X)
 					{
 						t_player.getPosition().setX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
 						if (t_player.getCurrentState() == Player.State.Jumping)
