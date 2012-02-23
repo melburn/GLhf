@@ -71,6 +71,8 @@ namespace GrandLarceny
 
 		protected override void Update(GameTime a_gameTime)
 		{
+			if (!IsActive)
+				return;
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{
 				Exit();
