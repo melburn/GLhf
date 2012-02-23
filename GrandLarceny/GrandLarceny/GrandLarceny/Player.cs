@@ -458,6 +458,10 @@ namespace GrandLarceny
 			{
 				m_img.setSprite("Images//Sprite//hero_hang");
 			}
+			else if (m_currentState == State.Climbing)
+			{
+				m_img.setSprite("Images//Sprite//hero_climb");
+			}
 			else if (m_currentState == State.Hiding)
 			{
 				m_img.setSprite(m_currentHidingImage);
