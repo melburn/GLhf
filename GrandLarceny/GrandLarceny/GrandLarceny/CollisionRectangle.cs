@@ -51,8 +51,8 @@ namespace GrandLarceny
 			{
 				CollisionRectangle t_cr = (CollisionRectangle)a_cs;
 
-				return (m_xOffset + m_position.getGlobalX() + 1 <= t_cr.m_xOffset + t_cr.m_position.getGlobalX() + t_cr.m_width &&
-					m_xOffset + m_position.getGlobalX() + m_width - 1 >= t_cr.m_xOffset + t_cr.m_position.getGlobalX() &&
+				return (m_xOffset + m_position.getGlobalX() <= t_cr.m_xOffset + t_cr.m_position.getGlobalX() + t_cr.m_width &&
+					m_xOffset + m_position.getGlobalX() + m_width >= t_cr.m_xOffset + t_cr.m_position.getGlobalX() &&
 					m_yOffset + m_position.getGlobalY() <= t_cr.m_yOffset + t_cr.m_position.getGlobalY() + t_cr.m_height &&
 					m_yOffset + m_position.getGlobalY() + m_height >= t_cr.m_yOffset + t_cr.m_position.getGlobalY());
 			}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
@@ -19,14 +20,17 @@ namespace GrandLarceny
 			if (a_collid is Player)
 			{
 				Player t_player = (Player)a_collid;
+				Rectangle t_playerOutBox = t_player.getHitBox().getOutBox();
 				if (CollisionManager.Collides(this.getHitBox(), a_collid.getHitBox()))
 				{
 					
 					//Colliding with ze left Wall wall
 					if ((int)t_player.getLastPosition().X + 1 >= (int)getLastPosition().X + getHitBox().getOutBox().Width)
 					{
-						t_player.getPosition().setX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
-						if (t_player.getCurrentState() == Player.State.Jumping)
+						t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
+						if (t_player.getCurrentState() == Player.State.Jumping
+							&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
+							&& (GameState.m_currentKeyInput.IsKeyDown(Keys.Left) || GameState.m_currentKeyInput.IsKeyDown(Keys.Right)))
 						{
 							t_player.setState(Player.State.Slide);
 							t_player.setFacingRight(true);
@@ -35,10 +39,12 @@ namespace GrandLarceny
 
 					}
 					//Colliding with ze right Wall wall
-					else if ((int)t_player.getLastPosition().X + t_player.getHitBox().getOutBox().Width - 1 <= (int)getLastPosition().X)
+					else if ((int)t_player.getLastPosition().X + t_playerOutBox.Width - 1 <= (int)getLastPosition().X)
 					{
-						t_player.getPosition().setX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
-						if (t_player.getCurrentState() == Player.State.Jumping)
+						t_player.setNextPositionX(getPosition().getGlobalX() - t_playerOutBox.Width);
+						if (t_player.getCurrentState() == Player.State.Jumping
+							&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
+							&& (GameState.m_currentKeyInput.IsKeyDown(Keys.Left) || GameState.m_currentKeyInput.IsKeyDown(Keys.Right)))
 						{
 							t_player.setState(Player.State.Slide);
 							t_player.setFacingRight(false);
@@ -49,11 +55,12 @@ namespace GrandLarceny
 					//Colliding with ze zeeling
 					else if ((int)t_player.getLastPosition().Y >= (int)getLastPosition().Y + getHitBox().getOutBox().Height)
 					{
-						t_player.getPosition().setY(getPosition().getGlobalY() + getHitBox().getOutBox().Height);
+						t_player.setNextPositionY(getPosition().getGlobalY() + getHitBox().getOutBox().Height);
 						t_player.setSpeedY(0);
 					}
 				}
-				t_player.setCollidedWithWall(true);
+				if(GameState.checkBigBoxCollision(getHitBox().getOutBox(), t_player.getSlideBox().getOutBox()))
+					t_player.setCollidedWithWall(true);
 			}
 		}
 	}
