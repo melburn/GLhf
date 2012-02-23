@@ -177,7 +177,10 @@ namespace GrandLarceny
 		{
 			return m_chaseTarget;
 		}
-
+		public void setChaseTarget(Entity a_target)
+		{
+			m_chaseTarget = a_target;
+		}
 		internal bool isRunning()
 		{
 			return m_running;
@@ -326,6 +329,15 @@ namespace GrandLarceny
 					{
 						m_chaseTarget = t_collision;
 						m_aiState = AIStateChasing.getInstance();
+					}
+				}
+				else if (t_collision is Guard)
+				{
+					Guard t_otherGuard = (Guard)t_collision;
+					if(m_aiState is AIStateChasing && t_otherGuard.getAIState() is AIStatepatroling)
+					{
+						t_otherGuard.setChaseTarget(m_chaseTarget);
+						t_otherGuard.setAIState(AIStateChasing.getInstance());
 					}
 				}
 			}
