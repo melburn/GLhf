@@ -40,8 +40,8 @@ namespace GrandLarceny
 
 		public override Rectangle getOutBox()
 		{
-			m_OutBox.X = (int)(m_xOffset + m_position.getGlobalX());
-			m_OutBox.Y = (int)(m_yOffset + m_position.getGlobalY());
+			m_OutBox.X = (int)(Math.Floor(m_xOffset + m_position.getGlobalX()));
+			m_OutBox.Y = (int)(Math.Floor(m_yOffset + m_position.getGlobalY()));
 			return m_OutBox;
 		}
 
@@ -51,10 +51,10 @@ namespace GrandLarceny
 			{
 				CollisionRectangle t_cr = (CollisionRectangle)a_cs;
 
-				return (m_xOffset + m_position.getGlobalX() <= t_cr.m_xOffset + t_cr.m_position.getGlobalX() + t_cr.m_width &&
-					m_xOffset + m_position.getGlobalX() + m_width >= t_cr.m_xOffset + t_cr.m_position.getGlobalX() &&
-					m_yOffset + m_position.getGlobalY() <= t_cr.m_yOffset + t_cr.m_position.getGlobalY() + t_cr.m_height &&
-					m_yOffset + m_position.getGlobalY() + m_height >= t_cr.m_yOffset + t_cr.m_position.getGlobalY());
+				return (m_xOffset + m_position.getGlobalX() < t_cr.m_xOffset + t_cr.m_position.getGlobalX() + t_cr.m_width &&
+					m_xOffset + m_position.getGlobalX() + m_width > t_cr.m_xOffset + t_cr.m_position.getGlobalX() &&
+					m_yOffset + m_position.getGlobalY() < t_cr.m_yOffset + t_cr.m_position.getGlobalY() + t_cr.m_height &&
+					m_yOffset + m_position.getGlobalY() + m_height > t_cr.m_yOffset + t_cr.m_position.getGlobalY());
 			}
 			else if (a_cs is CollisionTriangle)
 			{

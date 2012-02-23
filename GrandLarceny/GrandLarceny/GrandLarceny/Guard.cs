@@ -284,11 +284,11 @@ namespace GrandLarceny
 				{
 					if (m_speed.X < 0)
 					{
-						m_position.setX(t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
 					}
 					else if (m_speed.X > 0)
 					{
-						m_position.setX(t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
 					}
 					stop();
 				}
@@ -298,11 +298,11 @@ namespace GrandLarceny
 					{
 						if (m_speed.X < 0)
 						{
-							m_position.setX(t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
 						}
 						else if (m_speed.X > 0)
 						{
-							m_position.setX(t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
 						}
 						stop();
 					}
@@ -312,7 +312,7 @@ namespace GrandLarceny
 						{
 							m_gravity = 0;
 							m_speed.Y = 0;
-							m_position.setY(t_collision.getPosition().getGlobalY() - m_img.getSize().Y);
+							m_nextPosition.Y = (t_collision.getPosition().getGlobalY() - m_img.getSize().Y);
 						}
 						if (t_supportingPlatform == null ||
 							(m_facingRight && t_collision.getPosition().getGlobalX() > t_supportingPlatform.getPosition().getGlobalX()) ||
@@ -353,7 +353,7 @@ namespace GrandLarceny
 					{
 						if (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X < m_collisionShape.getOutBox().X + m_collisionShape.getOutBox().Width)
 						{
-							m_position.setX(t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X - m_collisionShape.getOutBox().Width);
+							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X - m_collisionShape.getOutBox().Width);
 							stop();
 						}
 					}
@@ -361,7 +361,7 @@ namespace GrandLarceny
 					{
 						if (t_supportingPlatform.getPosition().getGlobalX() > m_collisionShape.getOutBox().X)
 						{
-							m_position.setX(t_supportingPlatform.getPosition().getGlobalX());
+							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX());
 							stop();
 						}
 					}

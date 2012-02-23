@@ -70,8 +70,8 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_standHitBox = new CollisionRectangle(0, 0, 72 - 1, 138 - 1, m_position);
-			m_rollHitBox = new CollisionRectangle(0, 0, 72, 67, m_position);
+			m_standHitBox = new CollisionRectangle(0, 0, 70, 134, m_position);
+			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
 			m_collisionShape = m_standHitBox;
 		}
@@ -128,7 +128,10 @@ namespace GrandLarceny
 			}
 			flipSprite();
 			base.update(a_gameTime);
-			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
+			if ((Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates() - m_cameraPoint).Length() > 3)
+			{
+				Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
+			}
 		}
 
 		public State getCurrentState()
@@ -517,6 +520,7 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime)
 		{
+			Console.Out.WriteLine(m_position.getGlobalX());
 			base.draw(a_gameTime);
 		}
 
