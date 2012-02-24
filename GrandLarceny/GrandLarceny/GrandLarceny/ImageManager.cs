@@ -49,7 +49,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void draw(Vector2 a_imgPosition, float a_rotation, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f, float a_xScale = 1.0f, float a_yScale = 1.0f)
+		public void draw(Vector2 a_imgPosition, float a_rotation, Vector2 a_origin, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f, float a_xScale = 1.0f, float a_yScale = 1.0f)
 		{
 			if (a_xScale <= 0)
 			{
@@ -71,7 +71,7 @@ namespace GrandLarceny
 				new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
 				a_color,
 				a_rotation,
-				Vector2.Zero,
+				a_origin,
 				a_spriteEffect,
 				a_layer
 			);

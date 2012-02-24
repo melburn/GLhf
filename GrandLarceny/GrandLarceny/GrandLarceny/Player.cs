@@ -520,7 +520,6 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime)
 		{
-			Console.Out.WriteLine(m_position.getGlobalX());
 			base.draw(a_gameTime);
 		}
 

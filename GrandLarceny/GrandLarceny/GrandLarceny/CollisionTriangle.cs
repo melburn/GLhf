@@ -75,7 +75,7 @@ namespace GrandLarceny
 			t_ret[0] = new Vector2((m_AOffset.X + m_BOffset.X + m_COffset.X) / 3 + m_position.getGlobalX(), (m_AOffset.Y + m_BOffset.Y + m_COffset.Y) / 3 + m_position.getGlobalY());
 			return t_ret;
 		}
-		public bool contains(Vector2 a_point)
+		public override bool contains(Vector2 a_point)
 		{
 			Vector2 t_pointA = m_AOffset + m_position.getGlobalCartesianCoordinates();
 			Vector2 t_pointB = m_BOffset + m_position.getGlobalCartesianCoordinates();

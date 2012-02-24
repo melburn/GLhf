@@ -14,13 +14,13 @@ namespace GrandLarceny
 			base(a_position, a_sprite, a_layer)
 		{
 			m_rotate = a_rotation;
+			m_rotationPoint.Y = m_img.getSize().Y / 2;
 			if (a_lit)
 			{
 				m_light = new LightCone(this, "Images//LightCone//Ljus", a_layer + 0.001f, 300f, 200f);
 
 				(Game.getInstance().getState()).addObject(m_light);
 			}
-			m_imgOffsetX = -29;
 		}
 		public override void loadContent()
 		{
@@ -34,6 +34,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
+			m_rotate += 0.01f;
 			if (m_light != null)
 			{
 				m_light.setRotation(m_rotate);

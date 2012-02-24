@@ -25,7 +25,7 @@ namespace GrandLarceny
 			t_cartCoord.X = m_position.getLocalX() / t_zoom + m_position.getParentPosition().getGlobalX();
 			t_cartCoord.Y = m_position.getLocalY() / t_zoom + m_position.getParentPosition().getGlobalY();
 
-			m_img.draw(t_cartCoord, m_rotate, m_color, m_spriteEffects, m_layer, 1.0f / t_zoom, 1.0f / t_zoom);
+			m_img.draw(t_cartCoord, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, 1.0f / t_zoom, 1.0f / t_zoom);
 		}
 	}
 }
