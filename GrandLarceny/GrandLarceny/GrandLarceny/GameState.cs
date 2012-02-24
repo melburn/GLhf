@@ -82,12 +82,13 @@ namespace GrandLarceny
 					foreach (GameObject t_secondGameObject in m_gameObjectList)
 					{
 						if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject
-							&& checkBigBoxCollision((Entity)t_firstGameObject, (Entity)t_secondGameObject))
+							&& checkBigBoxCollision(((Entity)t_firstGameObject).getHitBox().getOutBox(), ((Entity)t_secondGameObject).getHitBox().getOutBox()))
 						{
 							t_collided.Add((Entity)t_secondGameObject);
 						}
 					}
 					((MovingObject)t_firstGameObject).collisionCheck(t_collided);
+					((Entity)t_firstGameObject).updatePosition();
 
 				}
 
@@ -112,12 +113,12 @@ namespace GrandLarceny
 			}
 		}
 
-		public static bool checkBigBoxCollision(Entity a_first, Entity a_second)
+		public static bool checkBigBoxCollision(Rectangle a_first, Rectangle a_second)
 		{
-			return (a_first.getHitBox().getOutBox().X - 1 < a_second.getHitBox().getOutBox().X + a_second.getHitBox().getOutBox().Width &&
-				a_first.getHitBox().getOutBox().X + a_first.getHitBox().getOutBox().Width + 1 > a_second.getHitBox().getOutBox().X &&
-				a_first.getHitBox().getOutBox().Y - 1 < a_second.getHitBox().getOutBox().Y + a_second.getHitBox().getOutBox().Height &&
-				a_first.getHitBox().getOutBox().Y + a_first.getHitBox().getOutBox().Height + 1 > a_second.getHitBox().getOutBox().Y);
+			return (a_first.X - 1 < a_second.X + a_second.Width &&
+				a_first.X + a_first.Width + 1 > a_second.X &&
+				a_first.Y - 1 < a_second.Y + a_second.Height &&
+				a_first.Y + a_first.Height + 1 > a_second.Y);
 		}
 		public override void addOrRemoveObject(GameObject a_object)
 		{

@@ -16,6 +16,7 @@ namespace GrandLarceny
 		protected float m_gravity = 0f;
 
 		protected Vector2 m_lastPosition;
+		protected Vector2 m_nextPosition;
 		[NonSerialized]
 		protected CollisionShape m_collisionShape;
 		
@@ -43,6 +44,7 @@ namespace GrandLarceny
 			float t_deltaTime = ((float)(a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
 			m_speed.Y += m_gravity * t_deltaTime;
 			m_position.plusWith(m_speed * t_deltaTime);
+			m_nextPosition = m_position.getLocalCartesianCoordinates();
 		}
 
 		public CollisionShape getHitBox()
@@ -89,6 +91,31 @@ namespace GrandLarceny
 		public virtual bool isTransparent()
 		{
 			return true;
+		}
+
+		public void setNextPositionX(float a_x)
+		{
+			m_nextPosition.X = a_x;
+		}
+
+		public void setNextPositionY(float a_y)
+		{
+			m_nextPosition.Y = a_y;
+		}
+
+		public void setNextPosition(Vector2 a_newPosition)
+		{
+			m_nextPosition = a_newPosition;
+		}
+
+		public Vector2 getNextPosition()
+		{
+			return m_nextPosition;
+		}
+
+		public void updatePosition()
+		{
+			m_position.setCartesianCoordinates(m_nextPosition);
 		}
 	}
 }

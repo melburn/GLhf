@@ -31,10 +31,12 @@ namespace GrandLarceny
 					if (Keyboard.GetState().IsKeyDown(Keys.Up))
 					{
 						t_player.setSpeedX(0);
+						if (!(t_player.getCurrentState() == Player.State.Climbing))
+							t_player.getPosition().plusYWith(-1);
 						t_player.setState(Player.State.Climbing);
 						if (t_player.getSpeed().Y < -Player.CLIMBINGSPEED || t_player.getSpeed().Y > Player.CLIMBINGSPEED)
 							t_player.setSpeedY(0);
-						t_player.getPosition().setX(getPosition().getGlobalX());
+						t_player.setNextPositionX(getPosition().getGlobalX());
 					}
 				}
 			}

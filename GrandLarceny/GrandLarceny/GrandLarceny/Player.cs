@@ -35,6 +35,8 @@ namespace GrandLarceny
 		private CollisionShape m_standHitBox;
 		[NonSerialized]
 		private CollisionShape m_rollHitBox;
+		[NonSerialized]
+		private CollisionShape m_SlideBox;
 
 		private State m_currentState = State.Stop;
 		private State m_lastState = State.Stop;
@@ -68,14 +70,16 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_standHitBox = new CollisionRectangle(0, 0, 72 - 1, 138 - 1, m_position);
-			m_rollHitBox = new CollisionRectangle(0, 0, 72, 67, m_position);
+			m_standHitBox = new CollisionRectangle(0, 0, 70, 134, m_position);
+			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
+			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
 			m_collisionShape = m_standHitBox;
 		}
 
 		public override void update(GameTime a_gameTime)
 		{
 			changeAnimation();
+			updateState();
 			m_lastState = m_currentState;
 			m_gravity = 1000f;
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
@@ -124,7 +128,10 @@ namespace GrandLarceny
 			}
 			flipSprite();
 			base.update(a_gameTime);
-			Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
+			if ((Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates() - m_cameraPoint).Length() > 3)
+			{
+				Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
+			}
 		}
 
 		public State getCurrentState()
@@ -321,6 +328,7 @@ namespace GrandLarceny
 
 		private void updateClimbing()
 		{
+			m_gravity = 0;
 			if (GameState.m_currentKeyInput.IsKeyDown(Keys.Up))
 			{
 				m_speed.Y = -CLIMBINGSPEED;
@@ -331,7 +339,6 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_gravity = 0;
 				m_speed.Y = 0;
 			}
 			if (GameState.m_currentKeyInput.IsKeyDown(Keys.Space) && GameState.m_previousKeyInput.IsKeyUp(Keys.Space))
@@ -458,11 +465,17 @@ namespace GrandLarceny
 			{
 				m_img.setSprite("Images//Sprite//hero_hang");
 			}
+			else if (m_currentState == State.Climbing)
+			{
+				m_img.setSprite("Images//Sprite//hero_climb");
+			}
 			else if (m_currentState == State.Hiding)
 			{
 				m_img.setSprite(m_currentHidingImage);
 			}
-
+		}
+		private void updateState()
+		{
 			if (m_currentState != m_lastState)
 			{
 				if (m_lastState == State.Rolling || m_lastState == State.Hiding || m_lastState == State.Hanging)
@@ -484,7 +497,7 @@ namespace GrandLarceny
 						{
 							m_imgOffsetX = -m_rollHitBox.getOutBox().Width;
 						}
-						m_imgOffsetY -=  m_img.getSize().Y -m_rollHitBox.getOutBox().Height;
+						m_imgOffsetY -= m_img.getSize().Y - m_rollHitBox.getOutBox().Height;
 						m_position.setY(m_position.getLocalY() + (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
 						Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.getOutBox().Height);
 					}
@@ -503,7 +516,6 @@ namespace GrandLarceny
 					m_collisionShape = m_rollHitBox;
 				}
 			}
-
 		}
 
 		public override void draw(GameTime a_gameTime)
@@ -688,6 +700,11 @@ namespace GrandLarceny
 		public void setHidingImage(String a_imgPath)
 		{
 			m_currentHidingImage = a_imgPath;
+		}
+
+		public CollisionShape getSlideBox()
+		{
+			return m_SlideBox;
 		}
 	}
 }

@@ -228,7 +228,9 @@ namespace GrandLarceny
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
 				if (m_selectedObject is Guard) {
 					Guard t_guard = (Guard)m_selectedObject;
-					m_textGuardInfo.setText("R: " + t_guard.getRightpatrolPoint() + " L: " + t_guard.getLeftpatrolPoint());
+					m_textGuardInfo.setText("R: " + t_guard.getRightpatrolPoint() / 72 + " L: " + t_guard.getLeftpatrolPoint() / 72);
+				} else {
+					m_textGuardInfo.setText("");
 				}
 			}
 		}
@@ -315,13 +317,11 @@ namespace GrandLarceny
 
 			if (m_currentMouse.MiddleButton == ButtonState.Pressed && m_previousMouse.MiddleButton == ButtonState.Pressed) {
 				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates();
-				t_difference.X = (Mouse.GetState().X - Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / 10;
-				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / 10;
+				t_difference.X = (Mouse.GetState().X - Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / 20;
+				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / 20;
 				Game.getInstance().m_camera.getPosition().plusWith(t_difference);
 			}
-			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) 
-				updateMouseDrag();
-			
+
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released && m_itemToCreate != State.Delete && m_itemToCreate != State.None && !collidedWithGui())
 			{
 				if (assetToCreate != null) {
@@ -385,6 +385,9 @@ namespace GrandLarceny
 				return;
 			}
 
+			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) 
+				updateMouseDrag();
+
 			if (m_currentMouse.RightButton == ButtonState.Pressed && m_itemToCreate != State.None)
 				setBuildingState(State.None);
 
@@ -428,6 +431,8 @@ namespace GrandLarceny
 
 		private void updateMouseDrag()
 		{
+			if (m_itemToCreate == State.GuardLeft || m_itemToCreate == State.GuardRight)
+				return;
 			Vector2 t_mousePosition = getTile(m_worldMouse);
 
 			m_selectedObject.getPosition().setX(t_mousePosition.X);
@@ -703,7 +708,7 @@ namespace GrandLarceny
 		{
 			if (collidedWithObject())
 				return;
-			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//" + assetToCreate, 0.0f, 0.0f, true, false, 0.300f);
+			Guard t_guard = new Guard(getTile(m_worldMouse), "Images//Sprite//" + assetToCreate, getTile(m_worldMouse).X, true, false, 0.300f);
 			m_gameObjectList.AddLast(t_guard);
 		}
 

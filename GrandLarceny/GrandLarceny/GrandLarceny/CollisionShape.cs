@@ -22,6 +22,9 @@ namespace GrandLarceny
 		{
 			return m_OutBox;
 		}
-
+		public virtual Position getPosition()
+		{
+			return m_position;
+		}
 	}
 }
