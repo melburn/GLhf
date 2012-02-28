@@ -30,8 +30,57 @@ namespace GrandLarceny
 			if (a_agent is Guard)
 			{
 				Guard t_guard = (Guard)a_agent;
-				throw new NotImplementedException();
-				//return this;
+				if (t_guard.hasNoLampSwitchTargets())
+				{
+					return AIStatepatroling.getInstance();
+				}
+				else
+				{
+					LampSwitch t_lampSwitch = t_guard.getFirstLampSwitchTarget();
+					while (!t_lampSwitch.isOn())
+					{
+						t_guard.removeFirstLampSwitchTarget();
+						if (t_guard.hasNoLampSwitchTargets())
+						{
+							return AIStatepatroling.getInstance();
+						}
+						t_lampSwitch = t_guard.getFirstLampSwitchTarget();
+					}
+					while (Math.Abs(t_lampSwitch.getPosition().getGlobalX() - a_agent.getPosition().getGlobalX()) < 10)
+					{
+						t_lampSwitch.toogleSwitch();
+						//toogleSwitch will remove the switch from the guard
+						t_lampSwitch = t_guard.getFirstLampSwitchTarget();
+						while (!t_lampSwitch.isOn())
+						{
+							t_guard.removeFirstLampSwitchTarget();
+							if (t_guard.hasNoLampSwitchTargets())
+							{
+								return AIStatepatroling.getInstance();
+							}
+							t_lampSwitch = t_guard.getFirstLampSwitchTarget();
+						}
+					}
+					if (t_guard.isRunning())
+					{
+						t_guard.setRunning(false);
+					}
+					if (t_guard.getPosition().getGlobalX() < t_lampSwitch.getPosition().getGlobalX())
+					{
+						if (t_guard.getHorizontalSpeed() <= 0)
+						{
+							t_guard.goRight();
+						}
+					}
+					if (t_guard.getPosition().getGlobalX() > t_lampSwitch.getPosition().getGlobalX())
+					{
+						if (t_guard.getHorizontalSpeed() >= 0)
+						{
+							t_guard.goLeft();
+						}
+					}
+					return this;
+				}
 			}
 			else
 			{
