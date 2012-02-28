@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class SpotLight : MovingObject
+	public class SpotLight : MovingObject
 	{
 		LightCone m_light;
 		public SpotLight(Vector2 a_position, string a_sprite, float a_layer, float a_rotation, bool a_lit) :
@@ -17,7 +17,7 @@ namespace GrandLarceny
 			m_rotationPoint.Y = m_img.getSize().Y / 2;
 			if (a_lit)
 			{
-				m_light = new LightCone(this, "Images//LightCone//Ljus", a_layer + 0.001f, 300f, 200f);
+				m_light = new LightCone(this, "Images//LightCone//Ljus", a_layer + 0.001f, 300f, 300f);
 
 				(Game.getInstance().getState()).addObject(m_light);
 			}

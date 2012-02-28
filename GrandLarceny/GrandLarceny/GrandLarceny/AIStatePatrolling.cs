@@ -33,47 +33,54 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (t_guard.haspatrol())
+					if (!t_guard.hasNoLampSwitchTargets())
 					{
-						if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftpatrolPoint())
-						{
-							t_guard.goRight();
-						}
-						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightpatrolPoint())
-						{
-							t_guard.goLeft();
-						}
-						else if (t_guard.getHorizontalSpeed() == 0)
-						{
-							t_guard.goLeft();
-						}
+						return AIStateGoingToTheSwitch.getInstance();
 					}
 					else
 					{
-						float t_guardPoint = t_guard.getLeftpatrolPoint();
-						if (t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
+						if (t_guard.haspatrol())
 						{
-							if (t_guard.getHorizontalSpeed() >= 0)
+							if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftpatrolPoint())
 							{
 								t_guard.goRight();
 							}
-						}
-						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
-						{
-							if (t_guard.getHorizontalSpeed() <= 0)
+							else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightpatrolPoint())
+							{
+								t_guard.goLeft();
+							}
+							else if (t_guard.getHorizontalSpeed() == 0)
 							{
 								t_guard.goLeft();
 							}
 						}
 						else
 						{
-							if (t_guard.getHorizontalSpeed() != 0)
+							float t_guardPoint = t_guard.getLeftpatrolPoint();
+							if (t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
 							{
-								t_guard.stop();
+								if (t_guard.getHorizontalSpeed() >= 0)
+								{
+									t_guard.goRight();
+								}
+							}
+							else if (t_guard.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
+							{
+								if (t_guard.getHorizontalSpeed() <= 0)
+								{
+									t_guard.goLeft();
+								}
+							}
+							else
+							{
+								if (t_guard.getHorizontalSpeed() != 0)
+								{
+									t_guard.stop();
+								}
 							}
 						}
+						return this;
 					}
-					return this;
 				}
 			}
 			else if (a_agent is GuardDog)
