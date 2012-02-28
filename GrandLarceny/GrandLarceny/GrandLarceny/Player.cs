@@ -43,6 +43,8 @@ namespace GrandLarceny
 
 		[NonSerialized]
 		private bool m_isInLight;
+		[NonSerialized]
+		private bool m_onLadder;
 
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
@@ -282,7 +284,6 @@ namespace GrandLarceny
 				{
 					m_speed.X = Math.Max(-PLAYERSPEED, m_speed.X - AIRDEACCELERATION * a_deltaTime);
 				}
-				m_facingRight = false;
 			}
 			else if (GameState.m_currentKeyInput.IsKeyDown(Keys.Right))
 			{
@@ -294,8 +295,11 @@ namespace GrandLarceny
 				{
 					m_speed.X = Math.Min(PLAYERSPEED, m_speed.X + AIRDEACCELERATION * a_deltaTime);
 				}
-				m_facingRight = true;
 			}
+			if (m_speed.X > 0)
+				m_facingRight = true;
+			else if (m_speed.X < 0)
+				m_facingRight = false;
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		}
 
@@ -361,10 +365,19 @@ namespace GrandLarceny
 				else
 				{
 					m_speed.Y = 0;
+					if (m_facingRight)
+					{
+						m_position.plusXWith(-1);
+					}
+					else
+					{
+						m_position.plusXWith(1);
+					}
 				}
 				m_currentState = State.Jumping;
 			}
-
+			if(!m_onLadder)
+				m_currentState = State.Jumping;
 		}
 
 		private void updateRolling(float a_deltaTime)
@@ -526,6 +539,7 @@ namespace GrandLarceny
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
 			m_collidedWithWall = false;
+			m_onLadder = false;
 			m_isInLight = false;
 			if (a_collisionList.Count == 0)
 			{
@@ -535,120 +549,21 @@ namespace GrandLarceny
 			{
 				base.collisionCheck(a_collisionList);
 			}
-			/*bool t_onLadder = false;
-			bool t_onLadder = false;
-			bool t_notSupposedToSlide = true;
-			
-			foreach (Entity t_collider in a_collisionList)
+			if(m_onLadder && m_collidedWithWall)
 			{
-				if (t_collider is Wall)
-					t_notSupposedToSlide = false;
-				if (CollisionManager.Collides(this.getHitBox(), t_collider.getHitBox()))
+				m_speed.X = 0;
+				if (m_currentState == State.Walking)
 				{
-					if (t_collider is Platform || t_collider is Wall)
-					{
-						//Colliding with ze Wall wall
-						if (t_collider is Wall)
-						{
-							//Colliding with ze left Wall wall
-							if ((int)m_lastPosition.X + 1 >= (int)t_collider.getLastPosition().X + t_collider.getHitBox().getOutBox().Width)
-							{
-								m_position.setX(t_collider.getPosition().getGlobalX() + t_collider.getHitBox().getOutBox().Width);
-								if (m_currentState == State.Jumping)
-								{
-									m_currentState = State.Slide;
-									m_facingRight = true;
-								}
-								m_speed.X = 0;
-								continue;
-							}
-							//Colliding with ze right Wall wall
-							if ((int)m_lastPosition.X + getHitBox().getOutBox().Width - 1 <= (int)t_collider.getLastPosition().X)
-							{
-								m_position.setX(t_collider.getPosition().getGlobalX() - (getHitBox().getOutBox().Width));
-								if (m_currentState == State.Jumping)
-								{
-									m_currentState = State.Slide;
-									m_facingRight = false;
-								}
-								m_speed.X = 0;
-								continue;
-							}
-						}
-						//Colliding with ze floor
-						if ((int)m_lastPosition.Y + getHitBox().getOutBox().Height <= (int)t_collider.getLastPosition().Y)
-						{
-							m_position.setY(t_collider.getPosition().getGlobalY() - m_collisionShape.getOutBox().Height);
-							m_speed.Y = 0;
-							if (m_currentState == State.Jumping || m_currentState == State.Climbing)
-							{
-								if (m_speed.X == 0)
-								{
-									m_currentState = State.Stop;
-
-								}
-								else
-								{
-									m_currentState = State.Walking;
-
-								}
-							}
-							t_onFloor = true;
-							continue;
-						}
-
-						//Colliding with ze zeeling
-						if ((int)m_lastPosition.Y >= (int)t_collider.getLastPosition().Y + t_collider.getHitBox().getOutBox().Height)
-						{
-							m_position.setY(t_collider.getPosition().getGlobalY() + t_collider.getHitBox().getOutBox().Height);
-							m_speed.Y = 0;
-							continue;
-						}
-						//Colliding with ze left wall
-						if ((int)m_lastPosition.X + 1 >= (int)t_collider.getLastPosition().X + t_collider.getHitBox().getOutBox().Width)
-						{
-							m_position.setX(t_collider.getPosition().getGlobalX() + t_collider.getHitBox().getOutBox().Width);
-							m_speed.X = 0;
-							climb(t_collider);
-						}
-						//Colliding with ze right wall
-						if ((int)m_lastPosition.X + getHitBox().getOutBox().Width - 1 <= (int)t_collider.getLastPosition().X)
-						{
-							m_position.setX(t_collider.getPosition().getGlobalX() - (getHitBox().getOutBox().Width));
-							m_speed.X = 0;
-							climb(t_collider);
-						}
-					}
-					else if (t_collider is Ladder)
-					{
-
-						//Colliding with ze ladd0rz
-						Rectangle t_rect = new Rectangle(t_collider.getHitBox().getOutBox().X - 2,
-							(int)t_collider.getPosition().getGlobalY(), 4, t_collider.getHitBox().getOutBox().Height);
-						if (t_rect.Contains((int)m_lastPosition.X, (int)m_lastPosition.Y))
-						{
-							//if (m_currentKeyInput.IsKeyDown(Keys.Up) || (m_currentKeyInput.IsKeyDown(Keys.Down) && !t_onFloor))
-							//{
-								m_speed.X = 0;
-								m_currentState = State.Climbing;
-								if (m_speed.Y < -CLIMBINGSPEED || m_speed.Y > CLIMBINGSPEED)
-									m_speed.Y = 0;
-								m_position.setX(t_collider.getPosition().getGlobalX());
-							//}
-						}
-						t_onLadder = true;
-					}
-					else if (t_collider is LightCone)
-						m_isInLight = true;
+					m_position.plusYWith(-1);
 				}
-				else if (t_collider is Platform)
-					climb(t_collider);
+				else if (m_currentState == State.Slide)
+				{
+					m_facingRight = !m_facingRight;
+				}
+				m_currentState = State.Climbing;
+				if (m_speed.Y < -Player.CLIMBINGSPEED || m_speed.Y > Player.CLIMBINGSPEED)
+					m_speed.Y = 0;
 			}
-			if (t_notSupposedToSlide && m_currentState == State.Slide)
-				m_currentState = State.Jumping;
-			if (!t_onLadder && m_currentState == State.Climbing)
-				m_currentState = State.Jumping;
-			*/
 		}
 		public bool isInLight()
 		{
@@ -663,12 +578,13 @@ namespace GrandLarceny
 			m_facingRight = a_facingRight;
 		}
 
-		public void climb(Entity a_collider)
+		public void hang(Entity a_collider)
 		{
 			if (!a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X + getHitBox().getOutBox().Width + 4, (int)m_lastPosition.Y)
 				&& a_collider.getHitBox().getOutBox().Contains((int)m_position.getGlobalX() + getHitBox().getOutBox().Width + 4, (int)m_position.getGlobalY())
 				&& m_lastPosition.Y < a_collider.getHitBox().getOutBox().Y
-				&& m_speed.Y >= 0)
+				&& m_speed.Y >= 0
+				&& m_currentState == State.Jumping)
 			{
 				m_position.setY(a_collider.getPosition().getGlobalY());
 				m_speed.Y = 0;
@@ -678,7 +594,8 @@ namespace GrandLarceny
 			else if (!a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y)
 				&& a_collider.getHitBox().getOutBox().Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
 				&& m_lastPosition.Y < a_collider.getHitBox().getOutBox().Y
-				&& m_speed.Y >= 0)
+				&& m_speed.Y >= 0
+				&& m_currentState == State.Jumping)
 			{
 				m_position.setY(a_collider.getPosition().getGlobalY());
 				m_speed.Y = 0;
@@ -695,6 +612,11 @@ namespace GrandLarceny
 		public void setCollidedWithWall(bool a_collided)
 		{
 			m_collidedWithWall = a_collided;
+		}
+
+		public void setIsOnLadder(bool a_onLadder)
+		{
+			m_onLadder = a_onLadder;
 		}
 
 		public void setHidingImage(String a_imgPath)
