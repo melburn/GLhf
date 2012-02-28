@@ -67,25 +67,31 @@ namespace GrandLarceny
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (a_collid is Player)
+			
+			if (a_collid is Player && CollisionManager.Collides(this.getHitBox(), a_collid.getHitBox()))
 			{
-				if (CollisionManager.Collides(this.getHitBox(), a_collid.getHitBox()))
+				Player t_player = (Player)a_collid;
+				if (t_player.getCurrentState() != Player.State.Hiding)
 				{
-					Player t_player = (Player)a_collid;
-					if (t_player.getCurrentState() != Player.State.Hiding)
+					t_player.setIsInLight(true);
+				}
+				else
+				{
+					if(t_player.getHidingImage().Equals(Player.STANDHIDINGIMAGE))
 					{
-						t_player.setIsInLight(true);
-					}
-					else
-					{
-						if(t_player.getHidingImage().Equals(Player.STANDHIDINGIMAGE))
+						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() > m_parent.getPosition().getGlobalX())
 						{
-							
+							t_player.setIsInLight(true);
+						}
+						else if(!t_player.isFacingRight() && t_player.getPosition().getGlobalX() < m_parent.getPosition().getGlobalX())
+						{
+							t_player.setIsInLight(true);
 						}
 					}
-
 				}
+
 			}
+			
 
 		}
 	}

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class DuckHideObject : NonMovingObject
+	public class DuckHideObject : NonMovingObject
 	{
 		public DuckHideObject(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
 		{
