@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class DuckHideObject : NonMovingObject
+	public class DuckHideObject : NonMovingObject
 	{
 		public DuckHideObject(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
 		{
@@ -17,7 +17,7 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(m_img.getSize().X / 2 - 10, 0, 20, m_img.getSize().Y, m_position);
+			m_collisionShape = new CollisionRectangle(m_img.getSize().X / 2 - 35, 0, 70, m_img.getSize().Y, m_position);
 		}
 		internal override void updateCollisionWith(Entity a_collider)
 		{

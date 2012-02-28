@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class SpotLight : MovingObject
+	public class SpotLight : MovingObject
 	{
 		LightCone m_light;
 		public SpotLight(Vector2 a_position, string a_sprite, float a_layer, float a_rotation, bool a_lit) :
@@ -15,9 +15,31 @@ namespace GrandLarceny
 		{
 			m_rotate = a_rotation;
 			m_rotationPoint.Y = m_img.getSize().Y / 2;
+			m_collisionShape = new CollisionRectangle((float)Math.Min(Math.Min(Math.Min((m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate), (m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate)),
+				(m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
+				(m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
+				(float)Math.Min(Math.Min(Math.Min((m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate),
+				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate)),
+				(m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))),
+				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))),
+				(float)(Math.Max(Math.Max(Math.Max((m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate), (m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate)),
+				(m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
+				(m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))) -
+				Math.Min(Math.Min(Math.Min((m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate), (m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate)),
+				(m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
+				(m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate)))),
+				(float)(Math.Max(Math.Max(Math.Max((m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate),
+				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate)),
+				(m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))),
+				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))) -
+				(Math.Min(Math.Min(Math.Min((m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate),
+				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate)),
+				(m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))),
+				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))))),
+				m_position);
 			if (a_lit)
 			{
-				m_light = new LightCone(this, "Images//LightCone//Ljus", a_layer + 0.001f, 300f, 200f);
+				m_light = new LightCone(this, "Images//LightCone//Ljus", a_layer + 0.001f, 300f, 300f);
 
 				(Game.getInstance().getState()).addObject(m_light);
 			}

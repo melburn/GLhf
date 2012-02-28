@@ -15,6 +15,7 @@ namespace GrandLarceny
         private Boolean m_hasPatrol;
         private Boolean m_hasFlashLight;
         public Boolean m_inALightArea = false;
+		private LinkedList<LampSwitch> m_lampSwitchTargets;
 
         private const float MOVEMENTSPEED = 150;
 		private const float CHASINGSPEED = 350;
@@ -64,6 +65,7 @@ namespace GrandLarceny
 		{
 			base.loadContent();
 			m_collisionShape = new CollisionRectangle(5, 10, m_img.getSize().X - 10, m_img.getSize().Y - 10, m_position);
+			m_lampSwitchTargets = new LinkedList<LampSwitch>();
 		}
 		public void setLeftGuardPoint(float a_x)
 		{
@@ -371,6 +373,31 @@ namespace GrandLarceny
 					}
 				}
 			}
+		}
+
+		public void addLampSwitchTarget(LampSwitch a_lampSwitch)
+		{
+			m_lampSwitchTargets.AddLast(a_lampSwitch);
+		}
+
+		public void removeLampSwitchTarget(LampSwitch a_lampSwitch)
+		{
+			m_lampSwitchTargets.Remove(a_lampSwitch);
+		}
+
+		public bool hasNoLampSwitchTargets()
+		{
+			return m_lampSwitchTargets.Count == 0;
+		}
+
+		internal LampSwitch getFirstLampSwitchTarget()
+		{
+			return m_lampSwitchTargets.First();
+		}
+
+		internal void removeFirstLampSwitchTarget()
+		{
+			m_lampSwitchTargets.RemoveFirst();
 		}
 	}
 }

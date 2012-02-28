@@ -624,6 +624,11 @@ namespace GrandLarceny
 			m_currentHidingImage = a_imgPath;
 		}
 
+		public string getHidingImage()
+		{
+			return m_currentHidingImage;
+		}
+
 		public CollisionShape getSlideBox()
 		{
 			return m_SlideBox;
