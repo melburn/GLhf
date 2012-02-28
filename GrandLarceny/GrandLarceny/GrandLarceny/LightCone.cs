@@ -76,6 +76,13 @@ namespace GrandLarceny
 					{
 						t_player.setIsInLight(true);
 					}
+					else
+					{
+						if(t_player.getHidingImage().Equals(Player.STANDHIDINGIMAGE))
+						{
+							
+						}
+					}
 
 				}
 			}
