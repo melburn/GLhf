@@ -29,14 +29,8 @@ namespace GrandLarceny
 					float t_myPositionX = m_position.getGlobalCartesianCoordinates().X;
 					if (t_playerGlobal.X < t_myPositionX)
 					{
-						if (t_player.getCurrentState() == Player.State.Rolling)
-						{
-							t_player.setNextPositionX(t_myPositionX - a_collider.getHitBox().getOutBox().X);
-						}
-						else
-						{
-							t_player.setNextPositionX(t_myPositionX - a_collider.getImg().getSize().X);
-						}
+					
+						t_player.setNextPositionX(t_myPositionX - a_collider.getHitBox().getOutBox().Width);
 						t_player.setFacingRight(true);
 					}
 					else
