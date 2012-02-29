@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace GrandLarceny
 {
@@ -26,11 +27,13 @@ namespace GrandLarceny
 		private Texture2D m_normalTexture;
 		private Texture2D m_hoverTexture;
 		private Texture2D m_pressedTexture;
+		private Texture2D m_toggleTexture;
 
 		private Rectangle m_bounds;
 
 		private bool m_isFocused;
 		private bool m_isPressed;
+		private bool m_isToggled;
 
 		private MouseState m_currMouseState;
 		private MouseState m_prevMouseState;
@@ -41,33 +44,44 @@ namespace GrandLarceny
 		{
 			Normal,
 			Hover,
-			Pressed
+			Pressed,
+			Toggled
 		}
 
-		public Button(Texture2D a_normal, Texture2D a_hover, Texture2D a_pressed, Vector2 a_position, string a_buttonText, float a_layer)
-		{
-			setHoverTexture(a_hover);
-			setNormalTexture(a_normal);
-			setPressedTexture(a_pressed);
-			m_text = new Text(a_position, a_buttonText, Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New10"), Color.Black, false);
-			m_position = new CartesianCoordinate(a_position);
-			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
-			setPosition(a_position);
-			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
-			m_layer = a_layer;
-		}
-
-		public Button(string a_normal, string a_hover, string a_pressed, Vector2 a_position, string a_buttonText, float a_layer)
+		public Button(string a_normal, string a_hover, string a_pressed, string a_toggle, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
 		{
 			setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_normal));
 			setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_hover));
 			setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_pressed));
-			m_text = new Text(a_position, m_buttonText, Game.getInstance().Content.Load<SpriteFont>("Fonts//Courier New10"), Color.Black, false);
+			setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_toggle));
+			if (a_font == null)
+				a_font = "Courier New";
+			m_text = new Text(a_position, a_offset, a_buttonText, Game.getInstance().Content.Load<SpriteFont>("Fonts//" + a_font), a_color, false);
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
 			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
-			m_layer = a_layer;
+			m_layer = 0.002f;
+		}
+
+		public Button(string a_buttonName, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
+		{
+			try {
+				setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonName + "_normal"));
+				setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonName + "_hover"));
+				setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonName + "_pressed"));
+				setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonName + "_toggle"));
+			} catch (ContentLoadException cle) {
+				System.Console.WriteLine("Could not find asset for: " + a_buttonName + "\n" + cle.ToString());
+			}
+			if (a_font == null)
+				a_font = "Courier New";
+			m_text = new Text(a_position, a_offset, a_buttonText, Game.getInstance().Content.Load<SpriteFont>("Fonts//" + a_font), a_color, false);
+			m_position = new CartesianCoordinate(a_position);
+			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
+			setPosition(a_position);
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
+			m_layer = 0.002f;
 		}
 
 		public void update()
@@ -102,6 +116,8 @@ namespace GrandLarceny
 				a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			else if (m_isFocused || m_currentState == State.Hover)
 				a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+			else if (m_isToggled || m_currentState == State.Toggled)
+				a_spriteBatch.Draw(m_toggleTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			else
 				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			if (m_text != null)
@@ -119,6 +135,9 @@ namespace GrandLarceny
 					break;
 				case 2:
 					m_currentState = State.Pressed;
+					break;
+				case 3:
+					m_currentState = State.Toggled;
 					break;
 				default:
 					m_currentState = State.Normal;
@@ -155,14 +174,6 @@ namespace GrandLarceny
 		public Rectangle getBox()
 		{
 			return m_bounds;
-			/*
-			return new Rectangle(
-				(int)(m_position.getGlobalX()),
-				(int)(m_position.getGlobalY()),
-				(int)(m_size.X / Game.getInstance().m_camera.getZoom()),
-				(int)(m_size.Y / Game.getInstance().m_camera.getZoom())
-			);
-			*/
 		}
 		private void setNormalTexture(Texture2D a_texture)
 		{
@@ -178,7 +189,9 @@ namespace GrandLarceny
 		{
 			m_pressedTexture = a_texture;
 		}
-
+		private void setToggleTexture(Texture2D a_texture) {
+			m_toggleTexture = a_texture;
+		}
 		public void setText(String a_string)
 		{
 			m_text.setText(a_string);

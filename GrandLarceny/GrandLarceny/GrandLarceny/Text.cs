@@ -35,6 +35,24 @@ namespace GrandLarceny
 			m_layer = 0.001f;
 		}
 
+		public Text(Vector2 a_position, Vector2 a_offset, string a_text, SpriteFont a_spriteFont, Color a_color, bool a_worldFont)
+		{
+			m_position = new CartesianCoordinate(a_position);
+			if (!a_worldFont)
+			{
+				m_resolution = new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth, Game.getInstance().m_graphics.PreferredBackBufferHeight);
+				m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
+				m_position.setX(m_position.getLocalX() - m_resolution.X / 2);
+				m_position.setY(m_position.getLocalY() - m_resolution.Y / 2);
+			}
+			m_position.plusWith(a_offset);
+			m_text = a_text;
+			m_spriteFont = a_spriteFont;
+			m_color = a_color;
+			m_worldFont = a_worldFont;
+			m_layer = 0.001f;
+		}
+
 		public Text(Vector2 a_position, string a_text, SpriteFont a_spriteFont, Color a_color, bool a_worldFont, float a_layer)
 		{
 			m_position = new CartesianCoordinate(a_position);

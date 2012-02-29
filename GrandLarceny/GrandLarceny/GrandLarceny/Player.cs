@@ -161,7 +161,7 @@ namespace GrandLarceny
 
 		private void updateStop(float a_deltaTime)
 		{
-			if (GameState.m_previousKeyInput.IsKeyUp(Keys.Down) && GameState.m_currentKeyInput.IsKeyDown(Keys.Down))
+			if (GameState.m_previousKeyInput.IsKeyUp(Keys.Z) && GameState.m_currentKeyInput.IsKeyDown(Keys.Z))
 			{
 				m_currentState = State.Rolling;
 				m_rollTimer = 0.3f;
