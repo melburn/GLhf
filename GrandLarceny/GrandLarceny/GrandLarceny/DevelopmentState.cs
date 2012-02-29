@@ -79,7 +79,7 @@ namespace GrandLarceny
 		{
 			m_levelToLoad = a_levelToLoad;
 			Game.getInstance().m_camera.getPosition().setParentPosition(null);
-			Game.getInstance().m_camera.setPosition(new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth / 2, Game.getInstance().m_graphics.PreferredBackBufferHeight / 2));
+			Game.getInstance().m_camera.setPosition(new Vector2(Game.getInstance().getResolution().X / 2, Game.getInstance().getResolution().Y / 2));
 		}
 
 		private Vector2 getTile(Vector2 a_pixelPosition)
@@ -298,16 +298,16 @@ namespace GrandLarceny
 			m_worldMouse.X = 
 				Mouse.GetState().X / Game.getInstance().m_camera.getZoom()
 				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X
-				- ((Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / Game.getInstance().m_camera.getZoom());
+				- ((Game.getInstance().getResolution().X / 2) / Game.getInstance().m_camera.getZoom());
 			m_worldMouse.Y = 
 				Mouse.GetState().Y / Game.getInstance().m_camera.getZoom() 
 				+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y
-				- ((Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / Game.getInstance().m_camera.getZoom());
+				- ((Game.getInstance().getResolution().Y / 2) / Game.getInstance().m_camera.getZoom());
 
 			if (m_currentMouse.MiddleButton == ButtonState.Pressed && m_previousMouse.MiddleButton == ButtonState.Pressed) {
 				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates();
-				t_difference.X = (Mouse.GetState().X - Game.getInstance().m_graphics.PreferredBackBufferWidth / 2) / 20;
-				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().m_graphics.PreferredBackBufferHeight / 2) / 20;
+				t_difference.X = (Mouse.GetState().X - Game.getInstance().getResolution().X / 2) / 20;
+				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().getResolution().Y / 2) / 20;
 				Game.getInstance().m_camera.getPosition().plusWith(t_difference);
 			}
 
@@ -486,7 +486,7 @@ namespace GrandLarceny
 					continue;
 				string[] t_splitPath = Regex.Split(t_levelList[i], "//");
 				Button t_button = new Button(
-					"btn_asset_list", new Vector2(Game.getInstance().m_graphics.PreferredBackBufferWidth - 160, 21 * j),
+					"btn_asset_list", new Vector2(Game.getInstance().getResolution().X - 160, 21 * j),
 					t_splitPath[t_splitPath.Length - 1].Remove(t_splitPath[t_splitPath.Length - 1].Length - 4),
 					"Courier New10", Color.Black, new Vector2(7, 1)
 				);
@@ -729,7 +729,7 @@ namespace GrandLarceny
 		private void createGuardDog() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			GuardDog t_guardDog = new GuardDog(getTile(m_worldMouse), "Images//Sprite//" + assetToCreate, getTile(m_worldMouse).X, getTile(m_worldMouse).Y, 0.299f);
+			GuardDog t_guardDog = new GuardDog(getTile(m_worldMouse), "Images//Sprite//" + assetToCreate, getTile(m_worldMouse).X, getTile(m_worldMouse).X, 0.299f);
 			addObject(t_guardDog);
 		}
 		#endregion
