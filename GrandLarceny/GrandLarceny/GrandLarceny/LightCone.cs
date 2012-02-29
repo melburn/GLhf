@@ -81,20 +81,17 @@ namespace GrandLarceny
 				{
 					if(t_player.getHidingImage().Equals(Player.STANDHIDINGIMAGE))
 					{
-						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() > m_parent.getPosition().getGlobalX())
+						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width+72 > m_parent.getPosition().getGlobalX())
 						{
 							t_player.setIsInLight(true);
 						}
-						else if(!t_player.isFacingRight() && t_player.getPosition().getGlobalX() < m_parent.getPosition().getGlobalX())
+						else if(!t_player.isFacingRight() && t_player.getPosition().getGlobalX()-72 < m_parent.getPosition().getGlobalX())
 						{
 							t_player.setIsInLight(true);
 						}
 					}
 				}
-
 			}
-			
-
 		}
 	}
 }
