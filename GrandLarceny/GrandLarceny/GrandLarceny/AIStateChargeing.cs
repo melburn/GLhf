@@ -26,7 +26,7 @@ namespace GrandLarceny
 			if (a_agent is GuardDog)
 			{
 				GuardDog t_guardDog = (GuardDog)a_agent;
-				if (t_guardDog.isFaceingTowards(t_guardDog.getChargeingPoint()))
+				if (t_guardDog.isFacingTowards(t_guardDog.getChargeingPoint()))
 				{
 					if (! t_guardDog.isChargeing())
 					{
