@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
@@ -27,16 +28,17 @@ namespace GrandLarceny
 				Vector2 t_playerGlobalCoordinate = a_collid.getPosition().getGlobalCartesianCoordinates();
 				if (CollisionManager.Contains(this.getHitBox(), t_playerGlobalCoordinate))
 				{
-					Player t_player = (Player)a_collid;				
-					if (Keyboard.GetState().IsKeyDown(Keys.Up))
+					Player t_player = (Player)a_collid;
+					if ((Keyboard.GetState().IsKeyDown(Keys.Up) 
+						&& (t_player.getCurrentState() == Player.State.Walking 
+						|| t_player.getCurrentState() == Player.State.Stop))
+						|| (t_player.getCurrentState() != Player.State.Walking 
+						&& t_player.getCurrentState() != Player.State.Stop))
 					{
-						t_player.setSpeedX(0);
-						if (!(t_player.getCurrentState() == Player.State.Climbing))
-							t_player.getPosition().plusYWith(-1);
-						t_player.setState(Player.State.Climbing);
-						if (t_player.getSpeed().Y < -Player.CLIMBINGSPEED || t_player.getSpeed().Y > Player.CLIMBINGSPEED)
-							t_player.setSpeedY(0);
-						t_player.setNextPositionX(getPosition().getGlobalX());
+						if (this.m_spriteEffects == SpriteEffects.FlipHorizontally)
+							t_player.setIsOnLadderWithDirection(Player.Direction.Left);
+						else
+							t_player.setIsOnLadderWithDirection(Player.Direction.Right);
 					}
 				}
 			}
