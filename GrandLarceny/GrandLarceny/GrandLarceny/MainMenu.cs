@@ -15,10 +15,7 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
-			Button t_button = new Button(Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_normal"),
-				Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_hover"),
-				Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_pressed"),
-				new Vector2(15, 38), null, 0.002f);
+			Button t_button = new Button("btn_test", new Vector2(15, 38), null, null, Color.Black, Vector2.Zero);
 			t_button.m_clickEvent += new Button.clickDelegate(playClick);
 			m_buttons.Add(t_button);
 
@@ -29,10 +26,7 @@ namespace GrandLarceny
 			{
 				t_count++;
 				string[] t_splitPath = Regex.Split(t_level, "//");
-				Button t_levelButton = new Button(Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
-					Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
-					Game.getInstance().Content.Load<Texture2D>("Images//GUI//btn_test_empty"),
-					new Vector2(200, 200 * t_count), t_splitPath[t_splitPath.Length - 1], 0.002f);
+				Button t_levelButton = new Button("btn_test_empty", "btn_test_empty", "btn_test_empty", "btn_test_empty", new Vector2(200, 200 * t_count), t_splitPath[t_splitPath.Length - 1], "VerdanaBold", Color.Black, new Vector2(10, 10));
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
 				m_buttons.Add(t_levelButton);
 			}

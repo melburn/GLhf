@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class GuardDog : NPE
 	{
 		private float m_leftPatrolPoint;
@@ -24,20 +25,25 @@ namespace GrandLarceny
 		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftPatrolPoint, float a_rightPatrolPoint, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
+			if (a_rightPatrolPoint < a_leftPatrolPoint)
+			{
+				throw new ArgumentException();
+			}
 			m_leftPatrolPoint = a_leftPatrolPoint;
 			m_rightPatrolPoint = a_rightPatrolPoint;
-			m_hasPatrol = true;
+			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
 			m_aiState = AIStatepatroling.getInstance();
 		}
 
 		internal bool canSencePlayer()
 		{
-			return (Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() < m_senceRange ||
+			return Game.getInstance().getState().getPlayer() != null &&
+				((Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() < m_senceRange ||
 				(Game.getInstance().getState().getPlayer().isInLight() &&
 				isFaceingTowards(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()) &&
 				Math.Abs(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
 				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
-				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200);
+				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200));
 		}
 
 		public bool isFaceingTowards(float a_x)
@@ -49,6 +55,18 @@ namespace GrandLarceny
 		internal bool haspatrol()
 		{
 			return m_hasPatrol;
+		}
+
+		public void setLeftGuardPoint(float a_x)
+		{
+			m_leftPatrolPoint = a_x;
+			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
+		}
+
+		public void setRightGuardPoint(float a_x)
+		{
+			m_rightPatrolPoint = a_x;
+			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
 		}
 
 		internal float getLeftpatrolPoint()
@@ -151,10 +169,7 @@ namespace GrandLarceny
 		public bool isBarkingPrefered()
 		{
 			//retunerar om hunden föredrar att skälla i denna situation.
-			//if player is hidden
-			//return true
-			//else
-			return false;
+			return (Game.getInstance().getState().getPlayer().getCurrentState() == Player.State.Hiding);
 		}
 
 		internal void chasePlayer()

@@ -110,5 +110,8 @@ namespace GrandLarceny
 		{
 			return m_currentState;
 		}
+		internal Vector2 getResolution() {
+			return new Vector2(m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight);
+		}
 	}
 }
