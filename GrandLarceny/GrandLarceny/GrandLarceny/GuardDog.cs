@@ -169,10 +169,7 @@ namespace GrandLarceny
 		public bool isBarkingPrefered()
 		{
 			//retunerar om hunden föredrar att skälla i denna situation.
-			//if player is hidden
-			//return true
-			//else
-			return false;
+			return (Game.getInstance().getState().getPlayer().getCurrentState() == Player.State.Hiding);
 		}
 
 		internal void chasePlayer()
