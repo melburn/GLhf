@@ -122,6 +122,7 @@
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
     <Compile Include="LampSwitch.cs" />
+    <Compile Include="Line.cs" />
     <Compile Include="MovingObject.cs" />
     <Compile Include="GuardDog.cs" />
     <Compile Include="StandHideObject.cs" />

@@ -80,7 +80,7 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_standHitBox = new CollisionRectangle(0, 0, 70, 134, m_position);
+			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
 			m_collisionShape = m_standHitBox;
@@ -190,7 +190,7 @@ namespace GrandLarceny
 					m_facingRight = true;
 				}
 			}
-			if (GameState.m_previousKeyInput.IsKeyUp(Keys.Space) && GameState.m_currentKeyInput.IsKeyDown(Keys.Space))
+			if (GameState.m_previousKeyInput.IsKeyUp(Keys.X) && GameState.m_currentKeyInput.IsKeyDown(Keys.X))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -202,7 +202,7 @@ namespace GrandLarceny
 
 		private void updateWalking(float a_deltaTime)
 		{
-			if (GameState.m_previousKeyInput.IsKeyUp(Keys.Down) && GameState.m_currentKeyInput.IsKeyDown(Keys.Down))
+			if (GameState.m_previousKeyInput.IsKeyUp(Keys.Z) && GameState.m_currentKeyInput.IsKeyDown(Keys.Z))
 			{
 
 				m_currentState = State.Rolling;
@@ -261,7 +261,7 @@ namespace GrandLarceny
 				m_currentState = State.Stop;
 
 			}
-			if (GameState.m_previousKeyInput.IsKeyUp(Keys.Space) && GameState.m_currentKeyInput.IsKeyDown(Keys.Space))
+			if (GameState.m_previousKeyInput.IsKeyUp(Keys.X) && GameState.m_currentKeyInput.IsKeyDown(Keys.X))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -318,7 +318,7 @@ namespace GrandLarceny
 				m_facingRight = false;
 			}
 
-			if (m_speed.Y < -300 && GameState.m_currentKeyInput.IsKeyDown(Keys.Space))
+			if (m_speed.Y < -300 && GameState.m_currentKeyInput.IsKeyDown(Keys.X))
 				m_speed.Y -= AIRVERTICALACCELERATION;
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
@@ -331,7 +331,7 @@ namespace GrandLarceny
 				if (((!m_facingRight && GameState.m_currentKeyInput.IsKeyDown(Keys.Right)) || (m_facingRight && GameState.m_currentKeyInput.IsKeyDown(Keys.Left)))
 					&& m_collidedWithWall)
 				{
-					if (GameState.m_previousKeyInput.IsKeyUp(Keys.Space) && GameState.m_currentKeyInput.IsKeyDown(Keys.Space))
+					if (GameState.m_previousKeyInput.IsKeyUp(Keys.X) && GameState.m_currentKeyInput.IsKeyDown(Keys.X))
 					{
 						m_speed.Y = -JUMPSTRENGTH;
 						if (m_facingRight == true)
@@ -366,7 +366,7 @@ namespace GrandLarceny
 			{
 				m_speed.Y = 0;
 			}
-			if (GameState.m_currentKeyInput.IsKeyDown(Keys.Space) && GameState.m_previousKeyInput.IsKeyUp(Keys.Space))
+			if (GameState.m_currentKeyInput.IsKeyDown(Keys.X) && GameState.m_previousKeyInput.IsKeyUp(Keys.X))
 			{
 				if (!GameState.m_currentKeyInput.IsKeyDown(Keys.Down))
 				{
@@ -406,7 +406,7 @@ namespace GrandLarceny
 			m_rollTimer -= a_deltaTime;
 
 
-			if ((GameState.m_previousKeyInput.IsKeyUp(Keys.Space) && GameState.m_currentKeyInput.IsKeyDown(Keys.Space)) || m_rollTimer <= 0)
+			if ((GameState.m_previousKeyInput.IsKeyUp(Keys.X) && GameState.m_currentKeyInput.IsKeyDown(Keys.X)) || m_rollTimer <= 0)
 			{
 				if (m_rollTimer <= 0)
 				{
@@ -438,7 +438,7 @@ namespace GrandLarceny
 		private void updateHanging()
 		{
 			m_gravity = 0;
-			if (GameState.m_previousKeyInput.IsKeyUp(Keys.Space) && GameState.m_currentKeyInput.IsKeyDown(Keys.Space))
+			if (GameState.m_previousKeyInput.IsKeyUp(Keys.X) && GameState.m_currentKeyInput.IsKeyDown(Keys.X))
 			{
 				if (GameState.m_currentKeyInput.IsKeyDown(Keys.Down))
 				{
@@ -474,7 +474,7 @@ namespace GrandLarceny
 		{
 			if ((GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up))
 				|| (GameState.m_currentKeyInput.IsKeyDown(Keys.Down) && GameState.m_previousKeyInput.IsKeyUp(Keys.Down))
-				|| (GameState.m_currentKeyInput.IsKeyDown(Keys.Space) && GameState.m_previousKeyInput.IsKeyUp(Keys.Space)))
+				|| (GameState.m_currentKeyInput.IsKeyDown(Keys.X) && GameState.m_previousKeyInput.IsKeyUp(Keys.X)))
 			{
 				m_currentState = State.Stop;
 				m_layer = m_originalLayer;
@@ -490,7 +490,7 @@ namespace GrandLarceny
 			}
 			else if (m_currentState == State.Walking)
 			{
-				m_img.setSprite("Images//Sprite//hero_stand");
+				m_img.setSprite("Images//Sprite//hero_walk");
 			}
 
 			if (m_currentState == State.Jumping)
