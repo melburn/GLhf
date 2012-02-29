@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class GuardDog : NPE
 	{
 		private float m_leftPatrolPoint;
