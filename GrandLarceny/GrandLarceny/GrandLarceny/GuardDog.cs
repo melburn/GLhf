@@ -181,5 +181,15 @@ namespace GrandLarceny
 		{
 			m_chaseTarget = null;
 		}
+
+		public bool isChargeing()
+		{
+			return m_chargeing;
+		}
+
+		public bool getFaceingDirection()
+		{
+			return m_faceingRight;
+		}
 	}
 }

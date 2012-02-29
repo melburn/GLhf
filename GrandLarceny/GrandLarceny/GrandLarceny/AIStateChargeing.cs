@@ -28,8 +28,24 @@ namespace GrandLarceny
 				GuardDog t_guardDog = (GuardDog)a_agent;
 				if (t_guardDog.isFaceingTowards(t_guardDog.getChargeingPoint()))
 				{
-					t_guardDog.setChargeing(true);
-					t_guardDog.goRight();
+					if (! t_guardDog.isChargeing())
+					{
+						t_guardDog.setChargeing(true);
+					}
+					if (t_guardDog.ifFaceingRight())
+					{
+						if (t_guardDog.getHorizontalSpeed() <= 0)
+						{
+							t_guardDog.goRight();
+						}
+					}
+					else
+					{
+						if (t_guardDog.getHorizontalSpeed() >= 0)
+						{
+							t_guardDog.goLeft();
+						}
+					}
 					return this;
 				}
 				else
