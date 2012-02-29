@@ -478,18 +478,28 @@ namespace GrandLarceny
 		{
 			if (m_currentState != m_lastState)
 			{
-				if (m_lastState == State.Rolling || m_lastState == State.Hiding || m_lastState == State.Hanging)
+				if ((m_lastState == State.Rolling || (m_lastState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE) || m_lastState == State.Hanging)
+					&& m_currentState != State.Rolling && m_currentState != State.Hanging)
 				{
-					m_collisionShape = m_standHitBox;
-					if (m_lastState == State.Rolling || m_lastState == State.Hiding)
+					if (m_currentState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE)
 					{
-						m_position.setY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
-						Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
+						m_imgOffsetX = 0;
 					}
-					m_imgOffsetX = 0;
-					m_imgOffsetY = 0;
+					else
+					{
+						m_imgOffsetX = 0;
+						m_imgOffsetY = 0;
+						m_collisionShape = m_standHitBox;
+						if (m_lastState == State.Rolling || m_lastState == State.Hiding)
+						{
+							m_position.setY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
+							Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
+						}
+					}
+					
 				}
-				else if (m_currentState == State.Rolling || m_currentState == State.Hiding || m_currentState == State.Hanging)
+				else if ((m_currentState == State.Rolling || (m_currentState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE)|| m_currentState == State.Hanging)
+					&& m_lastState != State.Rolling && m_lastState != State.Hiding && m_lastState != State.Hanging)
 				{
 					if (m_currentState == State.Rolling || m_currentState == State.Hiding)
 					{
