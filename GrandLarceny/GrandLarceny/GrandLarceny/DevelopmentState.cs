@@ -55,6 +55,7 @@ namespace GrandLarceny
 
 		private Line m_leftPatrolLine;
 		private Line m_rightPatrolLine;
+		private Line m_dragLine = null;
 
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
@@ -375,7 +376,33 @@ namespace GrandLarceny
 				updateMouseDrag();
 			}
 
-			if (m_currentMouse.RightButton == ButtonState.Pressed) {
+			if (m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Pressed && m_selectedObject != null) {
+				if (m_selectedObject is LampSwitch) {
+					if (m_dragLine == null) {
+						m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), new Vector2(36, 36), Vector2.Zero, Color.Yellow);
+					} else {
+						m_dragLine.setEndpoint(m_worldMouse);
+					}
+				}
+			}
+
+			if (m_currentMouse.RightButton == ButtonState.Released && m_previousMouse.RightButton == ButtonState.Pressed) {
+				if (m_dragLine != null) {
+					if (m_selectedObject is LampSwitch) {
+						foreach (GameObject t_gameObject in m_gameObjectList) {
+							if (t_gameObject is SpotLight) {
+								if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
+									connectSpotLight((SpotLight)t_gameObject, (LampSwitch)m_selectedObject);
+									m_selectedObject.setColor(Color.White);
+									m_selectedObject = null;
+									break;
+								}
+							}
+						}
+					}						
+				}
+				m_dragLine = null;
+				m_selectedObject = null;
 				setBuildingState(State.None);
 			}
 
@@ -389,11 +416,7 @@ namespace GrandLarceny
 						if (t_gameObject is LightCone)
 							continue;
 						if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
-							if (m_selectedObject is LampSwitch && t_gameObject is SpotLight)
-							{
-								((LampSwitch)m_selectedObject).connectSpotLight((SpotLight)t_gameObject);
-							}
-							else if (m_selectedObject == null || m_selectedObject.getLayer() > t_gameObject.getLayer()) {
+							if (m_selectedObject == null || m_selectedObject.getLayer() > t_gameObject.getLayer()) {
 								m_selectedObject = t_gameObject;
 							}
 						}
@@ -429,6 +452,13 @@ namespace GrandLarceny
 			else
 				m_selectedObject.getPosition().setX(t_mousePosition.X);
 			m_selectedObject.getPosition().setY(t_mousePosition.Y);
+		}
+
+		private void updateMouseRightDrag() {
+			if (m_selectedObject == null) {
+				return;
+			}
+				
 		}
 		#endregion
 
@@ -610,21 +640,22 @@ namespace GrandLarceny
 
 		private void showGuardInfo(Guard a_guard) {
 			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
-			m_leftPatrolLine = new Line(a_guard.getPosition(), (int)a_guard.getLeftpatrolPoint(), Color.Green, false);
-			m_rightPatrolLine = new Line(a_guard.getPosition(), (int)a_guard.getRightpatrolPoint(), Color.Green, true);
+			m_leftPatrolLine = new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getLeftpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 36), new Vector2(36, 36), Color.Green);
+			m_rightPatrolLine = new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getRightpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 36), new Vector2(36, 36), Color.Green);
 		}
 
 		private void showDogInfo(GuardDog a_guard) {
 			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
-			m_leftPatrolLine = new Line(a_guard.getPosition(), a_guard.getLeftpatrolPoint(), Color.Green, false);
-			m_rightPatrolLine = new Line(a_guard.getPosition(), a_guard.getRightpatrolPoint(), Color.Green, true);
+			m_leftPatrolLine = new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getLeftpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 36), new Vector2(36, 36), Color.Green);
+			m_rightPatrolLine = new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getRightpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 36), new Vector2(36, 36), Color.Green);
 		}
 
 		private void showLightSwitchInfo(LampSwitch a_lightswitch) {
 			if (m_lineList == null)
 				m_lineList = new LinkedList<Line>();
-			foreach (SpotLight t_spotLight in a_lightswitch.getConnectedSpotLights())
-				m_lineList.AddLast(new Line(t_spotLight.getPosition(), a_lightswitch.getPosition(), Color.Yellow));
+			foreach (SpotLight t_spotLight in a_lightswitch.getConnectedSpotLights()) {
+				m_lineList.AddLast(new Line(a_lightswitch.getPosition(), t_spotLight.getPosition(), new Vector2(36, 36), new Vector2(0, 0), Color.Yellow));
+			}
 		}
 
 		private void setGuardPoint(NPE a_guard, bool a_right) {
@@ -643,6 +674,10 @@ namespace GrandLarceny
 			} else {
 				throw new ArgumentException();
 			}
+		}
+
+		private void connectSpotLight(SpotLight a_spotLight, LampSwitch a_lightSwitch) {
+			a_lightSwitch.connectSpotLight(a_spotLight);
 		}
 
 		private void selectAsset(Button a_button)
@@ -816,6 +851,8 @@ namespace GrandLarceny
 				m_leftPatrolLine.draw();
 			if (m_rightPatrolLine != null)
 				m_rightPatrolLine.draw();
+			if (m_dragLine != null)
+				m_dragLine.draw();
 		}
 
 		public override void addObject(GameObject a_object)

@@ -16,9 +16,9 @@ namespace GrandLarceny
 			m_coordinates = a_coordinates;
 		}
 
-		public CartesianCoordinate(Vector2 a_coordinates, Position a_parentPosition)
+		public CartesianCoordinate(Vector2 a_offset, Position a_parentPosition)
 		{
-			m_coordinates = a_coordinates;
+			m_coordinates = a_offset;
 			m_parentPosition = a_parentPosition;
 		}
 
