@@ -19,6 +19,7 @@ namespace GrandLarceny
 		private LinkedList<Button> m_buttonList;
 		private LinkedList<Button> m_assetButtonList;
 		private LinkedList<Text> m_textList;
+		private LinkedList<Line> m_lineList;
 
 		private GameObject m_selectedObject;
 		private GameObject m_objectPreview;
@@ -50,6 +51,7 @@ namespace GrandLarceny
 		private Button m_btnDuckHideHotkey;
 		private Button m_btnStandHideHotkey;
 		private Button m_btnDogHotkey;
+		private Button m_btnLightSwitchHotkey;
 
 		private Line m_leftPatrolLine;
 		private Line m_rightPatrolLine;
@@ -65,6 +67,7 @@ namespace GrandLarceny
 			Background,
 			Ladder,
 			SpotLight,
+			LightSwitch,
 			Delete,
 			None,
 			Guard,
@@ -108,13 +111,12 @@ namespace GrandLarceny
 			m_buttonList		= new LinkedList<Button>();
 			m_buildObjectList	= new LinkedList<GameObject>();
 			m_assetButtonList	= new LinkedList<Button>();
-			m_objectPreview = null;
-			m_courierNew = Game.getInstance().Content.Load<SpriteFont>("Fonts\\Courier New");
+			m_lineList			= new LinkedList<Line>();
+			m_objectPreview		= null;
+			m_courierNew		= Game.getInstance().Content.Load<SpriteFont>("Fonts\\Courier New");
 
-			foreach (GameObject t_gameObject in m_gameObjectList)
-			{
-				if (t_gameObject is Player)
-				{
+			foreach (GameObject t_gameObject in m_gameObjectList) {
+				if (t_gameObject is Player) {
 					m_player = t_gameObject;
 					break;
 				}
@@ -131,7 +133,7 @@ namespace GrandLarceny
 			m_guiList.AddLast(m_UItextBackground);
 
 			Vector2 t_btnTextOffset = new Vector2(8, 50);
-			m_btnLadderHotkey		= new Button("btn_ladder_hotkey",
+			m_btnLadderHotkey		= new Button("btn_ladder_hotkey", 
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "L", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnPlatformHotkey			= new Button("btn_platform_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "P", "VerdanaBold", Color.White, t_btnTextOffset);
@@ -140,21 +142,23 @@ namespace GrandLarceny
 			m_btnDeleteHotkey		= new Button("btn_delete_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "D", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnHeroHotkey			= new Button("btn_hero_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "H", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 5, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "H", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnSelectHotkey		= new Button("btn_select_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "S", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "S", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnSpotlightHotkey	= new Button("btn_spotlight_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "T", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "T", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnGuardHotkey		= new Button("btn_guard_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "G", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "G", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnWallHotkey			= new Button("btn_wall_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "W", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "W", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnDuckHideHotkey		= new Button("btn_duckhide_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "S+H", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 5, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "Shift+H", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnStandHideHotkey	= new Button("btn_standhide_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "C+H", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "Ctrl+H", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnDogHotkey			= new Button("btn_dog_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), null, "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "Shift+G", "VerdanaBold", Color.White, t_btnTextOffset);
+			m_btnLightSwitchHotkey	= new Button("btn_spotlight_hotkey",
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "Shift+T", "VerdanaBold", Color.White, t_btnTextOffset);
 
 			m_buttonList.AddLast(m_btnLadderHotkey);
 			m_buttonList.AddLast(m_btnPlatformHotkey);
@@ -168,6 +172,7 @@ namespace GrandLarceny
 			m_buttonList.AddLast(m_btnDuckHideHotkey);
 			m_buttonList.AddLast(m_btnStandHideHotkey);
 			m_buttonList.AddLast(m_btnDogHotkey);
+			m_buttonList.AddLast(m_btnLightSwitchHotkey);
 
 			foreach (Button t_button in m_buttonList)
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -255,6 +260,8 @@ namespace GrandLarceny
 				setBuildingState(State.None);
 			if (m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.T))
 				setBuildingState(State.SpotLight);
+			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.T))
+				setBuildingState(State.LightSwitch);
 			if (m_currentKeyboard.IsKeyDown(Keys.G) && m_previousKeyboard.IsKeyUp(Keys.G))
 				setBuildingState(State.Guard);
 			if (m_currentKeyboard.IsKeyDown(Keys.W) && m_previousKeyboard.IsKeyUp(Keys.W))
@@ -354,6 +361,9 @@ namespace GrandLarceny
 						case State.GuardDog:
 							createGuardDog();
 							break;
+						case State.LightSwitch:
+							createLightSwitch();
+							break;
 					}
 				} else {
 					setGuardPoint((NPE)m_selectedObject, m_itemToCreate == State.GuardRight);
@@ -373,12 +383,17 @@ namespace GrandLarceny
 				if (m_selectedObject != null) {
 					clearSelectedObject();
 				}
-				Rectangle t_mouseClick = new Rectangle((int)m_worldMouse.X, (int)m_worldMouse.Y, 1, 1);
 
 				if (!collidedWithGui(m_worldMouse)) {
 					foreach (GameObject t_gameObject in m_gameObjectList) {
+						if (t_gameObject is LightCone)
+							continue;
 						if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
-							if (m_selectedObject == null || m_selectedObject.getLayer() > t_gameObject.getLayer()) {
+							if (m_selectedObject is LampSwitch && t_gameObject is SpotLight)
+							{
+								((LampSwitch)m_selectedObject).connectSpotLight((SpotLight)t_gameObject);
+							}
+							else if (m_selectedObject == null || m_selectedObject.getLayer() > t_gameObject.getLayer()) {
 								m_selectedObject = t_gameObject;
 							}
 						}
@@ -394,6 +409,8 @@ namespace GrandLarceny
 							showGuardInfo((Guard)m_selectedObject);
 						} else if (m_selectedObject is GuardDog) {
 							showDogInfo((GuardDog)m_selectedObject);
+						} else if (m_selectedObject is LampSwitch) {
+							showLightSwitchInfo((LampSwitch)m_selectedObject);
 						}
 						m_selectedObject.setColor(Color.Yellow);
 					}
@@ -473,6 +490,8 @@ namespace GrandLarceny
 				setBuildingState(State.StandHidingObject);
 			if (a_button == m_btnDogHotkey)
 				setBuildingState(State.GuardDog);
+			if (a_button == m_btnLightSwitchHotkey)
+				setBuildingState(State.LightSwitch);
 		}
 		
 		private void createAssetList(string a_assetDirectory) {
@@ -501,6 +520,7 @@ namespace GrandLarceny
 			m_selectedInfoV2 = Vector2.Zero;
 			m_leftPatrolLine = null;
 			m_rightPatrolLine = null;
+			m_lineList.Clear();
 		}
 
 		private void setBuildingState(State a_state) {
@@ -577,6 +597,11 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Sprite//");
 					m_btnDogHotkey.setState(3);
 					break;
+				case State.LightSwitch:
+					m_textCurrentMode.setText("Create Light Switch");
+					createAssetList("Content//Images//Tile//");
+					m_btnLightSwitchHotkey.setState(3);
+					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0) {
 				selectAsset(m_assetButtonList.First());
@@ -595,23 +620,27 @@ namespace GrandLarceny
 			m_rightPatrolLine = new Line(a_guard.getPosition(), a_guard.getRightpatrolPoint(), Color.Green, true);
 		}
 
+		private void showLightSwitchInfo(LampSwitch a_lightswitch) {
+			if (m_lineList == null)
+				m_lineList = new LinkedList<Line>();
+			foreach (SpotLight t_spotLight in a_lightswitch.getConnectedSpotLights())
+				m_lineList.AddLast(new Line(t_spotLight.getPosition(), a_lightswitch.getPosition(), Color.Yellow));
+		}
+
 		private void setGuardPoint(NPE a_guard, bool a_right) {
-			if (a_guard is Guard)
-			{
-				if (a_right)
+			if (a_guard is Guard) {
+				if (a_right) {
 					((Guard)a_guard).setRightGuardPoint(getTile(m_worldMouse).X);
-				else
+				} else {
 					((Guard)a_guard).setLeftGuardPoint(getTile(m_worldMouse).X);
-			}
-			else if (a_guard is GuardDog)
-			{
-				if (a_right)
+				}
+			} else if (a_guard is GuardDog) {
+				if (a_right) {
 					((GuardDog)a_guard).setRightGuardPoint(getTile(m_worldMouse).X);
-				else
+				} else {
 					((GuardDog)a_guard).setLeftGuardPoint(getTile(m_worldMouse).X);
-			}
-			else
-			{
+				}
+			} else {
 				throw new ArgumentException();
 			}
 		}
@@ -658,6 +687,9 @@ namespace GrandLarceny
 					break;
 				case State.GuardDog:
 					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Sprite//" + assetToCreate, 0.000f);
+					break;
+				case State.LightSwitch:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//" + assetToCreate, 0.000f);
 					break;
 			}
 		}
@@ -755,6 +787,13 @@ namespace GrandLarceny
 			GuardDog t_guardDog = new GuardDog(getTile(m_worldMouse), "Images//Sprite//" + assetToCreate, getTile(m_worldMouse).X, getTile(m_worldMouse).X, 0.299f);
 			addObject(t_guardDog);
 		}
+
+		private void createLightSwitch() {
+			if (collidedWithObject(m_worldMouse))
+				return;
+			LampSwitch t_lightSwitch = new LampSwitch(getTile(m_worldMouse), "Images//Tile//" + assetToCreate, 0.700f, false);
+			addObject(t_lightSwitch);
+		}
 		#endregion
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
@@ -764,11 +803,13 @@ namespace GrandLarceny
 			foreach (GuiObject t_guiObject in m_guiList)
 				t_guiObject.draw(a_gameTime);
 			foreach (GameObject t_gameObject in m_gameObjectList)
-					t_gameObject.draw(a_gameTime);
+				t_gameObject.draw(a_gameTime);
 			foreach (Button t_button in m_buttonList)
 				t_button.draw(a_gameTime, a_spriteBatch);
 			foreach (Button t_button in m_assetButtonList)
 				t_button.draw(a_gameTime, a_spriteBatch);
+			foreach (Line t_line in m_lineList)
+				t_line.draw();
 			if (m_objectPreview != null)
 				m_objectPreview.draw(a_gameTime);
 			if (m_leftPatrolLine != null)

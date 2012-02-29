@@ -15,11 +15,14 @@ namespace GrandLarceny
 		private Boolean m_hasPatrol;
 		private float MOVEMENTSPEED = 80;
 		private float CHARGEINGSPEED = 400;
+		private const float BARKCOOLDOWN = 0.8f;
 		private Boolean m_chargeing = false;
 		private Boolean m_facingRight;
+		private Boolean m_barking = false;
 		private float m_sightRange = 576f;
-		private float m_senceRange = 72 * 2;
+		private float m_senceRange = 144f;
 		private float m_chargeEndPoint;
+		private float m_barkTimer = 0f;
 		private Entity m_chaseTarget = null;
 
 		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftPatrolPoint, float a_rightPatrolPoint, float a_layer)
@@ -38,13 +41,14 @@ namespace GrandLarceny
 
 		internal bool canSencePlayer()
 		{
-			return Game.getInstance().getState().getPlayer() != null &&
-				((Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() < m_senceRange ||
-				(Game.getInstance().getState().getPlayer().isInLight() &&
-				isFacingTowards(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()) &&
-				Math.Abs(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
-				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
-				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200));
+			Player t_player = Game.getInstance().getState().getPlayer();
+			return t_player != null &&
+				((t_player.getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() < m_senceRange ||
+				(t_player.isInLight() &&
+				isFacingTowards(t_player.getPosition().getGlobalX()) &&
+				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
+				t_player.getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
+				t_player.getPosition().getGlobalY() >= m_position.getGlobalY() - 200));
 		}
 
 		public bool isFacingTowards(float a_x)
@@ -86,6 +90,7 @@ namespace GrandLarceny
 				m_speed.X = MOVEMENTSPEED;
 			}
 			m_facingRight = true;
+			m_barking = false;
 		}
 
 		internal float getRightpatrolPoint()
@@ -104,6 +109,7 @@ namespace GrandLarceny
 				m_speed.X = -MOVEMENTSPEED;
 			}
 			m_facingRight = false;
+			m_barking = false;
 		}
 
 		internal void stop()
@@ -113,6 +119,23 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
+			if (m_barking)
+			{
+				m_barkTimer -= a_gameTime.ElapsedGameTime.Milliseconds / 1000f;
+				if (m_barkTimer <= 0)
+				{
+					//play sound
+					foreach (GameObject go in Game.getInstance().getState().getObjectList())
+					{
+						if (go is Guard && (go.getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() <= AIStateBark.BARKRADIUS && ((NPE)go).getAIState() != AIStateChasing.getInstance())
+						{
+							((Guard)go).setChaseTarget(m_chaseTarget);
+							((NPE)go).setAIState(AIStateChasing.getInstance());
+						}
+					}
+					m_barkTimer = BARKCOOLDOWN;
+				}
+			}
 			if (m_facingRight)
 			{
 				m_spriteEffects = SpriteEffects.None;
@@ -137,11 +160,11 @@ namespace GrandLarceny
 					m_chargeing = false;
 					if (m_speed.X > 0)
 					{
-						m_speed.X = CHARGEINGSPEED;
+						m_speed.X = MOVEMENTSPEED;
 					}
 					else if (m_speed.X< 0)
 					{
-						m_speed.X = -CHARGEINGSPEED;
+						m_speed.X = -MOVEMENTSPEED;
 					}
 				}
 			}
@@ -152,11 +175,11 @@ namespace GrandLarceny
 					m_chargeing = true;
 					if (m_speed.X > 0)
 					{
-						m_speed.X = MOVEMENTSPEED;
+						m_speed.X = CHARGEINGSPEED;
 					}
 					else if (m_speed.X < 0)
 					{
-						m_speed.X = -MOVEMENTSPEED;
+						m_speed.X = -CHARGEINGSPEED;
 					}
 				}
 			}
@@ -264,6 +287,7 @@ namespace GrandLarceny
 						{
 							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X - m_collisionShape.getOutBox().Width);
 							stop();
+							m_aiState = AIStatepatroling.getInstance();
 						}
 					}
 					else if (m_speed.X < 0)
@@ -272,9 +296,60 @@ namespace GrandLarceny
 						{
 							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX());
 							stop();
+							m_aiState = AIStatepatroling.getInstance();
 						}
 					}
 				}
+			}
+		}
+
+		public bool isBarking()
+		{
+			return m_barking;
+		}
+
+		internal void startBarking()
+		{
+			m_chargeing = false;
+			m_speed.X = 0;
+			m_barkTimer = BARKCOOLDOWN;
+			m_barking = true;
+		}
+
+		public void setFacing(bool a_facingRight)
+		{
+			if (m_facingRight)
+			{
+				if (!a_facingRight)
+				{
+					if (m_speed.X > 0)
+					{
+						if (m_chargeing)
+						{
+							m_speed.X = -CHARGEINGSPEED;
+						}
+						else
+						{
+							m_speed.X = -MOVEMENTSPEED;
+						}
+					}
+					m_facingRight = a_facingRight;
+				}
+			}
+			else if (a_facingRight)
+			{
+				if (m_speed.X < 0)
+				{
+					if (m_chargeing)
+					{
+						m_speed.X = CHARGEINGSPEED;
+					}
+					else
+					{
+						m_speed.X = MOVEMENTSPEED;
+					}
+				}
+				m_facingRight = a_facingRight;
 			}
 		}
 	}

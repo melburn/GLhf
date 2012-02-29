@@ -73,9 +73,9 @@ namespace GrandLarceny
 							}
 							else
 							{
-								if (t_guard.getHorizontalSpeed() != 0)
+								if (t_guard.getHorizontalSpeed() == 0)
 								{
-									t_guard.stop();
+									t_guard.goLeft();
 								}
 							}
 						}
@@ -98,6 +98,7 @@ namespace GrandLarceny
 					{
 						t_guardDog.setChargePoint(Math.Sign(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - t_guardDog.getPosition().getGlobalX()) * AIStateChargeing.CHARGEDISTANCE
 							+ Game.getInstance().getState().getPlayer().getPosition().getGlobalX());
+						t_guardDog.setFacing(t_guardDog.getChargeingPoint() > t_guardDog.getPosition().getGlobalX());
 						return AIStateChargeing.getInstance();
 					}
 				}
@@ -123,7 +124,7 @@ namespace GrandLarceny
 								t_guardDog.goLeft();
 							}
 						}
-						else if (t_guardDog.getHorizontalSpeed() != 0)
+						else if (t_guardDog.getHorizontalSpeed() == 0)
 						{
 							t_guardDog.goLeft();
 						}

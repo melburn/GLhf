@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
@@ -77,6 +78,19 @@ namespace GrandLarceny
 		public bool isOn()
 		{
 			return m_switchedOn;
+		}
+
+		internal override void updateCollisionWith(Entity a_collid)
+		{
+			if (a_collid is Player && GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up))
+			{
+				toogleSwitch();
+			}
+		}
+
+		public LinkedList<SpotLight> getConnectedSpotLights()
+		{
+			return m_connectedSpotLights;
 		}
 	}
 }

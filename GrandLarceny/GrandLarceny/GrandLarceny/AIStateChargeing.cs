@@ -8,7 +8,7 @@ namespace GrandLarceny
 	[Serializable()]
 	public class AIStateChargeing : AIState
 	{
-		static public float CHARGEDISTANCE = 200;
+		static public float CHARGEDISTANCE = 400;
 		private static AIStateChargeing s_instance;
 		private AIStateChargeing() {}
 
