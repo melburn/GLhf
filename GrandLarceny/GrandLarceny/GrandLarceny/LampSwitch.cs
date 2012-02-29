@@ -80,15 +80,17 @@ namespace GrandLarceny
 			return m_switchedOn;
 		}
 
-		internal override void collisionCheck(List<Entity> a_collisionList)
+		internal override void updateCollisionWith(Entity a_collid)
 		{
-			foreach (Entity t_collision in a_collisionList)
+			if (a_collid is Player && GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up))
 			{
-				if (t_collision is Player && GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up))
-				{
-					toogleSwitch();
-				}
+				toogleSwitch();
 			}
+		}
+
+		public LinkedList<SpotLight> getConnectedSpotLights()
+		{
+			return m_connectedSpotLights;
 		}
 	}
 }
