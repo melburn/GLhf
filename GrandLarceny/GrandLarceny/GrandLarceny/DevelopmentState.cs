@@ -383,12 +383,15 @@ namespace GrandLarceny
 				if (m_selectedObject != null) {
 					clearSelectedObject();
 				}
-				Rectangle t_mouseClick = new Rectangle((int)m_worldMouse.X, (int)m_worldMouse.Y, 1, 1);
 
 				if (!collidedWithGui(m_worldMouse)) {
 					foreach (GameObject t_gameObject in m_gameObjectList) {
 						if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
-							if (m_selectedObject == null || m_selectedObject.getLayer() > t_gameObject.getLayer()) {
+							if (m_selectedObject is LampSwitch && t_gameObject is SpotLight)
+							{
+								((LampSwitch)m_selectedObject).connectSpotLight((SpotLight)t_gameObject);
+							}
+							else if (m_selectedObject == null || m_selectedObject.getLayer() > t_gameObject.getLayer()) {
 								m_selectedObject = t_gameObject;
 							}
 						}
