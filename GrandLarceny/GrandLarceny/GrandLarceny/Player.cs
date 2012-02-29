@@ -44,10 +44,17 @@ namespace GrandLarceny
 		[NonSerialized]
 		private bool m_isInLight;
 		[NonSerialized]
-		private bool m_onLadder;
+		private Direction m_ladderDirection;
 
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
+
+		public enum Direction
+		{
+			None,
+			Left,
+			Right
+		}
 
 		public enum State
 		{
@@ -376,7 +383,7 @@ namespace GrandLarceny
 				}
 				m_currentState = State.Jumping;
 			}
-			if(!m_onLadder)
+			if(m_ladderDirection == Direction.None)
 				m_currentState = State.Jumping;
 		}
 
@@ -539,7 +546,7 @@ namespace GrandLarceny
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
 			m_collidedWithWall = false;
-			m_onLadder = false;
+			m_ladderDirection = 0;
 			m_isInLight = false;
 			if (a_collisionList.Count == 0)
 			{
@@ -549,20 +556,24 @@ namespace GrandLarceny
 			{
 				base.collisionCheck(a_collisionList);
 			}
-			if(m_onLadder && m_collidedWithWall)
+			if(m_ladderDirection != Direction.None && m_collidedWithWall)
 			{
 				m_speed.X = 0;
 				if (m_currentState == State.Walking)
 				{
 					m_position.plusYWith(-1);
 				}
-				else if (m_currentState == State.Slide)
-				{
-					m_facingRight = !m_facingRight;
-				}
 				m_currentState = State.Climbing;
 				if (m_speed.Y < -Player.CLIMBINGSPEED || m_speed.Y > Player.CLIMBINGSPEED)
 					m_speed.Y = 0;
+				if (m_ladderDirection == Direction.Left)
+				{
+					m_facingRight = false;
+				}
+				else
+				{
+					m_facingRight = true;
+				}
 			}
 		}
 		public bool isInLight()
@@ -614,9 +625,9 @@ namespace GrandLarceny
 			m_collidedWithWall = a_collided;
 		}
 
-		public void setIsOnLadder(bool a_onLadder)
+		public void setIsOnLadderWithDirection(Direction a_ladderDirection)
 		{
-			m_onLadder = a_onLadder;
+			m_ladderDirection = a_ladderDirection;
 		}
 
 		public void setHidingImage(String a_imgPath)

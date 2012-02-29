@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
@@ -34,7 +35,10 @@ namespace GrandLarceny
 						|| (t_player.getCurrentState() != Player.State.Walking 
 						&& t_player.getCurrentState() != Player.State.Stop))
 					{
-						t_player.setIsOnLadder(true);
+						if (this.m_spriteEffects == SpriteEffects.FlipHorizontally)
+							t_player.setIsOnLadderWithDirection(Player.Direction.Left);
+						else
+							t_player.setIsOnLadderWithDirection(Player.Direction.Right);
 					}
 				}
 			}
