@@ -51,6 +51,9 @@ namespace GrandLarceny
 		private Button m_btnStandHideHotkey;
 		private Button m_btnDogHotkey;
 
+		private Line m_leftPatrolLine;
+		private Line m_rightPatrolLine;
+
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
 		private string assetToCreate = null;
@@ -127,30 +130,31 @@ namespace GrandLarceny
 			m_UItextBackground = new GuiObject(new Vector2(0, 0), "dev_bg_info");
 			m_guiList.AddLast(m_UItextBackground);
 
+			Vector2 t_btnTextOffset = new Vector2(8, 50);
 			m_btnLadderHotkey		= new Button("btn_ladder_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "L", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "L", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnPlatformHotkey			= new Button("btn_platform_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "P", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "P", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnBackgroundHotkey	= new Button("btn_background_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "B", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "B", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnDeleteHotkey		= new Button("btn_delete_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "D", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "D", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnHeroHotkey			= new Button("btn_hero_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "H", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "H", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnSelectHotkey		= new Button("btn_select_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "S", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "S", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnSpotlightHotkey	= new Button("btn_spotlight_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "T", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "T", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnGuardHotkey		= new Button("btn_guard_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "G", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "G", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnWallHotkey			= new Button("btn_wall_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "W", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "W", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnDuckHideHotkey		= new Button("btn_duckhide_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "S+H", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "S+H", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnStandHideHotkey	= new Button("btn_standhide_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "C+H", "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "C+H", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnDogHotkey			= new Button("btn_dog_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), null, "VerdanaBold", Color.White, new Vector2(6, 45));
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), null, "VerdanaBold", Color.White, t_btnTextOffset);
 
 			m_buttonList.AddLast(m_btnLadderHotkey);
 			m_buttonList.AddLast(m_btnPlatformHotkey);
@@ -388,6 +392,8 @@ namespace GrandLarceny
 					if (m_selectedObject != null) {
 						if (m_selectedObject is Guard) {
 							showGuardInfo((Guard)m_selectedObject);
+						} else if (m_selectedObject is GuardDog) {
+							showDogInfo((GuardDog)m_selectedObject);
 						}
 						m_selectedObject.setColor(Color.Yellow);
 					}
@@ -493,6 +499,8 @@ namespace GrandLarceny
 			m_selectedObject.setColor(Color.White);
 			m_selectedObject = null;
 			m_selectedInfoV2 = Vector2.Zero;
+			m_leftPatrolLine = null;
+			m_rightPatrolLine = null;
 		}
 
 		private void setBuildingState(State a_state) {
@@ -577,6 +585,14 @@ namespace GrandLarceny
 
 		private void showGuardInfo(Guard a_guard) {
 			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
+			m_leftPatrolLine = new Line(a_guard.getPosition(), (int)a_guard.getLeftpatrolPoint(), Color.Green, false);
+			m_rightPatrolLine = new Line(a_guard.getPosition(), (int)a_guard.getRightpatrolPoint(), Color.Green, true);
+		}
+
+		private void showDogInfo(GuardDog a_guard) {
+			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
+			m_leftPatrolLine = new Line(a_guard.getPosition(), a_guard.getLeftpatrolPoint(), Color.Green, false);
+			m_rightPatrolLine = new Line(a_guard.getPosition(), a_guard.getRightpatrolPoint(), Color.Green, true);
 		}
 
 		private void setGuardPoint(NPE a_guard, bool a_right) {
@@ -755,6 +771,10 @@ namespace GrandLarceny
 				t_button.draw(a_gameTime, a_spriteBatch);
 			if (m_objectPreview != null)
 				m_objectPreview.draw(a_gameTime);
+			if (m_leftPatrolLine != null)
+				m_leftPatrolLine.draw();
+			if (m_rightPatrolLine != null)
+				m_rightPatrolLine.draw();
 		}
 
 		public override void addObject(GameObject a_object)
