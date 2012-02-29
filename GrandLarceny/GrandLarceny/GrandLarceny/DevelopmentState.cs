@@ -356,14 +356,7 @@ namespace GrandLarceny
 							break;
 					}
 				} else {
-					switch (m_itemToCreate) {
-						case State.GuardLeft:
-							setGuardPoint((Guard)m_selectedObject, false);
-							break;
-						case State.GuardRight:
-							setGuardPoint((Guard)m_selectedObject, true);
-							break;
-					}
+					setGuardPoint((NPE)m_selectedObject, m_itemToCreate == State.GuardRight);
 				}
 				return;
 			}
@@ -619,11 +612,25 @@ namespace GrandLarceny
 			);
 		}
 
-		private void setGuardPoint(Guard a_guard, bool a_right) {
-			if (a_right)
-				a_guard.setRightGuardPoint(getTile(m_worldMouse).X);
+		private void setGuardPoint(NPE a_guard, bool a_right) {
+			if (a_guard is Guard)
+			{
+				if (a_right)
+					((Guard)a_guard).setRightGuardPoint(getTile(m_worldMouse).X);
+				else
+					((Guard)a_guard).setLeftGuardPoint(getTile(m_worldMouse).X);
+			}
+			else if (a_guard is GuardDog)
+			{
+				if (a_right)
+					((GuardDog)a_guard).setRightGuardPoint(getTile(m_worldMouse).X);
+				else
+					((GuardDog)a_guard).setLeftGuardPoint(getTile(m_worldMouse).X);
+			}
 			else
-				a_guard.setLeftGuardPoint(getTile(m_worldMouse).X);
+			{
+				throw new ArgumentException();
+			}
 		}
 
 		private void selectAsset(Button a_button)
