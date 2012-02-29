@@ -156,8 +156,8 @@ namespace GrandLarceny
 		}
 		public void setPosition(Vector2 a_position)
 		{
-			a_position.X -= Game.getInstance().m_graphics.PreferredBackBufferWidth / 2;
-			a_position.Y -= Game.getInstance().m_graphics.PreferredBackBufferHeight / 2;
+			a_position.X -= Game.getInstance().getResolution().X / 2;
+			a_position.Y -= Game.getInstance().getResolution().Y / 2;
 			m_position.setCartesianCoordinates(a_position);
 		}
 		public Vector2 getSize()

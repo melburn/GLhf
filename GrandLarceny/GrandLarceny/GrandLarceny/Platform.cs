@@ -52,20 +52,20 @@ namespace GrandLarceny
 					{
 						t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
 						t_player.setSpeedX(0);
-						t_player.climb(this);
+						t_player.hang(this);
 					}
 					//Colliding with ze right wall
 					if ((int)t_player.getLastPosition().X + t_player.getHitBox().getOutBox().Width - 1 <= (int)getLastPosition().X)
 					{
 						t_player.setNextPositionX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
 						t_player.setSpeedX(0);
-						t_player.climb(this);
+						t_player.hang(this);
 					}
-					t_player.climb(this);
+					t_player.hang(this);
 				}
 				else
 				{
-					t_player.climb(this);
+					t_player.hang(this);
 				}
 			}
 		}
