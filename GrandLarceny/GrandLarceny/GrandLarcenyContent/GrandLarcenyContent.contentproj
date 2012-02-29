@@ -66,6 +66,7 @@
       <Name>VerdanaBold</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
     <None Include="wtf\loadImages.txt">
       <Name>loadImages</Name>
