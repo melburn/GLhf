@@ -22,6 +22,14 @@ namespace GrandLarceny
 			m_lineTexture.SetData(new[] { a_color });
 		}
 
+		public Line(Vector2 a_leftPoint, Vector2 a_rightPoint, Color a_color) {
+			m_lineTexture = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+			m_leftPosition = new CartesianCoordinate(a_leftPoint);
+			m_rightPosition = new CartesianCoordinate(a_rightPoint);
+			m_lineColor = a_color;
+			m_lineTexture.SetData(new[] { a_color });
+		}
+
 		public void draw() {
 			float t_angle = (float)Math.Atan2(m_rightPosition.getGlobalY() - m_leftPosition.getGlobalY(), m_rightPosition.getGlobalX() - m_leftPosition.getGlobalX());
 			float t_length = Vector2.Distance(m_leftPosition.getGlobalCartesianCoordinates(), m_rightPosition.getGlobalCartesianCoordinates());
