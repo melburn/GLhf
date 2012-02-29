@@ -394,9 +394,6 @@ namespace GrandLarceny
 							showGuardInfo((Guard)m_selectedObject);
 						} else if (m_selectedObject is GuardDog) {
 							showDogInfo((GuardDog)m_selectedObject);
-						} else {
-							m_leftPatrolLine = null;
-							m_rightPatrolLine = null;
 						}
 						m_selectedObject.setColor(Color.Yellow);
 					}
@@ -502,6 +499,8 @@ namespace GrandLarceny
 			m_selectedObject.setColor(Color.White);
 			m_selectedObject = null;
 			m_selectedInfoV2 = Vector2.Zero;
+			m_leftPatrolLine = null;
+			m_rightPatrolLine = null;
 		}
 
 		private void setBuildingState(State a_state) {
@@ -586,30 +585,14 @@ namespace GrandLarceny
 
 		private void showGuardInfo(Guard a_guard) {
 			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
-			m_leftPatrolLine = new Line(
-				a_guard.getPosition().getGlobalCartesianCoordinates(), 
-				new Vector2(a_guard.getLeftpatrolPoint(), a_guard.getPosition().getGlobalY()), 
-				Color.Green
-			);
-			m_rightPatrolLine = new Line(
-				new Vector2(a_guard.getRightpatrolPoint(), a_guard.getPosition().getGlobalY()),
-				a_guard.getPosition().getGlobalCartesianCoordinates(),
-				Color.Green
-			);
+			m_leftPatrolLine = new Line(a_guard.getPosition(), (int)a_guard.getLeftpatrolPoint(), Color.Green, false);
+			m_rightPatrolLine = new Line(a_guard.getPosition(), (int)a_guard.getRightpatrolPoint(), Color.Green, true);
 		}
 
 		private void showDogInfo(GuardDog a_guard) {
 			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
-			m_leftPatrolLine = new Line(
-				a_guard.getPosition().getGlobalCartesianCoordinates(), 
-				new Vector2(a_guard.getLeftpatrolPoint(), a_guard.getPosition().getGlobalY()), 
-				Color.Green
-			);
-			m_rightPatrolLine = new Line(
-				new Vector2(a_guard.getRightpatrolPoint(), a_guard.getPosition().getGlobalY()),
-				a_guard.getPosition().getGlobalCartesianCoordinates(),
-				Color.Green
-			);
+			m_leftPatrolLine = new Line(a_guard.getPosition(), a_guard.getLeftpatrolPoint(), Color.Green, false);
+			m_rightPatrolLine = new Line(a_guard.getPosition(), a_guard.getRightpatrolPoint(), Color.Green, true);
 		}
 
 		private void setGuardPoint(NPE a_guard, bool a_right) {
