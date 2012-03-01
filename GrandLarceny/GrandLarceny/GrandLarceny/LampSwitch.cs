@@ -38,13 +38,6 @@ namespace GrandLarceny
 			if (m_switchedOn)
 			{
 				//m_img.setSprite(on);
-				foreach (GameObject go in Game.getInstance().getState().getCurrentList())
-				{
-					if (go is Guard)
-					{
-						((Guard)go).removeLampSwitchTarget(this);
-					}
-				}
 			}
 			else
 			{
@@ -56,22 +49,6 @@ namespace GrandLarceny
 						((Guard)go).addLampSwitchTarget(this);
 					}
 				}
-			}
-		}
-		public void setSwitch(bool a_on)
-		{
-			m_switchedOn = a_on;
-			foreach (SpotLight t_spotlight in m_connectedSpotLights)
-			{
-				t_spotlight.setLit(m_switchedOn);
-			}
-			if (m_switchedOn)
-			{
-				//m_img.setSprite(on);
-			}
-			else
-			{
-				//m_img.setSprite(off);
 			}
 		}
 
