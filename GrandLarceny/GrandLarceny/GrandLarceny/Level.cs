@@ -15,6 +15,11 @@ namespace GrandLarceny
 		public Level()
 		{
 			m_loadedList = new LinkedList<GameObject>[5];
+			m_loadedList[0] = new LinkedList<GameObject>();
+			m_loadedList[1] = new LinkedList<GameObject>();
+			m_loadedList[2] = new LinkedList<GameObject>();
+			m_loadedList[3] = new LinkedList<GameObject>();
+			m_loadedList[4] = new LinkedList<GameObject>();
 		}
 
 		public void setLevelObjects(LinkedList<GameObject>[] a_gameObjects)

@@ -17,7 +17,7 @@ namespace GrandLarceny
 		{
 		}
 
-		public static Serializer getInstace()
+		public static Serializer getInstance()
 		{
 			if (m_instance == null)
 			{

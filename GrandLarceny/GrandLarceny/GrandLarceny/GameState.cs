@@ -20,6 +20,7 @@ namespace GrandLarceny
 		public static KeyboardState m_previousKeyInput;
 		public static KeyboardState m_currentKeyInput;
 		private string m_currentLevel;
+		private int m_currentList;
 
 		private Player player;
 
@@ -56,11 +57,14 @@ namespace GrandLarceny
 		*/
 		public override void update(GameTime a_gameTime)
 		{
+			m_currentList = -1;
 			m_currentKeyInput = Keyboard.GetState();
 			m_currentMouse = Mouse.GetState();
 
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
+
+				m_currentList++;
 				foreach (GameObject t_gameObject in t_list)
 				{
 					t_gameObject.update(a_gameTime);
@@ -76,9 +80,10 @@ namespace GrandLarceny
 			{
 				Game.getInstance().setState(new GameState());
 			}
-
+			m_currentList = -1;
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
+				m_currentList++;
 				foreach (GameObject t_firstGameObject in t_list)
 				{
 					if (t_firstGameObject is MovingObject)
@@ -135,9 +140,12 @@ namespace GrandLarceny
 		{
 			return player;
 		}
-		public override LinkedList<GameObject> getObjectList()
+		public override LinkedList<GameObject>[] getObjectList()
 		{
 			return m_gameObjectList;
+		}
+		public override LinkedList<GameObject> getCurrentList() {
+			return m_gameObjectList[m_currentList];
 		}
 	}
 }

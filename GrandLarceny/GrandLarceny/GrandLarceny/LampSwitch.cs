@@ -38,7 +38,7 @@ namespace GrandLarceny
 			if (m_switchedOn)
 			{
 				//m_img.setSprite(on);
-				foreach (GameObject go in Game.getInstance().getState().getObjectList())
+				foreach (GameObject go in Game.getInstance().getState().getCurrentList())
 				{
 					if (go is Guard)
 					{
@@ -49,7 +49,7 @@ namespace GrandLarceny
 			else
 			{
 				//m_img.setSprite(off);
-				foreach (GameObject go in Game.getInstance().getState().getObjectList())
+				foreach (GameObject go in Game.getInstance().getState().getCurrentList())
 				{
 					if (go is Guard && CollisionManager.possibleLineOfSight(go.getPosition().getGlobalCartesianCoordinates(), m_position.getGlobalCartesianCoordinates()))
 					{
