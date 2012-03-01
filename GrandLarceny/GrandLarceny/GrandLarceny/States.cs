@@ -50,5 +50,8 @@ namespace GrandLarceny
 		public virtual LinkedList<GameObject> getCurrentList() {
 			return new LinkedList<GameObject>();
 		}
+		public virtual void changeLayer(int a_newLayer)
+		{
+		}
 	}
 }

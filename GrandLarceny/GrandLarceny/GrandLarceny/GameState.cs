@@ -176,5 +176,22 @@ namespace GrandLarceny
 		public override LinkedList<GameObject> getCurrentList() {
 			return m_gameObjectList[m_currentList];
 		}
+		public override void changeLayer(int a_newLayer)
+		{
+			Player t_player = null;
+			foreach (GameObject t_go in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
+			{
+				if (t_go is Player)
+				{
+					t_player = (Player)t_go;
+				}
+			}
+			if (t_player != null)
+			{
+				m_gameObjectList[a_newLayer].AddLast(t_player);
+				m_gameObjectList[Game.getInstance().m_camera.getLayer()].Remove(t_player);
+			}
+			Game.getInstance().m_camera.setLayer(a_newLayer);
+		}
 	}
 }
