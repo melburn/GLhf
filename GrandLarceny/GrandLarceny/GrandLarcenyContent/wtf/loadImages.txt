@@ -1,6 +1,2 @@
-Images//WalkingSquareStand:1
-Images//WalkingSquareWalking:4
-Images//WalkingSquareJumping:1
-Images//WalkingSquareFalling:1
-Images//Sprite//guard_walk:8
-Images//Sprite//hero_walk:8
+Images//Sprite//Guard//guard_walk:8
+Images//Sprite//Hero//hero_walk:8
