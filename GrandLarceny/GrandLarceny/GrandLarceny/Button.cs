@@ -56,7 +56,7 @@ namespace GrandLarceny
 			setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_toggle));
 			if (a_font == null)
 				a_font = "Courier New";
-			m_text = new Text(a_position, a_offset, a_buttonText, Game.getInstance().Content.Load<SpriteFont>("Fonts//" + a_font), a_color, false);
+			m_text = new Text(a_position, a_offset, a_buttonText, a_font, a_color, false);
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
@@ -76,7 +76,7 @@ namespace GrandLarceny
 			}
 			if (a_font == null)
 				a_font = "Courier New";
-			m_text = new Text(a_position, a_offset, a_buttonText, Game.getInstance().Content.Load<SpriteFont>("Fonts//" + a_font), a_color, false);
+			m_text = new Text(a_position, a_offset, a_buttonText, a_font, a_color, false);
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
