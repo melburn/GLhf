@@ -9,6 +9,7 @@ namespace GrandLarceny
 {
 	public class Camera
 	{
+		private int m_layer = 0;
 		private float m_zoom;
 		private float m_rotation;
 		private Position m_position;
@@ -82,6 +83,15 @@ namespace GrandLarceny
 				* Matrix.CreateScale(new Vector3(m_zoom, m_zoom, 1)) 
 				* Matrix.CreateTranslation(new Vector3(Game.getInstance().getResolution().X * 0.5f, Game.getInstance().getResolution().Y * 0.5f, 0)
 			);
+		}
+
+		internal int getLayer()
+		{
+			return m_layer;
+		}
+		internal void setLayer(int a_layer)
+		{
+			m_layer = a_layer;
 		}
 	}
 }

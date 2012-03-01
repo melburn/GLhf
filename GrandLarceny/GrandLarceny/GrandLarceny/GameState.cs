@@ -10,7 +10,8 @@ namespace GrandLarceny
 {
 	public class GameState : States
 	{
-		private LinkedList<GameObject> m_gameObjectList;
+		private LinkedList<GameObject>[] m_gameObjectList;
+		private LinkedList<GameObject> m_ventilationObjectList;
 		//private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
 		//private LinkedList<GameObject> m_addList = new LinkedList<GameObject>();
 		private LinkedList<GameObject> m_changeList = new LinkedList<GameObject>();
@@ -58,9 +59,12 @@ namespace GrandLarceny
 			m_currentKeyInput = Keyboard.GetState();
 			m_currentMouse = Mouse.GetState();
 
-			foreach (GameObject t_gameObject in m_gameObjectList)
+			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
-				t_gameObject.update(a_gameTime);
+				foreach (GameObject t_gameObject in t_list)
+				{
+					t_gameObject.update(a_gameTime);
+				}
 			}
 
 			if (m_currentKeyInput.IsKeyDown(Keys.Q))
@@ -73,32 +77,35 @@ namespace GrandLarceny
 				Game.getInstance().setState(new GameState());
 			}
 
-			foreach (GameObject t_firstGameObject in m_gameObjectList)
+			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
-				if (t_firstGameObject is MovingObject)
+				foreach (GameObject t_firstGameObject in t_list)
 				{
-
-					List<Entity> t_collided = new List<Entity>();
-					foreach (GameObject t_secondGameObject in m_gameObjectList)
+					if (t_firstGameObject is MovingObject)
 					{
-						if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject
-							&& checkBigBoxCollision(((Entity)t_firstGameObject).getHitBox().getOutBox(), ((Entity)t_secondGameObject).getHitBox().getOutBox()))
+
+						List<Entity> t_collided = new List<Entity>();
+						foreach (GameObject t_secondGameObject in t_list)
 						{
-							t_collided.Add((Entity)t_secondGameObject);
+							if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject
+								&& checkBigBoxCollision(((Entity)t_firstGameObject).getHitBox().getOutBox(), ((Entity)t_secondGameObject).getHitBox().getOutBox()))
+							{
+								t_collided.Add((Entity)t_secondGameObject);
+							}
 						}
+						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
+						((Entity)t_firstGameObject).updatePosition();
+
 					}
-					((MovingObject)t_firstGameObject).collisionCheck(t_collided);
-					((Entity)t_firstGameObject).updatePosition();
 
+					if (t_firstGameObject.isDead())
+					{
+						m_changeList.AddLast(t_firstGameObject);
+					}
 				}
-
-				if (t_firstGameObject.isDead())
-				{
-					m_changeList.AddLast(t_firstGameObject);
-				}
+				t_list.Except(m_changeList);
+				m_changeList.Clear();
 			}
-			m_gameObjectList.Except(m_changeList);
-			m_changeList.Clear();
 			m_previousMouse = m_currentMouse;
 			m_previousKeyInput = m_currentKeyInput;
 		}
@@ -107,7 +114,7 @@ namespace GrandLarceny
 		*/
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			foreach (GameObject t_gameObject in m_gameObjectList)
+			foreach (GameObject t_gameObject in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
 			{
 				t_gameObject.draw(a_gameTime);
 			}

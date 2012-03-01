@@ -11,7 +11,7 @@ namespace GrandLarceny
 {
 	class Serializer
 	{
-		private static Serializer m_instace;
+		private static Serializer m_instance;
 
 		private Serializer()
 		{
@@ -19,12 +19,12 @@ namespace GrandLarceny
 
 		public static Serializer getInstace()
 		{
-			if (m_instace == null)
+			if (m_instance == null)
 			{
-				m_instace = new Serializer();
+				m_instance = new Serializer();
 			}
 
-			return m_instace;
+			return m_instance;
 		}
 
 		public void SaveLevel(string a_fileName, Level a_save)
