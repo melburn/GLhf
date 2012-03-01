@@ -468,6 +468,11 @@ namespace GrandLarceny
 					m_currentState = State.Jumping;
 				}
 			}
+			else if (GameState.m_currentKeyInput.IsKeyDown(Keys.Down) && m_ladderDirection != Direction.None)
+			{
+				m_currentState = State.Climbing;
+				//m_position.plusYWith(3);
+			}
 		}
 
 		private void updateHiding()
@@ -629,9 +634,11 @@ namespace GrandLarceny
 
 		public void hang(Entity a_collider)
 		{
-			if (!a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X + getHitBox().getOutBox().Width + 4, (int)m_lastPosition.Y)
-				&& a_collider.getHitBox().getOutBox().Contains((int)m_position.getGlobalX() + getHitBox().getOutBox().Width + 4, (int)m_position.getGlobalY())
-				&& m_lastPosition.Y < a_collider.getHitBox().getOutBox().Y
+			Rectangle t_colliderBox = a_collider.getHitBox().getOutBox();
+			Rectangle t_playerBox = getHitBox().getOutBox();
+			if (!t_colliderBox.Contains((int)m_lastPosition.X + t_playerBox.Width + 4, (int)m_lastPosition.Y)
+				&& t_colliderBox.Contains((int)m_position.getGlobalX() + t_playerBox.Width + 4, (int)m_position.getGlobalY())
+				&& m_lastPosition.Y < t_colliderBox.Y
 				&& m_speed.Y >= 0
 				&& m_currentState == State.Jumping)
 			{
@@ -641,9 +648,9 @@ namespace GrandLarceny
 				m_currentState = State.Hanging;
 				m_facingRight = true;
 			}
-			else if (!a_collider.getHitBox().getOutBox().Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y)
-				&& a_collider.getHitBox().getOutBox().Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
-				&& m_lastPosition.Y < a_collider.getHitBox().getOutBox().Y
+			else if (!t_colliderBox.Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y)
+				&& t_colliderBox.Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
+				&& m_lastPosition.Y < t_colliderBox.Y
 				&& m_speed.Y >= 0
 				&& m_currentState == State.Jumping)
 			{
