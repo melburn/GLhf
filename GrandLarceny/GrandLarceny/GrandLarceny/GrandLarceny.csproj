@@ -158,6 +158,7 @@
     <Compile Include="States.cs" />
     <Compile Include="VentilationDrum.cs" />
     <Compile Include="Wall.cs" />
+    <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

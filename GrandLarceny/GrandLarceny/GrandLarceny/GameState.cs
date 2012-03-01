@@ -163,7 +163,6 @@ namespace GrandLarceny
 		public override void removeObject(GameObject a_object, int a_layer)
 		{
 			m_removeList[a_layer].Push(a_object);
-			a_object.kill();
 		}
 		public override Player getPlayer()
 		{
@@ -188,8 +187,8 @@ namespace GrandLarceny
 			}
 			if (t_player != null)
 			{
-				m_gameObjectList[a_newLayer].AddLast(t_player);
-				m_gameObjectList[Game.getInstance().m_camera.getLayer()].Remove(t_player);
+				addObject(t_player, a_newLayer);
+				removeObject(t_player, Game.getInstance().m_camera.getLayer());
 			}
 			Game.getInstance().m_camera.setLayer(a_newLayer);
 		}
