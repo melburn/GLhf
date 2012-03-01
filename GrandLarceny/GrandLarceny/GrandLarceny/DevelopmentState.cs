@@ -869,7 +869,7 @@ namespace GrandLarceny
 		private void createGuardDog() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new GuardDog(getTile(m_worldMouse), "Images//Sprite//GuardDog" + assetToCreate, getTile(m_worldMouse).X, getTile(m_worldMouse).X, 0.299f));
+			addObject(new GuardDog(getTile(m_worldMouse), "Images//Sprite//GuardDog//" + assetToCreate, getTile(m_worldMouse).X, getTile(m_worldMouse).X, 0.299f));
 		}
 
 		private void createLightSwitch() {
