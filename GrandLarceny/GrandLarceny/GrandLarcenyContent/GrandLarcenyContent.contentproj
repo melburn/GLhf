@@ -615,6 +615,7 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="Images\Prop\Button\1x1_tile_ph.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>1x1_tile_ph</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

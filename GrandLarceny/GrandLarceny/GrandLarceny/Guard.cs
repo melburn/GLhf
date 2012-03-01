@@ -90,14 +90,14 @@ namespace GrandLarceny
 			{
 				m_speed.X = CHASINGSPEED;
 				m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-				m_img.setSprite("Images//Sprite//guard_walk");
+				m_img.setSprite("Images//Sprite//Guard//guard_walk");
 				//TODO Spring
 			}
 			else
 			{
 				m_speed.X = MOVEMENTSPEED;
 				m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
-				m_img.setSprite("Images//Sprite//guard_walk");
+				m_img.setSprite("Images//Sprite//Guard//guard_walk");
 			}
 			m_facingRight = true;
 			/*
@@ -113,14 +113,14 @@ namespace GrandLarceny
 			{
 				m_speed.X = -CHASINGSPEED;
 				m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-				m_img.setSprite("Images//Sprite//guard_walk");
+				m_img.setSprite("Images//Sprite//Guard//guard_walk");
 				//TODO SPRING
 			}
 			else
 			{
 				m_speed.X = -MOVEMENTSPEED;
 				m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
-				m_img.setSprite("Images//Sprite//guard_walk");
+				m_img.setSprite("Images//Sprite//Guard//guard_walk");
 			}
 			m_facingRight = false;
 			/*
@@ -139,7 +139,7 @@ namespace GrandLarceny
 			m_speed.X = 0;
 			if (m_flashLight == null)
 			{
-				m_img.setSprite("Images//Sprite//guard_idle");
+				m_img.setSprite("Images//Sprite//Guard//guard_idle");
 			}
 			else
 			{
@@ -197,7 +197,7 @@ namespace GrandLarceny
 				{
 					if (m_flashLight == null)
 					{
-						m_img.setSprite("Images//Sprite//guard_walk");
+						m_img.setSprite("Images//Sprite//Guard//guard_walk");
 						m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 					}
 					else
@@ -217,7 +217,7 @@ namespace GrandLarceny
 				{
 					if (m_flashLight == null)
 					{
-						m_img.setSprite("Images//Sprite//guard_walk");
+						m_img.setSprite("Images//Sprite//Guard//guard_walk");
 						m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 					}
 					else
