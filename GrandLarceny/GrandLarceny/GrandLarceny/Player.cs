@@ -33,11 +33,11 @@ namespace GrandLarceny
 		public const string DUCKHIDINGIMAGE = "Images//Sprite//hero_hide";
 		private string m_currentHidingImage;
 		[NonSerialized]
-		private CollisionShape m_standHitBox;
+		private CollisionRectangle m_standHitBox;
 		[NonSerialized]
-		private CollisionShape m_rollHitBox;
+		private CollisionRectangle m_rollHitBox;
 		[NonSerialized]
-		private CollisionShape m_SlideBox;
+		private CollisionRectangle m_SlideBox;
 
 		private State m_currentState = State.Stop;
 		private State m_lastState = State.Stop;
@@ -471,7 +471,17 @@ namespace GrandLarceny
 			else if (GameState.m_currentKeyInput.IsKeyDown(Keys.Down) && m_ladderDirection != Direction.None)
 			{
 				m_currentState = State.Climbing;
-				//m_position.plusYWith(3);
+			}
+			else if (GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up))
+			{
+				m_currentState = State.Stop;
+				
+				if (m_facingRight)
+					m_position.setX(m_position.getGlobalX() + m_standHitBox.m_width);
+				else
+					m_position.setX(m_position.getGlobalX() - m_standHitBox.m_width);
+
+				m_position.setY(m_position.getGlobalY() - m_standHitBox.m_height);
 			}
 		}
 
