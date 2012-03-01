@@ -84,6 +84,9 @@ namespace GrandLarceny
 		{
 			return m_dead;
 		}
+		public void kill() {
+			m_dead = true;
+		}
 		public void setLayer(float a_layer)
 		{
 			m_layer = a_layer;

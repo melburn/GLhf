@@ -104,6 +104,10 @@ namespace GrandLarceny
 			return a_pixelPosition;
 		}
 
+		private bool keyClicked(Keys a_key) {
+			return m_currentKeyboard.IsKeyDown(a_key) && m_previousKeyboard.IsKeyUp(a_key);
+		}
+
 		public override void load()
 		{
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
@@ -245,39 +249,39 @@ namespace GrandLarceny
 		#region Update Keyboard
 		private void updateKeyboard()
 		{
-			if (m_currentKeyboard.IsKeyDown(Keys.R) && m_previousKeyboard.IsKeyUp(Keys.R))
+			if (keyClicked(Keys.R))
 				Game.getInstance().setState(new GameState(m_levelToLoad));
-			if (m_currentKeyboard.IsKeyDown(Keys.P) && m_previousKeyboard.IsKeyUp(Keys.P))
+			if (keyClicked(Keys.P))
 				setBuildingState(State.Platform);
-			if (m_currentKeyboard.IsKeyDown(Keys.L) && m_previousKeyboard.IsKeyUp(Keys.L))
+			if (keyClicked(Keys.L))
 				setBuildingState(State.Ladder);
-			if (m_currentKeyboard.IsKeyDown(Keys.B) && m_previousKeyboard.IsKeyUp(Keys.B))
+			if (keyClicked(Keys.B))
 				setBuildingState(State.Background);
-			if (m_currentKeyboard.IsKeyDown(Keys.D) && m_previousKeyboard.IsKeyUp(Keys.D))
+			if (keyClicked(Keys.D))
 				setBuildingState(State.Delete);
-			if (m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H))
+			if (keyClicked(Keys.H))
 				setBuildingState(State.Player);
-			if (m_currentKeyboard.IsKeyDown(Keys.S) && m_previousKeyboard.IsKeyUp(Keys.S))
+			if (keyClicked(Keys.S))
 				setBuildingState(State.None);
-			if (m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.T))
+			if (keyClicked(Keys.T))
 				setBuildingState(State.SpotLight);
-			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && m_currentKeyboard.IsKeyDown(Keys.T) && m_previousKeyboard.IsKeyUp(Keys.T))
+			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && keyClicked(Keys.T))
 				setBuildingState(State.LightSwitch);
-			if (m_currentKeyboard.IsKeyDown(Keys.G) && m_previousKeyboard.IsKeyUp(Keys.G))
+			if (keyClicked(Keys.G))
 				setBuildingState(State.Guard);
-			if (m_currentKeyboard.IsKeyDown(Keys.W) && m_previousKeyboard.IsKeyUp(Keys.W))
+			if (keyClicked(Keys.W))
 				setBuildingState(State.Wall);
-			if (m_currentKeyboard.IsKeyDown(Keys.N) && m_previousKeyboard.IsKeyUp(Keys.N))
+			if (keyClicked(Keys.N))
 				setBuildingState(State.GuardLeft);
-			if (m_currentKeyboard.IsKeyDown(Keys.M) && m_previousKeyboard.IsKeyUp(Keys.M))
+			if (keyClicked(Keys.M))
 				setBuildingState(State.GuardRight);
-			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H))
+			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && keyClicked(Keys.H))
 				setBuildingState(State.DuckHidingObject);
-			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && m_currentKeyboard.IsKeyDown(Keys.H) && m_previousKeyboard.IsKeyUp(Keys.H))
+			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && keyClicked(Keys.H))
 				setBuildingState(State.StandHidingObject);
-			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && m_currentKeyboard.IsKeyDown(Keys.G) && m_previousKeyboard.IsKeyUp(Keys.G))
+			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && keyClicked(Keys.G))
 				setBuildingState(State.GuardDog);
-			if (m_currentKeyboard.IsKeyDown(Keys.Space) && m_previousKeyboard.IsKeyUp(Keys.Space))
+			if (keyClicked(Keys.Space))
 				if (m_gameObjectList != null)
 					Game.getInstance().m_camera.setPosition(m_gameObjectList.First().getPosition().getGlobalCartesianCoordinates());
 
@@ -730,10 +734,8 @@ namespace GrandLarceny
 		}
 
 		#region Create-methods
-		private void createPlayer()
-		{
-			if (m_player == null)
-			{
+		private void createPlayer() {
+			if (m_player == null) {
 				if (collidedWithObject(m_worldMouse))
 					return;
 				m_player = new Player(getTile(m_worldMouse), "Images//Sprite//" + assetToCreate, 0.250f);
@@ -741,24 +743,21 @@ namespace GrandLarceny
 			}
 		}
 
-		private void createPlatform()
-		{
+		private void createPlatform() {
 			if (collidedWithObject(m_worldMouse))
 				return;
 			Platform t_platform = new Platform(getTile(m_worldMouse), "Images//Tile//" + assetToCreate, 0.350f);
 			addObject(t_platform);
 		}
 
-		private void createLadder()
-		{
+		private void createLadder() {
 			if (collidedWithObject(m_worldMouse))
 				return;
 			Ladder t_ladder = new Ladder(getTile(m_worldMouse), "Images//Tile//" + assetToCreate, 0.350f);
 			addObject(t_ladder);
 		}
 
-		private void createSpotLight()
-		{
+		private void createSpotLight() {
 			if (collidedWithObject(m_worldMouse))
 				return;
 			SpotLight t_sl = new SpotLight(getTile(m_worldMouse), "Images//LightCone//"  + assetToCreate, 0.2f, (float)(Math.PI * 0.5f), true);
@@ -791,8 +790,8 @@ namespace GrandLarceny
 		{
 			if (a_gameObject is Player)
 				m_player = null;
-			if (a_gameObject is SpotLight)
-			{
+			a_gameObject.kill();
+			if (a_gameObject is SpotLight) {
 				LightCone t_lightCone = ((SpotLight)a_gameObject).getLightCone();
 				if (t_lightCone != null)
 					m_gameObjectList.Remove(t_lightCone);
