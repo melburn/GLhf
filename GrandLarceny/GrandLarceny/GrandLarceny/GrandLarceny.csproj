@@ -156,6 +156,7 @@
     <Compile Include="Sound.cs" />
     <Compile Include="SpotLight.cs" />
     <Compile Include="States.cs" />
+    <Compile Include="VentilationDrum.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
