@@ -238,14 +238,17 @@ namespace GrandLarceny
 
 		public bool canSeePlayer()
 		{
-			return Game.getInstance().getState().getPlayer() != null &&
-				Game.getInstance().getState().getPlayer().isInLight() &&
-				isFacingTowards(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()) &&
-				Math.Abs(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
-				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
-				Game.getInstance().getState().getPlayer().getPosition().getGlobalY() >= m_position.getGlobalY() - 200 &&
+			Player t_player = Game.getInstance().getState().getPlayer();
+
+			return t_player != null &&
+				((t_player.getCurrentState() != Player.State.Hiding && t_player.isInLight())
+				|| (t_player.isInLight() && t_player.getCurrentState() == Player.State.Hiding && t_player.isFacingRight() == m_facingRight)) &&
+				isFacingTowards(t_player.getPosition().getGlobalX()) &&
+				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
+				t_player.getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
+				t_player.getPosition().getGlobalY() >= m_position.getGlobalY() - 200 &&
 				CollisionManager.possibleLineOfSight(
-				Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesianCoordinates() + (Game.getInstance().getState().getPlayer().getImg().getSize() / new Vector2(2,4)),
+				t_player.getPosition().getGlobalCartesianCoordinates() + (t_player.getImg().getSize() / new Vector2(2, 4)),
 				m_position.getGlobalCartesianCoordinates() + (m_img.getSize() / 2));
 		}
 
