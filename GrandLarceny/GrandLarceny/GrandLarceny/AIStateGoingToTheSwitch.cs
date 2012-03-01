@@ -37,7 +37,7 @@ namespace GrandLarceny
 				else
 				{
 					LampSwitch t_lampSwitch = t_guard.getFirstLampSwitchTarget();
-					while (!t_lampSwitch.isOn())
+					while (t_lampSwitch.isOn())
 					{
 						t_guard.removeFirstLampSwitchTarget();
 						if (t_guard.hasNoLampSwitchTargets())
@@ -47,11 +47,11 @@ namespace GrandLarceny
 						t_lampSwitch = t_guard.getFirstLampSwitchTarget();
 					}
 					while (Math.Abs(t_lampSwitch.getPosition().getGlobalX() - a_agent.getPosition().getGlobalX()) < 10)
-					{
+					{ 
 						t_lampSwitch.toogleSwitch();
 						//toogleSwitch will remove the switch from the guard
 						t_lampSwitch = t_guard.getFirstLampSwitchTarget();
-						while (!t_lampSwitch.isOn())
+						while (t_lampSwitch.isOn())
 						{
 							t_guard.removeFirstLampSwitchTarget();
 							if (t_guard.hasNoLampSwitchTargets())
