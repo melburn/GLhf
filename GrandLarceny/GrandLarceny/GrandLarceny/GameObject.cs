@@ -31,7 +31,6 @@ namespace GrandLarceny
 		public GameObject(Vector2 a_posV2, String a_sprite, float a_layer)
 		{
 			m_position = new CartesianCoordinate(a_posV2);
-			//m_img = new ImageManager(a_sprite);
 			m_rotate = 0.0f;
 			m_layer = a_layer;
 			m_color = Color.White;
@@ -40,10 +39,10 @@ namespace GrandLarceny
 			loadContent();
 
 		}
-		public GameObject(Position a_position, String a_sprite, float a_layer)
+		public GameObject(Position a_position, String a_sprite, float a_layer, float a_rotation = 0)
 		{
+			m_rotate = a_rotation;
 			m_position = a_position;
-			m_rotate = 0.0f;
 			m_layer = a_layer;
 			m_color = Color.White;
 			m_spriteEffects = SpriteEffects.None;
