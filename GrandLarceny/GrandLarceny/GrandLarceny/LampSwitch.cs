@@ -21,8 +21,11 @@ namespace GrandLarceny
 		}
 		public void connectSpotLight(SpotLight a_spotlight)
 		{
-			m_connectedSpotLights.AddLast(a_spotlight);
-			a_spotlight.setLit(m_switchedOn);
+			if (!a_spotlight.isDead())
+			{
+				m_connectedSpotLights.AddLast(a_spotlight);
+				a_spotlight.setLit(m_switchedOn);
+			}
 		}
 		public void disconnectSpotLight(SpotLight a_spotlight)
 		{
@@ -31,10 +34,19 @@ namespace GrandLarceny
 		public void toogleSwitch()
 		{
 			m_switchedOn = !m_switchedOn;
+			LinkedList<SpotLight> t_deadSpotLights = new LinkedList<SpotLight>();
 			foreach (SpotLight t_spotlight in m_connectedSpotLights)
 			{
-				t_spotlight.setLit(m_switchedOn);
+				if (t_spotlight.isDead())
+				{
+					t_deadSpotLights.AddLast(t_spotlight);
+				}
+				else
+				{
+					t_spotlight.setLit(m_switchedOn);
+				}
 			}
+			m_connectedSpotLights.Except(t_deadSpotLights);
 			if (m_switchedOn)
 			{
 				//m_img.setSprite(on);

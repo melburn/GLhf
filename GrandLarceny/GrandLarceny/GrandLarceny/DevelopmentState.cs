@@ -886,5 +886,17 @@ namespace GrandLarceny
 		{
 			m_gameObjectList[m_currentLayer].AddLast(a_object);
 		}
+		public override void addObject(GameObject a_object, int a_layer)
+		{
+			m_gameObjectList[a_layer].AddLast(a_object);
+		}
+		public override void removeObject(GameObject a_object)
+		{
+			m_gameObjectList[m_currentLayer].Remove(a_object);
+		}
+		public override void removeObject(GameObject a_object, int a_layer)
+		{
+			m_gameObjectList[a_layer].Remove(a_object);
+		}
 	}
 }

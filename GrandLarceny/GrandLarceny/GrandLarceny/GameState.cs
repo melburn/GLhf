@@ -11,7 +11,8 @@ namespace GrandLarceny
 	public class GameState : States
 	{
 		private LinkedList<GameObject>[] m_gameObjectList;
-		private LinkedList<GameObject> m_changeList = new LinkedList<GameObject>();
+		private Stack<GameObject>[] m_removeList;
+		private Stack<GameObject>[] m_addList;
 		MouseState m_previousMouse;
 		MouseState m_currentMouse;
 		public static KeyboardState m_previousKeyInput;
@@ -35,6 +36,13 @@ namespace GrandLarceny
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
 			m_gameObjectList = Loader.getInstance().loadLevel(m_currentLevel);
+			m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
+			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
+			for (int i = 0; i < m_gameObjectList.Length; ++i)
+			{
+				m_removeList[i] = new Stack<GameObject>();
+				m_addList[i] = new Stack<GameObject>();
+			}
 			if (player != null)
 			{
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
@@ -80,7 +88,7 @@ namespace GrandLarceny
 			m_currentList = -1;
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
-				m_currentList++;
+				++m_currentList;
 				foreach (GameObject t_firstGameObject in t_list)
 				{
 					if (t_firstGameObject is MovingObject)
@@ -100,13 +108,23 @@ namespace GrandLarceny
 
 					}
 
-					if (t_firstGameObject.isDead())
+					if (t_firstGameObject.isDead() && ! m_removeList[m_currentList].Contains(t_firstGameObject))
 					{
-						m_changeList.AddLast(t_firstGameObject);
+						m_removeList[m_currentList].Push(t_firstGameObject);
 					}
 				}
-				t_list.Except(m_changeList);
-				m_changeList.Clear();
+				while (m_addList[m_currentList].Count > 0)
+				{
+					GameObject t_goToAdd = m_addList[m_currentList].Pop();
+					if(! t_list.Contains(t_goToAdd))
+					{
+						t_list.AddLast(t_goToAdd);
+					}
+				}
+				while (m_removeList[m_currentList].Count > 0)
+				{
+					t_list.Remove(m_removeList[m_currentList].Pop());
+				}
 			}
 			m_previousMouse = m_currentMouse;
 			m_previousKeyInput = m_currentKeyInput;
@@ -129,9 +147,23 @@ namespace GrandLarceny
 				a_first.Y - 1 < a_second.Y + a_second.Height &&
 				a_first.Y + a_first.Height + 1 > a_second.Y);
 		}
-		public override void addOrRemoveObject(GameObject a_object)
+
+		public override void addObject(GameObject a_object)
 		{
-			m_changeList.AddLast(a_object);
+			m_addList[m_currentList].Push(a_object);
+		}
+		public override void removeObject(GameObject a_object)
+		{
+			m_removeList[m_currentList].Push(a_object);
+		}
+		public override void addObject(GameObject a_object, int a_layer)
+		{
+			m_addList[a_layer].Push(a_object);
+		}
+		public override void removeObject(GameObject a_object, int a_layer)
+		{
+			m_removeList[a_layer].Push(a_object);
+			a_object.kill();
 		}
 		public override Player getPlayer()
 		{
