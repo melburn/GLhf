@@ -58,7 +58,14 @@ namespace GrandLarceny
 			base.update(a_gameTime);
 			if (m_light != null)
 			{
-				m_light.setRotation(m_rotate);
+				if (m_light.isDead())
+				{
+					m_light = null;
+				}
+				else
+				{
+					m_light.setRotation(m_rotate);
+				}
 			}
 		}
 

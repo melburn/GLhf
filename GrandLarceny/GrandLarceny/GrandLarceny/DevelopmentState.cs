@@ -788,15 +788,20 @@ namespace GrandLarceny
 
 		private void deleteObject(GameObject a_gameObject)
 		{
-			if (a_gameObject is Player)
-				m_player = null;
-			a_gameObject.kill();
-			if (a_gameObject is SpotLight) {
-				LightCone t_lightCone = ((SpotLight)a_gameObject).getLightCone();
-				if (t_lightCone != null)
-					m_gameObjectList.Remove(t_lightCone);
+			if (a_gameObject != null)
+			{
+				if (a_gameObject is Player)
+				{
+					m_player = null;
+				}
+				a_gameObject.kill();
+				if (a_gameObject is SpotLight) {
+					LightCone t_lightCone = ((SpotLight)a_gameObject).getLightCone();
+					if (t_lightCone != null)
+						m_gameObjectList.Remove(t_lightCone);
+				}
+				m_gameObjectList.Remove(a_gameObject);
 			}
-			m_gameObjectList.Remove(a_gameObject);
 
 		}
 
@@ -857,6 +862,18 @@ namespace GrandLarceny
 		public override void addObject(GameObject a_object)
 		{
 			m_gameObjectList.AddLast(a_object);
+		}
+
+		public override void addOrRemoveObject(GameObject a_object)
+		{
+			if (m_gameObjectList.Contains(a_object))
+			{
+				m_gameObjectList.Remove(a_object);
+			}
+			else
+			{
+				m_gameObjectList.AddLast(a_object);
+			}
 		}
 	}
 }

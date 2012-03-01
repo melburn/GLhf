@@ -35,10 +35,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
-			if (m_parent == null || m_parent.isDead())
-			{
-				m_dead = true;
-			}
+			m_dead = (m_parent == null || m_parent.isDead());
 		}
 		public void setRotation(float a_rotation)
 		{
