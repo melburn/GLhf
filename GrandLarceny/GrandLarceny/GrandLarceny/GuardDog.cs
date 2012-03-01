@@ -125,7 +125,7 @@ namespace GrandLarceny
 				if (m_barkTimer <= 0)
 				{
 					//play sound
-					foreach (GameObject go in Game.getInstance().getState().getObjectList())
+					foreach (GameObject go in Game.getInstance().getState().getCurrentList())
 					{
 						if (go is Guard && (go.getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() <= AIStateBark.BARKRADIUS && ((NPE)go).getAIState() != AIStateChasing.getInstance())
 						{

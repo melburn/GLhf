@@ -29,8 +29,11 @@ namespace GrandLarceny
 		public abstract void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch);
 		public virtual void addObject(GameObject a_object) { }
 		public virtual void addOrRemoveObject(GameObject a_object) { }
-		public virtual LinkedList<GameObject> getObjectList()
+		public virtual LinkedList<GameObject>[] getObjectList()
 		{
+			return new LinkedList<GameObject>[0];
+		}
+		public virtual LinkedList<GameObject> getCurrentList() {
 			return new LinkedList<GameObject>();
 		}
 	}

@@ -61,25 +61,25 @@ namespace GrandLarceny
 			return m_animationFrames[a_sprite];
 		}
 
-		public LinkedList<GameObject> loadLevel(string a_levelName)
+		public LinkedList<GameObject>[] loadLevel(string a_levelName)
 		{
-
-				LinkedList<GameObject> t_returnObjects;
-				Level t_newLevel = Serializer.getInstace().loadLevel(a_levelName);
-				t_returnObjects = t_newLevel.getLevelObjects();
-				foreach(GameObject f_gb in t_returnObjects)
+				LinkedList<GameObject>[] t_returnList;
+				Level t_newLevel = Serializer.getInstance().loadLevel(a_levelName);
+				t_returnList = t_newLevel.getLevelLists();
+				foreach(LinkedList<GameObject>t_ll in t_returnList)
 				{
-					f_gb.loadContent();
-
-					if(f_gb is Player)
+					foreach (GameObject t_go in t_ll)
 					{
-						Game.getInstance().getState().setPlayer((Player)f_gb);
+						t_go.loadContent();
+
+						if (t_go is Player)
+						{
+							Game.getInstance().getState().setPlayer((Player)t_go);
+						}
 					}
 				}
 
-				return t_returnObjects;
-
-			
+				return t_returnList;
 		}
 		private bool parseBoolean(string p)
 		{
