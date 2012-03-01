@@ -18,7 +18,7 @@ namespace GrandLarceny
 		private float m_layer;
 		private float m_rotation = 0.0f;
 
-		public Text(Vector2 a_position, string a_text, SpriteFont a_spriteFont, Color a_color, bool a_worldFont)
+		public Text(Vector2 a_position, string a_text, string a_spriteFont, Color a_color, bool a_worldFont)
 		{
 			m_position = new CartesianCoordinate(a_position);
 			if (!a_worldFont)
@@ -29,13 +29,13 @@ namespace GrandLarceny
 				m_position.setY(m_position.getLocalY() - m_resolution.Y / 2);
 			}
 			m_text = a_text;
-			m_spriteFont = a_spriteFont;
+			m_spriteFont = Game.getInstance().Content.Load<SpriteFont>("Fonts//" + a_spriteFont);
 			m_color = a_color;
 			m_worldFont = a_worldFont;
 			m_layer = 0.001f;
 		}
 
-		public Text(Vector2 a_position, Vector2 a_offset, string a_text, SpriteFont a_spriteFont, Color a_color, bool a_worldFont)
+		public Text(Vector2 a_position, Vector2 a_offset, string a_text, string a_spriteFont, Color a_color, bool a_worldFont)
 		{
 			m_position = new CartesianCoordinate(a_position);
 			if (!a_worldFont)
@@ -47,13 +47,13 @@ namespace GrandLarceny
 			}
 			m_position.plusWith(a_offset);
 			m_text = a_text;
-			m_spriteFont = a_spriteFont;
+			m_spriteFont = Game.getInstance().Content.Load<SpriteFont>("Fonts//" + a_spriteFont);
 			m_color = a_color;
 			m_worldFont = a_worldFont;
 			m_layer = 0.001f;
 		}
 
-		public Text(Vector2 a_position, string a_text, SpriteFont a_spriteFont, Color a_color, bool a_worldFont, float a_layer)
+		public Text(Vector2 a_position, string a_text, string a_spriteFont, Color a_color, bool a_worldFont, float a_layer)
 		{
 			m_position = new CartesianCoordinate(a_position);
 			if (!a_worldFont)
@@ -64,7 +64,7 @@ namespace GrandLarceny
 				m_position.setY(m_position.getLocalY() - m_resolution.Y / 2);
 			}
 			m_text = a_text;
-			m_spriteFont = a_spriteFont;
+			m_spriteFont = Game.getInstance().Content.Load<SpriteFont>("Fonts//" + a_spriteFont);;
 			m_color = a_color;
 			m_worldFont = a_worldFont;
 			m_layer = a_layer;

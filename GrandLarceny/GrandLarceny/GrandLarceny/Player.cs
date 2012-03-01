@@ -29,8 +29,8 @@ namespace GrandLarceny
 		private float m_originalLayer;
 		private float m_rollTimer;
 
-		public const string STANDHIDINGIMAGE = "Images//Sprite//hero_wallhide";
-		public const string DUCKHIDINGIMAGE = "Images//Sprite//hero_hide";
+		public const string STANDHIDINGIMAGE = "Images//Sprite//Hero//hero_wallhide";
+		public const string DUCKHIDINGIMAGE = "Images//Sprite//Hero//hero_hide";
 		private string m_currentHidingImage;
 		[NonSerialized]
 		private CollisionShape m_standHitBox;
@@ -491,36 +491,36 @@ namespace GrandLarceny
 
 			if (m_currentState == State.Stop)
 			{
-				m_img.setSprite("Images//Sprite//hero_stand");
+				m_img.setSprite("Images//Sprite//Hero//hero_stand");
 			}
 			else if (m_currentState == State.Walking)
 			{
-				m_img.setSprite("Images//Sprite//hero_walk");
+				m_img.setSprite("Images//Sprite//Hero//hero_walk");
 			}
 
 			if (m_currentState == State.Jumping)
 			{
 				if (m_speed.Y < 0)
-					m_img.setSprite("Images//Sprite//hero_jump");
+					m_img.setSprite("Images//Sprite//Hero//hero_jump");
 				else
-					m_img.setSprite("Images//Sprite//hero_fall");
+					m_img.setSprite("Images//Sprite//Hero//hero_fall");
 			}
 
 			else if (m_currentState == State.Rolling)
 			{
-				m_img.setSprite("Images//Sprite//hero_roll");
+				m_img.setSprite("Images//Sprite//Hero//hero_roll");
 			}
 			else if (m_currentState == State.Slide)
 			{
-				m_img.setSprite("Images//Sprite//hero_slide");
+				m_img.setSprite("Images//Sprite//Hero//hero_slide");
 			}
 			else if (m_currentState == State.Hanging)
 			{
-				m_img.setSprite("Images//Sprite//hero_hang");
+				m_img.setSprite("Images//Sprite//Hero//hero_hang");
 			}
 			else if (m_currentState == State.Climbing)
 			{
-				m_img.setSprite("Images//Sprite//hero_climb");
+				m_img.setSprite("Images//Sprite//Hero//hero_climb");
 			}
 			else if (m_currentState == State.Hiding)
 			{
