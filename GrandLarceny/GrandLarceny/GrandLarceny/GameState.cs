@@ -188,7 +188,7 @@ namespace GrandLarceny
 			if (t_player != null)
 			{
 				addObject(t_player, a_newLayer);
-		//		removeObject(t_player, Game.getInstance().m_camera.getLayer());
+				removeObject(t_player, Game.getInstance().m_camera.getLayer());
 			}
 			Game.getInstance().m_camera.setLayer(a_newLayer);
 		}
