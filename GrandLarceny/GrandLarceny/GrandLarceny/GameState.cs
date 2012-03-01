@@ -163,7 +163,6 @@ namespace GrandLarceny
 		public override void removeObject(GameObject a_object, int a_layer)
 		{
 			m_removeList[a_layer].Push(a_object);
-			a_object.kill();
 		}
 		public override Player getPlayer()
 		{
