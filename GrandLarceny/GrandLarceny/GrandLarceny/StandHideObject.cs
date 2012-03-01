@@ -22,11 +22,13 @@ namespace GrandLarceny
 				Player t_player = (Player) a_collider;
 				
 				if (GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up)
-					&& t_player.getLastState() != Player.State.Hiding && t_player.getCurrentState() != Player.State.Jumping && t_player.getCurrentState() != Player.State.Slide)
+					&& t_player.getLastState() != Player.State.Hiding && t_player.getCurrentState() != Player.State.Jumping
+					&& t_player.getCurrentState() != Player.State.Slide && t_player.getCurrentState() != Player.State.Climbing)
 				{
 					
 					Vector2 t_playerGlobal = a_collider.getPosition().getGlobalCartesianCoordinates();
 					float t_myPositionX = m_position.getGlobalCartesianCoordinates().X;
+					
 					if (t_playerGlobal.X < t_myPositionX)
 					{
 					

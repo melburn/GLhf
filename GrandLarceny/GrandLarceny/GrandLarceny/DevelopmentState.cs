@@ -812,22 +812,6 @@ namespace GrandLarceny
 
 		private void deleteObject(GameObject a_gameObject)
 		{
-<<<<<<< HEAD
-			if (a_gameObject != null)
-			{
-				if (a_gameObject is Player)
-				{
-					m_player = null;
-				}
-				a_gameObject.kill();
-				if (a_gameObject is SpotLight) {
-					LightCone t_lightCone = ((SpotLight)a_gameObject).getLightCone();
-					if (t_lightCone != null)
-						m_gameObjectList.Remove(t_lightCone);
-				}
-				m_gameObjectList.Remove(a_gameObject);
-			}
-=======
 			if (a_gameObject is Player)
 				m_player = null;
 			a_gameObject.kill();
@@ -837,8 +821,6 @@ namespace GrandLarceny
 					m_gameObjectList[m_currentLayer].Remove(t_lightCone);
 			}
 			m_gameObjectList[m_currentLayer].Remove(a_gameObject);
->>>>>>> 1c74869db85de5613cce8619acf65bf435242158
-
 		}
 
 		private void createDuckHidingObject()
@@ -898,6 +880,7 @@ namespace GrandLarceny
 		public override void addObject(GameObject a_object)
 		{
 			m_gameObjectList[m_currentLayer].AddLast(a_object);
+<<<<<<< HEAD
 		}
 
 		public override void addOrRemoveObject(GameObject a_object)
@@ -910,6 +893,8 @@ namespace GrandLarceny
 			{
 				m_gameObjectList.AddLast(a_object);
 			}
+=======
+>>>>>>> fbdcebb3da7c1065e89a126cd0f9ba5720b742e2
 		}
 	}
 }
