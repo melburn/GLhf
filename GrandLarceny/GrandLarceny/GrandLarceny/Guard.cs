@@ -370,7 +370,7 @@ namespace GrandLarceny
 					{
 						if (t_supportingPlatform.getPosition().getGlobalX() > m_collisionShape.getOutBox().X)
 						{
-							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX());
+							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX()) -((CollisionRectangle)m_collisionShape).m_xOffset;
 							stop();
 						}
 					}
