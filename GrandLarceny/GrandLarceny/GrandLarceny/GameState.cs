@@ -139,5 +139,10 @@ namespace GrandLarceny
 		{
 			return m_gameObjectList;
 		}
+
+		internal static void changeLayer(int p)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
