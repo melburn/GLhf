@@ -39,7 +39,7 @@ namespace GrandLarceny
 				{
 					t_guard.setRunning(true);
 				}
-				if (Math.Abs(t_guard.getPosition().getGlobalCartesianCoordinates().X - t_target.getPosition().getGlobalCartesianCoordinates().X) < MINIMUMDISTANCE)
+				if (Math.Abs(t_guard.getPosition().getGlobalX() - t_target.getPosition().getGlobalX()) < MINIMUMDISTANCE)
 				{
 					if(t_guard.getHorizontalSpeed() != 0)
 					{
@@ -48,7 +48,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_target.getPosition().getGlobalCartesianCoordinates().X)
+					if (t_guard.getPosition().getGlobalX() < t_target.getPosition().getGlobalX())
 					{
 						if (t_guard.getHorizontalSpeed() <= 0)
 						{

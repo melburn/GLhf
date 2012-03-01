@@ -13,8 +13,9 @@ namespace GrandLarceny
 		private float m_length;
 		private float m_width;
 		private GameObject m_parent;
+		private bool m_collisionIsUpdated;
 		public LightCone(GameObject a_parent, string a_sprite, float a_layer, float a_length, float a_width) :
-			base((Position)new CartesianCoordinate(Vector2.Zero,a_parent.getPosition()), a_sprite, a_layer)
+			base((Position)new CartesianCoordinate(Vector2.Zero,a_parent.getPosition()), a_sprite, a_layer, a_parent.getRotation())
 		{
 			if (a_length <= 0)
 			{
@@ -29,7 +30,6 @@ namespace GrandLarceny
 			m_width = a_width;
 			m_XScale = a_length / 500;
 			m_YScale = a_width / 500;
-			m_rotate = a_parent.getRotation();
 			m_rotationPoint.Y = m_img.getSize().Y / 2;
 		}
 		public override void update(GameTime a_gameTime)
@@ -42,23 +42,33 @@ namespace GrandLarceny
 			if (m_rotate != a_rotation)
 			{
 				m_rotate = a_rotation;
-				m_collisionShape = new CollisionTriangle(getTrianglePointsOffset(), m_position);
+				m_collisionIsUpdated = false;
 			}
 		}
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionTriangle(getTrianglePointsOffset(), m_position);
+			m_collisionIsUpdated = false;
+		}
+
+		public override CollisionShape getHitBox()
+		{
+			if(!m_collisionIsUpdated)
+			{
+				m_collisionShape = new CollisionTriangle(getTrianglePointsOffset(), m_position);
+				m_collisionIsUpdated = true;
+			}
+			return m_collisionShape;
 		}
 
 		private Vector2[] getTrianglePointsOffset()
 		{
 			Vector2[] t_ret = new Vector2[3];
 			t_ret[0] = Vector2.Zero;
-			t_ret[1] = new Vector2((float)(0.9 * m_length * Math.Cos(m_rotate) + (m_width / 3) * Math.Cos(1.5 * Math.PI + m_rotate)),
-				(float)(0.9 * m_length * Math.Sin(m_rotate) + (m_width / 2) * Math.Sin(1.5 * Math.PI + m_rotate)));
-			t_ret[2] = new Vector2((float)(0.9 * m_length * Math.Cos(m_rotate) + (m_width / 3) * Math.Cos(0.5 * Math.PI + m_rotate)),
-				(float)(0.9 * m_length * Math.Sin(m_rotate) + (m_width / 2) * Math.Sin(0.5 * Math.PI + m_rotate)));
+			t_ret[1] = new Vector2((float)(m_length * Math.Cos(m_rotate) + (m_width / 3) * Math.Cos(1.5 * Math.PI + m_rotate)),
+				(float)(m_length * Math.Sin(m_rotate) + (m_width / 2) * Math.Sin(1.5 * Math.PI + m_rotate)));
+			t_ret[2] = new Vector2((float)(m_length * Math.Cos(m_rotate) + (m_width / 3) * Math.Cos(0.5 * Math.PI + m_rotate)),
+				(float)(m_length * Math.Sin(m_rotate) + (m_width / 2) * Math.Sin(0.5 * Math.PI + m_rotate)));
 
 			return t_ret;
 		}

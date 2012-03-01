@@ -291,11 +291,11 @@ namespace GrandLarceny
 			{
 				if (t_collision is Wall)
 				{
-					if (m_speed.X < 0)
+					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
 					{
 						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
 					}
-					else if (m_speed.X > 0)
+					else if (m_speed.X > 0 && m_position.getGlobalX() < t_collision.getPosition().getGlobalX())
 					{
 						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
 					}
@@ -370,7 +370,7 @@ namespace GrandLarceny
 					{
 						if (t_supportingPlatform.getPosition().getGlobalX() > m_collisionShape.getOutBox().X)
 						{
-							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX());
+							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX()) -((CollisionRectangle)m_collisionShape).m_xOffset;
 							stop();
 						}
 					}
