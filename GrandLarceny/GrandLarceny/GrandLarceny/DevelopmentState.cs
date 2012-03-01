@@ -27,6 +27,7 @@ namespace GrandLarceny
 
 		private Vector2 m_selectedInfoV2;
 		private Vector2 m_worldMouse;
+		private Vector2 m_dragOffset;
 		private MouseState m_previousMouse;
 		private MouseState m_currentMouse;
 		private KeyboardState m_previousKeyboard;
@@ -37,7 +38,6 @@ namespace GrandLarceny
 		private Text m_textGuardInfo;
 		private Text m_layerInfo;
 		private GuiObject m_UItextBackground;
-		private SpriteFont m_courierNew;
 
 		private Button m_btnLadderHotkey;
 		private Button m_btnPlatformHotkey;
@@ -85,6 +85,8 @@ namespace GrandLarceny
 		private State m_itemToCreate;
 		#endregion
 
+
+		#region Load&Initiate
 		public DevelopmentState(string a_levelToLoad)
 		{
 			m_levelToLoad = a_levelToLoad;
@@ -177,6 +179,7 @@ namespace GrandLarceny
 
 			setBuildingState(State.None);
 		}
+		#endregion
 
 		#region Update
 		public override void update(GameTime a_gameTime)
@@ -511,13 +514,24 @@ namespace GrandLarceny
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) {
 				if (m_itemToCreate == State.GuardLeft || m_itemToCreate == State.GuardRight)
 					return;
-				Vector2 t_mousePosition = getTile(m_worldMouse);
-			
+				if (m_dragOffset == null || m_dragOffset == Vector2.Zero) {
+					m_dragOffset = new Vector2();
+					m_dragOffset.X = m_worldMouse.X - m_selectedObject.getPosition().getGlobalX();
+					m_dragOffset.Y = m_worldMouse.Y - m_selectedObject.getPosition().getGlobalY();
+				}
+				Vector2 t_mousePosition = getTile(m_worldMouse - m_dragOffset);
+				
+				System.Console.WriteLine(t_mousePosition.ToString() + "" + m_selectedObject.getPosition().getGlobalCartesianCoordinates());
+
 				if (m_selectedObject is SpotLight)
 					m_selectedObject.getPosition().setX(t_mousePosition.X + m_selectedObject.getBox().Width);
 				else
 					m_selectedObject.getPosition().setX(t_mousePosition.X);
 				m_selectedObject.getPosition().setY(t_mousePosition.Y);
+			}
+
+			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released) {
+				m_dragOffset = Vector2.Zero;
 			}
 
 			if (m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Pressed && m_selectedObject != null) {
