@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
@@ -53,6 +54,7 @@ namespace GrandLarceny
 						t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
 						t_player.setSpeedX(0);
 						t_player.hang(this);
+						
 					}
 					//Colliding with ze right wall
 					if ((int)t_player.getLastPosition().X + t_player.getHitBox().getOutBox().Width - 1 <= (int)getLastPosition().X)
@@ -65,6 +67,13 @@ namespace GrandLarceny
 				}
 				else
 				{
+					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && GameState.m_currentKeyInput.IsKeyDown(Keys.Up))
+					{
+						t_player.setNextPositionY(m_position.getGlobalY());
+						t_player.setState(Player.State.Hanging);
+						t_player.setSpeedY(0);
+					}
+					else
 					t_player.hang(this);
 				}
 			}

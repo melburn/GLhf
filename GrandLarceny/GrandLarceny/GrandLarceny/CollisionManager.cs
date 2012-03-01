@@ -25,7 +25,7 @@ namespace GrandLarceny
 		public static Stack<Entity> getCollisionsWithLineSegment(Vector2 a_point1, Vector2 a_point2)
 		{
 			Stack<Entity> t_ret = new Stack<Entity>();
-			foreach (GameObject t_go in Game.getInstance().getState().getObjectList())
+			foreach (GameObject t_go in Game.getInstance().getState().getCurrentList())
 			{
 				if (t_go is Entity && ((Entity)t_go).getHitBox().collidesWithLineSegment(a_point1, a_point2))
 				{

@@ -11,15 +11,13 @@ namespace GrandLarceny
 	public class GameState : States
 	{
 		private LinkedList<GameObject>[] m_gameObjectList;
-		private LinkedList<GameObject> m_ventilationObjectList;
-		//private LinkedList<GameObject> m_killList = new LinkedList<GameObject>();
-		//private LinkedList<GameObject> m_addList = new LinkedList<GameObject>();
 		private LinkedList<GameObject> m_changeList = new LinkedList<GameObject>();
 		MouseState m_previousMouse;
 		MouseState m_currentMouse;
 		public static KeyboardState m_previousKeyInput;
 		public static KeyboardState m_currentKeyInput;
 		private string m_currentLevel;
+		private int m_currentList;
 
 		private Player player;
 
@@ -56,11 +54,14 @@ namespace GrandLarceny
 		*/
 		public override void update(GameTime a_gameTime)
 		{
+			m_currentList = -1;
 			m_currentKeyInput = Keyboard.GetState();
 			m_currentMouse = Mouse.GetState();
 
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
+
+				m_currentList++;
 				foreach (GameObject t_gameObject in t_list)
 				{
 					t_gameObject.update(a_gameTime);
@@ -76,9 +77,10 @@ namespace GrandLarceny
 			{
 				Game.getInstance().setState(new GameState());
 			}
-
+			m_currentList = -1;
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
+				m_currentList++;
 				foreach (GameObject t_firstGameObject in t_list)
 				{
 					if (t_firstGameObject is MovingObject)
@@ -135,14 +137,29 @@ namespace GrandLarceny
 		{
 			return player;
 		}
-		public override LinkedList<GameObject> getObjectList()
+		public override LinkedList<GameObject>[] getObjectList()
 		{
 			return m_gameObjectList;
 		}
-
-		internal static void changeLayer(int p)
+		public override LinkedList<GameObject> getCurrentList() {
+			return m_gameObjectList[m_currentList];
+		}
+		public override void changeLayer(int a_newLayer)
 		{
-			throw new NotImplementedException();
+			Player t_player = null;
+			foreach (GameObject t_go in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
+			{
+				if (t_go is Player)
+				{
+					t_player = (Player)t_go;
+				}
+			}
+			if (t_player != null)
+			{
+				m_gameObjectList[a_newLayer].AddLast(t_player);
+				m_gameObjectList[Game.getInstance().m_camera.getLayer()].Remove(t_player);
+			}
+			Game.getInstance().m_camera.setLayer(a_newLayer);
 		}
 	}
 }

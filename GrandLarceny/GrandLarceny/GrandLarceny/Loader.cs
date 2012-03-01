@@ -64,7 +64,7 @@ namespace GrandLarceny
 		public LinkedList<GameObject>[] loadLevel(string a_levelName)
 		{
 				LinkedList<GameObject>[] t_returnList;
-				Level t_newLevel = Serializer.getInstace().loadLevel(a_levelName);
+				Level t_newLevel = Serializer.getInstance().loadLevel(a_levelName);
 				t_returnList = t_newLevel.getLevelLists();
 				foreach(LinkedList<GameObject>t_ll in t_returnList)
 				{
