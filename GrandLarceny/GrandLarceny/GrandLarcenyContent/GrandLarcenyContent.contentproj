@@ -612,7 +612,13 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Images\Background\bg_window_dark.png">
+      <Name>bg_window_dark</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Images\Prop\Button\1x1_tile_ph.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
