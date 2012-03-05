@@ -85,7 +85,6 @@ namespace GrandLarceny
 		private State m_itemToCreate;
 		#endregion
 
-
 		#region Load&Initiate
 		public DevelopmentState(string a_levelToLoad)
 		{
@@ -156,7 +155,7 @@ namespace GrandLarceny
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "Shift+G", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnLightSwitchHotkey	= new Button("DevelopmentHotkeys//btn_spotlight_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "Shift+T", "VerdanaBold", Color.White, t_btnTextOffset);
-			m_btnVentHotkey			= new Button("DevelopmentHotkeys//btn_platform_hotkey",
+			m_btnVentHotkey			= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "V", "VerdanaBold", Color.White, t_btnTextOffset);
 
 			m_buttonList.AddLast(m_btnLadderHotkey);
