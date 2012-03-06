@@ -78,8 +78,6 @@ namespace GrandLarceny
 			Guard,
 			GuardDog,
 			Wall,
-			GuardLeft,
-			GuardRight,
 			DuckHidingObject,
 			StandHidingObject,
 			Ventilation
@@ -444,12 +442,6 @@ namespace GrandLarceny
 			if (keyClicked(Keys.W)) {
 				setBuildingState(State.Wall);
 			}
-			if (keyClicked(Keys.N)) {
-				setBuildingState(State.GuardLeft);
-			}
-			if (keyClicked(Keys.M)) {
-				setBuildingState(State.GuardRight);
-			}
 			if (keyClicked(Keys.V)) {
 				setBuildingState(State.Ventilation);
 			}
@@ -581,8 +573,6 @@ namespace GrandLarceny
 								createVentilation();
 								break;
 						}
-					} else {
-						setGuardPoint((NPE)m_selectedObject, m_itemToCreate == State.GuardRight);
 					}
 					return;
 				}
@@ -628,8 +618,6 @@ namespace GrandLarceny
 			-----------------------------------
 			*/
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) {
-				if (m_itemToCreate == State.GuardLeft || m_itemToCreate == State.GuardRight)
-					return;
 				if (m_dragOffset == null || m_dragOffset == Vector2.Zero) {
 					m_dragOffset = new Vector2();
 					m_dragOffset.X = m_worldMouse.X - m_selectedObject.getPosition().getGlobalX();
@@ -832,12 +820,6 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Tile//Wall//");
 					m_btnWallHotkey.setState(3);
 					break;
-				case State.GuardRight:
-					m_textCurrentMode.setText("Set Right Point");
-					break;
-				case State.GuardLeft:
-					m_textCurrentMode.setText("Set Left Point");
-					break;
 				case State.DuckHidingObject:
 					m_textCurrentMode.setText("Ducking Hide Object");
 					createAssetList("Content//Images//Prop//DuckHide//");
@@ -995,7 +977,7 @@ namespace GrandLarceny
 		private void createSpotLight() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new SpotLight(getTile(m_worldMouse), "Images//LightCone//"  + assetToCreate, 0.2f, (float)(Math.PI * 0.5f), true));
+			addObject(new SpotLight(getTile(m_worldMouse), "Images//LightCone//"  + assetToCreate, 0.200f, (float)(Math.PI * 0.5f), true));
 		}
 
 		private void createBackground() {
@@ -1045,6 +1027,7 @@ namespace GrandLarceny
 		}
 		#endregion
 
+		#region Draw
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			foreach (Text t_textObject in m_textList)
@@ -1070,5 +1053,6 @@ namespace GrandLarceny
 			if (m_dragLine != null)
 				m_dragLine.draw();
 		}
+		#endregion
 	}
 }
