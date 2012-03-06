@@ -742,6 +742,7 @@ namespace GrandLarceny
 				m_speed += a_knockBackForce;
 				m_invunerableTimer = 2f;
 				m_damagedTimer = 1f;
+				m_img.setSprite("Images//Sprite//Hero//hero_jump");
 			}
 		}
 
