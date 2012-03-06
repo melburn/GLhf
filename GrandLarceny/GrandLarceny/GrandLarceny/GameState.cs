@@ -202,9 +202,19 @@ namespace GrandLarceny
 			}
 			Game.getInstance().m_camera.setLayer(a_newLayer);
 		}
+<<<<<<< HEAD
 		public override void addGuiObject(GuiObject a_go)
 		{
 			m_guiObject.AddLast(a_go);
+=======
+		public static bool isKeyPressed(Keys key)
+		{
+			return m_currentKeyInput.IsKeyDown(key);
+		}
+		public static bool wasKeyPressed(Keys key)
+		{
+			return m_previousKeyInput.IsKeyDown(key);
+>>>>>>> a7f92569cdfedf021533dd055a3d0c1c1e093909
 		}
 	}
 }
