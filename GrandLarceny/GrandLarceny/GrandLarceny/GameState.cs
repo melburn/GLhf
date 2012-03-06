@@ -13,6 +13,7 @@ namespace GrandLarceny
 		private LinkedList<GameObject>[] m_gameObjectList;
 		private Stack<GameObject>[] m_removeList;
 		private Stack<GameObject>[] m_addList;
+		private LinkedList<GuiObject> m_guiObject;
 		MouseState m_previousMouse;
 		MouseState m_currentMouse;
 		public static KeyboardState m_previousKeyInput;
@@ -35,6 +36,7 @@ namespace GrandLarceny
 		public override void load()
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
+			m_guiObject = new LinkedList<GuiObject>();
 			m_gameObjectList = Loader.getInstance().loadLevel(m_currentLevel);
 			m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
 			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
@@ -139,6 +141,13 @@ namespace GrandLarceny
 			{
 				t_gameObject.draw(a_gameTime);
 			}
+			foreach (GuiObject t_go in m_guiObject)
+			{
+				if (!t_go.isDead())
+				{
+					t_go.draw(a_gameTime);
+				}
+			}
 		}
 
 		public static bool checkBigBoxCollision(Rectangle a_first, Rectangle a_second)
@@ -192,6 +201,10 @@ namespace GrandLarceny
 				removeObject(t_player, Game.getInstance().m_camera.getLayer());
 			}
 			Game.getInstance().m_camera.setLayer(a_newLayer);
+		}
+		public override void addGuiObject(GuiObject a_go)
+		{
+			m_guiObject.AddLast(a_go);
 		}
 		public static bool isKeyPressed(Keys key)
 		{

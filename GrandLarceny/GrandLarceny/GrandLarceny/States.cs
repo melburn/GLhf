@@ -53,5 +53,10 @@ namespace GrandLarceny
 		public virtual void changeLayer(int a_newLayer)
 		{
 		}
+
+		public virtual void addGuiObject(GuiObject a_go)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

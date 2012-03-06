@@ -113,6 +113,7 @@
     <Compile Include="AIStateChasing.cs" />
     <Compile Include="AIStateGoingToTheSwitch.cs" />
     <Compile Include="AIStatePatrolling.cs" />
+    <Compile Include="AIStateStriking.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CartesianPosition.cs" />
@@ -172,6 +173,7 @@
     <ProjectReference Include="..\GrandLarcenyContent\GrandLarcenyContent.contentproj">
       <Name>GrandLarcenyContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{E110AA7A-B83A-4C6B-BF33-AD4E16160744}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
