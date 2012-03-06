@@ -124,6 +124,7 @@
     <Compile Include="CrossVentilation.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
+    <Compile Include="FlashCone.cs" />
     <Compile Include="TVentilation.cs" />
     <Compile Include="LampSwitch.cs" />
     <Compile Include="Line.cs" />

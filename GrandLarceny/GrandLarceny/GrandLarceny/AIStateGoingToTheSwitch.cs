@@ -79,6 +79,10 @@ namespace GrandLarceny
 							t_guard.goLeft();
 						}
 					}
+					if (!t_guard.isCarryingFlash() && t_guard.hasFlash())
+					{
+						t_guard.toogleFlashLight();
+					}
 					return this;
 				}
 			}
