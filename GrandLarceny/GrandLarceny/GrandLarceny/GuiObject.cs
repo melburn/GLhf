@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class GuiObject : GameObject
 	{
 		private Vector2 m_resolution;

@@ -28,6 +28,7 @@ namespace GrandLarceny
 
 		private float m_originalLayer;
 		private float m_rollTimer;
+		public GuiObject[] m_healthHearts;
 
 		public const string STANDHIDINGIMAGE = "Images//Sprite//Hero//hero_wallhide";
 		public const string DUCKHIDINGIMAGE = "Images//Sprite//Hero//hero_hide";
@@ -80,6 +81,20 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
+			if (m_healthHearts == null)
+			{
+				m_healthHearts = new GuiObject[3];
+				m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+				m_healthHearts[1] = new GuiObject(new Vector2(200, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+				m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			}
+			else
+			{
+				foreach (GuiObject go in m_healthHearts)
+				{
+					go.loadContent();
+				}
+			}
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
@@ -429,10 +444,6 @@ namespace GrandLarceny
 					m_speed.X = -ROLLSPEED;
 				}
 			}
-			/*if (m_position.getGlobalY() != getLastPosition().Y)
-			{
-				m_currentState = State.Jumping;
-			}*/
 		}
 
 		private void updateHanging()
@@ -591,11 +602,6 @@ namespace GrandLarceny
 			}
 		}
 
-		public override void draw(GameTime a_gameTime)
-		{
-			base.draw(a_gameTime);
-		}
-
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
 			m_collidedWithWall = false;
@@ -700,6 +706,19 @@ namespace GrandLarceny
 		public CollisionShape getSlideBox()
 		{
 			return m_SlideBox;
+		}
+
+		public override void draw(GameTime a_gameTime)
+		{
+			base.draw(a_gameTime);
+
+			if(m_healthHearts != null)
+			{
+				foreach(GuiObject go in m_healthHearts)
+				{
+					go.draw(a_gameTime);
+				}
+			}
 		}
 	}
 }
