@@ -9,6 +9,7 @@ namespace GrandLarceny
 	[Serializable()]
 	public class SpotLight : MovingObject
 	{
+		private bool m_lit = true;
 		LightCone m_light;
 		public SpotLight(Vector2 a_position, string a_sprite, float a_layer, float a_rotation, bool a_lit) :
 			base(a_position, a_sprite, a_layer)
@@ -18,7 +19,6 @@ namespace GrandLarceny
 			if (a_lit)
 			{
 				m_light = new LightCone(this, "Images//LightCone//Ljus", a_layer + 0.001f, 300f, 300f);
-
 				(Game.getInstance().getState()).addObject(m_light);
 			}
 		}
@@ -53,25 +53,14 @@ namespace GrandLarceny
 		{
 			return m_light;
 		}
-		public override void update(GameTime a_gameTime)
-		{
-			base.update(a_gameTime);
-			if (m_light != null)
-			{
-				if (m_light.isDead())
-				{
-					m_light = null;
-				}
-				else
-				{
-					m_light.setRotation(m_rotate);
-				}
-			}
+
+		public bool isLit() {
+			return m_lit;
 		}
 
-		public void setLit(bool a_switchedOn)
-		{
-			if (a_switchedOn)
+		public void toggleLight() {
+			m_lit = !m_lit;
+			if (m_lit)
 			{
 				if (m_light == null)
 				{
@@ -79,7 +68,7 @@ namespace GrandLarceny
 					Game.getInstance().getState().addObject(m_light);
 				}
 			}
-			else if(m_light != null)
+			else if (m_light != null)
 			{
 				Game.getInstance().getState().removeObject(m_light);
 				m_light = null;
