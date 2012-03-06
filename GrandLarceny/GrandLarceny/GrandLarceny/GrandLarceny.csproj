@@ -113,14 +113,18 @@
     <Compile Include="AIStateChasing.cs" />
     <Compile Include="AIStateGoingToTheSwitch.cs" />
     <Compile Include="AIStatePatrolling.cs" />
+    <Compile Include="AIStateStriking.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CartesianPosition.cs" />
     <Compile Include="CollisionRectangle.cs" />
     <Compile Include="CollisionShape.cs" />
     <Compile Include="CollisionTriangle.cs" />
+    <Compile Include="CornerVentilation.cs" />
+    <Compile Include="CrossVentilation.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
+    <Compile Include="TVentilation.cs" />
     <Compile Include="LampSwitch.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="MovingObject.cs" />
@@ -157,6 +161,7 @@
     <Compile Include="SpotLight.cs" />
     <Compile Include="States.cs" />
     <Compile Include="VentilationDrum.cs" />
+    <Compile Include="StraightVentilation.cs" />
     <Compile Include="Wall.cs" />
     <Compile Include="Window.cs" />
   </ItemGroup>

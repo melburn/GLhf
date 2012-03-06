@@ -16,8 +16,11 @@ namespace GrandLarceny
 		}
 		internal override void updateCollisionWith(Entity a_collider)
 		{
-			if (GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up))
-				Game.getInstance().getState().changeLayer(1);
+			if (GameState.isKeyPressed(Keys.Up) && !GameState.wasKeyPressed(Keys.Up))
+				if (Game.getInstance().m_camera.getLayer() == 0)
+					Game.getInstance().getState().changeLayer(1);
+				else if (Game.getInstance().m_camera.getLayer() == 1)
+					Game.getInstance().getState().changeLayer(0);
 		}
 	}
 }

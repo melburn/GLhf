@@ -61,7 +61,7 @@ namespace GrandLarceny
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (a_collid is Player && GameState.m_currentKeyInput.IsKeyDown(Keys.Up) && GameState.m_previousKeyInput.IsKeyUp(Keys.Up))
+			if (a_collid is Player && GameState.isKeyPressed(Keys.Up) && !GameState.wasKeyPressed(Keys.Up))
 			{
 				toogleSwitch();
 			}

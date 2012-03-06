@@ -38,6 +38,17 @@ namespace GrandLarceny
 								t_player.setState(Player.State.Walking);
 							}
 						}
+						else if (t_player.getCurrentState() == Player.State.Damaged)
+						{
+							if (t_player.getHorizontalSpeed() > 0)
+							{
+								t_player.setSpeedX(Math.Max(t_player.getHorizontalSpeed() - 1,0));
+							}
+							else
+							{
+								t_player.setSpeedX(Math.Min(t_player.getSpeed().X,0));
+							}
+						}
 						return;
 					}
 
@@ -67,7 +78,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && GameState.m_currentKeyInput.IsKeyDown(Keys.Up))
+					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && GameState.isKeyPressed(Keys.Up))
 					{
 						t_player.setNextPositionY(m_position.getGlobalY());
 						t_player.setState(Player.State.Hanging);

@@ -93,8 +93,8 @@ namespace GrandLarceny
 
 		public override void load()
 		{
+			m_guiList = new LinkedList<GuiObject>();
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
-			m_guiList			= new LinkedList<GuiObject>();
 			m_textList			= new LinkedList<Text>();
 			m_buttonList		= new LinkedList<Button>();
 			m_assetButtonList	= new LinkedList<Button>();
@@ -1055,5 +1055,11 @@ namespace GrandLarceny
 				m_dragLine.draw();
 		}
 		#endregion
+
+		//asså va? jag skriver här.
+		public override void addGuiObject(GuiObject a_go)
+		{
+			m_guiList.AddLast(a_go);
+		}
 	}
 }
