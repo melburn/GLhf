@@ -32,6 +32,11 @@ namespace GrandLarceny
 		private static float[] s_lightConeRotationsWhileWalkingRight;
 		private static float[] s_lightConeRotationsWhileWalkingLeft;
 
+		[NonSerialized]
+		private float m_strikeReloadTime = 0;
+		[NonSerialized]
+		private bool m_striking;
+
 		//flashlight addicted guard always has their flashlight up
 		private Boolean m_FlashLightAddicted;
 
@@ -260,6 +265,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
+			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000),0);
 			if (m_facingRight)
 			{
 				m_spriteEffects = SpriteEffects.None;
@@ -334,7 +340,12 @@ namespace GrandLarceny
 				else if (t_collision is Player)
 				{
 					Player t_player = (Player)t_collision;
-					if (t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
+					if (m_striking)
+					{
+						t_player.dealDamageTo(new Vector2(Math.Sign(m_position.getGlobalX() - t_player.getPosition().getGlobalX())*200,-200));
+					}
+					else if (t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding &&
+						m_aiState != AIStateStriking.getInstance())
 					{
 						m_chaseTarget = t_collision;
 						m_aiState = AIStateChasing.getInstance();
@@ -401,6 +412,22 @@ namespace GrandLarceny
 		internal void removeFirstLampSwitchTarget()
 		{
 			m_lampSwitchTargets.RemoveFirst();
+		}
+
+		public bool canStrike()
+		{
+			return (!m_striking) && (m_strikeReloadTime == 0);
+		}
+
+		internal bool isStriking()
+		{
+			return m_striking;
+		}
+
+		internal void strike()
+		{
+			m_striking = true;
+			m_strikeReloadTime = 3f;
 		}
 	}
 }

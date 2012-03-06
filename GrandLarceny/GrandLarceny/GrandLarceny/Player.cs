@@ -48,9 +48,14 @@ namespace GrandLarceny
 		private bool m_isInLight;
 		[NonSerialized]
 		private Direction m_ladderDirection;
+		[NonSerialized]
+		private float m_invunerableTimer;
+		[NonSerialized]
+		private float m_damagedTimer;
 
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
+		private int m_health;
 
 		public enum Direction
 		{
@@ -68,7 +73,8 @@ namespace GrandLarceny
 			Climbing,
 			Rolling,
 			Hiding,
-			Hanging
+			Hanging,
+			Damaged
 		}
 
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer)
@@ -82,10 +88,14 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
+			m_health = 3;
 			m_healthHearts = new GuiObject[3];
 			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			Game.getInstance().getState().addGuiObject(m_healthHearts[0]);
 			m_healthHearts[1] = new GuiObject(new Vector2(200, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
 			m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
@@ -99,6 +109,7 @@ namespace GrandLarceny
 			m_lastState = m_currentState;
 			m_gravity = 1000f;
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
+			m_invunerableTimer = Math.Max(m_invunerableTimer - t_deltaTime, 0);
 			switch (m_currentState)
 			{
 				case State.Stop:
@@ -141,12 +152,27 @@ namespace GrandLarceny
 						updateHiding();
 						break;
 					}
+				case State.Damaged:
+					{
+						updateDamaged(t_deltaTime);
+						break;
+					}
 			}
 			flipSprite();
 			base.update(a_gameTime);
 			if ((Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates() - m_cameraPoint).Length() > 3)
 			{
 				Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
+			}
+		}
+
+		private void updateDamaged(float a_deltaTime)
+		{
+			m_damagedTimer -= a_deltaTime;
+			if (m_damagedTimer <= 0)
+			{
+				m_damagedTimer = 0;
+				m_currentState = State.Jumping;
 			}
 		}
 
@@ -703,11 +729,33 @@ namespace GrandLarceny
 		{
 			base.draw(a_gameTime);
 
-			if(m_healthHearts != null)
+		}
+
+		public void dealDamageTo(Vector2 a_knockBackForce)
+		{
+			if (m_invunerableTimer == 0)
 			{
-				foreach(GuiObject go in m_healthHearts)
+				//deals 1 damage
+				m_health = Math.Max(m_health - 1, 0);
+				updateHealthGUI();
+				m_currentState = State.Damaged;
+				m_speed += a_knockBackForce;
+				m_invunerableTimer = 2f;
+				m_damagedTimer = 1f;
+			}
+		}
+
+		private void updateHealthGUI()
+		{
+			for (int i = 0; i < 3; ++i)
+			{
+				if (i + 1 <= m_health )
 				{
-					go.draw(a_gameTime);
+					m_healthHearts[i].setSprite("DevelopmentHotkeys//btn_hero_hotkey_normal");
+				}
+				else
+				{
+					m_healthHearts[i].setSprite("DevelopmentHotkeys//btn_hero_hotkey_pressed");
 				}
 			}
 		}

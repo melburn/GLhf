@@ -100,8 +100,8 @@ namespace GrandLarceny
 
 		public override void load()
 		{
+			m_guiList = new LinkedList<GuiObject>();
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
-			m_guiList			= new LinkedList<GuiObject>();
 			m_textList			= new LinkedList<Text>();
 			m_buttonList		= new LinkedList<Button>();
 			m_assetButtonList	= new LinkedList<Button>();
@@ -1016,6 +1016,11 @@ namespace GrandLarceny
 		public override void removeObject(GameObject a_object, int a_layer)
 		{
 			m_gameObjectList[a_layer].Remove(a_object);
+		}
+
+		public override void addGuiObject(GuiObject a_go)
+		{
+			m_guiList.AddLast(a_go);
 		}
 	}
 }
