@@ -693,6 +693,23 @@
   <ItemGroup>
     <Compile Include="Images\Background\corridor_backdrop_spot.png">
       <Name>corridor_backdrop_spot</Name>
+    <Compile Include="Images\Tile\Window\1x1_window_tile_top.png">
+      <Name>1x1_window_tile_top</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Window\1x1_window_tile_under.png">
+      <Name>1x1_window_tile_under</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Window\1x2_window_tile_middle_closed.png">
+      <Name>1x2_window_tile_middle_closed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Window\1x2_window_tile_middle_open.png">
+      <Name>1x2_window_tile_middle_open</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -714,6 +731,13 @@
   <ItemGroup>
     <Compile Include="Images\Tile\Window\window_tile_top.png">
       <Name>window_tile_top</Name>
+    <Compile Include="Images\Tile\Floor\1x2_floor_tile_short_pipe.png">
+      <Name>1x2_floor_tile_short_pipe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\5x2_floor_tile_long_pipe.png">
+      <Name>5x2_floor_tile_long_pipe</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -721,6 +745,8 @@
   <ItemGroup>
     <Compile Include="Images\Tile\Window\window_tile_under.png">
       <Name>window_tile_under</Name>
+    <Compile Include="Images\Prop\Button\1x1_light_switch_off.png">
+      <Name>1x1_light_switch_off</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
