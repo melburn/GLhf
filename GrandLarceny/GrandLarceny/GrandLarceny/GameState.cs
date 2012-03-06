@@ -45,6 +45,7 @@ namespace GrandLarceny
 			}
 			if (player != null)
 			{
+				Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
 			}
 		}

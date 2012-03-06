@@ -17,6 +17,7 @@ namespace GrandLarceny
 		private LinkedList<GuiObject> m_guiList;
 		private LinkedList<Button> m_buttonList;
 		private LinkedList<Button> m_assetButtonList;
+		private LinkedList<Button> m_layerButtonList;
 		private LinkedList<Text> m_textList;
 		private LinkedList<Line> m_lineList;
 
@@ -59,7 +60,7 @@ namespace GrandLarceny
 
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
-		private int m_currentLayer;
+		private int m_currentLayer = 0;
 		private string assetToCreate = null;
 		private string m_levelToLoad;
 		private bool m_building;
@@ -77,8 +78,6 @@ namespace GrandLarceny
 			Guard,
 			GuardDog,
 			Wall,
-			GuardLeft,
-			GuardRight,
 			DuckHidingObject,
 			StandHidingObject,
 			Ventilation
@@ -92,10 +91,6 @@ namespace GrandLarceny
 			m_levelToLoad = a_levelToLoad;
 			Game.getInstance().m_camera.getPosition().setParentPosition(null);
 			Game.getInstance().m_camera.setPosition(new Vector2(Game.getInstance().getResolution().X / 2, Game.getInstance().getResolution().Y / 2));
-		}
-
-		private bool keyClicked(Keys a_key) {
-			return m_currentKeyboard.IsKeyDown(a_key) && m_previousKeyboard.IsKeyUp(a_key);
 		}
 
 		public override void load()
@@ -159,6 +154,7 @@ namespace GrandLarceny
 			m_btnVentHotkey			= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "V", "VerdanaBold", Color.White, t_btnTextOffset);
 
+			m_layerButtonList = new LinkedList<Button>();
 			for (int i = 5, j = 1; i > 0; i--, j++) {
 				Button t_button = new Button(
 					"DevelopmentHotkeys//btn_layer_chooser", 
@@ -166,7 +162,7 @@ namespace GrandLarceny
 					j.ToString(), "VerdanaBold", Color.Black, new Vector2(34, 8)
 				);
 				t_button.m_clickEvent += new Button.clickDelegate(setLayer);
-				m_buttonList.AddLast(t_button);
+				m_layerButtonList.AddLast(t_button);
 			}
 
 			m_buttonList.AddLast(m_btnLadderHotkey);
@@ -205,6 +201,7 @@ namespace GrandLarceny
 			m_previousKeyboard = m_currentKeyboard;
 			m_previousMouse = m_currentMouse;
 		}
+		#endregion
 
 		#region Update Camera
 		private void updateCamera()
@@ -235,6 +232,8 @@ namespace GrandLarceny
 			foreach (Button t_button in m_assetButtonList)
 				t_button.update();
 			foreach (Button t_button in m_buttonList)
+				t_button.update();
+			foreach (Button t_button in m_layerButtonList)
 				t_button.update();
 
 			if (m_selectedObject != null) {
@@ -307,11 +306,17 @@ namespace GrandLarceny
 				setBuildingState(State.LightSwitch);
 				return;
 			}
+			if (a_button == m_btnVentHotkey) {
+				setBuildingState(State.Ventilation);
+				return;
+			}
 		}
 
 		private void createAssetList(string a_assetDirectory) {
-			if (a_assetDirectory == null)
+			if (a_assetDirectory == null) {
+				m_assetButtonList.Clear();
 				return;
+			}
 			m_assetButtonList = new LinkedList<Button>();
 			string[] t_levelList = Directory.GetFiles(a_assetDirectory);
 
@@ -384,9 +389,24 @@ namespace GrandLarceny
 		private void updateKeyboard()
 		{
 			if (keyClicked(Keys.R)) {
+				m_currentLayer = 0;
 				Game.getInstance().setState(new GameState(m_levelToLoad));
 			}
-
+			if (keyClicked(Keys.D1)) {
+				setLayer(0);
+			}
+			if (keyClicked(Keys.D2)) {
+				setLayer(1);
+			}
+			if (keyClicked(Keys.D3)) {
+				setLayer(2);
+			}
+			if (keyClicked(Keys.D4)) {
+				setLayer(3);
+			}
+			if (keyClicked(Keys.D5)) {
+				setLayer(4);
+			}
 			/*
 			-----------------------------------
 			Keybindings for hotkeys
@@ -421,12 +441,6 @@ namespace GrandLarceny
 			}
 			if (keyClicked(Keys.W)) {
 				setBuildingState(State.Wall);
-			}
-			if (keyClicked(Keys.N)) {
-				setBuildingState(State.GuardLeft);
-			}
-			if (keyClicked(Keys.M)) {
-				setBuildingState(State.GuardRight);
 			}
 			if (keyClicked(Keys.V)) {
 				setBuildingState(State.Ventilation);
@@ -559,8 +573,6 @@ namespace GrandLarceny
 								createVentilation();
 								break;
 						}
-					} else {
-						setGuardPoint((NPE)m_selectedObject, m_itemToCreate == State.GuardRight);
 					}
 					return;
 				}
@@ -606,8 +618,6 @@ namespace GrandLarceny
 			-----------------------------------
 			*/
 			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) {
-				if (m_itemToCreate == State.GuardLeft || m_itemToCreate == State.GuardRight)
-					return;
 				if (m_dragOffset == null || m_dragOffset == Vector2.Zero) {
 					m_dragOffset = new Vector2();
 					m_dragOffset.X = m_worldMouse.X - m_selectedObject.getPosition().getGlobalX();
@@ -691,8 +701,6 @@ namespace GrandLarceny
 		}
 		#endregion
 
-		#endregion
-
 		#region Collision Check
 		private bool collidedWithGui(Vector2 a_coordinate)
 		{
@@ -705,6 +713,9 @@ namespace GrandLarceny
 			foreach (Button t_button in m_assetButtonList)
 				if (t_button.getBox().Contains((int)Mouse.GetState().X, (int)Mouse.GetState().Y))
 					return true;
+			foreach (Button t_button in m_layerButtonList)
+				if (t_button.getBox().Contains((int)Mouse.GetState().X, (int)Mouse.GetState().Y))
+					return true;
 			return false;
 		}
 
@@ -712,7 +723,7 @@ namespace GrandLarceny
 			Rectangle t_rectangle = new Rectangle((int)getTile(a_coordinate).X, (int)getTile(a_coordinate).Y, 1, 1);
 
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer]) {
-				if (t_gameObject is Environment)
+				if (t_gameObject is Environment || t_gameObject is LightCone)
 					continue;
 				if (t_gameObject.getBox().Contains(t_rectangle))
 					return true;
@@ -743,6 +754,10 @@ namespace GrandLarceny
 				a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % TILE_HEIGHT) - TILE_HEIGHT;
 
 			return a_pixelPosition;
+		}
+
+		private bool keyClicked(Keys a_key) {
+			return m_currentKeyboard.IsKeyDown(a_key) && m_previousKeyboard.IsKeyUp(a_key);
 		}
 
 		private void setBuildingState(State a_state) {
@@ -804,12 +819,6 @@ namespace GrandLarceny
 					m_textCurrentMode.setText("Create Wall");
 					createAssetList("Content//Images//Tile//Wall//");
 					m_btnWallHotkey.setState(3);
-					break;
-				case State.GuardRight:
-					m_textCurrentMode.setText("Set Right Point");
-					break;
-				case State.GuardLeft:
-					m_textCurrentMode.setText("Set Left Point");
 					break;
 				case State.DuckHidingObject:
 					m_textCurrentMode.setText("Ducking Hide Object");
@@ -886,21 +895,62 @@ namespace GrandLarceny
 		}
 
 		private void setLayer(Button a_button) {
+			foreach (Button t_button in m_layerButtonList) {
+				t_button.setState(0);
+			}
 			m_currentLayer = int.Parse(a_button.getText()) - 1;
 			a_button.setState(3);
 			m_layerInfo.setText((m_currentLayer + 1).ToString());
+		}
+
+		private void setLayer(int a_layer) {
+			foreach (Button t_button in m_layerButtonList) {
+				if (int.Parse(t_button.getText()) == m_currentLayer) {
+
+				}
+			}
+		}
+
+		public override void addObject(GameObject a_object)
+		{
+			m_gameObjectList[m_currentLayer].AddLast(a_object);
+		}
+		public override void addObject(GameObject a_object, int a_layer)
+		{
+			m_gameObjectList[a_layer].AddLast(a_object);
+		}
+		public override void removeObject(GameObject a_object)
+		{
+			m_gameObjectList[m_currentLayer].Remove(a_object);
+		}
+		public override void removeObject(GameObject a_object, int a_layer)
+		{
+			m_gameObjectList[a_layer].Remove(a_object);
 		}
 		#endregion
 
 		#region Create-methods
 		private void deleteObject(GameObject a_gameObject) {
-			if (a_gameObject is Player)
+			if (a_gameObject is Player) {
 				m_player = null;
+			}
 			a_gameObject.kill();
 			if (a_gameObject is SpotLight) {
 				LightCone t_lightCone = ((SpotLight)a_gameObject).getLightCone();
-				if (t_lightCone != null)
-					m_gameObjectList[m_currentLayer].Remove(t_lightCone);
+				for (int i = 0; i < 5; i++) {
+					foreach (GameObject t_gameObject in m_gameObjectList[i]) {
+						if (t_gameObject is LampSwitch) {
+							if (((LampSwitch)t_gameObject).isConnectedTo((SpotLight)a_gameObject)) {
+								((LampSwitch)t_gameObject).disconnectSpotLight((SpotLight)a_gameObject);
+							}
+						}
+					}
+				}
+				if (t_lightCone != null) {
+					for (int i = 0; i < 5; i++) {
+						m_gameObjectList[i].Remove(t_lightCone);
+					}
+				}
 			}
 			m_gameObjectList[m_currentLayer].Remove(a_gameObject);
 		}
@@ -927,7 +977,7 @@ namespace GrandLarceny
 		private void createSpotLight() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new SpotLight(getTile(m_worldMouse), "Images//LightCone//"  + assetToCreate, 0.2f, (float)(Math.PI * 0.5f), true));
+			addObject(new SpotLight(getTile(m_worldMouse), "Images//LightCone//"  + assetToCreate, 0.200f, (float)(Math.PI * 0.5f), true));
 		}
 
 		private void createBackground() {
@@ -977,6 +1027,7 @@ namespace GrandLarceny
 		}
 		#endregion
 
+		#region Draw
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			foreach (Text t_textObject in m_textList)
@@ -989,6 +1040,8 @@ namespace GrandLarceny
 				t_button.draw(a_gameTime, a_spriteBatch);
 			foreach (Button t_button in m_assetButtonList)
 				t_button.draw(a_gameTime, a_spriteBatch);
+			foreach (Button t_button in m_layerButtonList)
+				t_button.draw(a_gameTime, a_spriteBatch);
 			foreach (Line t_line in m_lineList)
 				t_line.draw();
 			if (m_objectPreview != null)
@@ -1000,22 +1053,6 @@ namespace GrandLarceny
 			if (m_dragLine != null)
 				m_dragLine.draw();
 		}
-
-		public override void addObject(GameObject a_object)
-		{
-			m_gameObjectList[m_currentLayer].AddLast(a_object);
-		}
-		public override void addObject(GameObject a_object, int a_layer)
-		{
-			m_gameObjectList[a_layer].AddLast(a_object);
-		}
-		public override void removeObject(GameObject a_object)
-		{
-			m_gameObjectList[m_currentLayer].Remove(a_object);
-		}
-		public override void removeObject(GameObject a_object, int a_layer)
-		{
-			m_gameObjectList[a_layer].Remove(a_object);
-		}
+		#endregion
 	}
 }
