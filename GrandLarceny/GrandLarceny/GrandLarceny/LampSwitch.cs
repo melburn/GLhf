@@ -24,7 +24,7 @@ namespace GrandLarceny
 			if (!a_spotlight.isDead())
 			{
 				m_connectedSpotLights.AddLast(a_spotlight);
-				a_spotlight.setLit(m_switchedOn);
+				a_spotlight.toggleLight();
 			}
 		}
 		public void disconnectSpotLight(SpotLight a_spotlight)
@@ -33,32 +33,17 @@ namespace GrandLarceny
 		}
 		public void toogleSwitch()
 		{
-			m_switchedOn = !m_switchedOn;
-			LinkedList<SpotLight> t_deadSpotLights = new LinkedList<SpotLight>();
-			foreach (SpotLight t_spotlight in m_connectedSpotLights)
+			foreach (SpotLight t_spotLight in m_connectedSpotLights)
 			{
-				if (t_spotlight.isDead())
+				t_spotLight.toggleLight();
+				if (!t_spotLight.isLit())
 				{
-					t_deadSpotLights.AddLast(t_spotlight);
-				}
-				else
-				{
-					t_spotlight.setLit(m_switchedOn);
-				}
-			}
-			m_connectedSpotLights.Except(t_deadSpotLights);
-			if (m_switchedOn)
-			{
-				//m_img.setSprite(on);
-			}
-			else
-			{
-				//m_img.setSprite(off);
-				foreach (GameObject go in Game.getInstance().getState().getCurrentList())
-				{
-					if (go is Guard && CollisionManager.possibleLineOfSight(go.getPosition().getGlobalCartesianCoordinates(), m_position.getGlobalCartesianCoordinates()))
+					foreach (GameObject t_guard in Game.getInstance().getState().getCurrentList())
 					{
-						((Guard)go).addLampSwitchTarget(this);
+						if (t_guard is Guard && CollisionManager.possibleLineOfSight(t_guard.getPosition().getGlobalCartesianCoordinates(), m_position.getGlobalCartesianCoordinates()))
+						{
+							((Guard)t_guard).addLampSwitchTarget(this);
+						}
 					}
 				}
 			}
@@ -66,7 +51,12 @@ namespace GrandLarceny
 
 		public bool isOn()
 		{
-			return m_switchedOn;
+			foreach (SpotLight t_spotLight in m_connectedSpotLights)
+			{
+				if (!t_spotLight.isLit())
+					return false;
+			}
+			return true;
 		}
 
 		internal override void updateCollisionWith(Entity a_collid)
@@ -80,6 +70,18 @@ namespace GrandLarceny
 		public LinkedList<SpotLight> getConnectedSpotLights()
 		{
 			return m_connectedSpotLights;
+		}
+
+		public bool isConnectedTo(SpotLight a_spotLight)
+		{
+			foreach (SpotLight t_spotLight in m_connectedSpotLights)
+			{
+				if (a_spotLight == t_spotLight)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }
