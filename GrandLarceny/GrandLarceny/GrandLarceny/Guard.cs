@@ -47,7 +47,7 @@ namespace GrandLarceny
 			m_aiState = AIStatepatroling.getInstance();
 			if (m_hasFlashLight && m_FlashLightAddicted)
 			{
-				m_flashLight = new FlashCone(this, Vector2.Zero, "Images//LightCone//light_guard_idle", a_layer - 1);
+				m_flashLight = new FlashCone(this, new Vector2(0,-7), "Images//LightCone//light_guard_idle",m_facingRight, 0.249f);
 				Game.getInstance().getState().addObject(m_flashLight);
 			}
 			m_gravity = 1000;
@@ -158,7 +158,7 @@ namespace GrandLarceny
 					m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 					m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
 				}
-				m_flashLight.getPosition().setX(m_img.getSize().X);
+				m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
 				m_flashLight.setSprite("Images//LightCone//light_guard_walk");
 				m_flashLight.setFacingRight(false);
 			}
@@ -181,13 +181,10 @@ namespace GrandLarceny
 		{
 			if (m_flashLight == null)
 			{
-				if (m_facingRight)
+				m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
+				if (!m_facingRight)
 				{
-					m_flashLight = new FlashCone(this, Vector2.Zero, "Images//LightCone//light_guard_idle", m_layer - 1);
-				}
-				else
-				{
-					m_flashLight = new FlashCone(this, new Vector2(m_img.getSize().X), "Images//LightCone//light_guard_idle", m_layer - 1);
+					m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
 				}
 				Game.getInstance().getState().addObject(m_flashLight);
 				m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
@@ -302,8 +299,20 @@ namespace GrandLarceny
 		}
 		public override void update(GameTime a_gameTime)
 		{
+			if (!m_aiActive)
+			{
+				if (m_img.isStopped())
+				{
+					m_aiActive = true;
+					if (m_striking)
+					{
+						m_striking = false;
+						m_img.setSprite("Images//Sprite//Guard//guard_idle");
+					}
+				}
+			}
 			base.update(a_gameTime);
-			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000),0);
+			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000f),0);
 			if (m_facingRight)
 			{
 				m_spriteEffects = SpriteEffects.None;
@@ -459,7 +468,10 @@ namespace GrandLarceny
 		internal void strike()
 		{
 			m_striking = true;
-			m_strikeReloadTime = 3f;
+			m_strikeReloadTime = 1f;
+			m_aiActive = false;
+			m_img.setSprite("Images//Sprite//Guard//guard_strike");
+			m_img.setLooping(false);
 		}
 
 		internal bool isCarryingFlash()

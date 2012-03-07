@@ -13,7 +13,10 @@ namespace GrandLarceny
 		private float m_length;
 		private float m_width;
 		private GameObject m_parent;
+
+		[NonSerialized]
 		private bool m_collisionIsUpdated;
+
 		public LightCone(GameObject a_parent, string a_sprite, float a_layer, float a_length, float a_width) :
 			base((Position)new CartesianCoordinate(Vector2.Zero,a_parent.getPosition()), a_sprite, a_layer, a_parent.getRotation())
 		{
@@ -76,7 +79,6 @@ namespace GrandLarceny
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			
 			if (a_collid is Player && CollisionManager.Collides(this.getHitBox(), a_collid.getHitBox()))
 			{
 				Player t_player = (Player)a_collid;
@@ -88,11 +90,11 @@ namespace GrandLarceny
 				{
 					if(t_player.getHidingImage().Equals(Player.STANDHIDINGIMAGE))
 					{
-						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width+72 > m_parent.getPosition().getGlobalX())
+						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width+72 > m_position.getGlobalX())
 						{
 							t_player.setIsInLight(true);
 						}
-						else if(!t_player.isFacingRight() && t_player.getPosition().getGlobalX()-72 < m_parent.getPosition().getGlobalX())
+						else if (!t_player.isFacingRight() && t_player.getPosition().getGlobalX() - 72 < m_position.getGlobalX())
 						{
 							t_player.setIsInLight(true);
 						}

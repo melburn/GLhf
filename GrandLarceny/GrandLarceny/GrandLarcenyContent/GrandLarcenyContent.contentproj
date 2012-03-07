@@ -679,7 +679,7 @@
     </Compile>
     <Compile Include="Images\LightCone\light_guard_walk.png">
       <Name>light_guard_walk</Name>
-	  <Importer>TextureImporter</Importer>
+      <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Images\Automagi\window_tile_middle_closed.png">
@@ -701,7 +701,7 @@
     </Compile>
     <Compile Include="Images\Sprite\Guard\guard_flash_walk.png">
       <Name>guard_flash_walk</Name>
-	  <Importer>TextureImporter</Importer>
+      <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Images\Background\window_tile_middle_open_window.png">
@@ -776,6 +776,13 @@
     </Compile>
     <Compile Include="Images\Prop\Button\1x1_light_switch_off.png">
       <Name>1x1_light_switch_off</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Guard\guard_strike.png">
+      <Name>guard_strike</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

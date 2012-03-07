@@ -34,6 +34,11 @@ namespace GrandLarceny
 				{
 					return AIStatepatroling.getInstance();
 				}
+				else if(t_guard.canSeePlayer())
+				{
+					t_guard.chasePlayer();
+					return AIStateChasing.getInstance();
+				}
 				else
 				{
 					LampSwitch t_lampSwitch = t_guard.getFirstLampSwitchTarget();
