@@ -12,7 +12,7 @@ namespace GrandLarceny
 		private Texture2D m_image;
 		private int m_animationWidth;
 		private int m_animationFrames;
-		public bool m_looping;
+		private bool m_looping;
 		private bool m_stopped = false;
 		private string m_imagePath;
 
@@ -20,7 +20,7 @@ namespace GrandLarceny
 		public float m_animationSpeed;
 
 		//säger vilken subbild i animationen den ligger på, med decimaler.
-		public float m_subImageNumber;
+		private float m_subImageNumber;
 
 		public ImageManager(string a_sprite)
 		{
@@ -42,7 +42,7 @@ namespace GrandLarceny
 					}
 					else
 					{
-						m_subImageNumber = m_animationFrames;
+						m_subImageNumber = m_animationFrames - 0.1f;
 						m_stopped = true;
 					}
 				}
@@ -63,7 +63,6 @@ namespace GrandLarceny
 			{
 				a_color = Color.White;
 			}
-			//Vector2 t_worldPosV2 = a_position.getGlobalCartesianCoordinates();
 
 			Game.getInstance().getSpriteBatch().Draw(
 				m_image,
@@ -77,13 +76,15 @@ namespace GrandLarceny
 			);
 		}
 
-		public void setSprite(string a_sprite)
+		public Boolean setSprite(string a_sprite)
 		{
 			
 			if (a_sprite == null)
 			{
 				m_image = null;
 				m_stopped = true;
+				m_imagePath = null;
+				return false;
 			}
 			else if (!a_sprite.Equals(m_imagePath))
 			{
@@ -92,9 +93,13 @@ namespace GrandLarceny
 				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
 				m_animationWidth = m_image.Width / m_animationFrames;
 				m_subImageNumber = 0;
-				
+				m_imagePath = a_sprite;
+				return true;
 			}
-			m_imagePath = a_sprite;
+			else
+			{
+				return false;
+			}
 		}
 
 		public void stop()
@@ -129,6 +134,30 @@ namespace GrandLarceny
 		public float getSubImageIndex()
 		{
 			return m_subImageNumber;
+		}
+
+		public void setSubImage(float a_index)
+		{
+			if (a_index < 0)
+			{
+				throw new ArgumentException();
+			}
+			if (a_index < m_animationFrames)
+			{
+				m_subImageNumber = a_index;
+			}
+			else
+			{
+				if (m_looping)
+				{
+					m_subImageNumber = a_index % m_subImageNumber;
+				}
+				else
+				{
+					m_subImageNumber = m_animationFrames - 0.1f;
+					m_stopped = true;
+				}
+			}
 		}
 	}
 }
