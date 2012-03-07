@@ -55,6 +55,7 @@ namespace GrandLarceny
 		private Button m_btnVentHotkey;
 
 		private Line m_dragLine = null;
+		private Box m_box;
 
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
@@ -100,6 +101,7 @@ namespace GrandLarceny
 			m_assetButtonList	= new LinkedList<Button>();
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
+			m_box = new Box(Vector2.Zero, 500, 500, Color.Black, Color.Green, 10);
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -971,7 +973,7 @@ namespace GrandLarceny
 			if (m_player == null) {
 				if (collidedWithObject(m_worldMouse))
 					return;
-				addObject(new Player(getTile(m_worldMouse), "Images//Sprite//Hero//" + assetToCreate, 0.250f));
+				addObject(new Player(getTile(m_worldMouse), "Images//Sprite//Hero//" + assetToCreate, 0.300f));
 			}
 		}
 
@@ -1000,7 +1002,7 @@ namespace GrandLarceny
 		private void createGuard() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new Guard(getTile(m_worldMouse), "Images//Sprite//Guard//" + assetToCreate, getTile(m_worldMouse).X, true, false, 0.300f));
+			addObject(new Guard(getTile(m_worldMouse), "Images//Sprite//Guard//" + assetToCreate, getTile(m_worldMouse).X, true, false, 0.250f));
 		}
 
 		private void createWall() {
@@ -1061,6 +1063,7 @@ namespace GrandLarceny
 				m_objectPreview.draw(a_gameTime);
 			if (m_dragLine != null)
 				m_dragLine.draw();
+			m_box.draw();
 		}
 		#endregion
 	}
