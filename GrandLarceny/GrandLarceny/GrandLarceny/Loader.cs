@@ -81,20 +81,6 @@ namespace GrandLarceny
 
 				return t_returnList;
 		}
-		private bool parseBoolean(string p)
-		{
-			if(p.Equals("true"))
-			{
-				return true;
-			}
-			else if (p.Equals("false"))
-			{
-				return false;
-			}
-			else
-			{
-				throw new ArgumentException(p+" cannot be parsed into a boolean");
-			}
-		}
+
 	}
 }
