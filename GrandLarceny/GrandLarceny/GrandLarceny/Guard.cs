@@ -88,7 +88,7 @@ namespace GrandLarceny
 		}
 		internal void goRight()
 		{
-			if (m_speed.X <= 0)
+			if (m_speed.X <= 0 && m_aiActive)
 			{
 				m_speed.X = 0;
 				m_aiActive = false;
@@ -100,7 +100,7 @@ namespace GrandLarceny
 		}
 		internal void goLeft()
 		{
-			if (m_speed.X >= 0)
+			if (m_speed.X >= 0 && m_aiActive)
 			{
 				m_speed.X = 0;
 				m_aiActive = false;
@@ -124,23 +124,22 @@ namespace GrandLarceny
 		}
 		internal void toogleFlashLight()
 		{
-			if (m_flashLight == null)
+			if (m_aiActive)
 			{
-				m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
-				if (!m_facingRight)
+				m_speed.X = 0;
+				m_aiActive = false;
+				if (m_flashLight == null)
 				{
-					m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+					m_img.setSprite("Images//Sprite//Guard//guard_pick_up_flash");
 				}
-				Game.getInstance().getState().addObject(m_flashLight);
-				m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
+				else
+				{
+					m_img.setSprite("Images//Sprite//Guard//guard_put_down_flash");
+					m_flashLight.kill();
+					m_flashLight = null;
+				}
+				m_img.setLooping(false);
 			}
-			else
-			{
-				m_flashLight.kill();
-				m_flashLight = null;
-				m_img.setSprite("Images//Sprite//Guard//guard_idle");
-			}
-			m_speed.X = 0;
 		}
 
 		internal float getLeftpatrolPoint()
@@ -335,6 +334,20 @@ namespace GrandLarceny
 							m_facingRight = true;
 						}
 					}
+					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_pick_up_flash")
+					{
+						m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
+						if (!m_facingRight)
+						{
+							m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+						}
+						Game.getInstance().getState().addObject(m_flashLight);
+						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
+					}
+					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_put_down_flash")
+					{
+						m_img.setSprite("Images//Sprite//Guard//guard_idle");
+					}
 				}
 			}
 
@@ -484,7 +497,7 @@ namespace GrandLarceny
 
 		public bool canStrike()
 		{
-			return (!m_striking) && (m_strikeReloadTime == 0);
+			return (!m_striking) && (m_strikeReloadTime == 0) && (m_aiActive);
 		}
 
 		internal bool isStriking()
@@ -494,11 +507,14 @@ namespace GrandLarceny
 
 		internal void strike()
 		{
-			m_striking = true;
-			m_strikeReloadTime = 1f;
-			m_aiActive = false;
-			m_img.setSprite("Images//Sprite//Guard//guard_strike");
-			m_img.setLooping(false);
+			if (canStrike())
+			{
+				m_striking = true;
+				m_strikeReloadTime = 1f;
+				m_aiActive = false;
+				m_img.setSprite("Images//Sprite//Guard//guard_strike");
+				m_img.setLooping(false);
+			}
 		}
 
 		internal bool isCarryingFlash()
