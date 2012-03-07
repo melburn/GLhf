@@ -55,7 +55,6 @@ namespace GrandLarceny
 		private Button m_btnVentHotkey;
 
 		private Line m_dragLine = null;
-		private Box m_box;
 
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
@@ -101,7 +100,6 @@ namespace GrandLarceny
 			m_assetButtonList	= new LinkedList<Button>();
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
-			m_box = new Box(Vector2.Zero, 500, 500, Color.Black, Color.Green, 10);
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -650,28 +648,19 @@ namespace GrandLarceny
 			Right Mouse Button Drag
 			-----------------------------------
 			*/
-			if (m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Pressed && m_selectedObject != null) {
-				if (m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-				{
-					if (m_selectedObject is LampSwitch)
-					{
-						if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-						{
+			if (m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Pressed) {
+				if (m_selectedObject != null) {
+					if (m_selectedObject is LampSwitch) {
+						if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), new Vector2(36, 36), Vector2.Zero, Color.Yellow, 5);
-						}
-						else
-						{
+						} else {
 							m_dragLine.setEndpoint(m_worldMouse);
 						}
 					}
-					if (m_selectedObject is Guard || m_selectedObject is GuardDog)
-					{
-						if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-						{
+					if (m_selectedObject is Guard || m_selectedObject is GuardDog) {
+						if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36)), new Vector2(36, 36), Vector2.Zero, Color.Green, 5);
-						}
-						else
-						{
+						} else {
 							m_dragLine.setEndpoint(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36));
 						}
 					}
@@ -1074,7 +1063,6 @@ namespace GrandLarceny
 				m_objectPreview.draw(a_gameTime);
 			if (m_dragLine != null)
 				m_dragLine.draw();
-			m_box.draw();
 		}
 		#endregion
 	}
