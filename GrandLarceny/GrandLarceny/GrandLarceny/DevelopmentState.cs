@@ -616,7 +616,7 @@ namespace GrandLarceny
 			-----------------------------------
 			*/
 			if (m_currentMouse.LeftButton == ButtonState.Released && m_previousMouse.LeftButton == ButtonState.Pressed) {
-
+				m_dragOffset = Vector2.Zero;
 			}
 
 			/*
@@ -624,19 +624,23 @@ namespace GrandLarceny
 			Left Mouse Button Drag
 			-----------------------------------
 			*/
-			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed && m_selectedObject != null) {
-				if (m_dragOffset == null || m_dragOffset == Vector2.Zero) {
-					m_dragOffset = new Vector2();
-					m_dragOffset.X = m_worldMouse.X - m_selectedObject.getPosition().getGlobalX();
-					m_dragOffset.Y = m_worldMouse.Y - m_selectedObject.getPosition().getGlobalY();
-				}
-				Vector2 t_mousePosition = getTile(m_worldMouse - m_dragOffset);
+			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed) {
+				if (m_selectedObject != null) {
+					if (m_dragOffset == Vector2.Zero || m_dragOffset == null) {
+						m_dragOffset = new Vector2(
+							m_worldMouse.X - m_selectedObject.getPosition().getGlobalX(),
+							m_worldMouse.Y - m_selectedObject.getPosition().getGlobalY()
+						);
+					}
+					
+					Vector2 t_mousePosition = getTile(m_worldMouse - m_dragOffset);
 
-				if (m_selectedObject is SpotLight)
-					m_selectedObject.getPosition().setX(t_mousePosition.X + m_selectedObject.getBox().Width);
-				else
-					m_selectedObject.getPosition().setX(t_mousePosition.X);
-				m_selectedObject.getPosition().setY(t_mousePosition.Y);
+					if (m_selectedObject is SpotLight)
+						m_selectedObject.getPosition().setX(t_mousePosition.X + m_selectedObject.getBox().Width);
+					else
+						m_selectedObject.getPosition().setX(t_mousePosition.X);
+					m_selectedObject.getPosition().setY(t_mousePosition.Y);
+				}
 			}
 
 			/*
@@ -646,14 +650,14 @@ namespace GrandLarceny
 			*/
 			if (m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Pressed && m_selectedObject != null) {
 				if (m_selectedObject is LampSwitch) {
-					if (m_dragLine == null) {
+					if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
 						m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), new Vector2(36, 36), Vector2.Zero, Color.Yellow, 5);
 					} else {
 						m_dragLine.setEndpoint(m_worldMouse);
 					}
 				}
 				if (m_selectedObject is Guard || m_selectedObject is GuardDog) {
-					if (m_dragLine == null) {
+					if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
 						m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36)), new Vector2(36, 36), Vector2.Zero, Color.Green, 5);
 					} else {
 						m_dragLine.setEndpoint(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36));
@@ -676,28 +680,25 @@ namespace GrandLarceny
 							}
 						}
 						showLightSwitchInfo((LampSwitch)m_selectedObject);
-						return;
-					}
-					if (m_selectedObject is Guard) {
+					} else if (m_selectedObject is Guard) {
 						if (m_worldMouse.X > m_selectedObject.getPosition().getGlobalX()) {
 							setGuardPoint((Guard)m_selectedObject, true);
 						} else {
 							setGuardPoint((Guard)m_selectedObject, false);
 						}
 						showGuardInfo((Guard)m_selectedObject);
-						return;
-					}
-					if (m_selectedObject is GuardDog) {
+					} else if (m_selectedObject is GuardDog) {
 						if (m_worldMouse.X > m_selectedObject.getPosition().getGlobalX()) {
 							setGuardPoint((GuardDog)m_selectedObject, true);
 						} else {
 							setGuardPoint((GuardDog)m_selectedObject, false);
 						}
 						showDogInfo((GuardDog)m_selectedObject);
-						return;
 					}
+					m_dragLine = null;
 				} else {
 					clearSelectedObject();
+					setBuildingState(State.None);
 				}
 				m_dragLine = null;
 			}
@@ -748,6 +749,7 @@ namespace GrandLarceny
 				m_selectedObject = null;
 				m_selectedInfoV2 = Vector2.Zero;
 			}
+			m_objectPreview = null;
 			m_lineList.Clear();
 		}
 
@@ -771,8 +773,10 @@ namespace GrandLarceny
 
 		private void setBuildingState(State a_state) {
 			m_building			= true;
-			m_itemToCreate		= a_state;
-			clearSelectedObject();
+			if (a_state != m_itemToCreate) {
+				clearSelectedObject();
+				m_itemToCreate = a_state;
+			}
 			assetToCreate		= null;
 			m_objectPreview		= null;
 			foreach (Button t_button in m_buttonList)
@@ -858,21 +862,21 @@ namespace GrandLarceny
 		}
 
 		private void showGuardInfo(Guard a_guard) {
+			m_lineList.Clear();
 			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
 			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getLeftpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5));
 			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getRightpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5));
 		}
 
 		private void showDogInfo(GuardDog a_guard) {
+			m_lineList.Clear();
 			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
 			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getLeftpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5));
 			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getRightpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5));
 		}
 
 		private void showLightSwitchInfo(LampSwitch a_lightswitch) {
-			if (m_lineList == null) {
-				m_lineList = new LinkedList<Line>();
-			}
+			m_lineList.Clear();
 			foreach (SpotLight t_spotLight in a_lightswitch.getConnectedSpotLights()) {
 				m_lineList.AddLast(new Line(a_lightswitch.getPosition(), t_spotLight.getPosition(), new Vector2(36, 36), new Vector2(0, 0), Color.Yellow, 5));
 			}

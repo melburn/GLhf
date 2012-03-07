@@ -26,11 +26,7 @@ namespace GrandLarceny
 		private Boolean m_running = false;
 		private Boolean m_facingRight;
 		private float m_sightRange = 576f;
-		private LightCone m_flashLight;
-		private static Vector2[] s_lightConePositionsWhileWalkingRight;
-		private static Vector2[] s_lightConePositionsWhileWalkingLeft;
-		private static float[] s_lightConeRotationsWhileWalkingRight;
-		private static float[] s_lightConeRotationsWhileWalkingLeft;
+		private FlashCone m_flashLight;
 
 		[NonSerialized]
 		private float m_strikeReloadTime = 0;
@@ -51,7 +47,8 @@ namespace GrandLarceny
 			m_aiState = AIStatepatroling.getInstance();
 			if (m_hasFlashLight && m_FlashLightAddicted)
 			{
-				m_flashLight = new LightCone(this, "Images//LightCone//Ljus",  m_layer + 1, 300,70);
+				m_flashLight = new FlashCone(this, Vector2.Zero, "Images//LightCone//light_guard_idle", a_layer - 1);
+				Game.getInstance().getState().addObject(m_flashLight);
 			}
 			m_gravity = 1000;
 		}
@@ -91,53 +88,81 @@ namespace GrandLarceny
 		}
 		internal void goRight()
 		{
-			if (m_running)
+			if (m_flashLight == null)
 			{
-				m_speed.X = CHASINGSPEED;
-				m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-				m_img.setSprite("Images//Sprite//Guard//guard_walk");
-				//TODO Spring
+				if (m_running)
+				{
+					m_speed.X = CHASINGSPEED;
+					m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
+					m_img.setSprite("Images//Sprite//Guard//guard_walk");
+					//TODO Spring
+				}
+				else
+				{
+					m_speed.X = MOVEMENTSPEED;
+					m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
+					m_img.setSprite("Images//Sprite//Guard//guard_walk");
+				}
 			}
 			else
 			{
-				m_speed.X = MOVEMENTSPEED;
-				m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
-				m_img.setSprite("Images//Sprite//Guard//guard_walk");
+				if (m_running)
+				{
+					m_speed.X = CHASINGSPEED;
+					m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
+					m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
+					//TODO Spring
+				}
+				else
+				{
+					m_speed.X = MOVEMENTSPEED;
+					m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
+					m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
+				}
+				m_flashLight.getPosition().setX(0);
+				m_flashLight.setSprite("Images//LightCone//light_guard_walk");
+				m_flashLight.setFacingRight(true);
 			}
 			m_facingRight = true;
-			/*
-			if (m_flashLight == null)
-			{
-				//TODO
-			}
-			*/
 		}
 		internal void goLeft()
 		{
-			if (m_running)
-			{
-				m_speed.X = -CHASINGSPEED;
-				m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-				m_img.setSprite("Images//Sprite//Guard//guard_walk");
-				//TODO SPRING
-			}
-			else
-			{
-				m_speed.X = -MOVEMENTSPEED;
-				m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
-				m_img.setSprite("Images//Sprite//Guard//guard_walk");
-			}
-			m_facingRight = false;
-			/*
 			if (m_flashLight == null)
 			{
-				//TODO
+				if (m_running)
+				{
+					m_speed.X = -CHASINGSPEED;
+					m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
+					m_img.setSprite("Images//Sprite//Guard//guard_walk");
+					//TODO SPRING
+				}
+				else
+				{
+					m_speed.X = -MOVEMENTSPEED;
+					m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
+					m_img.setSprite("Images//Sprite//Guard//guard_walk");
+				}
 			}
 			else
 			{
-				//m_img.setSprite("goWithflahs");
+				if (m_running)
+				{
+					m_speed.X = -CHASINGSPEED;
+					m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
+					m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
+					//TODO SPRING
+				}
+				else
+				{
+					m_speed.X = -MOVEMENTSPEED;
+					m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
+					m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
+				}
+				m_flashLight.getPosition().setX(m_img.getSize().X);
+				m_flashLight.setSprite("Images//LightCone//light_guard_walk");
+				m_flashLight.setFacingRight(false);
 			}
-			*/
+			m_facingRight = false;
 		}
 		internal void stop()
 		{
@@ -148,18 +173,30 @@ namespace GrandLarceny
 			}
 			else
 			{
-				//setsprite
+				m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
+				m_flashLight.setSprite("Images//LightCone//light_guard_idle");
 			}
 		}
 		internal void toogleFlashLight()
 		{
 			if (m_flashLight == null)
 			{
-				//m_img.setSprite("getthatup");
+				if (m_facingRight)
+				{
+					m_flashLight = new FlashCone(this, Vector2.Zero, "Images//LightCone//light_guard_idle", m_layer - 1);
+				}
+				else
+				{
+					m_flashLight = new FlashCone(this, new Vector2(m_img.getSize().X), "Images//LightCone//light_guard_idle", m_layer - 1);
+				}
+				Game.getInstance().getState().addObject(m_flashLight);
+				m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 			}
 			else
 			{
-				//m_img.setSprite("putthataway");
+				m_flashLight.kill();
+				m_flashLight = null;
+				m_img.setSprite("Images//Sprite//Guard//guard_idle");
 			}
 			m_speed.X = 0;
 		}
@@ -227,7 +264,8 @@ namespace GrandLarceny
 					}
 					else
 					{
-						//m_img.setSprite(walking with the flash);
+						m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
+						m_flashLight.setSprite("Images//LightCone//light_guard_walk");
 					}
 					if (m_speed.X < 0)
 					{
@@ -269,20 +307,14 @@ namespace GrandLarceny
 			if (m_facingRight)
 			{
 				m_spriteEffects = SpriteEffects.None;
-				if (m_flashLight != null && m_img.getImagePath().Equals("guardwalking"))
-				{
-					m_flashLight.getPosition().setCartesianCoordinates(s_lightConePositionsWhileWalkingRight[(int)m_img.getSubImageIndex()]);
-					m_flashLight.setRotation(s_lightConeRotationsWhileWalkingRight[(int)m_img.getSubImageIndex()]);
-				}
 			}
 			else
 			{
 				m_spriteEffects = SpriteEffects.FlipHorizontally;
-				if (m_flashLight != null && m_img.getImagePath().Equals("guardwalking"))
-				{
-					m_flashLight.getPosition().setCartesianCoordinates(s_lightConePositionsWhileWalkingLeft[(int)m_img.getSubImageIndex()]);
-					m_flashLight.setRotation(s_lightConeRotationsWhileWalkingLeft[(int)m_img.getSubImageIndex()]);
-				}
+			}
+			if (m_flashLight != null)
+			{
+				m_flashLight.setSubImage(m_img.getSubImageIndex());
 			}
 		}
 
@@ -428,6 +460,16 @@ namespace GrandLarceny
 		{
 			m_striking = true;
 			m_strikeReloadTime = 3f;
+		}
+
+		internal bool isCarryingFlash()
+		{
+			return m_flashLight != null;
+		}
+
+		internal bool hasFlash()
+		{
+			return m_hasFlashLight;
 		}
 	}
 }

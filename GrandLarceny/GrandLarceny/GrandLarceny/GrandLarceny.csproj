@@ -124,6 +124,7 @@
     <Compile Include="CrossVentilation.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
+    <Compile Include="FlashCone.cs" />
     <Compile Include="TVentilation.cs" />
     <Compile Include="LampSwitch.cs" />
     <Compile Include="Line.cs" />
@@ -173,6 +174,7 @@
     <ProjectReference Include="..\GrandLarcenyContent\GrandLarcenyContent.contentproj">
       <Name>GrandLarcenyContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{E110AA7A-B83A-4C6B-BF33-AD4E16160744}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,2 +1,3 @@
 Images//Sprite//Guard//guard_walk:8
 Images//Sprite//Hero//hero_walk:8
+Images//Sprite//Guard//guard_flash_walk:8
