@@ -13,7 +13,7 @@ namespace GrandLarceny
 		{
 		}
 		private static AIStateChasing instance;
-		private const float MINIMUMDISTANCE = 40;
+		private const float MINIMUMDISTANCE = 60;
 		public static AIStateChasing getInstance()
 		{
 			if (instance == null)
@@ -48,7 +48,10 @@ namespace GrandLarceny
 					}
 					if (t_guard.canStrike())
 					{
-						return AIStateStriking.getInstance();
+						//return AIStateStriking.getInstance();
+						//sur på strikingstate
+
+						t_guard.strike();
 					}
 				}
 				else

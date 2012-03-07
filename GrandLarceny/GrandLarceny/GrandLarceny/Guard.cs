@@ -299,8 +299,20 @@ namespace GrandLarceny
 		}
 		public override void update(GameTime a_gameTime)
 		{
+			if (!m_aiActive)
+			{
+				if (m_img.isStopped())
+				{
+					m_aiActive = true;
+					if (m_striking)
+					{
+						m_striking = false;
+						m_img.setSprite("Images//Sprite//Guard//guard_idle");
+					}
+				}
+			}
 			base.update(a_gameTime);
-			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000),0);
+			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000f),0);
 			if (m_facingRight)
 			{
 				m_spriteEffects = SpriteEffects.None;
@@ -456,7 +468,10 @@ namespace GrandLarceny
 		internal void strike()
 		{
 			m_striking = true;
-			m_strikeReloadTime = 3f;
+			m_strikeReloadTime = 1f;
+			m_aiActive = false;
+			m_img.setSprite("Images//Sprite//Guard//guard_strike");
+			m_img.setLooping(false);
 		}
 
 		internal bool isCarryingFlash()

@@ -89,6 +89,7 @@ namespace GrandLarceny
 			else if (!a_sprite.Equals(m_imagePath))
 			{
 				m_stopped = false;
+				m_looping = true;
 				m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
 				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
 				m_animationWidth = m_image.Width / m_animationFrames;
@@ -158,6 +159,16 @@ namespace GrandLarceny
 					m_stopped = true;
 				}
 			}
+		}
+
+		public bool isStopped()
+		{
+			return m_stopped;
+		}
+
+		public void setLooping(Boolean a_looping)
+		{
+			m_looping = a_looping;
 		}
 	}
 }
