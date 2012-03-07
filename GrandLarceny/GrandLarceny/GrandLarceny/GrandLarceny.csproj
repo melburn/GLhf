@@ -113,7 +113,6 @@
     <Compile Include="AIStateChasing.cs" />
     <Compile Include="AIStateGoingToTheSwitch.cs" />
     <Compile Include="AIStatePatrolling.cs" />
-    <Compile Include="AIStateStriking.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CartesianPosition.cs" />
@@ -125,6 +124,7 @@
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
     <Compile Include="FlashCone.cs" />
+    <Compile Include="GuardCamera.cs" />
     <Compile Include="TVentilation.cs" />
     <Compile Include="LampSwitch.cs" />
     <Compile Include="Line.cs" />
