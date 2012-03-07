@@ -937,6 +937,10 @@ namespace GrandLarceny
 		{
 			m_gameObjectList[a_layer].Remove(a_object);
 		}
+		public override void addGuiObject(GuiObject a_go)
+		{
+			m_guiList.AddLast(a_go);
+		}
 		#endregion
 
 		#region Create-methods
@@ -1059,11 +1063,5 @@ namespace GrandLarceny
 				m_dragLine.draw();
 		}
 		#endregion
-
-		//asså va? jag skriver här.
-		public override void addGuiObject(GuiObject a_go)
-		{
-			m_guiList.AddLast(a_go);
-		}
 	}
 }
