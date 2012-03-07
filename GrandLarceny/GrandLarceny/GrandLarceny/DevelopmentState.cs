@@ -648,28 +648,19 @@ namespace GrandLarceny
 			Right Mouse Button Drag
 			-----------------------------------
 			*/
-			if (m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Pressed && m_selectedObject != null) {
-				if (m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-				{
-					if (m_selectedObject is LampSwitch)
-					{
-						if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-						{
+			if (m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Pressed) {
+				if (m_selectedObject != null) {
+					if (m_selectedObject is LampSwitch) {
+						if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), new Vector2(36, 36), Vector2.Zero, Color.Yellow, 5);
-						}
-						else
-						{
+						} else {
 							m_dragLine.setEndpoint(m_worldMouse);
 						}
 					}
-					if (m_selectedObject is Guard || m_selectedObject is GuardDog)
-					{
-						if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y))
-						{
+					if (m_selectedObject is Guard || m_selectedObject is GuardDog) {
+						if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36)), new Vector2(36, 36), Vector2.Zero, Color.Green, 5);
-						}
-						else
-						{
+						} else {
 							m_dragLine.setEndpoint(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36));
 						}
 					}
@@ -982,7 +973,7 @@ namespace GrandLarceny
 			if (m_player == null) {
 				if (collidedWithObject(m_worldMouse))
 					return;
-				addObject(new Player(getTile(m_worldMouse), "Images//Sprite//Hero//" + assetToCreate, 0.250f));
+				addObject(new Player(getTile(m_worldMouse), "Images//Sprite//Hero//" + assetToCreate, 0.300f));
 			}
 		}
 
@@ -1011,7 +1002,7 @@ namespace GrandLarceny
 		private void createGuard() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new Guard(getTile(m_worldMouse), "Images//Sprite//Guard//" + assetToCreate, getTile(m_worldMouse).X, true, false, 0.300f));
+			addObject(new Guard(getTile(m_worldMouse), "Images//Sprite//Guard//" + assetToCreate, getTile(m_worldMouse).X, true, false, 0.250f));
 		}
 
 		private void createWall() {

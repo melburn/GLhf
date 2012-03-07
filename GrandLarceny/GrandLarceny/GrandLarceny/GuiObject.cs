@@ -8,7 +8,6 @@ namespace GrandLarceny
 {
 	public class GuiObject : GameObject
 	{
-
 		public GuiObject(Vector2 a_posV2, String a_sprite) : base(a_posV2, "Images//GUI//" + a_sprite, 0.002f)
 		{
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());

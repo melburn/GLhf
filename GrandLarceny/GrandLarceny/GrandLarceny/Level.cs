@@ -39,6 +39,7 @@ namespace GrandLarceny
 
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
+			
 			info.AddValue("GameObjects", m_loadedList);
 		}
 
