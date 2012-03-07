@@ -43,7 +43,7 @@ namespace GrandLarceny
 						{
 							t_guard.toogleFlashLight();
 						}
-						if (t_guard.haspatrol())
+						else if (t_guard.haspatrol())
 						{
 							if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftpatrolPoint())
 							{
