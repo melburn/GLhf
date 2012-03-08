@@ -76,5 +76,10 @@ namespace GrandLarceny
 				m_light = null;
 			}
 		}
+
+		public LightCone getLight()
+		{
+			return m_light;
+		}
 	}
 }

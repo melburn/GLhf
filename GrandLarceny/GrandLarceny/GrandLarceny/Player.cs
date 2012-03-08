@@ -76,7 +76,7 @@ namespace GrandLarceny
 			Rolling,
 			Hiding,
 			Hanging,
-			Damaged
+			Stunned
 		}
 
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer)
@@ -154,7 +154,7 @@ namespace GrandLarceny
 						updateHiding();
 						break;
 					}
-				case State.Damaged:
+				case State.Stunned:
 					{
 						updateDamaged(t_deltaTime);
 						break;
@@ -505,11 +505,15 @@ namespace GrandLarceny
 			else if (GameState.isKeyPressed(Keys.Up) && !GameState.wasKeyPressed(Keys.Up))
 			{
 				m_currentState = State.Stop;
-				
+
 				if (m_facingRight)
+				{
 					m_position.setX(m_position.getGlobalX() + m_standHitBox.m_width);
+				}
 				else
+				{
 					m_position.setX(m_position.getGlobalX() - m_standHitBox.m_width);
+				}
 
 				m_position.setY(m_position.getGlobalY() - m_standHitBox.m_height);
 			}
@@ -749,7 +753,7 @@ namespace GrandLarceny
 				//deals 1 damage
 				m_health = Math.Max(m_health - 1, 0);
 				updateHealthGUI();
-				m_currentState = State.Damaged;
+				m_currentState = State.Stunned;
 				m_speed += a_knockBackForce;
 				m_invunerableTimer = 2f;
 				m_damagedTimer = 1f;

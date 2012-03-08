@@ -13,7 +13,7 @@ namespace GrandLarceny
 		{
 		}
 		private static AIStateChasing instance;
-		private const float MINIMUMDISTANCE = 60;
+		private const float MINIMUMDISTANCE = 30;
 		public static AIStateChasing getInstance()
 		{
 			if (instance == null)

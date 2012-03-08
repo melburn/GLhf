@@ -21,7 +21,7 @@ namespace GrandLarceny
 		}
 		public void connectSpotLight(SpotLight a_spotlight)
 		{
-			if (!a_spotlight.isDead())
+			if (!a_spotlight.isDead() && !m_connectedSpotLights.Contains(a_spotlight))
 			{
 				m_connectedSpotLights.AddLast(a_spotlight);
 				a_spotlight.toggleLight();

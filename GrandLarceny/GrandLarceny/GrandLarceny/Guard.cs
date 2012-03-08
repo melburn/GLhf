@@ -25,7 +25,7 @@ namespace GrandLarceny
         private Entity m_chaseTarget = null;
 		private Boolean m_running = false;
 		private Boolean m_facingRight;
-		private float m_sightRange = 576f;
+		private float m_sightRange = 500f;
 		private FlashCone m_flashLight;
 
 		[NonSerialized]
