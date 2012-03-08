@@ -42,7 +42,6 @@ namespace GrandLarceny
 					}
 
 					t_player.setState(Player.State.Hiding);
-					t_player.setLayer(0.725f);
 					t_player.setHidingImage(Player.STANDHIDINGIMAGE);
 					t_player.setSpeedX(0);
 				}

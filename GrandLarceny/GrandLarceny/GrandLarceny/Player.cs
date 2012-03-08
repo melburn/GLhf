@@ -522,7 +522,6 @@ namespace GrandLarceny
 				|| (GameState.isKeyPressed(Keys.X) && !GameState.wasKeyPressed(Keys.X)))
 			{
 				m_currentState = State.Stop;
-				m_layer = m_originalLayer;
 			}
 		}
 
@@ -587,6 +586,10 @@ namespace GrandLarceny
 						{
 							m_position.setY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
 							Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
+							if (m_lastState == State.Hiding)
+							{
+								setLayer(m_originalLayer);
+							}
 						}
 					}
 
@@ -599,6 +602,10 @@ namespace GrandLarceny
 						if (m_facingRight && m_currentState == State.Rolling)
 						{
 							m_imgOffsetX = -m_rollHitBox.getOutBox().Width;
+						}
+						else if (m_currentState == State.Hiding)
+						{
+							setLayer(0.725f);
 						}
 						m_imgOffsetY -= m_img.getSize().Y - m_rollHitBox.getOutBox().Height;
 						m_position.setY(m_position.getLocalY() + (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
@@ -680,6 +687,7 @@ namespace GrandLarceny
 				m_position.setY(a_collider.getPosition().getGlobalY());
 				m_nextPosition.Y = m_position.getGlobalY();
 				m_speed.Y = 0;
+				m_speed.X = 0;
 				m_currentState = State.Hanging;
 				m_facingRight = true;
 			}
@@ -692,6 +700,7 @@ namespace GrandLarceny
 				m_position.setY(a_collider.getPosition().getGlobalY());
 				m_nextPosition.Y = m_position.getGlobalY();
 				m_speed.Y = 0;
+				m_speed.X = 0;
 				m_currentState = State.Hanging;
 				m_facingRight = false;
 			}

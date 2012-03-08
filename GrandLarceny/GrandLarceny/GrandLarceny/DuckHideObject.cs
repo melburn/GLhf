@@ -33,7 +33,7 @@ namespace GrandLarceny
 						&& t_player.getLastState() != Player.State.Hiding)
 					{
 						t_player.setState(Player.State.Hiding);
-						t_player.setLayer(0.725f);
+						//t_player.setLayer(0.725f);
 						t_player.setHidingImage(Player.DUCKHIDINGIMAGE);
 						t_player.setSpeedX(0);
 					}

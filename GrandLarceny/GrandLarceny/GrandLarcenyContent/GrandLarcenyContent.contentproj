@@ -417,11 +417,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Prop\DuckHide\table.png">
-      <Name>table</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Prop\DuckHide\table_2.png">
       <Name>table_2</Name>
       <Importer>TextureImporter</Importer>
@@ -804,6 +799,13 @@
   <ItemGroup>
     <Compile Include="Images\Sprite\Guard\guard_put_down_flash.png">
       <Name>guard_put_down_flash</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Prop\DuckHide\table.png">
+      <Name>table</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

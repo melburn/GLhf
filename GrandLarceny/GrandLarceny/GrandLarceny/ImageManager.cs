@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace GrandLarceny
 {
@@ -88,9 +89,18 @@ namespace GrandLarceny
 			}
 			else if (!a_sprite.Equals(m_imagePath))
 			{
+				
 				m_stopped = false;
 				m_looping = true;
-				m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
+				try
+				{
+					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
+				}
+				catch (ContentLoadException)
+				{
+					System.Console.WriteLine("Omega fail to load texture : " + a_sprite);
+					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
+				}
 				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
 				m_animationWidth = m_image.Width / m_animationFrames;
 				m_subImageNumber = 0;
