@@ -58,5 +58,10 @@ namespace GrandLarceny
 		{
 			throw new NotImplementedException();
 		}
+
+		internal virtual GameObject getObjectById(int a_id)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

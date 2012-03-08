@@ -66,7 +66,7 @@ namespace GrandLarceny
 				LinkedList<GameObject>[] t_returnList;
 				Level t_newLevel = Serializer.getInstance().loadLevel(a_levelName);
 				t_returnList = t_newLevel.getLevelLists();
-				foreach(LinkedList<GameObject>t_ll in t_returnList)
+				/*foreach(LinkedList<GameObject>t_ll in t_returnList)
 				{
 					foreach (GameObject t_go in t_ll)
 					{
@@ -77,7 +77,7 @@ namespace GrandLarceny
 							Game.getInstance().getState().setPlayer((Player)t_go);
 						}
 					}
-				}
+				}*/
 
 				return t_returnList;
 		}
