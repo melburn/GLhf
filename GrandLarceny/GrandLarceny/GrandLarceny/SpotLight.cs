@@ -71,6 +71,8 @@ namespace GrandLarceny
 			else if (m_light != null)
 			{
 				Game.getInstance().getState().removeObject(m_light);
+				//just in case
+				m_light.kill();
 				m_light = null;
 			}
 		}
