@@ -34,7 +34,7 @@ namespace GrandLarceny
 			m_YScale = a_width / 500;
 			m_rotationPoint.Y = m_img.getSize().Y / 2;
 		}
-	
+
 		public void setRotation(float a_rotation)
 		{
 			if (m_rotate != a_rotation)

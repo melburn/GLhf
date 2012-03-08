@@ -38,15 +38,15 @@ namespace GrandLarceny
 								t_player.setState(Player.State.Walking);
 							}
 						}
-						else if (t_player.getCurrentState() == Player.State.Damaged)
+						else if (t_player.getCurrentState() == Player.State.Stunned)
 						{
 							if (t_player.getHorizontalSpeed() > 0)
 							{
-								t_player.setSpeedX(Math.Max(t_player.getHorizontalSpeed() - 1,0));
+								t_player.setSpeedX(Math.Max(t_player.getHorizontalSpeed() - 5,0));
 							}
 							else
 							{
-								t_player.setSpeedX(Math.Min(t_player.getSpeed().X,0));
+								t_player.setSpeedX(Math.Min(t_player.getSpeed().X + 5,0));
 							}
 						}
 						return;
@@ -85,7 +85,9 @@ namespace GrandLarceny
 						t_player.setSpeedY(0);
 					}
 					else
-					t_player.hang(this);
+					{
+						t_player.hang(this);
+					}
 				}
 			}
 		}
