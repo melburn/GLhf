@@ -161,9 +161,33 @@ namespace GrandLarceny
 					return this;
 				}
 			}
+			else if(a_agent is GuardCamera)
+			{
+				GuardCamera t_gc = (GuardCamera)a_agent;
+				if (t_gc.canSeePlayer())
+				{
+					return AIStateChasing.getInstance();
+				}
+				else
+				{
+					if (t_gc.getRotation() < t_gc.getLeftRotationPoint())
+					{
+						t_gc.rotateRight();
+					}
+					else if (t_gc.getRotation() > t_gc.getRightRotationPoint())
+					{
+						t_gc.rotateLeft();
+					}
+					else if (t_gc.getRotationSpeed() == 0)
+					{
+						t_gc.rotateLeft();
+					}
+					return this;
+				}
+			}
 			else
 			{
-				throw new ArgumentException("Only guards and guarddogs can patrol");
+				throw new ArgumentException("Only guards, guardcameras and guarddogs can patrol");
 			}
 		}
 	}

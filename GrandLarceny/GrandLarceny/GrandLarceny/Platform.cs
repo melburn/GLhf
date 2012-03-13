@@ -38,7 +38,7 @@ namespace GrandLarceny
 								t_player.setState(Player.State.Walking);
 							}
 						}
-						else if (t_player.getCurrentState() == Player.State.Stunned)
+						/*else if (t_player.getCurrentState() == Player.State.Stunned)
 						{
 							if (t_player.getHorizontalSpeed() > 0)
 							{
@@ -48,7 +48,7 @@ namespace GrandLarceny
 							{
 								t_player.setSpeedX(Math.Min(t_player.getSpeed().X + 5,0));
 							}
-						}
+						}*/
 						return;
 					}
 

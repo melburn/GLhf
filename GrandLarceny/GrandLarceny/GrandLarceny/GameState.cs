@@ -105,7 +105,6 @@ namespace GrandLarceny
 				{
 					if (t_firstGameObject is MovingObject)
 					{
-
 						List<Entity> t_collided = new List<Entity>();
 						foreach (GameObject t_secondGameObject in t_list)
 						{
