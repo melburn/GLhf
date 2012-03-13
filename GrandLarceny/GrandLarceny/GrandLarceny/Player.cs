@@ -174,6 +174,14 @@ namespace GrandLarceny
 		private void updateStunned(float a_deltaTime)
 		{
 			m_stunnedTimer -= a_deltaTime;
+			if (m_speed.X > 0)
+			{
+				m_speed.X = Math.Max(m_speed.X - (DEACCELERATION * a_deltaTime), 0);
+			}
+			else if (m_speed.X < 0)
+			{
+				m_speed.X = Math.Min(m_speed.X + (DEACCELERATION * a_deltaTime), 0);
+			}
 			if (m_stunnedTimer <= 0)
 			{
 				m_stunnedTimer = 0;
@@ -444,13 +452,13 @@ namespace GrandLarceny
 		{
 			
 			
-			if ((!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X)))
+			/*if ((!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X)))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
-				m_currentState = State.Jumping;	
-			}
-			else
-			{
+				m_currentState = State.Jumping;
+			}*/
+			//else
+			//{
 				if (m_facingRight)
 				{
 					m_speed.X = ROLLSPEED;
@@ -459,12 +467,12 @@ namespace GrandLarceny
 				{
 					m_speed.X = -ROLLSPEED;
 				}
-			}
+			//}
 			if (m_img.isStopped())
 			{
 				m_stunned = true;
-				m_speed.X = m_speed.X/8;
-				m_stunnedTimer = 0.25f;
+				m_speed.X = m_speed.X/5;
+				m_stunnedTimer = 0.35f;
 			}
 		}
 
@@ -583,6 +591,8 @@ namespace GrandLarceny
 					if (m_currentState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE)
 					{
 						m_imgOffsetX = 0;
+						m_imgOffsetY = 0;
+						setLayer(0.725f);
 					}
 					else
 					{
@@ -762,7 +772,7 @@ namespace GrandLarceny
 				m_stunned = true;
 				m_speed += a_knockBackForce;
 				m_invunerableTimer = 2f;
-				m_stunnedTimer = 1f;
+				m_stunnedTimer = 0.8f;
 				m_img.setSprite("Images//Sprite//Hero//hero_jump");
 			}
 		}

@@ -22,6 +22,14 @@ namespace GrandLarceny
 			m_switchedOn = a_switchedOn;
 		}
 
+		public override void linkObject()
+		{
+			base.linkObject();
+			m_connectedSpotLightsId = new LinkedList<int>();
+			foreach (SpotLight t_spot in m_connectedSpotLights)
+				m_connectedSpotLightsId.AddLast(t_spot.getId());
+		}
+
 		public override void loadContent()
 		{
 			base.loadContent();

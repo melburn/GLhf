@@ -55,6 +55,16 @@ namespace GrandLarceny
 
 		}
 
+		public virtual void saveObject()
+		{
+			m_objectId = ++s_lastId;
+		}
+
+		public virtual void linkObject()
+		{
+
+		}
+
 		public void flip()
 		{
 			if (m_spriteEffects == SpriteEffects.None)
@@ -130,6 +140,11 @@ namespace GrandLarceny
 		public int getId()
 		{
 			return m_objectId;
+		}
+
+		public static void resetGameObjectId()
+		{
+			s_lastId = 1;
 		}
 	}
 }
