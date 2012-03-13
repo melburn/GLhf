@@ -95,6 +95,20 @@ namespace GrandLarceny
 		{
 			m_guiList = new LinkedList<GuiObject>();
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
+
+			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
+			{
+				foreach (GameObject t_go in t_ll)
+				{
+					t_go.loadContent();
+
+					if (t_go is Player)
+					{
+						Game.getInstance().getState().setPlayer((Player)t_go);
+					}
+				}
+			}
+
 			m_textList			= new LinkedList<Text>();
 			m_buttonList		= new LinkedList<Button>();
 			m_assetButtonList	= new LinkedList<Button>();
@@ -943,6 +957,22 @@ namespace GrandLarceny
 		{
 			m_guiList.AddLast(a_go);
 		}
+
+		internal override GameObject getObjectById(int a_id)
+		{
+			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
+			{
+				foreach (GameObject t_go in t_goList)
+				{
+					if (a_id == t_go.getId())
+					{
+						return t_go;
+					}
+				}
+			}
+			return null;
+		}
+
 		#endregion
 
 		#region Create-methods

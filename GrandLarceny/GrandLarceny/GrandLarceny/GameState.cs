@@ -22,12 +22,12 @@ namespace GrandLarceny
 		private int m_currentList;
 
 		private Player player;
-
+        /*
 		public GameState()
 		{
 			m_currentLevel = "Level3.txt";
 		}
-
+        */
 		public GameState(string a_levelToLoad)
 		{
 			m_currentLevel = a_levelToLoad;
@@ -45,6 +45,20 @@ namespace GrandLarceny
 				m_removeList[i] = new Stack<GameObject>();
 				m_addList[i] = new Stack<GameObject>();
 			}
+
+			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
+			{
+				foreach (GameObject t_go in t_ll)
+				{
+					t_go.loadContent();
+
+					if (t_go is Player)
+					{
+						Game.getInstance().getState().setPlayer((Player)t_go);
+					}
+				}
+			}
+
 			if (player != null)
 			{
 				Game.getInstance().m_camera.setPosition(Vector2.Zero);
@@ -86,7 +100,7 @@ namespace GrandLarceny
 
 			if (m_currentKeyInput.IsKeyDown(Keys.R))
 			{
-				Game.getInstance().setState(new GameState());
+				Game.getInstance().setState(new GameState(m_currentLevel));
 			}
 			m_currentList = -1;
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
@@ -212,6 +226,21 @@ namespace GrandLarceny
 		public static bool wasKeyPressed(Keys key)
 		{
 			return m_previousKeyInput.IsKeyDown(key);
+		}
+
+		internal override GameObject getObjectById(int a_id)
+		{
+			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
+			{
+				foreach (GameObject t_go in t_goList)
+				{
+					if (a_id == t_go.getId())
+					{
+						return t_go;
+					}
+				}
+			}
+			return null;
 		}
 	}
 }

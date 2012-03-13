@@ -11,6 +11,8 @@ namespace GrandLarceny
 	[Serializable()]
 	public class GameObject
 	{
+		private static int s_lastId = 1;
+		private int m_objectId;
 		protected bool m_dead = false;
 		protected Position m_position;
 		[NonSerialized]
@@ -30,6 +32,7 @@ namespace GrandLarceny
 
 		public GameObject(Vector2 a_posV2, String a_sprite, float a_layer)
 		{
+			m_objectId = ++s_lastId;
 			m_position = new CartesianCoordinate(a_posV2);
 			m_rotate = 0.0f;
 			m_layer = a_layer;
@@ -41,6 +44,7 @@ namespace GrandLarceny
 		}
 		public GameObject(Position a_position, String a_sprite, float a_layer, float a_rotation = 0)
 		{
+			m_objectId = ++s_lastId;
 			m_rotate = a_rotation;
 			m_position = a_position;
 			m_layer = a_layer;
@@ -113,6 +117,11 @@ namespace GrandLarceny
 
 		public float getLayer() {
 			return m_layer;
+		}
+
+		public int getId()
+		{
+			return m_objectId;
 		}
 	}
 }
