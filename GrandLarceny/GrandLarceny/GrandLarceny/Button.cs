@@ -121,7 +121,7 @@ namespace GrandLarceny
 			else
 				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			if (m_text != null)
-				m_text.draw(a_spriteBatch);
+				m_text.draw();
 		}
 
 		public void setState(int a_state)

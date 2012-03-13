@@ -111,7 +111,7 @@ namespace GrandLarceny
 
 					}
 
-					if (t_firstGameObject.isDead() && ! m_removeList[m_currentList].Contains(t_firstGameObject))
+					if (t_firstGameObject.isDead() && !m_removeList[m_currentList].Contains(t_firstGameObject))
 					{
 						m_removeList[m_currentList].Push(t_firstGameObject);
 					}

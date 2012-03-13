@@ -24,14 +24,14 @@ namespace GrandLarceny
 			if (!a_spotlight.isDead())
 			{
 				m_connectedSpotLights.AddLast(a_spotlight);
-				a_spotlight.toggleLight();
+				//a_spotlight.toggleLight();
 			}
 		}
 		public void disconnectSpotLight(SpotLight a_spotlight)
 		{
 			m_connectedSpotLights.Remove(a_spotlight);
 		}
-		public void toogleSwitch()
+		public void toggleSwitch()
 		{
 			foreach (SpotLight t_spotLight in m_connectedSpotLights)
 			{
@@ -61,9 +61,9 @@ namespace GrandLarceny
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (a_collid is Player && GameState.isKeyPressed(Keys.Up) && !GameState.wasKeyPressed(Keys.Up))
+			if (a_collid is Player && Game.getInstance().keyClicked(Keys.Up))
 			{
-				toogleSwitch();
+				toggleSwitch();
 			}
 		}
 

@@ -1046,7 +1046,7 @@ namespace GrandLarceny
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			foreach (Text t_textObject in m_textList)
-				t_textObject.draw(a_spriteBatch);
+				t_textObject.draw();
 			foreach (GuiObject t_guiObject in m_guiList)
 				t_guiObject.draw(a_gameTime);
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])

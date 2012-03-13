@@ -21,6 +21,9 @@ namespace GrandLarceny
 		private States m_nextState;
 		private States m_currentState;
 
+		private KeyboardState m_currentKeyboard;
+		private KeyboardState m_previousKeyboard;
+
 		internal Camera m_camera;
 
 		public static Game getInstance()
@@ -43,6 +46,10 @@ namespace GrandLarceny
 			m_graphics.PreferredBackBufferHeight = 720;
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
+		}
+
+		public bool keyClicked(Keys a_key) {
+			return m_currentKeyboard.IsKeyDown(a_key) && m_previousKeyboard.IsKeyUp(a_key);
 		}
 
 		public SpriteBatch getSpriteBatch()
@@ -73,6 +80,8 @@ namespace GrandLarceny
 		{
 			if (!IsActive)
 				return;
+			m_currentKeyboard = Keyboard.GetState();
+
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{
 				Exit();
@@ -89,6 +98,7 @@ namespace GrandLarceny
 				m_currentState.update(a_gameTime);
 			}
 			
+			m_previousKeyboard = m_currentKeyboard;
 			base.Update(a_gameTime);
 		}
 
@@ -112,6 +122,12 @@ namespace GrandLarceny
 		}
 		internal Vector2 getResolution() {
 			return new Vector2(m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight);
+		}
+		public KeyboardState getCurrentKeyboard() {
+			return m_currentKeyboard;
+		}
+		public KeyboardState getPreviousKeyboard() {
+			return m_previousKeyboard;
 		}
 	}
 }
