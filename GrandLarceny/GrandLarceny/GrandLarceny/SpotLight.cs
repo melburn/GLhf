@@ -26,8 +26,7 @@ namespace GrandLarceny
 				m_lightLink = m_light.getId();
 			}
 		}
-		public override void loadContent()
-		{
+		public override void loadContent() {
 			base.loadContent();
 			if (m_lightLink > 0)
 			{
@@ -81,7 +80,7 @@ namespace GrandLarceny
 					m_lightLink = m_light.getId();
 				}
 			}
-			else if (m_light != null)
+			else
 			{
 				Game.getInstance().getState().removeObject(m_light);
 				//just in case

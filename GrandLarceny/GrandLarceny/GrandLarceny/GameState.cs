@@ -22,12 +22,7 @@ namespace GrandLarceny
 		private int m_currentList;
 
 		private Player player;
-        /*
-		public GameState()
-		{
-			m_currentLevel = "Level3.txt";
-		}
-        */
+
 		public GameState(string a_levelToLoad)
 		{
 			m_currentLevel = a_levelToLoad;
@@ -124,7 +119,7 @@ namespace GrandLarceny
 
 					}
 
-					if (t_firstGameObject.isDead() && ! m_removeList[m_currentList].Contains(t_firstGameObject))
+					if (t_firstGameObject.isDead() && !m_removeList[m_currentList].Contains(t_firstGameObject))
 					{
 						m_removeList[m_currentList].Push(t_firstGameObject);
 					}

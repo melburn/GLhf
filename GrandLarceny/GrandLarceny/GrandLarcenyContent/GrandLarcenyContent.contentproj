@@ -816,6 +816,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sounds\SoundEffects\GUI\button.wav">
+      <Name>button</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <Compile Include="Images\Tile\Wall\1x1_stone_wall_short.png">
       <Name>1x1_stone_wall_short</Name>
       <Importer>TextureImporter</Importer>
