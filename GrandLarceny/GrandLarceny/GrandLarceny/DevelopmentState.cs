@@ -53,6 +53,7 @@ namespace GrandLarceny
 		private Button m_btnDogHotkey;
 		private Button m_btnLightSwitchHotkey;
 		private Button m_btnVentHotkey;
+		private Button m_btnCameraHotkey;
 
 		private Line m_dragLine = null;
 
@@ -168,6 +169,8 @@ namespace GrandLarceny
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "Shift+T", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnVentHotkey			= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "V", "VerdanaBold", Color.White, t_btnTextOffset);
+			m_btnCameraHotkey = new Button("DevelopmentHotkeys//btn_camera_hotkey",
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 6, Game.getInstance().getResolution().Y - TILE_HEIGHT * 6), "C", "VerdanaBold", Color.White, t_btnTextOffset);
 
 			m_layerButtonList = new LinkedList<Button>();
 			for (int i = 5, j = 1; i > 0; i--, j++) {
