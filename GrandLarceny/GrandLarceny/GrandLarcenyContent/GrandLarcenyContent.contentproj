@@ -427,7 +427,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Ventilation\ventil.png">
+    <Compile Include="Images\Tile\Ventilation\Corner\ventil.png">
       <Name>ventil</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

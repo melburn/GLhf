@@ -74,7 +74,7 @@ namespace GrandLarceny
 		-----------------------------------
 		*/
 		private Button m_btnCrossVent;
-		private Button m_btnDrumVent;
+		private Button m_btnCornerVent;
 		private Button m_btnTVent;
 		private Button m_btnStraVent;
 
@@ -108,7 +108,8 @@ namespace GrandLarceny
 			CrossVent,
 			TVent,
 			StraVent,
-			DrumVent
+			CornerVent,
+			Ventrance
 		}
 		private State m_itemToCreate;
 		#endregion
@@ -200,6 +201,8 @@ namespace GrandLarceny
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "P", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnBackgroundHotkey	= new Button("DevelopmentHotkeys//btn_background_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "B", "VerdanaBold", Color.White, t_btnTextOffset);
+			m_btnCameraHotkey = new Button("DevelopmentHotkeys//btn_camera_hotkey",
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 5, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "C", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnHeroHotkey			= new Button("DevelopmentHotkeys//btn_hero_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 1, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "H", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnSpotlightHotkey	= new Button("DevelopmentHotkeys//btn_spotlight_hotkey",
@@ -217,9 +220,8 @@ namespace GrandLarceny
 			m_btnLightSwitchHotkey	= new Button("DevelopmentHotkeys//btn_spotlight_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "Shift+T", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnVentHotkey			= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "V", "VerdanaBold", Color.White, t_btnTextOffset);
-			m_btnCameraHotkey = new Button("DevelopmentHotkeys//btn_camera_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 6, Game.getInstance().getResolution().Y - TILE_HEIGHT * 6), "C", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 5, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "V", "VerdanaBold", Color.White, t_btnTextOffset);
+
 
 			m_buildingKeys.AddLast(m_btnLadderHotkey);
 			m_buildingKeys.AddLast(m_btnPlatformHotkey);
@@ -246,15 +248,15 @@ namespace GrandLarceny
 			*/
 			m_btnCrossVent = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 5, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "T", "VerdanaBold", Color.White, t_btnTextOffset);
-			m_btnDrumVent = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
+			m_btnCornerVent = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "A", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnTVent = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "C", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnStraVent = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "V", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 2, Game.getInstance().getResolution().Y - TILE_HEIGHT * 2), "O", "VerdanaBold", Color.White, t_btnTextOffset);
 			
 			m_ventKeys.AddLast(m_btnCrossVent);
-			m_ventKeys.AddLast(m_btnDrumVent);
+			m_ventKeys.AddLast(m_btnCornerVent);
 			m_ventKeys.AddLast(m_btnTVent);
 			m_ventKeys.AddLast(m_btnStraVent);
 
@@ -262,6 +264,8 @@ namespace GrandLarceny
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
 				t_button.setDownSound("button");
 			}
+
+			m_ventKeys.AddLast(m_btnVentHotkey);
 
 			/*
 			-----------------------------------
@@ -374,7 +378,7 @@ namespace GrandLarceny
 					setBuildingState(State.TVent);
 					return;
 				}
-				if (a_button == m_btnDrumVent) {
+				if (a_button == m_btnCornerVent) {
 					setBuildingState(State.StraVent);
 					return;
 				}
@@ -383,7 +387,11 @@ namespace GrandLarceny
 					return;
 				}
 				if (a_button == m_btnStraVent) {
-					setBuildingState(State.DrumVent);
+					setBuildingState(State.CornerVent);
+					return;
+				}
+				if (a_button == m_btnVentHotkey) {
+					setBuildingState(State.Ventrance);
 					return;
 				}
 			} else {
@@ -515,14 +523,17 @@ namespace GrandLarceny
 				case State.CrossVent:
 					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//Ventilation//Cross//" + assetToCreate, 0.000f);
 					break;
-				case State.DrumVent:
-					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//Ventilation//Drum//" + assetToCreate, 0.000f);
+				case State.CornerVent:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//Ventilation//Corner//" + assetToCreate, 0.000f);
 					break;
 				case State.StraVent:
 					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//Ventilation//Straight//" + assetToCreate, 0.000f);
 					break;
 				case State.TVent:
 					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//Ventilation//TVent//" + assetToCreate, 0.000f);
+					break;
+				case State.Ventrance:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//Ventilation//Drum//" + assetToCreate, 0.000f);
 					break;
 			}
 		}
@@ -531,7 +542,7 @@ namespace GrandLarceny
 		#region Update Keyboard
 		private void updateKeyboard()
 		{
-			if (keyClicked(Keys.R)) {
+			if (keyClicked(Keys.F5)) {
 				m_currentLayer = 0;
 				Game.getInstance().setState(new GameState(m_levelToLoad));
 			}
@@ -555,6 +566,11 @@ namespace GrandLarceny
 			Keybindings for hotkeys
 			-----------------------------------
 			*/
+			if (keyClicked(Keys.R)) {
+				if (m_selectedObject != null) {
+					m_selectedObject.addRotation((float)(Math.PI) / 2.0f);
+				}
+			}
 			if (ctrlMod()) {
 				if (m_ventilation) {
 					;
@@ -596,8 +612,11 @@ namespace GrandLarceny
 					if (keyClicked(Keys.C)) {
 						guiButtonClick(m_btnCrossVent);
 					}
+					if (keyClicked(Keys.O)) {
+						guiButtonClick(m_btnCornerVent);
+					}
 					if (keyClicked(Keys.V)) {
-						guiButtonClick(m_btnDrumVent);
+						guiButtonClick(m_btnVentHotkey);
 					}
 				} else {
 					if (keyClicked(Keys.P)) {
@@ -744,14 +763,17 @@ namespace GrandLarceny
 							case State.CrossVent:
 								createCrossVent();
 								break;
-							case State.DrumVent:
-								createVentDrum();
+							case State.CornerVent:
+								createCornerVent();
 								break;
 							case State.StraVent:
 								createStraightVent();
 								break;
 							case State.TVent:
 								createTVent();
+								break;
+							case State.Ventrance:
+								createVentrance();
 								break;
 						}
 					}
@@ -1063,10 +1085,10 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Tile//Ventilation//Cross//");
 					m_btnCrossVent.setState(3);
 					break;
-				case State.DrumVent:
-					m_textCurrentMode.setText("Ventilation Drum");
-					createAssetList("Content//Images//Tile//Ventilation//Drum//");
-					m_btnDrumVent.setState(3);
+				case State.CornerVent:
+					m_textCurrentMode.setText("Ventilation Corner");
+					createAssetList("Content//Images//Tile//Ventilation//Corner//");
+					m_btnCornerVent.setState(3);
 					break;
 				case State.TVent:
 					m_textCurrentMode.setText("T-ventilation");
@@ -1077,6 +1099,11 @@ namespace GrandLarceny
 					m_textCurrentMode.setText("Straight Ventilation");
 					createAssetList("Content//Images//Tile//Ventilation//Straight//");
 					m_btnStraVent.setState(3);
+					break;
+				case State.Ventrance:
+					m_textCurrentMode.setText("Ventilation Entrance");
+					createAssetList("Content//Images//Tile//Ventilation//Drum//");
+					m_btnVentHotkey.setState(3);
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0) {
@@ -1191,7 +1218,7 @@ namespace GrandLarceny
 			a_gameObject.kill();
 			if (a_gameObject is SpotLight) {
 				LightCone t_lightCone = ((SpotLight)a_gameObject).getLightCone();
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < m_gameObjectList.Length; i++) {
 					foreach (GameObject t_gameObject in m_gameObjectList[i]) {
 						if (t_gameObject is LampSwitch && ((LampSwitch)t_gameObject).isConnectedTo((SpotLight)a_gameObject)) {
 							((LampSwitch)t_gameObject).disconnectSpotLight((SpotLight)a_gameObject);
@@ -1199,7 +1226,7 @@ namespace GrandLarceny
 					}
 				}
 				if (t_lightCone != null) {
-					for (int i = 0; i < 5; i++) {
+					for (int i = 0; i < m_gameObjectList.Length; i++) {
 						m_gameObjectList[i].Remove(t_lightCone);
 					}
 				}
@@ -1276,22 +1303,27 @@ namespace GrandLarceny
 		private void createCrossVent() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new CrossVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//Cross" + assetToCreate, 0.700f));
+			addObject(new CrossVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//Cross//" + assetToCreate, 0.700f));
 		}
 		private void createTVent() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new TVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//TVent" + assetToCreate, 0.700f));
+			addObject(new TVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//TVent//" + assetToCreate, 0.700f));
 		}
 		private void createStraightVent() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new StraightVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//TVent" + assetToCreate, 0.700f));
+			addObject(new StraightVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//Straight//" + assetToCreate, 0.700f));
 		}
-		private void createVentDrum() {
+		private void createCornerVent() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new VentilationDrum(getTile(m_worldMouse), "Images//Tile//Ventilation//TVent" + assetToCreate, 0.700f));
+			addObject(new CornerVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//Corner//" + assetToCreate, 0.700f));
+		}
+		private void createVentrance() {
+			if (collidedWithObject(m_worldMouse))
+				return;
+			addObject(new VentilationDrum(getTile(m_worldMouse), "Images//Tile//Ventilation//Drum//" + assetToCreate, 0.700f));
 		}
 		#endregion
 
