@@ -26,6 +26,12 @@ namespace GrandLarceny
 				m_lightLink = m_light.getId();
 			}
 		}
+		public override void linkObject()
+		{
+			base.linkObject();
+			if(m_light != null)
+				m_lightLink = m_light.getId();
+		}
 		public override void loadContent() {
 			base.loadContent();
 			if (m_lightLink > 0)
