@@ -49,10 +49,11 @@ namespace GrandLarceny
 		[NonSerialized]
 		private Direction m_ladderDirection;
 		[NonSerialized]
-		private float m_invunerableTimer;
+		private float m_invulnerableTimer;
 		[NonSerialized]
 		private float m_damagedTimer;
 
+		private Direction m_ventilationDirection = Direction.None;
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
 		private int m_health;
@@ -63,7 +64,9 @@ namespace GrandLarceny
 		{
 			None,
 			Left,
-			Right
+			Right,
+			Up,
+			Down
 		}
 
 		public enum State
@@ -76,7 +79,8 @@ namespace GrandLarceny
 			Rolling,
 			Hiding,
 			Hanging,
-			Stunned
+			Stunned,
+			Ventilation
 		}
 
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer)
@@ -111,7 +115,7 @@ namespace GrandLarceny
 			m_lastState = m_currentState;
 			m_gravity = 1000f;
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
-			m_invunerableTimer = Math.Max(m_invunerableTimer - t_deltaTime, 0);
+			m_invulnerableTimer = Math.Max(m_invulnerableTimer - t_deltaTime, 0);
 			switch (m_currentState)
 			{
 				case State.Stop:
@@ -157,6 +161,11 @@ namespace GrandLarceny
 				case State.Stunned:
 					{
 						updateDamaged(t_deltaTime);
+						break;
+					}
+				case State.Ventilation:
+					{
+						updateVentilation();
 						break;
 					}
 			}
@@ -529,6 +538,50 @@ namespace GrandLarceny
 			}
 		}
 
+		private void updateVentilation()
+		{
+			switch (m_ventilationDirection)
+			{
+				case Direction.None:
+					{
+						m_speed = Vector2.Zero;
+						break;
+					}
+				case Direction.Up:
+					{
+						if(GameState.m_currentKeyInput.IsKeyDown(Keys.Up))
+						{
+							m_speed.Y = -PLAYERSPEED/2;
+						}
+						break;
+					}
+				case Direction.Left:
+					{
+						if (GameState.m_currentKeyInput.IsKeyDown(Keys.Left))
+						{
+							m_speed.X = -PLAYERSPEED / 2;
+						}
+						break;
+					}
+				case Direction.Right:
+					{
+						if (GameState.m_currentKeyInput.IsKeyDown(Keys.Right))
+						{
+							m_speed.X = PLAYERSPEED / 2;
+						}
+						break;
+					}
+				case Direction.Down:
+					{
+						if (GameState.m_currentKeyInput.IsKeyDown(Keys.Down))
+						{
+							m_speed.Y = PLAYERSPEED / 2;
+						}
+						break;
+					}
+			}
+		}
+
 		private void changeAnimation()
 		{
 
@@ -739,6 +792,10 @@ namespace GrandLarceny
 		{
 			return m_SlideBox;
 		}
+		public void setVentilationDirection(Direction a_d)
+		{
+			m_ventilationDirection = a_d;
+		}
 
 		public override void draw(GameTime a_gameTime)
 		{
@@ -748,14 +805,14 @@ namespace GrandLarceny
 
 		public void dealDamageTo(Vector2 a_knockBackForce)
 		{
-			if (m_invunerableTimer == 0)
+			if (m_invulnerableTimer == 0)
 			{
 				//deals 1 damage
 				m_health = Math.Max(m_health - 1, 0);
 				updateHealthGUI();
 				m_currentState = State.Stunned;
 				m_speed += a_knockBackForce;
-				m_invunerableTimer = 2f;
+				m_invulnerableTimer = 2f;
 				m_damagedTimer = 1f;
 				m_img.setSprite("Images//Sprite//Hero//hero_jump");
 			}
