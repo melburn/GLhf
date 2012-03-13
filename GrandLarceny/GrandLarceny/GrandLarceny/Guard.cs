@@ -70,6 +70,16 @@ namespace GrandLarceny
 			m_aiState = AIStatepatroling.getInstance();
 			m_gravity = 1000;
 		}
+
+		public override void linkObject()
+		{
+			base.linkObject();
+			m_lampSwitchTargetsId = new LinkedList<int>();
+			foreach (LampSwitch t_ls in m_lampSwitchTargets)
+				m_lampSwitchTargetsId.AddLast(t_ls.getId());
+			if(m_flashLight != null)
+				m_flashLightId = m_flashLight.getId();
+		}
 		public override void loadContent()
 		{
 			base.loadContent();
@@ -454,7 +464,7 @@ namespace GrandLarceny
 					Player t_player = (Player)t_collision;
 					if (m_striking)
 					{
-						t_player.dealDamageTo(new Vector2(Math.Sign(m_position.getGlobalX() - t_player.getPosition().getGlobalX())*200,-200));
+						t_player.dealDamageTo(new Vector2(Math.Sign(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) * 800, -200));
 					}
 					else if (t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
 					{
