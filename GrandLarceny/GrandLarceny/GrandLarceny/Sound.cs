@@ -5,7 +5,18 @@ using System.Text;
 
 namespace GrandLarceny
 {
-	class Sound
+	public class Sound
 	{
+		private Sound m_sound;
+
+		public Sound(string a_path)
+		{
+			m_sound = Game.getInstance().Content.Load<Sound>(a_path);
+		}
+
+		public void play()
+		{
+			m_sound.play();
+		}
 	}
 }

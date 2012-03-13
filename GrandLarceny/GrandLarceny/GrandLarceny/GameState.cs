@@ -23,11 +23,6 @@ namespace GrandLarceny
 
 		private Player player;
 
-		public GameState()
-		{
-			m_currentLevel = "Level3.txt";
-		}
-
 		public GameState(string a_levelToLoad)
 		{
 			m_currentLevel = a_levelToLoad;
@@ -86,7 +81,7 @@ namespace GrandLarceny
 
 			if (m_currentKeyInput.IsKeyDown(Keys.R))
 			{
-				Game.getInstance().setState(new GameState());
+				Game.getInstance().setState(new GameState(m_currentLevel));
 			}
 			m_currentList = -1;
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)

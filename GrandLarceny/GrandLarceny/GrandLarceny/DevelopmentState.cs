@@ -56,6 +56,8 @@ namespace GrandLarceny
 
 		private Line m_dragLine = null;
 
+		private Sound m_keyclick;
+
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
 		private int m_currentLayer = 0;
@@ -907,6 +909,7 @@ namespace GrandLarceny
 		}
 
 		private void setLayer(Button a_button) {
+			
 			foreach (Button t_button in m_layerButtonList) {
 				t_button.setState(0);
 			}

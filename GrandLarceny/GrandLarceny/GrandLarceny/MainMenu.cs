@@ -44,7 +44,7 @@ namespace GrandLarceny
 		}
 		public void playClick(Button a_b)
 		{
-			Game.getInstance().setState(new GameState());
+			Game.getInstance().setState(new GameState("Level3.txt"));
 		}
 		public void exitClick(Button a_b)
 		{
