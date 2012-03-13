@@ -92,6 +92,29 @@ namespace GrandLarceny
 					return this;
 				}
 			}
+			else if (a_agent is GuardCamera)
+			{
+				GuardCamera t_gc = (GuardCamera)a_agent;
+				if (t_gc.canSeePlayer())
+				{
+					float t_currentRotation = t_gc.getRotation();
+					float t_pointDirection = (float)Math.Atan2(t_gc.getPosition().getGlobalY() - t_gc.getTarget().getPosition().getGlobalY(), t_gc.getPosition().getGlobalY() - t_gc.getTarget().getPosition().getGlobalX());
+					if ((t_pointDirection < t_currentRotation && t_pointDirection > t_currentRotation - Math.PI) ||
+						t_pointDirection > (t_currentRotation + Math.PI) % (2 * Math.PI))
+					{
+						t_gc.rotateLeft();
+					}
+					else
+					{
+						t_gc.rotateRight();
+					}
+					return this;
+				}
+				else
+				{
+					return AIStatepatroling.getInstance();
+				}
+			}
 			else
 			{
 				throw new ArgumentException("Only guards and dogs can chase");

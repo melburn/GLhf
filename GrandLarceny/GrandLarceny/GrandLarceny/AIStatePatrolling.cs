@@ -166,6 +166,7 @@ namespace GrandLarceny
 				GuardCamera t_gc = (GuardCamera)a_agent;
 				if (t_gc.canSeePlayer())
 				{
+					t_gc.chasePlayer();
 					return AIStateChasing.getInstance();
 				}
 				else

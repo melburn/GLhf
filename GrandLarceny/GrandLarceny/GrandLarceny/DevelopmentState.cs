@@ -83,7 +83,8 @@ namespace GrandLarceny
 			Wall,
 			DuckHidingObject,
 			StandHidingObject,
-			Ventilation
+			Ventilation,
+			Camera
 		}
 		private State m_itemToCreate;
 		#endregion
@@ -193,7 +194,7 @@ namespace GrandLarceny
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "Shift+T", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnVentHotkey			= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "V", "VerdanaBold", Color.White, t_btnTextOffset);
-			m_btnCameraHotkey = new Button("DevelopmentHotkeys//btn_camera_hotkey",
+			m_btnCameraHotkey		= new Button("DevelopmentHotkeys//btn_camera_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 6, Game.getInstance().getResolution().Y - TILE_HEIGHT * 6), "C", "VerdanaBold", Color.White, t_btnTextOffset);
 
 			m_buildingKeys.AddLast(m_btnLadderHotkey);
@@ -208,6 +209,7 @@ namespace GrandLarceny
 			m_buildingKeys.AddLast(m_btnDogHotkey);
 			m_buildingKeys.AddLast(m_btnLightSwitchHotkey);
 			m_buildingKeys.AddLast(m_btnVentHotkey);
+			m_buildingKeys.AddLast(m_btnCameraHotkey);
 
 			foreach (Button t_button in m_buildingKeys) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -237,6 +239,7 @@ namespace GrandLarceny
 			}
 
 			setBuildingState(State.None);
+
 		}
 		#endregion
 
@@ -364,6 +367,11 @@ namespace GrandLarceny
 			}
 			if (a_button == m_btnVentHotkey) {
 				setBuildingState(State.Ventilation);
+				return;
+			}
+			if (a_button == m_btnCameraHotkey)
+			{
+				setBuildingState(State.Camera);
 				return;
 			}
 		}
@@ -510,6 +518,10 @@ namespace GrandLarceny
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && keyClicked(Keys.G)) {
 				guiButtonClick(m_btnDogHotkey);
 			}
+			if (keyClicked(Keys.C))
+			{
+				guiButtonClick(m_btnCameraHotkey);
+			}
 
 			/*
 			-----------------------------------
@@ -627,6 +639,9 @@ namespace GrandLarceny
 								break;
 							case State.Ventilation:
 								createVentilation();
+								break;
+							case State.Camera:
+								createCamera();
 								break;
 						}
 					}
@@ -919,6 +934,11 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Tile//Ventilation//");
 					m_btnVentHotkey.setState(3);
 					break;
+				case State.Camera:
+					m_textCurrentMode.setText("Create Camera");
+					createAssetList("Content//Images//Sprite//Camera//");
+					m_btnCameraHotkey.setState(3);
+					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0) {
 				selectAsset(m_assetButtonList.First());
@@ -1118,6 +1138,14 @@ namespace GrandLarceny
 			if (collidedWithObject(m_worldMouse))
 				return;
 			addObject(new VentilationDrum(getTile(m_worldMouse), "Images//Tile//Ventilation//" + assetToCreate, 0.700f));
+		}
+
+		private void createCamera()
+		{
+			if (!collidedWithObject(m_worldMouse))
+			{
+				addObject(new GuardCamera(getTile(m_worldMouse), "Images//Sprite//Camera//" + assetToCreate, 0.75f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.25), (float)(Math.PI * 0.75)));
+			}
 		}
 		#endregion
 

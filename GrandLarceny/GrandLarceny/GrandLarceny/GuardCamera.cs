@@ -15,6 +15,7 @@ namespace GrandLarceny
 		private float m_leftRotation;
 		private float m_rightRotation;
 		private float m_rotationSpeed;
+		private Entity m_chaseTarget;
 		private const float ROTATIONSPEED = 0.1f;
 		public GuardCamera(Vector2 a_position, String a_sprite, float a_layer, float a_rotation, float a_leftRotation, float a_rightRotation)
 			:base(a_position,a_sprite,a_layer)
@@ -39,11 +40,13 @@ namespace GrandLarceny
 			if (m_lightLink > 0)
 			{
 				m_light = (LightCone)Game.getInstance().getState().getObjectById(m_lightLink);
+				m_light.getPosition().setParentPosition(m_position);
 			}
 			else
 			{
 				m_light = new LightCone(this, "Images//LightCone//Ljus", m_layer + 0.001f, 300f, 300f);
 				m_lightLink = m_light.getId();
+				(Game.getInstance().getState()).addObject(m_light);
 			}
 		}
 		public bool canSeePlayer()
@@ -80,6 +83,16 @@ namespace GrandLarceny
 			base.update(a_gameTime);
 			m_rotate += m_rotationSpeed * (a_gameTime.ElapsedGameTime.Milliseconds / 1000f);
 			m_light.setRotation(m_rotate);
+		}
+
+		internal Entity getTarget()
+		{
+			return m_chaseTarget;
+		}
+
+		internal void chasePlayer()
+		{
+			m_chaseTarget = Game.getInstance().getState().getPlayer();
 		}
 	}
 }
