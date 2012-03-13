@@ -15,11 +15,6 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
-            /*
-			Button t_button = new Button("btn_test", new Vector2(15, 38), null, null, Color.Black, Vector2.Zero);
-			t_button.m_clickEvent += new Button.clickDelegate(playClick);
-			m_buttons.Add(t_button);
-            */
 			m_levelList = Directory.GetFiles("Content//levels//");
 
 			int t_count = 0;
@@ -30,6 +25,12 @@ namespace GrandLarceny
 				Button t_levelButton = new Button("btn_test_empty", "btn_test_empty", "btn_test_empty", "btn_test_empty", new Vector2(200, 200 * t_count), t_splitPath[t_splitPath.Length - 1], "VerdanaBold", Color.Black, new Vector2(10, 10));
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
 				m_buttons.Add(t_levelButton);
+			}
+
+			if (m_buttons.Count == 0) {
+				Button t_button = new Button("btn_test", new Vector2(15, 38), null, null, Color.Black, Vector2.Zero);
+				t_button.m_clickEvent += new Button.clickDelegate(playClick);
+				m_buttons.Add(t_button);
 			}
 		}
 		public override void update(GameTime a_gameTime)
@@ -43,12 +44,10 @@ namespace GrandLarceny
 			foreach (Button t_b in m_buttons)
 				t_b.draw(gameTime, spriteBatch);
 		}
-        /*
 		public void playClick(Button a_b)
 		{
-			Game.getInstance().setState(new GameState());
+			Game.getInstance().setState(new GameState("Level3.txt"));
 		}
-        */
 		public void exitClick(Button a_b)
 		{
 			Game.getInstance().Exit();

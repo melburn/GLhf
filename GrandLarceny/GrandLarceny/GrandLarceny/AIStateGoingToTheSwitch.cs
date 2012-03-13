@@ -59,7 +59,7 @@ namespace GrandLarceny
 						}
 						while (Math.Abs(t_lampSwitch.getPosition().getGlobalX() - a_agent.getPosition().getGlobalX()) < 10)
 						{ 
-							t_lampSwitch.toogleSwitch();
+							t_lampSwitch.toggleSwitch();
 							//toogleSwitch will remove the switch from the guard
 							t_lampSwitch = t_guard.getFirstLampSwitchTarget();
 							while (t_lampSwitch.isOn())

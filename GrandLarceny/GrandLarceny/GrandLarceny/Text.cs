@@ -74,6 +74,9 @@ namespace GrandLarceny
 		{
 			m_text = a_text;
 		}
+		public void addText(char a_char) {
+			m_text += a_char;
+		}
 		public string getText()
 		{
 			return m_text;
@@ -87,25 +90,27 @@ namespace GrandLarceny
 			m_position.plusWith(a_offset);
 		}
 
-		public void draw(SpriteBatch a_spriteBatch)
+		public void draw()
 		{
 			if (m_text == null)
 				return;
+
+			SpriteBatch t_spriteBatch = Game.getInstance().getSpriteBatch();
 			if (m_worldFont)
 			{
-				a_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesianCoordinates(), m_color);
+				t_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesianCoordinates(), m_color);
 			}
 			else
 			{	
 				if (m_worldFont)
 				{
-					a_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesianCoordinates(), m_color);
+					t_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesianCoordinates(), m_color);
 				}
 				else
 				{
 					float t_zoom = Game.getInstance().m_camera.getZoom();
 					CartesianCoordinate t_cartCoord = new CartesianCoordinate(m_position.getLocalCartesianCoordinates() / t_zoom, m_position.getParentPosition());
-					a_spriteBatch.DrawString(m_spriteFont, m_text, t_cartCoord.getGlobalCartesianCoordinates(), m_color, m_rotation, Vector2.Zero, 1.0f / t_zoom, SpriteEffects.None, m_layer);
+					t_spriteBatch.DrawString(m_spriteFont, m_text, t_cartCoord.getGlobalCartesianCoordinates(), m_color, m_rotation, Vector2.Zero, 1.0f / t_zoom, SpriteEffects.None, m_layer);
 				}
 			}
 		}
