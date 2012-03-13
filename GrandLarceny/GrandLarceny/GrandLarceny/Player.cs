@@ -24,7 +24,7 @@ namespace GrandLarceny
 		public const int AIRDEACCELERATION = 700;
 		public const int AIRVERTICALACCELERATION = 12;
 		public const int SLIDESPEED = 25;
-		public const int ROLLSPEED = 500;
+		public const int ROLLSPEED = 1200;
 
 		private float m_originalLayer;
 		[NonSerialized]
@@ -55,6 +55,7 @@ namespace GrandLarceny
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
 		private int m_health;
+		private bool m_stunned = false;
 
 		private Keys m_actionKey = Keys.A;
 
@@ -74,8 +75,7 @@ namespace GrandLarceny
 			Climbing,
 			Rolling,
 			Hiding,
-			Hanging,
-			Stunned
+			Hanging
 		}
 
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer)
@@ -111,54 +111,58 @@ namespace GrandLarceny
 			m_gravity = 1000f;
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
 			m_invunerableTimer = Math.Max(m_invunerableTimer - t_deltaTime, 0);
-			switch (m_currentState)
+			if (!m_stunned)
 			{
-				case State.Stop:
-					{
-						updateStop(t_deltaTime);
-						break;
-					}
-				case State.Walking:
-					{
-						updateWalking(t_deltaTime);
-						break;
-					}
-				case State.Jumping:
-					{
-						updateJumping(t_deltaTime);
-						break;
-					}
-				case State.Slide:
-					{
-						updateSliding(t_deltaTime);
-						break;
-					}
-				case State.Climbing:
-					{
-						updateClimbing();
-						break;
-					}
-				case State.Rolling:
-					{
-						updateRolling(t_deltaTime);
-						break;
-					}
-				case State.Hanging:
-					{
-						updateHanging();
-						break;
-					}
-				case State.Hiding:
-					{
-						updateHiding();
-						break;
-					}
-				case State.Stunned:
-					{
-						updateStunned(t_deltaTime);
-						break;
-					}
+				switch (m_currentState)
+				{
+					case State.Stop:
+						{
+							updateStop(t_deltaTime);
+							break;
+						}
+					case State.Walking:
+						{
+							updateWalking(t_deltaTime);
+							break;
+						}
+					case State.Jumping:
+						{
+							updateJumping(t_deltaTime);
+							break;
+						}
+					case State.Slide:
+						{
+							updateSliding(t_deltaTime);
+							break;
+						}
+					case State.Climbing:
+						{
+							updateClimbing();
+							break;
+						}
+					case State.Rolling:
+						{
+							updateRolling(t_deltaTime);
+							break;
+						}
+					case State.Hanging:
+						{
+							updateHanging();
+							break;
+						}
+					case State.Hiding:
+						{
+							updateHiding();
+							break;
+						}
+
+				}
 			}
+			else
+			{
+				updateStunned(t_deltaTime);
+			}
+
 			flipSprite();
 			base.update(a_gameTime);
 			if ((Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates() - m_cameraPoint).Length() > 3)
@@ -173,7 +177,9 @@ namespace GrandLarceny
 			if (m_stunnedTimer <= 0)
 			{
 				m_stunnedTimer = 0;
+				m_stunned = false;
 				m_currentState = State.Stop;
+				m_speed.X = 0;
 			}
 		}
 
@@ -437,20 +443,11 @@ namespace GrandLarceny
 		private void updateRolling(float a_deltaTime)
 		{
 			
-			if (m_img.isStopped())
-			{
-				m_currentState = State.Stunned;
-				m_speed.X = 0;
-				m_stunnedTimer = 0.5f;
-			}
+			
 			if ((!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X)))
 			{
-				
-				
-					
 				m_speed.Y -= JUMPSTRENGTH;
-				m_currentState = State.Jumping;
-				
+				m_currentState = State.Jumping;	
 			}
 			else
 			{
@@ -462,6 +459,12 @@ namespace GrandLarceny
 				{
 					m_speed.X = -ROLLSPEED;
 				}
+			}
+			if (m_img.isStopped())
+			{
+				m_stunned = true;
+				m_speed.X = m_speed.X/8;
+				m_stunnedTimer = 0.25f;
 			}
 		}
 
@@ -575,7 +578,7 @@ namespace GrandLarceny
 			if (m_currentState != m_lastState)
 			{
 				if ((m_lastState == State.Rolling || (m_lastState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE) || m_lastState == State.Hanging)
-					&& m_currentState != State.Rolling && m_currentState != State.Hanging && m_currentState != State.Stunned)
+					&& m_currentState != State.Rolling && m_currentState != State.Hanging)
 				{
 					if (m_currentState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE)
 					{
@@ -756,7 +759,7 @@ namespace GrandLarceny
 				//deals 1 damage
 				m_health = Math.Max(m_health - 1, 0);
 				updateHealthGUI();
-				m_currentState = State.Stunned;
+				m_stunned = true;
 				m_speed += a_knockBackForce;
 				m_invunerableTimer = 2f;
 				m_stunnedTimer = 1f;
