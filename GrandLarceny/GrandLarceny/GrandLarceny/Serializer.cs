@@ -40,6 +40,23 @@ namespace GrandLarceny
 			int index = 0;
 			long t_fstreamLastPos = 0;
 			long t_fstreamDiffSize = 0;
+			GameObject.resetGameObjectId();
+			foreach (LinkedList<GameObject> t_goSaveList in a_save.getLevelLists())
+			{
+				foreach (GameObject t_go in t_goSaveList)
+				{
+					t_go.saveObject();
+				}
+			}
+
+			foreach (LinkedList<GameObject> t_goSaveList in a_save.getLevelLists())
+			{
+				foreach (GameObject t_go in t_goSaveList)
+				{
+					t_go.linkObject();
+				}
+			}
+
 			foreach (LinkedList<GameObject> t_goList in a_save.getLevelLists())
 			{
 

@@ -9,6 +9,7 @@ namespace GrandLarceny
 	[Serializable()]
 	public abstract class Position
 	{
+		[NonSerialized]
 		protected Position m_parentPosition;
 
 		abstract public Vector2 getLocalCartesianCoordinates();

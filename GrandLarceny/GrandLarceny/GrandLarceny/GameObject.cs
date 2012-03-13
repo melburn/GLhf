@@ -11,6 +11,8 @@ namespace GrandLarceny
 	[Serializable()]
 	public class GameObject
 	{
+		private static int s_lastId = 1;
+		private int m_objectId;
 		protected bool m_dead = false;
 		protected Position m_position;
 		[NonSerialized]
@@ -30,6 +32,7 @@ namespace GrandLarceny
 
 		public GameObject(Vector2 a_posV2, String a_sprite, float a_layer)
 		{
+			m_objectId = ++s_lastId;
 			m_position = new CartesianCoordinate(a_posV2);
 			m_rotate = 0.0f;
 			m_layer = a_layer;
@@ -39,12 +42,31 @@ namespace GrandLarceny
 		}
 		public GameObject(Position a_position, String a_sprite, float a_layer, float a_rotation = 0)
 		{
+			m_objectId = ++s_lastId;
 			m_rotate = a_rotation;
 			m_position = a_position;
 			m_layer = a_layer;
 			m_spritePath = a_sprite;
 			loadContent();
 
+		}
+
+		public virtual void saveObject()
+		{
+			m_objectId = ++s_lastId;
+		}
+
+		public virtual void linkObject()
+		{
+
+		}
+
+		public void flip()
+		{
+			if (m_spriteEffects == SpriteEffects.None)
+				m_spriteEffects = SpriteEffects.FlipHorizontally;
+			else
+				m_spriteEffects = SpriteEffects.None;
 		}
 
 		public virtual void loadContent()
@@ -112,6 +134,16 @@ namespace GrandLarceny
 
 		public float getLayer() {
 			return m_layer;
+		}
+
+		public int getId()
+		{
+			return m_objectId;
+		}
+
+		public static void resetGameObjectId()
+		{
+			s_lastId = 1;
 		}
 	}
 }

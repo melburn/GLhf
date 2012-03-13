@@ -12,7 +12,7 @@ namespace GrandLarceny
 	{
 		private float m_length;
 		private float m_width;
-		private GameObject m_parent;
+	
 
 		[NonSerialized]
 		private bool m_collisionIsUpdated;
@@ -28,21 +28,13 @@ namespace GrandLarceny
 			{
 				throw new ArgumentException("width has to be positive. was " + a_width);
 			}
-			m_parent = a_parent;
 			m_length = a_length;
 			m_width = a_width;
 			m_XScale = a_length / 500;
 			m_YScale = a_width / 500;
 			m_rotationPoint.Y = m_img.getSize().Y / 2;
 		}
-		public override void update(GameTime a_gameTime)
-		{
-			base.update(a_gameTime);
-			if(m_parent == null || m_parent.isDead() || (m_parent is SpotLight && ((SpotLight)m_parent).getLight() != this))
-			{
-				m_dead = true;
-			}
-		}
+
 		public void setRotation(float a_rotation)
 		{
 			if (m_rotate != a_rotation)
