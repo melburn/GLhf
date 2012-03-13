@@ -76,7 +76,7 @@ namespace GrandLarceny
 			Rolling,
 			Hiding,
 			Hanging,
-			Damaged
+			Stunned
 		}
 
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer)
@@ -154,7 +154,7 @@ namespace GrandLarceny
 						updateHiding();
 						break;
 					}
-				case State.Damaged:
+				case State.Stunned:
 					{
 						updateDamaged(t_deltaTime);
 						break;
@@ -505,11 +505,15 @@ namespace GrandLarceny
 			else if (GameState.isKeyPressed(Keys.Up) && !GameState.wasKeyPressed(Keys.Up))
 			{
 				m_currentState = State.Stop;
-				
+
 				if (m_facingRight)
+				{
 					m_position.setX(m_position.getGlobalX() + m_standHitBox.m_width);
+				}
 				else
+				{
 					m_position.setX(m_position.getGlobalX() - m_standHitBox.m_width);
+				}
 
 				m_position.setY(m_position.getGlobalY() - m_standHitBox.m_height);
 			}
@@ -522,7 +526,6 @@ namespace GrandLarceny
 				|| (GameState.isKeyPressed(Keys.X) && !GameState.wasKeyPressed(Keys.X)))
 			{
 				m_currentState = State.Stop;
-				m_layer = m_originalLayer;
 			}
 		}
 
@@ -587,6 +590,10 @@ namespace GrandLarceny
 						{
 							m_position.setY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
 							Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
+							if (m_lastState == State.Hiding)
+							{
+								setLayer(m_originalLayer);
+							}
 						}
 					}
 
@@ -599,6 +606,10 @@ namespace GrandLarceny
 						if (m_facingRight && m_currentState == State.Rolling)
 						{
 							m_imgOffsetX = -m_rollHitBox.getOutBox().Width;
+						}
+						else if (m_currentState == State.Hiding)
+						{
+							setLayer(0.725f);
 						}
 						m_imgOffsetY -= m_img.getSize().Y - m_rollHitBox.getOutBox().Height;
 						m_position.setY(m_position.getLocalY() + (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
@@ -680,6 +691,7 @@ namespace GrandLarceny
 				m_position.setY(a_collider.getPosition().getGlobalY());
 				m_nextPosition.Y = m_position.getGlobalY();
 				m_speed.Y = 0;
+				m_speed.X = 0;
 				m_currentState = State.Hanging;
 				m_facingRight = true;
 			}
@@ -692,6 +704,7 @@ namespace GrandLarceny
 				m_position.setY(a_collider.getPosition().getGlobalY());
 				m_nextPosition.Y = m_position.getGlobalY();
 				m_speed.Y = 0;
+				m_speed.X = 0;
 				m_currentState = State.Hanging;
 				m_facingRight = false;
 			}
@@ -740,7 +753,7 @@ namespace GrandLarceny
 				//deals 1 damage
 				m_health = Math.Max(m_health - 1, 0);
 				updateHealthGUI();
-				m_currentState = State.Damaged;
+				m_currentState = State.Stunned;
 				m_speed += a_knockBackForce;
 				m_invunerableTimer = 2f;
 				m_damagedTimer = 1f;

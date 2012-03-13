@@ -67,5 +67,10 @@ namespace GrandLarceny
 				Game.getInstance().getState().removeObject(m_light);
 			}
 		}
+
+		public LightCone getLight()
+		{
+			return m_light;
+		}
 	}
 }
