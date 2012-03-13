@@ -36,8 +36,6 @@ namespace GrandLarceny
 			m_position = new CartesianCoordinate(a_posV2);
 			m_rotate = 0.0f;
 			m_layer = a_layer;
-			m_color = Color.White;
-			m_spriteEffects = SpriteEffects.None;
 			m_spritePath = a_sprite;
 			loadContent();
 
@@ -48,8 +46,6 @@ namespace GrandLarceny
 			m_rotate = a_rotation;
 			m_position = a_position;
 			m_layer = a_layer;
-			m_color = Color.White;
-			m_spriteEffects = SpriteEffects.None;
 			m_spritePath = a_sprite;
 			loadContent();
 
@@ -75,7 +71,10 @@ namespace GrandLarceny
 
 		public virtual void loadContent()
 		{
+			m_color = Color.White;
+			m_spriteEffects = SpriteEffects.None;
 			m_img = new ImageManager(m_spritePath);
+			m_rotationPoint = m_img.getSize() / 2;
 		}
 
 		public Position getPosition()
@@ -99,7 +98,7 @@ namespace GrandLarceny
 			t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
 			t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
 
-			m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
+			m_img.draw(t_imgPosition+m_rotationPoint, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
 		}
 		public bool isDead()
 		{
