@@ -590,8 +590,8 @@ namespace GrandLarceny
 				{
 					if (m_currentState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE)
 					{
+						m_imgOffsetY = -(m_img.getSize().Y - m_rollHitBox.getOutBox().Height);
 						m_imgOffsetX = 0;
-						m_imgOffsetY = 0;
 						setLayer(0.725f);
 					}
 					else
@@ -627,7 +627,7 @@ namespace GrandLarceny
 						{
 							setLayer(0.725f);
 						}
-						m_imgOffsetY -= m_img.getSize().Y - m_rollHitBox.getOutBox().Height;
+						m_imgOffsetY = -(m_img.getSize().Y - m_rollHitBox.getOutBox().Height);
 						m_position.setY(m_position.getLocalY() + (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
 						Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.getOutBox().Height);
 					}
@@ -696,33 +696,36 @@ namespace GrandLarceny
 
 		public void hang(Entity a_collider)
 		{
-			Rectangle t_colliderBox = a_collider.getHitBox().getOutBox();
-			Rectangle t_playerBox = getHitBox().getOutBox();
-			if (!t_colliderBox.Contains((int)m_lastPosition.X + t_playerBox.Width + 4, (int)m_lastPosition.Y)
-				&& t_colliderBox.Contains((int)m_position.getGlobalX() + t_playerBox.Width + 4, (int)m_position.getGlobalY())
-				&& m_lastPosition.Y < t_colliderBox.Y
-				&& m_speed.Y >= 0
-				&& m_currentState == State.Jumping)
+			if (!m_stunned)
 			{
-				m_position.setY(a_collider.getPosition().getGlobalY());
-				m_nextPosition.Y = m_position.getGlobalY();
-				m_speed.Y = 0;
-				m_speed.X = 0;
-				m_currentState = State.Hanging;
-				m_facingRight = true;
-			}
-			else if (!t_colliderBox.Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y)
-				&& t_colliderBox.Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
-				&& m_lastPosition.Y < t_colliderBox.Y
-				&& m_speed.Y >= 0
-				&& m_currentState == State.Jumping)
-			{
-				m_position.setY(a_collider.getPosition().getGlobalY());
-				m_nextPosition.Y = m_position.getGlobalY();
-				m_speed.Y = 0;
-				m_speed.X = 0;
-				m_currentState = State.Hanging;
-				m_facingRight = false;
+				Rectangle t_colliderBox = a_collider.getHitBox().getOutBox();
+				Rectangle t_playerBox = getHitBox().getOutBox();
+				if (!t_colliderBox.Contains((int)m_lastPosition.X + t_playerBox.Width + 4, (int)m_lastPosition.Y)
+					&& t_colliderBox.Contains((int)m_position.getGlobalX() + t_playerBox.Width + 4, (int)m_position.getGlobalY())
+					&& m_lastPosition.Y < t_colliderBox.Y
+					&& m_speed.Y >= 0
+					&& m_currentState == State.Jumping)
+				{
+					m_position.setY(a_collider.getPosition().getGlobalY());
+					m_nextPosition.Y = m_position.getGlobalY();
+					m_speed.Y = 0;
+					m_speed.X = 0;
+					m_currentState = State.Hanging;
+					m_facingRight = true;
+				}
+				else if (!t_colliderBox.Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y)
+					&& t_colliderBox.Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
+					&& m_lastPosition.Y < t_colliderBox.Y
+					&& m_speed.Y >= 0
+					&& m_currentState == State.Jumping)
+				{
+					m_position.setY(a_collider.getPosition().getGlobalY());
+					m_nextPosition.Y = m_position.getGlobalY();
+					m_speed.Y = 0;
+					m_speed.X = 0;
+					m_currentState = State.Hanging;
+					m_facingRight = false;
+				}
 			}
 		}
 
