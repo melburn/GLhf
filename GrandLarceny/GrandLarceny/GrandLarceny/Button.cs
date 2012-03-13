@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 
 namespace GrandLarceny
 {
@@ -28,6 +29,8 @@ namespace GrandLarceny
 		private Texture2D m_hoverTexture;
 		private Texture2D m_pressedTexture;
 		private Texture2D m_toggleTexture;
+		private Sound m_upSound;
+		private Sound m_downSound;
 
 		private Rectangle m_bounds;
 
@@ -62,6 +65,8 @@ namespace GrandLarceny
 			setPosition(a_position);
 			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
 			m_layer = 0.002f;
+			m_upSound = null;
+			m_downSound = null;
 		}
 
 		public Button(string a_buttonName, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
@@ -82,6 +87,20 @@ namespace GrandLarceny
 			setPosition(a_position);
 			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
 			m_layer = 0.002f;
+			m_upSound = null;
+			m_downSound = null;
+		}
+		
+		public void playDownSound() {
+			if (m_downSound != null) {
+				m_downSound.play();
+			}
+		}
+
+		public void playUpSound() {
+			if (m_upSound != null) {
+				m_upSound.play();
+			}
 		}
 
 		public void update()
@@ -92,12 +111,18 @@ namespace GrandLarceny
 			if (m_bounds.Contains(Mouse.GetState().X, Mouse.GetState().Y))
 			{
 				m_isFocused = true;
-				if (m_currMouseState != m_prevMouseState && m_currMouseState.LeftButton == ButtonState.Pressed)
+				if (m_currMouseState.LeftButton == ButtonState.Pressed && m_prevMouseState.LeftButton == ButtonState.Released)
 				{
+					if (m_downSound != null) {
+						m_downSound.play();
+					}
 					m_isPressed = true;
 				}
 				if (m_isPressed && (m_prevMouseState.LeftButton == ButtonState.Pressed && m_currMouseState.LeftButton == ButtonState.Released))
 				{
+					if (m_upSound != null) {
+						m_upSound.play();
+					}
 					m_isPressed = false;
 					if (m_clickEvent != null)
 						m_clickEvent(this);
@@ -112,14 +137,19 @@ namespace GrandLarceny
 		public void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			CartesianCoordinate t_cartCoord = new CartesianCoordinate(m_position.getLocalCartesianCoordinates() / Game.getInstance().m_camera.getZoom(), m_position.getParentPosition());
-			if (m_isPressed || m_currentState == State.Pressed)
-				a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
-			else if (m_isFocused || m_currentState == State.Hover)
-				a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
-			else if (m_isToggled || m_currentState == State.Toggled)
-				a_spriteBatch.Draw(m_toggleTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
-			else
-				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+			if (m_isPressed || m_currentState == State.Pressed) {
+				a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
+					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+			} else if (m_isFocused || m_currentState == State.Hover) {
+				a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
+					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+			} else if (m_isToggled || m_currentState == State.Toggled) {
+				a_spriteBatch.Draw(m_toggleTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
+					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+			} else {
+				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
+					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+			}
 			if (m_text != null)
 				m_text.draw();
 		}
@@ -204,6 +234,12 @@ namespace GrandLarceny
 		public string getText()
 		{
 			return m_text.getText();
+		}
+		public void setUpSound(string a_path) {
+			m_upSound = new Sound("SoundEffects//GUI//" + a_path);
+		}
+		public void setDownSound(string a_path) {
+			m_downSound = new Sound("SoundEffects//GUI//" + a_path);
 		}
 	}
 }

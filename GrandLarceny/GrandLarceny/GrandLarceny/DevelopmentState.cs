@@ -56,7 +56,7 @@ namespace GrandLarceny
 
 		private Line m_dragLine = null;
 
-		private Sound m_keyclick;
+		private Sound m_sndKeyclick;
 
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
@@ -102,6 +102,7 @@ namespace GrandLarceny
 			m_assetButtonList	= new LinkedList<Button>();
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
+			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -180,8 +181,10 @@ namespace GrandLarceny
 			m_buttonList.AddLast(m_btnLightSwitchHotkey);
 			m_buttonList.AddLast(m_btnVentHotkey);
 
-			foreach (Button t_button in m_buttonList)
+			foreach (Button t_button in m_buttonList) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+				t_button.setDownSound("button");
+			}
 
 			setBuildingState(State.None);
 		}
@@ -250,6 +253,9 @@ namespace GrandLarceny
 		}
 
 		public void guiButtonClick(Button a_button) {
+			if (!a_button.isButtonPressed()) {
+				a_button.playDownSound();
+			}
 			if (a_button == m_btnLadderHotkey) {
 				setBuildingState(State.Ladder);
 				return;
@@ -413,46 +419,46 @@ namespace GrandLarceny
 			-----------------------------------
 			*/
 			if (keyClicked(Keys.P)) {
-				setBuildingState(State.Platform);
+				guiButtonClick(m_btnPlatformHotkey);
 			}
 			if (keyClicked(Keys.L)) {
-				setBuildingState(State.Ladder);
+				guiButtonClick(m_btnLadderHotkey);
 			}
 			if (keyClicked(Keys.B)) {
-				setBuildingState(State.Background);
+				guiButtonClick(m_btnBackgroundHotkey);
 			}
 			if (keyClicked(Keys.D)) {
-				setBuildingState(State.Delete);
+				guiButtonClick(m_btnDeleteHotkey);
 			}
 			if (keyClicked(Keys.H)) {
-				setBuildingState(State.Player);
+				guiButtonClick(m_btnHeroHotkey);
 			}
 			if (keyClicked(Keys.S)) {
-				setBuildingState(State.None);
+				guiButtonClick(m_btnSelectHotkey);
 			}
 			if (keyClicked(Keys.T)) {
-				setBuildingState(State.SpotLight);
+				guiButtonClick(m_btnSpotlightHotkey);
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && keyClicked(Keys.T)) {
-				setBuildingState(State.LightSwitch);
+				guiButtonClick(m_btnLightSwitchHotkey);
 			}
 			if (keyClicked(Keys.G)) {
-				setBuildingState(State.Guard);
+				guiButtonClick(m_btnGuardHotkey);
 			}
 			if (keyClicked(Keys.W)) {
-				setBuildingState(State.Wall);
+				guiButtonClick(m_btnWallHotkey);
 			}
 			if (keyClicked(Keys.V)) {
-				setBuildingState(State.Ventilation);
+				guiButtonClick(m_btnVentHotkey);
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && keyClicked(Keys.H)) {
-				setBuildingState(State.DuckHidingObject);
+				guiButtonClick(m_btnDuckHideHotkey);
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftControl) && keyClicked(Keys.H)) {
-				setBuildingState(State.StandHidingObject);
+				guiButtonClick(m_btnStandHideHotkey);
 			}
 			if (m_currentKeyboard.IsKeyDown(Keys.LeftShift) && keyClicked(Keys.G)) {
-				setBuildingState(State.GuardDog);
+				guiButtonClick(m_btnDogHotkey);
 			}
 
 			/*
