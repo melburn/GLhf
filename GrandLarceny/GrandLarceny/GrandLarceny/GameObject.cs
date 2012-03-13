@@ -55,6 +55,14 @@ namespace GrandLarceny
 
 		}
 
+		public void flip()
+		{
+			if (m_spriteEffects == SpriteEffects.None)
+				m_spriteEffects = SpriteEffects.FlipHorizontally;
+			else
+				m_spriteEffects = SpriteEffects.None;
+		}
+
 		public virtual void loadContent()
 		{
 			m_img = new ImageManager(m_spritePath);
