@@ -182,6 +182,7 @@ namespace GrandLarceny
 					{
 						t_gc.rotateLeft();
 					}
+					return this;
 				}
 			}
 			else

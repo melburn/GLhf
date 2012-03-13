@@ -11,6 +11,7 @@ namespace GrandLarceny
 	{
 		[NonSerialized]
 		private LightCone m_light;
+		private int m_lightLink;
 		private float m_leftRotation;
 		private float m_rightRotation;
 		private float m_rotationSpeed;
@@ -32,7 +33,19 @@ namespace GrandLarceny
 				m_rightRotation = a_rightRotation;
 			}
 		}
-
+		public override void loadContent()
+		{
+			base.loadContent();
+			if (m_lightLink > 0)
+			{
+				m_light = (LightCone)Game.getInstance().getState().getObjectById(m_lightLink);
+			}
+			else
+			{
+				m_light = new LightCone(this, "Images//LightCone//Ljus", m_layer + 0.001f, 300f, 300f);
+				m_lightLink = m_light.getId();
+			}
+		}
 		public bool canSeePlayer()
 		{
 			return m_light != null && CollisionManager.Collides(m_light.getCollisionShape(), Game.getInstance().getState().getPlayer().getCollisionShape());
