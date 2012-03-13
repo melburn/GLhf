@@ -15,10 +15,11 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
+            /*
 			Button t_button = new Button("btn_test", new Vector2(15, 38), null, null, Color.Black, Vector2.Zero);
 			t_button.m_clickEvent += new Button.clickDelegate(playClick);
 			m_buttons.Add(t_button);
-
+            */
 			m_levelList = Directory.GetFiles("Content//levels//");
 
 			int t_count = 0;
@@ -42,10 +43,12 @@ namespace GrandLarceny
 			foreach (Button t_b in m_buttons)
 				t_b.draw(gameTime, spriteBatch);
 		}
+        /*
 		public void playClick(Button a_b)
 		{
 			Game.getInstance().setState(new GameState());
 		}
+        */
 		public void exitClick(Button a_b)
 		{
 			Game.getInstance().Exit();
