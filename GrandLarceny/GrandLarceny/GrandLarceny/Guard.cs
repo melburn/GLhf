@@ -15,18 +15,25 @@ namespace GrandLarceny
         private Boolean m_hasPatrol;
         private Boolean m_hasFlashLight;
         public Boolean m_inALightArea = false;
+		[NonSerialized]
 		private LinkedList<LampSwitch> m_lampSwitchTargets;
+		private LinkedList<int> m_lampSwitchTargetsId;
 
         private const float MOVEMENTSPEED = 150;
 		private const float CHASINGSPEED = 350;
 		private const float WALKINGANIMATIONSPEED = MOVEMENTSPEED / 16;
 		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 16;
 
+		[NonSerialized]
         private Entity m_chaseTarget = null;
 		private Boolean m_running = false;
 		private Boolean m_facingRight;
+
 		private float m_sightRange = 500f;
+
+		[NonSerialized]
 		private FlashCone m_flashLight;
+		private int m_flashLightId;
 
 		[NonSerialized]
 		private float m_strikeReloadTime = 0;
@@ -68,6 +75,18 @@ namespace GrandLarceny
 			base.loadContent();
 			m_collisionShape = new CollisionRectangle(15, 10, m_img.getSize().X - 30, m_img.getSize().Y - 10, m_position);
 			m_lampSwitchTargets = new LinkedList<LampSwitch>();
+			if (m_lampSwitchTargetsId == null)
+			{
+				m_lampSwitchTargetsId = new LinkedList<int>();
+			}
+			foreach (int t_lsti in m_lampSwitchTargetsId)
+			{
+				m_lampSwitchTargets.AddLast((LampSwitch)Game.getInstance().getState().getObjectById(t_lsti));
+			}
+			if (m_flashLightId > 0)
+			{
+				m_flashLight = (FlashCone)Game.getInstance().getState().getObjectById(m_flashLightId);
+			}
 		}
 		public void setLeftGuardPoint(float a_x)
 		{
@@ -221,6 +240,7 @@ namespace GrandLarceny
 				{
 					m_img.setSprite("Images//Sprite//Guard//guard_put_down_flash");
 					m_flashLight.kill();
+					m_flashLightId = 0;
 					m_flashLight = null;
 				}
 				m_img.setLooping(false);
@@ -346,6 +366,7 @@ namespace GrandLarceny
 					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_pick_up_flash")
 					{
 						m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
+						m_flashLightId = m_flashLight.getId();
 						if (!m_facingRight)
 						{
 							m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
@@ -482,11 +503,13 @@ namespace GrandLarceny
 		public void addLampSwitchTarget(LampSwitch a_lampSwitch)
 		{
 			m_lampSwitchTargets.AddLast(a_lampSwitch);
+			m_lampSwitchTargetsId.AddLast(a_lampSwitch.getId());
 		}
 
 		public void removeLampSwitchTarget(LampSwitch a_lampSwitch)
 		{
 			m_lampSwitchTargets.Remove(a_lampSwitch);
+			m_lampSwitchTargetsId.Remove(a_lampSwitch.getId());
 		}
 
 		public bool hasNoLampSwitchTargets()

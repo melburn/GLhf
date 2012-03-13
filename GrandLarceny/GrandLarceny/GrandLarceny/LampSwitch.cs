@@ -10,26 +10,45 @@ namespace GrandLarceny
 	[Serializable()]
 	public class LampSwitch : NonMovingObject
 	{
+		[NonSerialized]
 		private LinkedList<SpotLight> m_connectedSpotLights;
+
+		private LinkedList<int> m_connectedSpotLightsId;
 		private bool m_switchedOn;
 
 		public LampSwitch(Vector2 a_position, String a_sprite, float a_layer, bool a_switchedOn)
 			: base(a_position, a_sprite, a_layer)
 		{
-			m_connectedSpotLights = new LinkedList<SpotLight>();
 			m_switchedOn = a_switchedOn;
+		}
+
+		public override void loadContent()
+		{
+			base.loadContent();
+			m_connectedSpotLights = new LinkedList<SpotLight>();
+			if (m_connectedSpotLightsId == null)
+			{
+				m_connectedSpotLightsId = new LinkedList<int>();
+			}
+			foreach(int t_ids in m_connectedSpotLightsId)
+			{
+				m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(t_ids));
+			}
+
 		}
 		public void connectSpotLight(SpotLight a_spotlight)
 		{
 			if (!a_spotlight.isDead() && !m_connectedSpotLights.Contains(a_spotlight))
 			{
 				m_connectedSpotLights.AddLast(a_spotlight);
+				m_connectedSpotLightsId.AddLast(a_spotlight.getId());
 				//a_spotlight.toggleLight();
 			}
 		}
 		public void disconnectSpotLight(SpotLight a_spotlight)
 		{
 			m_connectedSpotLights.Remove(a_spotlight);
+			m_connectedSpotLightsId.Remove(a_spotlight.getId());
 		}
 		public void toggleSwitch()
 		{

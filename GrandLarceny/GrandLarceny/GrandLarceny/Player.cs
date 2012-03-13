@@ -24,10 +24,9 @@ namespace GrandLarceny
 		public const int AIRDEACCELERATION = 700;
 		public const int AIRVERTICALACCELERATION = 12;
 		public const int SLIDESPEED = 25;
-		public const int ROLLSPEED = 1000;
+		public const int ROLLSPEED = 500;
 
 		private float m_originalLayer;
-		private float m_rollTimer;
 		[NonSerialized]
 		public GuiObject[] m_healthHearts;
 
@@ -51,7 +50,7 @@ namespace GrandLarceny
 		[NonSerialized]
 		private float m_invunerableTimer;
 		[NonSerialized]
-		private float m_damagedTimer;
+		private float m_stunnedTimer;
 
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
@@ -156,7 +155,7 @@ namespace GrandLarceny
 					}
 				case State.Stunned:
 					{
-						updateDamaged(t_deltaTime);
+						updateStunned(t_deltaTime);
 						break;
 					}
 			}
@@ -168,13 +167,13 @@ namespace GrandLarceny
 			}
 		}
 
-		private void updateDamaged(float a_deltaTime)
+		private void updateStunned(float a_deltaTime)
 		{
-			m_damagedTimer -= a_deltaTime;
-			if (m_damagedTimer <= 0)
+			m_stunnedTimer -= a_deltaTime;
+			if (m_stunnedTimer <= 0)
 			{
-				m_damagedTimer = 0;
-				m_currentState = State.Jumping;
+				m_stunnedTimer = 0;
+				m_currentState = State.Stop;
 			}
 		}
 
@@ -208,7 +207,7 @@ namespace GrandLarceny
 			if (!GameState.wasKeyPressed(Keys.Z) && GameState.isKeyPressed(Keys.Z))
 			{
 				m_currentState = State.Rolling;
-				m_rollTimer = 0.3f;
+				
 				return;
 			}
 			if (GameState.isKeyPressed(Keys.Left) || GameState.isKeyPressed(Keys.Right))
@@ -240,7 +239,7 @@ namespace GrandLarceny
 			{
 
 				m_currentState = State.Rolling;
-				m_rollTimer = 0.3f;
+				
 				return;
 			}
 
@@ -437,20 +436,21 @@ namespace GrandLarceny
 
 		private void updateRolling(float a_deltaTime)
 		{
-			m_rollTimer -= a_deltaTime;
-
-
-			if ((!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X)) || m_rollTimer <= 0)
+			
+			if (m_img.isStopped())
 			{
-				if (m_rollTimer <= 0)
-				{
-					m_currentState = State.Walking;
-				}
-				else
-				{
-					m_speed.Y -= JUMPSTRENGTH;
-					m_currentState = State.Jumping;
-				}
+				m_currentState = State.Stunned;
+				m_speed.X = 0;
+				m_stunnedTimer = 0.5f;
+			}
+			if ((!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X)))
+			{
+				
+				
+					
+				m_speed.Y -= JUMPSTRENGTH;
+				m_currentState = State.Jumping;
+				
 			}
 			else
 			{
@@ -575,7 +575,7 @@ namespace GrandLarceny
 			if (m_currentState != m_lastState)
 			{
 				if ((m_lastState == State.Rolling || (m_lastState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE) || m_lastState == State.Hanging)
-					&& m_currentState != State.Rolling && m_currentState != State.Hanging)
+					&& m_currentState != State.Rolling && m_currentState != State.Hanging && m_currentState != State.Stunned)
 				{
 					if (m_currentState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE)
 					{
@@ -603,9 +603,12 @@ namespace GrandLarceny
 				{
 					if (m_currentState == State.Rolling || m_currentState == State.Hiding)
 					{
-						if (m_facingRight && m_currentState == State.Rolling)
+						if (m_currentState == State.Rolling)
 						{
-							m_imgOffsetX = -m_rollHitBox.getOutBox().Width;
+							m_img.setAnimationSpeed(15);
+							m_img.setLooping(false);
+							if(m_facingRight)
+								m_imgOffsetX = -m_rollHitBox.getOutBox().Width;
 						}
 						else if (m_currentState == State.Hiding)
 						{
@@ -756,7 +759,7 @@ namespace GrandLarceny
 				m_currentState = State.Stunned;
 				m_speed += a_knockBackForce;
 				m_invunerableTimer = 2f;
-				m_damagedTimer = 1f;
+				m_stunnedTimer = 1f;
 				m_img.setSprite("Images//Sprite//Hero//hero_jump");
 			}
 		}
