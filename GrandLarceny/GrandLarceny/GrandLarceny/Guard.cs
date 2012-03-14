@@ -166,7 +166,7 @@ namespace GrandLarceny
 					m_aiActive = false;
 					m_img.setSprite("Images//Sprite//Guard//guard_turn");
 					m_img.setLooping(false);
-					m_img.setAnimationSpeed(66f);
+					m_img.setAnimationSpeed(10f);
 				}
 			}
 			
@@ -181,7 +181,7 @@ namespace GrandLarceny
 					m_aiActive = false;
 					m_img.setSprite("Images//Sprite//Guard//guard_turn");
 					m_img.setLooping(false);
-					m_img.setAnimationSpeed(66f);
+					m_img.setAnimationSpeed(10f);
 				}
 				else if (m_speed.X == 0)
 				{
