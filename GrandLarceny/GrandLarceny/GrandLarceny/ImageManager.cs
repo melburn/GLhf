@@ -67,7 +67,7 @@ namespace GrandLarceny
 
 			Game.getInstance().getSpriteBatch().Draw(
 				m_image,
-				new Rectangle((int)(Math.Round(a_imgPosition.X)), (int)(Math.Round(a_imgPosition.Y)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
+				new Rectangle((int)(Math.Round(a_imgPosition.X)+(a_origin.X*a_xScale)), (int)(Math.Round(a_imgPosition.Y)+(a_origin.Y*a_yScale)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
 				new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
 				a_color,
 				a_rotation,

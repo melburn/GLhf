@@ -16,7 +16,7 @@ namespace GrandLarceny
 		private float m_rightRotation;
 		private float m_rotationSpeed;
 		private Entity m_chaseTarget;
-		private const float ROTATIONSPEED = 0.1f;
+		private const float ROTATIONSPEED = 1f;
 		public GuardCamera(Vector2 a_position, String a_sprite, float a_layer, float a_rotation, float a_leftRotation, float a_rightRotation)
 			:base(a_position,a_sprite,a_layer)
 		{
@@ -34,9 +34,19 @@ namespace GrandLarceny
 				m_rightRotation = a_rightRotation;
 			}
 		}
+		public override void linkObject()
+		{
+			base.linkObject();
+			if(m_light != null)
+			{
+				m_lightLink = m_light.getId();
+			}
+		}
 		public override void loadContent()
 		{
 			base.loadContent();
+			m_rotationPoint = new Vector2(0, m_img.getSize().Y / 2);
+			m_imgOffsetY = -m_rotationPoint.Y * m_YScale;
 			if (m_lightLink > 0)
 			{
 				m_light = (LightCone)Game.getInstance().getState().getObjectById(m_lightLink);
@@ -93,6 +103,19 @@ namespace GrandLarceny
 		internal void chasePlayer()
 		{
 			m_chaseTarget = Game.getInstance().getState().getPlayer();
+		}
+
+		public override void kill()
+		{
+			base.kill();
+			m_light.kill();
+			Game.getInstance().getState().removeObject(m_light);
+			m_light = null;
+		}
+
+		internal void stop()
+		{
+			m_rotationSpeed = 0;
 		}
 	}
 }

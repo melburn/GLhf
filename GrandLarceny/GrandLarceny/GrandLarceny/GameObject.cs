@@ -98,7 +98,7 @@ namespace GrandLarceny
 			t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
 			t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
 
-			m_img.draw(t_imgPosition+m_rotationPoint, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
+			m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
 		}
 		public bool isDead()
 		{

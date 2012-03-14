@@ -1050,21 +1050,6 @@ namespace GrandLarceny
 				m_player = null;
 			}
 			a_gameObject.kill();
-			if (a_gameObject is SpotLight) {
-				LightCone t_lightCone = ((SpotLight)a_gameObject).getLightCone();
-				for (int i = 0; i < 5; i++) {
-					foreach (GameObject t_gameObject in m_gameObjectList[i]) {
-						if (t_gameObject is LampSwitch && ((LampSwitch)t_gameObject).isConnectedTo((SpotLight)a_gameObject)) {
-							((LampSwitch)t_gameObject).disconnectSpotLight((SpotLight)a_gameObject);
-						}
-					}
-				}
-				if (t_lightCone != null) {
-					for (int i = 0; i < 5; i++) {
-						m_gameObjectList[i].Remove(t_lightCone);
-					}
-				}
-			}
 			m_lineList.Clear();
 			m_gameObjectList[m_currentLayer].Remove(a_gameObject);
 		}

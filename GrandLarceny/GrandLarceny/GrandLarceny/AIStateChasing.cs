@@ -14,6 +14,7 @@ namespace GrandLarceny
 		}
 		private static AIStateChasing instance;
 		private const float MINIMUMDISTANCE = 30;
+		private const float MINIMUMCAMERAANGLE = 0.1f;
 		public static AIStateChasing getInstance()
 		{
 			if (instance == null)
@@ -98,15 +99,28 @@ namespace GrandLarceny
 				if (t_gc.canSeePlayer())
 				{
 					float t_currentRotation = t_gc.getRotation();
-					float t_pointDirection = (float)Math.Atan2(t_gc.getPosition().getGlobalY() - t_gc.getTarget().getPosition().getGlobalY(), t_gc.getPosition().getGlobalY() - t_gc.getTarget().getPosition().getGlobalX());
-					if ((t_pointDirection < t_currentRotation && t_pointDirection > t_currentRotation - Math.PI) ||
-						t_pointDirection > (t_currentRotation + Math.PI) % (2 * Math.PI))
+
+					float t_pointDirection = t_gc.getPosition().getAngleTo(t_gc.getTarget().getPosition());
+					//float t_pointDirection = (float)Math.Atan2(t_gc.getPosition().getGlobalY() - t_gc.getTarget().getPosition().getGlobalY(), t_gc.getPosition().getGlobalY() - t_gc.getTarget().getPosition().getGlobalX());
+					//float t_pointDirection = (float)Math.Atan2(t_gc.getTarget().getPosition().getGlobalY() - t_gc.getPosition().getGlobalY(), t_gc.getTarget().getPosition().getGlobalX() - t_gc.getPosition().getGlobalY());
+
+					double t_differance = Math.Min(t_currentRotation - t_pointDirection, ((t_currentRotation + (2 * Math.PI)) % (2 * Math.PI)) - t_pointDirection);
+
+					if (t_differance > MINIMUMCAMERAANGLE)
 					{
-						t_gc.rotateLeft();
+						//if ((t_pointDirection < t_currentRotation && t_pointDirection > t_currentRotation - Math.PI) || t_pointDirection > (t_currentRotation + Math.PI) % (2 * Math.PI))
+						if ((t_currentRotation + Math.PI < t_pointDirection && t_pointDirection < t_currentRotation) || t_pointDirection > t_pointDirection + Math.PI)
+						{
+							t_gc.rotateRight();
+						}
+						else
+						{
+							t_gc.rotateLeft();
+						}
 					}
 					else
 					{
-						t_gc.rotateRight();
+						t_gc.stop();
 					}
 					return this;
 				}

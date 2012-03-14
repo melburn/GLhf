@@ -100,5 +100,17 @@ namespace GrandLarceny
 		{
 			return m_light;
 		}
+
+		public override void kill()
+		{
+			base.kill();
+			if (m_lit)
+			{
+				m_light.kill();
+				Game.getInstance().getState().removeObject(m_light);
+				m_light = null;
+				m_lit = false;
+			}
+		}
 	}
 }

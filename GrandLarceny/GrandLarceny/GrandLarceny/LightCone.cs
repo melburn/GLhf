@@ -32,7 +32,6 @@ namespace GrandLarceny
 			m_width = a_width;
 			m_XScale = a_length / 500;
 			m_YScale = a_width / 500;
-			m_rotationPoint.Y = m_img.getSize().Y / 2;
 		}
 
 		public void setRotation(float a_rotation)
@@ -47,6 +46,9 @@ namespace GrandLarceny
 		{
 			base.loadContent();
 			m_collisionIsUpdated = false;
+			m_rotationPoint.X = 0;
+			m_rotationPoint.Y = m_img.getSize().Y / 2;
+			m_imgOffsetY = -m_rotationPoint.Y*m_YScale;
 		}
 
 		public override CollisionShape getHitBox()
