@@ -29,11 +29,10 @@ namespace GrandLarceny
 				if (CollisionManager.Contains(this.getHitBox(), 
 					new Vector2(t_playerGlobalPosition.X + t_playerOutBox.Width/2, t_playerGlobalPosition.Y + t_playerOutBox.Height/2)))
 				{
-					if (GameState.isKeyPressed(Keys.Up) && !GameState.wasKeyPressed(Keys.Up)
+					if (GameState.isKeyPressed(Player.m_upKey) && !GameState.wasKeyPressed(Player.m_upKey)
 						&& t_player.getLastState() != Player.State.Hiding)
 					{
 						t_player.setState(Player.State.Hiding);
-						//t_player.setLayer(0.725f);
 						t_player.setHidingImage(Player.DUCKHIDINGIMAGE);
 						t_player.setSpeedX(0);
 					}
