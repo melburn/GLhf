@@ -873,12 +873,14 @@ namespace GrandLarceny
 		public void windowAction()
 		{
 			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
+			m_currentState = State.Stop;
 			m_img.setLooping(false);
 			m_stunned = true;
-			m_stunnedTimer = 2f;
+			m_stunnedTimer = 0.5f;
 			m_stunnedDeacceleration = false;
+			m_position.setY(m_position.getGlobalY() - m_standHitBox.m_height);
 			m_speed.X = 200;
-			m_img.setAnimationSpeed(m_speed.X / 10);
+			m_img.setAnimationSpeed(10);
 		}
 
 		public void hangClimbAction()
@@ -889,7 +891,8 @@ namespace GrandLarceny
 			m_stunned = true;
 			m_stunnedTimer = 0.5f;
 			m_stunnedDeacceleration = false;
-			m_position.setY(m_position.getGlobalY() - m_standHitBox.m_height);
+			m_position.plusYWith( - m_standHitBox.m_height);
+			Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
 			if (m_facingRight)
 				m_speed.X = 150;
 			else
