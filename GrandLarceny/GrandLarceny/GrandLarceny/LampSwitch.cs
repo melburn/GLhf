@@ -39,7 +39,7 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			if (m_connectedToAll)
+			if (!m_connectedToAll)
 			{
 				m_connectedSpotLights = new LinkedList<SpotLight>();
 				if (m_connectedSpotLightsId == null)
@@ -69,6 +69,15 @@ namespace GrandLarceny
 		}
 		public void toggleSwitch()
 		{
+			m_switchedOn = !m_switchedOn;
+			if (m_switchedOn)
+			{
+				m_img.setSprite("Images//Prop//Button//light_switch_on");
+			}
+			else
+			{
+				m_img.setSprite("Images//Prop//Button//1x1_light_switch_off");
+			}
 			foreach (SpotLight t_spotLight in getConnectedSpotLights())
 			{
 				if (m_connectedToAll)
