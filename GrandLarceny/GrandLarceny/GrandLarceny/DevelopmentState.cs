@@ -98,6 +98,7 @@ namespace GrandLarceny
 		private Line m_dragLine = null;
 
 		private Sound m_sndKeyclick;
+		private Sound m_sndSave;
 
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
@@ -180,6 +181,7 @@ namespace GrandLarceny
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
+			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -678,9 +680,19 @@ namespace GrandLarceny
 				guiButtonClick(m_btnSelectHotkey);
 			}
 			if (ctrlMod()) {
-				if (ctrlMod() && keyClicked(Keys.H)) {
+				if (keyClicked(Keys.H)) {
 					guiButtonClick(m_btnStandHideHotkey);
 				}
+				if (keyClicked(Keys.S)) {
+				m_sndSave.play();
+				if (m_selectedObject != null) {
+					m_selectedObject.setColor(Color.White);
+					m_selectedObject = null;
+				}
+				Level t_saveLevel = new Level();
+				t_saveLevel.setLevelObjects(m_gameObjectList);
+				Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
+			}
 			} else if (shiftMod()) {
 				if (shiftMod() && keyClicked(Keys.G)) {
 					guiButtonClick(m_btnDogHotkey);
@@ -790,16 +802,7 @@ namespace GrandLarceny
 			-----------------------------------
 			Save and Load hotkeys 
 			-----------------------------------
-			*/
-			if (ctrlMod() && keyClicked(Keys.S)) {
-				if (m_selectedObject != null) {
-					m_selectedObject.setColor(Color.White);
-					m_selectedObject = null;
-				}
-				Level t_saveLevel = new Level();
-				t_saveLevel.setLevelObjects(m_gameObjectList);
-				Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
-			}
+			*/ 
 
 			if (ctrlMod() && keyClicked(Keys.O)) {
 				Level t_newLevel = Serializer.getInstance().loadLevel(m_levelToLoad);
