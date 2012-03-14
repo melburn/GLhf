@@ -23,6 +23,7 @@ namespace GrandLarceny
 		private const float CHASINGSPEED = 350;
 		private const float WALKINGANIMATIONSPEED = MOVEMENTSPEED / 16;
 		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 16;
+		private const float TURNANIMATIONSPEED = 10f;
 
 		[NonSerialized]
         private Entity m_chaseTarget = null;
@@ -164,7 +165,17 @@ namespace GrandLarceny
 				{
 					m_speed.X = 0;
 					m_aiActive = false;
-					m_img.setSprite("Images//Sprite//Guard//guard_turn");
+					if (m_flashLight == null)
+					{
+						m_img.setSprite("Images//Sprite//Guard//guard_turn");
+					}
+					else
+					{
+						m_img.setSprite("Images//Sprite//Guard//guard_flash_turn");
+						m_flashLight.setSprite("Images//LightCone//light_guard_turn");
+						m_flashLight.getImg().setAnimationSpeed(TURNANIMATIONSPEED);
+						m_flashLight.getPosition().setX(-178);
+					}
 					m_img.setLooping(false);
 					m_img.setAnimationSpeed(10f);
 				}
@@ -179,9 +190,19 @@ namespace GrandLarceny
 				{
 					m_speed.X = 0;
 					m_aiActive = false;
-					m_img.setSprite("Images//Sprite//Guard//guard_turn");
+					if (m_flashLight == null)
+					{
+						m_img.setSprite("Images//Sprite//Guard//guard_turn");
+					}
+					else
+					{
+						m_img.setSprite("Images//Sprite//Guard//guard_flash_turn");
+						m_flashLight.setSprite("Images//LightCone//light_guard_turn");
+						m_flashLight.getImg().setAnimationSpeed(10f);
+						m_flashLight.getPosition().setX(-175);
+					}
 					m_img.setLooping(false);
-					m_img.setAnimationSpeed(10f);
+					m_img.setAnimationSpeed(TURNANIMATIONSPEED);
 				}
 				else if (m_speed.X == 0)
 				{
