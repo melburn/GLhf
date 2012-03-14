@@ -82,10 +82,6 @@ namespace GrandLarceny
 				return;
 			m_currentKeyboard = Keyboard.GetState();
 
-			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-			{
-				Exit();
-			}
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;
