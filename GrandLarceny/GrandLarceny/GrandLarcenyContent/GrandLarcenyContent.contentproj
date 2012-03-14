@@ -427,7 +427,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Ventilation\ventil.png">
+    <Compile Include="Images\Tile\Ventilation\Corner\ventil.png">
       <Name>ventil</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -838,6 +838,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Tile\Ventilation\TVent\ventil.png">
+      <Name>ventil</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Images\GUI\DevelopmentHotkeys\btn_camera_hotkey_hover.png">
@@ -845,11 +850,15 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Images\GUI\DevelopmentHotkeys\btn_camera_hotkey_normal.png">
       <Name>btn_camera_hotkey_normal</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Images\GUI\DevelopmentHotkeys\btn_camera_hotkey_pressed.png">
       <Name>btn_camera_hotkey_pressed</Name>
       <Importer>TextureImporter</Importer>
@@ -857,8 +866,29 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Straight\ventil.png">
+      <Name>ventil</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Drum\ventil.png">
+      <Name>ventil</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Images\GUI\DevelopmentHotkeys\btn_camera_hotkey_toggle.png">
       <Name>btn_camera_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Cross\ventil.png">
+      <Name>ventil</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

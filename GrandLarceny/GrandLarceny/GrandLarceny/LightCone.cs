@@ -42,6 +42,11 @@ namespace GrandLarceny
 				m_collisionIsUpdated = false;
 			}
 		}
+		public override void addRotation(float a_rotation)
+		{
+			base.addRotation(a_rotation);
+			m_collisionIsUpdated = false;
+		}
 		public override void loadContent()
 		{
 			base.loadContent();

@@ -64,7 +64,7 @@ namespace GrandLarceny
 		{
 			Vector2 t_ThisPoint = getGlobalCartesianCoordinates();
 			Vector2 t_ArgPoint = a_point.getGlobalCartesianCoordinates();
-			return (float) Math.Atan2((double)(t_ThisPoint.Y - t_ArgPoint.Y),(double)(t_ThisPoint.X - t_ArgPoint.X));
+			return (float) (Math.Atan2((double)(t_ThisPoint.Y - t_ArgPoint.Y),(double)(t_ThisPoint.X - t_ArgPoint.X)) + Math.PI);
 		}
 
 

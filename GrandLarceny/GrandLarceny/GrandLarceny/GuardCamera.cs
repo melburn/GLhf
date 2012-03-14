@@ -54,7 +54,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_light = new LightCone(this, "Images//LightCone//Ljus", m_layer + 0.001f, 300f, 300f);
+				m_light = new LightCone(this, "Images//LightCone//Ljus", m_layer + 0.001f, 300f, 100f);
 				m_lightLink = m_light.getId();
 				(Game.getInstance().getState()).addObject(m_light);
 			}
@@ -117,5 +117,11 @@ namespace GrandLarceny
 		{
 			m_rotationSpeed = 0;
 		}
+
+		public override void addRotation(float a_rotation)
+		{
+			base.addRotation(a_rotation);
+			m_light.setRotation(m_rotate);
+		} 
 	}
 }

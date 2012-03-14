@@ -105,16 +105,13 @@ namespace GrandLarceny
 			Wall,
 			DuckHidingObject,
 			StandHidingObject,
-<<<<<<< HEAD
 			Ventilation,
-			Camera
-=======
+			Camera,
 			CrossVent,
 			TVent,
 			StraVent,
 			CornerVent,
 			Ventrance
->>>>>>> ae9f7437503c5e75594b59a33398b605c3c7fbf1
 		}
 		private State m_itemToCreate;
 		#endregion
@@ -225,14 +222,10 @@ namespace GrandLarceny
 			m_btnLightSwitchHotkey	= new Button("DevelopmentHotkeys//btn_spotlight_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 3, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "Shift+T", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnVentHotkey			= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
-<<<<<<< HEAD
+
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 4, Game.getInstance().getResolution().Y - TILE_HEIGHT * 3), "V", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnCameraHotkey		= new Button("DevelopmentHotkeys//btn_camera_hotkey",
 				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 6, Game.getInstance().getResolution().Y - TILE_HEIGHT * 6), "C", "VerdanaBold", Color.White, t_btnTextOffset);
-=======
-				new Vector2(Game.getInstance().getResolution().X - TILE_WIDTH * 5, Game.getInstance().getResolution().Y - TILE_HEIGHT * 1), "V", "VerdanaBold", Color.White, t_btnTextOffset);
-
->>>>>>> ae9f7437503c5e75594b59a33398b605c3c7fbf1
 
 			m_buildingKeys.AddLast(m_btnLadderHotkey);
 			m_buildingKeys.AddLast(m_btnPlatformHotkey);
@@ -460,7 +453,7 @@ namespace GrandLarceny
 					m_ventilation = true;
 					setBuildingState(State.None);
 					return;
-				}	
+				}
 			}
 			if (a_button == m_btnCameraHotkey)
 			{
@@ -662,10 +655,6 @@ namespace GrandLarceny
 						guiButtonClick(m_btnVentHotkey);
 					}
 				}
-			}
-			if (keyClicked(Keys.C))
-			{
-				guiButtonClick(m_btnCameraHotkey);
 			}
 
 			/*
@@ -1246,8 +1235,6 @@ namespace GrandLarceny
 				m_player = null;
 			}
 			a_gameObject.kill();
-<<<<<<< HEAD
-=======
 			if (a_gameObject is SpotLight) {
 				LightCone t_lightCone = ((SpotLight)a_gameObject).getLightCone();
 				for (int i = 0; i < m_gameObjectList.Length; i++) {
@@ -1263,7 +1250,6 @@ namespace GrandLarceny
 					}
 				}
 			}
->>>>>>> ae9f7437503c5e75594b59a33398b605c3c7fbf1
 			m_lineList.Clear();
 			m_gameObjectList[m_currentLayer].Remove(a_gameObject);
 		}

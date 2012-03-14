@@ -125,11 +125,9 @@ namespace GrandLarceny
 		{
 			return m_rotate;
 		}
-		public void addRotation(float a_rotation)
+		public virtual void addRotation(float a_rotation)
 		{
-			m_rotate += a_rotation;
-			if (m_rotate >= Math.PI * 2)
-				m_rotate = 0.0f;
+			m_rotate = (m_rotate + a_rotation) % ((float)Math.PI * 2);
 		}
 
 		public float getLayer() {
