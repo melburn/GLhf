@@ -58,6 +58,7 @@ namespace GrandLarceny
 				m_lightLink = m_light.getId();
 				(Game.getInstance().getState()).addObject(m_light);
 			}
+			m_light.setRotation(m_rotate);
 		}
 		public bool canSeePlayer()
 		{
