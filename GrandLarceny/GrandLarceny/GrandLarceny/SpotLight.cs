@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 namespace GrandLarceny
 {
 	[Serializable()]
-	public class SpotLight : MovingObject
+	public class SpotLight : NonMovingObject
 	{
 		private bool m_lit = true;
 		private int m_lightLink;

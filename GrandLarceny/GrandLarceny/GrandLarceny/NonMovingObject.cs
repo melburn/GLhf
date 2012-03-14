@@ -13,7 +13,9 @@ namespace GrandLarceny
 		{
 			
 		}
-
-		
+		public NonMovingObject(Position a_position, String a_sprite, float a_layer, float a_rotation = 0)
+			: base(a_position, a_sprite, a_layer, a_rotation)
+		{
+		}
 	}
 }

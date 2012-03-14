@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GrandLarceny
 {
 	[Serializable()]
-	public class LightCone : MovingObject
+	public class LightCone : NonMovingObject
 	{
 		private float m_length;
 		private float m_width;
@@ -32,6 +32,7 @@ namespace GrandLarceny
 			m_width = a_width;
 			m_XScale = a_length / 500;
 			m_YScale = a_width / 500;
+			m_imgOffsetY = -m_rotationPoint.Y * m_YScale;
 		}
 
 		public void setRotation(float a_rotation)

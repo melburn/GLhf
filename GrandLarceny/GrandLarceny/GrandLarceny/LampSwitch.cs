@@ -13,6 +13,7 @@ namespace GrandLarceny
 		[NonSerialized]
 		private LinkedList<SpotLight> m_connectedSpotLights;
 
+		//om m_connectedSpotLightsId == null så är den kopplad till alla knappar.
 		private LinkedList<int> m_connectedSpotLightsId;
 		private bool m_switchedOn;
 
