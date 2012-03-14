@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GrandLarceny
 {
 	[Serializable()]
-	public class LightCone : MovingObject
+	public class LightCone : NonMovingObject
 	{
 		private float m_length;
 		private float m_width;

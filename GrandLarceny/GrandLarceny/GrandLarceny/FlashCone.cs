@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class FlashCone : MovingObject
+	class FlashCone : NonMovingObject
 	{
 		private Guard m_parent;
 		Boolean m_facingRight;
