@@ -148,5 +148,10 @@ namespace GrandLarceny
 			}
 			return false;
 		}
+
+		public void toogleConnectToAll()
+		{
+			m_connectedToAll = !m_connectedToAll;
+		}
 	}
 }
