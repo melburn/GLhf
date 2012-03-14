@@ -16,7 +16,7 @@ namespace GrandLarceny
 		private float m_rightRotation;
 		private float m_rotationSpeed;
 		private Entity m_chaseTarget;
-		private const float ROTATIONSPEED = 1f;
+		private const float ROTATIONSPEED = 0.7f;
 		public GuardCamera(Vector2 a_position, String a_sprite, float a_layer, float a_rotation, float a_leftRotation, float a_rightRotation)
 			:base(a_position,a_sprite,a_layer)
 		{
@@ -58,6 +58,7 @@ namespace GrandLarceny
 				m_lightLink = m_light.getId();
 				(Game.getInstance().getState()).addObject(m_light);
 			}
+			m_light.setRotation(m_rotate);
 		}
 		public bool canSeePlayer()
 		{

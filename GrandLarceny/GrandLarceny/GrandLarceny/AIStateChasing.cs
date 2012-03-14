@@ -100,10 +100,7 @@ namespace GrandLarceny
 				{
 					float t_currentRotation = t_gc.getRotation();
 
-					float t_pointDirection = t_gc.getPosition().getAngleTo(t_gc.getTarget().getPosition());
-					//float t_pointDirection = (float)Math.Atan2(t_gc.getPosition().getGlobalY() - t_gc.getTarget().getPosition().getGlobalY(), t_gc.getPosition().getGlobalY() - t_gc.getTarget().getPosition().getGlobalX());
-					//float t_pointDirection = (float)Math.Atan2(t_gc.getTarget().getPosition().getGlobalY() - t_gc.getPosition().getGlobalY(), t_gc.getTarget().getPosition().getGlobalX() - t_gc.getPosition().getGlobalY());
-					//if ((t_pointDirection < t_currentRotation && t_pointDirection > t_currentRotation - Math.PI) || t_pointDirection > (t_currentRotation + Math.PI) % (2 * Math.PI))
+					float t_pointDirection = t_gc.getPosition().getAngleTo(t_gc.getTarget().getPosition().getGlobalCartesianCoordinates());
 					if ((t_currentRotation + Math.PI > t_pointDirection && t_pointDirection < t_currentRotation) || t_pointDirection > t_currentRotation + Math.PI)
 					{
 						t_gc.rotateLeft();

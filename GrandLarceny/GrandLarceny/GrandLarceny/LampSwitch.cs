@@ -12,15 +12,20 @@ namespace GrandLarceny
 	{
 		[NonSerialized]
 		private LinkedList<SpotLight> m_connectedSpotLights;
-
-		//om m_connectedSpotLightsId == null så är den kopplad till alla knappar.
 		private LinkedList<int> m_connectedSpotLightsId;
 		private bool m_switchedOn;
+		private bool m_connectedToAll;
 
 		public LampSwitch(Vector2 a_position, String a_sprite, float a_layer, bool a_switchedOn)
 			: base(a_position, a_sprite, a_layer)
 		{
 			m_switchedOn = a_switchedOn;
+		}
+		public LampSwitch(Vector2 a_position, String a_sprite, float a_layer, bool a_switchedOn, bool a_connectedToAll)
+			: base(a_position, a_sprite, a_layer)
+		{
+			m_switchedOn = a_switchedOn;
+			m_connectedToAll = a_connectedToAll;
 		}
 
 		public override void linkObject()
@@ -37,14 +42,17 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_connectedSpotLights = new LinkedList<SpotLight>();
-			if (m_connectedSpotLightsId == null)
+			if (m_connectedToAll)
 			{
-				m_connectedSpotLightsId = new LinkedList<int>();
-			}
-			foreach(int t_ids in m_connectedSpotLightsId)
-			{
-				m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(t_ids));
+				m_connectedSpotLights = new LinkedList<SpotLight>();
+				if (m_connectedSpotLightsId == null)
+				{
+					m_connectedSpotLightsId = new LinkedList<int>();
+				}
+				foreach (int t_ids in m_connectedSpotLightsId)
+				{
+					m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(t_ids));
+				}
 			}
 
 		}
@@ -64,9 +72,16 @@ namespace GrandLarceny
 		}
 		public void toggleSwitch()
 		{
-			foreach (SpotLight t_spotLight in m_connectedSpotLights)
+			foreach (SpotLight t_spotLight in getConnectedSpotLights())
 			{
-				t_spotLight.toggleLight();
+				if (m_connectedToAll)
+				{
+					t_spotLight.setLight(false);
+				}
+				else
+				{
+					t_spotLight.toggleLight();
+				}
 				if (!t_spotLight.isLit())
 				{
 					foreach (GameObject t_guard in Game.getInstance().getState().getCurrentList())
@@ -100,7 +115,29 @@ namespace GrandLarceny
 
 		public LinkedList<SpotLight> getConnectedSpotLights()
 		{
-			return m_connectedSpotLights;
+			if (m_connectedToAll)
+			{
+				LinkedList<GameObject>[] t_allGO = Game.getInstance().getState().getObjectList();
+				LinkedList<SpotLight> t_ret = new LinkedList<SpotLight>();
+				foreach (LinkedList<GameObject> t_llgo in t_allGO)
+				{
+					if (t_llgo != null)
+					{
+						foreach (GameObject t_GO in t_llgo)
+						{
+							if (t_GO is SpotLight)
+							{
+								t_ret.AddLast((SpotLight)t_GO);
+							}
+						}
+					}
+				}
+				return t_ret;
+			}
+			else
+			{
+				return m_connectedSpotLights;
+			}
 		}
 
 		public bool isConnectedTo(SpotLight a_spotLight)
@@ -113,6 +150,11 @@ namespace GrandLarceny
 				}
 			}
 			return false;
+		}
+
+		public void toogleConnectToAll()
+		{
+			m_connectedToAll = !m_connectedToAll;
 		}
 	}
 }
