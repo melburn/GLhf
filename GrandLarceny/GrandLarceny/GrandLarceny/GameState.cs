@@ -40,7 +40,7 @@ namespace GrandLarceny
 				m_removeList[i] = new Stack<GameObject>();
 				m_addList[i] = new Stack<GameObject>();
 			}
-
+			
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
 				foreach (GameObject t_go in t_ll)
@@ -53,12 +53,13 @@ namespace GrandLarceny
 					}
 				}
 			}
-
+			
 			if (player != null)
 			{
 				Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
 			}
+			
 		}
 
 		public override void setPlayer(Player a_player)
