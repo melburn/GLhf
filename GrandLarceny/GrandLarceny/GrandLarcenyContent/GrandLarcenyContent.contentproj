@@ -894,6 +894,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Images\Prop\Button\light_switch_on.png">
+      <Name>light_switch_on</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Images\Tile\Floor\floor_corner_piece.png">
       <Name>floor_corner_piece</Name>
       <Importer>TextureImporter</Importer>
@@ -913,6 +920,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\LightCone\light_guard_turn.png">
+      <Name>light_guard_turn</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Sounds\SoundEffects\GUI\ZMuFir00.wav">
       <Name>ZMuFir00</Name>
       <Importer>WavImporter</Importer>
