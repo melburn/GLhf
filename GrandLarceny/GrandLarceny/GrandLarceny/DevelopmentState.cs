@@ -98,6 +98,7 @@ namespace GrandLarceny
 		private Line m_dragLine = null;
 
 		private Sound m_sndKeyclick;
+		private Sound m_sndSave;
 
 		private int TILE_WIDTH = 72;
 		private int TILE_HEIGHT = 72;
@@ -180,6 +181,7 @@ namespace GrandLarceny
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
+			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -239,13 +241,13 @@ namespace GrandLarceny
 			m_btnSpotlightHotkey	= new Button("DevelopmentHotkeys//btn_spotlight_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 2, t_bottomRight.Y - TILE_HEIGHT * 2), "T", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnWallHotkey			= new Button("DevelopmentHotkeys//btn_wall_hotkey",
-				new Vector2(t_bottomRight.X - TILE_WIDTH * 4, t_bottomRight.Y - TILE_HEIGHT * 2), "N", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 4, t_bottomRight.Y - TILE_HEIGHT * 2), "W", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnLightSwitchHotkey	= new Button("DevelopmentHotkeys//btn_spotlight_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 1, t_bottomRight.Y - TILE_HEIGHT * 3), "Shift+T", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnVentHotkey			= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 5, t_bottomRight.Y - TILE_HEIGHT * 1), "V", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnWindowHotkey		= new Button("DevelopmentHotkeys//btn_wall_hotkey",
-				new Vector2(t_bottomRight.X - TILE_WIDTH * 2, t_bottomRight.Y - TILE_HEIGHT * 1), "W", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 2, t_bottomRight.Y - TILE_HEIGHT * 1), "N", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnGuardHotkey		= new Button("DevelopmentHotkeys//btn_guard_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 4, t_bottomRight.Y - TILE_HEIGHT * 1), "G", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnDuckHideHotkey			= new Button("DevelopmentHotkeys//btn_duckhide_hotkey",
@@ -678,9 +680,19 @@ namespace GrandLarceny
 				guiButtonClick(m_btnSelectHotkey);
 			}
 			if (ctrlMod()) {
-				if (ctrlMod() && keyClicked(Keys.H)) {
+				if (keyClicked(Keys.H)) {
 					guiButtonClick(m_btnStandHideHotkey);
 				}
+				if (keyClicked(Keys.S)) {
+				m_sndSave.play();
+				if (m_selectedObject != null) {
+					m_selectedObject.setColor(Color.White);
+					m_selectedObject = null;
+				}
+				Level t_saveLevel = new Level();
+				t_saveLevel.setLevelObjects(m_gameObjectList);
+				Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
+			}
 			} else if (shiftMod()) {
 				if (shiftMod() && keyClicked(Keys.G)) {
 					guiButtonClick(m_btnDogHotkey);
@@ -732,7 +744,7 @@ namespace GrandLarceny
 						if (keyClicked(Keys.A)) {
 							guiButtonClick(m_btnDuckHideHotkey);
 						}
-						if (keyClicked(Keys.I)) {
+						if (keyClicked(Keys.N)) {
 							guiButtonClick(m_btnWindowHotkey);
 						}
 						break;
@@ -790,16 +802,7 @@ namespace GrandLarceny
 			-----------------------------------
 			Save and Load hotkeys 
 			-----------------------------------
-			*/
-			if (ctrlMod() && keyClicked(Keys.S)) {
-				if (m_selectedObject != null) {
-					m_selectedObject.setColor(Color.White);
-					m_selectedObject = null;
-				}
-				Level t_saveLevel = new Level();
-				t_saveLevel.setLevelObjects(m_gameObjectList);
-				Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
-			}
+			*/ 
 
 			if (ctrlMod() && keyClicked(Keys.O)) {
 				Level t_newLevel = Serializer.getInstance().loadLevel(m_levelToLoad);
