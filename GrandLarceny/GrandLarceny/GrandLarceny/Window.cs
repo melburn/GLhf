@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class Window : NonMovingObject
 	{
 
