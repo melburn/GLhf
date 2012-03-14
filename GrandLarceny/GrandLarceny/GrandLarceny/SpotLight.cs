@@ -122,5 +122,13 @@ namespace GrandLarceny
 				m_light.setRotation(m_rotate);
 			}
 		}
+
+		internal void setLight(bool t_on)
+		{
+			if (m_lit != t_on)
+			{
+				toggleLight();
+			}
+		}
 	}
 }
