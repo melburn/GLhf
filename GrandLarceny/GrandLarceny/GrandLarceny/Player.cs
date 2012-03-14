@@ -57,8 +57,17 @@ namespace GrandLarceny
 		private bool m_collidedWithWall = false;
 		private int m_health;
 		private bool m_stunned = false;
+		private bool m_stunnedDeacceleration = true;
 
-		private Keys m_actionKey = Keys.A;
+		
+		public static Keys m_leftKey = Keys.Left;
+		public static Keys m_rightKey = Keys.Right;
+		public static Keys m_upKey = Keys.Up;
+		public static Keys m_downKey = Keys.Down;
+		public static Keys m_jumpKey = Keys.X;
+		public static Keys m_rollKey = Keys.Z;
+		public static Keys m_actionKey = Keys.A;
+		public static Keys m_sneakKey = Keys.LeftShift;
 
 		public enum Direction
 		{
@@ -109,7 +118,10 @@ namespace GrandLarceny
 
 		public override void update(GameTime a_gameTime)
 		{
-			changeAnimation();
+			if (!m_stunned)
+			{
+				changeAnimation();
+			}
 			updateState();
 			m_lastState = m_currentState;
 			m_gravity = 1000f;
@@ -180,13 +192,16 @@ namespace GrandLarceny
 		private void updateStunned(float a_deltaTime)
 		{
 			m_stunnedTimer -= a_deltaTime;
-			if (m_speed.X > 0)
+			if (m_stunnedDeacceleration)
 			{
-				m_speed.X = Math.Max(m_speed.X - (DEACCELERATION * a_deltaTime), 0);
-			}
-			else if (m_speed.X < 0)
-			{
-				m_speed.X = Math.Min(m_speed.X + (DEACCELERATION * a_deltaTime), 0);
+				if (m_speed.X > 0)
+				{
+					m_speed.X = Math.Max(m_speed.X - (DEACCELERATION * a_deltaTime), 0);
+				}
+				else if (m_speed.X < 0)
+				{
+					m_speed.X = Math.Min(m_speed.X + (DEACCELERATION * a_deltaTime), 0);
+				}
 			}
 			if (m_stunnedTimer <= 0)
 			{
@@ -224,17 +239,17 @@ namespace GrandLarceny
 
 		private void updateStop(float a_deltaTime)
 		{
-			if (!GameState.wasKeyPressed(Keys.Z) && GameState.isKeyPressed(Keys.Z))
+			if (!GameState.wasKeyPressed(m_rollKey) && GameState.isKeyPressed(m_rollKey))
 			{
 				m_currentState = State.Rolling;
 
 				return;
 			}
-			if (GameState.isKeyPressed(Keys.Left) || GameState.isKeyPressed(Keys.Right))
+			if (GameState.isKeyPressed(m_leftKey) || GameState.isKeyPressed(m_rightKey))
 			{
 				m_currentState = State.Walking;
 
-				if (GameState.isKeyPressed(Keys.Left))
+				if (GameState.isKeyPressed(m_leftKey))
 				{
 					m_facingRight = false;
 				}
@@ -243,7 +258,7 @@ namespace GrandLarceny
 					m_facingRight = true;
 				}
 			}
-			if (!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X))
+			if (!GameState.wasKeyPressed(m_jumpKey) && GameState.isKeyPressed(m_jumpKey))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -255,7 +270,7 @@ namespace GrandLarceny
 
 		private void updateWalking(float a_deltaTime)
 		{
-			if (!GameState.wasKeyPressed(Keys.Z) && GameState.isKeyPressed(Keys.Z))
+			if (!GameState.wasKeyPressed(m_rollKey) && GameState.isKeyPressed(m_rollKey))
 			{
 
 				m_currentState = State.Rolling;
@@ -263,7 +278,7 @@ namespace GrandLarceny
 				return;
 			}
 
-			if (GameState.isKeyPressed(Keys.Right))
+			if (GameState.isKeyPressed(m_rightKey))
 			{
 				if (m_speed.X > PLAYERSPEED)
 				{
@@ -271,7 +286,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (GameState.isKeyPressed(Keys.LeftShift))
+					if (GameState.isKeyPressed(m_sneakKey))
 					{
 						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), 200);
 					}
@@ -281,7 +296,7 @@ namespace GrandLarceny
 					}
 				}
 			}
-			if (GameState.isKeyPressed(Keys.Left))
+			if (GameState.isKeyPressed(m_leftKey))
 			{
 				if (m_speed.X < -PLAYERSPEED)
 				{
@@ -289,7 +304,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (GameState.isKeyPressed(Keys.LeftShift))
+					if (GameState.isKeyPressed(m_sneakKey))
 					{
 						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -200);
 					}
@@ -314,7 +329,7 @@ namespace GrandLarceny
 				m_currentState = State.Stop;
 
 			}
-			if (!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X))
+			if (!GameState.wasKeyPressed(m_jumpKey) && GameState.isKeyPressed(m_jumpKey))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -332,14 +347,14 @@ namespace GrandLarceny
 
 		private void updateJumping(float a_deltaTime)
 		{
-			if (GameState.m_currentKeyInput.IsKeyUp(Keys.Left) && GameState.m_currentKeyInput.IsKeyUp(Keys.Right))
+			if (GameState.m_currentKeyInput.IsKeyUp(m_leftKey) && GameState.m_currentKeyInput.IsKeyUp(m_rightKey))
 			{
 				if (m_speed.X > 0)
 					m_speed.X = Math.Max(m_speed.X - (AIRDEACCELERATION * a_deltaTime), 0);
 				else if (m_speed.X < 0)
 					m_speed.X = Math.Min(m_speed.X + (AIRDEACCELERATION * a_deltaTime), 0);
 			}
-			else if (GameState.isKeyPressed(Keys.Left))
+			else if (GameState.isKeyPressed(m_leftKey))
 			{
 				if (m_speed.X < -PLAYERSPEED)
 				{
@@ -350,7 +365,7 @@ namespace GrandLarceny
 					m_speed.X = Math.Max(-PLAYERSPEED, m_speed.X - AIRDEACCELERATION * a_deltaTime);
 				}
 			}
-			else if (GameState.isKeyPressed(Keys.Right))
+			else if (GameState.isKeyPressed(m_rightKey))
 			{
 				if (m_speed.X > PLAYERSPEED)
 				{
@@ -371,7 +386,7 @@ namespace GrandLarceny
 				m_facingRight = false;
 			}
 
-			if (m_speed.Y < -300 && GameState.isKeyPressed(Keys.X))
+			if (m_speed.Y < -300 && GameState.isKeyPressed(m_jumpKey))
 				m_speed.Y -= AIRVERTICALACCELERATION;
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
@@ -381,10 +396,10 @@ namespace GrandLarceny
 		{
 			if (m_lastPosition.Y != m_position.getGlobalY())
 			{
-				if (((!m_facingRight && GameState.isKeyPressed(Keys.Right)) || (m_facingRight && GameState.isKeyPressed(Keys.Left)))
+				if (((!m_facingRight && GameState.isKeyPressed(m_rightKey)) || (m_facingRight && GameState.isKeyPressed(m_leftKey)))
 					&& m_collidedWithWall)
 				{
-					if (!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X))
+					if (!GameState.wasKeyPressed(m_jumpKey) && GameState.isKeyPressed(m_jumpKey))
 					{
 						m_speed.Y = -JUMPSTRENGTH;
 						if (m_facingRight == true)
@@ -407,11 +422,11 @@ namespace GrandLarceny
 		private void updateClimbing()
 		{
 			m_gravity = 0;
-			if (GameState.isKeyPressed(Keys.Up))
+			if (GameState.isKeyPressed(m_upKey))
 			{
 				m_speed.Y = -CLIMBINGSPEED;
 			}
-			else if (GameState.isKeyPressed(Keys.Down))
+			else if (GameState.isKeyPressed(m_downKey))
 			{
 				m_speed.Y = CLIMBINGSPEED;
 			}
@@ -419,9 +434,9 @@ namespace GrandLarceny
 			{
 				m_speed.Y = 0;
 			}
-			if (GameState.isKeyPressed(Keys.X) && !GameState.wasKeyPressed(Keys.X))
+			if (GameState.isKeyPressed(m_jumpKey) && !GameState.wasKeyPressed(m_jumpKey))
 			{
-				if (!GameState.isKeyPressed(Keys.Down))
+				if (!GameState.isKeyPressed(m_downKey))
 				{
 					m_speed.Y = -JUMPSTRENGTH;
 					if (m_facingRight)
@@ -479,15 +494,16 @@ namespace GrandLarceny
 				m_stunned = true;
 				m_speed.X = m_speed.X / 5;
 				m_stunnedTimer = 0.35f;
+				m_stunnedDeacceleration = true;
 			}
 		}
 
 		private void updateHanging()
 		{
 			m_gravity = 0;
-			if (!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X))
+			if (!GameState.wasKeyPressed(m_jumpKey) && GameState.isKeyPressed(m_jumpKey))
 			{
-				if (GameState.isKeyPressed(Keys.Down))
+				if (GameState.isKeyPressed(m_downKey))
 				{
 					m_position.plusYWith(1);
 					m_currentState = State.Jumping;
@@ -515,32 +531,33 @@ namespace GrandLarceny
 					m_currentState = State.Jumping;
 				}
 			}
-			else if (GameState.isKeyPressed(Keys.Down) && m_ladderDirection != Direction.None)
+			else if (GameState.isKeyPressed(m_downKey) && m_ladderDirection != Direction.None)
 			{
 				m_currentState = State.Climbing;
 			}
-			else if (GameState.isKeyPressed(Keys.Up) && !GameState.wasKeyPressed(Keys.Up))
+			else if (GameState.isKeyPressed(m_upKey) && !GameState.wasKeyPressed(m_upKey))
 			{
-				m_currentState = State.Stop;
+				//m_currentState = State.Stop;
 
-				if (m_facingRight)
+				/*if (m_facingRight)
 				{
 					m_position.setX(m_position.getGlobalX() + m_standHitBox.m_width);
 				}
 				else
 				{
 					m_position.setX(m_position.getGlobalX() - m_standHitBox.m_width);
-				}
+				}*/
 
-				m_position.setY(m_position.getGlobalY() - m_standHitBox.m_height);
+				//m_position.setY(m_position.getGlobalY() - m_standHitBox.m_height);
+				hangClimbAction();
 			}
 		}
 
 		private void updateHiding()
 		{
-			if ((GameState.isKeyPressed(Keys.Up) && !GameState.wasKeyPressed(Keys.Up))
-				|| (GameState.isKeyPressed(Keys.Down) && !GameState.wasKeyPressed(Keys.Down))
-				|| (GameState.isKeyPressed(Keys.X) && !GameState.wasKeyPressed(Keys.X)))
+			if ((GameState.isKeyPressed(m_upKey) && !GameState.wasKeyPressed(m_upKey))
+				|| (GameState.isKeyPressed(m_downKey) && !GameState.wasKeyPressed(m_downKey))
+				|| (GameState.isKeyPressed(m_jumpKey) && !GameState.wasKeyPressed(m_jumpKey)))
 			{
 				m_currentState = State.Stop;
 			}
@@ -557,7 +574,7 @@ namespace GrandLarceny
 					}
 				case Direction.Up:
 					{
-						if (GameState.m_currentKeyInput.IsKeyDown(Keys.Up))
+						if (GameState.m_currentKeyInput.IsKeyDown(m_upKey))
 						{
 							m_speed.Y = -PLAYERSPEED / 2;
 						}
@@ -565,7 +582,7 @@ namespace GrandLarceny
 					}
 				case Direction.Left:
 					{
-						if (GameState.m_currentKeyInput.IsKeyDown(Keys.Left))
+						if (GameState.m_currentKeyInput.IsKeyDown(m_leftKey))
 						{
 							m_speed.X = -PLAYERSPEED / 2;
 						}
@@ -573,7 +590,7 @@ namespace GrandLarceny
 					}
 				case Direction.Right:
 					{
-						if (GameState.m_currentKeyInput.IsKeyDown(Keys.Right))
+						if (GameState.m_currentKeyInput.IsKeyDown(m_rightKey))
 						{
 							m_speed.X = PLAYERSPEED / 2;
 						}
@@ -581,7 +598,7 @@ namespace GrandLarceny
 					}
 				case Direction.Down:
 					{
-						if (GameState.m_currentKeyInput.IsKeyDown(Keys.Down))
+						if (GameState.m_currentKeyInput.IsKeyDown(m_downKey))
 						{
 							m_speed.Y = PLAYERSPEED / 2;
 						}
@@ -823,14 +840,18 @@ namespace GrandLarceny
 		{
 			if (m_invulnerableTimer == 0)
 			{
+				m_img.setSprite("Images//Sprite//Hero//hero_jump");
 				//deals 1 damage
+				m_currentState = State.Jumping;
 				m_health = Math.Max(m_health - 1, 0);
 				updateHealthGUI();
 				m_stunned = true;
-				m_speed += a_knockBackForce;
-				m_invulnerableTimer = 2f;
 				m_stunnedTimer = 0.8f;
-				m_img.setSprite("Images//Sprite//Hero//hero_jump");
+				m_stunnedDeacceleration = true;
+				m_speed = a_knockBackForce;
+				m_invulnerableTimer = 2f;
+				
+				
 			}
 		}
 
@@ -847,6 +868,33 @@ namespace GrandLarceny
 					m_healthHearts[i].setSprite("DevelopmentHotkeys//btn_hero_hotkey_pressed");
 				}
 			}
+		}
+
+		public void windowAction()
+		{
+			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
+			m_img.setLooping(false);
+			m_stunned = true;
+			m_stunnedTimer = 2f;
+			m_stunnedDeacceleration = false;
+			m_speed.X = 200;
+			m_img.setAnimationSpeed(m_speed.X / 10);
+		}
+
+		public void hangClimbAction()
+		{
+			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
+			m_currentState = State.Stop;
+			m_img.setLooping(false);
+			m_stunned = true;
+			m_stunnedTimer = 0.5f;
+			m_stunnedDeacceleration = false;
+			m_position.setY(m_position.getGlobalY() - m_standHitBox.m_height);
+			if (m_facingRight)
+				m_speed.X = 150;
+			else
+				m_speed.X = -150;
+			m_img.setAnimationSpeed(10);
 		}
 
 

@@ -7,3 +7,4 @@ Images//Sprite//Guard//guard_pick_up_flash:8
 Images//Sprite//Guard//guard_put_down_flash:5
 Images//Sprite//Hero//hero_walk:8
 Images//Sprite//Hero//hero_roll:4
+Images//Sprite//Hero//hero_window_climb:8
