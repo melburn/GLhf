@@ -29,18 +29,6 @@ namespace GrandLarceny
 
 		public void SaveLevel(string a_fileName, Level a_save)
 		{
-			MemoryStream t_stream = null;
-			FileStream t_fstream = null;
-			LinkedList<string> t_unikName = new LinkedList<string>();
-			LinkedList<LinkedList<GameObject>> t_objekts = new LinkedList<LinkedList<GameObject>>();
-
-			t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Create);
-			BinaryFormatter t_bFormatter = new BinaryFormatter();
-
-			int index = 0;
-			long t_fstreamLastPos = 0;
-			long t_fstreamDiffSize = 0;
-			GameObject.resetGameObjectId();
 			foreach (LinkedList<GameObject> t_goSaveList in a_save.getLevelLists())
 			{
 				foreach (GameObject t_go in t_goSaveList)
@@ -56,6 +44,19 @@ namespace GrandLarceny
 					t_go.linkObject();
 				}
 			}
+			MemoryStream t_stream = null;
+			FileStream t_fstream = null;
+			LinkedList<string> t_unikName = new LinkedList<string>();
+			LinkedList<LinkedList<GameObject>> t_objekts = new LinkedList<LinkedList<GameObject>>();
+
+			t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Create);
+			BinaryFormatter t_bFormatter = new BinaryFormatter();
+
+			int index = 0;
+			long t_fstreamLastPos = 0;
+			long t_fstreamDiffSize = 0;
+			GameObject.resetGameObjectId();
+			
 
 			foreach (LinkedList<GameObject> t_goList in a_save.getLevelLists())
 			{
