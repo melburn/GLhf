@@ -43,7 +43,7 @@ namespace GrandLarceny
 			}
 			m_rotationPoint.Y = m_img.getSize().Y / 2;
 			m_rotationPoint.X = 0;
-			//m_imgOffsetY = -m_rotationPoint.Y * m_YScale;
+			m_imgOffsetY = -m_rotationPoint.Y * m_YScale;
 			m_collisionShape = new CollisionRectangle((float)Math.Min(Math.Min(Math.Min((m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate), (m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate)),
 				(m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
 				(m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
