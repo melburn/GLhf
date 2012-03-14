@@ -1353,7 +1353,7 @@ namespace GrandLarceny
 		{
 			if (!collidedWithObject(m_worldMouse))
 			{
-				addObject(new GuardCamera(getTile(m_worldMouse), "Images//Sprite//Camera//" + assetToCreate, 0.75f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.25), (float)(Math.PI * 0.75)));
+				addObject(new GuardCamera(getTile(m_worldMouse), "Images//Sprite//Camera//" + assetToCreate, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.25), (float)(Math.PI * 0.75)));
 			}
 		}
 		#endregion

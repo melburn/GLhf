@@ -77,9 +77,9 @@ namespace GrandLarceny
 							}
 							else
 							{
-								if (t_guard.getHorizontalSpeed() == 0)
+								if (t_guard.getHorizontalSpeed() != 0)
 								{
-									t_guard.goLeft();
+									t_guard.stop();
 								}
 							}
 						}
