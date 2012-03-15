@@ -82,7 +82,7 @@ namespace GrandLarceny
 			{
 				if (m_connectedToAll)
 				{
-					t_spotLight.setLight(false);
+					t_spotLight.setLight(m_switchedOn);
 				}
 				else
 				{
