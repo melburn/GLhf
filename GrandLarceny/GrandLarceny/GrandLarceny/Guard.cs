@@ -394,6 +394,22 @@ namespace GrandLarceny
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 						m_facingRight = !m_facingRight;
 					}
+					else if(m_img.getImagePath() == "Images//Sprite//Guard//guard_flash_turn")
+					{
+						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
+						m_facingRight = !m_facingRight;
+						if (m_facingRight)
+						{
+							m_flashLight.getPosition().setX(0);
+						}
+						else
+						{
+							m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+						}
+						Game.getInstance().getState().addObject(m_flashLight);
+						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
+
+					}
 					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_pick_up_flash")
 					{
 						m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
