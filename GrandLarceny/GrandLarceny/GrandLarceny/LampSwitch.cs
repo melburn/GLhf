@@ -42,17 +42,14 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			if (!m_connectedToAll)
+			m_connectedSpotLights = new LinkedList<SpotLight>();
+			if (m_connectedSpotLightsId == null)
 			{
-				m_connectedSpotLights = new LinkedList<SpotLight>();
-				if (m_connectedSpotLightsId == null)
-				{
-					m_connectedSpotLightsId = new LinkedList<int>();
-				}
-				foreach (int t_ids in m_connectedSpotLightsId)
-				{
-					m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(t_ids));
-				}
+				m_connectedSpotLightsId = new LinkedList<int>();
+			}
+			foreach (int t_ids in m_connectedSpotLightsId)
+			{
+				m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(t_ids));
 			}
 
 		}
@@ -85,7 +82,7 @@ namespace GrandLarceny
 			{
 				if (m_connectedToAll)
 				{
-					t_spotLight.setLight(false);
+					t_spotLight.setLight(m_switchedOn);
 				}
 				else
 				{
@@ -161,7 +158,7 @@ namespace GrandLarceny
 			return false;
 		}
 
-		public void toogleConnectToAll()
+		public void toggleConnectToAll()
 		{
 			m_connectedToAll = !m_connectedToAll;
 		}

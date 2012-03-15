@@ -72,7 +72,6 @@ namespace GrandLarceny
 		public virtual void loadContent()
 		{
 			m_color = Color.White;
-			m_spriteEffects = SpriteEffects.None;
 			m_img = new ImageManager(m_spritePath);
 			m_rotationPoint = m_img.getSize() / 2;
 		}
