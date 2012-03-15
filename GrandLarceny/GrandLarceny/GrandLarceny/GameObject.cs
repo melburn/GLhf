@@ -30,7 +30,7 @@ namespace GrandLarceny
 
 		private string m_spritePath;
 
-		public GameObject(Vector2 a_posV2, String a_sprite, float a_layer)
+		public GameObject(Vector2 a_posV2, string a_sprite, float a_layer)
 		{
 			m_objectId = ++s_lastId;
 			m_position = new CartesianCoordinate(a_posV2);
@@ -40,7 +40,7 @@ namespace GrandLarceny
 			loadContent();
 
 		}
-		public GameObject(Position a_position, String a_sprite, float a_layer, float a_rotation = 0)
+		public GameObject(Position a_position, string a_sprite, float a_layer, float a_rotation = 0)
 		{
 			m_objectId = ++s_lastId;
 			m_rotate = a_rotation;
@@ -75,13 +75,13 @@ namespace GrandLarceny
 			m_img = new ImageManager(m_spritePath);
 			m_rotationPoint = m_img.getSize() / 2;
 		}
-
+		
 		public Position getPosition()
 		{
 			return m_position;
 		}
 
-		public Rectangle getBox()
+		public virtual Rectangle getBox()
 		{
 			return new Rectangle((int)getPosition().getGlobalX(), (int)getPosition().getGlobalY(), (int)m_img.getSize().X, (int)m_img.getSize().Y);
 		}
