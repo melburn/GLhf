@@ -672,7 +672,18 @@ namespace GrandLarceny
 			*/
 			if (keyClicked(Keys.R)) {
 				if (m_selectedObject != null) {
+					if (m_selectedObject is Ladder) {
+						m_selectedObject.flip();
+						return;
+					}
 					m_selectedObject.addRotation((float)(Math.PI) / 2.0f);
+				}
+			}
+			if (keyClicked(Keys.M)) {
+				if (m_selectedObject != null) {
+					if (m_selectedObject is LampSwitch) {
+						((LampSwitch)m_selectedObject).toogleConnectToAll();
+					}
 				}
 			}
 			if (m_menuState != MenuState.Normal && keyClicked(Keys.Escape)) {
@@ -684,15 +695,15 @@ namespace GrandLarceny
 					guiButtonClick(m_btnStandHideHotkey);
 				}
 				if (keyClicked(Keys.S)) {
-				m_sndSave.play();
-				if (m_selectedObject != null) {
-					m_selectedObject.setColor(Color.White);
-					m_selectedObject = null;
+					m_sndSave.play();
+					if (m_selectedObject != null) {
+						m_selectedObject.setColor(Color.White);
+						m_selectedObject = null;
+					}
+					Level t_saveLevel = new Level();
+					t_saveLevel.setLevelObjects(m_gameObjectList);
+					Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
 				}
-				Level t_saveLevel = new Level();
-				t_saveLevel.setLevelObjects(m_gameObjectList);
-				Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
-			}
 			} else if (shiftMod()) {
 				if (shiftMod() && keyClicked(Keys.G)) {
 					guiButtonClick(m_btnDogHotkey);
