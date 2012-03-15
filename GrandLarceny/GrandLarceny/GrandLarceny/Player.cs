@@ -52,7 +52,10 @@ namespace GrandLarceny
 		[NonSerialized]
 		private float m_stunnedTimer;
 
-		private Direction m_ventilationDirection = Direction.None;
+
+		private List<Direction> m_ventilationDirection;
+		private List<Direction> m_leftRightList;
+		private List<Direction> m_upDownList;
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
 		private int m_health;
@@ -114,6 +117,13 @@ namespace GrandLarceny
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
 			m_collisionShape = m_standHitBox;
+			m_ventilationDirection = new List<Direction>();
+			m_upDownList = new List<Direction>();
+			m_upDownList.Add(Direction.Up);
+			m_upDownList.Add(Direction.Down);
+			m_leftRightList = new List<Direction>();
+			m_leftRightList.Add(Direction.Left);
+			m_leftRightList.Add(Direction.Right);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -565,18 +575,29 @@ namespace GrandLarceny
 
 		private void updateVentilation()
 		{
-			switch (m_ventilationDirection)
+			m_speed = Vector2.Zero;
+			m_gravity = 0;
+			List<Direction> t_list = null;
+			foreach (Direction t_direction in m_ventilationDirection)
 			{
-				case Direction.None:
-					{
-						m_speed = Vector2.Zero;
-						break;
-					}
+				t_list = moveDirectionInVentilation(t_direction);
+				if (t_list != null)
+					break;
+			}
+			if (t_list != null)
+				m_ventilationDirection = t_list;
+		}
+		private List<Direction> moveDirectionInVentilation(Direction a_direction)
+		{
+			List<Direction> t_list = null;
+			switch (a_direction)
+			{
 				case Direction.Up:
 					{
 						if (GameState.m_currentKeyInput.IsKeyDown(m_upKey))
 						{
 							m_speed.Y = -PLAYERSPEED / 2;
+							t_list = m_upDownList;
 						}
 						break;
 					}
@@ -585,6 +606,7 @@ namespace GrandLarceny
 						if (GameState.m_currentKeyInput.IsKeyDown(m_leftKey))
 						{
 							m_speed.X = -PLAYERSPEED / 2;
+							t_list = m_leftRightList;
 						}
 						break;
 					}
@@ -593,6 +615,7 @@ namespace GrandLarceny
 						if (GameState.m_currentKeyInput.IsKeyDown(m_rightKey))
 						{
 							m_speed.X = PLAYERSPEED / 2;
+							t_list = m_leftRightList;
 						}
 						break;
 					}
@@ -601,10 +624,12 @@ namespace GrandLarceny
 						if (GameState.m_currentKeyInput.IsKeyDown(m_downKey))
 						{
 							m_speed.Y = PLAYERSPEED / 2;
+							t_list = m_upDownList;
 						}
 						break;
 					}
 			}
+			return t_list;
 		}
 
 		private void changeAnimation()
@@ -825,7 +850,7 @@ namespace GrandLarceny
 		{
 			return m_SlideBox;
 		}
-		public void setVentilationDirection(Direction a_d)
+		public void setVentilationDirection(List<Direction> a_d)
 		{
 			m_ventilationDirection = a_d;
 		}
