@@ -682,7 +682,8 @@ namespace GrandLarceny
 			if (keyClicked(Keys.M)) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is LampSwitch) {
-						((LampSwitch)m_selectedObject).toogleConnectToAll();
+						((LampSwitch)m_selectedObject).toggleConnectToAll();
+						showLightSwitchInfo((LampSwitch)m_selectedObject);
 					}
 				}
 			}
@@ -1388,6 +1389,10 @@ namespace GrandLarceny
 			return null;
 		}
 
+		public override LinkedList<GameObject>[] getObjectList()
+		{
+			return m_gameObjectList;
+		}
 		#endregion
 
 		#region Create-methods
