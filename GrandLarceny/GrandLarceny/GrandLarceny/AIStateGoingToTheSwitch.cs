@@ -43,7 +43,7 @@ namespace GrandLarceny
 				{
 					if (!t_guard.isCarryingFlash() && t_guard.hasFlash())
 					{
-						t_guard.toogleFlashLight();
+						t_guard.toggleFlashLight();
 					}
 					else
 					{

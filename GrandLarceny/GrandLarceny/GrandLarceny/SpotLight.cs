@@ -11,6 +11,7 @@ namespace GrandLarceny
 	{
 		private bool m_lit = true;
 		private int m_lightLink;
+		private bool m_turnedOffForEver = false;
 		[NonSerialized]
 		LightCone m_light;
 		public SpotLight(Vector2 a_position, string a_sprite, float a_layer, float a_rotation, bool a_lit) :
@@ -78,23 +79,26 @@ namespace GrandLarceny
 		}
 
 		public void toggleLight() {
-			m_lit = !m_lit;
-			if (m_lit)
+			if (!m_turnedOffForEver)
 			{
-				if (m_light == null)
+				m_lit = !m_lit;
+				if (m_lit)
 				{
-                    m_light = new LightCone(this, "Images//LightCone//Ljus", m_layer + 0.001f, 300f, 300f);
-					Game.getInstance().getState().addObject(m_light);
-					m_lightLink = m_light.getId();
+					if (m_light == null)
+					{
+						m_light = new LightCone(this, "Images//LightCone//Ljus", m_layer + 0.001f, 300f, 300f);
+						Game.getInstance().getState().addObject(m_light);
+						m_lightLink = m_light.getId();
+					}
 				}
-			}
-			else
-			{
-				Game.getInstance().getState().removeObject(m_light);
-				//just in case
-				m_light.kill();
-				m_light = null;
-				m_lightLink = 0;
+				else
+				{
+					Game.getInstance().getState().removeObject(m_light);
+					//just in case
+					m_light.kill();
+					m_light = null;
+					m_lightLink = 0;
+				}
 			}
 		}
 
@@ -123,12 +127,21 @@ namespace GrandLarceny
 			}
 		}
 
-		internal void setLight(bool t_on)
+		public void setLight(bool t_on)
 		{
 			if (m_lit != t_on)
 			{
 				toggleLight();
 			}
+		}
+
+		public void turnOffForEver()
+		{
+			if (m_lit)
+			{
+				toggleLight();
+			}
+			m_turnedOffForEver = true;
 		}
 	}
 }
