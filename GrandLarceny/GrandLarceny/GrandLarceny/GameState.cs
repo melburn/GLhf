@@ -97,6 +97,7 @@ namespace GrandLarceny
 			if (m_currentKeyInput.IsKeyDown(Keys.R))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
+				Game.getInstance().m_camera.setLayer(0);
 			}
 			m_currentList = -1;
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)

@@ -39,17 +39,17 @@ namespace GrandLarceny
 					}
 					else
 					{
-						if (t_guard.isCarryingFlash())
+						if (t_guard.isCarryingFlash() != t_guard.isFlashLightAddicted() && t_guard.hasFlash())
 						{
-							t_guard.toogleFlashLight();
+							t_guard.toggleFlashLight();
 						}
-						else if (t_guard.haspatrol())
+						else if (t_guard.hasPatrol())
 						{
-							if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftpatrolPoint())
+							if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftPatrolPoint())
 							{
 								t_guard.goRight();
 							}
-							else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightpatrolPoint())
+							else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightPatrolPoint())
 							{
 								t_guard.goLeft();
 							}
@@ -60,7 +60,7 @@ namespace GrandLarceny
 						}
 						else
 						{
-							float t_guardPoint = t_guard.getLeftpatrolPoint();
+							float t_guardPoint = t_guard.getLeftPatrolPoint();
 							if (t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
 							{
 								if (t_guard.getHorizontalSpeed() >= 0)

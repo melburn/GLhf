@@ -24,6 +24,7 @@ namespace GrandLarceny
 		private const float WALKINGANIMATIONSPEED = MOVEMENTSPEED / 16;
 		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 16;
 		private const float TURNANIMATIONSPEED = 10f;
+		private const float TURNQUICKANIMATIONSPEED = 15f;
 
 		[NonSerialized]
         private Entity m_chaseTarget = null;
@@ -44,31 +45,40 @@ namespace GrandLarceny
 		//flashlight addicted guard always has their flashlight up
 		private Boolean m_FlashLightAddicted;
 
-		public Guard(Vector2 a_posV2, String a_sprite, float a_leftpatrolPoint, float a_rightpatrolPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
+		public Guard(Vector2 a_posV2, String a_sprite, float a_leftpatrolPoint, float a_rightpatrolPoint, Boolean a_hasFlashLight, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
+			m_facingRight = true;
 			m_leftPatrolPoint = a_leftpatrolPoint;
 			m_rightPatrolPoint = a_rightpatrolPoint;
 			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
 			m_hasFlashLight = a_hasFlashLight;
-			m_FlashLightAddicted = a_flashLightAddicted;
+			m_FlashLightAddicted = a_sprite == "Images//Sprite//Guard//guard_flash_idle";
 			m_aiState = AIStatepatroling.getInstance();
 			if (m_hasFlashLight && m_FlashLightAddicted)
 			{
 				m_flashLight = new FlashCone(this, new Vector2(0,-7), "Images//LightCone//light_guard_idle",m_facingRight, 0.249f);
 				Game.getInstance().getState().addObject(m_flashLight);
+				m_flashLightId = m_flashLight.getId();
 			}
 			m_gravity = 1000;
 		}
-        public Guard(Vector2 a_posV2, String a_sprite, float a_patrolPoint, Boolean a_hasFlashLight, Boolean a_flashLightAddicted, float a_layer)
+        public Guard(Vector2 a_posV2, String a_sprite, float a_patrolPoint, Boolean a_hasFlashLight, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
+			m_facingRight = true;
             m_hasPatrol = false;
             m_hasFlashLight = a_hasFlashLight;
-            m_FlashLightAddicted = a_flashLightAddicted;
             m_leftPatrolPoint = a_patrolPoint;
             m_rightPatrolPoint = a_patrolPoint;
 			m_aiState = AIStatepatroling.getInstance();
+			m_FlashLightAddicted = a_sprite == "Images//Sprite//Guard//guard_flash_idle";
+			if (m_hasFlashLight && m_FlashLightAddicted)
+			{
+				m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
+				Game.getInstance().getState().addObject(m_flashLight);
+				m_flashLightId = m_flashLight.getId();
+			}
 			m_gravity = 1000;
 		}
 
@@ -77,9 +87,13 @@ namespace GrandLarceny
 			base.linkObject();
 			m_lampSwitchTargetsId = new LinkedList<int>();
 			foreach (LampSwitch t_ls in m_lampSwitchTargets)
+			{
 				m_lampSwitchTargetsId.AddLast(t_ls.getId());
-			if(m_flashLight != null)
+			}
+			if (m_flashLight != null)
+			{
 				m_flashLightId = m_flashLight.getId();
+			}
 		}
 		public override void loadContent()
 		{
@@ -97,6 +111,7 @@ namespace GrandLarceny
 			if (m_flashLightId > 0)
 			{
 				m_flashLight = (FlashCone)Game.getInstance().getState().getObjectById(m_flashLightId);
+				m_flashLight.getPosition().setParentPosition(m_position);
 			}
 		}
 		public void setLeftGuardPoint(float a_x)
@@ -175,9 +190,24 @@ namespace GrandLarceny
 						m_flashLight.setSprite("Images//LightCone//light_guard_turn");
 						m_flashLight.getImg().setAnimationSpeed(TURNANIMATIONSPEED);
 						m_flashLight.getPosition().setX(-178);
+						if (m_running)
+						{
+							m_flashLight.getImg().setAnimationSpeed(TURNQUICKANIMATIONSPEED);
+						}
+						else
+						{
+							m_flashLight.getImg().setAnimationSpeed(TURNANIMATIONSPEED);
+						}
+					}
+					if (m_running)
+					{
+						m_img.setAnimationSpeed(TURNQUICKANIMATIONSPEED);
+					}
+					else
+					{
+						m_img.setAnimationSpeed(TURNANIMATIONSPEED);
 					}
 					m_img.setLooping(false);
-					m_img.setAnimationSpeed(10f);
 				}
 			}
 			
@@ -198,11 +228,25 @@ namespace GrandLarceny
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_turn");
 						m_flashLight.setSprite("Images//LightCone//light_guard_turn");
-						m_flashLight.getImg().setAnimationSpeed(10f);
 						m_flashLight.getPosition().setX(-175);
+						if (m_running)
+						{
+							m_flashLight.getImg().setAnimationSpeed(TURNQUICKANIMATIONSPEED);
+						}
+						else
+						{
+							m_flashLight.getImg().setAnimationSpeed(TURNANIMATIONSPEED);
+						}
+					}
+					if (m_running)
+					{
+						m_img.setAnimationSpeed(TURNQUICKANIMATIONSPEED);
+					}
+					else
+					{
+						m_img.setAnimationSpeed(TURNANIMATIONSPEED);
 					}
 					m_img.setLooping(false);
-					m_img.setAnimationSpeed(TURNANIMATIONSPEED);
 				}
 				else if (m_speed.X == 0)
 				{
@@ -257,7 +301,7 @@ namespace GrandLarceny
 				m_flashLight.setSprite("Images//LightCone//light_guard_idle");
 			}
 		}
-		internal void toogleFlashLight()
+		internal void toggleFlashLight()
 		{
 			if (m_aiActive)
 			{
@@ -278,18 +322,18 @@ namespace GrandLarceny
 			}
 		}
 
-		internal float getLeftpatrolPoint()
+		internal float getLeftPatrolPoint()
 		{
 			return m_leftPatrolPoint;
 		}
 
 
-		internal bool haspatrol()
+		internal bool hasPatrol()
 		{
 			return m_hasPatrol;
 		}
 
-		internal float getRightpatrolPoint()
+		internal float getRightPatrolPoint()
 		{
 			return m_rightPatrolPoint;
 		}
@@ -393,6 +437,22 @@ namespace GrandLarceny
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 						m_facingRight = !m_facingRight;
+					}
+					else if(m_img.getImagePath() == "Images//Sprite//Guard//guard_flash_turn")
+					{
+						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
+						m_facingRight = !m_facingRight;
+						m_flashLight.setSprite("Images//LightCone//light_guard_idle");
+						m_flashLight.setFacingRight(m_facingRight);
+						if (m_facingRight)
+						{
+							m_flashLight.getPosition().setX(0);
+						}
+						else
+						{
+							m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+						}
+
 					}
 					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_pick_up_flash")
 					{
@@ -588,6 +648,16 @@ namespace GrandLarceny
 		internal bool hasFlash()
 		{
 			return m_hasFlashLight;
+		}
+
+		public bool isFlashLightAddicted()
+		{
+			return m_FlashLightAddicted;
+		}
+
+		public void toggleFlashLightAddicted()
+		{
+			m_FlashLightAddicted = !m_FlashLightAddicted;
 		}
 	}
 }

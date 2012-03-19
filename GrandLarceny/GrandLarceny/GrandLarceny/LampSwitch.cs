@@ -16,16 +16,11 @@ namespace GrandLarceny
 		private bool m_switchedOn;
 		private bool m_connectedToAll;
 
-		public LampSwitch(Vector2 a_position, String a_sprite, float a_layer, bool a_switchedOn)
+		public LampSwitch(Vector2 a_position, String a_sprite, float a_layer)
 			: base(a_position, a_sprite, a_layer)
 		{
-			m_switchedOn = a_switchedOn;
-		}
-		public LampSwitch(Vector2 a_position, String a_sprite, float a_layer, bool a_switchedOn, bool a_connectedToAll)
-			: base(a_position, a_sprite, a_layer)
-		{
-			m_switchedOn = a_switchedOn;
-			m_connectedToAll = a_connectedToAll;
+			m_switchedOn = a_sprite == "Images//Prop//Button//light_switch_on";
+			m_connectedToAll = false;
 		}
 
 		public override void linkObject()
@@ -42,17 +37,14 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			if (!m_connectedToAll)
+			m_connectedSpotLights = new LinkedList<SpotLight>();
+			if (m_connectedSpotLightsId == null)
 			{
-				m_connectedSpotLights = new LinkedList<SpotLight>();
-				if (m_connectedSpotLightsId == null)
-				{
-					m_connectedSpotLightsId = new LinkedList<int>();
-				}
-				foreach (int t_ids in m_connectedSpotLightsId)
-				{
-					m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(t_ids));
-				}
+				m_connectedSpotLightsId = new LinkedList<int>();
+			}
+			foreach (int t_ids in m_connectedSpotLightsId)
+			{
+				m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(t_ids));
 			}
 
 		}
@@ -62,7 +54,6 @@ namespace GrandLarceny
 			{
 				m_connectedSpotLights.AddLast(a_spotlight);
 				m_connectedSpotLightsId.AddLast(a_spotlight.getId());
-				//a_spotlight.toggleLight();
 			}
 		}
 		public void disconnectSpotLight(SpotLight a_spotlight)
@@ -72,32 +63,35 @@ namespace GrandLarceny
 		}
 		public void toggleSwitch()
 		{
-			m_switchedOn = !m_switchedOn;
-			if (m_switchedOn)
+			if (m_switchedOn || (!m_connectedToAll))
 			{
-				m_img.setSprite("Images//Prop//Button//light_switch_on");
-			}
-			else
-			{
-				m_img.setSprite("Images//Prop//Button//1x1_light_switch_off");
-			}
-			foreach (SpotLight t_spotLight in getConnectedSpotLights())
-			{
-				if (m_connectedToAll)
+				m_switchedOn = !m_switchedOn;
+				if (m_switchedOn)
 				{
-					t_spotLight.setLight(false);
+					m_img.setSprite("Images//Prop//Button//light_switch_on");
 				}
 				else
 				{
-					t_spotLight.toggleLight();
+					m_img.setSprite("Images//Prop//Button//1x1_light_switch_off");
 				}
-				if (!t_spotLight.isLit())
+				foreach (SpotLight t_spotLight in getConnectedSpotLights())
 				{
-					foreach (GameObject t_guard in Game.getInstance().getState().getCurrentList())
+					if (m_connectedToAll)
 					{
-						if (t_guard is Guard && CollisionManager.possibleLineOfSight(t_guard.getPosition().getGlobalCartesianCoordinates(), m_position.getGlobalCartesianCoordinates()))
+						t_spotLight.turnOffForEver();
+					}
+					else
+					{
+						t_spotLight.toggleLight();
+					}
+					if (!t_spotLight.isLit())
+					{
+						foreach (GameObject t_guard in Game.getInstance().getState().getCurrentList())
 						{
-							((Guard)t_guard).addLampSwitchTarget(this);
+							if (t_guard is Guard && CollisionManager.possibleLineOfSight(t_guard.getPosition().getGlobalCartesianCoordinates(), m_position.getGlobalCartesianCoordinates()))
+							{
+								((Guard)t_guard).addLampSwitchTarget(this);
+							}
 						}
 					}
 				}
@@ -161,9 +155,16 @@ namespace GrandLarceny
 			return false;
 		}
 
-		public void toogleConnectToAll()
+		public void toggleConnectToAll()
 		{
 			m_connectedToAll = !m_connectedToAll;
+			if (m_connectedToAll)
+			{
+				foreach (SpotLight t_st in getConnectedSpotLights())
+				{
+					t_st.setLight(m_switchedOn);
+				}
+			}
 		}
 	}
 }
