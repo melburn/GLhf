@@ -58,6 +58,7 @@ namespace GrandLarceny
 		private int m_health;
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
+		private bool m_stunnedGravity = true;
 
 		
 		public static Keys m_leftKey = Keys.Left;
@@ -124,7 +125,10 @@ namespace GrandLarceny
 			}
 			updateState();
 			m_lastState = m_currentState;
-			m_gravity = 1000f;
+			if (m_currentState != State.Hanging)
+			{
+				m_gravity = 1000f;
+			}
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
 			m_invulnerableTimer = Math.Max(m_invulnerableTimer - t_deltaTime, 0);
 			if (!m_stunned)
@@ -192,6 +196,10 @@ namespace GrandLarceny
 		private void updateStunned(float a_deltaTime)
 		{
 			m_stunnedTimer -= a_deltaTime;
+			if (!m_stunnedGravity)
+			{
+				m_gravity = 0;
+			}
 			if (m_stunnedDeacceleration)
 			{
 				if (m_speed.X > 0)
@@ -207,7 +215,8 @@ namespace GrandLarceny
 			{
 				m_stunnedTimer = 0;
 				m_stunned = false;
-				m_currentState = State.Stop;
+				//m_currentState = State.Stop;
+				m_stunnedGravity = true;
 				m_speed.X = 0;
 			}
 		}
@@ -872,14 +881,39 @@ namespace GrandLarceny
 
 		public void windowAction()
 		{
-			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
-			m_currentState = State.Stop;
+			//m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
+			if (m_currentState == State.Hanging)
+			{
+				if (m_facingRight)
+				{
+					m_facingRight = false;
+					setNextPositionX(m_nextPosition.X - 7);
+				}
+				else
+				{
+					setNextPositionX(m_nextPosition.X + 7);
+					m_facingRight = true;
+				}
+			}
+				
+			//updateState();
 			m_img.setLooping(false);
 			m_stunned = true;
-			m_stunnedTimer = 0.5f;
+			m_stunnedTimer = 0.8f;
 			m_stunnedDeacceleration = false;
-			m_position.setY(m_position.getGlobalY() - m_standHitBox.m_height);
-			m_speed.X = 200;
+			m_stunnedGravity = false;
+			//m_position.plusYWith(- m_standHitBox.m_height);
+			//setNextPositionY(m_position.getGlobalY());
+			//Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
+			/*if (m_facingRight)
+			{
+				m_speed.X = m_stunnedTimer*221.8748f;
+			}
+			else
+			{
+				m_speed.X = -m_stunnedTimer * 221.8748f;
+			}*/
+			
 			m_img.setAnimationSpeed(10);
 		}
 
@@ -892,6 +926,7 @@ namespace GrandLarceny
 			m_stunnedTimer = 0.5f;
 			m_stunnedDeacceleration = false;
 			m_position.plusYWith( - m_standHitBox.m_height);
+			//setNextPositionY(m_position.getGlobalY() - m_standHitBox.m_height);
 			Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
 			if (m_facingRight)
 				m_speed.X = 150;
@@ -900,6 +935,9 @@ namespace GrandLarceny
 			m_img.setAnimationSpeed(10);
 		}
 
-
+		public bool isStunned()
+		{
+			return m_stunned;
+		}
 	}
 }
