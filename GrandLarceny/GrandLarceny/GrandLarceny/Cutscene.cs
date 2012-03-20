@@ -15,7 +15,7 @@ namespace GrandLarceny
 		private String[] m_commands;
 		private int m_comDone;
 		private int m_timeForNextCommand;
-		private bool m_waitingForKey;
+		private bool m_waiting;
 		private String[] m_currentCommand;
 		private Dictionary<int, GuiObject> m_guis;
 
@@ -24,30 +24,34 @@ namespace GrandLarceny
 			m_backState = a_backState;
 			m_comDone = 0;
 			m_filePath = a_sceneToLoad;
-			m_waitingForKey = false;
+			m_waiting = false;
 			m_guis = new Dictionary<int, GuiObject>();
 		}
 		public override void update(GameTime a_gameTime)
 		{
-			if (m_waitingForKey)
+			if (m_waiting)
 			{
-				if (Game.isKeyPressed(parseKey(m_commands[1])))
+				if (m_currentCommand[0].Equals("waitUntil", StringComparison.OrdinalIgnoreCase))
 				{
-					m_waitingForKey = false;
+					if (m_timeForNextCommand >= a_gameTime.TotalGameTime.Milliseconds)
+					{
+						m_waiting = false;
+						++m_comDone;
+					}
+				}
+				else if (Game.isKeyPressed(parseKey(m_commands[1])))
+				{
+					m_waiting = false;
+					++m_comDone;
 				}
 			}
 			else
 			{
-				if (m_comDone < m_currentCommand.Length)
+				while (m_comDone < m_currentCommand.Length && parseAndExecute(a_gameTime))
 				{
-					if (m_timeForNextCommand >= a_gameTime.TotalGameTime.Milliseconds)
-					{
-						while (parseAndExecute(a_gameTime))
-						{
-						}
-					}
+					++m_comDone;
 				}
-				else
+				if (m_comDone >= m_currentCommand.Length)
 				{
 					Game.getInstance().setState(m_backState);
 				}
@@ -68,7 +72,7 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_waitingForKey = true;
+				m_waiting = true;
 				return false;
 			}
 			else if (m_currentCommand[0].Equals("waitUntil", StringComparison.OrdinalIgnoreCase))
