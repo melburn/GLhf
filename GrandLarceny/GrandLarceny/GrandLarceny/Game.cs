@@ -112,6 +112,10 @@ namespace GrandLarceny
 		{
 			m_nextState = a_newState;
 		}
+		public void setCutscene(String a_fileName)
+		{
+			m_nextState = new Cutscene(m_currentState, a_fileName);
+		}
 		internal States getState()
 		{
 			return m_currentState;
