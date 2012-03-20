@@ -77,11 +77,11 @@ namespace GrandLarceny
 				}
 			} else {
 				float t_zoom = Game.getInstance().m_camera.getZoom();
-				Vector2 t_cartCoord = Vector2.Zero;
+				Vector2 t_cartCoord;
 				t_cartCoord.X = m_position.getLocalX() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalX();
 				t_cartCoord.Y = m_position.getLocalY() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalY();
 				
-				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, t_cartCoord, null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, 0.011f);
+				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, t_cartCoord, null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width / t_zoom, m_height / t_zoom), SpriteEffects.None, 0.011f);
 				
 				if (m_lineList != null && m_lineList.Count > 0) {
 					foreach (Line t_line in m_lineList) {

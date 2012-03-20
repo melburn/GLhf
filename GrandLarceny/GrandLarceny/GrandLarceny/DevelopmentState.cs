@@ -33,10 +33,6 @@ namespace GrandLarceny
 		private Vector2 m_selectedInfoV2;
 		private Vector2 m_worldMouse;
 		private Vector2 m_dragOffset;
-		private MouseState m_previousMouse;
-		private MouseState m_currentMouse;
-		private KeyboardState m_previousKeyboard;
-		private KeyboardState m_currentKeyboard;
 
 		private Text m_textCurrentMode;
 		private Text m_textSelectedObjectPosition;
@@ -183,7 +179,7 @@ namespace GrandLarceny
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
-			m_test = new TextField(new Vector2(100, 100), 100, 100, true, true);
+			m_test = new TextField(new Vector2(200, 200), 100, 100, true, true);
 			m_guiList.AddLast(m_test);
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
@@ -360,39 +356,33 @@ namespace GrandLarceny
 		#region Update
 		public override void update(GameTime a_gameTime)
 		{
-			m_currentKeyboard = Keyboard.GetState();
-			m_currentMouse = Mouse.GetState();
-
 			updateCamera();
 			updateKeyboard();
 			updateMouse();
-			updateGUI();
-
-			m_previousKeyboard = m_currentKeyboard;
-			m_previousMouse = m_currentMouse;
+			updateGUI(a_gameTime);
 		}
 		#endregion
 
 		#region Update Camera
 		private void updateCamera()
 		{
-			if (m_currentKeyboard.IsKeyDown(Keys.Right))
+			if (Game.isKeyPressed(Keys.Right))
 				Game.getInstance().m_camera.move(new Vector2(15 / Game.getInstance().m_camera.getZoom(), 0));
-			if (m_currentKeyboard.IsKeyDown(Keys.Left))
+			if (Game.isKeyPressed(Keys.Left))
 				Game.getInstance().m_camera.move(new Vector2(-15 / Game.getInstance().m_camera.getZoom(), 0));
-			if (m_currentKeyboard.IsKeyDown(Keys.Up))
+			if (Game.isKeyPressed(Keys.Up))
 				Game.getInstance().m_camera.move(new Vector2(0, -15 / Game.getInstance().m_camera.getZoom()));
-			if (m_currentKeyboard.IsKeyDown(Keys.Down))
+			if (Game.isKeyPressed(Keys.Down))
 				Game.getInstance().m_camera.move(new Vector2(0, 15 / Game.getInstance().m_camera.getZoom()));
-			if (m_currentMouse.ScrollWheelValue > m_previousMouse.ScrollWheelValue)
+			if (Game.m_currentMouse.ScrollWheelValue > Game.m_previousMouse.ScrollWheelValue)
 				Game.getInstance().m_camera.zoomIn(0.1f);
-			if (m_currentMouse.ScrollWheelValue < m_previousMouse.ScrollWheelValue)
+			if (Game.m_currentMouse.ScrollWheelValue < Game.m_previousMouse.ScrollWheelValue)
 				Game.getInstance().m_camera.zoomOut(0.1f);
 		}
 		#endregion
 
 		#region Update GUI
-		private void updateGUI()
+		private void updateGUI(GameTime a_gameTime)
 		{
 			if (m_objectPreview != null) {
 				m_objectPreview.getPosition().setLocalX(m_worldMouse.X + 15);
@@ -431,7 +421,7 @@ namespace GrandLarceny
 				t_button.update();
 			}
 			foreach (GuiObject t_gui in m_guiList) {
-				t_gui.update();
+				t_gui.update(a_gameTime);
 			}
 
 			if (m_selectedObject != null) {
@@ -652,23 +642,23 @@ namespace GrandLarceny
 		#region Update Keyboard
 		private void updateKeyboard()
 		{
-			if (keyClicked(Keys.F5)) {
+			if (Game.keyClicked(Keys.F5)) {
 				m_currentLayer = 0;
 				Game.getInstance().setState(new GameState(m_levelToLoad));
 			}
-			if (keyClicked(Keys.D1)) {
+			if (Game.keyClicked(Keys.D1)) {
 				setLayer(0);
 			}
-			if (keyClicked(Keys.D2)) {
+			if (Game.keyClicked(Keys.D2)) {
 				setLayer(1);
 			}
-			if (keyClicked(Keys.D3)) {
+			if (Game.keyClicked(Keys.D3)) {
 				setLayer(2);
 			}
-			if (keyClicked(Keys.D4)) {
+			if (Game.keyClicked(Keys.D4)) {
 				setLayer(3);
 			}
-			if (keyClicked(Keys.D5)) {
+			if (Game.keyClicked(Keys.D5)) {
 				setLayer(4);
 			}
 			/*
@@ -676,7 +666,7 @@ namespace GrandLarceny
 			Keybindings for hotkeys
 			-----------------------------------
 			*/
-			if (keyClicked(Keys.R)) {
+			if (Game.keyClicked(Keys.R)) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is Ladder) {
 						m_selectedObject.flip();
@@ -685,7 +675,7 @@ namespace GrandLarceny
 					m_selectedObject.addRotation((float)(Math.PI) / 2.0f);
 				}
 			}
-			if (keyClicked(Keys.M)) {
+			if (Game.keyClicked(Keys.M)) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is LampSwitch) {
 						((LampSwitch)m_selectedObject).toggleConnectToAll();
@@ -693,15 +683,15 @@ namespace GrandLarceny
 					}
 				}
 			}
-			if (m_menuState != MenuState.Normal && keyClicked(Keys.Escape)) {
+			if (m_menuState != MenuState.Normal && Game.keyClicked(Keys.Escape)) {
 				m_menuState = MenuState.Normal;
 				guiButtonClick(m_btnSelectHotkey);
 			}
 			if (ctrlMod()) {
-				if (keyClicked(Keys.H)) {
+				if (Game.keyClicked(Keys.H)) {
 					guiButtonClick(m_btnStandHideHotkey);
 				}
-				if (keyClicked(Keys.S)) {
+				if (Game.keyClicked(Keys.S)) {
 					m_sndSave.play();
 					if (m_selectedObject != null) {
 						m_selectedObject.setColor(Color.White);
@@ -712,93 +702,93 @@ namespace GrandLarceny
 					Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
 				}
 			} else if (shiftMod()) {
-				if (shiftMod() && keyClicked(Keys.G)) {
+				if (shiftMod() && Game.keyClicked(Keys.G)) {
 					guiButtonClick(m_btnDogHotkey);
 				}
-				if (shiftMod() && keyClicked(Keys.H)) {
+				if (shiftMod() && Game.keyClicked(Keys.H)) {
 					guiButtonClick(m_btnDuckHideHotkey);
 				}
-				if (shiftMod() && keyClicked(Keys.T)) {
+				if (shiftMod() && Game.keyClicked(Keys.T)) {
 					guiButtonClick(m_btnLightSwitchHotkey);
 				}
 			} else if (altMod()) {
 				;
 			} else {
-				if (keyClicked(Keys.S)) {
+				if (Game.keyClicked(Keys.S)) {
 					guiButtonClick(m_btnSelectHotkey);
 				}
-				if (keyClicked(Keys.D)) {
+				if (Game.keyClicked(Keys.D)) {
 					guiButtonClick(m_btnDeleteHotkey);
 				}
 				switch (m_menuState) {
 					case MenuState.Normal:
-						if (keyClicked(Keys.P)) {
+						if (Game.keyClicked(Keys.P)) {
 							guiButtonClick(m_btnPlatformHotkey);
 						}
-						if (keyClicked(Keys.L)) {
+						if (Game.keyClicked(Keys.L)) {
 							guiButtonClick(m_btnLadderHotkey);
 						}
-						if (keyClicked(Keys.B)) {
+						if (Game.keyClicked(Keys.B)) {
 							guiButtonClick(m_btnBackgroundHotkey);
 						}
-						if (keyClicked(Keys.H)) {
+						if (Game.keyClicked(Keys.H)) {
 							guiButtonClick(m_btnHeroHotkey);
 						}
-						if (keyClicked(Keys.T)) {
+						if (Game.keyClicked(Keys.T)) {
 							guiButtonClick(m_btnSpotlightHotkey);
 						}
-						if (keyClicked(Keys.G)) {
+						if (Game.keyClicked(Keys.G)) {
 							guiButtonClick(m_btnGuardHotkey);
 						}
-						if (keyClicked(Keys.W)) {
+						if (Game.keyClicked(Keys.W)) {
 							guiButtonClick(m_btnWallHotkey);
 						}
-						if (keyClicked(Keys.V)) {
+						if (Game.keyClicked(Keys.V)) {
 							guiButtonClick(m_btnVentHotkey);
 						}
-						if (keyClicked(Keys.C)) {
+						if (Game.keyClicked(Keys.C)) {
 							guiButtonClick(m_btnCameraHotkey);
 						}
-						if (keyClicked(Keys.A)) {
+						if (Game.keyClicked(Keys.A)) {
 							guiButtonClick(m_btnDuckHideHotkey);
 						}
-						if (keyClicked(Keys.N)) {
+						if (Game.keyClicked(Keys.N)) {
 							guiButtonClick(m_btnWindowHotkey);
 						}
 						break;
 					case MenuState.Guard:
-						if (keyClicked(Keys.G)) {
+						if (Game.keyClicked(Keys.G)) {
 							guiButtonClick(m_btnGuardHotkey);
 						}
-						if (keyClicked(Keys.F)) {
+						if (Game.keyClicked(Keys.F)) {
 							guiButtonClick(m_btnDogHotkey);
 						}
-						if (keyClicked(Keys.C)) {
+						if (Game.keyClicked(Keys.C)) {
 							guiButtonClick(m_btnCameraHotkey);
 						}
 						break;
 					case MenuState.Hide:
-						if (keyClicked(Keys.F)) {
+						if (Game.keyClicked(Keys.F)) {
 							guiButtonClick(m_btnStandHideHotkey);
 						}
-						if (keyClicked(Keys.A)) {
+						if (Game.keyClicked(Keys.A)) {
 							guiButtonClick(m_btnDuckHideHotkey);
 						}
 						break;
 					case MenuState.Ventilation:
-						if (keyClicked(Keys.T)) {
+						if (Game.keyClicked(Keys.T)) {
 							guiButtonClick(m_btnTVent);
 						}
-						if (keyClicked(Keys.A)) {
+						if (Game.keyClicked(Keys.A)) {
 							guiButtonClick(m_btnStraVent);
 						}
-						if (keyClicked(Keys.C)) {
+						if (Game.keyClicked(Keys.C)) {
 							guiButtonClick(m_btnCrossVent);
 						}
-						if (keyClicked(Keys.O)) {
+						if (Game.keyClicked(Keys.O)) {
 							guiButtonClick(m_btnCornerVent);
 						}
-						if (keyClicked(Keys.V)) {
+						if (Game.keyClicked(Keys.V)) {
 							guiButtonClick(m_btnVentHotkey);
 						}
 						break;
@@ -810,7 +800,7 @@ namespace GrandLarceny
 			Reset Camera to 0, 0 
 			-----------------------------------
 			*/
-			if (keyClicked(Keys.Space)) {
+			if (Game.keyClicked(Keys.Space)) {
 				if (m_gameObjectList != null) {
 					Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				}
@@ -822,7 +812,7 @@ namespace GrandLarceny
 			-----------------------------------
 			*/ 
 
-			if (ctrlMod() && keyClicked(Keys.O)) {
+			if (ctrlMod() && Game.keyClicked(Keys.O)) {
 				Level t_newLevel = Serializer.getInstance().loadLevel(m_levelToLoad);
 				m_gameObjectList = t_newLevel.getLevelLists();
 				foreach (LinkedList<GameObject> t_arr in m_gameObjectList) {
@@ -842,7 +832,7 @@ namespace GrandLarceny
 			Middle-mouse drag
 			-----------------------------------
 			*/
-			if (m_currentMouse.MiddleButton == ButtonState.Pressed && m_previousMouse.MiddleButton == ButtonState.Pressed) {
+			if (Game.m_currentMouse.MiddleButton == ButtonState.Pressed && Game.m_previousMouse.MiddleButton == ButtonState.Pressed) {
 				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates();
 				t_difference.X = (Mouse.GetState().X - Game.getInstance().getResolution().X / 2) / 20;
 				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().getResolution().Y / 2) / 20;
@@ -854,7 +844,7 @@ namespace GrandLarceny
 			Left Mouse Button Click Down
 			-----------------------------------
 			*/
-			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released) {
+			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released) {
 				/*
 				-----------------------------------
 				Building
@@ -963,7 +953,7 @@ namespace GrandLarceny
 			Left Mouse Button Release
 			-----------------------------------
 			*/
-			if (m_currentMouse.LeftButton == ButtonState.Released && m_previousMouse.LeftButton == ButtonState.Pressed) {
+			if (Game.m_currentMouse.LeftButton == ButtonState.Released && Game.m_previousMouse.LeftButton == ButtonState.Pressed) {
 				m_dragOffset = Vector2.Zero;
 			}
 
@@ -972,7 +962,7 @@ namespace GrandLarceny
 			Left Mouse Button Drag
 			-----------------------------------
 			*/
-			if (m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Pressed) {
+			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Pressed) {
 				if (m_selectedObject != null) {
 					if (m_dragOffset == Vector2.Zero || m_dragOffset == null) {
 						m_dragOffset = new Vector2(
@@ -1000,7 +990,7 @@ namespace GrandLarceny
 			Right Mouse Button Drag
 			-----------------------------------
 			*/
-			if (m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Pressed) {
+			if (Game.m_currentMouse.RightButton == ButtonState.Pressed && Game.m_previousMouse.RightButton == ButtonState.Pressed) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is LampSwitch) {
 						if (m_dragLine == null && m_selectedObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
@@ -1028,7 +1018,7 @@ namespace GrandLarceny
 			Right Mouse Button Click Up
 			-----------------------------------
 			*/
-			if (m_currentMouse.RightButton == ButtonState.Released && m_previousMouse.RightButton == ButtonState.Pressed) {
+			if (Game.m_currentMouse.RightButton == ButtonState.Released && Game.m_previousMouse.RightButton == ButtonState.Pressed) {
 				if (m_dragLine != null) {
 					if (m_selectedObject is LampSwitch) {
 						foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer]) {
@@ -1146,18 +1136,14 @@ namespace GrandLarceny
 			return a_pixelPosition;
 		}
 
-		private bool keyClicked(Keys a_key) {
-			return m_currentKeyboard.IsKeyDown(a_key) && m_previousKeyboard.IsKeyUp(a_key);
-		}
-
 		private bool ctrlMod() {
-			return m_currentKeyboard.IsKeyDown(Keys.LeftControl) || m_currentKeyboard.IsKeyDown(Keys.RightControl);
+			return Game.isKeyPressed(Keys.LeftControl) || Game.isKeyPressed(Keys.RightControl);
 		}
 		private bool shiftMod() {
-			return m_currentKeyboard.IsKeyDown(Keys.LeftShift) || m_currentKeyboard.IsKeyDown(Keys.RightShift);
+			return Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift);
 		}
 		private bool altMod() {
-			return m_currentKeyboard.IsKeyDown(Keys.LeftAlt) || m_currentKeyboard.IsKeyDown(Keys.RightAlt);
+			return Game.isKeyPressed(Keys.LeftAlt) || Game.isKeyPressed(Keys.RightAlt);
 		}
 
 		private void setBuildingState(State a_state) {

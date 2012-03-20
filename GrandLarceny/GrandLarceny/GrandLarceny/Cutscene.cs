@@ -31,7 +31,7 @@ namespace GrandLarceny
 		{
 			if (m_waitingForKey)
 			{
-				if (Game.getInstance().getCurrentKeyboard().IsKeyDown(parseKey(m_commands[1])))
+				if (Game.isKeyPressed(parseKey(m_commands[1])))
 				{
 					m_waitingForKey = false;
 				}
@@ -40,7 +40,7 @@ namespace GrandLarceny
 			{
 				if (m_comDone < m_currentCommand.Length)
 				{
-					if (m_timeForNextCommand == null || m_timeForNextCommand >= a_gameTime.TotalGameTime.Milliseconds)
+					if (m_timeForNextCommand >= a_gameTime.TotalGameTime.Milliseconds)
 					{
 						while (parseAndExecute(a_gameTime))
 						{

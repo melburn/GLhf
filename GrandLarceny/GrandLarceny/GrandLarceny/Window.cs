@@ -31,7 +31,7 @@ namespace GrandLarceny
 				if (CollisionManager.Collides(this.getHitBox(), a_collider.getHitBox()))
 				{
 					//Colliding with ze floor
-					if ((int)t_player.getLastPosition().Y + t_player.getHitBox().getOutBox().Height <= (int)getLastPosition().Y)
+					if ((int)t_player.getLastPosition().Y + t_player.getHitBox().getOutBox().Height <= (int)getLastPosition().Y && t_player.getCurrentState() != Player.State.Hanging)
 					{
 						t_player.setNextPositionY(getPosition().getGlobalY() - t_player.getCollisionShape().getOutBox().Height);
 						t_player.setSpeedY(0);
@@ -76,7 +76,7 @@ namespace GrandLarceny
 				}
 				else
 				{	
-					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && GameState.isKeyPressed(Player.m_upKey))
+					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && Game.isKeyPressed(Player.m_upKey))
 					{
 						t_player.setNextPositionY(m_position.getGlobalY());	
 						t_player.setState(Player.State.Hanging);
@@ -88,18 +88,15 @@ namespace GrandLarceny
 					}
 				}
 					
-				if (GameState.isKeyPressed(Player.m_actionKey) && !t_player.isStunned()
+				if (Game.isKeyPressed(Player.m_actionKey) && !t_player.isStunned()
 					&& (t_player.getCurrentState() == Player.State.Hanging || t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
 				{
-					if (t_player.isFacingRight())
+					if(t_player.getCurrentState() == Player.State.Hanging)
+						t_player.windowAction();
+					else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY())
 					{
-						t_player.setNextPositionX(m_position.getGlobalX() + m_collisionShape.getOutBox().Width);
+						t_player.windowAction();
 					}
-					else
-					{
-						t_player.setNextPositionX(m_position.getGlobalX() - t_player.getHitBox().getOutBox().Width);
-					}
-					t_player.windowAction();
 				} 
 			}
 		}

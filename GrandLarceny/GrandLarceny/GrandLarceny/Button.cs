@@ -17,7 +17,6 @@ namespace GrandLarceny
 
 		private float m_layer;
 
-		private string m_buttonText = null;
 		private Text m_text;
 		private Vector2 m_textOffset = Vector2.Zero;
 		private Color m_textColor = Color.Black;

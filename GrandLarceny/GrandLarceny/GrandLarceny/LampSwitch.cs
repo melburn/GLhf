@@ -110,7 +110,7 @@ namespace GrandLarceny
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (a_collid is Player && Game.getInstance().keyClicked(Keys.Up))
+			if (a_collid is Player && Game.isKeyPressed(Keys.Up))
 			{
 				toggleSwitch();
 			}

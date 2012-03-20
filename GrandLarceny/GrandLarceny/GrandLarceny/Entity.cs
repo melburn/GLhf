@@ -38,7 +38,7 @@ namespace GrandLarceny
 
 		public override void update(GameTime a_gameTime)
 		{
-			m_lastPosition = m_position.getGlobalCartesianCoordinates();
+	//		m_lastPosition = m_position.getGlobalCartesianCoordinates();
 			base.update(a_gameTime);
 
 			float t_deltaTime = ((float)(a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
