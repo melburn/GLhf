@@ -25,7 +25,7 @@ namespace GrandLarceny.Events
 			m_effects = a_effects;
 			m_oneShot = a_oneShot;
 		}
-		//Returns true if it wants to be removed, and never checked again
+		//Returns true if it wants to be removed and never checked again
 		public bool Execute()
 		{
 			foreach (EventTrigger et in m_triggers)
