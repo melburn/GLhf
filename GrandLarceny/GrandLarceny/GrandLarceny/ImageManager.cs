@@ -99,7 +99,12 @@ namespace GrandLarceny
 				catch (ContentLoadException)
 				{
 					System.Console.WriteLine("Omega fail to load texture : " + a_sprite);
-					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
+					if (a_sprite.Equals("Images//GUI//")) {
+						m_image = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1);
+						m_image.SetData<Color>(new[] { Color.Transparent });
+					} else {
+						m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
+					}
 				}
 				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
 				m_animationWidth = m_image.Width / m_animationFrames;

@@ -16,16 +16,23 @@ namespace GrandLarceny
 		private Vector2 m_startOffset;
 		private Vector2 m_endOffset;
 		private int m_width;
-
-		public Line(Position a_startPosition, Position a_endPosition, Vector2 a_startOffset, Vector2 a_endOffset, Color a_color, int a_width) {
+		private bool m_worldLine;
+		
+		public Line(Position a_startPosition, Position a_endPosition, Vector2 a_startOffset, Vector2 a_endOffset, Color a_color, int a_width, bool a_worldLine)	{
 			m_startOffset = a_startOffset;
 			m_endOffset = a_endOffset;
 			m_lineTexture = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-			m_startPosition = new CartesianCoordinate(a_startOffset, a_startPosition);
-			m_endPosition = new CartesianCoordinate(a_endOffset, a_endPosition);
+			if (a_worldLine) {
+				m_startPosition = new CartesianCoordinate(a_startOffset, a_startPosition);
+				m_endPosition = new CartesianCoordinate(a_endOffset, a_endPosition);
+			} else {
+				m_startPosition = new CartesianCoordinate(a_startOffset, Game.getInstance().m_camera.getPosition());
+				m_endPosition = new CartesianCoordinate(a_endOffset, Game.getInstance().m_camera.getPosition());
+			}
 			m_lineColor = a_color;
 			m_lineTexture.SetData(new[] { a_color });
 			m_width = a_width;
+			m_worldLine = a_worldLine;
 		}
 
 		public void setEndpoint(Vector2 a_endPoint) {
