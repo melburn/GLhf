@@ -30,7 +30,7 @@ namespace GrandLarceny
 					{
 						Game.getInstance().getState().changeLayer(0);
 						t_player.setState(Player.State.Stop);
-						t_player.setNextPosition(m_position.getGlobalCartesianCoordinates());
+
 					}
 			}
 		}
