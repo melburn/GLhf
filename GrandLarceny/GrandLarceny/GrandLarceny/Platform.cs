@@ -84,7 +84,7 @@ namespace GrandLarceny
 						t_player.setState(Player.State.Hanging);
 						t_player.setSpeedY(0);
 					}
-					else
+					else if (t_player.getCurrentState() != Player.State.Hanging)
 					{
 						t_player.hang(this);
 					}

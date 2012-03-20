@@ -19,7 +19,8 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(0, (m_img.getSize().Y/3)*2, m_img.getSize().X, m_img.getSize().Y/3, m_position);
+			//m_collisionShape = new CollisionRectangle(0, (m_img.getSize().Y/3)*2, m_img.getSize().X, m_img.getSize().Y/3, m_position);
+			//m_collisionShape = new CollisionRectangle(1, 0, m_img.getSize().X-1, m_img.getSize().Y, m_position);
 		}
 
 		internal override void updateCollisionWith(Entity a_collider)
@@ -71,25 +72,35 @@ namespace GrandLarceny
 						t_player.setSpeedX(0);
 						t_player.hang(this);
 					}
-					t_player.hang(this);
+					//t_player.hang(this);
 				}
 				else
-				{
-					if (t_player.getCurrentState() == Player.State.Hanging && t_player.getCurrentState() == Player.State.Stop && t_player.getCurrentState() == Player.State.Walking &&
-						GameState.isKeyPressed(Player.m_actionKey)){
-							t_player.windowAction();
-					}
+				{	
 					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && GameState.isKeyPressed(Player.m_upKey))
 					{
-						t_player.setNextPositionY(m_position.getGlobalY());
+						t_player.setNextPositionY(m_position.getGlobalY());	
 						t_player.setState(Player.State.Hanging);
 						t_player.setSpeedY(0);
 					}
-					else
+					else if(t_player.getCurrentState() != Player.State.Hanging)
 					{
 						t_player.hang(this);
 					}
 				}
+					
+				if (GameState.isKeyPressed(Player.m_actionKey) && !t_player.isStunned()
+					&& (t_player.getCurrentState() == Player.State.Hanging || t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
+				{
+					if (t_player.isFacingRight())
+					{
+						t_player.setNextPositionX(m_position.getGlobalX() + m_collisionShape.getOutBox().Width);
+					}
+					else
+					{
+						t_player.setNextPositionX(m_position.getGlobalX() - t_player.getHitBox().getOutBox().Width);
+					}
+					t_player.windowAction();
+				} 
 			}
 		}
 	}
