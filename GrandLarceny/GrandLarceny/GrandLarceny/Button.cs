@@ -188,7 +188,7 @@ namespace GrandLarceny
 		{
 			a_position.X -= Game.getInstance().getResolution().X / 2;
 			a_position.Y -= Game.getInstance().getResolution().Y / 2;
-			m_position.setCartesianCoordinates(a_position);
+			m_position.setLocalCartesianCoordinates(a_position);
 		}
 		public Vector2 getSize()
 		{

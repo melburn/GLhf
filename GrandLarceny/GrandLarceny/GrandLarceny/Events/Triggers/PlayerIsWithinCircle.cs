@@ -6,15 +6,14 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny.Events.Triggers
 {
-	class EntityIsWithinCircle : EventTrigger
+	class PlayerIsWithinCircle : EventTrigger
 	{
 		private Vector2 m_position;
 		private float m_radie;
-		private Entity m_entity;
 
-		public EntityIsWithinCircle(Vector2 a_position, float a_radie, Entity a_entity)
+		public PlayerIsWithinCircle(Vector2 a_position, float a_radie)
 		{
-			if (a_position == null || a_entity == null)
+			if (a_position == null)
 			{
 				throw new ArgumentNullException();
 			}
@@ -24,11 +23,10 @@ namespace GrandLarceny.Events.Triggers
 			}
 			m_position = a_position;
 			m_radie = a_radie;
-			m_entity = a_entity;
 		}
 		public override bool isTrue()
 		{
-			return m_entity.getPosition().getDistanceTo(m_position) <= m_radie;
+			return Game.getInstance().getState().getPlayer().getPosition().getDistanceTo(m_position) <= m_radie;
 		}
 	}
 }

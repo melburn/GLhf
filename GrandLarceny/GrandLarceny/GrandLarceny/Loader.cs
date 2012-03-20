@@ -82,5 +82,10 @@ namespace GrandLarceny
 				return t_returnList;
 		}
 
+
+		public void readFromFile(string m_filePath)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

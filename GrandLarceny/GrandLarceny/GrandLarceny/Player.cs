@@ -704,7 +704,7 @@ namespace GrandLarceny
 						m_collisionShape = m_standHitBox;
 						if (m_lastState == State.Rolling || m_lastState == State.Hiding)
 						{
-							m_position.setY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
+							m_position.setLocalY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
 							Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
 							if (m_lastState == State.Hiding)
 							{
@@ -731,7 +731,7 @@ namespace GrandLarceny
 							setLayer(0.725f);
 						}
 						m_imgOffsetY = -(m_img.getSize().Y - m_rollHitBox.getOutBox().Height);
-						m_position.setY(m_position.getLocalY() + (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
+						m_position.setLocalY(m_position.getLocalY() + (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
 						Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.getOutBox().Height);
 					}
 					else if (m_currentState == State.Hanging)
@@ -809,7 +809,7 @@ namespace GrandLarceny
 					&& m_speed.Y >= 0
 					&& m_currentState == State.Jumping)
 				{
-					m_position.setY(a_collider.getPosition().getGlobalY());
+					m_position.setLocalY(a_collider.getPosition().getGlobalY());
 					m_nextPosition.Y = m_position.getGlobalY();
 					m_speed.Y = 0;
 					m_speed.X = 0;
@@ -822,7 +822,7 @@ namespace GrandLarceny
 					&& m_speed.Y >= 0
 					&& m_currentState == State.Jumping)
 				{
-					m_position.setY(a_collider.getPosition().getGlobalY());
+					m_position.setLocalY(a_collider.getPosition().getGlobalY());
 					m_nextPosition.Y = m_position.getGlobalY();
 					m_speed.Y = 0;
 					m_speed.X = 0;
