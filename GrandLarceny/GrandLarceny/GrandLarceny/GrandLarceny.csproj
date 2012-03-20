@@ -124,6 +124,10 @@
     <Compile Include="CrossVentilation.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\Effects\EventEffect.cs" />
+    <Compile Include="Events\Triggers\EntityIsWithinCircle.cs" />
+    <Compile Include="Events\Triggers\EventTrigger.cs" />
     <Compile Include="FlashCone.cs" />
     <Compile Include="TextField.cs" />
     <Compile Include="GuardCamera.cs" />
@@ -207,6 +211,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

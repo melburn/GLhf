@@ -59,13 +59,15 @@ namespace GrandLarceny
 		{
 			return (a_point.getGlobalCartesianCoordinates()-getGlobalCartesianCoordinates()).Length();
 		}
+		public float getDistanceTo(Vector2 a_point)
+		{
+			return (a_point - getGlobalCartesianCoordinates()).Length();
+		}
 
 		public float getAngleTo(Vector2 a_point)
 		{
 			Vector2 t_ThisPoint = getGlobalCartesianCoordinates();
 			return (float)(Math.Atan2((double)(t_ThisPoint.Y - a_point.Y), (double)(t_ThisPoint.X - a_point.X)) + Math.PI);
 		}
-
-
 	}
 }

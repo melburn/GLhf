@@ -322,6 +322,11 @@ namespace GrandLarceny
 			}
 		}
 
+		public override void kill()
+		{
+			base.kill();
+			m_flashLight.kill();
+		}
 		internal float getLeftPatrolPoint()
 		{
 			return m_leftPatrolPoint;
