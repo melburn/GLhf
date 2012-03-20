@@ -716,16 +716,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Window\1x1_window_tile_top.png">
-      <Name>1x1_window_tile_top</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Window\1x1_window_tile_under.png">
-      <Name>1x1_window_tile_under</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Tile\Window\1x2_window_tile_middle_closed.png">
       <Name>1x2_window_tile_middle_closed</Name>
       <Importer>TextureImporter</Importer>
