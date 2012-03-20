@@ -440,7 +440,7 @@ namespace GrandLarceny
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
 				if (m_selectedObject is Guard) {
 					Guard t_guard = (Guard)m_selectedObject;
-					m_textGuardInfo.setText("R: " + t_guard.getRightpatrolPoint() / 72 + " L: " + t_guard.getLeftpatrolPoint() / 72);
+					m_textGuardInfo.setText("R: " + t_guard.getRightPatrolPoint() / 72 + " L: " + t_guard.getLeftPatrolPoint() / 72);
 				} else {
 					m_textGuardInfo.setText("");
 				}
@@ -1299,9 +1299,9 @@ namespace GrandLarceny
 
 		private void showGuardInfo(Guard a_guard) {
 			m_lineList.Clear();
-			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
-			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getLeftpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5, true));
-			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getRightpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5, true));
+			m_textGuardInfo.setText(" L: " + a_guard.getLeftPatrolPoint() + "R: " + a_guard.getRightPatrolPoint());
+			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getLeftPatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5, true));
+			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getRightPatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5, true));
 		}
 
 		private void showDogInfo(GuardDog a_guard) {
@@ -1457,7 +1457,7 @@ namespace GrandLarceny
 		private void createGuard() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new Guard(getTile(m_worldMouse), "Images//Sprite//Guard//" + assetToCreate, getTile(m_worldMouse).X, true, false, 0.250f));
+			addObject(new Guard(getTile(m_worldMouse), "Images//Sprite//Guard//" + assetToCreate, getTile(m_worldMouse).X, true, 0.250f));
 		}
 
 		private void createWall() {
@@ -1487,7 +1487,7 @@ namespace GrandLarceny
 		private void createLightSwitch() {
 			if (collidedWithObject(m_worldMouse))
 				return;
-			addObject(new LampSwitch(getTile(m_worldMouse), "Images//Prop//Button//" + assetToCreate, 0.750f, true));
+			addObject(new LampSwitch(getTile(m_worldMouse), "Images//Prop//Button//" + assetToCreate, 0.750f));
 		}
 
 		private void createCrossVent() {
