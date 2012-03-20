@@ -991,9 +991,13 @@ namespace GrandLarceny
 					Vector2 t_mousePosition = getTile(m_worldMouse - m_dragOffset);
 
 					if (m_selectedObject is SpotLight)
+					{
 						m_selectedObject.getPosition().setX(t_mousePosition.X + m_selectedObject.getBox().Width);
+					}
 					else
+					{
 						m_selectedObject.getPosition().setX(t_mousePosition.X);
+					}
 					m_selectedObject.getPosition().setY(t_mousePosition.Y);
 				}
 			}
