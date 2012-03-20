@@ -15,22 +15,33 @@ namespace GrandLarceny
 		private int					m_height;
 		private LinkedList<Line>	m_lineList;
 		private Color				m_boxColor;
+		private bool				m_worldBox;
 
-		public Box(Vector2 a_position, int a_width, int a_height, Color a_color) {
+		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, bool a_worldBox) {
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-			m_position		= new CartesianCoordinate(a_position);
+			if (a_worldBox) {
+				m_position	= new CartesianCoordinate(a_position - Game.getInstance().getResolution() / 2);
+			} else {
+				m_position	= new CartesianCoordinate(a_position - Game.getInstance().getResolution() / 2, Game.getInstance().m_camera.getPosition());				
+			}
 			m_boxColor		= a_color;
 			m_width			= a_width;
 			m_height		= a_height;
+			m_worldBox		= a_worldBox;
 			m_boxTexture.SetData(new[] { a_color });
 		}
 
-		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, Color a_lineColor, int a_lineWidth) {
+		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, Color a_lineColor, int a_lineWidth, bool a_worldBox) {
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-			m_position		= new CartesianCoordinate(a_position);
+			if (a_worldBox) {
+				m_position	= new CartesianCoordinate(a_position - Game.getInstance().getResolution() / 2);
+			} else {
+				m_position	= new CartesianCoordinate(a_position - Game.getInstance().getResolution() / 2, Game.getInstance().m_camera.getPosition());
+			}
 			m_boxColor		= a_color;
 			m_width			= a_width;
 			m_height		= a_height;
+			m_worldBox		= a_worldBox;
 			m_boxTexture.SetData(new[] { a_color });
 			
 			Vector2 topLeft = a_position;
@@ -42,19 +53,57 @@ namespace GrandLarceny
 			btmLeft.X = topLeft.X;
 
 			m_lineList = new LinkedList<Line>();
-			m_lineList.AddLast(new Line(new CartesianCoordinate(topLeft), new CartesianCoordinate(topRight), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth));
-			m_lineList.AddLast(new Line(new CartesianCoordinate(topRight), new CartesianCoordinate(btmRight), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth));
-			m_lineList.AddLast(new Line(new CartesianCoordinate(btmRight), new CartesianCoordinate(btmLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth));
-			m_lineList.AddLast(new Line(new CartesianCoordinate(btmLeft), new CartesianCoordinate(topLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth));
+			if (a_worldBox) {
+				m_lineList.AddLast(new Line(new CartesianCoordinate(topLeft), new CartesianCoordinate(topRight), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(new CartesianCoordinate(topRight), new CartesianCoordinate(btmRight), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(new CartesianCoordinate(btmRight), new CartesianCoordinate(btmLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(new CartesianCoordinate(btmLeft), new CartesianCoordinate(topLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
+			} else {
+				m_lineList.AddLast(new Line(null, null, topLeft - Game.getInstance().getResolution() / 2, topRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(null, null, topRight - Game.getInstance().getResolution() / 2, btmRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(null, null, btmRight - Game.getInstance().getResolution() / 2, btmLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(null, null, btmLeft - Game.getInstance().getResolution() / 2, topLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+			}
 		}
 
 		public void draw() {
-			Game.getInstance().getSpriteBatch().Draw(m_boxTexture, m_position.getGlobalCartesianCoordinates(), null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, 0.011f);
-			if (m_lineList != null && m_lineList.Count > 0) {
-				foreach (Line t_line in m_lineList) {
-					t_line.draw();
+			if (m_worldBox) {
+				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, m_position.getGlobalCartesianCoordinates(), null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, 0.011f);
+				
+				if (m_lineList != null && m_lineList.Count > 0) {
+					foreach (Line t_line in m_lineList) {
+						t_line.draw();
+					}
+				}
+			} else {
+				float t_zoom = Game.getInstance().m_camera.getZoom();
+				Vector2 t_cartCoord = Vector2.Zero;
+				t_cartCoord.X = m_position.getLocalX() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalX();
+				t_cartCoord.Y = m_position.getLocalY() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalY();
+				
+				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, t_cartCoord, null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, 0.011f);
+				
+				if (m_lineList != null && m_lineList.Count > 0) {
+					foreach (Line t_line in m_lineList) {
+						t_line.draw();
+					}
 				}
 			}
+		}
+
+		public bool contains(Vector2 a_position) {
+			if (   a_position.X > m_position.getGlobalX()
+				&& a_position.Y > m_position.getGlobalY()
+				&& a_position.X < m_position.getGlobalX() + m_width 
+				&& a_position.Y < m_position.getGlobalY() + m_height)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public Position getPosition() {
+			return m_position;
 		}
 	}
 }

@@ -151,7 +151,7 @@ namespace GrandLarceny
 					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			}
 			if (m_text != null)
-				m_text.draw();
+				m_text.draw(a_gameTime);
 		}
 
 		public void setState(int a_state)
