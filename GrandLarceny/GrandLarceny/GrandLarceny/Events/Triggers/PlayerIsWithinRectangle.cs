@@ -22,6 +22,10 @@ namespace GrandLarceny.Events.Triggers
 		}
 		public override bool isTrue()
 		{
+			if (Game.getInstance().getState().getPlayer() == null)
+			{
+				return false;
+			}
 			float t_playerX = Game.getInstance().getState().getPlayer().getPosition().getGlobalX();
 			float t_playerY = Game.getInstance().getState().getPlayer().getPosition().getGlobalY();
 

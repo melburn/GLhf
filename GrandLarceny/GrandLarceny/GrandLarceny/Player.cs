@@ -600,7 +600,7 @@ namespace GrandLarceny
 								}
 								else
 								{
-									m_position.setX(m_currentVentilation.getPosition().getGlobalX());
+									m_position.setGlobalX(m_currentVentilation.getPosition().getGlobalX());
 									m_currentVentilation = null;
 								}
 							}
@@ -625,7 +625,7 @@ namespace GrandLarceny
 								}
 								else
 								{
-									m_position.setY(m_currentVentilation.getPosition().getGlobalY());
+									m_position.setGlobalY(m_currentVentilation.getPosition().getGlobalY());
 									m_currentVentilation = null;
 								}
 							}
@@ -651,7 +651,7 @@ namespace GrandLarceny
 								}
 								else
 								{
-									m_position.setY(m_currentVentilation.getPosition().getGlobalY());
+									m_position.setGlobalY(m_currentVentilation.getPosition().getGlobalY());
 									m_currentVentilation = null;
 								}
 							}
@@ -676,7 +676,7 @@ namespace GrandLarceny
 								}
 								else
 								{
-									m_position.setX(m_currentVentilation.getPosition().getGlobalX());
+									m_position.setGlobalX(m_currentVentilation.getPosition().getGlobalX());
 									m_currentVentilation = null;
 								}
 							}

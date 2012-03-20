@@ -83,9 +83,9 @@ namespace GrandLarceny
 		}
 
 
-		public void readFromFile(string m_filePath)
+		public String[] readFromFile(string a_filePath)
 		{
-			throw new NotImplementedException();
+			return System.IO.File.ReadAllLines(a_filePath);
 		}
 	}
 }
