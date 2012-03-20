@@ -127,6 +127,7 @@
     <Compile Include="Events\Cutscene.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\Effects\EventEffect.cs" />
+    <Compile Include="Events\ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />
     <Compile Include="Events\Triggers\EventTrigger.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinRectangle.cs" />

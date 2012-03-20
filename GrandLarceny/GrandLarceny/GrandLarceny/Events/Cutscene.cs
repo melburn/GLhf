@@ -30,14 +30,17 @@ namespace GrandLarceny.Events
 			{
 				if (Game.getInstance().getCurrentKeyboard().IsKeyDown(parseKey(m_commands[1])))
 				{
-
+					m_waitingForKey = false;
 				}
 			}
-			if (m_timeForNextCommand == null || m_timeForNextCommand >= a_gameTime.TotalGameTime)
+			else
 			{
-				while (!parseAndExecute())
+				if (m_timeForNextCommand == null || m_timeForNextCommand >= a_gameTime.TotalGameTime)
 				{
+					while (!parseAndExecute())
+					{
 
+					}
 				}
 			}
 		}
