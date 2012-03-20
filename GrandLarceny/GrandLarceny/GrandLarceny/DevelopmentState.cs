@@ -535,19 +535,19 @@ namespace GrandLarceny
 					break;
 				case MenuState.Ventilation:
 					if (a_button == m_btnCrossVent) {
-						setBuildingState(State.TVent);
-						return;
-					}
-					if (a_button == m_btnCornerVent) {
-						setBuildingState(State.StraVent);
-						return;
-					}
-					if (a_button == m_btnTVent) {
 						setBuildingState(State.CrossVent);
 						return;
 					}
-					if (a_button == m_btnStraVent) {
+					if (a_button == m_btnCornerVent) {
 						setBuildingState(State.CornerVent);
+						return;
+					}
+					if (a_button == m_btnTVent) {
+						setBuildingState(State.TVent);
+						return;
+					}
+					if (a_button == m_btnStraVent) {
+						setBuildingState(State.StraVent);
 						return;
 					}
 					if (a_button == m_btnVentHotkey) {

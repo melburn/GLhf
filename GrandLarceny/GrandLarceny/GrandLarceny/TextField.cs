@@ -48,7 +48,7 @@ namespace GrandLarceny
 							System.Console.WriteLine(t_keys.ToString());
 							m_textToShow.addText((char)t_keys[0]);
 						} else {
-							m_textToShow.addText((char)t_keys[0]);
+							m_textToShow.addText(char.ToLower((char)t_keys[0]));
 						}
 					}
 					if (t_key >= Keys.D1 && t_key <= Keys.D0 && m_acceptNumbers) {
