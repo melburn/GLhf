@@ -42,6 +42,7 @@ namespace GrandLarceny
 
 		private State m_currentState = State.Stop;
 		private State m_lastState = State.Stop;
+		private State m_stunnedState = State.Stop;
 
 		[NonSerialized]
 		private bool m_isInLight;
@@ -225,7 +226,7 @@ namespace GrandLarceny
 			{
 				m_stunnedTimer = 0;
 				m_stunned = false;
-				//m_currentState = State.Stop;
+				m_currentState = m_stunnedState;
 				m_stunnedGravity = true;
 				m_speed.X = 0;
 			}
@@ -514,6 +515,7 @@ namespace GrandLarceny
 				m_speed.X = m_speed.X / 5;
 				m_stunnedTimer = 0.35f;
 				m_stunnedDeacceleration = true;
+				m_stunnedState = State.Stop;
 			}
 		}
 
@@ -927,6 +929,7 @@ namespace GrandLarceny
 			m_stunnedTimer = 0.8f;
 			m_stunnedDeacceleration = false;
 			m_stunnedGravity = false;
+			m_stunnedState = State.Hanging;
 			//m_position.plusYWith(- m_standHitBox.m_height);
 			//setNextPositionY(m_position.getGlobalY());
 			//Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
@@ -945,7 +948,7 @@ namespace GrandLarceny
 		public void hangClimbAction()
 		{
 			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
-			m_currentState = State.Stop;
+			m_stunnedState = State.Stop;
 			m_img.setLooping(false);
 			m_stunned = true;
 			m_stunnedTimer = 0.5f;
