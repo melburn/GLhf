@@ -716,16 +716,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Window\1x1_window_tile_top.png">
-      <Name>1x1_window_tile_top</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Window\1x1_window_tile_under.png">
-      <Name>1x1_window_tile_under</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Tile\Window\1x2_window_tile_middle_closed.png">
       <Name>1x2_window_tile_middle_closed</Name>
       <Importer>TextureImporter</Importer>
@@ -931,6 +921,76 @@
       <Name>ZMuFir00</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Wall\stone_wall_short_room_divider.png">
+      <Name>stone_wall_short_room_divider</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Window\window_tile_middle_open_window_left.png">
+      <Name>window_tile_middle_open_window_left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Window\window_tile_middle_open_window.png">
+      <Name>window_tile_middle_open_window</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\LightCone\lamp.png">
+      <Name>lamp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_corridor_nameplate.png">
+      <Name>backdrop_corridor_nameplate</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_corridor_props_pipe.png">
+      <Name>backdrop_corridor_props_pipe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_corridor_props_pipe_with_extension.png">
+      <Name>backdrop_corridor_props_pipe_with_extension</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\2x2_corridor_backdrop_nospot.png">
+      <Name>2x2_corridor_backdrop_nospot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Floor\1x1_floorwindow_tile_under.png">
+      <Name>1x1_floorwindow_tile_under</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Wall\1x1_wallwindow_tile_top.png">
+      <Name>1x1_wallwindow_tile_top</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
