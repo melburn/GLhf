@@ -37,6 +37,7 @@ namespace GrandLarceny
 					{
 						t_player.setVentilationDirection(m_upLeftRightList);
 					}
+					t_player.setVentilationObject(this);
 				}
 			}
 		}
