@@ -932,7 +932,7 @@ namespace GrandLarceny
 						clearSelectedObject();
 					}
 					foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer]) {
-						if (t_gameObject is LightCone)
+						if (t_gameObject is LightCone || t_gameObject is FlashCone)
 							continue;
 						if (t_gameObject.getBox().Contains((int)m_worldMouse.X, (int)m_worldMouse.Y)) {
 							if (m_selectedObject == null || m_selectedObject.getLayer() > t_gameObject.getLayer()) {
@@ -1286,7 +1286,7 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Sprite//Camera//");
 					m_btnCameraHotkey.setState(3);
 					break;
-				case  State.Window:
+				case State.Window:
 					m_textCurrentMode.setText("Create Window");
 					createAssetList("Content//Images//Tile//Window//");
 					m_btnWindowHotkey.setState(3);

@@ -45,9 +45,10 @@ namespace GrandLarceny
 				foreach (Keys t_key in t_keys) {
 					if (t_key >= Keys.A && t_key <= Keys.Z && m_acceptLetters) {
 						if (Game.getInstance().getCurrentKeyboard().IsKeyDown(Keys.LeftShift) || Game.getInstance().getCurrentKeyboard().IsKeyDown(Keys.RightShift)) {
-							m_textToShow.addText(t_keys.ToString().ToCharArray()[0]);
+							System.Console.WriteLine(t_keys.ToString());
+							m_textToShow.addText((char)t_keys[0]);
 						} else {
-							m_textToShow.addText((t_keys.ToString().ToLower()).ToCharArray()[0]);							
+							m_textToShow.addText((char)t_keys[0]);
 						}
 					}
 					if (t_key >= Keys.D1 && t_key <= Keys.D0 && m_acceptNumbers) {
