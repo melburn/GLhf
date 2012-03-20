@@ -22,6 +22,7 @@ namespace GrandLarceny
 				if (CollisionManager.Contains(getHitBox(), t_player.getPosition().getGlobalCartesianCoordinates()))
 				{
 					t_player.setVentilationDirection(m_upleftRightDownList);
+					t_player.setVentilationObject(this);
 				}
 			}
 		}

@@ -25,13 +25,12 @@ namespace GrandLarceny
 					if (1 == Math.Round(((2 * m_rotate) / Math.PI) % 4) || 3 == Math.Round(((2 * m_rotate) / Math.PI) % 4))
 					{
 						t_player.setVentilationDirection(m_upDownList);
-						t_player.setNextPositionX(m_position.getGlobalCartesianCoordinates().X);
 					}
 					else if (0 == Math.Round(((2 * m_rotate) / Math.PI) % 4) || 2 == Math.Round(((2 * m_rotate) / Math.PI) % 4))
 					{
 						t_player.setVentilationDirection(m_leftRightList);
-						t_player.setNextPositionY(m_position.getGlobalCartesianCoordinates().Y);
 					}
+					t_player.setVentilationObject(this);
 				}
 			}
 		}
