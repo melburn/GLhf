@@ -242,7 +242,7 @@ namespace GrandLarceny
 			return m_previousKeyInput.IsKeyDown(key);
 		}
 
-		public override GameObject getObjectById(int a_id)
+		internal override GameObject getObjectById(int a_id)
 		{
 			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
 			{
