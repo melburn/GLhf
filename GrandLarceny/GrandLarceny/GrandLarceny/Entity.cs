@@ -115,7 +115,7 @@ namespace GrandLarceny
 
 		public void updatePosition()
 		{
-			m_position.setCartesianCoordinates(m_nextPosition);
+			m_position.setGlobalCartesianCoordinates(m_nextPosition);
 		}
 	}
 }

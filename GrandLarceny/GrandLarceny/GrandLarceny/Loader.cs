@@ -82,5 +82,10 @@ namespace GrandLarceny
 				return t_returnList;
 		}
 
+
+		public String[] readFromFile(string a_filePath)
+		{
+			return System.IO.File.ReadAllLines(a_filePath);
+		}
 	}
 }

@@ -19,7 +19,7 @@ namespace GrandLarceny
 			if (a_collider is Player)
 			{
 				Player t_player = (Player)a_collider;
-				if (GameState.isKeyPressed(Keys.Up) && !GameState.wasKeyPressed(Keys.Up))
+				if (Game.keyClicked(Keys.Up))
 					if (Game.getInstance().m_camera.getLayer() == 0)
 					{
 						Game.getInstance().getState().changeLayer(1);
@@ -30,7 +30,7 @@ namespace GrandLarceny
 					{
 						Game.getInstance().getState().changeLayer(0);
 						t_player.setState(Player.State.Stop);
-						t_player.setNextPosition(m_position.getGlobalCartesianCoordinates());
+
 					}
 			}
 		}

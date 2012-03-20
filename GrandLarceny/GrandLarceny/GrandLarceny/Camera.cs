@@ -58,7 +58,7 @@ namespace GrandLarceny
 
 		public void setPosition(Vector2 a_posV2)
 		{
-			m_position.setCartesianCoordinates(a_posV2);
+			m_position.setLocalCartesianCoordinates(a_posV2);
 		}
 
 		public void move(Vector2 a_posV2)

@@ -31,7 +31,7 @@ namespace GrandLarceny
 		private Boolean m_running = false;
 		private Boolean m_facingRight;
 
-		private float m_sightRange = 500f;
+		private float m_sightRange = 900f;
 
 		[NonSerialized]
 		private FlashCone m_flashLight;
@@ -170,7 +170,7 @@ namespace GrandLarceny
 								m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 								m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
 							}
-							m_flashLight.getPosition().setX(0);
+							m_flashLight.getPosition().setLocalX(0);
 							m_flashLight.setSprite("Images//LightCone//light_guard_walk");
 							m_flashLight.setFacingRight(true);
 						}
@@ -189,7 +189,7 @@ namespace GrandLarceny
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_turn");
 						m_flashLight.setSprite("Images//LightCone//light_guard_turn");
 						m_flashLight.getImg().setAnimationSpeed(TURNANIMATIONSPEED);
-						m_flashLight.getPosition().setX(-178);
+						m_flashLight.getPosition().setLocalX(-178);
 						if (m_running)
 						{
 							m_flashLight.getImg().setAnimationSpeed(TURNQUICKANIMATIONSPEED);
@@ -228,7 +228,7 @@ namespace GrandLarceny
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_turn");
 						m_flashLight.setSprite("Images//LightCone//light_guard_turn");
-						m_flashLight.getPosition().setX(-175);
+						m_flashLight.getPosition().setLocalX(-175);
 						if (m_running)
 						{
 							m_flashLight.getImg().setAnimationSpeed(TURNQUICKANIMATIONSPEED);
@@ -281,7 +281,7 @@ namespace GrandLarceny
 							m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 							m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
 						}
-						m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+						m_flashLight.getPosition().setLocalX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
 						m_flashLight.setSprite("Images//LightCone//light_guard_walk");
 						m_flashLight.setFacingRight(false);
 					}
@@ -322,6 +322,16 @@ namespace GrandLarceny
 			}
 		}
 
+		public override void kill()
+		{
+			base.kill();
+			if (m_flashLight != null)
+			{
+				m_flashLight.kill();
+				m_flashLightId = 0;
+				m_flashLight = null;
+			}
+		}
 		internal float getLeftPatrolPoint()
 		{
 			return m_leftPatrolPoint;
@@ -446,11 +456,11 @@ namespace GrandLarceny
 						m_flashLight.setFacingRight(m_facingRight);
 						if (m_facingRight)
 						{
-							m_flashLight.getPosition().setX(0);
+							m_flashLight.getPosition().setLocalX(0);
 						}
 						else
 						{
-							m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+							m_flashLight.getPosition().setLocalX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
 						}
 
 					}
@@ -460,7 +470,7 @@ namespace GrandLarceny
 						m_flashLightId = m_flashLight.getId();
 						if (!m_facingRight)
 						{
-							m_flashLight.getPosition().setX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+							m_flashLight.getPosition().setLocalX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
 						}
 						Game.getInstance().getState().addObject(m_flashLight);
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");

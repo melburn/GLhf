@@ -56,12 +56,12 @@ namespace GrandLarceny
 			}
 		}
 
-		public override void setCartesianCoordinates(Vector2 a_position)
+		public override void setLocalCartesianCoordinates(Vector2 a_position)
 		{
 			m_coordinates = a_position;
 		}
 
-		public override void setPolarCoordinates(float a_radius, float a_radians)
+		public override void setLocalPolarCoordinates(float a_radius, float a_radians)
 		{
 			m_coordinates = convertPolarToCartesian(new Vector2(a_radius, a_radians));
 		}
@@ -142,12 +142,12 @@ namespace GrandLarceny
 			return new PolarCoordinate(convertCartesianToPolar(m_coordinates));
 		}
 
-		public override void setY(float y)
+		public override void setLocalY(float y)
 		{
 			m_coordinates.Y = y;
 		}
 
-		public override void setX(float x)
+		public override void setLocalX(float x)
 		{
 			m_coordinates.X = x;
 		}
@@ -172,6 +172,42 @@ namespace GrandLarceny
 		public override void plusXWith(float a_x)
 		{
 			m_coordinates.X += a_x;
+		}
+
+		public override void setGlobalY(float a_y)
+		{
+			if (m_parentPosition == null)
+			{
+				m_coordinates.Y = a_y;
+			}
+			else
+			{
+				m_coordinates.Y = a_y - m_parentPosition.getGlobalY();
+			}
+		}
+
+		public override void setGlobalX(float a_x)
+		{
+			if (m_parentPosition == null)
+			{
+				m_coordinates.X = a_x;
+			}
+			else
+			{
+				m_coordinates.X = a_x - m_parentPosition.getGlobalX();
+			}
+		}
+
+		public override void setGlobalCartesianCoordinates(Vector2 a_position)
+		{
+			if (m_parentPosition == null)
+			{
+				m_coordinates = a_position;
+			}
+			else
+			{
+				m_coordinates = a_position - m_parentPosition.getGlobalCartesianCoordinates();
+			}
 		}
 	}
 }

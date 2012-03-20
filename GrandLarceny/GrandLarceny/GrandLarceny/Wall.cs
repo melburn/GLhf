@@ -30,7 +30,7 @@ namespace GrandLarceny
 						t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
 						if (t_player.getCurrentState() == Player.State.Jumping
 							&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
-							&& (GameState.isKeyPressed(Keys.Left) || GameState.isKeyPressed(Keys.Right)))
+							&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right)))
 						{
 							t_player.setState(Player.State.Slide);
 							t_player.setFacingRight(true);
@@ -44,7 +44,7 @@ namespace GrandLarceny
 						t_player.setNextPositionX(getPosition().getGlobalX() - t_playerOutBox.Width);
 						if (t_player.getCurrentState() == Player.State.Jumping
 							&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
-							&& (GameState.isKeyPressed(Keys.Left) || GameState.isKeyPressed(Keys.Right)))
+							&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right)))
 						{
 							t_player.setState(Player.State.Slide);
 							t_player.setFacingRight(false);
