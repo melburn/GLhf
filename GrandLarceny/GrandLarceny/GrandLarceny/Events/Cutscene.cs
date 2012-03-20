@@ -37,9 +37,8 @@ namespace GrandLarceny.Events
 			{
 				if (m_timeForNextCommand == null || m_timeForNextCommand >= a_gameTime.TotalGameTime)
 				{
-					while (!parseAndExecute())
+					while (parseAndExecute())
 					{
-
 					}
 				}
 			}
