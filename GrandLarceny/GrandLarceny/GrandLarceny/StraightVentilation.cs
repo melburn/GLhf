@@ -32,7 +32,7 @@ namespace GrandLarceny
 		{
 			if (a_collider is Player)
 			{
-				KeyboardState t_currKeys = GameState.m_currentKeyInput;
+				KeyboardState t_currKeys = Game.m_currentKeyInput;
 				Player t_player = (Player)a_collider;
 				if (CollisionManager.Contains(getHitBox(), t_player.getPosition().getGlobalCartesianCoordinates()))
 				{

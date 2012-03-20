@@ -183,7 +183,7 @@ namespace GrandLarceny
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
-			m_test = new TextField(new Vector2(100, 100), 100, 100, true, true);
+			m_test = new TextField(new Vector2(200, 200), 100, 100, true, true);
 			m_guiList.AddLast(m_test);
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
@@ -366,7 +366,7 @@ namespace GrandLarceny
 			updateCamera();
 			updateKeyboard();
 			updateMouse();
-			updateGUI();
+			updateGUI(a_gameTime);
 
 			m_previousKeyboard = m_currentKeyboard;
 			m_previousMouse = m_currentMouse;
@@ -392,7 +392,7 @@ namespace GrandLarceny
 		#endregion
 
 		#region Update GUI
-		private void updateGUI()
+		private void updateGUI(GameTime a_gameTime)
 		{
 			if (m_objectPreview != null) {
 				m_objectPreview.getPosition().setX(m_worldMouse.X + 15);
@@ -431,7 +431,7 @@ namespace GrandLarceny
 				t_button.update();
 			}
 			foreach (GuiObject t_gui in m_guiList) {
-				t_gui.update();
+				t_gui.update(a_gameTime);
 			}
 
 			if (m_selectedObject != null) {

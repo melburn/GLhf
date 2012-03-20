@@ -73,8 +73,16 @@ namespace GrandLarceny
 		{
 			m_text = a_text;
 		}
+		public void erase() {
+			if (m_text.Length > 0) {
+				m_text = m_text.Remove(m_text.Length - 1);
+			}
+		}
 		public void addText(char a_char) {
 			m_text += a_char;
+		}
+		public void addText(string a_string) {
+			m_text += a_string;
 		}
 		public string getText()
 		{
@@ -91,8 +99,9 @@ namespace GrandLarceny
 		{
 			if (m_text == null)
 				return;
-
+				
 			SpriteBatch t_spriteBatch = Game.getInstance().getSpriteBatch();
+
 			if (m_worldFont)
 			{
 				t_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesianCoordinates(), m_color);
@@ -100,7 +109,15 @@ namespace GrandLarceny
 			else
 			{	
 				float t_zoom = Game.getInstance().m_camera.getZoom();
-				t_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesianCoordinates(), m_color, m_rotation, Vector2.Zero, 1.0f / t_zoom, SpriteEffects.None, m_layer);
+				Vector2 t_cartCoord;
+				t_cartCoord.X = m_position.getLocalX() / t_zoom + m_position.getParentPosition().getGlobalX();
+				t_cartCoord.Y = m_position.getLocalY() / t_zoom + m_position.getParentPosition().getGlobalY();
+
+				try {
+					t_spriteBatch.DrawString(m_spriteFont, m_text, t_cartCoord, m_color, m_rotation, Vector2.Zero, 1.0f / t_zoom, SpriteEffects.None, m_layer);
+				} catch (System.ArgumentException) {
+					erase();
+				}
 			}
 		}
 	}

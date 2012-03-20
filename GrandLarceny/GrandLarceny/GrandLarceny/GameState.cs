@@ -14,10 +14,6 @@ namespace GrandLarceny
 		private Stack<GameObject>[] m_removeList;
 		private Stack<GameObject>[] m_addList;
 		private LinkedList<GuiObject> m_guiObject;
-		MouseState m_previousMouse;
-		MouseState m_currentMouse;
-		public static KeyboardState m_previousKeyInput;
-		public static KeyboardState m_currentKeyInput;
 		private string m_currentLevel;
 		private int m_currentList;
 
@@ -76,8 +72,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_currentList = -1;
-			m_currentKeyInput = Keyboard.GetState();
-			m_currentMouse = Mouse.GetState();
+			
 
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
@@ -89,12 +84,12 @@ namespace GrandLarceny
 				}
 			}
 
-			if (m_currentKeyInput.IsKeyDown(Keys.Q))
+			if (Game.m_currentKeyInput.IsKeyDown(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
 
-			if (m_currentKeyInput.IsKeyDown(Keys.R))
+			if (Game.m_currentKeyInput.IsKeyDown(Keys.R))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
@@ -139,8 +134,6 @@ namespace GrandLarceny
 					t_list.Remove(m_removeList[m_currentList].Pop());
 				}
 			}
-			m_previousMouse = m_currentMouse;
-			m_previousKeyInput = m_currentKeyInput;
 		}
 		/*
 		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 
@@ -215,14 +208,6 @@ namespace GrandLarceny
 		public override void addGuiObject(GuiObject a_go)
 		{
 			m_guiObject.AddLast(a_go);
-		}
-		public static bool isKeyPressed(Keys key)
-		{
-			return m_currentKeyInput.IsKeyDown(key);
-		}
-		public static bool wasKeyPressed(Keys key)
-		{
-			return m_previousKeyInput.IsKeyDown(key);
 		}
 
 		internal override GameObject getObjectById(int a_id)
