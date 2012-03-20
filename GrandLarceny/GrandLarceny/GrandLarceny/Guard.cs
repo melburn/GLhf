@@ -20,7 +20,7 @@ namespace GrandLarceny
 		private LinkedList<int> m_lampSwitchTargetsId;
 
         private const float MOVEMENTSPEED = 150;
-		private const float CHASINGSPEED = 350;
+		private const float CHASINGSPEED = 450;
 		private const float WALKINGANIMATIONSPEED = MOVEMENTSPEED / 16;
 		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 16;
 		private const float TURNANIMATIONSPEED = 10f;
