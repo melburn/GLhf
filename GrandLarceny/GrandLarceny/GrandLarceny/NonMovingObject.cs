@@ -17,5 +17,11 @@ namespace GrandLarceny
 			: base(a_position, a_sprite, a_layer, a_rotation)
 		{
 		}
+
+		public override void update(GameTime a_gameTime)
+		{
+			m_lastPosition = m_position.getGlobalCartesianCoordinates();
+			base.update(a_gameTime);
+		}
 	}
 }

@@ -27,7 +27,7 @@ namespace GrandLarceny
 					{
 						t_player.setNextPositionY(getPosition().getGlobalY() - t_player.getCollisionShape().getOutBox().Height);
 						t_player.setSpeedY(0);
-						if (t_player.getCurrentState() == Player.State.Jumping || t_player.getCurrentState() == Player.State.Climbing)
+						if (t_player.getCurrentState() == Player.State.Jumping || t_player.getCurrentState() == Player.State.Climbing || t_player.getCurrentState() == Player.State.Hanging)
 						{
 							if (t_player.getSpeed().X == 0)
 							{

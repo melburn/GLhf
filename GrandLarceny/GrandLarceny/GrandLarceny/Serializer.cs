@@ -188,7 +188,7 @@ namespace GrandLarceny
 						catch (SerializationException e)
 						{
 							System.Console.WriteLine("Fail to DeSerialize : " + e);
-							t_fstream.Position = t_fstream.Position + t_objectListSize;
+							//t_fstream.Position = t_fstream.Position + t_objectListSize;
 						}
 					}
 

@@ -39,6 +39,9 @@ namespace GrandLarceny
 		private CollisionRectangle m_rollHitBox;
 		[NonSerialized]
 		private CollisionRectangle m_SlideBox;
+		[NonSerialized]
+		private CollisionRectangle m_hangHitBox;
+
 
 		private State m_currentState = State.Stop;
 		private State m_lastState = State.Stop;
@@ -118,6 +121,7 @@ namespace GrandLarceny
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
+			m_hangHitBox = new CollisionRectangle(0, 0, 70, 75, m_position);
 			m_collisionShape = m_standHitBox;
 			m_ventilationDirection = new List<Direction>();
 			m_upDownList = new List<Direction>();
@@ -130,6 +134,7 @@ namespace GrandLarceny
 
 		public override void update(GameTime a_gameTime)
 		{
+			m_lastPosition = m_position.getGlobalCartesianCoordinates();
 			if (!m_stunned)
 			{
 				changeAnimation();
@@ -226,9 +231,32 @@ namespace GrandLarceny
 			{
 				m_stunnedTimer = 0;
 				m_stunned = false;
-				m_currentState = m_stunnedState;
+				
 				m_stunnedGravity = true;
 				m_speed.X = 0;
+				if (m_collisionShape == null)
+				{
+					if (m_stunnedState == State.Hanging)
+					{
+						m_collisionShape = m_hangHitBox;
+						//if (m_currentState == State.Hanging)
+							m_position.plusYWith(m_standHitBox.m_height / 1.1f);
+							if (m_currentState != State.Hanging)
+								m_lastState = State.Hanging;
+						//else
+						//{
+						//	m_position.plusYWith(m_standHitBox.m_height / 1.25f);
+						//}
+					}
+					else if (m_stunnedState == State.Rolling || (m_stunnedState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE))
+						m_collisionShape = m_rollHitBox;
+					else if (m_stunnedState == State.Slide)
+						m_collisionShape = m_SlideBox;
+					else
+						m_collisionShape = m_standHitBox;
+					
+				}
+				m_currentState = m_stunnedState;
 			}
 		}
 
@@ -746,7 +774,14 @@ namespace GrandLarceny
 						}
 						m_imgOffsetY = -2;
 					}
-					m_collisionShape = m_rollHitBox;
+					if (m_currentState == State.Hanging)
+					{
+						m_collisionShape = m_hangHitBox;
+					}
+					else
+					{
+						m_collisionShape = m_rollHitBox;
+					}
 				}
 			}
 		}
@@ -756,7 +791,7 @@ namespace GrandLarceny
 			m_collidedWithWall = false;
 			m_ladderDirection = 0;
 			m_isInLight = false;
-			if (a_collisionList.Count == 0)
+			if (a_collisionList.Count == 0 && m_collisionShape != null)
 			{
 				m_currentState = State.Jumping;
 			}
@@ -908,21 +943,28 @@ namespace GrandLarceny
 
 		public void windowAction()
 		{
-			//m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
-			if (m_currentState == State.Hanging)
+			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
+			/*if (m_currentState == State.Hanging)
 			{
+				m_stunnedState = State.Hanging;
 				if (m_facingRight)
 				{
-					m_facingRight = false;
-					setNextPositionX(m_nextPosition.X - 7);
+					//m_facingRight = false;
+					//setNextPositionX(m_nextPosition.X - 7);
+					m_speed.X = m_stunnedTimer * 221.8748f;
 				}
 				else
 				{
-					setNextPositionX(m_nextPosition.X + 7);
-					m_facingRight = true;
+					//setNextPositionX(m_nextPosition.X + 7);
+					//m_facingRight = true;
+					m_speed.X = -m_stunnedTimer * 221.8748f;
 				}
 			}
-				
+			else
+			{
+				m_stunnedState = State.Stop;
+			}*/
+			m_collisionShape = null;
 			//updateState();
 			m_img.setLooping(false);
 			m_stunned = true;
@@ -930,17 +972,22 @@ namespace GrandLarceny
 			m_stunnedDeacceleration = false;
 			m_stunnedGravity = false;
 			m_stunnedState = State.Hanging;
-			//m_position.plusYWith(- m_standHitBox.m_height);
-			//setNextPositionY(m_position.getGlobalY());
+			if (m_currentState == State.Hanging)
+				m_position.plusYWith(-m_standHitBox.m_height / 1.1f);
+			else
+				m_position.plusYWith(-m_rollHitBox.m_height/ 1.1f);
+			setNextPositionY(m_position.getGlobalY());
 			//Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
-			/*if (m_facingRight)
+			if (m_facingRight)
 			{
-				m_speed.X = m_stunnedTimer*221.8748f;
+				m_speed.X = m_stunnedTimer * 211;//m_stunnedTimer*221.8748f;
+				m_facingRight = false;
 			}
 			else
 			{
-				m_speed.X = -m_stunnedTimer * 221.8748f;
-			}*/
+				m_speed.X = -m_stunnedTimer * 211;//-m_stunnedTimer * 221.8748f;
+				m_facingRight = true;
+			}
 			
 			m_img.setAnimationSpeed(10);
 		}

@@ -111,6 +111,7 @@ namespace GrandLarceny
 						foreach (GameObject t_secondGameObject in t_list)
 						{
 							if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject
+								&& ((Entity)t_firstGameObject).getHitBox() != null && ((Entity)t_secondGameObject).getHitBox() != null
 								&& checkBigBoxCollision(((Entity)t_firstGameObject).getHitBox().getOutBox(), ((Entity)t_secondGameObject).getHitBox().getOutBox()))
 							{
 								t_collided.Add((Entity)t_secondGameObject);
