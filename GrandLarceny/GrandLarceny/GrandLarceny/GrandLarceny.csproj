@@ -124,6 +124,13 @@
     <Compile Include="CrossVentilation.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
+    <Compile Include="Events\Cutscene.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\Effects\EventEffect.cs" />
+    <Compile Include="Events\ParseException.cs" />
+    <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />
+    <Compile Include="Events\Triggers\EventTrigger.cs" />
+    <Compile Include="Events\Triggers\PlayerIsWithinRectangle.cs" />
     <Compile Include="FlashCone.cs" />
     <Compile Include="TextField.cs" />
     <Compile Include="GuardCamera.cs" />
@@ -163,6 +170,7 @@
     <Compile Include="Sound.cs" />
     <Compile Include="SpotLight.cs" />
     <Compile Include="States.cs" />
+    <Compile Include="Ventilation.cs" />
     <Compile Include="VentilationDrum.cs" />
     <Compile Include="StraightVentilation.cs" />
     <Compile Include="Wall.cs" />
@@ -206,6 +214,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

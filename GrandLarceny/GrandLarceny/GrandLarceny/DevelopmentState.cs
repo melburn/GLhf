@@ -395,8 +395,8 @@ namespace GrandLarceny
 		private void updateGUI(GameTime a_gameTime)
 		{
 			if (m_objectPreview != null) {
-				m_objectPreview.getPosition().setX(m_worldMouse.X + 15);
-				m_objectPreview.getPosition().setY(m_worldMouse.Y + 15);
+				m_objectPreview.getPosition().setLocalX(m_worldMouse.X + 15);
+				m_objectPreview.getPosition().setLocalY(m_worldMouse.Y + 15);
 			}
 
 			foreach (Button t_button in m_assetButtonList) {
@@ -984,10 +984,14 @@ namespace GrandLarceny
 					Vector2 t_mousePosition = getTile(m_worldMouse - m_dragOffset);
 
 					if (m_selectedObject is SpotLight)
-						m_selectedObject.getPosition().setX(t_mousePosition.X + m_selectedObject.getBox().Width);
+					{
+						m_selectedObject.getPosition().setLocalX(t_mousePosition.X + m_selectedObject.getBox().Width);
+					}
 					else
-						m_selectedObject.getPosition().setX(t_mousePosition.X);
-					m_selectedObject.getPosition().setY(t_mousePosition.Y);
+					{
+						m_selectedObject.getPosition().setLocalX(t_mousePosition.X);
+					}
+					m_selectedObject.getPosition().setLocalY(t_mousePosition.Y);
 				}
 			}
 

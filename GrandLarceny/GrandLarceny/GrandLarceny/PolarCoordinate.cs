@@ -61,12 +61,12 @@ namespace GrandLarceny
 			}
 		}
 
-		public override void setCartesianCoordinates(Vector2 a_position)
+		public override void setLocalCartesianCoordinates(Vector2 a_position)
 		{
 			m_coordinates = convertCartesianToPolar(a_position);
 		}
 
-		public override void setPolarCoordinates(float a_radius, float a_radians)
+		public override void setLocalPolarCoordinates(float a_radius, float a_radians)
 		{
 			m_coordinates.X = a_radius;
 			m_coordinates.Y = a_radians;
@@ -148,13 +148,13 @@ namespace GrandLarceny
 			return new CartesianCoordinate(convertPolarToCartesian(m_coordinates));
 		}
 
-		public override void setY(float y)
+		public override void setLocalY(float y)
 		{
 			Vector2 t_cartesian = convertPolarToCartesian(m_coordinates);
 			t_cartesian.Y = y;
 			m_coordinates = convertCartesianToPolar(t_cartesian);
 		}
-		public override void setX(float x)
+		public override void setLocalX(float x)
 		{
 			Vector2 t_cartesian = convertPolarToCartesian(m_coordinates);
 			t_cartesian.X = x;
@@ -183,6 +183,46 @@ namespace GrandLarceny
 			Vector2 t_cartesian = convertPolarToCartesian(m_coordinates);
 			t_cartesian.X += a_x;
 			m_coordinates = convertCartesianToPolar(t_cartesian);
+		}
+
+		public override void setGlobalY(float a_y)
+		{
+			Vector2 t_cartesian = convertPolarToCartesian(m_coordinates);
+			if (m_parentPosition == null)
+			{
+				m_coordinates.Y = a_y;
+			}
+			else
+			{
+				m_coordinates.Y = a_y - m_parentPosition.getGlobalY();
+			}
+			m_coordinates = convertCartesianToPolar(t_cartesian);
+		}
+
+		public override void setGlobalX(float a_x)
+		{
+			Vector2 t_cartesian = convertPolarToCartesian(m_coordinates);
+			if (m_parentPosition == null)
+			{
+				m_coordinates.X = a_x;
+			}
+			else
+			{
+				m_coordinates.X = a_x - m_parentPosition.getGlobalX();
+			}
+			m_coordinates = convertCartesianToPolar(t_cartesian);
+		}
+
+		public override void setGlobalCartesianCoordinates(Vector2 a_position)
+		{
+			if (m_parentPosition == null)
+			{
+				m_coordinates = convertCartesianToPolar(a_position);
+			}
+			else
+			{
+				m_coordinates = convertCartesianToPolar(a_position - m_parentPosition.getGlobalCartesianCoordinates());
+			}
 		}
 	}
 }
