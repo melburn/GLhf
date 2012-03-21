@@ -27,7 +27,8 @@ namespace GrandLarceny
 					{
 						t_player.setNextPositionY(getPosition().getGlobalY() - t_player.getCollisionShape().getOutBox().Height);
 						t_player.setSpeedY(0);
-						if (t_player.getCurrentState() == Player.State.Jumping || t_player.getCurrentState() == Player.State.Climbing || t_player.getCurrentState() == Player.State.Hanging)
+						if (t_player.getCurrentState() == Player.State.Jumping || t_player.getCurrentState() == Player.State.Climbing
+							|| t_player.getCurrentState() == Player.State.Hanging || t_player.getCurrentState() == Player.State.Slide)
 						{
 							if (t_player.getSpeed().X == 0)
 							{
@@ -37,18 +38,8 @@ namespace GrandLarceny
 							{
 								t_player.setState(Player.State.Walking);
 							}
+
 						}
-						/*else if (t_player.getCurrentState() == Player.State.Stunned)
-						{
-							if (t_player.getHorizontalSpeed() > 0)
-							{
-								t_player.setSpeedX(Math.Max(t_player.getHorizontalSpeed() - 5,0));
-							}
-							else
-							{
-								t_player.setSpeedX(Math.Min(t_player.getSpeed().X + 5,0));
-							}
-						}*/
 						return;
 					}
 

@@ -213,6 +213,7 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
 			}
 		}
+
 		private void updateStunned(float a_deltaTime)
 		{
 			m_stunnedTimer -= a_deltaTime;
@@ -421,8 +422,8 @@ namespace GrandLarceny
 
 		private void updateSliding(float a_deltaTime)
 		{
-			if (m_lastPosition.Y != m_position.getGlobalY())
-			{
+			//if (m_lastPosition.Y != m_position.getGlobalY())
+			//{
 				if (((!m_facingRight && Game.isKeyPressed(m_rightKey)) || (m_facingRight && Game.isKeyPressed(m_leftKey)))
 					&& m_collidedWithWall)
 				{
@@ -442,8 +443,8 @@ namespace GrandLarceny
 				}
 				m_currentState = State.Jumping;
 				return;
-			}
-			m_currentState = State.Walking;
+			//}
+			//m_currentState = State.Walking;
 		}
 
 		private void updateClimbing()
@@ -499,14 +500,6 @@ namespace GrandLarceny
 		private void updateRolling(float a_deltaTime)
 		{
 
-
-			/*if ((!GameState.wasKeyPressed(Keys.X) && GameState.isKeyPressed(Keys.X)))
-			{
-				m_speed.Y -= JUMPSTRENGTH;
-				m_currentState = State.Jumping;
-			}*/
-			//else
-			//{
 			if (m_facingRight)
 			{
 				m_speed.X = ROLLSPEED;
@@ -515,7 +508,6 @@ namespace GrandLarceny
 			{
 				m_speed.X = -ROLLSPEED;
 			}
-			//}
 			if (m_img.isStopped())
 			{
 				m_stunned = true;
@@ -776,7 +768,7 @@ namespace GrandLarceny
 						m_collisionShape = m_standHitBox;
 						if (m_lastState == State.Rolling || m_lastState == State.Hiding)
 						{
-							m_position.setLocalY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height));
+							m_position.setLocalY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height) -1);
 							Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
 							if (m_lastState == State.Hiding)
 							{
