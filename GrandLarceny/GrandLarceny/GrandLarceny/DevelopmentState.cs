@@ -15,6 +15,7 @@ namespace GrandLarceny
 		#region Members
 		private LinkedList<GameObject>[] m_gameObjectList;
 		private LinkedList<GuiObject> m_guiList;
+		private LinkedList<Events.Event> m_events;
 
 		private LinkedList<Button> m_staticButton;
 		private LinkedList<Button> m_buildingButtons;
@@ -649,7 +650,7 @@ namespace GrandLarceny
 			else if (Game.keyClicked(Keys.F6))
 			{
 				m_currentLayer = 0;
-				Game.getInstance().setState(new CutsceneDevelopment(this));
+				Game.getInstance().setState(new CutsceneDevelopment(this, m_events));
 			}
 			else if (Game.keyClicked(Keys.D1)) {
 				setLayer(0);
@@ -1576,5 +1577,6 @@ namespace GrandLarceny
 				m_dragLine.draw();
 		}
 		#endregion
+
 	}
 }
