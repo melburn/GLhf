@@ -71,7 +71,7 @@ namespace GrandLarceny
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
 		private bool m_stunnedGravity = true;
-		private bool m_hasBoots = false;
+		private bool m_hasBoots = true; //FIXA DET, DEN SKA VA FAAAAAAAAAAAALLLLLLLLLSSSSSSSSEEEEEE
 		
 		public static Keys m_leftKey = Keys.Left;
 		public static Keys m_rightKey = Keys.Right;
