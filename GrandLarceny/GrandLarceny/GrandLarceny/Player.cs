@@ -17,7 +17,8 @@ namespace GrandLarceny
 		public const float CAMERASPEED = 0.1f;
 
 		public const int CLIMBINGSPEED = 200;
-		public const int PLAYERSPEED = 400;
+		public const int PLAYERSPEED = 200;
+		public const int PLAYERSPEEDCHASEMODE = 420;
 		public const int JUMPSTRENGTH = 400;
 		public const int CAMERAMAXDISTANCE = 100;
 		public const int ACCELERATION = 2800;
@@ -27,6 +28,7 @@ namespace GrandLarceny
 		public const int SLIDESPEED = 25;
 		public const int ROLLSPEED = 1200;
 
+		private int m_playerCurrentSpeed;
 		private float m_originalLayer;
 
 		[NonSerialized]
@@ -67,9 +69,12 @@ namespace GrandLarceny
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
 		private int m_health;
+
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
 		private bool m_stunnedGravity = true;
+
+		private bool m_chase = false;
 		
 		public static Keys m_leftKey = Keys.Left;
 		public static Keys m_rightKey = Keys.Right;
@@ -133,6 +138,7 @@ namespace GrandLarceny
 			m_leftRightList = new List<Direction>();
 			m_leftRightList.Add(Direction.Left);
 			m_leftRightList.Add(Direction.Right);
+			m_playerCurrentSpeed = PLAYERSPEED;
 		}
 		#endregion
 
@@ -308,7 +314,8 @@ namespace GrandLarceny
 
 			if (Game.isKeyPressed(m_rightKey))
 			{
-				if (m_speed.X > PLAYERSPEED)
+
+				if (m_speed.X > m_playerCurrentSpeed)
 				{
 					m_speed.X = m_speed.X - (DEACCELERATION * a_deltaTime);
 				}
@@ -320,13 +327,13 @@ namespace GrandLarceny
 					}
 					else
 					{
-						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), PLAYERSPEED);
+						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), m_playerCurrentSpeed);
 					}
 				}
 			}
 			if (Game.isKeyPressed(m_leftKey))
 			{
-				if (m_speed.X < -PLAYERSPEED)
+				if (m_speed.X < -m_playerCurrentSpeed)
 				{
 					m_speed.X = m_speed.X + (DEACCELERATION * a_deltaTime);
 				}
@@ -338,7 +345,7 @@ namespace GrandLarceny
 					}
 					else
 					{
-						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -PLAYERSPEED);
+						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -m_playerCurrentSpeed);
 					}
 				}
 			}
@@ -384,24 +391,24 @@ namespace GrandLarceny
 			}
 			else if (Game.isKeyPressed(m_leftKey))
 			{
-				if (m_speed.X < -PLAYERSPEED)
+				if (m_speed.X < -m_playerCurrentSpeed)
 				{
 					m_speed.X += AIRDEACCELERATION * a_deltaTime;
 				}
 				else
 				{
-					m_speed.X = Math.Max(-PLAYERSPEED, m_speed.X - AIRDEACCELERATION * a_deltaTime);
+					m_speed.X = Math.Max(-m_playerCurrentSpeed, m_speed.X - AIRDEACCELERATION * a_deltaTime);
 				}
 			}
 			else if (Game.isKeyPressed(m_rightKey))
 			{
-				if (m_speed.X > PLAYERSPEED)
+				if (m_speed.X > m_playerCurrentSpeed)
 				{
 					m_speed.X -= AIRDEACCELERATION * a_deltaTime;
 				}
 				else
 				{
-					m_speed.X = Math.Min(PLAYERSPEED, m_speed.X + AIRDEACCELERATION * a_deltaTime);
+					m_speed.X = Math.Min(m_playerCurrentSpeed, m_speed.X + AIRDEACCELERATION * a_deltaTime);
 				}
 			}
 
@@ -470,12 +477,12 @@ namespace GrandLarceny
 					if (m_facingRight)
 					{
 						m_facingRight = false;
-						m_speed.X -= PLAYERSPEED;
+						m_speed.X -= m_playerCurrentSpeed;
 					}
 					else
 					{
 						m_facingRight = true;
-						m_speed.X += PLAYERSPEED;
+						m_speed.X += m_playerCurrentSpeed;
 					}
 
 				}
@@ -542,11 +549,11 @@ namespace GrandLarceny
 					m_speed.Y = -JUMPSTRENGTH;
 					if (m_facingRight)
 					{
-						m_speed.X = -PLAYERSPEED;
+						m_speed.X = -m_playerCurrentSpeed;
 					}
 					else
 					{
-						m_speed.X = PLAYERSPEED;
+						m_speed.X = m_playerCurrentSpeed;
 					}
 					m_currentState = State.Jumping;
 				}
@@ -828,7 +835,10 @@ namespace GrandLarceny
 		{
 			m_collidedWithWall = false;
 			m_ladderDirection = 0;
-			m_isInLight = false;
+			if (!m_chase)
+			{
+				m_isInLight = false;
+			}
 			if (a_collisionList.Count == 0 && m_collisionShape != null)
 			{
 				m_currentState = State.Jumping;
@@ -984,28 +994,7 @@ namespace GrandLarceny
 		public void windowAction()
 		{
 			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
-			/*if (m_currentState == State.Hanging)
-			{
-				m_stunnedState = State.Hanging;
-				if (m_facingRight)
-				{
-					//m_facingRight = false;
-					//setNextPositionX(m_nextPosition.X - 7);
-					m_speed.X = m_stunnedTimer * 221.8748f;
-				}
-				else
-				{
-					//setNextPositionX(m_nextPosition.X + 7);
-					//m_facingRight = true;
-					m_speed.X = -m_stunnedTimer * 221.8748f;
-				}
-			}
-			else
-			{
-				m_stunnedState = State.Stop;
-			}*/
 			m_collisionShape = null;
-			//updateState();
 			m_img.setLooping(false);
 			m_stunned = true;
 			m_stunnedTimer = 0.8f;
@@ -1013,23 +1002,28 @@ namespace GrandLarceny
 			m_stunnedGravity = false;
 			m_stunnedState = State.Hanging;
 			if (m_currentState == State.Hanging)
+			{
 				m_position.plusYWith(-m_standHitBox.m_height / 1.1f);
+				m_imgOffsetX = -m_imgOffsetX;
+			}
 			else
-				m_position.plusYWith(-m_rollHitBox.m_height/ 1.1f);
+				m_position.plusYWith(-m_rollHitBox.m_height / 1.1f);
 			setNextPositionY(m_position.getGlobalY());
-			//Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
+			Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
 			if (m_facingRight)
 			{
-				m_speed.X = m_stunnedTimer * 211;//m_stunnedTimer*221.8748f;
+				m_speed.X = m_stunnedTimer * 211;
 				m_facingRight = false;
 			}
 			else
 			{
-				m_speed.X = -m_stunnedTimer * 211;//-m_stunnedTimer * 221.8748f;
+				m_speed.X = -m_stunnedTimer * 211;
 				m_facingRight = true;
 			}
 			
 			m_img.setAnimationSpeed(10);
+			deactiveChaseMode();
+
 		}
 
 		public void hangClimbAction()
@@ -1053,6 +1047,10 @@ namespace GrandLarceny
 		public bool isStunned()
 		{
 			return m_stunned;
+		}
+		public bool isChase()
+		{
+			return m_chase;
 		}
 		public State getCurrentState()
 		{
@@ -1080,6 +1078,21 @@ namespace GrandLarceny
 		public void setVentilationObject(Entity vent)
 		{
 			m_currentVentilation = vent;
+		}
+
+		public void activeChaseMode()
+		{
+			m_chase = true;
+			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
+			m_isInLight = true;
+		}
+
+		public void deactiveChaseMode()
+		{
+			m_chase = false;
+			m_playerCurrentSpeed = PLAYERSPEED;
+			m_isInLight = false;
+			((GameState)Game.getInstance().getState()).clearAggro();
 		}
 		#endregion
 	}
