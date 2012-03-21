@@ -13,8 +13,10 @@ namespace GrandLarceny
 		private float m_leftPatrolPoint;
 		private float m_rightPatrolPoint;
 		private Boolean m_hasPatrol;
-		private float MOVEMENTSPEED = 80;
-		private float CHARGEINGSPEED = 400;
+		private const float MOVEMENTSPEED = 80;
+		private const float CHARGEINGSPEED = 400;
+		private const float WALKANISPEED = 7;
+		private const float CHARGEANISPEED = 20;
 		private const float BARKCOOLDOWN = 0.8f;
 		private Boolean m_chargeing = false;
 		private Boolean m_facingRight;
@@ -84,10 +86,12 @@ namespace GrandLarceny
 			if (m_chargeing)
 			{
 				m_speed.X = CHARGEINGSPEED;
+				m_img.setAnimationSpeed(CHARGEANISPEED);
 			}
 			else
 			{
 				m_speed.X = MOVEMENTSPEED;
+				m_img.setAnimationSpeed(WALKANISPEED);
 			}
 			m_facingRight = true;
 			m_barking = false;
@@ -103,10 +107,12 @@ namespace GrandLarceny
 			if (m_chargeing)
 			{
 				m_speed.X = -CHARGEINGSPEED;
+				m_img.setAnimationSpeed(CHARGEANISPEED);
 			}
 			else
 			{
 				m_speed.X = -MOVEMENTSPEED;
+				m_img.setAnimationSpeed(WALKANISPEED);
 			}
 			m_facingRight = false;
 			m_barking = false;
@@ -166,6 +172,7 @@ namespace GrandLarceny
 					{
 						m_speed.X = -MOVEMENTSPEED;
 					}
+					m_img.setAnimationSpeed(WALKANISPEED);
 				}
 			}
 			else
@@ -182,6 +189,7 @@ namespace GrandLarceny
 						m_speed.X = -CHARGEINGSPEED;
 					}
 				}
+				m_img.setAnimationSpeed(CHARGEANISPEED);
 			}
 		}
 
@@ -198,7 +206,12 @@ namespace GrandLarceny
 
 		internal void chasePlayer()
 		{
-			m_chaseTarget = Game.getInstance().getState().getPlayer();
+			Player t_player = Game.getInstance().getState().getPlayer();
+			m_chaseTarget = t_player;
+			if (!t_player.isChase())
+			{
+				t_player.activeChaseMode();
+			}
 		}
 
 		internal void forgetChaseTarget()
@@ -221,7 +234,7 @@ namespace GrandLarceny
 			Platform t_supportingPlatform = null;
 			foreach (Entity t_collision in a_collisionList)
 			{
-				if (t_collision is Wall)
+				if (t_collision is Wall || t_collision is Window)
 				{
 					if (m_speed.X < 0)
 					{
@@ -279,7 +292,7 @@ namespace GrandLarceny
 					}
 					else if (m_aiState == AIStateChargeing.getInstance() && t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
 					{
-						m_chaseTarget = t_collision;
+						chasePlayer();
 						m_aiState = AIStateChargeing.getInstance();
 					}
 				}

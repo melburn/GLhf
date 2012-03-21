@@ -314,5 +314,22 @@ namespace GrandLarceny
 		{
 			return m_sneakKey;
 		}
+		public void clearAggro()
+		{
+			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
+			{
+				foreach (GameObject t_go in t_goList)
+				{
+					if (t_go is Guard)
+					{
+						((NPE)t_go).setAIState(AIStateGoingToTheSwitch.getInstance());
+					}
+					else if (t_go is GuardDog)
+					{
+						((NPE)t_go).setAIState(AIStatepatroling.getInstance());
+					}
+				}
+			}
+		}
 	}
 }

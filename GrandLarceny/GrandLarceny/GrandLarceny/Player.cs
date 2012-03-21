@@ -644,7 +644,7 @@ namespace GrandLarceny
 					}
 				case Direction.Right:
 					{
-						if (Game.m_currentKeyInput.IsKeyDown(GameState.getRightKey()))
+						if (Game.isKeyPressed(GameState.getRightKey()))
 						{
 							m_speed.X = PLAYERSPEED / 2;
 							t_list = m_leftRightList;
@@ -669,7 +669,7 @@ namespace GrandLarceny
 					}
 				case Direction.Down:
 					{
-						if (Game.m_currentKeyInput.IsKeyDown(GameState.getDownKey()))
+						if (Game.isKeyPressed(GameState.getDownKey()))
 						{
 							m_speed.Y = PLAYERSPEED / 2;
 							t_list = m_upDownList;
