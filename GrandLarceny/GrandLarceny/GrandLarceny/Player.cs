@@ -249,14 +249,11 @@ namespace GrandLarceny
 					if (m_stunnedState == State.Hanging)
 					{
 						m_collisionShape = m_hangHitBox;
-						//if (m_currentState == State.Hanging)
-							m_position.plusYWith(m_standHitBox.m_height / 1.1f);
-							if (m_currentState != State.Hanging)
-								m_lastState = State.Hanging;
-						//else
-						//{
-						//	m_position.plusYWith(m_standHitBox.m_height / 1.25f);
-						//}
+						m_position.plusYWith(m_standHitBox.m_height / 1.1f);
+						Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height);
+						if (m_currentState != State.Hanging)
+							m_lastState = State.Hanging;
+						
 					}
 					else if (m_stunnedState == State.Rolling || (m_stunnedState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE))
 						m_collisionShape = m_rollHitBox;
@@ -1004,11 +1001,15 @@ namespace GrandLarceny
 			{
 				m_position.plusYWith(-m_standHitBox.m_height / 1.1f);
 				m_imgOffsetX = -m_imgOffsetX;
+				Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
 			}
 			else
+			{
 				m_position.plusYWith(-m_rollHitBox.m_height / 1.1f);
+				Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.m_height);
+			}
 			setNextPositionY(m_position.getGlobalY());
-			Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
+			
 			if (m_facingRight)
 			{
 				m_speed.X = m_stunnedTimer * 211;
