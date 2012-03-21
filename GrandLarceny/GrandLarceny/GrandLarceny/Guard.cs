@@ -310,6 +310,14 @@ namespace GrandLarceny
 				if (m_flashLight == null)
 				{
 					m_img.setSprite("Images//Sprite//Guard//guard_pick_up_flash");
+					if (m_facingRight)
+					{
+						Game.getInstance().getState().addObject(new Particle(new Vector2(m_position.getGlobalX() + 72, m_position.getGlobalY() - 10), "Images//Sprite//Guard//qmark", 10f, m_layer));
+					}
+					else
+					{
+						Game.getInstance().getState().addObject(new Particle(new Vector2(m_position.getGlobalX() - 22, m_position.getGlobalY() - 10), "Images//Sprite//Guard//qmark", 10f, m_layer));
+					}
 				}
 				else
 				{
@@ -508,6 +516,7 @@ namespace GrandLarceny
 
 			if ((m_aiState != AIStateChasing.getInstance()) && canSeePlayer())
 			{
+				chasePlayer();
 				m_aiState = AIStateChasing.getInstance();
 			}
 

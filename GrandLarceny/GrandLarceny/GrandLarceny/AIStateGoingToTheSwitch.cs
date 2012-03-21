@@ -48,9 +48,9 @@ namespace GrandLarceny
 							t_lampSwitch.toggleSwitch();
 							foreach (GameObject t_g in Game.getInstance().getState().getCurrentList())
 							{
-								if (t_g is Guard && CollisionManager.possibleLineOfSight(t_guard.getPosition().getGlobalCartesianCoordinates(), t_lampSwitch.getPosition().getGlobalCartesianCoordinates()))
+								if (t_g is Guard)
 								{
-									((Guard)t_guard).addLampSwitchTarget(t_lampSwitch);
+									((Guard)t_guard).removeLampSwitchTarget(t_lampSwitch);
 								}
 							}
 							if (t_guard.hasNoLampSwitchTargets())
