@@ -536,7 +536,12 @@ namespace GrandLarceny
 
 		internal void chasePlayer()
 		{
-			m_chaseTarget = Game.getInstance().getState().getPlayer();
+			Player t_player = Game.getInstance().getState().getPlayer();
+			m_chaseTarget = t_player;
+			if (!t_player.isChase())
+			{
+				t_player.activeChaseMode();
+			}
 		}
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
@@ -594,7 +599,7 @@ namespace GrandLarceny
 					}
 					else if (t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
 					{
-						m_chaseTarget = t_collision;
+						chasePlayer();
 						m_aiState = AIStateChasing.getInstance();
 					}
 				}

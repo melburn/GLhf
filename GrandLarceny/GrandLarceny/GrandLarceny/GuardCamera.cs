@@ -107,7 +107,12 @@ namespace GrandLarceny
 
 		internal void chasePlayer()
 		{
-			m_chaseTarget = Game.getInstance().getState().getPlayer();
+			Player t_player = Game.getInstance().getState().getPlayer();
+			m_chaseTarget = t_player;
+			if (!t_player.isChase())
+			{
+				t_player.activeChaseMode();
+			}
 		}
 
 		public override void kill()
