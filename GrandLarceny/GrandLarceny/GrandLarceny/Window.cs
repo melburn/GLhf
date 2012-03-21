@@ -22,7 +22,10 @@ namespace GrandLarceny
 			//m_collisionShape = new CollisionRectangle(0, (m_img.getSize().Y/3)*2, m_img.getSize().X, m_img.getSize().Y/3, m_position);
 			//m_collisionShape = new CollisionRectangle(1, 0, m_img.getSize().X-1, m_img.getSize().Y, m_position);
 		}
-
+		public override bool isTransparent()
+		{
+			return false;
+		}
 		internal override void updateCollisionWith(Entity a_collider)
 		{
 			if (a_collider is Player)
