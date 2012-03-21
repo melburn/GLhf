@@ -548,7 +548,7 @@ namespace GrandLarceny
 			Platform t_supportingPlatform = null;
 			foreach (Entity t_collision in a_collisionList)
 			{
-				if (t_collision is Wall)
+				if (t_collision is Wall || t_collision is Window)
 				{
 					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
 					{
