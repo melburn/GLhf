@@ -154,6 +154,11 @@ namespace GrandLarceny
 			m_guiList = new LinkedList<GuiObject>();
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
 
+			//todo
+			//serialize events
+			m_events = new LinkedList<Events.Event>();
+			
+
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
 				foreach (GameObject t_go in t_ll)
