@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
@@ -62,6 +63,19 @@ namespace GrandLarceny
 		internal virtual GameObject getObjectById(int a_id)
 		{
 			throw new NotImplementedException();
+		}
+
+		public Vector2 calculateWorldMouse()
+		{
+			Vector2 t_worldMouse = new Vector2(
+				Mouse.GetState().X / Game.getInstance().m_camera.getZoom()
+					+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X
+					- ((Game.getInstance().getResolution().X / 2) / Game.getInstance().m_camera.getZoom())
+				, Mouse.GetState().Y / Game.getInstance().m_camera.getZoom()
+					+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y
+					- ((Game.getInstance().getResolution().Y / 2) / Game.getInstance().m_camera.getZoom())
+			);
+			return t_worldMouse;
 		}
 	}
 }

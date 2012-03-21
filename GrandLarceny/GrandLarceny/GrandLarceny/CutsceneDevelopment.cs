@@ -13,7 +13,10 @@ namespace GrandLarceny
 		private DevelopmentState m_backState;
 
 		private LinkedList<Button> m_buttonList;
+		private LinkedList<GuiObject> m_guiList;
 		private Dictionary<Button, Event> m_events;
+		private Stack<Button> m_buttonsToAdd;
+		private Stack<Button> m_buttonsToRemove;
 		private Stack<Event> m_eventsToAdd;
 		private Stack<Button> m_eventsToRemove;
 
@@ -40,6 +43,9 @@ namespace GrandLarceny
 			m_state = State.neutral;
 			m_backState = a_backState;
 			m_buttonList = new LinkedList<Button>();
+			m_guiList = new LinkedList<GuiObject>();
+			m_buttonsToAdd = new Stack<Button>();
+			m_buttonsToRemove = new Stack<Button>();
 			Button t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(0, 0), "No more event plz", null, Color.Red, new Vector2(10, 10));
 			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(exitState);
 			m_buttonList.AddLast(t_buttonToAdd);
@@ -77,6 +83,10 @@ namespace GrandLarceny
 
 		public override void update(GameTime a_gameTime)
 		{
+			foreach (GuiObject t_go in m_guiList)
+			{
+				t_go.update(a_gameTime);
+			}
 			foreach (Button t_b in m_buttonList)
 			{
 				t_b.update();
@@ -87,12 +97,20 @@ namespace GrandLarceny
 				m_events.Remove(t_bToRemove);
 				m_buttonList.Remove(t_bToRemove);
 			}
+			while (m_buttonsToRemove.Count > 0)
+			{
+				m_buttonList.Remove(m_buttonsToRemove.Pop());
+			}
 			while (m_eventsToAdd.Count > 0)
 			{
 				Button t_button = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(0, 100 + ((m_numOfAddedEvents++) * 30)), "" + m_events.Count, null, Color.Yellow, new Vector2(10, 2));
 				t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
 				m_events.Add(t_button, m_eventsToAdd.Pop());
 				m_buttonList.AddLast(t_button);
+			}
+			while (m_buttonsToAdd.Count > 0)
+			{
+				m_buttonList.AddLast(m_buttonsToAdd.Pop());
 			}
 		}
 
@@ -102,6 +120,10 @@ namespace GrandLarceny
 			foreach (Button t_b in m_buttonList)
 			{
 				t_b.draw(a_gameTime, a_spriteBatch);
+			}
+			foreach (GuiObject t_go in m_guiList)
+			{
+				t_go.draw(a_gameTime);
 			}
 		}
 
@@ -151,8 +173,8 @@ namespace GrandLarceny
 				Button t_buttonToAdd; 
 
 				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(800, 600), "Cutscene", null, Color.Black, new Vector2(5, 5));
-				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEvent);
-				m_buttonList.AddLast(t_buttonToAdd);
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addCutscene);
+				m_buttonsToAdd.Push(t_buttonToAdd);
 			}
 		}
 
@@ -161,6 +183,10 @@ namespace GrandLarceny
 			if (m_selectedEvent != null && m_state == State.newEffect)
 			{
 				m_state = State.newCutscene;
+
+				TextField t_textField = new TextField(new Vector2(300, 200), 200, 100, true, true, true, 0);
+
+				m_guiList.AddLast(t_textField);
 			}
 		}
 	}

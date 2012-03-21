@@ -1121,18 +1121,6 @@ namespace GrandLarceny
 			m_lineList.Clear();
 		}
 
-		public Vector2 calculateWorldMouse() {
-			Vector2 t_worldMouse = new Vector2(
-				Mouse.GetState().X / Game.getInstance().m_camera.getZoom()
-					+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().X
-					- ((Game.getInstance().getResolution().X / 2) / Game.getInstance().m_camera.getZoom())
-				, Mouse.GetState().Y / Game.getInstance().m_camera.getZoom() 
-					+ (int)Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates().Y
-					- ((Game.getInstance().getResolution().Y / 2) / Game.getInstance().m_camera.getZoom())
-			);
-			return t_worldMouse;
-		}
-
 		private Vector2 getTile(Vector2 a_pixelPosition) {
 			if (a_pixelPosition.X >= 0)
 				a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % TILE_WIDTH);

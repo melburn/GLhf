@@ -60,7 +60,7 @@ namespace GrandLarceny
 
 		public override void update(GameTime a_gameTime) {
 			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released) {
-				if (m_box.contains(((DevelopmentState)Game.getInstance().getState()).calculateWorldMouse())) {
+				if (m_box.contains(Game.getInstance().getState().calculateWorldMouse())) {
 					m_writing = true;
 					m_lastPressedKeys = new Dictionary<Keys,TimeSpan>();
 					m_box.setLineColor(Color.Orange);
