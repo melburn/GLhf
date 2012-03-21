@@ -31,7 +31,7 @@ namespace GrandLarceny
 		private Boolean m_running = false;
 		private Boolean m_facingRight;
 
-		private float m_sightRange = 750f;
+		private float m_sightRange = 600f;
 
 		[NonSerialized]
 		private FlashCone m_flashLight;

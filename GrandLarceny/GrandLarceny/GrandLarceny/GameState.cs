@@ -19,6 +19,15 @@ namespace GrandLarceny
 		private string m_currentLevel;
 		private int m_currentList;
 
+		private static Keys m_upKey;
+		private static Keys m_downKey;
+		private static Keys m_leftKey;
+		private static Keys m_rightKey;
+		private static Keys m_jumpKey;
+		private static Keys m_rollKey;
+		private static Keys m_actionKey;
+		private static Keys m_sneakKey;
+
 		private Player player;
 
 		public GameState(string a_levelToLoad)
@@ -62,7 +71,30 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
 			}
-			
+
+			string[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//input.ini");
+			foreach (string t_currentLine in t_loadedFile)
+			{
+				string[] t_keybinding = t_currentLine.Split('=');
+				if (t_keybinding[0].Equals("Up"))
+					m_upKey		= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
+				else if (t_keybinding[0].Equals("Down"))
+					m_downKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
+				else if (t_keybinding[0].Equals("Left"))
+					m_leftKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
+				else if (t_keybinding[0].Equals("Right"))
+					m_rightKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
+				else if (t_keybinding[0].Equals("Jump"))
+					m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1].ToUpper());
+				else if (t_keybinding[0].Equals("Roll"))
+					m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1].ToUpper());
+				else if (t_keybinding[0].Equals("Action"))
+					m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1].ToUpper());
+				else if (t_keybinding[0].Equals("Sneak"))
+					m_sneakKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
+				else
+					System.Console.WriteLine("Unknown keybinding found!");
+			}
 		}
 
 		public override void setPlayer(Player a_player)
@@ -91,12 +123,12 @@ namespace GrandLarceny
 				}
 			}
 
-			if (Game.m_currentKeyInput.IsKeyDown(Keys.Q))
+			if (Game.isKeyPressed(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
 
-			if (Game.m_currentKeyInput.IsKeyDown(Keys.R))
+			if (Game.isKeyPressed(Keys.R))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
@@ -243,6 +275,45 @@ namespace GrandLarceny
 			return null;
 		}
 
+		public static Keys getUpKey()
+		{
+			return m_upKey;
+		}
+
+		public static Keys getDownKey()
+		{
+			return m_downKey;
+		}
+
+		public static Keys getLeftKey()
+		{
+			return m_leftKey;
+		}
+
+		public static Keys getRightKey()
+		{
+			return m_rightKey;
+		}
+
+		public static Keys getJumpKey()
+		{
+			return m_jumpKey;
+		}
+
+		public static Keys getRollKey()
+		{
+			return m_rollKey;
+		}
+
+		public static Keys getActionKey()
+		{
+			return m_actionKey;
+		}
+
+		public static Keys getSneakKey()
+		{
+			return m_sneakKey;
+		}
 		public void clearAggro()
 		{
 			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)

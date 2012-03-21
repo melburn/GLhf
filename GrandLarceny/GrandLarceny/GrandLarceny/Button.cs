@@ -68,15 +68,15 @@ namespace GrandLarceny
 			m_downSound = null;
 		}
 
-		public Button(string a_buttonName, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
+		public Button(string a_buttonTexture, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
 		{
 			try {
-				setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonName + "_normal"));
-				setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonName + "_hover"));
-				setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonName + "_pressed"));
-				setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonName + "_toggle"));
+				setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_normal"));
+				setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_hover"));
+				setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_pressed"));
+				setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_toggle"));
 			} catch (ContentLoadException cle) {
-				System.Console.WriteLine("Could not find asset for: " + a_buttonName + "\n" + cle.ToString());
+				System.Console.WriteLine("Could not find asset for: " + a_buttonTexture + "\n" + cle.ToString());
 			}
 			if (a_font == null)
 				a_font = "Courier New";

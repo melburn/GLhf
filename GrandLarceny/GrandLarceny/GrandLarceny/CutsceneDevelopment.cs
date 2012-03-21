@@ -19,13 +19,19 @@ namespace GrandLarceny
 
 		public CutsceneDevelopment(DevelopmentState a_backState, LinkedList<Event> a_events)
 		{
+			if (a_events == null)
+			{
+				throw new ArgumentNullException();
+			}
 			m_backState = a_backState;
 			m_buttonList = new LinkedList<Button>();
-			Button t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(0, 100), "No more event plz", null, Color.Red, new Vector2(10, 10));
+			Button t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(0, 0), "No more event plz", null, Color.Red, new Vector2(10, 10));
 			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(exitState);
 			m_buttonList.AddLast(t_buttonToAdd);
-			t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(500, 500), "Add new event", null, Color.Black, new Vector2(10, 10));
+			t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(800, 500), "Add new event", null, Color.Black, new Vector2(10, 10));
 			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEvent);
+			m_buttonList.AddLast(t_buttonToAdd);
+			m_events = new Dictionary<Button, Event>();
 
 			foreach (Event t_e in a_events)
 			{

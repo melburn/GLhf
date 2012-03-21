@@ -29,7 +29,7 @@ namespace GrandLarceny
 				if (CollisionManager.Contains(this.getHitBox(), 
 					new Vector2(t_playerGlobalPosition.X + t_playerOutBox.Width/2, t_playerGlobalPosition.Y + t_playerOutBox.Height/2)))
 				{
-					if (Game.keyClicked(Player.m_upKey)&& !t_player.isChase()
+					if (Game.keyClicked(GameState.getUpKey()) && !t_player.isChase()
 						&& t_player.getLastState() != Player.State.Hiding)
 					{
 						t_player.setState(Player.State.Hiding);
