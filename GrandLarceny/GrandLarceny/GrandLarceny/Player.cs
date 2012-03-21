@@ -29,6 +29,8 @@ namespace GrandLarceny
 
 		private float m_originalLayer;
 
+		private int m_health;
+
 		[NonSerialized]
 		public GuiObject[] m_healthHearts;
 
@@ -66,10 +68,10 @@ namespace GrandLarceny
 
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
-		private int m_health;
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
 		private bool m_stunnedGravity = true;
+		private bool m_hasBoots = false;
 		
 		public static Keys m_leftKey = Keys.Left;
 		public static Keys m_rightKey = Keys.Right;
@@ -907,6 +909,11 @@ namespace GrandLarceny
 		#endregion
 
 		#region get/set and other methods
+		internal bool hasBoots()
+		{
+			return m_hasBoots;
+		}
+
 		public void setIsInLight(bool a_isInLight)
 		{
 			m_isInLight = a_isInLight;
