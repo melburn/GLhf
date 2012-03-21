@@ -15,7 +15,7 @@ namespace GrandLarceny
 		private Boolean m_hasPatrol;
 		private const float MOVEMENTSPEED = 80;
 		private const float CHARGEINGSPEED = 400;
-		private const float WALKANISPEED = 10;
+		private const float WALKANISPEED = 7;
 		private const float CHARGEANISPEED = 20;
 		private const float BARKCOOLDOWN = 0.8f;
 		private Boolean m_chargeing = false;
@@ -86,10 +86,12 @@ namespace GrandLarceny
 			if (m_chargeing)
 			{
 				m_speed.X = CHARGEINGSPEED;
+				m_img.setAnimationSpeed(CHARGEANISPEED);
 			}
 			else
 			{
 				m_speed.X = MOVEMENTSPEED;
+				m_img.setAnimationSpeed(WALKANISPEED);
 			}
 			m_facingRight = true;
 			m_barking = false;
@@ -105,10 +107,12 @@ namespace GrandLarceny
 			if (m_chargeing)
 			{
 				m_speed.X = -CHARGEINGSPEED;
+				m_img.setAnimationSpeed(CHARGEANISPEED);
 			}
 			else
 			{
 				m_speed.X = -MOVEMENTSPEED;
+				m_img.setAnimationSpeed(WALKANISPEED);
 			}
 			m_facingRight = false;
 			m_barking = false;
@@ -168,6 +172,7 @@ namespace GrandLarceny
 					{
 						m_speed.X = -MOVEMENTSPEED;
 					}
+					m_img.setAnimationSpeed(WALKANISPEED);
 				}
 			}
 			else
@@ -184,6 +189,7 @@ namespace GrandLarceny
 						m_speed.X = -CHARGEINGSPEED;
 					}
 				}
+				m_img.setAnimationSpeed(CHARGEANISPEED);
 			}
 		}
 
