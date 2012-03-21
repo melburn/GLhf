@@ -17,7 +17,7 @@ namespace GrandLarceny
 		public const float CAMERASPEED = 0.1f;
 
 		public const int CLIMBINGSPEED = 200;
-		public const int PLAYERSPEED = 400;
+		public const int PLAYERSPEED = 200;
 		public const int PLAYERSPEEDCHASEMODE = 420;
 		public const int JUMPSTRENGTH = 400;
 		public const int CAMERAMAXDISTANCE = 100;
@@ -30,6 +30,8 @@ namespace GrandLarceny
 
 		private int m_playerCurrentSpeed;
 		private float m_originalLayer;
+
+		private int m_health;
 
 		[NonSerialized]
 		public GuiObject[] m_healthHearts;
@@ -67,11 +69,11 @@ namespace GrandLarceny
 
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
-		private int m_health;
+
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
 		private bool m_stunnedGravity = true;
-		
+		private bool m_hasBoots = true; //FIXA DET, DEN SKA VA FAAAAAAAAAAAALLLLLLLLLSSSSSSSSEEEEEE
 		private bool m_chase = false;
 
 		public enum Direction
@@ -901,6 +903,11 @@ namespace GrandLarceny
 		#endregion
 
 		#region get/set and other methods
+		internal bool hasBoots()
+		{
+			return m_hasBoots;
+		}
+
 		public void setIsInLight(bool a_isInLight)
 		{
 			m_isInLight = a_isInLight;

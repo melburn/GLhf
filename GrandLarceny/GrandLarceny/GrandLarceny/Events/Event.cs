@@ -17,10 +17,6 @@ namespace GrandLarceny.Events
 
 		public Event(EventTrigger[] a_triggers, EventEffect[] a_effects, bool a_oneShot)
 		{
-			if (a_triggers.Length == 0 || a_effects.Length == 0)
-			{
-				throw new ArgumentException();
-			}
 			m_triggers = a_triggers;
 			m_effects = a_effects;
 			m_oneShot = a_oneShot;

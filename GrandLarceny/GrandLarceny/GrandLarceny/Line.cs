@@ -55,5 +55,9 @@ namespace GrandLarceny
 				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, t_cartCoord, null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width / t_zoom), SpriteEffects.None, 0.010f);
 			}
 		}
+
+		public void setColor(Color a_color) {
+			m_lineColor = a_color;
+		}
 	}
 }

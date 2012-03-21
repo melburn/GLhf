@@ -24,6 +24,7 @@ namespace GrandLarceny
 			} else {
 				m_position	= new CartesianCoordinate(a_position - Game.getInstance().getResolution() / 2, Game.getInstance().m_camera.getPosition());				
 			}
+			m_lineList = new LinkedList<Line>();
 			m_boxColor		= a_color;
 			m_width			= a_width;
 			m_height		= a_height;
@@ -102,8 +103,22 @@ namespace GrandLarceny
 			return false;
 		}
 
+		public void setLineColor(Color a_color) {
+			foreach (Line t_line in m_lineList) {
+				t_line.setColor(a_color);
+			}
+		}
+
 		public Position getPosition() {
 			return m_position;
+		}
+
+		public int getHeight() {
+			return m_height;
+		}
+
+		public int getWidth() {
+			return m_width;
 		}
 	}
 }

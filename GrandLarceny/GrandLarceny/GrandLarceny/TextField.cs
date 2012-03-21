@@ -15,6 +15,7 @@ namespace GrandLarceny
 		private bool	m_acceptNumbers;
 		private bool	m_acceptSpecials;
 		private string	m_currentLocale;
+		private int		m_maxLength;
 		private Keys[]	m_acptLetters = { 
 			Keys.A, Keys.B, Keys.C, Keys.D, Keys.E, Keys.F, Keys.G, Keys.H, Keys.I, Keys.J, Keys.K, Keys.L, Keys.M,
 			Keys.N, Keys.O, Keys.P, Keys.Q, Keys.R, Keys.S, Keys.T, Keys.U, Keys.V, Keys.W, Keys.X, Keys.Y, Keys.Z,
@@ -23,23 +24,21 @@ namespace GrandLarceny
 		private Keys[]	m_acptNumbers = {
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
 		};
-		private char[] euSv = {
-			'´', '+', '¨', 'å', 'ä', 'ö', '-', '.', ',', '§', '`', '?', '^', 'Å', '*', 'Ä', 'Ö', '_', ':', ';', '½'
-		};
 		private Dictionary<Keys, TimeSpan> m_lastPressedKeys;
 		private List<Keys> m_repeatKeys;
 		private TimeSpan m_repeatTime;
 
-		public TextField(Vector2 a_position, int a_width, int a_height, bool a_acceptLetters, bool a_acceptNumbers) 
+		public TextField(Vector2 a_position, int a_width, int a_height, bool a_acceptLetters, bool a_acceptNumbers, bool a_acceptSpecials, int a_maxLength) 
 			: base(a_position, "")
 		{
-			m_textToShow	= new Text(a_position, "", "VerdanaBold", Color.Black, false);
+			m_textToShow	= new Text(a_position, new Vector2(4, 2), "", "VerdanaBold", Color.Black, false);
 			m_box			= new Box(a_position, a_width, a_height, Color.White, Color.Black, 2, false);
 			m_writing		= false;
 			m_acceptLetters	= a_acceptLetters;
 			m_acceptNumbers = a_acceptNumbers;
-			m_acceptSpecials = true;
-			m_currentLocale = "enSv";
+			m_acceptSpecials = a_acceptSpecials;
+			m_maxLength = a_maxLength;
+			m_currentLocale = "euSv";
 		}
 
 		public override void loadContent()
@@ -64,8 +63,10 @@ namespace GrandLarceny
 				if (m_box.contains(((DevelopmentState)Game.getInstance().getState()).calculateWorldMouse())) {
 					m_writing = true;
 					m_lastPressedKeys = new Dictionary<Keys,TimeSpan>();
+					m_box.setLineColor(Color.Orange);
 				} else {
 					m_writing = false;
+					m_box.setLineColor(Color.Black);
 				}
 			}
 			if (m_writing) {
@@ -80,8 +81,13 @@ namespace GrandLarceny
 					m_lastPressedKeys.Remove(t_key);
 				}
 				m_repeatKeys.Clear();
-				if (m_currentLocale.Equals("enSv")) {
+				if (m_currentLocale.Equals("euSv")) {
 					updateSweden(a_gameTime);
+				}
+				if (m_maxLength != 0 && m_textToShow.getText().Length > m_maxLength) {
+					
+				} else if (m_textToShow.getText().Length * 10 > m_box.getWidth() + (m_textToShow.getText().Length)) {
+					m_textToShow.erase();
 				}
 			}
 		}
