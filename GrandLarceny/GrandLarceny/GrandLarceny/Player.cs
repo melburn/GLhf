@@ -46,7 +46,6 @@ namespace GrandLarceny
 		[NonSerialized]
 		private CollisionRectangle m_hangHitBox;
 
-
 		private State m_currentState = State.Stop;
 		private State m_lastState = State.Stop;
 		private State m_stunnedState = State.Stop;
