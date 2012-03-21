@@ -15,6 +15,7 @@ namespace GrandLarceny
 		#region Members
 		private LinkedList<GameObject>[] m_gameObjectList;
 		private LinkedList<GuiObject> m_guiList;
+		private LinkedList<Events.Event> m_events;
 
 		private LinkedList<Button> m_staticButton;
 		private LinkedList<Button> m_buildingButtons;
@@ -152,6 +153,11 @@ namespace GrandLarceny
 		{
 			m_guiList = new LinkedList<GuiObject>();
 			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
+
+			//todo
+			//serialize events
+			m_events = new LinkedList<Events.Event>();
+			
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
@@ -646,19 +652,24 @@ namespace GrandLarceny
 				m_currentLayer = 0;
 				Game.getInstance().setState(new GameState(m_levelToLoad));
 			}
-			if (Game.keyClicked(Keys.D1)) {
+			else if (Game.keyClicked(Keys.F6))
+			{
+				m_currentLayer = 0;
+				Game.getInstance().setState(new CutsceneDevelopment(this, m_events));
+			}
+			else if (Game.keyClicked(Keys.D1)) {
 				setLayer(0);
 			}
-			if (Game.keyClicked(Keys.D2)) {
+			else if (Game.keyClicked(Keys.D2)) {
 				setLayer(1);
 			}
-			if (Game.keyClicked(Keys.D3)) {
+			else if (Game.keyClicked(Keys.D3)) {
 				setLayer(2);
 			}
-			if (Game.keyClicked(Keys.D4)) {
+			else if (Game.keyClicked(Keys.D4)) {
 				setLayer(3);
 			}
-			if (Game.keyClicked(Keys.D5)) {
+			else if (Game.keyClicked(Keys.D5)) {
 				setLayer(4);
 			}
 			/*
@@ -1522,40 +1533,47 @@ namespace GrandLarceny
 		#region Draw
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			foreach (GuiObject t_guiObject in m_guiList)
-				t_guiObject.draw(a_gameTime);
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 				t_gameObject.draw(a_gameTime);
-			foreach (Button t_button in m_staticButton)
-				t_button.draw(a_gameTime, a_spriteBatch);
+			if (Game.getInstance().getState() == this) {
+				foreach (GuiObject t_guiObject in m_guiList)
+					t_guiObject.draw(a_gameTime);
+				foreach (Button t_button in m_staticButton)
+					t_button.draw(a_gameTime, a_spriteBatch);
 
-			switch (m_menuState) {
-				case MenuState.Normal:
-					foreach (Button t_button in m_buildingButtons) {
-						t_button.draw(a_gameTime, a_spriteBatch);
-					}
-					break;
-				case MenuState.Guard:
-					foreach (Button t_button in m_guardButtons) {
-						t_button.draw(a_gameTime, a_spriteBatch);
-					}
-					break;
-				case MenuState.Hide:
-					foreach (Button t_button in m_hideButtons) {
-						t_button.draw(a_gameTime, a_spriteBatch);
-					}
-					break;
-				case MenuState.Ventilation:
-					foreach (Button t_button in m_ventButtons) {
-						t_button.draw(a_gameTime, a_spriteBatch);
-					}
-					break;
+				switch (m_menuState)
+				{
+					case MenuState.Normal:
+						foreach (Button t_button in m_buildingButtons)
+						{
+							t_button.draw(a_gameTime, a_spriteBatch);
+						}
+						break;
+					case MenuState.Guard:
+						foreach (Button t_button in m_guardButtons)
+						{
+							t_button.draw(a_gameTime, a_spriteBatch);
+						}
+						break;
+					case MenuState.Hide:
+						foreach (Button t_button in m_hideButtons)
+						{
+							t_button.draw(a_gameTime, a_spriteBatch);
+						}
+						break;
+					case MenuState.Ventilation:
+						foreach (Button t_button in m_ventButtons)
+						{
+							t_button.draw(a_gameTime, a_spriteBatch);
+						}
+						break;
+				}
+
+				foreach (Button t_button in m_assetButtonList)
+					t_button.draw(a_gameTime, a_spriteBatch);
+				foreach (Button t_button in m_layerButtonList)
+					t_button.draw(a_gameTime, a_spriteBatch);
 			}
-
-			foreach (Button t_button in m_assetButtonList)
-				t_button.draw(a_gameTime, a_spriteBatch);
-			foreach (Button t_button in m_layerButtonList)
-				t_button.draw(a_gameTime, a_spriteBatch);
 			foreach (Line t_line in m_lineList)
 				t_line.draw();
 			if (m_objectPreview != null)
@@ -1564,5 +1582,6 @@ namespace GrandLarceny
 				m_dragLine.draw();
 		}
 		#endregion
+
 	}
 }

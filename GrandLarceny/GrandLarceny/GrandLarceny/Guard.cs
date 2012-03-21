@@ -31,7 +31,7 @@ namespace GrandLarceny
 		private Boolean m_running = false;
 		private Boolean m_facingRight;
 
-		private float m_sightRange = 900f;
+		private float m_sightRange = 600f;
 
 		[NonSerialized]
 		private FlashCone m_flashLight;
@@ -310,6 +310,14 @@ namespace GrandLarceny
 				if (m_flashLight == null)
 				{
 					m_img.setSprite("Images//Sprite//Guard//guard_pick_up_flash");
+					if (m_facingRight)
+					{
+						Game.getInstance().getState().addObject(new Particle(new Vector2(m_position.getGlobalX() + 72, m_position.getGlobalY() - 10), "Images//Sprite//Guard//qmark", 10f, m_layer));
+					}
+					else
+					{
+						Game.getInstance().getState().addObject(new Particle(new Vector2(m_position.getGlobalX() - 22, m_position.getGlobalY() - 10), "Images//Sprite//Guard//qmark", 10f, m_layer));
+					}
 				}
 				else
 				{
@@ -508,6 +516,7 @@ namespace GrandLarceny
 
 			if ((m_aiState != AIStateChasing.getInstance()) && canSeePlayer())
 			{
+				chasePlayer();
 				m_aiState = AIStateChasing.getInstance();
 			}
 
@@ -527,14 +536,19 @@ namespace GrandLarceny
 
 		internal void chasePlayer()
 		{
-			m_chaseTarget = Game.getInstance().getState().getPlayer();
+			Player t_player = Game.getInstance().getState().getPlayer();
+			m_chaseTarget = t_player;
+			if (!t_player.isChase())
+			{
+				t_player.activeChaseMode();
+			}
 		}
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
 			Platform t_supportingPlatform = null;
 			foreach (Entity t_collision in a_collisionList)
 			{
-				if (t_collision is Wall)
+				if (t_collision is Wall || t_collision is Window)
 				{
 					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
 					{
@@ -585,7 +599,7 @@ namespace GrandLarceny
 					}
 					else if (t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
 					{
-						m_chaseTarget = t_collision;
+						chasePlayer();
 						m_aiState = AIStateChasing.getInstance();
 					}
 				}

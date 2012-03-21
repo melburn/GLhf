@@ -59,7 +59,7 @@ namespace GrandLarceny
 						return;
 					}
 					//Colliding with ze left wall
-					if ((int)t_player.getLastPosition().X + 1 >= (int)getLastPosition().X + getHitBox().getOutBox().Width)
+					else if (t_player.getPosition().getGlobalX() + (t_player.getHitBox().getOutBox().Width/2) > m_position.getGlobalX() + (m_collisionShape.getOutBox().Width/2))
 					{
 						t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
 						t_player.setSpeedX(0);
@@ -67,7 +67,7 @@ namespace GrandLarceny
 
 					}
 					//Colliding with ze right wall
-					if ((int)t_player.getLastPosition().X + t_player.getHitBox().getOutBox().Width - 1 <= (int)getLastPosition().X)
+					else if (t_player.getPosition().getGlobalX() + (t_player.getHitBox().getOutBox().Width / 2) < m_position.getGlobalX() + (m_collisionShape.getOutBox().Width / 2))
 					{
 						t_player.setNextPositionX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
 						t_player.setSpeedX(0);

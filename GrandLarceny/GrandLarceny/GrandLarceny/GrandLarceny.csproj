@@ -122,6 +122,7 @@
     <Compile Include="CollisionTriangle.cs" />
     <Compile Include="CornerVentilation.cs" />
     <Compile Include="CrossVentilation.cs" />
+    <Compile Include="CutsceneDevelopment.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
     <Compile Include="Cutscene.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Events\Triggers\EventTrigger.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinRectangle.cs" />
     <Compile Include="FlashCone.cs" />
+    <Compile Include="Particle.cs" />
     <Compile Include="TextField.cs" />
     <Compile Include="GuardCamera.cs" />
     <Compile Include="TVentilation.cs" />

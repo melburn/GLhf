@@ -23,7 +23,7 @@ namespace GrandLarceny
 			m_img.draw(t_cartCoord, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, 1.0f / t_zoom, 1.0f / t_zoom);
 		}
 
-		public virtual void update(GameTime a_gameTime) {
+		public override void update(GameTime a_gameTime) {
 
 		}
 
