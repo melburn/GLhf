@@ -125,6 +125,7 @@
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
     <Compile Include="Cutscene.cs" />
+    <Compile Include="Events\Effects\CutsceneEffect.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\Effects\EventEffect.cs" />
     <Compile Include="ParseException.cs" />
