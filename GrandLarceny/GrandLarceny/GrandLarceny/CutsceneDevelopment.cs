@@ -15,18 +15,30 @@ namespace GrandLarceny
 		private LinkedList<Button> m_buttonList;
 		private Dictionary<Button, Event> m_events;
 
+		private Button m_selectedEvent;
+
 		public CutsceneDevelopment(DevelopmentState a_backState, LinkedList<Event> a_events)
 		{
 			m_backState = a_backState;
 			m_buttonList = new LinkedList<Button>();
-			Button t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(100, 100), "I DONT WANNA DO NO MORE EVENTS PLZ", null, Color.Red, new Vector2(10, 10));
+			Button t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(0, 100), "No more event plz", null, Color.Red, new Vector2(10, 10));
 			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(exitState);
 			m_buttonList.AddLast(t_buttonToAdd);
+			t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(500, 500), "Add new event", null, Color.Black, new Vector2(10, 10));
+			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEvent);
 
 			foreach (Event t_e in a_events)
 			{
-
+				addEvent(t_e);
 			}
+		}
+
+		public void addEvent(Event t_e)
+		{
+			Button t_button = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(10, 100 + (m_events.Count * 20)), "" + m_events.Count, null, Color.Yellow, new Vector2(10, 10));
+			t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
+			m_events.Add(t_button, t_e);
+			m_buttonList.AddLast(t_button);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -56,6 +68,15 @@ namespace GrandLarceny
 
 		public void selectEvent(Button a_button)
 		{
+			m_selectedEvent = a_button;
+		}
+
+		public void addEvent(Button a_care)
+		{
+			Button t_button = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(10, 100 + (m_events.Count * 20)), "" + m_events.Count, null, Color.Yellow, new Vector2(10, 10));
+			t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
+			m_events.Add(t_button, new Event(new EventTrigger[0], new EventEffect[0], false));
+			m_buttonList.AddLast(t_button);
 		}
 	}
 }
