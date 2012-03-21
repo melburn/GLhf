@@ -18,6 +18,7 @@ namespace GrandLarceny
 
 		public const int CLIMBINGSPEED = 200;
 		public const int PLAYERSPEED = 400;
+		public const int PLAYERSPEEDCHASEMODE = 420;
 		public const int JUMPSTRENGTH = 400;
 		public const int CAMERAMAXDISTANCE = 100;
 		public const int ACCELERATION = 2800;
@@ -27,6 +28,7 @@ namespace GrandLarceny
 		public const int SLIDESPEED = 25;
 		public const int ROLLSPEED = 1200;
 
+		private int m_playerCurrentSpeed;
 		private float m_originalLayer;
 
 		[NonSerialized]
@@ -70,6 +72,8 @@ namespace GrandLarceny
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
 		private bool m_stunnedGravity = true;
+		
+		private bool m_chase = false;
 
 		public enum Direction
 		{
@@ -931,7 +935,12 @@ namespace GrandLarceny
 		{
 			m_ventilationDirection = a_d;
 		}
-
+		public void activeChaseMode()
+		{
+			m_chase = true;
+			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
+			m_isInLight = true;
+		}
 		public override void draw(GameTime a_gameTime)
 		{
 			base.draw(a_gameTime);
@@ -1044,6 +1053,10 @@ namespace GrandLarceny
 		public bool isStunned()
 		{
 			return m_stunned;
+		}
+		public bool isChase()
+		{
+			return m_chase;
 		}
 		public State getCurrentState()
 		{
