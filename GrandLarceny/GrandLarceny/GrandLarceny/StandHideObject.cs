@@ -21,7 +21,7 @@ namespace GrandLarceny
 			{
 				Player t_player = (Player) a_collider;
 				
-				if (Game.isKeyPressed(Player.m_upKey) && !Game.wasKeyPressed(Player.m_upKey)
+				if (Game.keyClicked(GameState.getUpKey())
 					&& t_player.getLastState() != Player.State.Hiding && t_player.getCurrentState() != Player.State.Jumping
 					&& t_player.getCurrentState() != Player.State.Slide && t_player.getCurrentState() != Player.State.Climbing)
 				{

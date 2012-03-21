@@ -60,6 +60,10 @@
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
+    <None Include="wtf\input.ini">
+      <Name>input</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="wtf\loadImages.txt">
       <Name>loadImages</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1031,6 +1035,41 @@
   <ItemGroup>
     <Compile Include="Images\Foregrounds\casino_facade.png">
       <Name>casino_facade</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Corner\ventil_short_tile_w_floor_corner.png">
+      <Name>ventil_short_tile_w_floor_corner</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Cross\ventil_short_tile_w_floor_crossing.png">
+      <Name>ventil_short_tile_w_floor_crossing</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Straight\ventil_short_tile_w_floor.png">
+      <Name>ventil_short_tile_w_floor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Straight\ventil_short_tile_w_floor_wall.png">
+      <Name>ventil_short_tile_w_floor_wall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\TVent\ventil_short_tile_w_floor_tjunction.png">
+      <Name>ventil_short_tile_w_floor_tjunction</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

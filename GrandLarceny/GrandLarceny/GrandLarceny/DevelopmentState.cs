@@ -41,7 +41,7 @@ namespace GrandLarceny
 		private Text m_layerInfo;
 		private GuiObject m_UItextBackground;
 
-		private TextField m_test;
+		private TextField m_textField;
 		
 		/*
 		-----------------------------------
@@ -185,8 +185,8 @@ namespace GrandLarceny
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
-			m_test = new TextField(new Vector2(200, 200), 100, 100, true, true);
-			m_guiList.AddLast(m_test);
+			m_textField = new TextField(new Vector2(200, 200), 250, 25, true, true, true, 0);
+			m_guiList.AddLast(m_textField);
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -280,19 +280,19 @@ namespace GrandLarceny
 			 * m_ventKeys
 			-----------------------------------
 			*/
-			m_btnCrossVent	= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
-				new Vector2(t_bottomRight.X - TILE_WIDTH * 5, t_bottomRight.Y - TILE_HEIGHT * 2), "T", "VerdanaBold", Color.White, t_btnTextOffset);
-			m_btnCornerVent = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
-				new Vector2(t_bottomRight.X - TILE_WIDTH * 4, t_bottomRight.Y - TILE_HEIGHT * 2), "A", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnTVent		= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
-				new Vector2(t_bottomRight.X - TILE_WIDTH * 3, t_bottomRight.Y - TILE_HEIGHT * 2), "C", "VerdanaBold", Color.White, t_btnTextOffset);
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 5, t_bottomRight.Y - TILE_HEIGHT * 2), "T", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnStraVent	= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 4, t_bottomRight.Y - TILE_HEIGHT * 2), "A", "VerdanaBold", Color.White, t_btnTextOffset);
+			m_btnCrossVent	= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 3, t_bottomRight.Y - TILE_HEIGHT * 2), "C", "VerdanaBold", Color.White, t_btnTextOffset);
+			m_btnCornerVent = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 2, t_bottomRight.Y - TILE_HEIGHT * 2), "O", "VerdanaBold", Color.White, t_btnTextOffset);
 			
-			m_ventButtons.AddLast(m_btnCrossVent);
-			m_ventButtons.AddLast(m_btnCornerVent);
 			m_ventButtons.AddLast(m_btnTVent);
 			m_ventButtons.AddLast(m_btnStraVent);
+			m_ventButtons.AddLast(m_btnCrossVent);
+			m_ventButtons.AddLast(m_btnCornerVent);
 
 			foreach (Button t_button in m_ventButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
