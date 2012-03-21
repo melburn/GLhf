@@ -60,6 +60,10 @@
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
+    <None Include="wtf\input.ini">
+      <Name>input</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="wtf\loadImages.txt">
       <Name>loadImages</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

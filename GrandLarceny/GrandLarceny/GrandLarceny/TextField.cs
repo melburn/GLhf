@@ -215,7 +215,7 @@ namespace GrandLarceny
 							}									
 						}
 					}
-					if(!(Game.m_previousKeyInput.IsKeyDown(t_key) && !m_lastPressedKeys.ContainsKey(t_key)))
+					if(!(Game.wasKeyPressed(t_key) && !m_lastPressedKeys.ContainsKey(t_key)))
 						m_lastPressedKeys.Add(t_key, a_gameTime.TotalGameTime);
 				}
 			}
