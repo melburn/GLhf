@@ -428,8 +428,28 @@ namespace GrandLarceny
 
 		public bool isFacingTowards(float a_x)
 		{
-			return (a_x <= m_position.getGlobalX() && ! m_facingRight)
-				|| (a_x >= m_position.getGlobalX() && m_facingRight);
+			if(m_img.getImagePath().Equals("Images//Sprite//Guard//guard_flash_turn") || m_img.getImagePath().Equals("Images//Sprite//Guard//guard_turn"))
+			{
+				if (m_img.getSubImageIndex() < 5)
+				{
+					return (a_x <= m_position.getGlobalX() && !m_facingRight)
+					|| (a_x >= m_position.getGlobalX() && m_facingRight);
+				}
+				else if (m_img.getSubImageIndex() >= 6)
+				{
+					return (a_x <= m_position.getGlobalX() && m_facingRight)
+					|| (a_x >= m_position.getGlobalX() && !m_facingRight);
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return (a_x <= m_position.getGlobalX() && ! m_facingRight)
+					|| (a_x >= m_position.getGlobalX() && m_facingRight);
+			}
 		}
 		public override void update(GameTime a_gameTime)
 		{
@@ -485,6 +505,12 @@ namespace GrandLarceny
 			base.update(a_gameTime);
 
 			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000f),0);
+
+			if ((m_aiState != AIStateChasing.getInstance()) && canSeePlayer())
+			{
+				m_aiState = AIStateChasing.getInstance();
+			}
+
 			if (m_facingRight)
 			{
 				m_spriteEffects = SpriteEffects.None;

@@ -84,16 +84,6 @@ namespace GrandLarceny
 					{
 						t_spotLight.toggleLight();
 					}
-					if (!t_spotLight.isLit())
-					{
-						foreach (GameObject t_guard in Game.getInstance().getState().getCurrentList())
-						{
-							if (t_guard is Guard && CollisionManager.possibleLineOfSight(t_guard.getPosition().getGlobalCartesianCoordinates(), m_position.getGlobalCartesianCoordinates()))
-							{
-								((Guard)t_guard).addLampSwitchTarget(this);
-							}
-						}
-					}
 				}
 			}
 		}

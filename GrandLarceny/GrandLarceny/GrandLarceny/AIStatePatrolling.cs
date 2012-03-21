@@ -26,65 +26,57 @@ namespace GrandLarceny
 			if(a_agent is Guard)
 			{
 				Guard t_guard = (Guard)a_agent;
-				if (t_guard.canSeePlayer())
+				if (!t_guard.hasNoLampSwitchTargets())
 				{
-					t_guard.chasePlayer();
-					return AIStateChasing.getInstance();
+					return AIStateGoingToTheSwitch.getInstance();
 				}
 				else
 				{
-					if (!t_guard.hasNoLampSwitchTargets())
+					if (t_guard.isCarryingFlash() != t_guard.isFlashLightAddicted() && t_guard.hasFlash())
 					{
-						return AIStateGoingToTheSwitch.getInstance();
+						t_guard.toggleFlashLight();
+					}
+					else if (t_guard.hasPatrol())
+					{
+						if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftPatrolPoint())
+						{
+							t_guard.goRight();
+						}
+						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightPatrolPoint())
+						{
+							t_guard.goLeft();
+						}
+						else if (t_guard.getHorizontalSpeed() == 0)
+						{
+							t_guard.goLeft();
+						}
 					}
 					else
 					{
-						if (t_guard.isCarryingFlash() != t_guard.isFlashLightAddicted() && t_guard.hasFlash())
+						float t_guardPoint = t_guard.getLeftPatrolPoint();
+						if (t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
 						{
-							t_guard.toggleFlashLight();
-						}
-						else if (t_guard.hasPatrol())
-						{
-							if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftPatrolPoint())
+							if (t_guard.getHorizontalSpeed() >= 0)
 							{
 								t_guard.goRight();
 							}
-							else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightPatrolPoint())
-							{
-								t_guard.goLeft();
-							}
-							else if (t_guard.getHorizontalSpeed() == 0)
+						}
+						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
+						{
+							if (t_guard.getHorizontalSpeed() <= 0)
 							{
 								t_guard.goLeft();
 							}
 						}
 						else
 						{
-							float t_guardPoint = t_guard.getLeftPatrolPoint();
-							if (t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
+							if (t_guard.getHorizontalSpeed() != 0)
 							{
-								if (t_guard.getHorizontalSpeed() >= 0)
-								{
-									t_guard.goRight();
-								}
-							}
-							else if (t_guard.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
-							{
-								if (t_guard.getHorizontalSpeed() <= 0)
-								{
-									t_guard.goLeft();
-								}
-							}
-							else
-							{
-								if (t_guard.getHorizontalSpeed() != 0)
-								{
-									t_guard.stop();
-								}
+								t_guard.stop();
 							}
 						}
-						return this;
 					}
+					return this;
 				}
 			}
 			else if (a_agent is GuardDog)
