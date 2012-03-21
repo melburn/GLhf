@@ -34,11 +34,6 @@ namespace GrandLarceny
 				{
 					return AIStatepatroling.getInstance();
 				}
-				else if(t_guard.canSeePlayer())
-				{
-					t_guard.chasePlayer();
-					return AIStateChasing.getInstance();
-				}
 				else
 				{
 					if (!t_guard.isCarryingFlash() && t_guard.hasFlash())
@@ -48,42 +43,34 @@ namespace GrandLarceny
 					else
 					{
 						LampSwitch t_lampSwitch = t_guard.getFirstLampSwitchTarget();
-						while (t_lampSwitch.isOn())
-						{
-							t_guard.removeFirstLampSwitchTarget();
+						while (Math.Abs(t_lampSwitch.getPosition().getGlobalX() - a_agent.getPosition().getGlobalX()) < 10)
+						{ 
+							t_lampSwitch.toggleSwitch();
+							foreach (GameObject t_g in Game.getInstance().getState().getCurrentList())
+							{
+								if (t_g is Guard && CollisionManager.possibleLineOfSight(t_guard.getPosition().getGlobalCartesianCoordinates(), t_lampSwitch.getPosition().getGlobalCartesianCoordinates()))
+								{
+									((Guard)t_guard).addLampSwitchTarget(t_lampSwitch);
+								}
+							}
 							if (t_guard.hasNoLampSwitchTargets())
 							{
 								return AIStatepatroling.getInstance();
 							}
 							t_lampSwitch = t_guard.getFirstLampSwitchTarget();
 						}
-						while (Math.Abs(t_lampSwitch.getPosition().getGlobalX() - a_agent.getPosition().getGlobalX()) < 10)
-						{ 
-							t_lampSwitch.toggleSwitch();
-							//toogleSwitch will remove the switch from the guard
-							t_lampSwitch = t_guard.getFirstLampSwitchTarget();
-							while (t_lampSwitch.isOn())
-							{
-								t_guard.removeFirstLampSwitchTarget();
-								if (t_guard.hasNoLampSwitchTargets())
-								{
-									return AIStatepatroling.getInstance();
-								}
-								t_lampSwitch = t_guard.getFirstLampSwitchTarget();
-							}
-						}
 						if (t_guard.isRunning())
 						{
 							t_guard.setRunning(false);
 						}
-						if (t_guard.getPosition().getGlobalX() < t_lampSwitch.getPosition().getGlobalX())
+						else if (t_guard.getPosition().getGlobalX() < t_lampSwitch.getPosition().getGlobalX())
 						{
 							if (t_guard.getHorizontalSpeed() <= 0)
 							{
 								t_guard.goRight();
 							}
 						}
-						if (t_guard.getPosition().getGlobalX() > t_lampSwitch.getPosition().getGlobalX())
+						else if (t_guard.getPosition().getGlobalX() > t_lampSwitch.getPosition().getGlobalX())
 						{
 							if (t_guard.getHorizontalSpeed() >= 0)
 							{

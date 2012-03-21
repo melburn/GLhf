@@ -185,5 +185,10 @@ namespace GrandLarceny
 		{
 			m_looping = a_looping;
 		}
+
+		public int getLength()
+		{
+			return m_animationFrames;
+		}
 	}
 }
