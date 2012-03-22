@@ -8,14 +8,14 @@ namespace GrandLarceny.Events
 	[Serializable()]
 	class Event
 	{
-		private EventTrigger[] m_triggers;
-		private EventEffect[] m_effects;
+		private LinkedList<EventTrigger> m_triggers;
+		private LinkedList<EventEffect> m_effects;
 
 		//if the event should only occur once
 		private bool m_oneShot;
 
 
-		public Event(EventTrigger[] a_triggers, EventEffect[] a_effects, bool a_oneShot)
+		public Event(LinkedList<EventTrigger> a_triggers, LinkedList<EventEffect> a_effects, bool a_oneShot)
 		{
 			m_triggers = a_triggers;
 			m_effects = a_effects;
