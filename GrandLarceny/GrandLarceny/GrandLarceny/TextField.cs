@@ -58,6 +58,14 @@ namespace GrandLarceny
 			return false;
 		}
 
+		public string getText() {
+			return m_textToShow.getText();
+		}
+
+		public void setText(string a_string) {
+			m_textToShow.setText(a_string);
+		}
+
 		public override void update(GameTime a_gameTime) {
 			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released) {
 				if (m_box.contains(((DevelopmentState)Game.getInstance().getState()).calculateWorldMouse())) {
