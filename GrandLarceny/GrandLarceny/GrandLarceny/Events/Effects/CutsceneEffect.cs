@@ -22,5 +22,10 @@ namespace GrandLarceny.Events.Effects
 		{
 			Game.getInstance().setCutscene(m_cutsceneName);
 		}
+
+		public override string ToString()
+		{
+			return "Cutscene: " + m_cutsceneName;
+		}
 	}
 }
