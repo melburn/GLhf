@@ -256,7 +256,12 @@ namespace GrandLarceny
 					byte[] t_eventsInByte = new byte[t_eventsSize];
 					t_fstream.Read(t_eventsInByte, 0, t_eventsSize);
 					t_mStream.Write(t_eventsInByte, 0, t_eventsSize);
+					t_mStream.Position = 0;
 					t_events = (LinkedList<Event>)t_bFormatter.Deserialize(t_mStream);
+					if (t_mStream != null)
+					{
+						t_mStream.Close();
+					}
 				}
 				catch (SerializationException e)
 				{

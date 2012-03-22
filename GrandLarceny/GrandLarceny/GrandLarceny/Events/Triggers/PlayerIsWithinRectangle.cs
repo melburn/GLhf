@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny.Events.Triggers
 {
+	[Serializable()]
 	class PlayerIsWithinRectangle : EventTrigger
 	{
 		private float m_x1;

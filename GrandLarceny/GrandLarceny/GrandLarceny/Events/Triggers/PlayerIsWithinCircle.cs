@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny.Events.Triggers
 {
+	[Serializable()]
 	class PlayerIsWithinCircle : EventTrigger
 	{
 		private Vector2 m_position;

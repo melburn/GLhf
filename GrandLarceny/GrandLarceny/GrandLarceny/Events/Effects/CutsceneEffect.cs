@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GrandLarceny.Events.Effects
 {
+	[Serializable()]
 	class CutsceneEffect : EventEffect
 	{
 		private String m_cutsceneName;

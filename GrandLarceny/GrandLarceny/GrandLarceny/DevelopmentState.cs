@@ -704,6 +704,7 @@ namespace GrandLarceny
 					}
 					Level t_saveLevel = new Level();
 					t_saveLevel.setLevelObjects(m_gameObjectList);
+					t_saveLevel.setEvents(m_events);
 					Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
 
 				}
