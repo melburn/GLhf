@@ -39,7 +39,7 @@ namespace GrandLarceny
 						++m_comDone;
 					}
 				}
-				else if (Game.isKeyPressed(parseKey(m_commands[1])))
+				else if (Game.isKeyPressed(parseKey(m_currentCommand[1])))
 				{
 					m_waiting = false;
 					++m_comDone;
@@ -47,11 +47,11 @@ namespace GrandLarceny
 			}
 			else
 			{
-				while (m_comDone < m_currentCommand.Length && parseAndExecute(a_gameTime))
+				while (m_comDone < m_commands.Length && parseAndExecute(a_gameTime))
 				{
 					++m_comDone;
 				}
-				if (m_comDone >= m_currentCommand.Length)
+				if (m_comDone >= m_commands.Length)
 				{
 					Game.getInstance().setState(m_backState);
 				}
@@ -65,7 +65,8 @@ namespace GrandLarceny
 
 		private bool parseAndExecute(GameTime a_gameTime)
 		{
-			m_currentCommand = m_commands[m_comDone].Split(':');
+			char[] t_delimiterChars = {':'};
+			m_currentCommand = m_commands[m_comDone].Split(t_delimiterChars);
 			if (m_currentCommand[0].Equals("waitForKey", StringComparison.OrdinalIgnoreCase))
 			{
 				if (m_currentCommand.Length == 1)
