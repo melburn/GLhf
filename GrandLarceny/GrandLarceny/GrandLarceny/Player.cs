@@ -245,17 +245,26 @@ namespace GrandLarceny
 						Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height);
 						if (m_currentState != State.Hanging)
 							m_lastState = State.Hanging;
-						
 					}
 					else if (m_stunnedState == State.Rolling || (m_stunnedState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE))
 						m_collisionShape = m_rollHitBox;
 					else if (m_stunnedState == State.Slide)
 						m_collisionShape = m_SlideBox;
 					else
+					{
 						m_collisionShape = m_standHitBox;
+					}
 					
 				}
+				if (m_currentState == State.Stop)
+				{
+					changeAnimation();
+					m_imgOffsetX = 0;
+					m_imgOffsetY = 0;
+				}
 				m_currentState = m_stunnedState;
+				
+				
 			}
 		}
 
@@ -1019,24 +1028,36 @@ namespace GrandLarceny
 			}
 			
 			m_img.setAnimationSpeed(10);
-			deactiveChaseMode();
+			deactivateChaseMode();
 		}
 
 		public void hangClimbAction()
 		{
-			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
+			m_img.setSprite("Images//Sprite//Hero//hero_climb_ledge");
+			m_currentState = State.Stop;
+			updateState();
+			m_lastState = State.Stop;
 			m_stunnedState = State.Stop;
 			m_img.setLooping(false);
 			m_stunned = true;
 			m_stunnedTimer = 0.5f;
 			m_stunnedDeacceleration = false;
-			m_position.plusYWith( - m_standHitBox.m_height);
+			m_position.plusYWith(-m_standHitBox.m_height);
+			m_imgOffsetY = 0;
 			//setNextPositionY(m_position.getGlobalY() - m_standHitBox.m_height);
 			Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
 			if (m_facingRight)
-				m_speed.X = 150;
+			{
+				m_position.plusXWith(m_standHitBox.m_width);
+				m_imgOffsetX = -m_standHitBox.m_width;
+				Game.getInstance().m_camera.getPosition().plusXWith(-m_standHitBox.m_width);
+			}
 			else
-				m_speed.X = -150;
+			{
+				m_position.plusXWith(-m_standHitBox.m_width);
+				Game.getInstance().m_camera.getPosition().plusXWith(m_standHitBox.m_width);
+				//m_imgOffsetX = m_standHitBox.m_width;
+			}
 			m_img.setAnimationSpeed(10);
 		}
 
@@ -1076,14 +1097,14 @@ namespace GrandLarceny
 			m_currentVentilation = vent;
 		}
 
-		public void activeChaseMode()
+		public void activateChaseMode()
 		{
 			m_chase = true;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			m_isInLight = true;
 		}
 
-		public void deactiveChaseMode()
+		public void deactivateChaseMode()
 		{
 			m_chase = false;
 			m_playerCurrentSpeed = PLAYERSPEED;

@@ -25,6 +25,7 @@ namespace GrandLarceny
 						Game.getInstance().getState().changeLayer(1);
 						t_player.setState(Player.State.Ventilation);
 						t_player.setNextPosition(m_position.getGlobalCartesianCoordinates());
+						t_player.deactivateChaseMode();
 					}
 					else if (Game.getInstance().m_camera.getLayer() == 1)
 					{
