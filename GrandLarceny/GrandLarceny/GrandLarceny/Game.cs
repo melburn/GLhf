@@ -125,6 +125,9 @@ namespace GrandLarceny
 		internal Vector2 getResolution() {
 			return new Vector2(m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight);
 		}
+		public static Vector2 getMouseCoords() {
+			return new Vector2(m_currentMouse.X, m_currentMouse.Y);
+		}
 		public static bool isKeyPressed(Keys key)
 		{
 			return m_currentKeyInput.IsKeyDown(key);

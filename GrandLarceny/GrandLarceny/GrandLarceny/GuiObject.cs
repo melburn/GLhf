@@ -8,9 +8,13 @@ namespace GrandLarceny
 {
 	public class GuiObject : GameObject
 	{
+		private Rectangle m_bounds;
+
 		public GuiObject(Vector2 a_posV2, string a_sprite) : base(a_posV2, "Images//GUI//" + a_sprite, 0.002f)
 		{
 			m_position = new CartesianCoordinate(a_posV2 - Game.getInstance().getResolution() / 2, Game.getInstance().m_camera.getPosition());
+			m_bounds.X = (int)a_posV2.X;
+			m_bounds.Y = (int)a_posV2.Y;
 		}
 
 		public override void draw(GameTime a_gameTime)
@@ -21,6 +25,14 @@ namespace GrandLarceny
 			t_cartCoord.Y = m_position.getLocalY() / t_zoom + m_position.getParentPosition().getGlobalY();
 
 			m_img.draw(t_cartCoord, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, 1.0f / t_zoom, 1.0f / t_zoom);
+		}
+
+		public override Rectangle getBox() {
+			if (m_bounds.Width == 0 || m_bounds.Height == 0) {
+				m_bounds.Width = (int)m_img.getSize().X;
+				m_bounds.Height = (int)m_img.getSize().Y;
+			}
+			return m_bounds;
 		}
 
 		public override void update(GameTime a_gameTime) {
