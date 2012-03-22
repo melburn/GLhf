@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class FlashCone : NonMovingObject
+	public class FlashCone : NonMovingObject
 	{
 		Boolean m_facingRight;
 
@@ -100,11 +100,11 @@ namespace GrandLarceny
 				{
 					if (t_player.getHidingImage().Equals(Player.STANDHIDINGIMAGE))
 					{
-						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width > m_position.getParentPosition().getGlobalX())
+						if (t_player.isFacingRight() && m_facingRight/*t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width > m_position.getParentPosition().getGlobalX()*/)
 						{
 							t_player.setIsInLight(true);
 						}
-						else if (!t_player.isFacingRight() && t_player.getPosition().getGlobalX() < m_position.getParentPosition().getGlobalX())
+						else if (!t_player.isFacingRight() && !m_facingRight/*t_player.getPosition().getGlobalX() < m_position.getParentPosition().getGlobalX()*/)
 						{
 							t_player.setIsInLight(true);
 						}
