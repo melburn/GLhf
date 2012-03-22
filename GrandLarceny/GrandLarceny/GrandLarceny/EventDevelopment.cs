@@ -17,6 +17,8 @@ namespace GrandLarceny
 		private LinkedList<Button> m_buttonList;
 		private LinkedList<GuiObject> m_guiList;
 		private Dictionary<Button, Event> m_events;
+		private Dictionary<Button, EventEffect> m_effects;
+		private Dictionary<Button, EventTrigger> m_triggers;
 		private Stack<Button> m_buttonsToAdd;
 		private Stack<Button> m_buttonsToRemove;
 		private Stack<Event> m_eventsToAdd;
@@ -127,7 +129,11 @@ namespace GrandLarceny
 
 		private void addEffect(EventEffect a_eveEffect)
 		{
-			
+			if(m_selectedEvent != null)
+			{
+				m_events[m_selectedEvent].add(a_eveEffect);
+
+			}
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
