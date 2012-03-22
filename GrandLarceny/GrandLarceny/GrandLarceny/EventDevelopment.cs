@@ -61,7 +61,7 @@ namespace GrandLarceny
 			m_buttonList.AddFirst(t_buttonToAdd);
 
 			t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(700, 650), "Delete", null, Color.Black, new Vector2(10, 5));
-			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(deleteEvent);
+			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(deleteSelected);
 			m_buttonList.AddFirst(t_buttonToAdd);
 
 			t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 650), "Add Eff", null, Color.Black, new Vector2(10, 5));
@@ -106,7 +106,7 @@ namespace GrandLarceny
 			}
 			else if (m_state == State.newCutscene && Game.keyClicked(Keys.Enter))
 			{
-				addEffect(new CutsceneEffect("todo"));
+				addEffect(new CutsceneEffect(((TextField)m_guiList.First.Value).getText()));
 				goUpOneState();
 			}
 			while (m_eventsToRemove.Count > 0)
@@ -193,6 +193,12 @@ namespace GrandLarceny
 
 		public void exitState(Button a_care)
 		{
+			LinkedList<Event> t_events = new LinkedList<Event>();
+			foreach (Event t_e in m_events.Values)
+			{
+				t_events.AddLast(t_e);
+			}
+			m_backState.setEvents(t_events);
 			Game.getInstance().setState(m_backState);
 		}
 
@@ -226,7 +232,7 @@ namespace GrandLarceny
 					{
 						Button t_buttonToAdd;
 
-						t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 100 + ((m_effects.Count) * 30)), "EFFECT", null, Color.Yellow, new Vector2(10, 2));
+						t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 100 + ((m_effects.Count) * 30)), t_ee.ToString(), null, Color.Yellow, new Vector2(10, 2));
 						t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectEffTri);
 						m_buttonsToAdd.Push(t_buttonToAdd);
 
@@ -237,7 +243,7 @@ namespace GrandLarceny
 					{
 						Button t_buttonToAdd;
 
-						t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(400, 100 + ((m_triggers.Count) * 30)), "TRIGGER", null, Color.Yellow, new Vector2(10, 2));
+						t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(400, 100 + ((m_triggers.Count) * 30)), t_et.ToString(), null, Color.Yellow, new Vector2(10, 2));
 						t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectEffTri);
 						m_buttonsToAdd.Push(t_buttonToAdd);
 
@@ -268,12 +274,19 @@ namespace GrandLarceny
 			m_eventsToAdd.Push(new Event(new LinkedList<EventTrigger>(), new LinkedList<EventEffect>(), true));
 		}
 
-		public void deleteEvent(Button a_care)
+		public void deleteSelected(Button a_care)
 		{
 			if (m_selectedEvent != null)
 			{
-				m_eventsToRemove.Push(m_selectedEvent);
-				m_selectedEvent = null;
+				if (m_selectedEffTri == null)
+				{
+					m_eventsToRemove.Push(m_selectedEvent);
+					m_selectedEvent = null;
+				}
+				else
+				{
+					//todo
+				}
 			}
 		}
 

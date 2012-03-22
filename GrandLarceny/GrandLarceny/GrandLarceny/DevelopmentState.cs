@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Text.RegularExpressions;
+using GrandLarceny.Events;
 
 namespace GrandLarceny
 {
@@ -15,7 +16,7 @@ namespace GrandLarceny
 		#region Members
 		private LinkedList<GameObject>[] m_gameObjectList;
 		private LinkedList<GuiObject> m_guiList;
-		private LinkedList<Events.Event> m_events;
+		private LinkedList<Event> m_events;
 
 		private LinkedList<Button> m_staticButton;
 		private LinkedList<Button> m_buildingButtons;
@@ -158,7 +159,7 @@ namespace GrandLarceny
 
 			//todo
 			//serialize events
-			m_events = new LinkedList<Events.Event>();
+			m_events = new LinkedList<Event>();
 			
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
@@ -1420,6 +1421,16 @@ namespace GrandLarceny
 		{
 			return m_gameObjectList;
 		}
+
+		public void setEvents(LinkedList<Event> t_events)
+		{
+			if (t_events == null)
+			{
+				throw new ArgumentNullException();
+			}
+			m_events = t_events;
+		}
+		
 		#endregion
 
 		#region Create-methods
@@ -1609,5 +1620,7 @@ namespace GrandLarceny
 				m_dragLine.draw();
 		}
 		#endregion
+
+		
 	}
 }
