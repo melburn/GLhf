@@ -62,7 +62,7 @@ namespace GrandLarceny
 			long t_objectListBegin = t_fstream.Position;
 			t_fstream.Position = t_fstream.Position + 4;
 			long t_fstreamLastPos = t_fstream.Position;
-			long t_objectListSize = 0;
+			long t_objectListSize = t_fstream.Position;
 			
 			
 			
@@ -193,6 +193,7 @@ namespace GrandLarceny
 				
 				t_fstream.Read(t_bytes, 0, t_bytes.Length);
 				int t_gameObjectListSize = BitConverter.ToInt32(t_bytes, 0);
+				 
 
 				//load GameObjects
 				for (; ; )
@@ -247,7 +248,7 @@ namespace GrandLarceny
 				}
 				t_loadingLevel.setLevelObjects(t_gameObjectsList);
 
-
+				
 				try
 				{
 					//load Events
@@ -269,7 +270,7 @@ namespace GrandLarceny
 					System.Console.WriteLine("Fail to DeSerialize : " + e);
 				}
 				t_loadingLevel.setEvents(t_events);
-			
+				
 
 			}
 			catch (FileLoadException e)
