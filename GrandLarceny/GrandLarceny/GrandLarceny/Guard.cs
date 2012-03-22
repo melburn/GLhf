@@ -31,7 +31,7 @@ namespace GrandLarceny
 		private Boolean m_running = false;
 		private Boolean m_facingRight;
 
-		private float m_sightRange = 600f;
+		private float m_sightRange = 670f;
 
 		[NonSerialized]
 		private FlashCone m_flashLight;
@@ -335,6 +335,7 @@ namespace GrandLarceny
 			base.kill();
 			if (m_flashLight != null)
 			{
+				Game.getInstance().getState().removeObject(m_flashLight);
 				m_flashLight.kill();
 				m_flashLightId = 0;
 				m_flashLight = null;
@@ -461,7 +462,6 @@ namespace GrandLarceny
 		}
 		public override void update(GameTime a_gameTime)
 		{
-			System.Console.WriteLine("jag är guard mitt neger är : " + m_position.getGlobalX());
 			if (!m_aiActive)
 			{
 				if (m_img.isStopped())

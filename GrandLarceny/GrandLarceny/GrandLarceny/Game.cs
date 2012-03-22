@@ -134,5 +134,9 @@ namespace GrandLarceny
 		{
 			return m_currentKeyInput.IsKeyDown(a_key) && m_previousKeyInput.IsKeyUp(a_key);
 		}
+		public static bool rmbClicked()
+		{
+			return m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Released;
+		}
 	}
 }

@@ -37,5 +37,10 @@ namespace GrandLarceny.Events
 			}
 			return m_oneShot;
 		}
+
+		internal void add(EventEffect a_eveeEffect)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
