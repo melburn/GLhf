@@ -1036,7 +1036,13 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Hero\hero_climb_ledge.png">
+      <Name>hero_climb_ledge</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Images\Tile\Ventilation\Drum\ventil.png">
       <Name>ventil</Name>
