@@ -16,6 +16,7 @@ namespace GrandLarceny
 		private bool	m_acceptSpecials;
 		private string	m_currentLocale;
 		private int		m_maxLength;
+		private Vector2 m_posV2;
 		private Keys[]	m_acptLetters = { 
 			Keys.A, Keys.B, Keys.C, Keys.D, Keys.E, Keys.F, Keys.G, Keys.H, Keys.I, Keys.J, Keys.K, Keys.L, Keys.M,
 			Keys.N, Keys.O, Keys.P, Keys.Q, Keys.R, Keys.S, Keys.T, Keys.U, Keys.V, Keys.W, Keys.X, Keys.Y, Keys.Z,
@@ -39,6 +40,7 @@ namespace GrandLarceny
 			m_acceptSpecials = a_acceptSpecials;
 			m_maxLength = a_maxLength;
 			m_currentLocale = "euSv";
+			m_posV2 = a_position;
 		}
 
 		public override void loadContent()
@@ -66,17 +68,17 @@ namespace GrandLarceny
 			m_textToShow.setText(a_string);
 		}
 
-		public override Rectangle getBox() {
-			return new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), m_box.getWidth(), m_box.getHeight());
-		}
-
 		public bool isWriting() {
 			return m_writing;
 		}
 
+		public override Rectangle getBox() {
+			return new Rectangle((int)m_posV2.X, (int)m_posV2.Y, (int)m_box.getWidth(), (int)m_box.getHeight());
+		}
+
 		public override void update(GameTime a_gameTime) {
 			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released) {
-				if (m_box.contains(Game.getInstance().getState().calculateWorldMouse())) {
+				if (getBox().Contains((int)Game.m_currentMouse.X, (int)Game.m_currentMouse.Y)) {
 					m_writing = true;
 					m_lastPressedKeys = new Dictionary<Keys,TimeSpan>();
 				} else {
