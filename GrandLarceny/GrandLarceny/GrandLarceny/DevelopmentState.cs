@@ -155,11 +155,10 @@ namespace GrandLarceny
 		public override void load()
 		{
 			m_guiList = new LinkedList<GuiObject>();
-			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
 
-			//todo
-			//serialize events
-			m_events = new LinkedList<Event>();
+			Level t_loadedLevel = Loader.getInstance().loadLevel(m_levelToLoad);
+			m_gameObjectList = t_loadedLevel.getGameObjects();
+			m_events = t_loadedLevel.getEvents();
 			
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
@@ -358,6 +357,7 @@ namespace GrandLarceny
 
 			setBuildingState(State.None);
 
+			base.load();
 		}
 		#endregion
 
@@ -372,7 +372,7 @@ namespace GrandLarceny
 		#endregion
 
 		#region Update Camera
-		private void updateCamera()
+		public void updateCamera()
 		{
 			if (Game.isKeyPressed(Keys.Right))
 				Game.getInstance().m_camera.move(new Vector2(15 / Game.getInstance().m_camera.getZoom(), 0));
@@ -722,10 +722,11 @@ namespace GrandLarceny
 					Level t_saveLevel = new Level();
 					t_saveLevel.setLevelObjects(m_gameObjectList);
 					Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
+
 				}
 				if (Game.keyClicked(Keys.O)) {
 					Level t_newLevel = Serializer.getInstance().loadLevel(m_levelToLoad);
-					m_gameObjectList = t_newLevel.getLevelLists();
+					m_gameObjectList = t_newLevel.getGameObjects();
 					foreach (LinkedList<GameObject> t_arr in m_gameObjectList) {
 						foreach (GameObject f_gb in t_arr) {
 							f_gb.loadContent();

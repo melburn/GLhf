@@ -83,7 +83,10 @@ namespace GrandLarceny
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;
-				m_currentState.load();
+				if (!m_currentState.isLoaded())
+				{
+					m_currentState.load();
+				}
 				m_nextState = null;
 			}
 
@@ -137,6 +140,11 @@ namespace GrandLarceny
 		public static bool rmbClicked()
 		{
 			return m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Released;
+		}
+
+		internal static bool lmbClicked()
+		{
+			return m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released;
 		}
 	}
 }

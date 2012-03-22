@@ -38,9 +38,9 @@ namespace GrandLarceny.Events
 			return m_oneShot;
 		}
 
-		public void add(EventEffect a_eveeEffect)
+		public void add(EventEffect a_eveEffect)
 		{
-			m_effects.AddLast(a_eveeEffect);
+			m_effects.AddLast(a_eveEffect);
 		}
 
 		public LinkedList<EventEffect> getEffects()
@@ -51,6 +51,16 @@ namespace GrandLarceny.Events
 		public LinkedList<EventTrigger> getTriggers()
 		{
 			return m_triggers;
+		}
+
+		public bool remove(EventEffect a_eveEffect)
+		{
+			return m_effects.Remove(a_eveEffect);
+		}
+
+		public bool remove(EventTrigger a_eveTrigger)
+		{
+			return m_triggers.Remove(a_eveTrigger);
 		}
 	}
 }

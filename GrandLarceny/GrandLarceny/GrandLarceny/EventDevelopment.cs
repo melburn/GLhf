@@ -31,12 +31,17 @@ namespace GrandLarceny
 		private Button m_selectedEvent;
 		private Button m_selectedEffTri;
 
+		private Vector2 m_recPoint;
+		private Line[] m_recLines;
+
 		private enum State
 		{
 			neutral,
 			newEffect,
 			newTrigger,
-			newCutscene
+			newCutscene,
+			firRectanglePoint,
+			secRectanglePoint
 		}
 
 		public EventDevelopment(DevelopmentState a_backState, LinkedList<Event> a_events)
@@ -92,6 +97,12 @@ namespace GrandLarceny
 
 		public override void update(GameTime a_gameTime)
 		{
+			m_backState.updateCamera();
+			if (m_state == State.firRectanglePoint && Game.lmbClicked())
+			{
+				m_recPoint = calculateWorldMouse();
+				m_state = State.secRectanglePoint;
+			}
 			foreach (GuiObject t_go in m_guiList)
 			{
 				t_go.update(a_gameTime);
@@ -276,27 +287,73 @@ namespace GrandLarceny
 
 		public void deleteSelected(Button a_care)
 		{
-			if (m_selectedEvent != null)
+			if (m_selectedEvent != null && m_state == State.neutral)
 			{
 				if (m_selectedEffTri == null)
 				{
 					m_eventsToRemove.Push(m_selectedEvent);
 					m_selectedEvent = null;
+
+					foreach (Button t_b in m_effects.Keys)
+					{
+						m_buttonList.Remove(t_b);
+					}
+					m_effects.Clear();
+					foreach (Button t_b in m_triggers.Keys)
+					{
+						m_buttonList.Remove(t_b);
+					}
+					m_triggers.Clear();
+					m_selectedEffTri = null;
 				}
 				else
 				{
-					//todo
+					if (m_effects.ContainsKey(m_selectedEffTri))
+					{
+						m_events[m_selectedEvent].remove(m_effects[m_selectedEffTri]);
+					}
+					else
+					{
+						m_events[m_selectedEvent].remove(m_triggers[m_selectedEffTri]);
+					}
+					m_buttonsToRemove.Push(m_selectedEffTri);
+					m_selectedEffTri = null;
 				}
 			}
 		}
 
 		public void addTrigger(Button a_care)
 		{
+			if (m_state == State.newEffect)
+			{
+				goUpOneState();
+			}
+			if (m_selectedEvent != null && m_state == State.neutral)
+			{
+				m_state = State.newTrigger;
 
+				Button t_buttonToAdd;
+
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(800, 600), "Player Within Rectangle", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addRectangle);
+				m_buttonsToAdd.Push(t_buttonToAdd);
+
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(700, 600), "Player Within Circle", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addCircle);
+				m_buttonsToAdd.Push(t_buttonToAdd);
+
+				LinkedList<Button> t_submenu = new LinkedList<Button>();
+				t_submenu.AddLast(t_buttonToAdd);
+				m_stateButtons.Push(t_submenu);
+			}
 		}
 
 		public void addEffect(Button a_care)
 		{
+			if (m_state == State.newTrigger)
+			{
+				goUpOneState();
+			}
 			if (m_selectedEvent != null && m_state == State.neutral)
 			{
 				m_state = State.newEffect;
@@ -323,6 +380,16 @@ namespace GrandLarceny
 
 				m_guiList.AddFirst(t_textField);
 			}
+		}
+
+		public void addRectangle(Button a_care)
+		{
+			
+		}
+
+		public void addCircle(Button a_care)
+		{
+			//You wish
 		}
 	}
 }

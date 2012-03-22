@@ -10,13 +10,15 @@ namespace GrandLarceny
 {
 	public abstract class States
 	{
+		protected bool m_loaded;
 		public States()
 		{
-			
+			m_loaded = false;
 		}
 
 		public virtual void load()
 		{
+			m_loaded = true;
 		}
 
 		public virtual void setPlayer(Player a_player)
@@ -76,6 +78,11 @@ namespace GrandLarceny
 					- ((Game.getInstance().getResolution().Y / 2) / Game.getInstance().m_camera.getZoom())
 			);
 			return t_worldMouse;
+		}
+
+		public bool isLoaded()
+		{
+			return m_loaded;
 		}
 	}
 }
