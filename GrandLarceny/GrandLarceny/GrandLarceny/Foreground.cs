@@ -15,7 +15,7 @@ namespace GrandLarceny
 
 		private bool m_visible;
 
-		public Foreground(Vector2 a_posV2, String a_sprite, float a_layer)
+		public Foreground(Vector2 a_posV2, string a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
 			m_foregrounds = new LinkedList<Foreground>();

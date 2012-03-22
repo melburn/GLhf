@@ -8,5 +8,6 @@ namespace GrandLarceny.Events
 	abstract class EventTrigger
 	{
 		public abstract bool isTrue();
+		public abstract override string ToString();
 	}
 }

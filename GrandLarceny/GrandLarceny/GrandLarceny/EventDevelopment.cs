@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using GrandLarceny.Events;
 using Microsoft.Xna.Framework.Input;
 using GrandLarceny.Events.Effects;
+using GrandLarceny.Events.Triggers;
 
 namespace GrandLarceny
 {
@@ -102,6 +103,32 @@ namespace GrandLarceny
 			{
 				m_recPoint = calculateWorldMouse();
 				m_state = State.secRectanglePoint;
+				
+				m_recLines = new Line[4];
+				CartesianCoordinate t_stopidPoint = new CartesianCoordinate(m_recPoint);
+
+				for (int i = 0; i < 4; ++i)
+				{
+					m_recLines[i] = new Line(t_stopidPoint, t_stopidPoint, Vector2.Zero, Vector2.Zero, Color.Moccasin, 5, true);
+				}
+			}
+			else if (m_state == State.secRectanglePoint)
+			{
+				Vector2 t_mouse = calculateWorldMouse();
+				if (Game.lmbClicked())
+				{
+					addTrigger(new PlayerIsWithinRectangle(m_recPoint.X, m_recPoint.Y, t_mouse.X, t_mouse.Y));
+					m_state = State.newTrigger;
+				}
+				else
+				{
+					m_recLines[0].setEndpoint(new Vector2(t_mouse.X, m_recPoint.Y));
+					m_recLines[1].setEndpoint(new Vector2(m_recPoint.X, t_mouse.Y));
+					m_recLines[2].setEndpoint(t_mouse);
+					m_recLines[3].setEndpoint(t_mouse);
+					m_recLines[2].setStartPoint(new Vector2(t_mouse.X, m_recPoint.Y));
+					m_recLines[3].setStartPoint(new Vector2(m_recPoint.X, t_mouse.Y));
+				}
 			}
 			foreach (GuiObject t_go in m_guiList)
 			{
@@ -149,7 +176,7 @@ namespace GrandLarceny
 			{
 				m_events[m_selectedEvent].add(a_eveEffect);
 
-				Button t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 100 + ((m_effects.Count) * 30)), a_eveEffect.ToString(), null, Color.Yellow, new Vector2(10, 2));
+				Button t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(800, 100 + ((m_effects.Count) * 30)), a_eveEffect.ToString(), null, Color.Yellow, new Vector2(10, 2));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectEffTri);
 				m_buttonsToAdd.Push(t_buttonToAdd);
 
@@ -157,6 +184,19 @@ namespace GrandLarceny
 			}
 		}
 
+		private void addTrigger(EventTrigger a_eveTrigger)
+		{
+			if (m_selectedEvent != null)
+			{
+				m_events[m_selectedEvent].add(a_eveTrigger);
+
+				Button t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(700, 100 + ((m_effects.Count) * 30)), a_eveTrigger.ToString(), null, Color.Yellow, new Vector2(10, 2));
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectEffTri);
+				m_buttonsToAdd.Push(t_buttonToAdd);
+
+				m_triggers.Add(t_buttonToAdd, a_eveTrigger);
+			}
+		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
@@ -169,6 +209,13 @@ namespace GrandLarceny
 			{
 				t_go.draw(a_gameTime);
 			}
+			if (m_state == State.secRectanglePoint)
+			{
+				foreach (Line t_l in m_recLines)
+				{
+					t_l.draw();
+				}
+			}
 		}
 
 		public void goUpOneState()
@@ -180,7 +227,8 @@ namespace GrandLarceny
 			}
 			else if (m_state == State.newEffect)
 			{
-				foreach (Button t_b in m_stateButtons.Pop())
+				LinkedList<Button> t_pop = m_stateButtons.Pop();
+				foreach (Button t_b in t_pop)
 				{
 					m_buttonsToRemove.Push(t_b);
 				}
@@ -188,7 +236,8 @@ namespace GrandLarceny
 			}
 			else if (m_state == State.newTrigger)
 			{
-				foreach (Button t_b in m_stateButtons.Pop())
+				LinkedList<Button> t_pop = m_stateButtons.Pop();
+				foreach (Button t_b in t_pop)
 				{
 					m_buttonsToRemove.Push(t_b);
 				}
@@ -243,7 +292,7 @@ namespace GrandLarceny
 					{
 						Button t_buttonToAdd;
 
-						t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 100 + ((m_effects.Count) * 30)), t_ee.ToString(), null, Color.Yellow, new Vector2(10, 2));
+						t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(900, 100 + ((m_effects.Count) * 30)), t_ee.ToString(), null, Color.Yellow, new Vector2(10, 2));
 						t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectEffTri);
 						m_buttonsToAdd.Push(t_buttonToAdd);
 
@@ -254,7 +303,7 @@ namespace GrandLarceny
 					{
 						Button t_buttonToAdd;
 
-						t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(400, 100 + ((m_triggers.Count) * 30)), t_et.ToString(), null, Color.Yellow, new Vector2(10, 2));
+						t_buttonToAdd = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(700, 100 + ((m_triggers.Count) * 30)), t_et.ToString(), null, Color.Yellow, new Vector2(10, 2));
 						t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectEffTri);
 						m_buttonsToAdd.Push(t_buttonToAdd);
 
@@ -333,17 +382,18 @@ namespace GrandLarceny
 				m_state = State.newTrigger;
 
 				Button t_buttonToAdd;
+				LinkedList<Button> t_submenu = new LinkedList<Button>();
 
 				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(800, 600), "Player Within Rectangle", null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addRectangle);
 				m_buttonsToAdd.Push(t_buttonToAdd);
+				t_submenu.AddLast(t_buttonToAdd);
 
-				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(700, 600), "Player Within Circle", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 600), "Player Within Circle", null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addCircle);
 				m_buttonsToAdd.Push(t_buttonToAdd);
-
-				LinkedList<Button> t_submenu = new LinkedList<Button>();
 				t_submenu.AddLast(t_buttonToAdd);
+
 				m_stateButtons.Push(t_submenu);
 			}
 		}
@@ -384,7 +434,10 @@ namespace GrandLarceny
 
 		public void addRectangle(Button a_care)
 		{
-			
+			if (m_state == State.newTrigger)
+			{
+				m_state = State.firRectanglePoint;
+			}
 		}
 
 		public void addCircle(Button a_care)

@@ -43,6 +43,11 @@ namespace GrandLarceny.Events
 			m_effects.AddLast(a_eveEffect);
 		}
 
+		public void add(EventTrigger a_eveTrigger)
+		{
+			m_triggers.AddLast(a_eveTrigger);
+		}
+
 		public LinkedList<EventEffect> getEffects()
 		{
 			return m_effects;

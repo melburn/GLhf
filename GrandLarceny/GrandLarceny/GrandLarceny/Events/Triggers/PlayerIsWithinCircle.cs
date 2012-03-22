@@ -28,5 +28,10 @@ namespace GrandLarceny.Events.Triggers
 		{
 			return Game.getInstance().getState().getPlayer().getPosition().getDistanceTo(m_position) <= m_radie;
 		}
+
+		public override string ToString()
+		{
+			return "Player within circle";
+		}
 	}
 }
