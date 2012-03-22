@@ -431,11 +431,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Ventilation\Corner\ventil.png">
-      <Name>ventil</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Images\LightCone\ph_lamp.png">
@@ -832,11 +827,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Ventilation\TVent\ventil.png">
-      <Name>ventil</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Images\GUI\DevelopmentHotkeys\btn_camera_hotkey_hover.png">
@@ -860,13 +850,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\Straight\ventil.png">
-      <Name>ventil</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Tile\Ventilation\Drum\ventil.png">
       <Name>ventil</Name>
       <Importer>TextureImporter</Importer>
@@ -876,13 +859,6 @@
   <ItemGroup>
     <Compile Include="Images\GUI\DevelopmentHotkeys\btn_camera_hotkey_toggle.png">
       <Name>btn_camera_hotkey_toggle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\Cross\ventil.png">
-      <Name>ventil</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1026,13 +1002,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\Straight\ventil_long_tile_w_walk.png">
-      <Name>ventil_long_tile_w_walk</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Foregrounds\casino_facade.png">
       <Name>casino_facade</Name>
       <Importer>TextureImporter</Importer>
@@ -1049,13 +1018,6 @@
   <ItemGroup>
     <Compile Include="Images\Tile\Ventilation\Cross\ventil_short_tile_w_floor_crossing.png">
       <Name>ventil_short_tile_w_floor_crossing</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\Straight\ventil_short_tile_w_floor.png">
-      <Name>ventil_short_tile_w_floor</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

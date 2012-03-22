@@ -10,7 +10,6 @@ namespace GrandLarceny
 	[Serializable()]
 	class FlashCone : NonMovingObject
 	{
-		private Guard m_parent;
 		Boolean m_facingRight;
 
 		[NonSerialized]
@@ -19,17 +18,12 @@ namespace GrandLarceny
 		public FlashCone(Guard a_parent, Vector2 a_offset, string a_sprite, Boolean a_facingRight, float a_layer) :
 			base(new CartesianCoordinate(a_offset, a_parent.getPosition()), a_sprite, a_layer)
 		{
-			m_parent = a_parent;
 			setFacingRight(a_facingRight);
 		}
 
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
-			if (m_parent == null || m_parent.isDead())
-			{
-				m_dead = true;
-			}
 		}
 
 		public void setFacingRight(bool a_right)
@@ -106,11 +100,11 @@ namespace GrandLarceny
 				{
 					if (t_player.getHidingImage().Equals(Player.STANDHIDINGIMAGE))
 					{
-						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width > m_parent.getPosition().getGlobalX())
+						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width > m_position.getParentPosition().getGlobalX())
 						{
 							t_player.setIsInLight(true);
 						}
-						else if (!t_player.isFacingRight() && t_player.getPosition().getGlobalX() < m_parent.getPosition().getGlobalX())
+						else if (!t_player.isFacingRight() && t_player.getPosition().getGlobalX() < m_position.getParentPosition().getGlobalX())
 						{
 							t_player.setIsInLight(true);
 						}
