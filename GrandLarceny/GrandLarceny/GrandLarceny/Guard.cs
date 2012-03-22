@@ -461,7 +461,6 @@ namespace GrandLarceny
 		}
 		public override void update(GameTime a_gameTime)
 		{
-			System.Console.WriteLine("jag är guard mitt neger är : " + m_position.getGlobalX());
 			if (!m_aiActive)
 			{
 				if (m_img.isStopped())
