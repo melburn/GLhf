@@ -126,6 +126,7 @@ namespace GrandLarceny
 		public override void load()
 		{
 			m_commands = Loader.getInstance().readFromFile(m_filePath);
+			base.load();
 		}
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{

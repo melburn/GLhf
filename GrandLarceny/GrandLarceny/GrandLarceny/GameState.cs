@@ -39,11 +39,10 @@ namespace GrandLarceny
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
 			m_guiObject = new LinkedList<GuiObject>();
-			m_gameObjectList = Loader.getInstance().loadLevel(m_currentLevel);
 
-			//TODO
-			//Load Events
-			m_events = new LinkedList<Event>();
+			Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
+			m_gameObjectList = t_loadedLevel.getGameObjects();
+			m_events = t_loadedLevel.getEvents();
 
 			m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
 			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
@@ -95,6 +94,7 @@ namespace GrandLarceny
 				else
 					System.Console.WriteLine("Unknown keybinding found!");
 			}
+			base.load();
 		}
 
 		public override void setPlayer(Player a_player)
