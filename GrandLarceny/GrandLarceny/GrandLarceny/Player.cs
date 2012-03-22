@@ -598,7 +598,7 @@ namespace GrandLarceny
 					{
 						if (Game.isKeyPressed(GameState.getUpKey()))
 						{
-							m_speed.Y = -PLAYERSPEED / 2;
+							m_speed.Y = -PLAYERSPEED;
 							t_list = m_upDownList;
 							if(m_currentVentilation != null)
 							{
@@ -623,7 +623,7 @@ namespace GrandLarceny
 					{
 						if (Game.isKeyPressed(GameState.getLeftKey()))
 						{
-							m_speed.X = -PLAYERSPEED / 2;
+							m_speed.X = -PLAYERSPEED;
 							t_list = m_leftRightList;
 							if (m_currentVentilation != null)
 							{
@@ -649,7 +649,7 @@ namespace GrandLarceny
 					{
 						if (Game.isKeyPressed(GameState.getRightKey()))
 						{
-							m_speed.X = PLAYERSPEED / 2;
+							m_speed.X = PLAYERSPEED;
 							t_list = m_leftRightList;
 							if (m_currentVentilation != null)
 							{
@@ -674,7 +674,7 @@ namespace GrandLarceny
 					{
 						if (Game.isKeyPressed(GameState.getDownKey()))
 						{
-							m_speed.Y = PLAYERSPEED / 2;
+							m_speed.Y = PLAYERSPEED;
 							t_list = m_upDownList;
 							if (m_currentVentilation != null)
 							{
