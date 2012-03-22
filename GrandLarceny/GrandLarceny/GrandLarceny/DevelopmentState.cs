@@ -655,7 +655,7 @@ namespace GrandLarceny
 			else if (Game.keyClicked(Keys.F6))
 			{
 				m_currentLayer = 0;
-				Game.getInstance().setState(new CutsceneDevelopment(this, m_events));
+				Game.getInstance().setState(new EventDevelopment(this, m_events));
 			}
 			else if (Game.keyClicked(Keys.D1)) {
 				setLayer(0);
