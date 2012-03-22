@@ -59,10 +59,11 @@ namespace GrandLarceny
 			
 			long t_fstreamDiffSize = 0;
 			GameObject.resetGameObjectId();
+			long t_objectListBegin = t_fstream.Position;
 			t_fstream.Position = t_fstream.Position + 4;
 			long t_fstreamLastPos = t_fstream.Position;
 			long t_objectListSize = 0;
-			long t_objectListBegin = t_fstream.Position;
+			
 			
 			
 			foreach (LinkedList<GameObject> t_goList in a_save.getGameObjects())
@@ -121,7 +122,7 @@ namespace GrandLarceny
 				t_unikName = new LinkedList<string>();
 				index++;
 				t_objekts = new LinkedList<LinkedList<GameObject>>();
-			} // Serialize GameObject done!
+			} 
 
 			t_fstream.Position = t_objectListBegin;
 			byte[] t_objectListSizeInByte = new byte[4];
@@ -133,7 +134,7 @@ namespace GrandLarceny
 			{
 				t_stream.Close();
 			}
-
+			// Serialize GameObject done!
 
 			try
 			{
@@ -154,7 +155,7 @@ namespace GrandLarceny
 			{
 				t_stream.Close();
 			}
-
+			//Serialize events done
 
 			
 			if (t_fstream != null)
