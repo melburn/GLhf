@@ -64,11 +64,27 @@ namespace GrandLarceny
 		public void addForeGround(Foreground a_foreground)
 		{
 			m_foregrounds.AddLast(a_foreground);
+			LinkedList<Foreground> t_foreList = a_foreground.getForegrounds();
+			foreach (Foreground t_fg in m_foregrounds)
+			{
+				t_foreList.Remove(t_fg);
+			}
+			a_foreground.addBackForeGround(this);
+		}
+
+		public void addBackForeGround(Foreground a_foreground)
+		{
+			m_foregrounds.AddLast(a_foreground);
 		}
 
 		public void setVisible(bool a_visible)
 		{
 			m_visible = a_visible;
+		}
+
+		public LinkedList<Foreground> getForegrounds()
+		{
+			return m_foregrounds;
 		}
 	}
 }
