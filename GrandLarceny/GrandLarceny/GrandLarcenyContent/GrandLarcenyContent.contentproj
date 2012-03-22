@@ -850,6 +850,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Drum\ventil.png">
+      <Name>ventil</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Images\GUI\DevelopmentHotkeys\btn_camera_hotkey_toggle.png">
       <Name>btn_camera_hotkey_toggle</Name>
       <Importer>TextureImporter</Importer>
@@ -1016,13 +1023,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\Straight\aventil_short_tile_w_floor.png">
-      <Name>aventil_short_tile_w_floor</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Tile\Ventilation\Straight\ventil_short_tile_w_floor_wall.png">
       <Name>ventil_short_tile_w_floor_wall</Name>
       <Importer>TextureImporter</Importer>
@@ -1032,20 +1032,6 @@
   <ItemGroup>
     <Compile Include="Images\Tile\Ventilation\TVent\ventil_short_tile_w_floor_tjunction.png">
       <Name>ventil_short_tile_w_floor_tjunction</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Sprite\Hero\hero_climb_ledge.png">
-      <Name>hero_climb_ledge</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\Drum\ventil.png">
-      <Name>ventil</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
