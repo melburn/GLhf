@@ -8,8 +8,8 @@ using GrandLarceny.Events;
 
 namespace GrandLarceny
 {
-	[Serializable]
-	class Level : ISerializable
+	//[Serializable]
+	class Level
 	{
 		private LinkedList<GameObject>[] m_loadedList;
 		private LinkedList<Event> m_events;
@@ -45,7 +45,7 @@ namespace GrandLarceny
 			return m_events;
 		}
 
-		public Level(SerializationInfo info, StreamingContext context)
+		/*public Level(SerializationInfo info, StreamingContext context)
 		{
 			m_loadedList = (LinkedList<GameObject>[])info.GetValue("GameObjects", typeof(LinkedList<GameObject>[]));
 			m_events = (LinkedList<Event>)info.GetValue("Events", typeof(LinkedList<Event>));
@@ -56,7 +56,7 @@ namespace GrandLarceny
 			
 			info.AddValue("GameObjects", m_loadedList);
 			info.AddValue("Events", m_events);
-		}
+		}*/
 
 	}
 }
