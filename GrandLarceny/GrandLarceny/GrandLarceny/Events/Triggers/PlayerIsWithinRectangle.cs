@@ -35,5 +35,10 @@ namespace GrandLarceny.Events.Triggers
 				t_playerY > m_y1 &&
 				t_playerY < m_y2;
 		}
+
+		public override string ToString()
+		{
+			return "Player within Rectangle";
+		}
 	}
 }

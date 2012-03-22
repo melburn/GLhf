@@ -36,8 +36,12 @@ namespace GrandLarceny
 		}
 
 		public void setEndpoint(Vector2 a_endPoint) {
-			m_endPosition = new CartesianCoordinate(a_endPoint);
-			m_endPosition.plusWith(m_endOffset);
+			m_endPosition = new CartesianCoordinate(a_endPoint + m_endOffset);
+		}
+
+		public void setStartPoint(Vector2 a_startPoint)
+		{
+			m_startPosition = new CartesianCoordinate(a_startPoint + m_startOffset);
 		}
 
 		public void draw() {
