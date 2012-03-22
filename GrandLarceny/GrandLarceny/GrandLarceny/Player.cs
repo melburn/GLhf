@@ -129,6 +129,7 @@ namespace GrandLarceny
 			m_leftRightList = new List<Direction>();
 			m_leftRightList.Add(Direction.Left);
 			m_leftRightList.Add(Direction.Right);
+			m_playerCurrentSpeed = PLAYERSPEED;
 		}
 		#endregion
 
