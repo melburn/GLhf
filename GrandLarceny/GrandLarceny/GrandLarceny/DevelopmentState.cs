@@ -1004,7 +1004,7 @@ namespace GrandLarceny
 			-----------------------------------
 			*/
 			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Pressed) {
-				if (m_selectedObject != null && m_menuState != MenuState.Inactive && collidedWithGui(new Vector2(Game.m_currentMouse.X, Game.m_currentMouse.Y))) {
+				if (m_selectedObject != null && m_menuState != MenuState.Inactive && !collidedWithGui(new Vector2(Game.m_currentMouse.X, Game.m_currentMouse.Y))) {
 					if (m_dragOffset == Vector2.Zero || m_dragOffset == null) {
 						m_dragOffset = new Vector2(
 							m_worldMouse.X - m_selectedObject.getPosition().getGlobalX(),
