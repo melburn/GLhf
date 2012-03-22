@@ -58,15 +58,29 @@ namespace GrandLarceny
 			return false;
 		}
 
+		public string getText() {
+			return m_textToShow.getText();
+		}
+
+		public void setText(string a_string) {
+			m_textToShow.setText(a_string);
+		}
+
+		public override Rectangle getBox() {
+			return new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), m_box.getWidth(), m_box.getHeight());
+		}
+
+		public bool isWriting() {
+			return m_writing;
+		}
+
 		public override void update(GameTime a_gameTime) {
 			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released) {
 				if (m_box.contains(Game.getInstance().getState().calculateWorldMouse())) {
 					m_writing = true;
 					m_lastPressedKeys = new Dictionary<Keys,TimeSpan>();
-					m_box.setLineColor(Color.Orange);
 				} else {
 					m_writing = false;
-					m_box.setLineColor(Color.Black);
 				}
 			}
 			if (m_writing) {
@@ -85,7 +99,7 @@ namespace GrandLarceny
 					updateSweden(a_gameTime);
 				}
 				if (m_maxLength != 0 && m_textToShow.getText().Length > m_maxLength) {
-					
+					m_textToShow.erase();
 				} else if (m_textToShow.getText().Length * 10 > m_box.getWidth() + (m_textToShow.getText().Length)) {
 					m_textToShow.erase();
 				}

@@ -55,15 +55,15 @@ namespace GrandLarceny
 
 			m_lineList = new LinkedList<Line>();
 			if (a_worldBox) {
-				m_lineList.AddLast(new Line(new CartesianCoordinate(topLeft), new CartesianCoordinate(topRight), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
-				m_lineList.AddLast(new Line(new CartesianCoordinate(topRight), new CartesianCoordinate(btmRight), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
-				m_lineList.AddLast(new Line(new CartesianCoordinate(btmRight), new CartesianCoordinate(btmLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
-				m_lineList.AddLast(new Line(new CartesianCoordinate(btmLeft), new CartesianCoordinate(topLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(new CartesianCoordinate(topLeft),	new CartesianCoordinate(topRight), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(new CartesianCoordinate(topRight),	new CartesianCoordinate(btmRight), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(new CartesianCoordinate(btmRight),	new CartesianCoordinate(btmLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(new CartesianCoordinate(btmLeft),	new CartesianCoordinate(topLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
 			} else {
-				m_lineList.AddLast(new Line(null, null, topLeft - Game.getInstance().getResolution() / 2, topRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
-				m_lineList.AddLast(new Line(null, null, topRight - Game.getInstance().getResolution() / 2, btmRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
-				m_lineList.AddLast(new Line(null, null, btmRight - Game.getInstance().getResolution() / 2, btmLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
-				m_lineList.AddLast(new Line(null, null, btmLeft - Game.getInstance().getResolution() / 2, topLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(null, null, topLeft		- Game.getInstance().getResolution() / 2, topRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(null, null, topRight	- Game.getInstance().getResolution() / 2, btmRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(null, null, btmRight	- Game.getInstance().getResolution() / 2, btmLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(null, null, btmLeft		- Game.getInstance().getResolution() / 2, topLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
 			}
 		}
 

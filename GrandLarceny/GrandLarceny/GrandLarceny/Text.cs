@@ -88,6 +88,10 @@ namespace GrandLarceny
 		{
 			return m_text;
 		}
+		public SpriteFont getFont()
+		{
+			return m_spriteFont;
+		}
 		public void setOffset(Vector2 a_offset)
 		{
 			m_position.plusWith(a_offset);

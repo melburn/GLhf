@@ -19,12 +19,12 @@ namespace GrandLarceny
 		public const int CLIMBINGSPEED = 200;
 		public const int PLAYERSPEED = 200;
 		public const int PLAYERSPEEDCHASEMODE = 420;
-		public const int JUMPSTRENGTH = 400;
+		public const int JUMPSTRENGTH = 520;
 		public const int CAMERAMAXDISTANCE = 100;
 		public const int ACCELERATION = 2800;
 		public const int DEACCELERATION = 1600;
 		public const int AIRDEACCELERATION = 700;
-		public const int AIRVERTICALACCELERATION = 12;
+		public const int AIRVERTICALACCELERATION = 15;
 		public const int SLIDESPEED = 25;
 		public const int ROLLSPEED = 1200;
 
@@ -145,7 +145,7 @@ namespace GrandLarceny
 			m_lastState = m_currentState;
 			if (m_currentState != State.Hanging)
 			{
-				m_gravity = 1000f;
+				m_gravity = 1600f;
 			}
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
 			m_invulnerableTimer = Math.Max(m_invulnerableTimer - t_deltaTime, 0);
@@ -425,9 +425,9 @@ namespace GrandLarceny
 					{
 						m_speed.Y = -JUMPSTRENGTH;
 						if (m_facingRight == true)
-							m_speed.X += JUMPSTRENGTH * 1.5f;
+							m_speed.X += JUMPSTRENGTH;
 						else
-							m_speed.X -= JUMPSTRENGTH * 1.5f;
+							m_speed.X -= JUMPSTRENGTH;
 						m_currentState = State.Jumping;
 						return;
 					}
@@ -460,16 +460,16 @@ namespace GrandLarceny
 			{
 				if (!Game.isKeyPressed(GameState.getDownKey()))
 				{
-					m_speed.Y = -JUMPSTRENGTH;
+					m_speed.Y = -(JUMPSTRENGTH-70);
 					if (m_facingRight)
 					{
 						m_facingRight = false;
-						m_speed.X -= m_playerCurrentSpeed;
+						m_speed.X -= PLAYERSPEED * 2f;
 					}
 					else
 					{
 						m_facingRight = true;
-						m_speed.X += m_playerCurrentSpeed;
+						m_speed.X += PLAYERSPEED * 2f;
 					}
 
 				}
@@ -536,11 +536,11 @@ namespace GrandLarceny
 					m_speed.Y = -JUMPSTRENGTH;
 					if (m_facingRight)
 					{
-						m_speed.X = -m_playerCurrentSpeed;
+						m_speed.X = -PLAYERSPEED*2f;
 					}
 					else
 					{
-						m_speed.X = m_playerCurrentSpeed;
+						m_speed.X = PLAYERSPEED*2f;
 					}
 					m_currentState = State.Jumping;
 				}

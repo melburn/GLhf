@@ -57,7 +57,7 @@ namespace GrandLarceny
 		}
 
 		public void setColor(Color a_color) {
-			m_lineColor = a_color;
+			m_lineTexture.SetData(new[] { a_color });
 		}
 	}
 }
