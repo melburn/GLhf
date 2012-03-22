@@ -133,11 +133,13 @@ namespace GrandLarceny
 		}
 
 		private MenuState m_menuState;
+		private MenuState m_lastMenuState;
 		private enum MenuState {
 			Normal,
 			Ventilation,
 			Guard,
-			Hide
+			Hide,
+			Inactive
 		}
 		#endregion
 
@@ -185,8 +187,7 @@ namespace GrandLarceny
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
-			m_textField = new TextField(new Vector2(200, 200), 250, 25, true, true, true, 0);
-			m_guiList.AddLast(m_textField);
+			m_textField = new TextField(new Vector2(200, 200), 250, 25, false, true, false, 3);
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -390,6 +391,16 @@ namespace GrandLarceny
 		#region Update GUI
 		private void updateGUI(GameTime a_gameTime)
 		{
+			if (m_menuState == MenuState.Inactive) {
+				if (!m_textField.isWriting()) {
+					m_menuState = m_lastMenuState;
+				}
+			} else {
+				if (m_textField.isWriting()) {
+					m_lastMenuState = m_menuState;
+					m_menuState = MenuState.Inactive;
+				}
+			}
 			if (m_objectPreview != null) {
 				m_objectPreview.getPosition().setLocalX(m_worldMouse.X + 15);
 				m_objectPreview.getPosition().setLocalY(m_worldMouse.Y + 15);
@@ -419,6 +430,11 @@ namespace GrandLarceny
 						t_button.update();
 					}
 					break;
+				default:
+					foreach (Button t_button in m_buildingButtons) {
+						t_button.update();
+					}
+					break;
 			}
 			foreach (Button t_button in m_staticButton) {
 				t_button.update();
@@ -429,6 +445,7 @@ namespace GrandLarceny
 			foreach (GuiObject t_gui in m_guiList) {
 				t_gui.update(a_gameTime);
 			}
+			m_textField.update(a_gameTime);
 
 			if (m_selectedObject != null) {
 				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / TILE_WIDTH;
@@ -648,6 +665,20 @@ namespace GrandLarceny
 		#region Update Keyboard
 		private void updateKeyboard()
 		{
+			if (m_menuState != MenuState.Normal && Game.keyClicked(Keys.Escape)) {
+				m_menuState = MenuState.Normal;
+				guiButtonClick(m_btnSelectHotkey);
+			}
+			if (m_menuState == MenuState.Inactive) {
+				if (m_textField.isWriting()) {
+					if (Game.keyClicked(Keys.Enter)) {
+						m_selectedObject.setLayer(float.Parse(m_textField.getText()) / 1000);
+						clearSelectedObject();
+						m_menuState = m_lastMenuState;
+					}
+				}
+				return;
+			}
 			if (Game.keyClicked(Keys.F5)) {
 				m_currentLayer = 0;
 				Game.getInstance().setState(new GameState(m_levelToLoad));
@@ -677,27 +708,6 @@ namespace GrandLarceny
 			Keybindings for hotkeys
 			-----------------------------------
 			*/
-			if (Game.keyClicked(Keys.R)) {
-				if (m_selectedObject != null) {
-					if (m_selectedObject is Ladder) {
-						m_selectedObject.flip();
-						return;
-					}
-					m_selectedObject.addRotation((float)(Math.PI) / 2.0f);
-				}
-			}
-			if (Game.keyClicked(Keys.M)) {
-				if (m_selectedObject != null) {
-					if (m_selectedObject is LampSwitch) {
-						((LampSwitch)m_selectedObject).toggleConnectToAll();
-						showLightSwitchInfo((LampSwitch)m_selectedObject);
-					}
-				}
-			}
-			if (m_menuState != MenuState.Normal && Game.keyClicked(Keys.Escape)) {
-				m_menuState = MenuState.Normal;
-				guiButtonClick(m_btnSelectHotkey);
-			}
 			if (ctrlMod()) {
 				if (Game.keyClicked(Keys.H)) {
 					guiButtonClick(m_btnStandHideHotkey);
@@ -711,6 +721,15 @@ namespace GrandLarceny
 					Level t_saveLevel = new Level();
 					t_saveLevel.setLevelObjects(m_gameObjectList);
 					Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
+				}
+				if (Game.keyClicked(Keys.O)) {
+					Level t_newLevel = Serializer.getInstance().loadLevel(m_levelToLoad);
+					m_gameObjectList = t_newLevel.getLevelLists();
+					foreach (LinkedList<GameObject> t_arr in m_gameObjectList) {
+						foreach (GameObject f_gb in t_arr) {
+							f_gb.loadContent();
+						}
+					}
 				}
 			} else if (shiftMod()) {
 				if (shiftMod() && Game.keyClicked(Keys.G)) {
@@ -804,6 +823,23 @@ namespace GrandLarceny
 						}
 						break;
 				}
+				if (Game.keyClicked(Keys.R)) {
+					if (m_selectedObject != null) {
+						if (m_selectedObject is Ladder) {
+							m_selectedObject.flip();
+							return;
+						}
+						m_selectedObject.addRotation((float)(Math.PI) / 2.0f);
+					}
+				}
+				if (Game.keyClicked(Keys.M)) {
+					if (m_selectedObject != null) {
+						if (m_selectedObject is LampSwitch) {
+							((LampSwitch)m_selectedObject).toggleConnectToAll();
+							showLightSwitchInfo((LampSwitch)m_selectedObject);
+						}
+					}
+				}
 			}
 
 			/*
@@ -822,22 +858,15 @@ namespace GrandLarceny
 			Save and Load hotkeys 
 			-----------------------------------
 			*/ 
-
-			if (ctrlMod() && Game.keyClicked(Keys.O)) {
-				Level t_newLevel = Serializer.getInstance().loadLevel(m_levelToLoad);
-				m_gameObjectList = t_newLevel.getLevelLists();
-				foreach (LinkedList<GameObject> t_arr in m_gameObjectList) {
-					foreach (GameObject f_gb in t_arr) {
-						f_gb.loadContent();
-					}
-				}
-			}
 		}
 		#endregion
 
 		#region Update Mouse
 		private void updateMouse() {
 			m_worldMouse = calculateWorldMouse();
+			if (m_menuState == MenuState.Inactive) {
+				return;
+			}
 			/*
 			-----------------------------------
 			Middle-mouse drag
@@ -954,6 +983,7 @@ namespace GrandLarceny
 						} else if (m_selectedObject is LampSwitch) {
 							showLightSwitchInfo((LampSwitch)m_selectedObject);
 						}
+						m_textField.setText((m_selectedObject.getLayer() * 1000).ToString());
 						m_selectedObject.setColor(Color.Yellow);
 					}
 				}
@@ -974,7 +1004,7 @@ namespace GrandLarceny
 			-----------------------------------
 			*/
 			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Pressed) {
-				if (m_selectedObject != null) {
+				if (m_selectedObject != null && m_menuState != MenuState.Inactive && !collidedWithGui(new Vector2(Game.m_currentMouse.X, Game.m_currentMouse.Y))) {
 					if (m_dragOffset == Vector2.Zero || m_dragOffset == null) {
 						m_dragOffset = new Vector2(
 							m_worldMouse.X - m_selectedObject.getPosition().getGlobalX(),
@@ -1074,6 +1104,9 @@ namespace GrandLarceny
 		#region Collision Check
 		private bool collidedWithGui(Vector2 a_coordinate)
 		{
+			if (m_textField.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
+				return true;
+			}
 			foreach (GuiObject t_guiObject in m_guiList)
 				if (t_guiObject.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y))
 					return true;
@@ -1417,7 +1450,9 @@ namespace GrandLarceny
 			if (m_player == null) {
 				if (collidedWithObject(m_worldMouse))
 					return;
-				addObject(new Player(getTile(m_worldMouse), "Images//Sprite//Hero//" + assetToCreate, 0.300f));
+				Player t_player = new Player(getTile(m_worldMouse), "Images//Sprite//Hero//" + assetToCreate, 0.300f);
+				m_player = t_player;
+				addObject(t_player);
 			}
 		}
 
@@ -1529,6 +1564,10 @@ namespace GrandLarceny
 				foreach (Button t_button in m_staticButton)
 					t_button.draw(a_gameTime, a_spriteBatch);
 
+				if (m_selectedObject != null) {
+					m_textField.draw(a_gameTime);
+				}
+
 				switch (m_menuState)
 				{
 					case MenuState.Normal:
@@ -1570,6 +1609,5 @@ namespace GrandLarceny
 				m_dragLine.draw();
 		}
 		#endregion
-
 	}
 }
