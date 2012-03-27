@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GrandLarceny.Events.Effects
 {
+	[Serializable()]
 	class CutsceneEffect : EventEffect
 	{
 		private String m_cutsceneName;
@@ -21,6 +22,11 @@ namespace GrandLarceny.Events.Effects
 		public override void execute()
 		{
 			Game.getInstance().setCutscene(m_cutsceneName);
+		}
+
+		public override string ToString()
+		{
+			return "Cutscene: " + m_cutsceneName;
 		}
 	}
 }

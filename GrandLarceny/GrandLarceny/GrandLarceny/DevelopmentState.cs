@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Text.RegularExpressions;
+using GrandLarceny.Events;
 
 namespace GrandLarceny
 {
@@ -15,7 +16,7 @@ namespace GrandLarceny
 		#region Members
 		private LinkedList<GameObject>[] m_gameObjectList;
 		private LinkedList<GuiObject> m_guiList;
-		private LinkedList<Events.Event> m_events;
+		private LinkedList<Event> m_events;
 
 		private LinkedList<Button> m_staticButton;
 		private LinkedList<Button> m_buildingButtons;
@@ -65,16 +66,17 @@ namespace GrandLarceny
 		private Button m_btnLightSwitchHotkey;
 		private Button m_btnVentHotkey;
 		private Button m_btnWindowHotkey;
+		private Button m_btnForegroundHotkey;
 
 		/*
 		-----------------------------------
 		Ventilation buttons
 		-----------------------------------
 		*/
-		private Button m_btnCrossVent;
-		private Button m_btnCornerVent;
-		private Button m_btnTVent;
-		private Button m_btnStraVent;
+		private Button m_btnCrossVentHotkey;
+		private Button m_btnCornerVentHotkey;
+		private Button m_btnTVentHotkey;
+		private Button m_btnStraVentHotkey;
 
 		/*
 		-----------------------------------
@@ -109,36 +111,18 @@ namespace GrandLarceny
 		private State m_itemToCreate;
 		private enum State
 		{
-			Platform,
-			Player,
-			Background,
-			Ladder,
-			SpotLight,
-			LightSwitch,
-			Delete,
-			None,
-			Guard,
-			GuardDog,
-			Wall,
-			DuckHidingObject,
-			StandHidingObject,
-			Ventilation,
-			Camera,
-			CrossVent,
-			TVent,
-			StraVent,
-			CornerVent,
-			Ventrance,
-			Window
+			Platform,		Player,		Background,		Foreground,
+			Ladder,			SpotLight,	LightSwitch,	Delete,
+			None,			Guard,		GuardDog,		Wall,
+			Ventilation,	Camera,		CrossVent,		TVent,
+			StraVent,		CornerVent, Ventrance,		Window,
+			DuckHidingObject,		StandHidingObject
 		}
 
 		private MenuState m_menuState;
 		private MenuState m_lastMenuState;
 		private enum MenuState {
-			Normal,
-			Ventilation,
-			Guard,
-			Hide,
+			Normal,			Ventilation,	Guard,		Hide,
 			Inactive
 		}
 		#endregion
@@ -154,11 +138,10 @@ namespace GrandLarceny
 		public override void load()
 		{
 			m_guiList = new LinkedList<GuiObject>();
-			m_gameObjectList = Loader.getInstance().loadLevel(m_levelToLoad);
 
-			//todo
-			//serialize events
-			m_events = new LinkedList<Events.Event>();
+			Level t_loadedLevel = Loader.getInstance().loadLevel(m_levelToLoad);
+			m_gameObjectList = t_loadedLevel.getGameObjects();
+			m_events = t_loadedLevel.getEvents();
 			
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
@@ -187,7 +170,7 @@ namespace GrandLarceny
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
-			m_textField = new TextField(new Vector2(200, 200), 250, 25, false, true, false, 3);
+			m_textField = new TextField(new Vector2(Game.getInstance().getResolution().X - 50, Game.getInstance().getResolution().Y - 278), 50, 25, false, true, false, 3);
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -256,8 +239,10 @@ namespace GrandLarceny
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 2, t_bottomRight.Y - TILE_HEIGHT * 1), "N", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnGuardHotkey		= new Button("DevelopmentHotkeys//btn_guard_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 4, t_bottomRight.Y - TILE_HEIGHT * 1), "G", "VerdanaBold", Color.White, t_btnTextOffset);
-			m_btnDuckHideHotkey			= new Button("DevelopmentHotkeys//btn_duckhide_hotkey",
+			m_btnDuckHideHotkey		= new Button("DevelopmentHotkeys//btn_duckhide_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 3, t_bottomRight.Y - TILE_HEIGHT * 1), "A", "VerdanaBold", Color.White, t_btnTextOffset);
+			m_btnForegroundHotkey	= new Button("DevelopmentHotkeys//btn_background_hotkey",
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 2, t_bottomRight.Y - TILE_HEIGHT * 3), "F", "VerdanaBold", Color.White, t_btnTextOffset);	
 
 			m_buildingButtons.AddLast(m_btnLadderHotkey);
 			m_buildingButtons.AddLast(m_btnPlatformHotkey);
@@ -270,6 +255,7 @@ namespace GrandLarceny
 			m_buildingButtons.AddLast(m_btnVentHotkey);
 			m_buildingButtons.AddLast(m_btnGuardHotkey);
 			m_buildingButtons.AddLast(m_btnWindowHotkey);
+			m_buildingButtons.AddLast(m_btnForegroundHotkey);
 
 			foreach (Button t_button in m_buildingButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -281,19 +267,19 @@ namespace GrandLarceny
 			 * m_ventKeys
 			-----------------------------------
 			*/
-			m_btnTVent		= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
+			m_btnTVentHotkey		= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 5, t_bottomRight.Y - TILE_HEIGHT * 2), "T", "VerdanaBold", Color.White, t_btnTextOffset);
-			m_btnStraVent	= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
+			m_btnStraVentHotkey	= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 4, t_bottomRight.Y - TILE_HEIGHT * 2), "A", "VerdanaBold", Color.White, t_btnTextOffset);
-			m_btnCrossVent	= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
+			m_btnCrossVentHotkey	= new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 3, t_bottomRight.Y - TILE_HEIGHT * 2), "C", "VerdanaBold", Color.White, t_btnTextOffset);
-			m_btnCornerVent = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
+			m_btnCornerVentHotkey = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 2, t_bottomRight.Y - TILE_HEIGHT * 2), "O", "VerdanaBold", Color.White, t_btnTextOffset);
 			
-			m_ventButtons.AddLast(m_btnTVent);
-			m_ventButtons.AddLast(m_btnStraVent);
-			m_ventButtons.AddLast(m_btnCrossVent);
-			m_ventButtons.AddLast(m_btnCornerVent);
+			m_ventButtons.AddLast(m_btnTVentHotkey);
+			m_ventButtons.AddLast(m_btnStraVentHotkey);
+			m_ventButtons.AddLast(m_btnCrossVentHotkey);
+			m_ventButtons.AddLast(m_btnCornerVentHotkey);
 
 			foreach (Button t_button in m_ventButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -357,6 +343,7 @@ namespace GrandLarceny
 
 			setBuildingState(State.None);
 
+			base.load();
 		}
 		#endregion
 
@@ -371,7 +358,7 @@ namespace GrandLarceny
 		#endregion
 
 		#region Update Camera
-		private void updateCamera()
+		public void updateCamera()
 		{
 			if (Game.isKeyPressed(Keys.Right))
 				Game.getInstance().m_camera.move(new Vector2(15 / Game.getInstance().m_camera.getZoom(), 0));
@@ -391,16 +378,6 @@ namespace GrandLarceny
 		#region Update GUI
 		private void updateGUI(GameTime a_gameTime)
 		{
-			if (m_menuState == MenuState.Inactive) {
-				if (!m_textField.isWriting()) {
-					m_menuState = m_lastMenuState;
-				}
-			} else {
-				if (m_textField.isWriting()) {
-					m_lastMenuState = m_menuState;
-					m_menuState = MenuState.Inactive;
-				}
-			}
 			if (m_objectPreview != null) {
 				m_objectPreview.getPosition().setLocalX(m_worldMouse.X + 15);
 				m_objectPreview.getPosition().setLocalY(m_worldMouse.Y + 15);
@@ -521,6 +498,10 @@ namespace GrandLarceny
 						setBuildingState(State.Window);
 						return;
 					}
+					if (a_button == m_btnForegroundHotkey) {
+						setBuildingState(State.Foreground);
+						return;
+					}
 					break;
 				case MenuState.Guard:
 					if (a_button == m_btnGuardHotkey) {
@@ -547,19 +528,19 @@ namespace GrandLarceny
 					}
 					break;
 				case MenuState.Ventilation:
-					if (a_button == m_btnCrossVent) {
+					if (a_button == m_btnCrossVentHotkey) {
 						setBuildingState(State.CrossVent);
 						return;
 					}
-					if (a_button == m_btnCornerVent) {
+					if (a_button == m_btnCornerVentHotkey) {
 						setBuildingState(State.CornerVent);
 						return;
 					}
-					if (a_button == m_btnTVent) {
+					if (a_button == m_btnTVentHotkey) {
 						setBuildingState(State.TVent);
 						return;
 					}
-					if (a_button == m_btnStraVent) {
+					if (a_button == m_btnStraVentHotkey) {
 						setBuildingState(State.StraVent);
 						return;
 					}
@@ -658,6 +639,9 @@ namespace GrandLarceny
 				case State.Window:
 					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Tile//Window//" + assetToCreate, 0.000f);
 					break;
+				case State.Foreground:
+					m_objectPreview = new Platform(new Vector2(m_worldMouse.X + 15, m_worldMouse.Y + 15), "Images//Foregrounds//" + assetToCreate, 0.000f);
+					break;
 			}
 		}
 		#endregion
@@ -720,11 +704,13 @@ namespace GrandLarceny
 					}
 					Level t_saveLevel = new Level();
 					t_saveLevel.setLevelObjects(m_gameObjectList);
+					t_saveLevel.setEvents(m_events);
 					Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
+
 				}
 				if (Game.keyClicked(Keys.O)) {
 					Level t_newLevel = Serializer.getInstance().loadLevel(m_levelToLoad);
-					m_gameObjectList = t_newLevel.getLevelLists();
+					m_gameObjectList = t_newLevel.getGameObjects();
 					foreach (LinkedList<GameObject> t_arr in m_gameObjectList) {
 						foreach (GameObject f_gb in t_arr) {
 							f_gb.loadContent();
@@ -785,6 +771,9 @@ namespace GrandLarceny
 						if (Game.keyClicked(Keys.N)) {
 							guiButtonClick(m_btnWindowHotkey);
 						}
+						if (Game.keyClicked(Keys.F)) {
+							guiButtonClick(m_btnForegroundHotkey);
+						}
 						break;
 					case MenuState.Guard:
 						if (Game.keyClicked(Keys.G)) {
@@ -807,16 +796,16 @@ namespace GrandLarceny
 						break;
 					case MenuState.Ventilation:
 						if (Game.keyClicked(Keys.T)) {
-							guiButtonClick(m_btnTVent);
+							guiButtonClick(m_btnTVentHotkey);
 						}
 						if (Game.keyClicked(Keys.A)) {
-							guiButtonClick(m_btnStraVent);
+							guiButtonClick(m_btnStraVentHotkey);
 						}
 						if (Game.keyClicked(Keys.C)) {
-							guiButtonClick(m_btnCrossVent);
+							guiButtonClick(m_btnCrossVentHotkey);
 						}
 						if (Game.keyClicked(Keys.O)) {
-							guiButtonClick(m_btnCornerVent);
+							guiButtonClick(m_btnCornerVentHotkey);
 						}
 						if (Game.keyClicked(Keys.V)) {
 							guiButtonClick(m_btnVentHotkey);
@@ -890,7 +879,7 @@ namespace GrandLarceny
 				Building
 				-----------------------------------
 				*/
-				if (m_building && !collidedWithGui(m_worldMouse)) {
+				if (m_building && !collidedWithGui(Game.getMouseCoords())) {
 					if (assetToCreate != null) {
 						switch (m_itemToCreate)
 						{
@@ -948,6 +937,9 @@ namespace GrandLarceny
 							case State.Window:
 								createWindow();
 								break;
+							case State.Foreground:
+								createForeground();
+								break;
 						}
 					}
 					return;
@@ -957,7 +949,8 @@ namespace GrandLarceny
 				Selecting
 				----------------------------------- 
 				*/
-				if (!m_building && !collidedWithGui(m_worldMouse)) {
+				
+				if (!m_building && !collidedWithGui(Game.getMouseCoords())) {
 					if (m_selectedObject != null) {
 						clearSelectedObject();
 					}
@@ -1105,28 +1098,37 @@ namespace GrandLarceny
 		private bool collidedWithGui(Vector2 a_coordinate)
 		{
 			if (m_textField.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
+				m_lastMenuState = m_menuState;
 				return true;
 			}
-			foreach (GuiObject t_guiObject in m_guiList)
-				if (t_guiObject.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y))
+			foreach (GuiObject t_guiObject in m_guiList) {
+				if (t_guiObject.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
 					return true;
+				}
+			}
 			if (m_ventilation) {
 				foreach (Button t_button in m_ventButtons) {
-					if (t_button.getBox().Contains((int)Mouse.GetState().X, (int)Mouse.GetState().Y))
+					if (t_button.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
 						return true;
+					}
 				}
 			} else {
 				foreach (Button t_button in m_buildingButtons) {
-					if (t_button.getBox().Contains((int)Mouse.GetState().X, (int)Mouse.GetState().Y))
+					if (t_button.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
 						return true;
+					}
 				}
 			}
-			foreach (Button t_button in m_assetButtonList)
-				if (t_button.getBox().Contains((int)Mouse.GetState().X, (int)Mouse.GetState().Y))
+			foreach (Button t_button in m_assetButtonList) {
+				if (t_button.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
 					return true;
-			foreach (Button t_button in m_layerButtonList)
-				if (t_button.getBox().Contains((int)Mouse.GetState().X, (int)Mouse.GetState().Y))
+				}
+			}
+			foreach (Button t_button in m_layerButtonList) {
+				if (t_button.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
 					return true;
+				}
+			}
 			return false;
 		}
 
@@ -1281,22 +1283,22 @@ namespace GrandLarceny
 				case State.CrossVent:
 					m_textCurrentMode.setText("Cross Ventilation");
 					createAssetList("Content//Images//Tile//Ventilation//Cross//");
-					m_btnCrossVent.setState(3);
+					m_btnCrossVentHotkey.setState(3);
 					break;
 				case State.CornerVent:
 					m_textCurrentMode.setText("Ventilation Corner");
 					createAssetList("Content//Images//Tile//Ventilation//Corner//");
-					m_btnCornerVent.setState(3);
+					m_btnCornerVentHotkey.setState(3);
 					break;
 				case State.TVent:
 					m_textCurrentMode.setText("T-ventilation");
 					createAssetList("Content//Images//Tile//Ventilation//TVent//");
-					m_btnTVent.setState(3);
+					m_btnTVentHotkey.setState(3);
 					break;
 				case State.StraVent:
 					m_textCurrentMode.setText("Straight Ventilation");
 					createAssetList("Content//Images//Tile//Ventilation//Straight//");
-					m_btnStraVent.setState(3);
+					m_btnStraVentHotkey.setState(3);
 					break;
 				case State.Ventrance:
 					m_textCurrentMode.setText("Ventilation Entrance");
@@ -1312,6 +1314,11 @@ namespace GrandLarceny
 					m_textCurrentMode.setText("Create Window");
 					createAssetList("Content//Images//Tile//Window//");
 					m_btnWindowHotkey.setState(3);
+					break;
+				case State.Foreground:
+					m_textCurrentMode.setText("Create Foreground");
+					createAssetList("Content//Images//Foregrounds//");
+					m_btnForegroundHotkey.setState(3);
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0) {
@@ -1420,6 +1427,16 @@ namespace GrandLarceny
 		{
 			return m_gameObjectList;
 		}
+
+		public void setEvents(LinkedList<Event> t_events)
+		{
+			if (t_events == null)
+			{
+				throw new ArgumentNullException();
+			}
+			m_events = t_events;
+		}
+		
 		#endregion
 
 		#region Create-methods
@@ -1539,6 +1556,11 @@ namespace GrandLarceny
 				return;
 			addObject(new VentilationDrum(getTile(m_worldMouse), "Images//Tile//Ventilation//Drum//" + assetToCreate, 0.700f));
 		}
+		private void createForeground() {
+			if (collidedWithObject(m_worldMouse))
+				return;
+			addObject(new Foreground(getTile(m_worldMouse), "Images//Foregrounds//" + assetToCreate, 0.100f));
+		}
 
 		private void createCamera()
 		{
@@ -1609,5 +1631,7 @@ namespace GrandLarceny
 				m_dragLine.draw();
 		}
 		#endregion
+
+		
 	}
 }

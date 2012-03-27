@@ -61,25 +61,9 @@ namespace GrandLarceny
 			return m_animationFrames[a_sprite];
 		}
 
-		public LinkedList<GameObject>[] loadLevel(string a_levelName)
+		public Level loadLevel(string a_levelName)
 		{
-				LinkedList<GameObject>[] t_returnList;
-				Level t_newLevel = Serializer.getInstance().loadLevel(a_levelName);
-				t_returnList = t_newLevel.getLevelLists();
-				/*foreach(LinkedList<GameObject>t_ll in t_returnList)
-				{
-					foreach (GameObject t_go in t_ll)
-					{
-						t_go.loadContent();
-
-						if (t_go is Player)
-						{
-							Game.getInstance().getState().setPlayer((Player)t_go);
-						}
-					}
-				}*/
-
-				return t_returnList;
+				return Serializer.getInstance().loadLevel(a_levelName);
 		}
 
 

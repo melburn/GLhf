@@ -38,9 +38,34 @@ namespace GrandLarceny.Events
 			return m_oneShot;
 		}
 
-		internal void add(EventEffect a_eveeEffect)
+		public void add(EventEffect a_eveEffect)
 		{
-			throw new NotImplementedException();
+			m_effects.AddLast(a_eveEffect);
+		}
+
+		public void add(EventTrigger a_eveTrigger)
+		{
+			m_triggers.AddLast(a_eveTrigger);
+		}
+
+		public LinkedList<EventEffect> getEffects()
+		{
+			return m_effects;
+		}
+
+		public LinkedList<EventTrigger> getTriggers()
+		{
+			return m_triggers;
+		}
+
+		public bool remove(EventEffect a_eveEffect)
+		{
+			return m_effects.Remove(a_eveEffect);
+		}
+
+		public bool remove(EventTrigger a_eveTrigger)
+		{
+			return m_triggers.Remove(a_eveTrigger);
 		}
 	}
 }
