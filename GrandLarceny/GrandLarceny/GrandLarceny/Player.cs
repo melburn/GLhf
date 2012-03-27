@@ -75,8 +75,10 @@ namespace GrandLarceny
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
 		private bool m_stunnedGravity = true;
+
 		private bool m_stunnedFlipSprite = false;
-		private bool m_hasBoots = true; //FIXA DET, DEN SKA VA FAAAAAAAAAAAALLLLLLLLLSSSSSSSSEEEEEE
+
+
 		private bool m_chase = false;
 
 		public enum Direction
@@ -964,10 +966,6 @@ namespace GrandLarceny
 		#endregion
 
 		#region get/set and other methods
-		internal bool hasBoots()
-		{
-			return m_hasBoots;
-		}
 
 		public void setIsInLight(bool a_isInLight)
 		{

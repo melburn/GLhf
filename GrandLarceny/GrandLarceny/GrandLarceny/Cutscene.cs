@@ -118,6 +118,14 @@ namespace GrandLarceny
 				}
 				m_guis.Remove(int.Parse(m_currentCommand[1]));
 			}
+			else if (m_currentCommand[0].Equals("sound", StringComparison.OrdinalIgnoreCase))
+			{
+				if (m_currentCommand.Length == 1)
+				{
+					throw new ParseException();
+				}
+				new Sound(m_currentCommand[1]).play();
+			}
 			else
 			{
 				throw new ParseException();
