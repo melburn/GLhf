@@ -43,8 +43,8 @@ namespace GrandLarceny
 		private Game()
 		{
 			m_graphics = new GraphicsDeviceManager(this);
-			m_graphics.PreferredBackBufferWidth = 1280;
-			m_graphics.PreferredBackBufferHeight = 720;
+			//m_graphics.PreferredBackBufferWidth = 1280;
+			//m_graphics.PreferredBackBufferHeight = 720;
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
 		}
@@ -102,7 +102,7 @@ namespace GrandLarceny
 		protected override void Draw(GameTime a_gameTime)
 		{
 			GraphicsDevice.Clear(new Color(46, 46, 73));
-			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
+			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
 			m_currentState.draw(a_gameTime, m_spriteBatch);
 			m_spriteBatch.End();
 

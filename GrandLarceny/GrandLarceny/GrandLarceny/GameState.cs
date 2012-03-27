@@ -30,6 +30,12 @@ namespace GrandLarceny
 
 		private Player player;
 
+		private ParseState m_currentParse;
+		private enum ParseState {
+			Settings,
+			Input
+		}
+
 		public GameState(string a_levelToLoad)
 		{
 			m_currentLevel = a_levelToLoad;
@@ -46,6 +52,58 @@ namespace GrandLarceny
 
 			m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
 			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
+
+			string[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//settings.ini");
+			foreach (string t_currentLine in t_loadedFile)
+			{
+				try {
+					if (t_currentLine.First() == '[' && t_currentLine.Last() == ']') {
+						if (t_currentLine.Equals("[Input]")) {
+							m_currentParse = ParseState.Input;
+						} else if (t_currentLine.Equals("[Graphics]")) {
+							m_currentParse = ParseState.Settings;
+						}
+					}
+				} catch (InvalidOperationException ioe) {
+					continue;
+				}
+				switch (m_currentParse) {
+					case ParseState.Input:
+						string[] t_input = t_currentLine.Split('=');
+						if (t_input[0].Equals("Up"))
+							m_upKey		= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Down"))
+							m_downKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Left"))
+							m_leftKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Right"))
+							m_rightKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Jump"))
+							m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+						else if (t_input[0].Equals("Roll"))
+							m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+						else if (t_input[0].Equals("Action"))
+							m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+						else if (t_input[0].Equals("Sneak"))
+							m_sneakKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else
+							System.Console.WriteLine("Unknown keybinding found!");
+						break;
+					case ParseState.Settings:
+						string[] t_setting = t_currentLine.Split('=');
+						if (t_setting[0].Equals("ScreenWidth")) {
+							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
+						} else if (t_setting[0].Equals("ScreenHeight")) {
+							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
+						} else if (t_setting[0].Equals("Fullscreen")) {
+							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
+						}
+						break;
+				}
+				
+			}
+			Game.getInstance().m_graphics.ApplyChanges();
+
 			for (int i = 0; i < m_gameObjectList.Length; ++i)
 			{
 				m_removeList[i] = new Stack<GameObject>();
@@ -69,30 +127,6 @@ namespace GrandLarceny
 			{
 				Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
-			}
-
-			string[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//input.ini");
-			foreach (string t_currentLine in t_loadedFile)
-			{
-				string[] t_keybinding = t_currentLine.Split('=');
-				if (t_keybinding[0].Equals("Up"))
-					m_upKey		= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else if (t_keybinding[0].Equals("Down"))
-					m_downKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else if (t_keybinding[0].Equals("Left"))
-					m_leftKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else if (t_keybinding[0].Equals("Right"))
-					m_rightKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else if (t_keybinding[0].Equals("Jump"))
-					m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1].ToUpper());
-				else if (t_keybinding[0].Equals("Roll"))
-					m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1].ToUpper());
-				else if (t_keybinding[0].Equals("Action"))
-					m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1].ToUpper());
-				else if (t_keybinding[0].Equals("Sneak"))
-					m_sneakKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else
-					System.Console.WriteLine("Unknown keybinding found!");
 			}
 			base.load();
 		}
