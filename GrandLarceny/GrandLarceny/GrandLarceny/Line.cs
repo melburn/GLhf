@@ -46,20 +46,17 @@ namespace GrandLarceny
 
 		public void draw() {
 			float t_zoom = Game.getInstance().m_camera.getZoom();
-			float t_angle = (float)Math.Atan2(
-				(m_endPosition.getGlobalY() - m_startPosition.getGlobalY()) * t_zoom, 
-				(m_endPosition.getGlobalX() - m_startPosition.getGlobalX()) * t_zoom
-			);
-			float t_length = Vector2.Distance(m_startPosition.getGlobalCartesianCoordinates() / t_zoom, m_endPosition.getGlobalCartesianCoordinates() / t_zoom);
+			float t_angle = (float)Math.Atan2(m_endPosition.getGlobalY() - m_startPosition.getGlobalY(), m_endPosition.getGlobalX() - m_startPosition.getGlobalX());
+			float t_length = Vector2.Distance(m_startPosition.getGlobalCartesianCoordinates(), m_endPosition.getGlobalCartesianCoordinates());
 
 			if (m_worldLine) {
-				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesianCoordinates(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width / t_zoom), SpriteEffects.None, 0.010f);
+				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesianCoordinates(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width), SpriteEffects.None, 0.010f);
 			} else {
 				Vector2 t_cartCoord;
 				t_cartCoord.X = m_startPosition.getLocalX() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalX();
 				t_cartCoord.Y = m_startPosition.getLocalY() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalY();
 
-				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, t_cartCoord, null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width / t_zoom), SpriteEffects.None, 0.010f);
+				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, t_cartCoord, null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length / t_zoom, m_width / t_zoom), SpriteEffects.None, 0.010f);
 			}
 		}
 

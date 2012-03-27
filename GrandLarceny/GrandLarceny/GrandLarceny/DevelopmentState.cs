@@ -1327,15 +1327,15 @@ namespace GrandLarceny
 		private void showGuardInfo(Guard a_guard) {
 			m_lineList.Clear();
 			m_textGuardInfo.setText(" L: " + a_guard.getLeftPatrolPoint() + "R: " + a_guard.getRightPatrolPoint());
-			m_lineList.AddLast(new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getLeftPatrolPoint() - 36, 72), Color.Green, 5, true));
-			m_lineList.AddLast(new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getRightPatrolPoint() + 36, 72), Color.Green, 5, true));
+			m_lineList.AddLast(new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getLeftPatrolPoint() - a_guard.getPosition().getGlobalX() + 36, 72), Color.Green, 5, true));
+			m_lineList.AddLast(new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getRightPatrolPoint() - a_guard.getPosition().getGlobalX() + 36, 72), Color.Green, 5, true));
 		}
 
 		private void showDogInfo(GuardDog a_guard) {
 			m_lineList.Clear();
-			m_textGuardInfo.setText(" L: " + a_guard.getLeftpatrolPoint() + "R: " + a_guard.getRightpatrolPoint());
-			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getLeftpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5, true));
-			m_lineList.AddLast(new Line(a_guard.getPosition(), new CartesianCoordinate(new Vector2(a_guard.getRightpatrolPoint(), a_guard.getPosition().getGlobalY())), new Vector2(36, 72), new Vector2(36, 72), Color.Green, 5, true));
+			m_textGuardInfo.setText(" L: " + a_guard.getLeftPatrolPoint() + "R: " + a_guard.getRightPatrolPoint());
+			m_lineList.AddLast(new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getLeftPatrolPoint() - a_guard.getPosition().getGlobalX() + 36, 72), Color.Green, 5, true));
+			m_lineList.AddLast(new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getRightPatrolPoint() - a_guard.getPosition().getGlobalX() + 36, 72), Color.Green, 5, true));
 		}
 
 		private void showLightSwitchInfo(LampSwitch a_lightswitch) {
