@@ -124,8 +124,8 @@ namespace GrandLarceny
 						} else {
 							m_textToShow.addText(char.ToLower((char)t_key));
 						}
-					} else if (m_acceptSpecials) {
-						if (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift)) {
+					} else if (m_acceptSpecials || m_acceptNumbers) {
+						if (m_acceptSpecials && (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift))) {
 							if (t_key == Keys.D0) {
 								m_textToShow.addText("=");
 							} else if (t_key == Keys.D1) {
@@ -227,8 +227,9 @@ namespace GrandLarceny
 							}									
 						}
 					}
-					if(!(Game.wasKeyPressed(t_key) && !m_lastPressedKeys.ContainsKey(t_key)))
+					if(!(Game.wasKeyPressed(t_key) && !m_lastPressedKeys.ContainsKey(t_key))) {
 						m_lastPressedKeys.Add(t_key, a_gameTime.TotalGameTime);
+					}
 				}
 			}
 		}
