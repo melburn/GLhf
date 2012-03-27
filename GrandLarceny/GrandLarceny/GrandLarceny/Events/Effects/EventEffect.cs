@@ -6,7 +6,7 @@ using System.Text;
 namespace GrandLarceny.Events
 {
 	[Serializable()]
-	abstract class EventEffect
+	public abstract class EventEffect
 	{
 		public abstract void execute();
 		public abstract override string ToString();
