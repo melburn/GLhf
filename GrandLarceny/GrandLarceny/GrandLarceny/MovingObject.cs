@@ -22,7 +22,8 @@ namespace GrandLarceny
 		{
 			foreach (Entity t_entity in a_collisionList)
 			{
-				t_entity.updateCollisionWith(this);
+				if(m_collisionShape != null)
+					t_entity.updateCollisionWith(this);
 			}
 		}
 	}
