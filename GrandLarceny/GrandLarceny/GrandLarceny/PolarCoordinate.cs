@@ -133,7 +133,7 @@ namespace GrandLarceny
 				m_coordinates = getGlobalPolarCoordinates();
 			}
 			else{
-			m_coordinates = convertCartesianToPolar(getGlobalCartesianCoordinates() - a_parentPosition.getGlobalCartesianCoordinates());
+				m_coordinates = convertCartesianToPolar(getGlobalCartesianCoordinates() - a_parentPosition.getGlobalCartesianCoordinates());
 			}
 			m_parentPosition = a_parentPosition;
 		}
