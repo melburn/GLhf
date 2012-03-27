@@ -36,8 +36,8 @@ namespace GrandLarceny
 		[NonSerialized]
 		public GuiObject[] m_healthHearts;
 
-		public const string STANDHIDINGIMAGE = "Images//Sprite//Hero//hero_wallhide";
-		public const string DUCKHIDINGIMAGE = "Images//Sprite//Hero//hero_hide";
+		public const string STANDHIDINGIMAGE = "hero_wallhide";
+		public const string DUCKHIDINGIMAGE = "hero_hide";
 		private string m_currentHidingImage;
 		[NonSerialized]
 		private CollisionRectangle m_standHitBox;
@@ -117,6 +117,16 @@ namespace GrandLarceny
 			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
 			m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_stand");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_walk");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_jump");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_fall");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_slide");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_hang");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_roll");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb_ledge");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_window_climb");
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
@@ -710,46 +720,98 @@ namespace GrandLarceny
 		#endregion
 
 		#region change animation and state
+		private void setSprite(string a_sprite)
+		{
+			m_img.setSprite("Images//Sprite//Hero//" + a_sprite);
+		}
 		private void changeAnimation()
 		{
+			switch (m_currentState)
+			{
+				case State.Stop:
+				{
+					setSprite("hero_stand");
+					break;
+				}
+				case State.Walking:
+				{
+					setSprite("hero_walk");
+					break;
+				}
+				case State.Jumping:
+				{
+					if (m_speed.Y < 0)
+						setSprite("hero_jump");
+					else
+						setSprite("hero_fall");
+					break;
+				}
+				case State.Rolling:
+				{
+					setSprite("hero_roll");
+					break;
+				}
+				case State.Slide:
+				{
+					setSprite("hero_slide");
+					break;
+				}
+				case State.Hanging:
+				{
+					setSprite("hero_hang");
+					break;
+				}
+				case State.Climbing:
+				{
+					setSprite("hero_climb");
+					break;
+				}
+				case State.Hiding:
+				{
+					setSprite(m_currentHidingImage);
+					break;
+				}
 
+			}
+			/*
 			if (m_currentState == State.Stop)
 			{
-				m_img.setSprite("Images//Sprite//Hero//hero_stand");
+				setSprite("hero_stand");
 			}
 			else if (m_currentState == State.Walking)
 			{
-				m_img.setSprite("Images//Sprite//Hero//hero_walk");
+				setSprite("hero_walk");
 			}
 
 			if (m_currentState == State.Jumping)
 			{
 				if (m_speed.Y < 0)
-					m_img.setSprite("Images//Sprite//Hero//hero_jump");
+					setSprite("hero_jump");
 				else
-					m_img.setSprite("Images//Sprite//Hero//hero_fall");
+					setSprite("hero_fall");
 			}
 
 			else if (m_currentState == State.Rolling)
 			{
-				m_img.setSprite("Images//Sprite//Hero//hero_roll");
+				setSprite("hero_roll");
 			}
 			else if (m_currentState == State.Slide)
 			{
-				m_img.setSprite("Images//Sprite//Hero//hero_slide");
+				setSprite("hero_slide");
 			}
 			else if (m_currentState == State.Hanging)
 			{
-				m_img.setSprite("Images//Sprite//Hero//hero_hang");
+				setSprite("hero_hang");
 			}
 			else if (m_currentState == State.Climbing)
 			{
-				m_img.setSprite("Images//Sprite//Hero//hero_climb");
+				setSprite("hero_climb");
 			}
 			else if (m_currentState == State.Hiding)
 			{
-				m_img.setSprite(m_currentHidingImage);
+				setSprite(m_currentHidingImage);
 			}
+			 * */
 		}
 		private void updateState()
 		{
@@ -970,7 +1032,7 @@ namespace GrandLarceny
 		{
 			if (m_invulnerableTimer == 0)
 			{
-				m_img.setSprite("Images//Sprite//Hero//hero_jump");
+				setSprite("hero_jump");
 				//deals 1 damage
 				m_currentState = State.Jumping;
 				m_health = Math.Max(m_health - 1, 0);
@@ -1002,7 +1064,7 @@ namespace GrandLarceny
 
 		public void windowAction()
 		{
-			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
+			setSprite("hero_window_climb");
 			m_collisionShape = null;
 			m_img.setLooping(false);
 			m_stunned = true;
@@ -1041,7 +1103,7 @@ namespace GrandLarceny
 
 		public void hangClimbAction()
 		{
-			m_img.setSprite("Images//Sprite//Hero//hero_climb_ledge");
+			setSprite("hero_climb_ledge");
 			m_currentState = State.Stop;
 			updateState();
 			m_lastState = State.Stop;
