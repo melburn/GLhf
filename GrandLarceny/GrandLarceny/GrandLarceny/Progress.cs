@@ -20,7 +20,7 @@ namespace GrandLarceny
 
 		public Boolean hasEquipment(string a_equipment)
 		{
-			return m_equipments[a_equipment];
+			return m_equipments.ContainsKey(a_equipment) && m_equipments[a_equipment];
 		}
 
 		public void setEquipment(string a_equipment, bool a_has)
