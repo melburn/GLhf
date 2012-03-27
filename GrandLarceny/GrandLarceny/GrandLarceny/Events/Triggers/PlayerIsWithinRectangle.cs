@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny.Events.Triggers
 {
+	[Serializable()]
 	class PlayerIsWithinRectangle : EventTrigger
 	{
 		private float m_x1;
@@ -34,6 +35,11 @@ namespace GrandLarceny.Events.Triggers
 				t_playerX < m_x2 &&
 				t_playerY > m_y1 &&
 				t_playerY < m_y2;
+		}
+
+		public override string ToString()
+		{
+			return "Player within Rectangle";
 		}
 	}
 }

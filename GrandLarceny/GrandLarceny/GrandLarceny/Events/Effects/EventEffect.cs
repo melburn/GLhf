@@ -5,6 +5,7 @@ using System.Text;
 
 namespace GrandLarceny.Events
 {
+	[Serializable()]
 	abstract class EventEffect
 	{
 		public abstract void execute();

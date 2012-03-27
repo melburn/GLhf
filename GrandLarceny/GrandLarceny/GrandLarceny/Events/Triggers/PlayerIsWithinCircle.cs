@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny.Events.Triggers
 {
+	[Serializable()]
 	class PlayerIsWithinCircle : EventTrigger
 	{
 		private Vector2 m_position;
@@ -27,6 +28,11 @@ namespace GrandLarceny.Events.Triggers
 		public override bool isTrue()
 		{
 			return Game.getInstance().getState().getPlayer().getPosition().getDistanceTo(m_position) <= m_radie;
+		}
+
+		public override string ToString()
+		{
+			return "Player within circle";
 		}
 	}
 }
