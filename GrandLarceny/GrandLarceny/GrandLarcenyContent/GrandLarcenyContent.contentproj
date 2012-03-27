@@ -715,12 +715,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Window\1x2_window_tile_middle_closed.png">
+    <Compile Include="Images\Tile\Wall\1x2_window_tile_middle_closed.png">
       <Name>1x2_window_tile_middle_closed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Window\1x2_window_tile_middle_open.png">
+    <Compile Include="Images\Background\1x2_window_tile_middle_open.png">
       <Name>1x2_window_tile_middle_open</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -864,8 +864,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Prop\Button\light_switch_on.png">
-      <Name>light_switch_on</Name>
+    <Compile Include="Images\Prop\Button\1x1_alight_switch_on.png">
+      <Name>1x1_alight_switch_on</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
