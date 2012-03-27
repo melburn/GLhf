@@ -203,7 +203,7 @@ namespace GrandLarceny
 				updateStunned(t_deltaTime);
 			}
 
-			flipSprite();
+			updateFlip();
 			base.update(a_gameTime);
 			if ((Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates() - m_cameraPoint).Length() > 3)
 			{
@@ -833,7 +833,7 @@ namespace GrandLarceny
 			m_ladderDirection = 0;
 			if (!m_chase)
 			{
-				m_isInLight = false;
+				setIsInLight(false);
 			}
 			if (a_collisionList.Count == 0 && m_collisionShape != null)
 			{
@@ -921,6 +921,14 @@ namespace GrandLarceny
 		public void setIsInLight(bool a_isInLight)
 		{
 			m_isInLight = a_isInLight;
+			if (m_isInLight)
+			{
+				m_color = Color.White;
+			}
+			else
+			{
+				m_color = new Color(new Vector3(0.7f, 0.7f, 1f));
+			}
 		}
 
 		public void setCollidedWithWall(bool a_collided)
@@ -1081,7 +1089,7 @@ namespace GrandLarceny
 		{
 			m_currentState = a_state;
 		}
-		private void flipSprite()
+		private void updateFlip()
 		{
 			if (m_facingRight)
 			{
@@ -1101,14 +1109,14 @@ namespace GrandLarceny
 		{
 			m_chase = true;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
-			m_isInLight = true;
+			setIsInLight(true);
 		}
 
 		public void deactivateChaseMode()
 		{
 			m_chase = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
-			m_isInLight = false;
+			setIsInLight(false);
 			((GameState)Game.getInstance().getState()).clearAggro();
 		}
 		#endregion

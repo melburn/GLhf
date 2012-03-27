@@ -345,12 +345,12 @@ namespace GrandLarceny
 
 					foreach (Button t_b in m_effects.Keys)
 					{
-						m_buttonList.Remove(t_b);
+						m_buttonsToRemove.Push(t_b);
 					}
 					m_effects.Clear();
 					foreach (Button t_b in m_triggers.Keys)
 					{
-						m_buttonList.Remove(t_b);
+						m_buttonsToRemove.Push(t_b);
 					}
 					m_triggers.Clear();
 					m_selectedEffTri = null;
