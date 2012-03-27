@@ -20,7 +20,6 @@ namespace GrandLarceny
 		private Keys[]	m_acptLetters = { 
 			Keys.A, Keys.B, Keys.C, Keys.D, Keys.E, Keys.F, Keys.G, Keys.H, Keys.I, Keys.J, Keys.K, Keys.L, Keys.M,
 			Keys.N, Keys.O, Keys.P, Keys.Q, Keys.R, Keys.S, Keys.T, Keys.U, Keys.V, Keys.W, Keys.X, Keys.Y, Keys.Z,
-			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
 		};
 		private Keys[]	m_acptNumbers = {
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
@@ -119,49 +118,40 @@ namespace GrandLarceny
 				if (!m_lastPressedKeys.ContainsKey(t_key)) {
 					if (t_key == Keys.Back) {
 						m_textToShow.erase();
-					} else if (contains(t_key, m_acptLetters) && m_acceptLetters) {
+					} else if (m_acceptLetters && contains(t_key, m_acptLetters)) {
 						if (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift)) {
 							m_textToShow.addText((char)t_key);
 						} else {
 							m_textToShow.addText(char.ToLower((char)t_key));
 						}
-					} else if (contains(t_key, m_acptNumbers)) {
-						if (m_acceptSpecials && (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift))) {
-							switch (t_key) {
-								case Keys.D0:
-									m_textToShow.addText("=");
-									break;
-								case Keys.D1:
-									m_textToShow.addText("!");
-									break;
-								case Keys.D2:
-									m_textToShow.addText("\"");
-									break;
-								case Keys.D3:
-									m_textToShow.addText("#");
-									break;
-								case Keys.D4:
-									m_textToShow.addText("¤");
-									break;
-								case Keys.D5:
-									m_textToShow.addText("%");
-									break;
-								case Keys.D6:
-									m_textToShow.addText("&");
-									break;
-								case Keys.D7:
-									m_textToShow.addText("/");
-									break;
-								case Keys.D8:
-									m_textToShow.addText("(");
-									break;
-								case Keys.D9:
-									m_textToShow.addText(")");
-									break;
+					} else if (m_acceptSpecials) {
+						if (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift)) {
+							if (t_key == Keys.D0) {
+								m_textToShow.addText("=");
+							} else if (t_key == Keys.D1) {
+								m_textToShow.addText("!");
+							} else if (t_key == Keys.D2) {
+								m_textToShow.addText("\"");
+							} else if (t_key == Keys.D3) {
+								m_textToShow.addText("#");
+							} else if (t_key == Keys.D4) {
+								m_textToShow.addText("¤");
+							} else if (t_key == Keys.D5) {
+								m_textToShow.addText("%");
+							} else if (t_key == Keys.D6) {
+								m_textToShow.addText("&");
+							} else if (t_key == Keys.D7) {
+								m_textToShow.addText("/");
+							} else if (t_key == Keys.D8) {
+								m_textToShow.addText("(");
+							} else if (t_key == Keys.D9) {
+								m_textToShow.addText(")");
 							}
 						} else {
-							string t_string = t_key.ToString().Replace("D", string.Empty);
-							m_textToShow.addText(t_string);
+							if (contains(t_key, m_acptNumbers)) {
+								string t_string = t_key.ToString().Replace("D", string.Empty);
+								m_textToShow.addText(t_string);
+							}
 						}
 					} else if (t_key == Keys.Space) {
 						m_textToShow.addText(" ");

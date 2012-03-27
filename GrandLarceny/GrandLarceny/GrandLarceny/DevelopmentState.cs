@@ -1631,7 +1631,5 @@ namespace GrandLarceny
 				m_dragLine.draw();
 		}
 		#endregion
-
-		
 	}
 }
