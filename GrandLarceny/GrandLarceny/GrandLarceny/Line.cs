@@ -46,7 +46,10 @@ namespace GrandLarceny
 
 		public void draw() {
 			float t_zoom = Game.getInstance().m_camera.getZoom();
-			float t_angle = (float)Math.Atan2(m_endPosition.getGlobalY() - m_startPosition.getGlobalY(), m_endPosition.getGlobalX() - m_startPosition.getGlobalX());
+			float t_angle = (float)Math.Atan2(
+				(m_endPosition.getGlobalY() - m_startPosition.getGlobalY()) * t_zoom, 
+				(m_endPosition.getGlobalX() - m_startPosition.getGlobalX()) * t_zoom
+			);
 			float t_length = Vector2.Distance(m_startPosition.getGlobalCartesianCoordinates() / t_zoom, m_endPosition.getGlobalCartesianCoordinates() / t_zoom);
 
 			if (m_worldLine) {

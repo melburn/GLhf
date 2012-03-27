@@ -59,7 +59,6 @@ namespace GrandLarceny
 			m_camera = new Camera();
 			m_currentState = new MainMenu();
 			m_currentState.load();
-
 			base.Initialize();
 		}
 
@@ -102,7 +101,7 @@ namespace GrandLarceny
 
 		protected override void Draw(GameTime a_gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+			GraphicsDevice.Clear(new Color(46, 46, 73));
 			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
 			m_currentState.draw(a_gameTime, m_spriteBatch);
 			m_spriteBatch.End();
