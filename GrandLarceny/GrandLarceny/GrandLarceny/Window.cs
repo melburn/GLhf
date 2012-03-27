@@ -97,7 +97,7 @@ namespace GrandLarceny
 				{
 					if(t_player.getCurrentState() == Player.State.Hanging)
 						t_player.windowAction();
-					else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY())
+					else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY() && t_player.getCurrentState() != Player.State.Jumping)
 					{
 						t_player.windowAction();
 					}

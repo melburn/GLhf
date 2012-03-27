@@ -798,13 +798,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Hero\hero_window_climb.png">
-      <Name>hero_window_climb</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sounds\SoundEffects\GUI\button.wav">
       <Name>button</Name>
       <Importer>WavImporter</Importer>
@@ -1053,6 +1046,13 @@
   <ItemGroup>
     <Compile Include="Images\GUI\Cutscene\Equipment\FrictionBoot.png">
       <Name>FrictionBoot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Hero\hero_window_heave.png">
+      <Name>hero_window_heave</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -73,6 +73,7 @@ namespace GrandLarceny
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
 		private bool m_stunnedGravity = true;
+		private bool m_stunnedFlipSprite = false;
 		private bool m_hasBoots = true; //FIXA DET, DEN SKA VA FAAAAAAAAAAAALLLLLLLLLSSSSSSSSEEEEEE
 		private bool m_chase = false;
 
@@ -236,15 +237,38 @@ namespace GrandLarceny
 				
 				m_stunnedGravity = true;
 				m_speed.X = 0;
+
+				if (m_stunnedFlipSprite)
+				{
+					m_facingRight = !m_facingRight;
+					m_stunnedFlipSprite = false;
+				}
+
 				if (m_collisionShape == null)
 				{
 					if (m_stunnedState == State.Hanging)
 					{
+						changeAnimation();
+						m_imgOffsetY -= m_rollHitBox.m_height / 1.4f;
+						
+						
 						m_collisionShape = m_hangHitBox;
 						m_position.plusYWith(m_standHitBox.m_height / 1.1f);
-						Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height);
+
 						if (m_currentState != State.Hanging)
+						{
 							m_lastState = State.Hanging;
+							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.7f);
+							
+							
+						}
+						else
+						{
+							Game.getInstance().m_camera.getPosition().plusYWith(-m_standHitBox.m_height / 1.1f);
+							
+						}
+						if (!m_facingRight)
+							m_imgOffsetX += m_standHitBox.m_width * 1.9f;
 					}
 					else if (m_stunnedState == State.Rolling || (m_stunnedState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE))
 						m_collisionShape = m_rollHitBox;
@@ -994,38 +1018,44 @@ namespace GrandLarceny
 
 		public void windowAction()
 		{
-			m_img.setSprite("Images//Sprite//Hero//hero_window_climb");
+			m_img.setSprite("Images//Sprite//Hero//hero_window_heave");
 			m_collisionShape = null;
 			m_img.setLooping(false);
 			m_stunned = true;
-			m_stunnedTimer = 0.8f;
+			m_stunnedTimer = 0.4f;
 			m_stunnedDeacceleration = false;
 			m_stunnedGravity = false;
 			m_stunnedState = State.Hanging;
+			m_stunnedFlipSprite = true;
+			m_imgOffsetY += m_rollHitBox.m_height/1.4f;
 			if (m_currentState == State.Hanging)
 			{
-
 				m_position.plusYWith(-m_standHitBox.m_height / 1.1f);
 				m_imgOffsetX = -m_imgOffsetX;
-				Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
+				Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height / 1.1f);
+				
 			}
 			else
 			{
 				m_position.plusYWith(-m_rollHitBox.m_height / 1.1f);
-				Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.m_height);
+				Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.m_height / 1.1f);
+				
 			}
 			setNextPositionY(m_position.getGlobalY());
 
+		
 			if (m_facingRight)
 			{
-				m_speed.X = m_stunnedTimer * 211;
-				m_facingRight = false;
+				m_imgOffsetX -= m_standHitBox.m_width * 1.9f;
+				m_position.plusXWith(m_standHitBox.m_width*1.9f);
+				Game.getInstance().m_camera.getPosition().plusXWith(-m_standHitBox.m_width * 1.9f);
 			}
 			else
 			{
-				m_speed.X = -m_stunnedTimer * 211;
-				m_facingRight = true;
+				m_position.plusXWith(-m_standHitBox.m_width * 1.9f);
+				Game.getInstance().m_camera.getPosition().plusXWith(m_standHitBox.m_width * 1.9f);
 			}
+			setNextPositionX(m_position.getGlobalX());
 			
 			m_img.setAnimationSpeed(10);
 			deactivateChaseMode();
