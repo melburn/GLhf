@@ -18,5 +18,17 @@ namespace GrandLarceny
 			base.loadContent();
 			m_rotationPoint = new Vector2(m_img.getSize().X / 2, m_position.getGlobalY());
 		}
+
+		internal override void updateCollisionWith(Entity a_collid)
+		{
+			if (a_collid is Player)
+			{
+				Player t_player = (Player)a_collid;
+				t_player.setState(Player.State.Swinging);
+				t_player.getPosition().setParentPositionWithoutMoving(m_position);
+				t_player.changePositionType();
+				t_player.setRope(this);
+			}
+		}
 	}
 }

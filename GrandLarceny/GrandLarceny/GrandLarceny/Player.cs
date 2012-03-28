@@ -15,6 +15,7 @@ namespace GrandLarceny
 		private Vector2 m_cameraPoint = new Vector2(0, 0);
 
 		public const float CAMERASPEED = 0.1f;
+		public const float MAXSWINGSPEED = 10f;
 
 		public const int CLIMBINGSPEED = 200;
 		public const int PLAYERSPEED = 200;
@@ -29,8 +30,6 @@ namespace GrandLarceny
 		public const int ROLLSPEED = 1200;
 
 		private int m_playerCurrentSpeed;
-		private float m_originalLayer;
-
 		private int m_health;
 
 		[NonSerialized]
@@ -60,6 +59,8 @@ namespace GrandLarceny
 		private float m_invulnerableTimer;
 		[NonSerialized]
 		private float m_stunnedTimer;
+		private float m_originalLayer;
+		private float m_swingSpeed;
 
 		private List<Direction> m_ventilationDirection;
 		private List<Direction> m_leftRightList;
@@ -75,6 +76,8 @@ namespace GrandLarceny
 		private bool m_stunnedGravity = true;
 		private bool m_hasBoots = true; //FIXA DET, DEN SKA VA FAAAAAAAAAAAALLLLLLLLLSSSSSSSSEEEEEE
 		private bool m_chase = false;
+
+		private GameObject m_rope = null;
 
 		public enum Direction
 		{
@@ -95,7 +98,8 @@ namespace GrandLarceny
 			Rolling,
 			Hiding,
 			Hanging,
-			Ventilation
+			Ventilation,
+			Swinging
 		}
 
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer)
@@ -130,6 +134,7 @@ namespace GrandLarceny
 			m_leftRightList.Add(Direction.Left);
 			m_leftRightList.Add(Direction.Right);
 			m_playerCurrentSpeed = PLAYERSPEED;
+			m_swingSpeed = 0;
 		}
 		#endregion
 
@@ -195,6 +200,11 @@ namespace GrandLarceny
 					case State.Ventilation:
 						{
 							updateVentilation();
+							break;
+						}
+					case State.Swinging:
+						{
+							updateSwinging();
 							break;
 						}
 				}
@@ -707,6 +717,41 @@ namespace GrandLarceny
 			}
 			return t_list;
 		}
+
+		private void updateSwinging()
+		{
+			if (Game.isKeyPressed(GameState.getRightKey()))
+			{
+				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
+				{
+					m_swingSpeed += 1;
+				}
+			}
+			else if (Game.isKeyPressed(GameState.getLeftKey()))
+			{
+				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
+				{
+					m_swingSpeed -= 1;
+				}
+			}
+			if (m_rotate > 3)
+			{
+				m_swingSpeed += 1.5f;
+			}
+			else if (m_rotate < -3)
+			{
+				m_swingSpeed -= 1.5f;
+			}
+			else
+			{
+				if (m_swingSpeed < 0.9f)
+				{
+					m_swingSpeed = 0;
+				}
+			}
+			m_rope.addRotation(m_swingSpeed);
+			m_position.setSlope(m_rope.getRotation());
+		}
 		#endregion
 
 		#region change animation and state
@@ -1095,6 +1140,11 @@ namespace GrandLarceny
 		public void setVentilationObject(Entity vent)
 		{
 			m_currentVentilation = vent;
+		}
+
+		internal void setRope(GameObject a_rope)
+		{
+			m_rope = a_rope;
 		}
 
 		public void activateChaseMode()
