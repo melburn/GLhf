@@ -327,7 +327,8 @@ namespace GrandLarceny
 
 				return;
 			}
-			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
+			if ((Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
+				|| (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey())))
 			{
 				m_currentState = State.Walking;
 
@@ -354,13 +355,11 @@ namespace GrandLarceny
 		{
 			if (Game.keyClicked(GameState.getRollKey()))
 			{
-
 				m_currentState = State.Rolling;
-
 				return;
 			}
 
-			if (Game.isKeyPressed(GameState.getRightKey()))
+			if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_speed.X > m_playerCurrentSpeed)
 				{
@@ -368,17 +367,10 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (Game.isKeyPressed(GameState.getSneakKey()))
-					{
-						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), 200);
-					}
-					else
-					{
-						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), m_playerCurrentSpeed);
-					}
+					m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), m_playerCurrentSpeed);
 				}
 			}
-			if (Game.isKeyPressed(GameState.getLeftKey()))
+			else if (Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_speed.X < -m_playerCurrentSpeed)
 				{
@@ -386,14 +378,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (Game.isKeyPressed(GameState.getSneakKey()))
-					{
-						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -200);
-					}
-					else
-					{
-						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -m_playerCurrentSpeed);
-					}
+					m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -m_playerCurrentSpeed);
 				}
 			}
 			if (m_speed.X > 0)

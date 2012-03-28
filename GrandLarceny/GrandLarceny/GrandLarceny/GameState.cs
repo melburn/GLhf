@@ -26,7 +26,6 @@ namespace GrandLarceny
 		private static Keys m_jumpKey;
 		private static Keys m_rollKey;
 		private static Keys m_actionKey;
-		private static Keys m_sneakKey;
 
 		private Player player;
 
@@ -84,8 +83,6 @@ namespace GrandLarceny
 							m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
 						else if (t_input[0].Equals("Action"))
 							m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
-						else if (t_input[0].Equals("Sneak"))
-							m_sneakKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else
 							System.Console.WriteLine("Unknown keybinding found!");
 						break;
@@ -344,10 +341,6 @@ namespace GrandLarceny
 			return m_actionKey;
 		}
 
-		public static Keys getSneakKey()
-		{
-			return m_sneakKey;
-		}
 		public void clearAggro()
 		{
 			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
