@@ -588,7 +588,10 @@ namespace GrandLarceny
 
 		private void updateHiding()
 		{
-			if (Game.keyClicked(GameState.getUpKey()) || Game.keyClicked(GameState.getDownKey()) || Game.keyClicked(GameState.getJumpKey())) 
+			if (   Game.keyClicked(GameState.getUpKey())
+				|| Game.keyClicked(GameState.getDownKey())
+				|| Game.keyClicked(GameState.getJumpKey())
+				|| Game.keyClicked(GameState.getActionKey())) 
 			{
 				m_currentState = State.Stop;
 			}
