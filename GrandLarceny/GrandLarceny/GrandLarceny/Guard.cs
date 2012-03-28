@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GrandLarceny.AI;
 
 namespace GrandLarceny
 {
@@ -24,7 +25,7 @@ namespace GrandLarceny
 		private const float WALKINGANIMATIONSPEED = MOVEMENTSPEED / 16;
 		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 16;
 		private const float TURNANIMATIONSPEED = 10f;
-		private const float TURNQUICKANIMATIONSPEED = 15f;
+		private const float TURNQUICKANIMATIONSPEED = 50f;
 
 		[NonSerialized]
         private Entity m_chaseTarget = null;
@@ -425,7 +426,7 @@ namespace GrandLarceny
 
 			return t_player != null &&
 				((t_player.getCurrentState() != Player.State.Hiding && t_player.isInLight())
-				|| (t_player.isInLight() && t_player.getCurrentState() == Player.State.Hiding && t_player.isFacingRight() == m_facingRight)) &&
+				|| (t_player.isInLight() && t_player.getCurrentState() == Player.State.Hiding && t_player.isFacingRight() == isFacingRight())) &&
 				isFacingTowards(t_player.getPosition().getGlobalX()) &&
 				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
 				t_player.getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
@@ -435,19 +436,24 @@ namespace GrandLarceny
 				m_position.getGlobalCartesianCoordinates() + (m_img.getSize() / 2));
 		}
 
+		public bool isFacingRight()
+		{
+			return m_facingRight ^
+				(m_img.getSubImageIndex() > 5.5 &&
+				(m_img.getImagePath().Equals("Images//Sprite//Guard//guard_flash_turn") || m_img.getImagePath().Equals("Images//Sprite//Guard//guard_turn")));
+		}
+
 		public bool isFacingTowards(float a_x)
 		{
 			if(m_img.getImagePath().Equals("Images//Sprite//Guard//guard_flash_turn") || m_img.getImagePath().Equals("Images//Sprite//Guard//guard_turn"))
 			{
 				if (m_img.getSubImageIndex() < 5)
 				{
-					return (a_x <= m_position.getGlobalX() && !m_facingRight)
-					|| (a_x >= m_position.getGlobalX() && m_facingRight);
+					return (a_x >= m_position.getGlobalX() == m_facingRight);
 				}
 				else if (m_img.getSubImageIndex() >= 6)
 				{
-					return (a_x <= m_position.getGlobalX() && m_facingRight)
-					|| (a_x >= m_position.getGlobalX() && !m_facingRight);
+					return (a_x <= m_position.getGlobalX() == m_facingRight);
 				}
 				else
 				{
@@ -456,8 +462,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				return (a_x <= m_position.getGlobalX() && ! m_facingRight)
-					|| (a_x >= m_position.getGlobalX() && m_facingRight);
+				return (a_x >= m_position.getGlobalX() == m_facingRight);
 			}
 		}
 		public override void update(GameTime a_gameTime)
