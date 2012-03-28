@@ -27,6 +27,8 @@ namespace GrandLarceny
 
 		internal Camera m_camera;
 
+		public Progress m_progress;
+
 		public static Game getInstance()
 		{
 			if (m_myGame != null)
@@ -47,6 +49,8 @@ namespace GrandLarceny
 			m_graphics.PreferredBackBufferHeight = 720;
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
+
+			m_progress = new Progress("fin");
 		}
 
 		public SpriteBatch getSpriteBatch()
@@ -59,7 +63,6 @@ namespace GrandLarceny
 			m_camera = new Camera();
 			m_currentState = new MainMenu();
 			m_currentState.load();
-
 			base.Initialize();
 		}
 
@@ -102,7 +105,7 @@ namespace GrandLarceny
 
 		protected override void Draw(GameTime a_gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+			GraphicsDevice.Clear(new Color(46, 46, 73));
 			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
 			m_currentState.draw(a_gameTime, m_spriteBatch);
 			m_spriteBatch.End();
@@ -148,6 +151,11 @@ namespace GrandLarceny
 		internal static bool lmbClicked()
 		{
 			return m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released;
+		}
+
+		public Progress getProgress()
+		{
+			return m_progress;
 		}
 	}
 }

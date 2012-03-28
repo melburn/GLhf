@@ -20,7 +20,8 @@ namespace GrandLarceny
 		private Keys[]	m_acptLetters = { 
 			Keys.A, Keys.B, Keys.C, Keys.D, Keys.E, Keys.F, Keys.G, Keys.H, Keys.I, Keys.J, Keys.K, Keys.L, Keys.M,
 			Keys.N, Keys.O, Keys.P, Keys.Q, Keys.R, Keys.S, Keys.T, Keys.U, Keys.V, Keys.W, Keys.X, Keys.Y, Keys.Z,
-			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
+			Keys.OemComma, Keys.OemPeriod, Keys.OemCloseBrackets, Keys.OemTilde, Keys.OemQuotes, Keys.OemMinus,
+			Keys.OemQuestion, Keys.OemPlus, Keys.OemOpenBrackets, Keys.OemSemicolon
 		};
 		private Keys[]	m_acptNumbers = {
 			Keys.D0, Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9
@@ -29,6 +30,7 @@ namespace GrandLarceny
 		private List<Keys> m_repeatKeys;
 		private TimeSpan m_repeatTime;
 
+		#region Constructor&Load
 		public TextField(Vector2 a_position, int a_width, int a_height, bool a_acceptLetters, bool a_acceptNumbers, bool a_acceptSpecials, int a_maxLength) 
 			: base(a_position, "")
 		{
@@ -50,7 +52,9 @@ namespace GrandLarceny
 			m_repeatTime = new TimeSpan(0, 0, 0, 0, 500);
 			m_lastPressedKeys = new Dictionary<Keys,TimeSpan>();
 		}
+		#endregion
 
+		#region TextField Methods
 		private bool contains(Keys a_key, Keys[] a_keyset) {
 			foreach (Keys t_key in a_keyset) {
 				if (t_key == a_key) {
@@ -75,6 +79,7 @@ namespace GrandLarceny
 		public override Rectangle getBox() {
 			return new Rectangle((int)m_posV2.X, (int)m_posV2.Y, (int)m_box.getWidth(), (int)m_box.getHeight());
 		}
+		#endregion
 
 		public override void update(GameTime a_gameTime) {
 			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released) {
@@ -119,53 +124,9 @@ namespace GrandLarceny
 				if (!m_lastPressedKeys.ContainsKey(t_key)) {
 					if (t_key == Keys.Back) {
 						m_textToShow.erase();
-					} else if (contains(t_key, m_acptLetters) && m_acceptLetters) {
-						if (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift)) {
-							m_textToShow.addText((char)t_key);
-						} else {
-							m_textToShow.addText(char.ToLower((char)t_key));
-						}
-					} else if (contains(t_key, m_acptNumbers)) {
-						if (m_acceptSpecials && (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift))) {
-							switch (t_key) {
-								case Keys.D0:
-									m_textToShow.addText("=");
-									break;
-								case Keys.D1:
-									m_textToShow.addText("!");
-									break;
-								case Keys.D2:
-									m_textToShow.addText("\"");
-									break;
-								case Keys.D3:
-									m_textToShow.addText("#");
-									break;
-								case Keys.D4:
-									m_textToShow.addText("¤");
-									break;
-								case Keys.D5:
-									m_textToShow.addText("%");
-									break;
-								case Keys.D6:
-									m_textToShow.addText("&");
-									break;
-								case Keys.D7:
-									m_textToShow.addText("/");
-									break;
-								case Keys.D8:
-									m_textToShow.addText("(");
-									break;
-								case Keys.D9:
-									m_textToShow.addText(")");
-									break;
-							}
-						} else {
-							string t_string = t_key.ToString().Replace("D", string.Empty);
-							m_textToShow.addText(t_string);
-						}
 					} else if (t_key == Keys.Space) {
 						m_textToShow.addText(" ");
-					} else {
+					} else if (m_acceptLetters && contains(t_key, m_acptLetters)) {
 						if (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift)) {
 							switch (t_key) {
 								case Keys.OemSemicolon:
@@ -197,6 +158,9 @@ namespace GrandLarceny
 									break;
 								case Keys.OemOpenBrackets:
 									m_textToShow.addText("`");
+									break;
+								default:
+									m_textToShow.addText((char)t_key);
 									break;
 							}
 						} else {
@@ -234,11 +198,44 @@ namespace GrandLarceny
 								case Keys.OemOpenBrackets:
 									m_textToShow.addText("´");
 									break;
+								default:
+									m_textToShow.addText(char.ToLower((char)t_key));
+									break;
 							}									
 						}
+					} else if (m_acceptSpecials || m_acceptNumbers) {
+						if (m_acceptSpecials && (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift))) {
+							if (t_key == Keys.D0) {
+								m_textToShow.addText("=");
+							} else if (t_key == Keys.D1) {
+								m_textToShow.addText("!");
+							} else if (t_key == Keys.D2) {
+								m_textToShow.addText("\"");
+							} else if (t_key == Keys.D3) {
+								m_textToShow.addText("#");
+							} else if (t_key == Keys.D4) {
+								m_textToShow.addText("¤");
+							} else if (t_key == Keys.D5) {
+								m_textToShow.addText("%");
+							} else if (t_key == Keys.D6) {
+								m_textToShow.addText("&");
+							} else if (t_key == Keys.D7) {
+								m_textToShow.addText("/");
+							} else if (t_key == Keys.D8) {
+								m_textToShow.addText("(");
+							} else if (t_key == Keys.D9) {
+								m_textToShow.addText(")");
+							}
+						} else {
+							if (contains(t_key, m_acptNumbers)) {
+								string t_string = t_key.ToString().Replace("D", string.Empty);
+								m_textToShow.addText(t_string);
+							}
+						}
 					}
-					if(!(Game.wasKeyPressed(t_key) && !m_lastPressedKeys.ContainsKey(t_key)))
+					if(!(Game.wasKeyPressed(t_key) && !m_lastPressedKeys.ContainsKey(t_key))) {
 						m_lastPressedKeys.Add(t_key, a_gameTime.TotalGameTime);
+					}
 				}
 			}
 		}

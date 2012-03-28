@@ -76,9 +76,13 @@ namespace GrandLarceny
 			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
 		}
 
-		internal float getLeftpatrolPoint()
+		internal float getLeftPatrolPoint()
 		{
 			return m_leftPatrolPoint;
+		}
+		internal float getRightPatrolPoint()
+		{
+			return m_rightPatrolPoint;
 		}
 
 		internal void goRight()
@@ -95,11 +99,6 @@ namespace GrandLarceny
 			}
 			m_facingRight = true;
 			m_barking = false;
-		}
-
-		internal float getRightpatrolPoint()
-		{
-			return m_rightPatrolPoint;
 		}
 
 		internal void goLeft()

@@ -715,12 +715,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Window\1x2_window_tile_middle_closed.png">
+    <Compile Include="Images\Tile\Wall\1x2_window_tile_middle_closed.png">
       <Name>1x2_window_tile_middle_closed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Window\1x2_window_tile_middle_open.png">
+    <Compile Include="Images\Background\1x2_window_tile_middle_open.png">
       <Name>1x2_window_tile_middle_open</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -798,13 +798,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Hero\hero_window_climb.png">
-      <Name>hero_window_climb</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sounds\SoundEffects\GUI\button.wav">
       <Name>button</Name>
       <Importer>WavImporter</Importer>
@@ -864,8 +857,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Prop\Button\light_switch_on.png">
-      <Name>light_switch_on</Name>
+    <Compile Include="Images\Prop\Button\1x1_alight_switch_on.png">
+      <Name>1x1_alight_switch_on</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1053,6 +1046,20 @@
   <ItemGroup>
     <Compile Include="Images\GUI\Cutscene\Equipment\FrictionBoot.png">
       <Name>FrictionBoot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Hero\hero_window_heave.png">
+      <Name>hero_window_heave</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\elevator door.png">
+      <Name>elevator door</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

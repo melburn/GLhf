@@ -42,7 +42,8 @@ namespace GrandLarceny
 			newTrigger,
 			newCutscene,
 			firRectanglePoint,
-			secRectanglePoint
+			secRectanglePoint,
+			newEquip
 		}
 
 		public EventDevelopment(DevelopmentState a_backState, LinkedList<Event> a_events)
@@ -147,6 +148,16 @@ namespace GrandLarceny
 				addEffect(new CutsceneEffect(((TextField)m_guiList.First.Value).getText()));
 				goUpOneState();
 			}
+			else if (m_state == State.newEquip && Game.keyClicked(Keys.Enter))
+			{
+				char[] t_delimiterChars = {':', ' ', '/'};
+				String[] t_text = ((TextField)m_guiList.First.Value).getText().Split(t_delimiterChars);
+				if (t_text.Length > 1)
+				{
+					addEffect(new EquipEffect(t_text[0], bool.Parse(t_text[1])));
+					goUpOneState();
+				}
+			}
 			while (m_eventsToRemove.Count > 0)
 			{
 				Button t_bToRemove = m_eventsToRemove.Pop();
@@ -220,7 +231,7 @@ namespace GrandLarceny
 
 		public void goUpOneState()
 		{
-			if (m_state == State.newCutscene)
+			if (m_state == State.newCutscene || m_state == State.newEquip)
 			{
 				m_state = State.newEffect;
 				m_guiList.RemoveFirst();
@@ -345,12 +356,12 @@ namespace GrandLarceny
 
 					foreach (Button t_b in m_effects.Keys)
 					{
-						m_buttonList.Remove(t_b);
+						m_buttonsToRemove.Push(t_b);
 					}
 					m_effects.Clear();
 					foreach (Button t_b in m_triggers.Keys)
 					{
-						m_buttonList.Remove(t_b);
+						m_buttonsToRemove.Push(t_b);
 					}
 					m_triggers.Clear();
 					m_selectedEffTri = null;
@@ -414,6 +425,10 @@ namespace GrandLarceny
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addCutscene);
 				m_buttonsToAdd.Push(t_buttonToAdd);
 
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 600), "Equip", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEquip);
+				m_buttonsToAdd.Push(t_buttonToAdd);
+
 				LinkedList<Button> t_submenu = new LinkedList<Button>();
 				t_submenu.AddLast(t_buttonToAdd);
 				m_stateButtons.Push(t_submenu);
@@ -425,6 +440,18 @@ namespace GrandLarceny
 			if (m_selectedEvent != null && m_state == State.newEffect)
 			{
 				m_state = State.newCutscene;
+
+				TextField t_textField = new TextField(new Vector2(300, 200), 200, 100, true, true, true, 0);
+
+				m_guiList.AddFirst(t_textField);
+			}
+		}
+
+		public void addEquip(Button a_care)
+		{
+			if (m_selectedEvent != null && m_state == State.newEffect)
+			{
+				m_state = State.newEquip;
 
 				TextField t_textField = new TextField(new Vector2(300, 200), 200, 100, true, true, true, 0);
 
