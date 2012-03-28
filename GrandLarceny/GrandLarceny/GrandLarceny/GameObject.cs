@@ -142,5 +142,12 @@ namespace GrandLarceny
 		{
 			s_lastId = 1;
 		}
+		public void changePositionType()
+		{
+			if (m_position is CartesianCoordinate)
+				m_position = new PolarCoordinate(m_position.getLocalPolarCoordinates(), m_position.getParentPosition());
+			else
+				m_position = new CartesianCoordinate(m_position.getLocalCartesianCoordinates(), m_position.getParentPosition());
+		}
 	}
 }

@@ -655,7 +655,11 @@ namespace GrandLarceny
 			}
 			if (m_textField.isWriting()) {
 				if (Game.keyClicked(Keys.Enter)) {
-					m_selectedObject.setLayer(float.Parse(m_textField.getText()) / 1000);
+					try {
+						m_selectedObject.setLayer(float.Parse(m_textField.getText()) / 1000);
+					} catch (FormatException) {
+						;
+					}
 					clearSelectedObject();
 					m_menuState = m_lastMenuState;
 				}

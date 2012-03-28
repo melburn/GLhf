@@ -15,6 +15,7 @@ namespace GrandLarceny
 		private Vector2 m_cameraPoint = new Vector2(0, 0);
 
 		public const float CAMERASPEED = 0.1f;
+		public const float MAXSWINGSPEED = 10f;
 
 		public const int CLIMBINGSPEED = 200;
 		public const int PLAYERSPEED = 200;
@@ -29,8 +30,6 @@ namespace GrandLarceny
 		public const int ROLLSPEED = 1200;
 
 		private int m_playerCurrentSpeed;
-		private float m_originalLayer;
-
 		private int m_health;
 
 		[NonSerialized]
@@ -63,6 +62,10 @@ namespace GrandLarceny
 		[NonSerialized]
 		private float m_windowActionCD = 0;
 
+		private float m_originalLayer;
+		private float m_swingSpeed;
+		
+
 		private List<Direction> m_ventilationDirection;
 		private List<Direction> m_leftRightList;
 		private List<Direction> m_upDownList;
@@ -80,6 +83,8 @@ namespace GrandLarceny
 
 
 		private bool m_chase = false;
+
+		private GameObject m_rope = null;
 
 		public enum Direction
 		{
@@ -100,7 +105,8 @@ namespace GrandLarceny
 			Rolling,
 			Hiding,
 			Hanging,
-			Ventilation
+			Ventilation,
+			Swinging
 		}
 
 		public Player(Vector2 a_posV2, String a_sprite, float a_layer)
@@ -145,6 +151,7 @@ namespace GrandLarceny
 			m_leftRightList.Add(Direction.Left);
 			m_leftRightList.Add(Direction.Right);
 			m_playerCurrentSpeed = PLAYERSPEED;
+			m_swingSpeed = 0;
 		}
 		#endregion
 
@@ -211,6 +218,11 @@ namespace GrandLarceny
 					case State.Ventilation:
 						{
 							updateVentilation();
+							break;
+						}
+					case State.Swinging:
+						{
+							updateSwinging();
 							break;
 						}
 				}
@@ -324,7 +336,8 @@ namespace GrandLarceny
 
 				return;
 			}
-			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
+			if ((Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
+				|| (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey())))
 			{
 				m_currentState = State.Walking;
 
@@ -351,13 +364,11 @@ namespace GrandLarceny
 		{
 			if (Game.keyClicked(GameState.getRollKey()))
 			{
-
 				m_currentState = State.Rolling;
-
 				return;
 			}
 
-			if (Game.isKeyPressed(GameState.getRightKey()))
+			if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_speed.X > m_playerCurrentSpeed)
 				{
@@ -365,17 +376,10 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (Game.isKeyPressed(GameState.getSneakKey()))
-					{
-						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), 200);
-					}
-					else
-					{
-						m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), m_playerCurrentSpeed);
-					}
+					m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), m_playerCurrentSpeed);
 				}
 			}
-			if (Game.isKeyPressed(GameState.getLeftKey()))
+			else if (Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_speed.X < -m_playerCurrentSpeed)
 				{
@@ -383,14 +387,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (Game.isKeyPressed(GameState.getSneakKey()))
-					{
-						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -200);
-					}
-					else
-					{
-						m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -m_playerCurrentSpeed);
-					}
+					m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -m_playerCurrentSpeed);
 				}
 			}
 			if (m_speed.X > 0)
@@ -614,7 +611,10 @@ namespace GrandLarceny
 
 		private void updateHiding()
 		{
-			if (Game.keyClicked(GameState.getUpKey()) || Game.keyClicked(GameState.getDownKey()) || Game.keyClicked(GameState.getJumpKey())) 
+			if (   Game.keyClicked(GameState.getUpKey())
+				|| Game.keyClicked(GameState.getDownKey())
+				|| Game.keyClicked(GameState.getJumpKey())
+				|| Game.keyClicked(GameState.getActionKey())) 
 			{
 				m_currentState = State.Stop;
 			}
@@ -742,6 +742,41 @@ namespace GrandLarceny
 					}
 			}
 			return t_list;
+		}
+
+		private void updateSwinging()
+		{
+			if (Game.isKeyPressed(GameState.getRightKey()))
+			{
+				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
+				{
+					m_swingSpeed += 1;
+				}
+			}
+			else if (Game.isKeyPressed(GameState.getLeftKey()))
+			{
+				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
+				{
+					m_swingSpeed -= 1;
+				}
+			}
+			if (m_rotate > 3)
+			{
+				m_swingSpeed += 1.5f;
+			}
+			else if (m_rotate < -3)
+			{
+				m_swingSpeed -= 1.5f;
+			}
+			else
+			{
+				if (m_swingSpeed < 0.9f)
+				{
+					m_swingSpeed = 0;
+				}
+			}
+			m_rope.addRotation(m_swingSpeed);
+			m_position.setSlope(m_rope.getRotation());
 		}
 		#endregion
 
@@ -1162,6 +1197,11 @@ namespace GrandLarceny
 		public void setVentilationObject(Entity vent)
 		{
 			m_currentVentilation = vent;
+		}
+
+		internal void setRope(GameObject a_rope)
+		{
+			m_rope = a_rope;
 		}
 
 		public void activateChaseMode()

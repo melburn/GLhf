@@ -35,7 +35,7 @@ namespace GrandLarceny
 			if (!m_stopped)
 			{
 				m_subImageNumber += m_animationSpeed * a_gameTime.ElapsedGameTime.Milliseconds/1000;
-				if (m_subImageNumber >= m_animationFrames)
+				if (m_subImageNumber >= m_animationFrames || m_subImageNumber < 0)
 				{
 					if (m_looping)
 					{
@@ -43,7 +43,14 @@ namespace GrandLarceny
 					}
 					else
 					{
-						m_subImageNumber = m_animationFrames - 0.1f;
+						if (m_subImageNumber < 0)
+						{
+							m_subImageNumber = 0;
+						}
+						else
+						{
+							m_subImageNumber = m_animationFrames - 0.1f;
+						}
 						m_stopped = true;
 					}
 				}
@@ -135,10 +142,6 @@ namespace GrandLarceny
 
 		public void setAnimationSpeed(float a_speed)
 		{
-			if (a_speed < 0)
-			{
-				throw new ArgumentException("Animation speed cannot be negative");
-			}
 			m_animationSpeed = a_speed;
 		}
 

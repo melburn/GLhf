@@ -60,8 +60,8 @@
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
-    <None Include="wtf\input.ini">
-      <Name>input</Name>
+    <None Include="wtf\settings.ini">
+      <Name>settings</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="wtf\loadImages.txt">
@@ -720,8 +720,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\1x2_window_tile_middle_open.png">
-      <Name>1x2_window_tile_middle_open</Name>
+    <Compile Include="Images\Background\window_tile_middle_open.png">
+      <Name>window_tile_middle_open</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1060,6 +1060,20 @@
   <ItemGroup>
     <Compile Include="Images\Background\elevator door.png">
       <Name>elevator door</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\basement_backdrop_3.png">
+      <Name>basement_backdrop_3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\basement_pipe.png">
+      <Name>basement_pipe</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

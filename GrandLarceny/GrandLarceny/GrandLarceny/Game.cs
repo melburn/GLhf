@@ -45,8 +45,8 @@ namespace GrandLarceny
 		private Game()
 		{
 			m_graphics = new GraphicsDeviceManager(this);
-			m_graphics.PreferredBackBufferWidth = 1280;
-			m_graphics.PreferredBackBufferHeight = 720;
+			//m_graphics.PreferredBackBufferWidth = 1280;
+			//m_graphics.PreferredBackBufferHeight = 720;
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
 

@@ -16,6 +16,11 @@ namespace GrandLarceny
 		{
 			m_coordinates = a_coordinates;
 		}
+		public PolarCoordinate(Vector2 a_coordinates, Position a_parentPosition)
+		{
+			m_coordinates = a_coordinates;
+			m_parentPosition = a_parentPosition;
+		}
 		public PolarCoordinate(float a_radie, float a_slope)
 		{
 			m_coordinates = new Vector2(a_radie, a_slope);
