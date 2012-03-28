@@ -720,8 +720,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\1x2_window_tile_middle_open.png">
-      <Name>1x2_window_tile_middle_open</Name>
+    <Compile Include="Images\Background\window_tile_middle_open.png">
+      <Name>window_tile_middle_open</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
