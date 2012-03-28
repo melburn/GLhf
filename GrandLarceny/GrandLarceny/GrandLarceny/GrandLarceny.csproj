@@ -127,9 +127,11 @@
     <Compile Include="DuckHideObject.cs" />
     <Compile Include="Cutscene.cs" />
     <Compile Include="Events\Effects\CutsceneEffect.cs" />
+    <Compile Include="Events\Effects\DoorOpenEffect.cs" />
     <Compile Include="Events\Effects\EquipEffect.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\Effects\EventEffect.cs" />
+    <Compile Include="Events\Triggers\SwitchTrigger.cs" />
     <Compile Include="Foreground.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />

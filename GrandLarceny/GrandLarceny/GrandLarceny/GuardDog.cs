@@ -279,21 +279,24 @@ namespace GrandLarceny
 				else if (t_collision is Player)
 				{
 					Player t_player = (Player)t_collision;
-					if (m_aiState == AIStateChargeing.getInstance())
+					if (t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
 					{
-						if (m_facingRight)
+						if (m_aiState == AIStateChargeing.getInstance())
 						{
-							t_player.dealDamageTo(new Vector2(400, -400));
+							if (m_facingRight)
+							{
+								t_player.dealDamageTo(new Vector2(400, -400));
+							}
+							else
+							{
+								t_player.dealDamageTo(new Vector2(-400, -400));
+							}
 						}
 						else
 						{
-							t_player.dealDamageTo(new Vector2(-400,-400));
+							chasePlayer();
+							m_aiState = AIStateChargeing.getInstance();
 						}
-					}
-					else if (m_aiState == AIStateChargeing.getInstance() && t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
-					{
-						chasePlayer();
-						m_aiState = AIStateChargeing.getInstance();
 					}
 				}
 			}
