@@ -27,6 +27,8 @@ namespace GrandLarceny
 
 		internal Camera m_camera;
 
+		public Progress m_progress;
+
 		public static Game getInstance()
 		{
 			if (m_myGame != null)
@@ -47,6 +49,8 @@ namespace GrandLarceny
 			//m_graphics.PreferredBackBufferHeight = 720;
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
+
+			m_progress = new Progress("fin");
 		}
 
 		public SpriteBatch getSpriteBatch()
@@ -147,6 +151,11 @@ namespace GrandLarceny
 		internal static bool lmbClicked()
 		{
 			return m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released;
+		}
+
+		public Progress getProgress()
+		{
+			return m_progress;
 		}
 	}
 }
