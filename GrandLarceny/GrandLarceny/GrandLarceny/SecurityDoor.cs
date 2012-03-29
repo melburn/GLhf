@@ -39,7 +39,7 @@ namespace GrandLarceny
 			if (!m_open)
 			{
 				m_open = true;
-				m_img.setAnimationSpeed(-m_closeSpeed);
+				m_img.setAnimationSpeed(m_closeSpeed);
 				m_img.run();
 			}
 		}
@@ -48,7 +48,7 @@ namespace GrandLarceny
 			if (m_open)
 			{
 				m_open = false;
-				m_img.setAnimationSpeed(m_openSpeed);
+				m_img.setAnimationSpeed(-m_openSpeed);
 				m_img.run();
 			}
 		}
@@ -64,7 +64,7 @@ namespace GrandLarceny
 		{
 			if (m_lastCheckedHitBox != m_img.getSubImageIndex())
 			{
-				m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y * (((float)m_img.getLength()) / m_img.getSubImageIndex()), m_position);
+				m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y - ((m_img.getSize().Y * m_img.getSubImageIndex()) / (float)m_img.getLength()), m_position);
 				m_lastCheckedHitBox = m_img.getSubImageIndex();
 			}
 			return m_collisionShape;
