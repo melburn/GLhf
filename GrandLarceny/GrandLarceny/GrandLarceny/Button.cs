@@ -16,6 +16,7 @@ namespace GrandLarceny
 		public event clickDelegate m_clickEvent;
 
 		private float m_layer;
+		private string m_buttonTexture;
 
 		private Text m_text;
 		private Vector2 m_textOffset = Vector2.Zero;
@@ -70,14 +71,6 @@ namespace GrandLarceny
 
 		public Button(string a_buttonTexture, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
 		{
-			try {
-				setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_normal"));
-				setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_hover"));
-				setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_pressed"));
-				setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_toggle"));
-			} catch (ContentLoadException cle) {
-				System.Console.WriteLine("Could not find asset for: " + a_buttonTexture + "\n" + cle.ToString());
-			}
 			if (a_font == null)
 				a_font = "Courier New";
 			m_text = new Text(a_position, a_offset, a_buttonText, a_font, a_color, false);
@@ -88,8 +81,38 @@ namespace GrandLarceny
 			m_layer = 0.002f;
 			m_upSound = null;
 			m_downSound = null;
+			m_buttonTexture = a_buttonTexture;
+			loadContent();
 		}
 		
+		public void loadContent() {
+			if (m_buttonTexture != null) {
+				try {
+					setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + m_buttonTexture + "_normal"));
+					setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + m_buttonTexture + "_hover"));
+					setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + m_buttonTexture + "_pressed"));
+					setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + m_buttonTexture + "_toggle"));
+				} catch (ContentLoadException cle) {
+					System.Console.WriteLine("Could not find asset for: " + m_buttonTexture + "\n" + cle.ToString());
+				}
+			} else {
+				Texture2D t_normal	= new Texture2D(Game.getInstance().GraphicsDevice, m_bounds.Width, m_bounds.Height, false, SurfaceFormat.Color);
+				Texture2D t_hover	= new Texture2D(Game.getInstance().GraphicsDevice, m_bounds.Width, m_bounds.Height, false, SurfaceFormat.Color);
+				Texture2D t_pressed = new Texture2D(Game.getInstance().GraphicsDevice, m_bounds.Width, m_bounds.Height, false, SurfaceFormat.Color);
+				Texture2D t_toggle	= new Texture2D(Game.getInstance().GraphicsDevice, m_bounds.Width, m_bounds.Height, false, SurfaceFormat.Color);
+
+				t_normal.SetData(new[] { Color.Gray });
+				t_hover.SetData(new[] { Color.Blue });
+				t_pressed.SetData(new[] { Color.Black });
+				t_toggle.SetData(new[] { Color.Green });
+
+				setNormalTexture(t_normal);
+				setHoverTexture(t_hover);
+				setPressedTexture(t_pressed);
+				setToggleTexture(t_toggle);
+			}
+		}
+
 		public void playDownSound() {
 			if (m_downSound != null) {
 				m_downSound.play();
