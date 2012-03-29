@@ -57,7 +57,7 @@ namespace GrandLarceny
 					//Colliding with ze zeeling
 					else if ((int)t_player.getLastPosition().Y >= (int)getLastPosition().Y + getHitBox().getOutBox().Height)
 					{
-						if (t_player.getCurrentState() == Player.State.Stop && t_player.getPosition().getGlobalY() > m_position.getGlobalY() + m_collisionShape.getOutBox().Width)
+						if (t_player.getCurrentState() == Player.State.Stop)
 						{
 							if (t_player.getPosition().getGlobalX() > m_position.getGlobalX() + (m_collisionShape.getOutBox().Width / 2))
 							{

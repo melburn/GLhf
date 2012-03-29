@@ -10,7 +10,7 @@ namespace GrandLarceny
 	[Serializable()]
 	public class Window : NonMovingObject
 	{
-		byte m_playerOn;
+		float m_playerOn;
 
 		public Window(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
@@ -22,9 +22,9 @@ namespace GrandLarceny
 			base.update(a_gameTime);
 			if (m_playerOn > 0)
 			{
-				
-				m_playerOn--;
-				if (m_playerOn == 0)
+
+				m_playerOn -= ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
+				if (m_playerOn <= 0)
 				{
 					Game.getInstance().getState().getPlayer().deactivateChaseMode();
 				}
@@ -46,7 +46,7 @@ namespace GrandLarceny
 					//Colliding with ze floor
 					if ((int)t_player.getLastPosition().Y + t_player.getHitBox().getOutBox().Height <= (int)getLastPosition().Y && t_player.getCurrentState() != Player.State.Hanging)
 					{
-						m_playerOn = 2;
+						m_playerOn = 0.2f;
 						t_player.setNextPositionY(getPosition().getGlobalY() - t_player.getHitBox().getOutBox().Height);
 						t_player.setSpeedY(0);
 						if (t_player.getCurrentState() == Player.State.Jumping || t_player.getCurrentState() == Player.State.Climbing
