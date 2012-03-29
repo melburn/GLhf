@@ -216,7 +216,7 @@ namespace GrandLarceny
 						}
 					case State.Hiding:
 						{
-							updateHiding();
+							updateHiding(t_deltaTime);
 							break;
 						}
 					case State.Ventilation:
@@ -616,7 +616,7 @@ namespace GrandLarceny
 			}
 		}
 
-		private void updateHiding()
+		private void updateHiding(float a_deltaTime)
 		{
 			if (   Game.keyClicked(GameState.getUpKey())
 				|| Game.keyClicked(GameState.getDownKey())
@@ -625,6 +625,30 @@ namespace GrandLarceny
 			{
 				m_currentState = State.Stop;
 			}
+
+			float t_cameraXPos = 0;
+
+
+			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
+			{
+
+				if (Game.isKeyPressed(GameState.getRightKey()))
+				{
+					t_cameraXPos = 300;
+				}
+				else
+				{
+					t_cameraXPos = -300;
+				}
+				m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (t_cameraXPos * 1.5f * a_deltaTime), CAMERAMAXDISTANCE * 6), -CAMERAMAXDISTANCE * 6);
+			}
+			else
+			{
+				m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (t_cameraXPos * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
+			}
+
+			
+
 		}
 
 		private void updateVentilation()
