@@ -109,73 +109,83 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_backState.updateCamera();
-			if (m_state == State.firRectanglePoint && Game.lmbClicked())
-			{
-				m_recPoint = calculateWorldMouse();
-				m_state = State.secRectanglePoint;
-				
-				m_recLines = new Line[4];
-				CartesianCoordinate t_stopidPoint = new CartesianCoordinate(m_recPoint);
-
-				for (int i = 0; i < 4; ++i)
-				{
-					m_recLines[i] = new Line(t_stopidPoint, t_stopidPoint, Vector2.Zero, Vector2.Zero, Color.Moccasin, 5, true);
-				}
-			}
-			else if (m_state == State.secRectanglePoint)
-			{
-				Vector2 t_mouse = calculateWorldMouse();
-				if (Game.lmbClicked())
-				{
-					addTrigger(new PlayerIsWithinRectangle(m_recPoint.X, m_recPoint.Y, t_mouse.X, t_mouse.Y));
-					m_state = State.newTrigger;
-				}
-				else
-				{
-					m_recLines[0].setEndpoint(new Vector2(t_mouse.X, m_recPoint.Y));
-					m_recLines[1].setEndpoint(new Vector2(m_recPoint.X, t_mouse.Y));
-					m_recLines[2].setEndpoint(t_mouse);
-					m_recLines[3].setEndpoint(t_mouse);
-					m_recLines[2].setStartPoint(new Vector2(t_mouse.X, m_recPoint.Y));
-					m_recLines[3].setStartPoint(new Vector2(m_recPoint.X, t_mouse.Y));
-				}
-			}
-			else if (m_state == State.selectSwitch && Game.lmbClicked())
-			{
-				Vector2 t_mousePoint = calculateWorldMouse();
-				foreach (GameObject t_go in m_backState.getCurrentList())
-				{
-					if (t_go is LampSwitch && t_go.getBox().Contains((int)t_mousePoint.X,(int)t_mousePoint.Y))
-					{
-
-					}
-				}
-			}
-			foreach (GuiObject t_go in m_guiList)
-			{
-				t_go.update(a_gameTime);
-			}
+			bool t_buttonPressed = false;
 			foreach (Button t_b in m_buttonList)
 			{
-				t_b.update();
-			}
-			if (Game.rmbClicked())
-			{
-				goUpOneState();
-			}
-			else if (m_state == State.newCutscene && Game.keyClicked(Keys.Enter))
-			{
-				addEffect(new CutsceneEffect(((TextField)m_guiList.First.Value).getText()));
-				goUpOneState();
-			}
-			else if (m_state == State.newEquip && Game.keyClicked(Keys.Enter))
-			{
-				char[] t_delimiterChars = {':', ' ', '/'};
-				String[] t_text = ((TextField)m_guiList.First.Value).getText().Split(t_delimiterChars);
-				if (t_text.Length > 1)
+				if (t_b.update())
 				{
-					addEffect(new EquipEffect(t_text[0], bool.Parse(t_text[1])));
+					t_buttonPressed = true;
+				}
+			}
+			if (!t_buttonPressed)
+			{
+				if (m_state == State.firRectanglePoint && Game.lmbClicked())
+				{
+					m_recPoint = calculateWorldMouse();
+					m_state = State.secRectanglePoint;
+
+					m_recLines = new Line[4];
+					CartesianCoordinate t_stopidPoint = new CartesianCoordinate(m_recPoint);
+
+					for (int i = 0; i < 4; ++i)
+					{
+						m_recLines[i] = new Line(t_stopidPoint, t_stopidPoint, Vector2.Zero, Vector2.Zero, Color.Moccasin, 5, true);
+					}
+				}
+				else if (m_state == State.secRectanglePoint)
+				{
+					Vector2 t_mouse = calculateWorldMouse();
+					if (Game.lmbClicked())
+					{
+						addTrigger(new PlayerIsWithinRectangle(m_recPoint.X, m_recPoint.Y, t_mouse.X, t_mouse.Y));
+						m_state = State.newTrigger;
+					}
+					else
+					{
+						m_recLines[0].setEndpoint(new Vector2(t_mouse.X, m_recPoint.Y));
+						m_recLines[1].setEndpoint(new Vector2(m_recPoint.X, t_mouse.Y));
+						m_recLines[2].setEndpoint(t_mouse);
+						m_recLines[3].setEndpoint(t_mouse);
+						m_recLines[2].setStartPoint(new Vector2(t_mouse.X, m_recPoint.Y));
+						m_recLines[3].setStartPoint(new Vector2(m_recPoint.X, t_mouse.Y));
+					}
+				}
+				else if (m_state == State.selectSwitch && Game.lmbClicked())
+				{
+					Vector2 t_mousePoint = calculateWorldMouse();
+					foreach (GameObject t_go in m_backState.getCurrentList())
+					{
+						if (t_go is LampSwitch && t_go.getBox().Contains((int)t_mousePoint.X, (int)t_mousePoint.Y))
+						{
+							addTrigger(new SwitchTrigger((LampSwitch)t_go, m_switchTriggerButtons[m_switchTriggerType]));
+							goUpOneState();
+							goUpOneState();
+							break;
+						}
+					}
+				}
+				foreach (GuiObject t_go in m_guiList)
+				{
+					t_go.update(a_gameTime);
+				}
+				if (Game.rmbClicked())
+				{
 					goUpOneState();
+				}
+				else if (m_state == State.newCutscene && Game.keyClicked(Keys.Enter))
+				{
+					addEffect(new CutsceneEffect(((TextField)m_guiList.First.Value).getText()));
+					goUpOneState();
+				}
+				else if (m_state == State.newEquip && Game.keyClicked(Keys.Enter))
+				{
+					char[] t_delimiterChars = { ':', ' ', '/' };
+					String[] t_text = ((TextField)m_guiList.First.Value).getText().Split(t_delimiterChars);
+					if (t_text.Length > 1)
+					{
+						addEffect(new EquipEffect(t_text[0], bool.Parse(t_text[1])));
+						goUpOneState();
+					}
 				}
 			}
 			while (m_eventsToRemove.Count > 0)
@@ -251,6 +261,7 @@ namespace GrandLarceny
 
 		public void goUpOneState()
 		{
+			bool t_goingToPop = false;
 			if (m_state == State.newCutscene || m_state == State.newEquip)
 			{
 				m_state = State.newEffect;
@@ -258,25 +269,37 @@ namespace GrandLarceny
 			}
 			else if (m_state == State.newEffect)
 			{
-				LinkedList<Button> t_pop = m_stateButtons.Pop();
-				foreach (Button t_b in t_pop)
-				{
-					m_buttonsToRemove.Push(t_b);
-				}
+				t_goingToPop = true;
 				m_state = State.neutral;
 			}
 			else if (m_state == State.newTrigger)
 			{
-				LinkedList<Button> t_pop = m_stateButtons.Pop();
-				foreach (Button t_b in t_pop)
-				{
-					m_buttonsToRemove.Push(t_b);
-				}
+				t_goingToPop = true;
 				m_state = State.neutral;
 			}
 			else if (m_state == State.neutral)
 			{
 				selectEvent(null);
+			}
+			else if (m_state == State.newSwitch)
+			{
+				t_goingToPop = true;
+				m_state = State.newTrigger;
+			}
+			else if (m_state == State.selectSwitch)
+			{
+				m_state = State.newSwitch;
+				m_switchTriggerType.setState(0);
+				m_switchTriggerType = null;
+			}
+
+			if (t_goingToPop)
+			{
+				LinkedList<Button> t_pop = m_stateButtons.Pop();
+				foreach (Button t_b in t_pop)
+				{
+					m_buttonsToRemove.Push(t_b);
+				}
 			}
 		}
 
@@ -506,12 +529,21 @@ namespace GrandLarceny
 				Button t_buttonToAdd;
 				LinkedList<Button> t_submenu = new LinkedList<Button>();
 				int i = 800;
+				if (m_switchTriggerButtons == null)
+				{
+					m_switchTriggerButtons = new Dictionary<Button, SwitchTrigger.TriggerType>();
+				}
+				else
+				{
+					m_switchTriggerButtons.Clear();
+				}
 				foreach (SwitchTrigger.TriggerType t_sttt in System.Enum.GetValues(typeof(SwitchTrigger.TriggerType)))
 				{
 					t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(i, 550), t_sttt.ToString(), null, Color.Black, new Vector2(5, 5));
 					t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectSwitchTrigger);
 					m_buttonsToAdd.Push(t_buttonToAdd);
 					t_submenu.AddLast(t_buttonToAdd);
+					m_switchTriggerButtons.Add(t_buttonToAdd, t_sttt);
 					i -= 100;
 				}
 

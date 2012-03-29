@@ -102,7 +102,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void update()
+		public bool update()
 		{
 			m_prevMouseState = m_currMouseState;
 			m_currMouseState = Mouse.GetState();
@@ -132,6 +132,7 @@ namespace GrandLarceny
 				m_isPressed = false;
 				m_isFocused = false;
 			}
+			return m_isPressed;
 		}
 		public void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
