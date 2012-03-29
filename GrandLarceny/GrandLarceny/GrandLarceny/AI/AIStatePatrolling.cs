@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GrandLarceny
+namespace GrandLarceny.AI
 {
 	[Serializable()]
 	public class AIStatepatroling : AIState

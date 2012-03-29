@@ -107,12 +107,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AIState.cs" />
-    <Compile Include="AIStateBark.cs" />
-    <Compile Include="AIStateChargeing.cs" />
-    <Compile Include="AIStateChasing.cs" />
-    <Compile Include="AIStateGoingToTheSwitch.cs" />
-    <Compile Include="AIStatePatrolling.cs" />
+    <Compile Include="AI\AIState.cs" />
+    <Compile Include="AI\AIStateBark.cs" />
+    <Compile Include="AI\AIStateChargeing.cs" />
+    <Compile Include="AI\AIStateChasing.cs" />
+    <Compile Include="AI\AIStateGoingToTheSwitch.cs" />
+    <Compile Include="AI\AIStatePatrolling.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
@@ -127,9 +127,11 @@
     <Compile Include="DuckHideObject.cs" />
     <Compile Include="Cutscene.cs" />
     <Compile Include="Events\Effects\CutsceneEffect.cs" />
+    <Compile Include="Events\Effects\DoorOpenEffect.cs" />
     <Compile Include="Events\Effects\EquipEffect.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\Effects\EventEffect.cs" />
+    <Compile Include="Events\Triggers\SwitchTrigger.cs" />
     <Compile Include="Foreground.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="Events\Triggers\PlayerIsWithinRectangle.cs" />
     <Compile Include="FlashCone.cs" />
     <Compile Include="Particle.cs" />
+    <Compile Include="SecurityDoor.cs" />
     <Compile Include="Rope.cs" />
     <Compile Include="TextField.cs" />
     <Compile Include="GuardCamera.cs" />

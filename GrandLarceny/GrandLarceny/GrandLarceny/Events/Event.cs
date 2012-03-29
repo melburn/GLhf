@@ -67,5 +67,29 @@ namespace GrandLarceny.Events
 		{
 			return m_triggers.Remove(a_eveTrigger);
 		}
+
+
+		public void linkObject()
+		{
+			foreach (EventEffect t_ee in m_effects)
+			{
+				t_ee.linkObject();
+			}
+			foreach (EventTrigger t_et in m_triggers)
+			{
+				t_et.linkObject();
+			}
+		}
+		public void loadContent()
+		{
+			foreach (EventEffect t_ee in m_effects)
+			{
+				t_ee.loadContent();
+			}
+			foreach (EventTrigger t_et in m_triggers)
+			{
+				t_et.loadContent();
+			}
+		}
 	}
 }

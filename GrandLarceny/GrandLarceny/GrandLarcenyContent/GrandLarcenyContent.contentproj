@@ -720,8 +720,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\1x2_window_tile_middle_open.png">
-      <Name>1x2_window_tile_middle_open</Name>
+    <Compile Include="Images\Background\window_tile_middle_open.png">
+      <Name>window_tile_middle_open</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1060,6 +1060,41 @@
   <ItemGroup>
     <Compile Include="Images\Background\elevator door.png">
       <Name>elevator door</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Prop\SecurityDoor\SecurityDoor.png">
+      <Name>SecurityDoor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\basement_backdrop_3.png">
+      <Name>basement_backdrop_3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\basement_pipe.png">
+      <Name>basement_pipe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Prop\DuckHide\table_2_with_things.png">
+      <Name>table_2_with_things</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Prop\DuckHide\table_with_things.png">
+      <Name>table_with_things</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

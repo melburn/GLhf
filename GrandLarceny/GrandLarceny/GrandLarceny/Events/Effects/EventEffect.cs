@@ -10,5 +10,7 @@ namespace GrandLarceny.Events
 	{
 		public abstract void execute();
 		public abstract override string ToString();
+		public virtual void linkObject() { }
+		public virtual void loadContent() { }
 	}
 }
