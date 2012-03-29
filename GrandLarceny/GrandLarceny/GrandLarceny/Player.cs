@@ -61,6 +61,8 @@ namespace GrandLarceny
 		private float m_stunnedTimer;
 		[NonSerialized]
 		private float m_windowActionCD = 0;
+		[NonSerialized]
+		private float m_rollActionCD = 0;
 
 		private float m_originalLayer;
 		private float m_swingSpeed;
@@ -239,11 +241,15 @@ namespace GrandLarceny
 			}
 		}
 
-		private void updateCD(float a_deltaTIme)
+		private void updateCD(float a_deltaTime)
 		{
 			if (m_windowActionCD > 0)
 			{
-				m_windowActionCD -= a_deltaTIme;
+				m_windowActionCD -= a_deltaTime;
+			}
+			if (m_rollActionCD > 0)
+			{
+				m_rollActionCD -= a_deltaTime;
 			}
 		}
 
@@ -322,15 +328,13 @@ namespace GrandLarceny
 					m_imgOffsetX = 0;
 					m_imgOffsetY = 0;
 				}
-				m_currentState = m_stunnedState;
-				
-				
+				m_currentState = m_stunnedState;		
 			}
 		}
 
 		private void updateStop(float a_deltaTime)
 		{
-			if (Game.keyClicked(GameState.getRollKey()))
+			if (Game.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
 
@@ -362,7 +366,7 @@ namespace GrandLarceny
 
 		private void updateWalking(float a_deltaTime)
 		{
-			if (Game.keyClicked(GameState.getRollKey()))
+			if (Game.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
 				return;
@@ -563,6 +567,7 @@ namespace GrandLarceny
 				m_stunnedTimer = 0.35f;
 				m_stunnedDeacceleration = true;
 				m_stunnedState = State.Stop;
+				m_rollActionCD = 1f;
 			}
 		}
 
