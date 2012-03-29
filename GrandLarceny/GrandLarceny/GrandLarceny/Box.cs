@@ -34,6 +34,7 @@ namespace GrandLarceny
 
 		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, Color a_lineColor, int a_lineWidth, bool a_worldBox) {
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+			m_boxTexture.SetData(new[] { a_color });
 			if (a_worldBox) {
 				m_position	= new CartesianCoordinate(a_position - Game.getInstance().getResolution() / 2);
 			} else {
@@ -43,7 +44,6 @@ namespace GrandLarceny
 			m_width			= a_width;
 			m_height		= a_height;
 			m_worldBox		= a_worldBox;
-			m_boxTexture.SetData(new[] { a_color });
 			
 			Vector2 topLeft = a_position;
 			Vector2 topRight = a_position;

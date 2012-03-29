@@ -71,13 +71,14 @@ namespace GrandLarceny
 
 		public Button(string a_buttonTexture, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
 		{
-			if (a_font == null)
+			if (a_font == null) {
 				a_font = "Courier New";
+			}
 			m_text = new Text(a_position, a_offset, a_buttonText, a_font, a_color, false);
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
-			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, 0, 0);
 			m_layer = 0.002f;
 			m_upSound = null;
 			m_downSound = null;
@@ -96,21 +97,13 @@ namespace GrandLarceny
 					System.Console.WriteLine("Could not find asset for: " + m_buttonTexture + "\n" + cle.ToString());
 				}
 			} else {
-				Texture2D t_normal	= new Texture2D(Game.getInstance().GraphicsDevice, m_bounds.Width, m_bounds.Height, false, SurfaceFormat.Color);
-				Texture2D t_hover	= new Texture2D(Game.getInstance().GraphicsDevice, m_bounds.Width, m_bounds.Height, false, SurfaceFormat.Color);
-				Texture2D t_pressed = new Texture2D(Game.getInstance().GraphicsDevice, m_bounds.Width, m_bounds.Height, false, SurfaceFormat.Color);
-				Texture2D t_toggle	= new Texture2D(Game.getInstance().GraphicsDevice, m_bounds.Width, m_bounds.Height, false, SurfaceFormat.Color);
-
-				t_normal.SetData(new[] { Color.Gray });
-				t_hover.SetData(new[] { Color.Blue });
-				t_pressed.SetData(new[] { Color.Black });
-				t_toggle.SetData(new[] { Color.Green });
-
-				setNormalTexture(t_normal);
-				setHoverTexture(t_hover);
-				setPressedTexture(t_pressed);
-				setToggleTexture(t_toggle);
+				setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//DevelopmentHotkeys//btn_select_hotkey_normal"));
+				setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//DevelopmentHotkeys//btn_select_hotkey_hover"));
+				setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//DevelopmentHotkeys//btn_select_hotkey_pressed"));
+				setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//DevelopmentHotkeys//btn_select_hotkey_toggle"));
 			}
+			m_bounds.Width = m_normalTexture.Width;
+			m_bounds.Height = m_normalTexture.Height;
 		}
 
 		public void playDownSound() {
@@ -172,8 +165,9 @@ namespace GrandLarceny
 				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
 					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			}
-			if (m_text != null)
+			if (m_text != null) {
 				m_text.draw(a_gameTime);
+			}
 		}
 
 		public void setState(int a_state)
