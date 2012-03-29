@@ -10,18 +10,28 @@ namespace GrandLarceny
 	[Serializable()]
 	public class Window : NonMovingObject
 	{
+		byte m_playerOn;
 
 		public Window(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
 		}
 
-		public override void loadContent()
+		public override void update(GameTime a_gameTime)
 		{
-			base.loadContent();
-			//m_collisionShape = new CollisionRectangle(0, (m_img.getSize().Y/3)*2, m_img.getSize().X, m_img.getSize().Y/3, m_position);
-			//m_collisionShape = new CollisionRectangle(1, 0, m_img.getSize().X-1, m_img.getSize().Y, m_position);
+			base.update(a_gameTime);
+			if (m_playerOn > 0)
+			{
+				
+				m_playerOn--;
+				if (m_playerOn == 0)
+				{
+					Game.getInstance().getState().getPlayer().deactivateChaseMode();
+				}
+			}
+
 		}
+
 		public override bool isTransparent()
 		{
 			return false;
@@ -36,6 +46,7 @@ namespace GrandLarceny
 					//Colliding with ze floor
 					if ((int)t_player.getLastPosition().Y + t_player.getHitBox().getOutBox().Height <= (int)getLastPosition().Y && t_player.getCurrentState() != Player.State.Hanging)
 					{
+						m_playerOn = 2;
 						t_player.setNextPositionY(getPosition().getGlobalY() - t_player.getHitBox().getOutBox().Height);
 						t_player.setSpeedY(0);
 						if (t_player.getCurrentState() == Player.State.Jumping || t_player.getCurrentState() == Player.State.Climbing
