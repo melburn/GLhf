@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class SecurityDoor : NonMovingObject
 	{
 		private Boolean m_open;
@@ -16,7 +17,7 @@ namespace GrandLarceny
 		private float m_closeSpeed;
 
 		private float m_lastCheckedHitBox;
-		public SecurityDoor(String a_sprite, Vector2 a_position, int a_layer)
+		public SecurityDoor(Vector2 a_position, String a_sprite, float a_layer)
 			:base(a_position, a_sprite, a_layer)
 		{
 			m_img.setLooping(false);
