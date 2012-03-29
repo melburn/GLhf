@@ -300,13 +300,12 @@ namespace GrandLarceny
 						{
 							m_lastState = State.Hanging;
 							m_imgOffsetY += m_rollHitBox.m_height / 4f;
-							m_position.plusYWith(m_rollHitBox.m_height / 1.3f);
+							m_position.plusYWith(m_rollHitBox.m_height / 1.3f - 1);
 							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.3f);
 						}
 						else
 						{
 							m_imgOffsetY += m_standHitBox.m_height / 1.8f;
-							Game.getInstance().m_camera.getPosition().plusYWith(-1);
 						}
 						if (!m_facingRight)
 						{
@@ -1146,6 +1145,8 @@ namespace GrandLarceny
 				m_stunnedGravity = false;
 				m_stunnedState = State.Hanging;
 				m_stunnedFlipSprite = true;
+				m_speed.X = 0;
+				m_speed.Y = 0;
 				
 				if (m_currentState == State.Hanging)
 				{
