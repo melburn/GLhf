@@ -138,7 +138,7 @@ namespace GrandLarceny
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb_ledge");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_window_heave");
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
-			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
+			m_rollHitBox = new CollisionRectangle(0, 0, 70, 72, m_position); // 67
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
 			m_hangHitBox = new CollisionRectangle(0, 0, 70, 80, m_position);
 			m_collisionShape = m_standHitBox;
@@ -419,8 +419,14 @@ namespace GrandLarceny
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
-
-			m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
+			if (m_chase)
+			{
+				m_img.setAnimationSpeed(Math.Abs(m_speed.X / 22f));
+			}
+			else
+			{
+				m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
+			}
 			if (m_speed.Y != 0)
 			{
 				m_currentState = State.Jumping;
@@ -632,24 +638,24 @@ namespace GrandLarceny
 			}
 
 			float t_cameraXPos = 0;
-
+			
 
 			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
 			{
 
 				if (Game.isKeyPressed(GameState.getRightKey()))
 				{
-					t_cameraXPos = 300;
+					t_cameraXPos = 500;
 				}
 				else
 				{
-					t_cameraXPos = -300;
+					t_cameraXPos = -500;
 				}
-				m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (t_cameraXPos * 1.5f * a_deltaTime), CAMERAMAXDISTANCE * 6), -CAMERAMAXDISTANCE * 6);
+				m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (t_cameraXPos * 1.5f * a_deltaTime), CAMERAMAXDISTANCE * 6 + m_standHitBox.m_width), -CAMERAMAXDISTANCE * 6 + m_standHitBox.m_width / 2);
 			}
 			else
 			{
-				m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (t_cameraXPos * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
+				m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (t_cameraXPos * 1.5f * a_deltaTime), 0), 0);
 			}
 
 			
@@ -833,7 +839,10 @@ namespace GrandLarceny
 				}
 				case State.Walking:
 				{
-					setSprite("hero_walk");
+					if (m_chase)
+						setSprite("hero_run");
+					else
+						setSprite("hero_walk");
 					break;
 				}
 				case State.Jumping:
@@ -1246,6 +1255,7 @@ namespace GrandLarceny
 			m_chase = true;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			setIsInLight(true);
+			
 		}
 		public void deactivateChaseMode()
 		{
