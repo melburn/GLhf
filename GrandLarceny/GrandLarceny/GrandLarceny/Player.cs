@@ -15,7 +15,7 @@ namespace GrandLarceny
 		private Vector2 m_cameraPoint = new Vector2(0, 0);
 
 		public const float CAMERASPEED = 0.1f;
-		public const float MAXSWINGSPEED = 0.5f;
+		public const float MAXSWINGSPEED = 7f;
 
 		public const int CLIMBINGSPEED = 200;
 		public const int PLAYERSPEED = 200;
@@ -226,7 +226,7 @@ namespace GrandLarceny
 						}
 					case State.Swinging:
 						{
-							updateSwinging();
+							updateSwinging(t_deltaTime);
 							break;
 						}
 				}
@@ -785,21 +785,21 @@ namespace GrandLarceny
 			return t_list;
 		}
 
-		private void updateSwinging()
+		private void updateSwinging(float a_deltaTime)
 		{
 			m_gravity = 0;
 			if (Game.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
 				{
-					m_swingSpeed -= 0.003f;
+					m_swingSpeed -= 20 * a_deltaTime;
 				}
 			}
 			else if (Game.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
 				{
-					m_swingSpeed += 0.003f;
+					m_swingSpeed += 20 * a_deltaTime;
 				}
 			}
 			/*if (m_rope.getRotation() < Math.PI * 1.5f && m_rope.getRotation() > Math.PI / 2)
@@ -817,14 +817,14 @@ namespace GrandLarceny
 					m_swingSpeed = 0;
 				}
 			}*/
-			m_swingSpeed += (float)(Math.Cos(m_rope.getRotation()) / (150));
+			m_swingSpeed += (float)(Math.Cos(m_rope.getRotation()) * 30 * a_deltaTime);
 			m_swingSpeed = m_swingSpeed * 0.99f;
-			m_rope.addRotation(m_swingSpeed);
+			m_rope.addRotation(m_swingSpeed * a_deltaTime);
 			m_rotate = m_rope.getRotation() - (float)Math.PI/2;
 			m_position.setSlope(m_rope.getRotation());
 			if (Game.keyClicked(GameState.getJumpKey()))
 			{
-				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI / 2), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI / 2));
+				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI));
 				changePositionType();
 				m_position.setParentPositionWithoutMoving(null);
 				m_rotate = 0;
