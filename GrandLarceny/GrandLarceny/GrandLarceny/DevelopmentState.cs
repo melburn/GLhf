@@ -68,6 +68,7 @@ namespace GrandLarceny
 		private Button m_btnWindowHotkey;
 		private Button m_btnForegroundHotkey;
 		private Button m_btnRopeHotkey;
+		private Button m_btnSecDoorHotkey;
 
 		/*
 		-----------------------------------
@@ -117,7 +118,8 @@ namespace GrandLarceny
 			None,			Guard,		GuardDog,		Wall,
 			Ventilation,	Camera,		CrossVent,		TVent,
 			StraVent,		CornerVent, Ventrance,		Window,
-			DuckHidingObject,		StandHidingObject,	Rope
+			DuckHidingObject,		StandHidingObject,	Rope,
+			SecDoor
 		}
 
 		private MenuState m_menuState;
@@ -241,6 +243,8 @@ namespace GrandLarceny
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 2, t_bottomRight.Y - TILE_HEIGHT * 3), "F", "VerdanaBold", Color.White, t_btnTextOffset));
 			m_buildingButtons.AddLast(m_btnRopeHotkey		= new Button("DevelopmentHotkeys//btn_ladder_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 3, t_bottomRight.Y - TILE_HEIGHT * 3), "O", "VerdanaBold", Color.White, t_btnTextOffset));
+			m_buildingButtons.AddLast(m_btnSecDoorHotkey	= new Button(null,
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 6, t_bottomRight.Y - TILE_HEIGHT * 6), "E", "VerdanaBold", Color.White, t_btnTextOffset));
 
 			foreach (Button t_button in m_buildingButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -481,6 +485,10 @@ namespace GrandLarceny
 					}
 					if (a_button == m_btnRopeHotkey) {
 						setBuildingState(State.Rope);
+						return;
+					}
+					if (a_button == m_btnSecDoorHotkey) {
+						setBuildingState(State.SecDoor);
 						return;
 					}
 					break;
@@ -760,6 +768,9 @@ namespace GrandLarceny
 						if (Game.keyClicked(Keys.O)) {
 							guiButtonClick(m_btnRopeHotkey);
 						}
+						if (Game.keyClicked(Keys.E)) {
+							guiButtonClick(m_btnSecDoorHotkey);
+						}
 						break;
 					case MenuState.Guard:
 						if (Game.keyClicked(Keys.G)) {
@@ -925,6 +936,9 @@ namespace GrandLarceny
 								break;
 							case State.Foreground:
 								createForeground();
+								break;
+							case State.SecDoor:
+								createSecDoor();
 								break;
 						}
 					} else if (m_itemToCreate == State.Rope) {
@@ -1311,6 +1325,11 @@ namespace GrandLarceny
 					createAssetList(null);
 					m_btnRopeHotkey.setState(3);
 					break;
+				case State.SecDoor:
+					m_textCurrentMode.setText("Security Door");
+					createAssetList("Content//Images//Prop//SecurityDoor//");
+					m_btnSecDoorHotkey.setState(3);
+					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0) {
 				selectAsset(m_assetButtonList.First());
@@ -1542,6 +1561,10 @@ namespace GrandLarceny
 		private void createWindow() {
 			 if (!collidedWithObject(m_worldMouse))
 				addObject(new Window(getTile(m_worldMouse), "Images//Tile//Window//" + assetToCreate, 0.700f));
+		}
+		private void createSecDoor() {
+			if (!collidedWithObject(m_worldMouse))
+				addObject(new SecurityDoor(getTile(m_worldMouse), "Images//Prop//SecurityDoor//" + assetToCreate, 0.700f));
 		}
 		#endregion
 
