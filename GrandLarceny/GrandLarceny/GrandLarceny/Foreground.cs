@@ -25,6 +25,7 @@ namespace GrandLarceny
 		{
 			base.loadContent();
 			m_foregrounds = new LinkedList<Foreground>();
+			m_foregroundsId = new LinkedList<int>();
 			foreach (int t_i in m_foregroundsId)
 			{
 				m_foregrounds.AddLast((Foreground)Game.getInstance().getState().getObjectById(t_i));
