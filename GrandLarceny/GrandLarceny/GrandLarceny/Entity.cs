@@ -36,7 +36,7 @@ namespace GrandLarceny
 			m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
 		}
 
-		public CollisionShape getImageBox()
+		public virtual CollisionShape getImageBox()
 		{
 			return new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
 		}

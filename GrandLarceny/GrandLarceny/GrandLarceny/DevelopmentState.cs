@@ -868,8 +868,7 @@ namespace GrandLarceny
 				*/
 				if (m_building && !collidedWithGui(Game.getMouseCoords())) {
 					if (assetToCreate != null) {
-						switch (m_itemToCreate)
-						{
+						switch (m_itemToCreate) {
 							case State.Player:
 								createPlayer();
 								break;
@@ -1022,18 +1021,14 @@ namespace GrandLarceny
 					if (m_selectedObject is LampSwitch) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), new Vector2(36, 36), Vector2.Zero, Color.Yellow, 5, true);
-						}
-						else if (m_dragLine != null)
-						{
+						} else if (m_dragLine != null) {
 							m_dragLine.setEndpoint(m_worldMouse);
 						}
 					}
 					if (m_selectedObject is Guard || m_selectedObject is GuardDog) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36)), new Vector2(36, 36), Vector2.Zero, Color.Green, 5, true);
-						} 
-						else if(m_dragLine != null)
-						{
+						} else if(m_dragLine != null) {
 							m_dragLine.setEndpoint(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36));
 						}
 					}
