@@ -9,8 +9,8 @@ namespace GrandLarceny
 {
 	class Box
 	{
-		private Texture2D			m_boxTexture;
 		private Position			m_position;
+		private Texture2D			m_boxTexture;
 		private int					m_width;
 		private int					m_height;
 		private LinkedList<Line>	m_lineList;
@@ -60,10 +60,11 @@ namespace GrandLarceny
 				m_lineList.AddLast(new Line(new CartesianCoordinate(btmRight),	new CartesianCoordinate(btmLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
 				m_lineList.AddLast(new Line(new CartesianCoordinate(btmLeft),	new CartesianCoordinate(topLeft), Vector2.Zero, Vector2.Zero, a_lineColor, a_lineWidth, a_worldBox));
 			} else {
-				m_lineList.AddLast(new Line(null, null, topLeft		- Game.getInstance().getResolution() / 2, topRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
-				m_lineList.AddLast(new Line(null, null, topRight	- Game.getInstance().getResolution() / 2, btmRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
-				m_lineList.AddLast(new Line(null, null, btmRight	- Game.getInstance().getResolution() / 2, btmLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
-				m_lineList.AddLast(new Line(null, null, btmLeft		- Game.getInstance().getResolution() / 2, topLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				Position t_camera = Game.getInstance().m_camera.getPosition();
+				m_lineList.AddLast(new Line(t_camera, t_camera, topLeft		- Game.getInstance().getResolution() / 2, topRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(t_camera, t_camera, topRight	- Game.getInstance().getResolution() / 2, btmRight - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(t_camera, t_camera, btmRight	- Game.getInstance().getResolution() / 2, btmLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
+				m_lineList.AddLast(new Line(t_camera, t_camera, btmLeft		- Game.getInstance().getResolution() / 2, topLeft - Game.getInstance().getResolution() / 2, a_lineColor, a_lineWidth, a_worldBox));
 			}
 		}
 
@@ -107,10 +108,6 @@ namespace GrandLarceny
 			foreach (Line t_line in m_lineList) {
 				t_line.setColor(a_color);
 			}
-		}
-
-		public Position getPosition() {
-			return m_position;
 		}
 
 		public int getHeight() {
