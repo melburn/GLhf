@@ -138,7 +138,7 @@ namespace GrandLarceny
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb_ledge");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_window_heave");
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
-			m_rollHitBox = new CollisionRectangle(0, 0, 70, 67, m_position);
+			m_rollHitBox = new CollisionRectangle(0, 0, 70, 72, m_position); // 67
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
 			m_hangHitBox = new CollisionRectangle(0, 0, 70, 80, m_position);
 			m_collisionShape = m_standHitBox;
@@ -216,7 +216,7 @@ namespace GrandLarceny
 						}
 					case State.Hiding:
 						{
-							updateHiding();
+							updateHiding(t_deltaTime);
 							break;
 						}
 					case State.Ventilation:
@@ -300,13 +300,12 @@ namespace GrandLarceny
 						{
 							m_lastState = State.Hanging;
 							m_imgOffsetY += m_rollHitBox.m_height / 4f;
-							m_position.plusYWith(m_rollHitBox.m_height / 1.3f);
+							m_position.plusYWith(m_rollHitBox.m_height / 1.3f - 1);
 							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.3f);
 						}
 						else
 						{
 							m_imgOffsetY += m_standHitBox.m_height / 1.8f;
-							Game.getInstance().m_camera.getPosition().plusYWith(-1);
 						}
 						if (!m_facingRight)
 						{
@@ -419,9 +418,15 @@ namespace GrandLarceny
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
-
-			m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
-			if (m_position.getGlobalY() != getLastPosition().Y)
+			if (m_chase)
+			{
+				m_img.setAnimationSpeed(Math.Abs(m_speed.X / 22f));
+			}
+			else
+			{
+				m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
+			}
+			if (m_speed.Y != 0)
 			{
 				m_currentState = State.Jumping;
 			}
@@ -504,7 +509,7 @@ namespace GrandLarceny
 		private void updateClimbing()
 		{
 			m_gravity = 0;
-			if (Game.isKeyPressed(GameState.getUpKey()))
+			if (Game.isKeyPressed(GameState.getUpKey()) && m_ladderDirection != Direction.None)
 			{
 				m_speed.Y = -CLIMBINGSPEED;
 			}
@@ -548,7 +553,10 @@ namespace GrandLarceny
 				m_currentState = State.Jumping;
 			}
 			if (m_ladderDirection == Direction.None)
-				m_currentState = State.Jumping;
+			{
+				//m_currentState = State.Jumping;
+				m_nextPosition.Y = m_position.getGlobalY() + 1;
+			}
 		}
 
 		private void updateRolling(float a_deltaTime)
@@ -608,7 +616,9 @@ namespace GrandLarceny
 			}
 			else if (Game.isKeyPressed(GameState.getDownKey()) && m_ladderDirection != Direction.None)
 			{
-				m_currentState = State.Climbing;
+				m_currentState = State.Climbing; 
+				m_position.plusYWith(m_standHitBox.m_height - m_hangHitBox.m_height);
+				Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.m_height - m_hangHitBox.m_height));
 			}
 			else if (Game.keyClicked(GameState.getUpKey()))
 			{
@@ -616,7 +626,7 @@ namespace GrandLarceny
 			}
 		}
 
-		private void updateHiding()
+		private void updateHiding(float a_deltaTime)
 		{
 			if (   Game.keyClicked(GameState.getUpKey())
 				|| Game.keyClicked(GameState.getDownKey())
@@ -625,6 +635,30 @@ namespace GrandLarceny
 			{
 				m_currentState = State.Stop;
 			}
+
+			float t_cameraXPos = 0;
+			
+
+			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
+			{
+
+				if (Game.isKeyPressed(GameState.getRightKey()))
+				{
+					t_cameraXPos = 500;
+				}
+				else
+				{
+					t_cameraXPos = -500;
+				}
+				m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (t_cameraXPos * 1.5f * a_deltaTime), CAMERAMAXDISTANCE * 6 + m_standHitBox.m_width), -CAMERAMAXDISTANCE * 6 + m_standHitBox.m_width / 2);
+			}
+			else
+			{
+				m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (t_cameraXPos * 1.5f * a_deltaTime), 0), 0);
+			}
+
+			
+
 		}
 
 		private void updateVentilation()
@@ -815,7 +849,10 @@ namespace GrandLarceny
 				}
 				case State.Walking:
 				{
-					setSprite("hero_walk");
+					if (m_chase)
+						setSprite("hero_run");
+					else
+						setSprite("hero_walk");
 					break;
 				}
 				case State.Jumping:
@@ -1123,6 +1160,8 @@ namespace GrandLarceny
 				m_stunnedGravity = false;
 				m_stunnedState = State.Hanging;
 				m_stunnedFlipSprite = true;
+				m_speed.X = 0;
+				m_speed.Y = 0;
 				
 				if (m_currentState == State.Hanging)
 				{
@@ -1236,6 +1275,7 @@ namespace GrandLarceny
 			m_chase = true;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			setIsInLight(true);
+			
 		}
 		public void deactivateChaseMode()
 		{

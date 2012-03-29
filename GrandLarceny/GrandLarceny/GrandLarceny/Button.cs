@@ -16,6 +16,7 @@ namespace GrandLarceny
 		public event clickDelegate m_clickEvent;
 
 		private float m_layer;
+		private string m_buttonTexture;
 
 		private Text m_text;
 		private Vector2 m_textOffset = Vector2.Zero;
@@ -70,26 +71,41 @@ namespace GrandLarceny
 
 		public Button(string a_buttonTexture, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
 		{
-			try {
-				setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_normal"));
-				setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_hover"));
-				setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_pressed"));
-				setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_buttonTexture + "_toggle"));
-			} catch (ContentLoadException cle) {
-				System.Console.WriteLine("Could not find asset for: " + a_buttonTexture + "\n" + cle.ToString());
-			}
-			if (a_font == null)
+			if (a_font == null) {
 				a_font = "Courier New";
+			}
 			m_text = new Text(a_position, a_offset, a_buttonText, a_font, a_color, false);
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
-			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, 0, 0);
 			m_layer = 0.002f;
 			m_upSound = null;
 			m_downSound = null;
+			m_buttonTexture = a_buttonTexture;
+			loadContent();
 		}
 		
+		public void loadContent() {
+			if (m_buttonTexture != null) {
+				try {
+					setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + m_buttonTexture + "_normal"));
+					setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + m_buttonTexture + "_hover"));
+					setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + m_buttonTexture + "_pressed"));
+					setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + m_buttonTexture + "_toggle"));
+				} catch (ContentLoadException cle) {
+					System.Console.WriteLine("Could not find asset for: " + m_buttonTexture + "\n" + cle.ToString());
+				}
+			} else {
+				setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//DevelopmentHotkeys//btn_select_hotkey_normal"));
+				setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//DevelopmentHotkeys//btn_select_hotkey_hover"));
+				setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//DevelopmentHotkeys//btn_select_hotkey_pressed"));
+				setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//DevelopmentHotkeys//btn_select_hotkey_toggle"));
+			}
+			m_bounds.Width = m_normalTexture.Width;
+			m_bounds.Height = m_normalTexture.Height;
+		}
+
 		public void playDownSound() {
 			if (m_downSound != null) {
 				m_downSound.play();
@@ -102,7 +118,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void update()
+		public bool update()
 		{
 			m_prevMouseState = m_currMouseState;
 			m_currMouseState = Mouse.GetState();
@@ -132,6 +148,7 @@ namespace GrandLarceny
 				m_isPressed = false;
 				m_isFocused = false;
 			}
+			return m_isPressed;
 		}
 		public void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
@@ -149,8 +166,9 @@ namespace GrandLarceny
 				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
 					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			}
-			if (m_text != null)
+			if (m_text != null) {
 				m_text.draw(a_gameTime);
+			}
 		}
 
 		public void setState(int a_state)

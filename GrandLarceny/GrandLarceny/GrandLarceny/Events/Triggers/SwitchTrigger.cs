@@ -27,7 +27,7 @@ namespace GrandLarceny.Events.Triggers
 
 		public SwitchTrigger(LampSwitch a_switch, TriggerType a_triggerType)
 		{
-			if (a_switch == null || a_triggerType == null)
+			if (a_switch == null)
 			{
 				throw new ArgumentNullException();
 			}

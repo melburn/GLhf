@@ -23,6 +23,7 @@ namespace GrandLarceny
 			: base(a_posV2, a_sprite, a_layer)
 		{
 			m_foregrounds = new LinkedList<Foreground>();
+			m_visible = true;
 		}
 
 		public override void loadContent()

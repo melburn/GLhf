@@ -36,6 +36,11 @@ namespace GrandLarceny
 			m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
 		}
 
+		public virtual CollisionShape getImageBox()
+		{
+			return new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
+		}
+
 		public override void update(GameTime a_gameTime)
 		{
 			//m_lastPosition = m_position.getGlobalCartesianCoordinates();

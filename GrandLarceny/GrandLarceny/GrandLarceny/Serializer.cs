@@ -45,6 +45,11 @@ namespace GrandLarceny
 					t_go.linkObject();
 				}
 			}
+
+			foreach (Event t_e in a_save.getEvents())
+			{
+				t_e.linkObject();
+			}
 			MemoryStream t_stream = null;
 			FileStream t_fstream = null;
 

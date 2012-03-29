@@ -64,7 +64,7 @@ namespace GrandLarceny
 							m_currentParse = ParseState.Settings;
 						}
 					}
-				} catch (InvalidOperationException ioe) {
+				} catch (InvalidOperationException) {
 					continue;
 				}
 				switch (m_currentParse) {
@@ -120,6 +120,11 @@ namespace GrandLarceny
 					}
 				}
 			}
+
+			foreach (Event t_e in m_events)
+			{
+				t_e.loadContent();
+			}
 			
 			if (player != null)
 			{
@@ -160,7 +165,7 @@ namespace GrandLarceny
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
 
-			if (Game.isKeyPressed(Keys.R))
+			if (Game.isKeyPressed(Keys.F5))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
