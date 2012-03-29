@@ -20,8 +20,10 @@ namespace GrandLarceny.Events.Triggers
 			clicked,
 			on,
 			unclicked,
-			off,
+			off
 		}
+
+
 
 		public SwitchTrigger(LampSwitch a_switch, TriggerType a_triggerType)
 		{

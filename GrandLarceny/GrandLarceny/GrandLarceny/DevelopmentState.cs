@@ -1429,6 +1429,10 @@ namespace GrandLarceny
 		{
 			return m_gameObjectList;
 		}
+		public override LinkedList<GameObject> getCurrentList()
+		{
+			return m_gameObjectList[m_currentLayer];
+		}
 
 		public void setEvents(LinkedList<Event> t_events)
 		{
