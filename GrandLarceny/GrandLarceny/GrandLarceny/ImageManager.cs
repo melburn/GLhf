@@ -77,19 +77,25 @@ namespace GrandLarceny
 			);
 		}
 
-		public Boolean setSprite(string a_sprite)
+		public void setSprite(Texture2D a_texture) {
+			m_stopped = true;
+			m_imagePath = null;
+			m_image = a_texture;
+		}
+
+		public bool setSprite(string a_sprite)
 		{
-			
 			if (a_sprite == null)
 			{
-				m_image = null;
+				m_image = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+				Color t_color = Color.Black;
+				m_image.SetData(new[] { t_color });
 				m_stopped = true;
 				m_imagePath = null;
 				return false;
 			}
 			else if (!a_sprite.Equals(m_imagePath))
 			{
-				
 				m_stopped = false;
 				m_looping = true;
 				try

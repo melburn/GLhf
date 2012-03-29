@@ -38,7 +38,6 @@ namespace GrandLarceny
 			m_layer = a_layer;
 			m_spritePath = a_sprite;
 			loadContent();
-
 		}
 		public GameObject(Position a_position, string a_sprite, float a_layer, float a_rotation = 0)
 		{
@@ -48,7 +47,6 @@ namespace GrandLarceny
 			m_layer = a_layer;
 			m_spritePath = a_sprite;
 			loadContent();
-
 		}
 
 		public virtual void saveObject()
@@ -111,11 +109,10 @@ namespace GrandLarceny
 			m_layer = a_layer;
 		}
 		
-		public void setColor(Color a_color)
+		public virtual void setColor(Color a_color)
 		{
 			m_color = a_color;
 		}
-
 		public ImageManager getImg()
 		{
 			return m_img;

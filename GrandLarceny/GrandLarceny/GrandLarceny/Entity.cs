@@ -83,11 +83,6 @@ namespace GrandLarceny
 			return m_speed;
 		}
 
-		public CollisionShape getCollisionShape()
-		{
-			return m_collisionShape;
-		}
-
 		public virtual bool isTransparent()
 		{
 			return true;
