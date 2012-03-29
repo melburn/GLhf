@@ -715,11 +715,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Wall\1x2_window_tile_middle_closed.png">
-      <Name>1x2_window_tile_middle_closed</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Background\window_tile_middle_open.png">
       <Name>window_tile_middle_open</Name>
       <Importer>TextureImporter</Importer>
@@ -1102,6 +1097,20 @@
   <ItemGroup>
     <Compile Include="Images\Background\corridor_backdrop_nospot2.png">
       <Name>corridor_backdrop_nospot2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\window_tile_middle_open_02.png">
+      <Name>window_tile_middle_open_02</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Wall\window_tile_middle_closed.png">
+      <Name>window_tile_middle_closed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
