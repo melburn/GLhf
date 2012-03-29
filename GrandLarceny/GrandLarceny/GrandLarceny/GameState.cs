@@ -189,6 +189,7 @@ namespace GrandLarceny
 							}
 						}
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
+						if(!(t_firstGameObject.getPosition() is PolarCoordinate))
 						((Entity)t_firstGameObject).updatePosition();
 
 					}
