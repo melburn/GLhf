@@ -758,33 +758,44 @@ namespace GrandLarceny
 			{
 				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
 				{
-					m_swingSpeed += 0.01f;
+					m_swingSpeed -= 0.003f;
 				}
 			}
 			else if (Game.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
 				{
-					m_swingSpeed -= 0.01f;
+					m_swingSpeed += 0.003f;
 				}
 			}
-			if (m_rotate > 0.3f)
+			/*if (m_rope.getRotation() < Math.PI * 1.5f && m_rope.getRotation() > Math.PI / 2)
 			{
-				m_swingSpeed += 0.015f;
+				m_swingSpeed -= 0.005f;
 			}
-			else if (m_rotate < -0.3f)
+			else if (m_rope.getRotation() < Math.PI / 2 && m_rope.getRotation() > 0 || m_rope.getRotation() > Math.PI * 1.5f)
 			{
-				m_swingSpeed -= 0.015f;
+				m_swingSpeed += 0.005f;
 			}
 			else
 			{
-				if (m_swingSpeed < 0.009f)
+				if (m_swingSpeed < 0.002f && m_swingSpeed > -0.002f)
 				{
 					m_swingSpeed = 0;
 				}
-			}
+			}*/
+			m_swingSpeed += (float)(Math.Cos(m_rope.getRotation()) / (150));
+			m_swingSpeed = m_swingSpeed * 0.99f;
 			m_rope.addRotation(m_swingSpeed);
+			m_rotate = m_rope.getRotation() - (float)Math.PI/2;
 			m_position.setSlope(m_rope.getRotation());
+			if (Game.keyClicked(GameState.getJumpKey()))
+			{
+				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI / 2), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI / 2));
+				changePositionType();
+				m_position.setParentPositionWithoutMoving(null);
+				m_rotate = 0;
+				m_currentState = State.Jumping;
+			}
 		}
 		#endregion
 
@@ -919,6 +930,10 @@ namespace GrandLarceny
 					{
 						m_collisionShape = m_rollHitBox;
 					}
+				}
+				if (m_lastState == State.Jumping && m_currentState != State.Swinging)
+				{
+					m_rope = null;
 				}
 			}
 		}
@@ -1210,6 +1225,10 @@ namespace GrandLarceny
 		internal void setRope(GameObject a_rope)
 		{
 			m_rope = a_rope;
+		}
+		internal GameObject getRope()
+		{
+			return m_rope;
 		}
 
 		public void activateChaseMode()

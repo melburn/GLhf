@@ -97,7 +97,7 @@ namespace GrandLarceny
 
 		public override float getLength()
 		{
-			return m_coordinates.Y;
+			return m_coordinates.X;
 		}
 
 		public override float getLocalX()
