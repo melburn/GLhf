@@ -17,9 +17,11 @@ namespace GrandLarceny
 
 		private LinkedList<Button> m_buttonList;
 		private LinkedList<GuiObject> m_guiList;
+
 		private Dictionary<Button, Event> m_events;
 		private Dictionary<Button, EventEffect> m_effects;
 		private Dictionary<Button, EventTrigger> m_triggers;
+
 		private Stack<Button> m_buttonsToAdd;
 		private Stack<Button> m_buttonsToRemove;
 		private Stack<Event> m_eventsToAdd;
@@ -32,8 +34,13 @@ namespace GrandLarceny
 		private Button m_selectedEvent;
 		private Button m_selectedEffTri;
 
+		//rectangle stuff
 		private Vector2 m_recPoint;
 		private Line[] m_recLines;
+
+		//switchtrigger stuff
+		private Button m_switchTriggerType;
+		private Dictionary<Button, SwitchTrigger.TriggerType> m_switchTriggerButtons;
 
 		private enum State
 		{
@@ -43,7 +50,9 @@ namespace GrandLarceny
 			newCutscene,
 			firRectanglePoint,
 			secRectanglePoint,
-			newEquip
+			newEquip,
+			newSwitch,
+			selectSwitch
 		}
 
 		public EventDevelopment(DevelopmentState a_backState, LinkedList<Event> a_events)
@@ -129,6 +138,17 @@ namespace GrandLarceny
 					m_recLines[3].setEndpoint(t_mouse);
 					m_recLines[2].setStartPoint(new Vector2(t_mouse.X, m_recPoint.Y));
 					m_recLines[3].setStartPoint(new Vector2(m_recPoint.X, t_mouse.Y));
+				}
+			}
+			else if (m_state == State.selectSwitch && Game.lmbClicked())
+			{
+				Vector2 t_mousePoint = calculateWorldMouse();
+				foreach (GameObject t_go in m_backState.getCurrentList())
+				{
+					if (t_go is LampSwitch && t_go.getBox().Contains((int)t_mousePoint.X,(int)t_mousePoint.Y))
+					{
+
+					}
 				}
 			}
 			foreach (GuiObject t_go in m_guiList)
@@ -400,8 +420,13 @@ namespace GrandLarceny
 				m_buttonsToAdd.Push(t_buttonToAdd);
 				t_submenu.AddLast(t_buttonToAdd);
 
-				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 600), "Player Within Circle", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(700, 600), "Player Within Circle", null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addCircle);
+				m_buttonsToAdd.Push(t_buttonToAdd);
+				t_submenu.AddLast(t_buttonToAdd);
+
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 600), "Switch/Button", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addSwitch);
 				m_buttonsToAdd.Push(t_buttonToAdd);
 				t_submenu.AddLast(t_buttonToAdd);
 
@@ -419,18 +444,19 @@ namespace GrandLarceny
 			{
 				m_state = State.newEffect;
 
-				Button t_buttonToAdd; 
+				Button t_buttonToAdd;
+				LinkedList<Button> t_submenu = new LinkedList<Button>();
 
 				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(800, 600), "Cutscene", null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addCutscene);
 				m_buttonsToAdd.Push(t_buttonToAdd);
+				t_submenu.AddLast(t_buttonToAdd);
 
 				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 600), "Equip", null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEquip);
 				m_buttonsToAdd.Push(t_buttonToAdd);
-
-				LinkedList<Button> t_submenu = new LinkedList<Button>();
 				t_submenu.AddLast(t_buttonToAdd);
+
 				m_stateButtons.Push(t_submenu);
 			}
 		}
@@ -470,6 +496,40 @@ namespace GrandLarceny
 		public void addCircle(Button a_care)
 		{
 			//You wish
+		}
+		public void addSwitch(Button a_care)
+		{
+			if (m_state == State.newTrigger)
+			{
+				m_state = State.newSwitch;
+
+				Button t_buttonToAdd;
+				LinkedList<Button> t_submenu = new LinkedList<Button>();
+				int i = 800;
+				foreach (SwitchTrigger.TriggerType t_sttt in System.Enum.GetValues(typeof(SwitchTrigger.TriggerType)))
+				{
+					t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(i, 550), t_sttt.ToString(), null, Color.Black, new Vector2(5, 5));
+					t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectSwitchTrigger);
+					m_buttonsToAdd.Push(t_buttonToAdd);
+					t_submenu.AddLast(t_buttonToAdd);
+					i -= 100;
+				}
+
+				m_stateButtons.Push(t_submenu);
+			}
+		}
+		public void selectSwitchTrigger(Button a_button)
+		{
+			if (m_state == State.newSwitch || m_state == State.selectSwitch)
+			{
+				m_state = State.selectSwitch;
+				if (m_switchTriggerType != null)
+				{
+					m_switchTriggerType.setState(0);
+				}
+				m_switchTriggerType = a_button;
+				m_switchTriggerType.setState(3);
+			}
 		}
 	}
 }

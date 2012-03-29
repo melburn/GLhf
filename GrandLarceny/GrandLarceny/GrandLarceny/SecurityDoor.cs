@@ -57,7 +57,7 @@ namespace GrandLarceny
 		{
 			if (m_lastCheckedHitBox != m_img.getSubImageIndex())
 			{
-				m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y * (m_img.getSubImageIndex() / 100f), m_position);
+				m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y * (m_img.getSubImageIndex() / ((float)m_img.getLength())), m_position);
 				m_lastCheckedHitBox = m_img.getSubImageIndex();
 			}
 			return m_collisionShape;

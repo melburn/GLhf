@@ -120,6 +120,11 @@ namespace GrandLarceny
 					}
 				}
 			}
+
+			foreach (Event t_e in m_events)
+			{
+				t_e.loadContent();
+			}
 			
 			if (player != null)
 			{

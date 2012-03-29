@@ -10,6 +10,7 @@ namespace GrandLarceny
 	[Serializable()]
 	public class NPE : MovingObject
 	{
+		
 		protected AIState m_aiState;
 
 		//kan sättas till false för att deaktivera ai
@@ -19,6 +20,8 @@ namespace GrandLarceny
 			: base(a_posV2, a_sprite, a_layer)
 		{
 		}
+
+	
 
 		public override void update(GameTime a_gameTime)
 		{
@@ -37,5 +40,7 @@ namespace GrandLarceny
 		{
 			m_aiState = a_aIState;
 		}
+
+		
 	}
 }
