@@ -67,7 +67,7 @@ namespace GrandLarceny
 			return m_light != null &&
 				t_player.isInLight() &&
 				t_player.getCurrentState() != Player.State.Hiding &&
-				CollisionManager.Collides(m_light.getCollisionShape(), Game.getInstance().getState().getPlayer().getCollisionShape());
+				CollisionManager.Collides(m_light.getHitBox(), Game.getInstance().getState().getPlayer().getHitBox());
 		}
 
 		public float getLeftRotationPoint()

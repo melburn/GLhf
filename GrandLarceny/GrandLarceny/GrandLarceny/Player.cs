@@ -15,7 +15,7 @@ namespace GrandLarceny
 		private Vector2 m_cameraPoint = new Vector2(0, 0);
 
 		public const float CAMERASPEED = 0.1f;
-		public const float MAXSWINGSPEED = 10f;
+		public const float MAXSWINGSPEED = 0.5f;
 
 		public const int CLIMBINGSPEED = 200;
 		public const int PLAYERSPEED = 200;
@@ -76,15 +76,12 @@ namespace GrandLarceny
 
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
-
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
 		private bool m_stunnedGravity = true;
-
 		private bool m_stunnedFlipSprite = false;
-
-
 		private bool m_chase = false;
+		private bool m_deactivateChase = false;
 
 		private GameObject m_rope = null;
 
@@ -164,6 +161,11 @@ namespace GrandLarceny
 			if (!m_stunned)
 			{
 				changeAnimation();
+			}
+			if (m_deactivateChase)
+			{
+				activateNormalMode();
+				m_deactivateChase = false;
 			}
 			updateState();
 			m_lastState = m_currentState;
@@ -751,31 +753,32 @@ namespace GrandLarceny
 
 		private void updateSwinging()
 		{
+			m_gravity = 0;
 			if (Game.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
 				{
-					m_swingSpeed += 1;
+					m_swingSpeed += 0.01f;
 				}
 			}
 			else if (Game.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
 				{
-					m_swingSpeed -= 1;
+					m_swingSpeed -= 0.01f;
 				}
 			}
-			if (m_rotate > 3)
+			if (m_rotate > 0.3f)
 			{
-				m_swingSpeed += 1.5f;
+				m_swingSpeed += 0.015f;
 			}
-			else if (m_rotate < -3)
+			else if (m_rotate < -0.3f)
 			{
-				m_swingSpeed -= 1.5f;
+				m_swingSpeed -= 0.015f;
 			}
 			else
 			{
-				if (m_swingSpeed < 0.9f)
+				if (m_swingSpeed < 0.009f)
 				{
 					m_swingSpeed = 0;
 				}
@@ -1215,13 +1218,22 @@ namespace GrandLarceny
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			setIsInLight(true);
 		}
-
 		public void deactivateChaseMode()
+		{
+			m_deactivateChase = true;
+		}
+
+		private void activateNormalMode()
 		{
 			m_chase = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
 			setIsInLight(false);
 			((GameState)Game.getInstance().getState()).clearAggro();
+		}
+		public override void changePositionType()
+		{
+			base.changePositionType();
+			Game.getInstance().m_camera.getPosition().setParentPosition(m_position);
 		}
 		#endregion
 	}
