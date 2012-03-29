@@ -421,7 +421,7 @@ namespace GrandLarceny
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 
 			m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
-			if (m_position.getGlobalY() != getLastPosition().Y)
+			if (m_speed.Y != 0)
 			{
 				m_currentState = State.Jumping;
 			}
@@ -504,7 +504,7 @@ namespace GrandLarceny
 		private void updateClimbing()
 		{
 			m_gravity = 0;
-			if (Game.isKeyPressed(GameState.getUpKey()))
+			if (Game.isKeyPressed(GameState.getUpKey()) && m_ladderDirection != Direction.None)
 			{
 				m_speed.Y = -CLIMBINGSPEED;
 			}
@@ -548,7 +548,10 @@ namespace GrandLarceny
 				m_currentState = State.Jumping;
 			}
 			if (m_ladderDirection == Direction.None)
-				m_currentState = State.Jumping;
+			{
+				//m_currentState = State.Jumping;
+				m_nextPosition.Y = m_position.getGlobalY() + 1;
+			}
 		}
 
 		private void updateRolling(float a_deltaTime)
@@ -608,7 +611,9 @@ namespace GrandLarceny
 			}
 			else if (Game.isKeyPressed(GameState.getDownKey()) && m_ladderDirection != Direction.None)
 			{
-				m_currentState = State.Climbing;
+				m_currentState = State.Climbing; 
+				m_position.plusYWith(m_standHitBox.m_height - m_hangHitBox.m_height);
+				Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.m_height - m_hangHitBox.m_height));
 			}
 			else if (Game.keyClicked(GameState.getUpKey()))
 			{
