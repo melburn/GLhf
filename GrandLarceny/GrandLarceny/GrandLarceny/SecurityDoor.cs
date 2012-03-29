@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class SecurityDoor : NonMovingObject
 	{
 		private Boolean m_open;
