@@ -44,10 +44,16 @@ namespace GrandLarceny
 			if (a_collid is Player)
 			{
 				Player t_player = (Player)a_collid;
-				t_player.setState(Player.State.Swinging);
-				t_player.getPosition().setParentPositionWithoutMoving(m_position);
-				t_player.changePositionType();
-				t_player.setRope(this);
+				if (t_player.getRope() != this)
+				{
+					t_player.setState(Player.State.Swinging);
+					m_rotate = (float)Math.Atan2(-(m_position.getGlobalY() - t_player.getPosition().getGlobalY()), -(m_position.getGlobalX() - t_player.getPosition().getGlobalX()));
+					t_player.getPosition().setParentPositionWithoutMoving(m_position);
+					t_player.changePositionType();
+					t_player.setRope(this);
+					t_player.setSpeedX(0);
+					t_player.setSpeedY(0);
+				}
 			}
 		}
 	}
