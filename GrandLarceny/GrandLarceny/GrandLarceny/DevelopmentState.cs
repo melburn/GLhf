@@ -160,6 +160,10 @@ namespace GrandLarceny
 				}
 			}
 
+			foreach (Event t_e in m_events)
+			{
+				t_e.loadContent();
+			}
 			m_buildingButtons	= new LinkedList<Button>();
 			m_staticButton		= new LinkedList<Button>();
 			m_ventButtons		= new LinkedList<Button>();

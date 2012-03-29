@@ -104,7 +104,7 @@ namespace GrandLarceny
 				}
 					
 				if (Game.isKeyPressed(GameState.getActionKey()) && !t_player.isStunned()
-					&& (t_player.getCurrentState() == Player.State.Hanging || t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
+					&& (t_player.getLastState() == Player.State.Hanging || t_player.getLastState() == Player.State.Stop || t_player.getLastState() == Player.State.Walking))
 				{
 					if(t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
 						t_player.windowAction();
