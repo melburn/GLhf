@@ -240,7 +240,7 @@ namespace GrandLarceny
 			m_buildingButtons.AddLast(m_btnForegroundHotkey	= new Button("DevelopmentHotkeys//btn_background_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 2, t_bottomRight.Y - TILE_HEIGHT * 3), "F", "VerdanaBold", Color.White, t_btnTextOffset));
 			m_buildingButtons.AddLast(m_btnRopeHotkey		= new Button("DevelopmentHotkeys//btn_ladder_hotkey",
-				new Vector2(t_bottomRight.X - TILE_WIDTH * 5, t_bottomRight.Y - TILE_HEIGHT * 5), "O", "VerdanaBold", Color.White, t_btnTextOffset));
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 3, t_bottomRight.Y - TILE_HEIGHT * 3), "O", "VerdanaBold", Color.White, t_btnTextOffset));
 
 			foreach (Button t_button in m_buildingButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -311,7 +311,7 @@ namespace GrandLarceny
 			for (int i = 5, j = 1; i > 0; i--, j++) {
 				Button t_button = new Button(
 					"DevelopmentHotkeys//btn_layer_chooser", 
-					new Vector2(Game.getInstance().getResolution().X - (73 * i), Game.getInstance().getResolution().Y - (TILE_HEIGHT * 4)), 
+					new Vector2(Game.getInstance().getResolution().X - (73 * i), Game.getInstance().getResolution().Y - (TILE_HEIGHT * 3 + 36)), 
 					j.ToString(), "VerdanaBold", Color.Black, new Vector2(34, 8)
 				);
 				t_button.m_clickEvent += new Button.clickDelegate(setLayer);
