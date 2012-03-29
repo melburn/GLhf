@@ -16,6 +16,13 @@ namespace GrandLarceny.Events.Effects
 		private float m_openSpeed;
 		private float m_closeSpeed;
 
+		public DoorOpenEffect(SecurityDoor a_doorToOpen, float a_openSpeed, float a_closeSpeed)
+		{
+			m_doorToOpen = a_doorToOpen;
+			m_openSpeed = a_openSpeed;
+			m_closeSpeed = a_closeSpeed;
+		}
+
 
 		public override void execute()
 		{

@@ -52,7 +52,8 @@ namespace GrandLarceny
 			secRectanglePoint,
 			newEquip,
 			newSwitch,
-			selectSwitch
+			selectSwitch,
+			newDoorEffect
 		}
 
 		public EventDevelopment(DevelopmentState a_backState, LinkedList<Event> a_events)
@@ -164,11 +165,7 @@ namespace GrandLarceny
 						}
 					}
 				}
-				foreach (GuiObject t_go in m_guiList)
-				{
-					t_go.update(a_gameTime);
-				}
-				if (Game.rmbClicked())
+				else if (Game.rmbClicked())
 				{
 					goUpOneState();
 				}
@@ -185,6 +182,19 @@ namespace GrandLarceny
 					{
 						addEffect(new EquipEffect(t_text[0], bool.Parse(t_text[1])));
 						goUpOneState();
+					}
+				}
+				else if (m_state == State.newDoorEffect && Game.lmbClicked())
+				{
+					Vector2 t_mousePoint = calculateWorldMouse();
+					foreach (GameObject t_go in m_backState.getCurrentList())
+					{
+						if (t_go is SecurityDoor && t_go.getBox().Contains((int)t_mousePoint.X, (int)t_mousePoint.Y))
+						{
+							addEffect(new DoorOpenEffect((SecurityDoor)t_go, 10, 1));
+							goUpOneState();
+							break;
+						}
 					}
 				}
 			}
@@ -475,7 +485,12 @@ namespace GrandLarceny
 				m_buttonsToAdd.Push(t_buttonToAdd);
 				t_submenu.AddLast(t_buttonToAdd);
 
-				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 600), "Equip", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(700, 600), "Equip", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEquip);
+				m_buttonsToAdd.Push(t_buttonToAdd);
+				t_submenu.AddLast(t_buttonToAdd);
+
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 600), "Door", null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEquip);
 				m_buttonsToAdd.Push(t_buttonToAdd);
 				t_submenu.AddLast(t_buttonToAdd);
@@ -561,6 +576,13 @@ namespace GrandLarceny
 				}
 				m_switchTriggerType = a_button;
 				m_switchTriggerType.setState(3);
+			}
+		}
+		public void addDoorEffect(Button a_care)
+		{
+			if (m_state == State.newEffect)
+			{
+				m_state = State.newDoorEffect;
 			}
 		}
 	}

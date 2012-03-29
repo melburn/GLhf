@@ -15,7 +15,7 @@ namespace GrandLarceny
 		private float m_rightPatrolPoint;
 		private Boolean m_hasPatrol;
 		private const float MOVEMENTSPEED = 80;
-		private const float CHARGEINGSPEED = 400;
+		private const float CHARGEINGSPEED = 540;
 		private const float WALKANISPEED = 7;
 		private const float CHARGEANISPEED = 20;
 		private const float BARKCOOLDOWN = 0.8f;

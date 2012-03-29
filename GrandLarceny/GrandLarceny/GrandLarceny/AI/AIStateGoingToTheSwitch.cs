@@ -44,8 +44,11 @@ namespace GrandLarceny.AI
 					{
 						LampSwitch t_lampSwitch = t_guard.getFirstLampSwitchTarget();
 						while (Math.Abs(t_lampSwitch.getPosition().getGlobalX() - a_agent.getPosition().getGlobalX()) < 10)
-						{ 
-							t_lampSwitch.toggleSwitch();
+						{
+							if (!t_lampSwitch.isOn())
+							{
+								t_lampSwitch.toggleSwitch();
+							}
 							foreach (GameObject t_g in Game.getInstance().getState().getCurrentList())
 							{
 								if (t_g is Guard)

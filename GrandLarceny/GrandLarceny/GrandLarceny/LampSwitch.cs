@@ -100,12 +100,7 @@ namespace GrandLarceny
 
 		public bool isOn()
 		{
-			foreach (SpotLight t_spotLight in m_connectedSpotLights)
-			{
-				if (!t_spotLight.isLit())
-					return false;
-			}
-			return true;
+			return m_switchedOn;
 		}
 
 		internal override void updateCollisionWith(Entity a_collid)
