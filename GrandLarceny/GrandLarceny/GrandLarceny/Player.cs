@@ -74,15 +74,12 @@ namespace GrandLarceny
 
 		private bool m_facingRight = false;
 		private bool m_collidedWithWall = false;
-
 		private bool m_stunned = false;
 		private bool m_stunnedDeacceleration = true;
 		private bool m_stunnedGravity = true;
-
 		private bool m_stunnedFlipSprite = false;
-
-
 		private bool m_chase = false;
+		private bool m_deactivateChase = false;
 
 		private GameObject m_rope = null;
 
@@ -162,6 +159,11 @@ namespace GrandLarceny
 			if (!m_stunned)
 			{
 				changeAnimation();
+			}
+			if (m_deactivateChase)
+			{
+				activateNormalMode();
+				m_deactivateChase = false;
 			}
 			updateState();
 			m_lastState = m_currentState;
@@ -1210,8 +1212,12 @@ namespace GrandLarceny
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			setIsInLight(true);
 		}
-
 		public void deactivateChaseMode()
+		{
+			m_deactivateChase = true;
+		}
+
+		private void activateNormalMode()
 		{
 			m_chase = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
