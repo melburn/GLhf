@@ -139,7 +139,7 @@ namespace GrandLarceny
 		{
 			s_lastId = 1;
 		}
-		public void changePositionType()
+		public virtual void changePositionType()
 		{
 			if (m_position is CartesianCoordinate)
 				m_position = new PolarCoordinate(m_position.getLocalPolarCoordinates(), m_position.getParentPosition());

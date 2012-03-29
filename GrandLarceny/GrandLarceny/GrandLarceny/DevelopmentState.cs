@@ -220,8 +220,8 @@ namespace GrandLarceny
 			 * m_buildingKeys
 			-----------------------------------
 			*/
-			m_btnLadderHotkey		= new Button("DevelopmentHotkeys//btn_ladder_hotkey", 
-				new Vector2(t_bottomRight.X - TILE_WIDTH * 3, t_bottomRight.Y - TILE_HEIGHT * 2), "L", "VerdanaBold", Color.White, t_btnTextOffset);
+			//m_btnLadderHotkey		= new Button("DevelopmentHotkeys//btn_ladder_hotkey", 
+				//new Vector2(t_bottomRight.X - TILE_WIDTH * 3, t_bottomRight.Y - TILE_HEIGHT * 2), "L", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnPlatformHotkey		= new Button("DevelopmentHotkeys//btn_platform_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 5, t_bottomRight.Y - TILE_HEIGHT * 2), "P", "VerdanaBold", Color.White, t_btnTextOffset);
 			m_btnBackgroundHotkey	= new Button("DevelopmentHotkeys//btn_background_hotkey",
@@ -247,7 +247,9 @@ namespace GrandLarceny
 			m_btnRopeHotkey			= new Button("DevelopmentHotkeys//btn_ladder_hotkey",
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 5, t_bottomRight.Y - TILE_HEIGHT * 5), "O", "VerdanaBold", Color.White, t_btnTextOffset);
 
-			m_buildingButtons.AddLast(m_btnLadderHotkey);
+			//m_buildingButtons.AddLast(m_btnLadderHotkey);
+			m_buildingButtons.AddLast(m_btnLadderHotkey	= new Button("DevelopmentHotkeys//btn_ladder_hotkey", 
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 3, t_bottomRight.Y - TILE_HEIGHT * 2), "L", "VerdanaBold", Color.White, t_btnTextOffset));
 			m_buildingButtons.AddLast(m_btnPlatformHotkey);
 			m_buildingButtons.AddLast(m_btnBackgroundHotkey);
 			m_buildingButtons.AddLast(m_btnHeroHotkey);
