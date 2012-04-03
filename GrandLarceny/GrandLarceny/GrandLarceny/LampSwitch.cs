@@ -105,7 +105,7 @@ namespace GrandLarceny
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (a_collid is Player && Game.keyClicked(GameState.getActionKey()))
+			if (a_collid is Player && GameState.actionCombination())
 			{
 				toggleSwitch();
 			}

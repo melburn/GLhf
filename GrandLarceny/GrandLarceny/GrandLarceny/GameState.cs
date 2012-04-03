@@ -20,13 +20,13 @@ namespace GrandLarceny
 		private string m_currentLevel;
 		private int m_currentList;
 
-		private static Keys m_upKey;
-		private static Keys m_downKey;
-		private static Keys m_leftKey;
-		private static Keys m_rightKey;
-		private static Keys m_jumpKey;
-		private static Keys m_rollKey;
-		private static Keys m_actionKey;
+		private static Keys[] m_upCombination;
+		private static Keys[] m_downCombination;
+		private static Keys[] m_leftCombination;
+		private static Keys[] m_rightCombination;
+		private static Keys[] m_jumpCombination;
+		private static Keys[] m_rollCombination;
+		private static Keys[] m_actionCombination;
 
 		private Player player;
 
@@ -39,6 +39,15 @@ namespace GrandLarceny
 		public GameState(string a_levelToLoad)
 		{
 			m_currentLevel = a_levelToLoad;
+		}
+
+		private Keys[] createCombination(string a_rawText) {
+			string[] t_combination = a_rawText.Split('+');
+			Keys[] a_combination = new Keys[t_combination.Length];
+			for (int i = 0; i < a_combination.Length; i++) {
+				a_combination[i] = (Keys)Enum.Parse(typeof(Keys), t_combination[i]);
+			}
+			return a_combination;
 		}
 
 		public override void load()
@@ -71,19 +80,19 @@ namespace GrandLarceny
 					case ParseState.Input:
 						string[] t_input = t_currentLine.Split('=');
 						if (t_input[0].Equals("Up"))
-							m_upKey		= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_upCombination = createCombination(t_input[1]);
 						else if (t_input[0].Equals("Down"))
-							m_downKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_downCombination = createCombination(t_input[1]);
 						else if (t_input[0].Equals("Left"))
-							m_leftKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_leftCombination = createCombination(t_input[1]);
 						else if (t_input[0].Equals("Right"))
-							m_rightKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_rightCombination = createCombination(t_input[1]);
 						else if (t_input[0].Equals("Jump"))
-							m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+							m_jumpCombination = createCombination(t_input[1]);
 						else if (t_input[0].Equals("Roll"))
-							m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+							m_rollCombination = createCombination(t_input[1]);
 						else if (t_input[0].Equals("Action"))
-							m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+							m_actionCombination = createCombination(t_input[1]);
 						else
 							System.Console.WriteLine("Unknown keybinding found!");
 						break;
@@ -312,39 +321,75 @@ namespace GrandLarceny
 			return null;
 		}
 
-		public static Keys getUpKey()
-		{
-			return m_upKey;
+		public static bool upCombination() {
+			foreach (Keys k in m_upCombination) {
+				if (Game.isKeyPressed(k)) {
+					continue;
+				} else {
+					return false;
+				}
+			}
+			return true;
 		}
-
-		public static Keys getDownKey()
-		{
-			return m_downKey;
+		public static bool downCombination() {
+			foreach (Keys k in m_downCombination) {
+				if (Game.isKeyPressed(k)) {
+					continue;
+				} else {
+					return false;
+				}
+			}
+			return true;
 		}
-
-		public static Keys getLeftKey()
-		{
-			return m_leftKey;
+		public static bool leftCombination() {
+			foreach (Keys k in m_leftCombination) {
+				if (Game.isKeyPressed(k)) {
+					continue;
+				} else {
+					return false;
+				}
+			}
+			return true;
 		}
-
-		public static Keys getRightKey()
-		{
-			return m_rightKey;
+		public static bool rightCombination() {
+			foreach (Keys k in m_rightCombination) {
+				if (Game.isKeyPressed(k)) {
+					continue;
+				} else {
+					return false;
+				}
+			}
+			return true;
 		}
-
-		public static Keys getJumpKey()
-		{
-			return m_jumpKey;
+		public static bool jumpCombination() {
+			foreach (Keys k in m_jumpCombination) {
+				if (Game.isKeyPressed(k)) {
+					continue;
+				} else {
+					return false;
+				}
+			}
+			return true;
 		}
-
-		public static Keys getRollKey()
-		{
-			return m_rollKey;
+		public static bool rollCombination() {
+			foreach (Keys k in m_rollCombination) {
+				if (Game.isKeyPressed(k)) {
+					continue;
+				} else {
+					return false;
+				}
+			}
+			return true;
 		}
-
-		public static Keys getActionKey()
-		{
-			return m_actionKey;
+		public static bool actionCombination() {
+			foreach (Keys k in m_actionCombination) {
+				if (Game.isKeyPressed(k)) {
+					continue;
+				} else {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		public void clearAggro()
