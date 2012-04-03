@@ -59,7 +59,7 @@ namespace GrandLarceny
 
 		}
 
-		public void flip()
+		public virtual void flip()
 		{
 			if (m_spriteEffects == SpriteEffects.None)
 				m_spriteEffects = SpriteEffects.FlipHorizontally;
