@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class SecurityDoor : NonMovingObject
 	{
 		private Boolean m_open;
@@ -19,20 +20,26 @@ namespace GrandLarceny
 		public SecurityDoor(Vector2 a_position, String a_sprite, float a_layer)
 			:base(a_position, a_sprite, a_layer)
 		{
-			m_img.setLooping(false);
-			m_img.stop();
 			m_lastCheckedHitBox = -1;
 			m_closeWhenOpen = true;
 			m_open = false;
 			m_openSpeed = 10;
 			m_closeSpeed = 10;
 		}
+
+		public override void loadContent()
+		{
+			base.loadContent();
+
+			m_img.setLooping(false);
+			m_img.stop();
+		}
 		public void open()
 		{
 			if (!m_open)
 			{
 				m_open = true;
-				m_img.setAnimationSpeed(-m_closeSpeed);
+				m_img.setAnimationSpeed(m_closeSpeed);
 				m_img.run();
 			}
 		}
@@ -41,7 +48,7 @@ namespace GrandLarceny
 			if (m_open)
 			{
 				m_open = false;
-				m_img.setAnimationSpeed(m_openSpeed);
+				m_img.setAnimationSpeed(-m_openSpeed);
 				m_img.run();
 			}
 		}
@@ -57,7 +64,7 @@ namespace GrandLarceny
 		{
 			if (m_lastCheckedHitBox != m_img.getSubImageIndex())
 			{
-				m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y * (m_img.getSubImageIndex() / ((float)m_img.getLength())), m_position);
+				m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y - ((m_img.getSize().Y * m_img.getSubImageIndex()) / (float)m_img.getLength()), m_position);
 				m_lastCheckedHitBox = m_img.getSubImageIndex();
 			}
 			return m_collisionShape;

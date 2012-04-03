@@ -491,7 +491,7 @@ namespace GrandLarceny
 				t_submenu.AddLast(t_buttonToAdd);
 
 				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 600), "Door", null, Color.Black, new Vector2(5, 5));
-				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEquip);
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addDoorEffect);
 				m_buttonsToAdd.Push(t_buttonToAdd);
 				t_submenu.AddLast(t_buttonToAdd);
 

@@ -29,7 +29,7 @@ namespace GrandLarceny
 				if (CollisionManager.Contains(this.getHitBox(), t_playerGlobalCoordinate))
 				{
 					Player t_player = (Player)a_collid;
-					if ((GameState.actionCombination() && (t_player.getCurrentState() == Player.State.Walking 
+					if ((Game.keyClicked(GameState.getActionKey()) && (t_player.getCurrentState() == Player.State.Walking 
 						|| t_player.getCurrentState() == Player.State.Stop))
 						|| (t_player.getCurrentState() != Player.State.Walking && t_player.getCurrentState() != Player.State.Stop))
 					{

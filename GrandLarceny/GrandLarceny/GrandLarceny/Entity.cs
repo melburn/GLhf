@@ -117,5 +117,10 @@ namespace GrandLarceny
 		{
 			m_position.setGlobalCartesianCoordinates(m_nextPosition);
 		}
+		public override void changePositionType()
+		{
+			base.changePositionType();
+			m_collisionShape.setPosition(m_position);
+		}
 	}
 }

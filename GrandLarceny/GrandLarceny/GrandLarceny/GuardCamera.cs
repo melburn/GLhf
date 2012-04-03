@@ -15,6 +15,8 @@ namespace GrandLarceny
 		private int m_lightLink;
 		private float m_leftRotation;
 		private float m_rightRotation;
+		private float m_turnTimer;
+		private float m_turnStopTime = 1f;
 		private float m_rotationSpeed;
 		private Entity m_chaseTarget;
 		private const float ROTATIONSPEED = 0.7f;
@@ -99,6 +101,7 @@ namespace GrandLarceny
 			base.update(a_gameTime);
 			m_rotate += m_rotationSpeed * (a_gameTime.ElapsedGameTime.Milliseconds / 1000f);
 			m_light.setRotation(m_rotate);
+			m_turnTimer -= (a_gameTime.ElapsedGameTime.Milliseconds / 1000f);
 		}
 
 		internal Entity getTarget()
@@ -127,12 +130,18 @@ namespace GrandLarceny
 		internal void stop()
 		{
 			m_rotationSpeed = 0;
+			m_turnTimer = m_turnStopTime;
 		}
 
 		public override void addRotation(float a_rotation)
 		{
 			base.addRotation(a_rotation);
 			m_light.setRotation(m_rotate);
-		} 
+		}
+
+		public bool isTurnReady()
+		{
+			return m_turnTimer <= 0;
+		}
 	}
 }

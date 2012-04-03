@@ -8,7 +8,7 @@ namespace GrandLarceny.Events.Triggers
 	[Serializable()]
 	class SwitchTrigger : EventTrigger
 	{
-		[NonSerialized()]
+		[NonSerialized]
 		private LampSwitch m_switch;
 		private int m_switchLink;
 
@@ -85,6 +85,10 @@ namespace GrandLarceny.Events.Triggers
 			if (m_switchLink > 0)
 			{
 				m_switch = (LampSwitch)Game.getInstance().getState().getObjectById(m_switchLink);
+				if (m_switch == null)
+				{
+					throw new ArgumentNullException("SwitchTrigger could not find switch " + m_switchLink);
+				}
 			}
 		}
 	}

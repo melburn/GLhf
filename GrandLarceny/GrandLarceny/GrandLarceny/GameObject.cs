@@ -59,7 +59,7 @@ namespace GrandLarceny
 
 		}
 
-		public void flip()
+		public virtual void flip()
 		{
 			if (m_spriteEffects == SpriteEffects.None)
 				m_spriteEffects = SpriteEffects.FlipHorizontally;
@@ -123,7 +123,7 @@ namespace GrandLarceny
 		}
 		public virtual void addRotation(float a_rotation)
 		{
-			m_rotate = (m_rotate + a_rotation) % ((float)Math.PI * 2);
+			m_rotate = ((m_rotate + a_rotation) + ((float)Math.PI *2)) % ((float)Math.PI * 2);
 		}
 
 		public float getLayer() {

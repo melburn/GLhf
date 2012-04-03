@@ -19,7 +19,7 @@ namespace GrandLarceny
 			if (a_collider is Player)
 			{
 				Player t_player = (Player)a_collider;
-				if (GameState.actionCombination() && !t_player.isStunned())
+				if (Game.keyClicked(GameState.getActionKey()) && !t_player.isStunned())
 					if (Game.getInstance().m_camera.getLayer() == 0)
 					{
 						Game.getInstance().getState().changeLayer(1);

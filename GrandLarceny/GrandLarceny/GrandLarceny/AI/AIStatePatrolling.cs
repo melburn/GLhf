@@ -74,7 +74,21 @@ namespace GrandLarceny.AI
 						}
 						else
 						{
-							if (t_guard.getHorizontalSpeed() != 0)
+							if (t_guard.getHorizontalSpeed() == 0)
+							{
+								if (t_guard.guardFaceRight())
+								{
+									if (!t_guard.isFacingRight())
+									{
+										t_guard.goRight();
+									}
+								}
+								else if(t_guard.isFacingRight())
+								{
+									t_guard.goLeft();
+								}
+							}
+							else
 							{
 								t_guard.stop();
 							}
@@ -169,11 +183,25 @@ namespace GrandLarceny.AI
 				{
 					if (t_gc.getRotation() < t_gc.getLeftRotationPoint())
 					{
-						t_gc.rotateRight();
+						if (t_gc.getRotationSpeed() == 0 && t_gc.isTurnReady())
+						{
+							t_gc.rotateRight();
+						}
+						else if (t_gc.getRotationSpeed() < 0)
+						{
+							t_gc.stop();
+						}
 					}
 					else if (t_gc.getRotation() > t_gc.getRightRotationPoint())
 					{
-						t_gc.rotateLeft();
+						if (t_gc.getRotationSpeed() == 0 && t_gc.isTurnReady())
+						{
+							t_gc.rotateLeft();
+						}
+						else if (t_gc.getRotationSpeed() > 0)
+						{
+							t_gc.stop();
+						}
 					}
 					else if (t_gc.getRotationSpeed() == 0)
 					{
