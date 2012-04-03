@@ -665,15 +665,27 @@ namespace GrandLarceny
 		{
 			m_speed = Vector2.Zero;
 			m_gravity = 0;
-			List<Direction> t_list = null;
-			foreach (Direction t_direction in m_ventilationDirection)
+			if (Game.getInstance().m_camera.getLayer() == 0)
 			{
-				t_list = moveDirectionInVentilation(t_direction);
-				if (t_list != null)
-					break;
+				if (Game.isKeyReleased())
+				{
+					Game.getInstance().m_camera.setLayer(1);
+				}
 			}
-			if (t_list != null)
-				m_ventilationDirection = t_list;
+			else
+			{
+				List<Direction> t_list = null;
+				foreach (Direction t_direction in m_ventilationDirection)
+				{
+					t_list = moveDirectionInVentilation(t_direction);
+					if (t_list != null)
+						break;
+				}
+				if (t_list != null)
+				{
+					m_ventilationDirection = t_list;
+				}
+			}
 		}
 		private List<Direction> moveDirectionInVentilation(Direction a_direction)
 		{
