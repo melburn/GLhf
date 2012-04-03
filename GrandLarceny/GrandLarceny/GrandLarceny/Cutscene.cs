@@ -19,6 +19,8 @@ namespace GrandLarceny
 		private String[] m_currentCommand;
 		private Dictionary<int, GuiObject> m_guis;
 
+		private Position m_oldCamPar;
+
 		public Cutscene(States a_backState, String a_sceneToLoad)
 		{
 			m_backState = a_backState;
@@ -53,6 +55,7 @@ namespace GrandLarceny
 				}
 				if (m_comDone >= m_commands.Length)
 				{
+					Game.getInstance().m_camera.getPosition().setParentPositionWithoutMoving(m_oldCamPar);
 					Game.getInstance().setState(m_backState);
 				}
 			}
@@ -126,6 +129,14 @@ namespace GrandLarceny
 				}
 				new Sound(m_currentCommand[1]).play();
 			}
+			else if (m_currentCommand[0].Equals("moveCamera", StringComparison.OrdinalIgnoreCase))
+			{
+				if (m_currentCommand.Length == 1)
+				{
+					throw new ParseException();
+				}
+				
+			}
 			else
 			{
 				throw new ParseException();
@@ -135,6 +146,8 @@ namespace GrandLarceny
 		public override void load()
 		{
 			m_commands = Loader.getInstance().readFromFile(m_filePath);
+			m_oldCamPar = Game.getInstance().m_camera.getPosition().getParentPosition();
+			Game.getInstance().m_camera.getPosition().setParentPositionWithoutMoving(null);
 			base.load();
 		}
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)

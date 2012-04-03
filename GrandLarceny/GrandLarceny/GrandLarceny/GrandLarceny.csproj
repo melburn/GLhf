@@ -117,6 +117,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CartesianPosition.cs" />
+    <Compile Include="CheckPoint.cs" />
     <Compile Include="CollisionRectangle.cs" />
     <Compile Include="CollisionShape.cs" />
     <Compile Include="CollisionTriangle.cs" />
