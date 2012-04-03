@@ -348,6 +348,7 @@ namespace GrandLarceny
 			return m_actionKey;
 		}
 
+
 		public void clearAggro()
 		{
 			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
@@ -364,6 +365,14 @@ namespace GrandLarceny
 					}
 				}
 			}
+		}
+		public LinkedList<Event> getEvents()
+		{
+			return m_events;
+		}
+		public string getCurrentLevelName()
+		{
+			return m_currentLevel;
 		}
 	}
 }
