@@ -260,7 +260,7 @@ namespace GrandLarceny
 			{
 				t_go.draw(a_gameTime);
 			}
-			if (m_state == State.secRectanglePoint)
+			if (m_state == State.secRectanglePoint || (m_selectedEffTri != null && m_triggers.ContainsKey(m_selectedEffTri) && m_triggers[m_selectedEffTri] is PlayerIsWithinRectangle))
 			{
 				foreach (Line t_l in m_recLines)
 				{
@@ -389,6 +389,10 @@ namespace GrandLarceny
 				if (m_selectedEffTri != null)
 				{
 					m_selectedEffTri.setState(3);
+					if (m_triggers.ContainsKey(m_selectedEffTri) && m_triggers[m_selectedEffTri] is PlayerIsWithinRectangle)
+					{
+						((PlayerIsWithinRectangle)(m_triggers[m_selectedEffTri])).getRectangle(m_recLines);
+					}
 				}
 			}
 		}

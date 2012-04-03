@@ -669,17 +669,13 @@ namespace GrandLarceny
 			}
 			else if (Game.keyClicked(Keys.D1)) {
 				setLayer(0);
-			}
-			else if (Game.keyClicked(Keys.D2)) {
+			} else if (Game.keyClicked(Keys.D2)) {
 				setLayer(1);
-			}
-			else if (Game.keyClicked(Keys.D3)) {
+			} else if (Game.keyClicked(Keys.D3)) {
 				setLayer(2);
-			}
-			else if (Game.keyClicked(Keys.D4)) {
+			} else if (Game.keyClicked(Keys.D4)) {
 				setLayer(3);
-			}
-			else if (Game.keyClicked(Keys.D5)) {
+			} else if (Game.keyClicked(Keys.D5)) {
 				setLayer(4);
 			}
 			/*

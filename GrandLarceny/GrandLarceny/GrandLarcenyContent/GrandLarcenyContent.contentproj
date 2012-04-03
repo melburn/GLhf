@@ -1089,6 +1089,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sounds\Music\AimaiElegy.mp3">
+      <Name>AimaiElegy</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
     <Compile Include="Images\Sprite\Guard\Exclmarks.png">
       <Name>Exclmarks</Name>
       <Importer>TextureImporter</Importer>
