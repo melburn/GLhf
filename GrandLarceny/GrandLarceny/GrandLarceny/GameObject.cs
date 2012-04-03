@@ -121,6 +121,10 @@ namespace GrandLarceny
 		{
 			return m_rotate;
 		}
+		public void setRotation(float a_rotation)
+		{
+			m_rotate = a_rotation;
+		}
 		public virtual void addRotation(float a_rotation)
 		{
 			m_rotate = ((m_rotate + a_rotation) + ((float)Math.PI *2)) % ((float)Math.PI * 2);
