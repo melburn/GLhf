@@ -17,9 +17,10 @@ namespace GrandLarceny
 		{
 
 		}
+
 		public override void loadContent()
 		{
-			base.loadContent();
+			base.loadContent();			
 			m_line = new Line(m_position, m_position, new Vector2(36, 0), new Vector2(36, 72), Color.Black, 5, true);
 			m_collisionShape = new CollisionRectangle(0, 0, 72, 72, m_position);
 			m_rotationPoint = new Vector2(2.5f, m_position.getGlobalY());

@@ -93,6 +93,7 @@ namespace GrandLarceny
 							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
 						} else if (t_setting[0].Equals("ScreenHeight")) {
 							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
+							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
 						} else if (t_setting[0].Equals("Fullscreen")) {
 							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
 						}
