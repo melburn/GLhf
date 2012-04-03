@@ -157,5 +157,10 @@ namespace GrandLarceny
 		{
 			return m_progress;
 		}
+
+		public static bool isKeyReleased(Keys a_key)
+		{
+			return m_currentKeyInput.IsKeyUp(a_key) && m_previousKeyInput.IsKeyDown(a_key);
+		}
 	}
 }
