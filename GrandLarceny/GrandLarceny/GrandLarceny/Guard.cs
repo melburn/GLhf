@@ -15,7 +15,7 @@ namespace GrandLarceny
         private float m_rightPatrolPoint;
         private Boolean m_hasPatrol;
         private Boolean m_hasFlashLight;
-        public Boolean m_inALightArea = false;
+		private Boolean m_guardFaceRight;
 		[NonSerialized]
 		private LinkedList<LampSwitch> m_lampSwitchTargets;
 		private LinkedList<int> m_lampSwitchTargetsId;
@@ -49,7 +49,6 @@ namespace GrandLarceny
 		public Guard(Vector2 a_posV2, String a_sprite, float a_leftpatrolPoint, float a_rightpatrolPoint, Boolean a_hasFlashLight, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			m_facingRight = true;
 			m_leftPatrolPoint = a_leftpatrolPoint;
 			m_rightPatrolPoint = a_rightpatrolPoint;
 			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
@@ -63,11 +62,11 @@ namespace GrandLarceny
 				m_flashLightId = m_flashLight.getId();
 			}
 			m_gravity = 1000;
+			m_guardFaceRight = m_facingRight;
 		}
         public Guard(Vector2 a_posV2, String a_sprite, float a_patrolPoint, Boolean a_hasFlashLight, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			m_facingRight = true;
             m_hasPatrol = false;
             m_hasFlashLight = a_hasFlashLight;
             m_leftPatrolPoint = a_patrolPoint;
@@ -81,6 +80,7 @@ namespace GrandLarceny
 				m_flashLightId = m_flashLight.getId();
 			}
 			m_gravity = 1000;
+			m_guardFaceRight = m_facingRight;
 		}
 
 		public override void linkObject()
@@ -114,6 +114,7 @@ namespace GrandLarceny
 				m_flashLight = (FlashCone)Game.getInstance().getState().getObjectById(m_flashLightId);
 				m_flashLight.getPosition().setParentPosition(m_position);
 			}
+			m_facingRight = m_spriteEffects == SpriteEffects.None;
 		}
 		public void setLeftGuardPoint(float a_x)
 		{
@@ -714,6 +715,16 @@ namespace GrandLarceny
 		public void toggleFlashLightAddicted()
 		{
 			m_FlashLightAddicted = !m_FlashLightAddicted;
+		}
+		public override void flip()
+		{
+			base.flip();
+			m_facingRight = m_spriteEffects == SpriteEffects.None;
+			m_guardFaceRight = m_facingRight;
+		}
+		public bool guardFaceRight()
+		{
+			return m_guardFaceRight;
 		}
 	}
 }
