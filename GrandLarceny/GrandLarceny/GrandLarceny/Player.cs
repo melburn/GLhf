@@ -335,6 +335,11 @@ namespace GrandLarceny
 
 		private void updateStop(float a_deltaTime)
 		{
+			if (m_speed.Y != 0)
+			{
+				m_currentState = State.Jumping;
+				return;
+			}
 			if (Game.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
@@ -987,7 +992,7 @@ namespace GrandLarceny
 			}
 			if (a_collisionList.Count == 0 && m_collisionShape != null)
 			{
-				m_currentState = State.Jumping;
+		//		m_currentState = State.Jumping;
 			}
 			else
 			{
@@ -1293,6 +1298,10 @@ namespace GrandLarceny
 		{
 			base.changePositionType();
 			Game.getInstance().m_camera.getPosition().setParentPosition(m_position);
+			m_standHitBox.setPosition(m_position);
+			m_rollHitBox.setPosition(m_position);
+			m_SlideBox.setPosition(m_position);
+			m_hangHitBox.setPosition(m_position);
 		}
 		#endregion
 	}

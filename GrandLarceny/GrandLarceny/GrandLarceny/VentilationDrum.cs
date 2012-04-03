@@ -22,6 +22,12 @@ namespace GrandLarceny
 				if (Game.keyClicked(GameState.getActionKey()) && !t_player.isStunned())
 					if (Game.getInstance().m_camera.getLayer() == 0)
 					{
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.changePositionType();
+							t_player.setRotation(0);
+							t_player.getPosition().setParentPositionWithoutMoving(null);
+						}
 						Game.getInstance().getState().changeLayer(1);
 						t_player.setState(Player.State.Ventilation);
 						t_player.setNextPosition(m_position.getGlobalCartesianCoordinates());
@@ -32,7 +38,7 @@ namespace GrandLarceny
 					else if (Game.getInstance().m_camera.getLayer() == 1)
 					{
 						Game.getInstance().getState().changeLayer(0);
-						t_player.setState(Player.State.Stop);
+						t_player.setState(Player.State.Jumping);
 
 					}
 			}
