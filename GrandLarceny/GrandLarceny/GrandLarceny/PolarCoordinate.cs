@@ -133,6 +133,18 @@ namespace GrandLarceny
 		}
 		public override void setParentPositionWithoutMoving(Position a_parentPosition)
 		{
+			Position t_parent = a_parentPosition;
+			while (t_parent != null)
+			{
+				if (t_parent == this)
+				{
+					throw new ArgumentException("This parenting will cause an inheirt paradox");
+				}
+				else
+				{
+					t_parent = t_parent.getParentPosition();
+				}
+			}
 			if (a_parentPosition == null)
 			{
 				m_coordinates = getGlobalPolarCoordinates();

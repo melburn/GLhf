@@ -374,5 +374,19 @@ namespace GrandLarceny
 		{
 			return m_currentLevel;
 		}
+
+		public override void moveObjectToLayer(GameObject a_go, int a_layer)
+		{
+			for (int i = 0; i < 5; ++i)
+			{
+				if (m_gameObjectList[i].Contains(a_go))
+				{
+					addObject(a_go, a_layer);
+					removeObject(a_go, i); 
+					return;
+				}
+			}
+			throw new ArgumentException(a_go + " was not found");
+		}
 	}
 }

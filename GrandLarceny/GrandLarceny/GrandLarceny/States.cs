@@ -84,5 +84,10 @@ namespace GrandLarceny
 		{
 			return m_loaded;
 		}
+
+		public virtual void moveObjectToLayer(GameObject a_go, int a_layer)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

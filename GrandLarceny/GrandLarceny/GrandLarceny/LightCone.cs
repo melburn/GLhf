@@ -35,7 +35,7 @@ namespace GrandLarceny
 			m_imgOffsetY = -m_rotationPoint.Y * m_YScale;
 		}
 
-		public void setRotation(float a_rotation)
+		public override void setRotation(float a_rotation)
 		{
 			if (m_rotate != a_rotation)
 			{

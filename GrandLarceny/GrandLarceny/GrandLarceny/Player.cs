@@ -221,7 +221,7 @@ namespace GrandLarceny
 						}
 					case State.Ventilation:
 						{
-							updateVentilation();
+							updateVentilation(t_deltaTime);
 							break;
 						}
 					case State.Swinging:
@@ -666,19 +666,40 @@ namespace GrandLarceny
 
 		}
 
-		private void updateVentilation()
+		private void updateVentilation(float a_deltaTime)
 		{
 			m_speed = Vector2.Zero;
 			m_gravity = 0;
-			List<Direction> t_list = null;
-			foreach (Direction t_direction in m_ventilationDirection)
+			if (Game.getInstance().m_camera.getLayer() == 0)
 			{
-				t_list = moveDirectionInVentilation(t_direction);
-				if (t_list != null)
-					break;
+				if (Game.keyClicked(Keys.Up) || Game.keyClicked(Keys.Down))
+				{
+					Game.getInstance().m_camera.setLayer(1);
+					m_cameraPoint.X = 0;
+				}
+				else if(Game.isKeyPressed(GameState.getLeftKey()))
+				{
+					m_cameraPoint.X = Math.Max(m_cameraPoint.X - (500 * a_deltaTime), -1000);
+				}
+				else if (Game.isKeyPressed(GameState.getRightKey()))
+				{
+					m_cameraPoint.X = Math.Min(m_cameraPoint.X + (500 * a_deltaTime), 1000);
+				}
 			}
-			if (t_list != null)
-				m_ventilationDirection = t_list;
+			else
+			{
+				List<Direction> t_list = null;
+				foreach (Direction t_direction in m_ventilationDirection)
+				{
+					t_list = moveDirectionInVentilation(t_direction);
+					if (t_list != null)
+						break;
+				}
+				if (t_list != null)
+				{
+					m_ventilationDirection = t_list;
+				}
+			}
 		}
 		private List<Direction> moveDirectionInVentilation(Direction a_direction)
 		{
