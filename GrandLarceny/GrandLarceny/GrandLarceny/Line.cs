@@ -35,8 +35,25 @@ namespace GrandLarceny
 			m_worldLine = a_worldLine;
 		}
 
+		public Position getEndPoint() {
+			return m_endPosition;
+		}
+
+		public Position getStartPoint() {
+			return m_startPosition;
+		}
+
 		public void setEndpoint(Vector2 a_endPoint) {
 			m_endPosition = new CartesianCoordinate(a_endPoint + m_endOffset);
+		}
+
+		public void setEndpoint(Position a_position) {
+			m_endPosition = a_position;
+		}
+
+		public void setEndpoint(Position a_position, Vector2 a_offset) {
+			m_endPosition.setParentPosition(a_position);
+			m_endOffset = a_offset;
 		}
 
 		public void setStartPoint(Vector2 a_startPoint)

@@ -91,7 +91,7 @@ namespace GrandLarceny
 				}
 				else
 				{	
-					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && Game.isKeyPressed(GameState.getUpKey()))
+					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && Game.keyClicked(GameState.getUpKey()))
 					{
 						t_player.setNextPositionY(m_position.getGlobalY());	
 						t_player.setState(Player.State.Hanging);
@@ -103,8 +103,8 @@ namespace GrandLarceny
 					}
 				}
 					
-				if (Game.isKeyPressed(GameState.getActionKey()) && !t_player.isStunned()
-					&& (t_player.getLastState() == Player.State.Hanging || t_player.getLastState() == Player.State.Stop || t_player.getLastState() == Player.State.Walking))
+				if (Game.keyClicked(GameState.getActionKey()) && !t_player.isStunned()
+					&& (t_player.getCurrentState() == Player.State.Hanging || t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
 				{
 					if(t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
 						t_player.windowAction();

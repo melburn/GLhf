@@ -134,6 +134,7 @@
     <Compile Include="Events\Effects\EventEffect.cs" />
     <Compile Include="Events\Triggers\SwitchTrigger.cs" />
     <Compile Include="Foreground.cs" />
+    <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />
     <Compile Include="Events\Triggers\EventTrigger.cs" />

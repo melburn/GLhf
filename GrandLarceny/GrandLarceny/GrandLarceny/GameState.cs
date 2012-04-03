@@ -79,11 +79,11 @@ namespace GrandLarceny
 						else if (t_input[0].Equals("Right"))
 							m_rightKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Jump"))
-							m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+							m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Roll"))
-							m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+							m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Action"))
-							m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+							m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else
 							System.Console.WriteLine("Unknown keybinding found!");
 						break;
@@ -366,7 +366,7 @@ namespace GrandLarceny
 				}
 			}
 		}
-		public LinkedList<Event> getEvents()
+		internal LinkedList<Event> getEvents()
 		{
 			return m_events;
 		}

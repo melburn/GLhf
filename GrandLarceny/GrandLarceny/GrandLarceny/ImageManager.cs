@@ -92,7 +92,7 @@ namespace GrandLarceny
 
 		public bool setSprite(string a_sprite)
 		{
-			if (a_sprite == null)
+			if (a_sprite == null || a_sprite.Equals(""))
 			{
 				m_image = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 				Color t_color = Color.Black;
