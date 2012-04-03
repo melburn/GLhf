@@ -6,7 +6,7 @@ using System.Text;
 namespace GrandLarceny.Events
 {
 	[Serializable()]
-	class Event
+	public class Event
 	{
 		private LinkedList<EventTrigger> m_triggers;
 		private LinkedList<EventEffect> m_effects;
