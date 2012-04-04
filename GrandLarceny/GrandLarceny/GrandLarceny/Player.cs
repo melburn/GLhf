@@ -1309,7 +1309,7 @@ namespace GrandLarceny
 			{
 				if(((Guard)a_enemy).isFacingRight())
 				{
-					t_enemyQX = t_eneX + a_enemy.getHitBox().getOutBox().Width +10;
+					t_enemyQX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
 				} 
 				else 
 				{
@@ -1319,14 +1319,14 @@ namespace GrandLarceny
 			float t_myQX = 0;
 			if (m_facingRight)
 			{
-				t_myQX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width + 10;
+				t_myQX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
 			}
 			else
 			{
 				t_myQX = m_position.getGlobalX() - 10;
 			}
-			string[] t_commands = {"addParticle:"+t_myQX+":"+(m_position.getGlobalY()-5)+":"+"Images//Sprite//Guard//qmark"+":"+10f+":"+a_enemy.getLayer()
-									  ,"addParticle:"+t_enemyQX+":"+(t_eneY-5)+":"+"Images//Sprite//Guard//qmark"+":"+10f+":"+a_enemy.getLayer()
+			string[] t_commands = {"addParticle:"+t_myQX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
+									  ,"addParticle:"+t_enemyQX+":"+(t_eneY-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
 									  ,  "setCamera:"+ t_diffX+":"+ t_diffY+":"+1000};
 			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
 			Game.getInstance().setState(t_cutScene);
