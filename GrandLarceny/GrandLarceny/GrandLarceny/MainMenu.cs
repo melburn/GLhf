@@ -11,7 +11,8 @@ namespace GrandLarceny
 {
 	class MainMenu : MenuState
 	{
-		string[] m_levelList;
+		private string[] m_levelList;
+
 		public override void load()
 		{
 			base.load();

@@ -180,55 +180,55 @@ namespace GrandLarceny
 				switch (m_currentState)
 				{
 					case State.Stop:
-						{
-							updateStop(t_deltaTime);
-							break;
-						}
+					{
+						updateStop(t_deltaTime);
+						break;
+					}
 					case State.Walking:
-						{
-							updateWalking(t_deltaTime);
-							break;
-						}
+					{
+						updateWalking(t_deltaTime);
+						break;
+					}
 					case State.Jumping:
-						{
-							updateJumping(t_deltaTime);
-							break;
-						}
+					{
+						updateJumping(t_deltaTime);
+						break;
+					}
 					case State.Slide:
-						{
-							updateSliding(t_deltaTime);
-							break;
-						}
+					{
+						updateSliding(t_deltaTime);
+						break;
+					}
 					case State.Climbing:
-						{
-							updateClimbing();
-							break;
-						}
+					{
+						updateClimbing();
+						break;
+					}
 					case State.Rolling:
-						{
-							updateRolling(t_deltaTime);
-							break;
-						}
+					{
+						updateRolling(t_deltaTime);
+						break;
+					}
 					case State.Hanging:
-						{
-							updateHanging();
-							break;
-						}
+					{
+						updateHanging();
+						break;
+					}
 					case State.Hiding:
-						{
-							updateHiding(t_deltaTime);
-							break;
-						}
+					{
+						updateHiding(t_deltaTime);
+						break;
+					}
 					case State.Ventilation:
-						{
-							updateVentilation(t_deltaTime);
-							break;
-						}
+					{
+						updateVentilation(t_deltaTime);
+						break;
+					}
 					case State.Swinging:
-						{
-							updateSwinging(t_deltaTime);
-							break;
-						}
+					{
+						updateSwinging(t_deltaTime);
+						break;
+					}
 				}
 			else
 			{
@@ -318,10 +318,7 @@ namespace GrandLarceny
 					else if (m_stunnedState == State.Slide)
 						m_collisionShape = m_SlideBox;
 					else
-					{
 						m_collisionShape = m_standHitBox;
-					}
-					
 				}
 				if (m_currentState == State.Stop)
 				{
@@ -343,10 +340,9 @@ namespace GrandLarceny
 			if (Game.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
-
 				return;
 			}
-			if ((Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
+			if (   (Game.isKeyPressed(GameState.getLeftKey())  && !Game.isKeyPressed(GameState.getRightKey()))
 				|| (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey())))
 			{
 				m_currentState = State.Walking;
@@ -364,10 +360,7 @@ namespace GrandLarceny
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
-
 			}
-
-
 		}
 
 		private void updateWalking(float a_deltaTime)
@@ -914,10 +907,9 @@ namespace GrandLarceny
 					setSprite(m_currentHidingImage);
 					break;
 				}
-
 			}
-			
 		}
+
 		private void updateState()
 		{
 			if (m_currentState != m_lastState)
