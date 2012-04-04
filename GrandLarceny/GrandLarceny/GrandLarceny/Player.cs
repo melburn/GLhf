@@ -1000,6 +1000,16 @@ namespace GrandLarceny
 				{
 					m_rope = null;
 				}
+				if (m_currentState == State.Swinging)
+				{
+					m_rotationPoint.Y = 0;
+					m_imgOffsetX = -m_img.getSize().X / 2;
+				}
+				else if (m_lastState == State.Swinging)
+				{
+					m_imgOffsetX = 0;
+					m_rotationPoint.Y = m_img.getSize().Y / 2;
+				}
 			}
 		}
 		#endregion
