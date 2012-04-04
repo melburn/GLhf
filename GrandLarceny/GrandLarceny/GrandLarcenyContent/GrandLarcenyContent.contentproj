@@ -710,13 +710,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\corridor_backdrop_spot.png">
-      <Name>corridor_backdrop_spot</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Background\corridor_backdrop_nospot.png">
       <Name>corridor_backdrop_nospot</Name>
       <Importer>TextureImporter</Importer>
@@ -1056,13 +1049,6 @@
   <ItemGroup>
     <Compile Include="Images\Prop\DuckHide\table_with_things.png">
       <Name>table_with_things</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\corridor_backdrop_nospot2.png">
-      <Name>corridor_backdrop_nospot2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
