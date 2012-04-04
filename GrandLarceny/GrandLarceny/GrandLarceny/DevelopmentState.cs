@@ -1095,11 +1095,7 @@ namespace GrandLarceny
 					} else if (m_selectedObject is Rope) {
 						((Rope)m_selectedObject).setEndpoint(new CartesianCoordinate(getTile(m_worldMouse) + new Vector2(36, 72)));
 					} else if (m_selectedObject is GuardCamera) {
-						if (m_worldMouse.X > m_selectedObject.getPosition().getGlobalX()) {
-							setGuardPoint((GuardCamera)m_selectedObject, true);
-						} else {
-							setGuardPoint((GuardCamera)m_selectedObject, false);
-						}
+						setGuardPoint((GuardCamera)m_selectedObject, m_worldMouse.X > m_selectedObject.getPosition().getGlobalX());
 					}
 					m_dragLine = null;
 				} else {
