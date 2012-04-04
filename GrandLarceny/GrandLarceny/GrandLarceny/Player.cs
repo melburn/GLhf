@@ -641,12 +641,9 @@ namespace GrandLarceny
 				m_currentState = State.Stop;
 			}
 
-			float t_cameraXPos = 0;
-			
-
 			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
 			{
-
+				float t_cameraXPos = 0;
 				if (Game.isKeyPressed(GameState.getRightKey()))
 				{
 					t_cameraXPos = 500;
@@ -659,7 +656,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (t_cameraXPos * 1.5f * a_deltaTime), 0), 0);
+				m_cameraPoint.X = 0;
 			}
 
 			
@@ -684,6 +681,10 @@ namespace GrandLarceny
 				else if (Game.isKeyPressed(GameState.getRightKey()))
 				{
 					m_cameraPoint.X = Math.Min(m_cameraPoint.X + (500 * a_deltaTime), 1000);
+				}
+				else
+				{
+					m_cameraPoint.X = 0;
 				}
 			}
 			else

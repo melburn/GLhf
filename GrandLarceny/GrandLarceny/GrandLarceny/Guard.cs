@@ -23,7 +23,7 @@ namespace GrandLarceny
         private const float MOVEMENTSPEED = 150;
 		private const float CHASINGSPEED = 450;
 		private const float WALKINGANIMATIONSPEED = MOVEMENTSPEED / 16;
-		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 16;
+		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 25;
 		private const float TURNANIMATIONSPEED = 10f;
 		private const float TURNQUICKANIMATIONSPEED = 50f;
 
@@ -147,8 +147,7 @@ namespace GrandLarceny
 							{
 								m_speed.X = CHASINGSPEED;
 								m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-								m_img.setSprite("Images//Sprite//Guard//guard_walk");
-								//TODO SPRING
+								m_img.setSprite("Images//Sprite//Guard//guard_run");
 							}
 							else
 							{
@@ -258,8 +257,7 @@ namespace GrandLarceny
 						{
 							m_speed.X = -CHASINGSPEED;
 							m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-							m_img.setSprite("Images//Sprite//Guard//guard_walk");
-							//TODO Spring
+							m_img.setSprite("Images//Sprite//Guard//guard_run");
 						}
 						else
 						{
