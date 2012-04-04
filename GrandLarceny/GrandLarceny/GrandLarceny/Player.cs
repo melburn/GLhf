@@ -114,11 +114,11 @@ namespace GrandLarceny
 			base.loadContent();
 			m_health = 3;
 			m_healthHearts = new GuiObject[3];
-			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[0]);
-			m_healthHearts[1] = new GuiObject(new Vector2(200, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			m_healthHearts[1] = new GuiObject(new Vector2(200, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
-			m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_stand");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_walk");
@@ -555,7 +555,6 @@ namespace GrandLarceny
 
 		private void updateRolling(float a_deltaTime)
 		{
-
 			if (m_facingRight)
 			{
 				m_speed.X = ROLLSPEED;
@@ -726,7 +725,7 @@ namespace GrandLarceny
 				case Direction.Left:
 				{
 					m_currentVentilationImage = "hero_ventilation_idle";
-					if (Game.isKeyPressed(GameState.getLeftKey()))
+					if (Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
 					{
 						m_speed.X = -PLAYERSPEED;
 						t_list = m_leftRightList;
@@ -754,7 +753,7 @@ namespace GrandLarceny
 				case Direction.Right:
 				{
 					m_currentVentilationImage = "hero_ventilation_idle";					
-					if (Game.isKeyPressed(GameState.getRightKey()))
+					if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
 					{
 						m_speed.X = PLAYERSPEED;
 						t_list = m_leftRightList;
@@ -1164,11 +1163,11 @@ namespace GrandLarceny
 			{
 				if (i + 1 <= m_health)
 				{
-					m_healthHearts[i].setSprite("DevelopmentHotkeys//btn_hero_hotkey_normal");
+					m_healthHearts[i].setSprite("GameGUI//health");
 				}
 				else
 				{
-					m_healthHearts[i].setSprite("DevelopmentHotkeys//btn_hero_hotkey_pressed");
+					m_healthHearts[i].setSprite("GameGUI//no_health");
 				}
 			}
 		}
