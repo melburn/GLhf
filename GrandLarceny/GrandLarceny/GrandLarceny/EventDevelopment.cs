@@ -118,6 +118,10 @@ namespace GrandLarceny
 					t_buttonPressed = true;
 				}
 			}
+			foreach (GuiObject t_go in m_guiList)
+			{
+				t_go.update(a_gameTime);
+			}
 			if (!t_buttonPressed)
 			{
 				if (m_state == State.firRectanglePoint && Game.lmbClicked())
@@ -182,6 +186,10 @@ namespace GrandLarceny
 					{
 						addEffect(new EquipEffect(t_text[0], bool.Parse(t_text[1])));
 						goUpOneState();
+					}
+					else
+					{
+						((TextField)(m_guiList.First())).setText("write instead name(string):equip(bool)");
 					}
 				}
 				else if (m_state == State.newDoorEffect && Game.lmbClicked())

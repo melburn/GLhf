@@ -113,10 +113,7 @@ namespace GrandLarceny
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			m_chaseTarget = t_player;
-			if (!t_player.isChase())
-			{
-				t_player.activateChaseMode();
-			}
+			
 		}
 
 		public override void kill()
