@@ -411,7 +411,7 @@ namespace GrandLarceny
 					m_selectedEffTri.setState(3);
 					if (m_triggers.ContainsKey(m_selectedEffTri) && m_triggers[m_selectedEffTri] is PlayerIsWithinRectangle)
 					{
-						((PlayerIsWithinRectangle)(m_triggers[m_selectedEffTri])).getRectangle(m_recLines);
+						m_recLines = ((PlayerIsWithinRectangle)(m_triggers[m_selectedEffTri])).getRectangle(m_recLines);
 					}
 				}
 			}
