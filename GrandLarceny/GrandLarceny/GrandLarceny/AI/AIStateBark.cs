@@ -59,7 +59,7 @@ namespace GrandLarceny.AI
 				}
 				else
 				{
-					if (t_guardDog.canSencePlayer())
+					if (t_guardDog.canSensePlayer())
 					{
 						t_guardDog.setChargePoint(Math.Sign(Game.getInstance().getState().getPlayer().getPosition().getGlobalX()
 							- t_guardDog.getPosition().getGlobalX()) * AIStateChargeing.CHARGEDISTANCE
