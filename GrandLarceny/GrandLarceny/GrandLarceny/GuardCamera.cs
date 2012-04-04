@@ -140,5 +140,13 @@ namespace GrandLarceny
 		{
 			return m_turnTimer <= 0;
 		}
+
+		public void setRightGuardPoint(Vector2 a_position) {
+			m_rightRotation = (float)Math.Atan2(m_position.getGlobalY() - a_position.Y, m_position.getGlobalX() - a_position.X);
+		}
+
+		public void setLeftGuardPoint(Vector2 a_position) {
+			m_leftRotation = (float)Math.Atan2(m_position.getGlobalY() - a_position.Y, m_position.getGlobalX() - a_position.X);			
+		}
 	}
 }
