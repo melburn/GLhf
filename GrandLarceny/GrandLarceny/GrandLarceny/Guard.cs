@@ -545,7 +545,7 @@ namespace GrandLarceny
 			m_chaseTarget = t_player;
 			if (!t_player.isChase())
 			{
-				t_player.activateChaseMode();
+				t_player.activateChaseMode(this);
 			}
 		}
 		internal override void collisionCheck(List<Entity> a_collisionList)

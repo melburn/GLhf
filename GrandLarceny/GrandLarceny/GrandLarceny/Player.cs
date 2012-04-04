@@ -1297,8 +1297,38 @@ namespace GrandLarceny
 			return m_rope;
 		}
 
-		public void activateChaseMode()
-		{
+		public void activateChaseMode(NPE a_enemy)
+		{ 
+			float t_eneX = a_enemy.getPosition().getGlobalX();
+			float t_eneY = a_enemy.getPosition().getGlobalY();
+			float t_diffX = (m_position.getGlobalX() + t_eneX) / 2;
+			float t_diffY = (m_position.getGlobalY() + t_eneY) / 2;
+			float t_enemyQX = 0;
+			if(a_enemy is Guard )
+			{
+				if(((Guard)a_enemy).isFacingRight())
+				{
+					t_enemyQX = t_eneX + a_enemy.getHitBox().getOutBox().Width +10;
+				} 
+				else 
+				{
+					t_enemyQX = t_eneX - 10;
+				}
+			}
+			float t_myQX = 0;
+			if (m_facingRight)
+			{
+				t_myQX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width + 10;
+			}
+			else
+			{
+				t_myQX = m_position.getGlobalX() - 10;
+			}
+			string[] t_commands = {"addParticle:"+t_myQX+":"+(m_position.getGlobalY()-5)+":"+"Images//Sprite//Guard//qmark"+":"+10f+":"+a_enemy.getLayer()
+									  ,"addParticle:"+t_enemyQX+":"+(t_eneY-5)+":"+"Images//Sprite//Guard//qmark"+":"+10f+":"+a_enemy.getLayer()
+									  ,  "setCamera:"+ t_diffX+":"+ t_diffY+":"+1000};
+			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
+			Game.getInstance().setState(t_cutScene);
 			m_chase = true;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			setIsInLight(true);
@@ -1311,6 +1341,7 @@ namespace GrandLarceny
 
 		private void activateNormalMode()
 		{
+
 			m_chase = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
 			setIsInLight(false);
