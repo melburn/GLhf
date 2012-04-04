@@ -69,25 +69,6 @@ namespace GrandLarceny
 			m_guiList = new LinkedList<GuiObject>();
 			m_buttonsToAdd = new Stack<Button>();
 			m_buttonsToRemove = new Stack<Button>();
-			Button t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(0, 0), "No more event plz", null, Color.Red, new Vector2(10, 10));
-			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(exitState);
-			m_buttonList.AddFirst(t_buttonToAdd);
-
-			t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(800, 650), "Add Eve", null, Color.Black, new Vector2(5, 5));
-			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEvent);
-			m_buttonList.AddFirst(t_buttonToAdd);
-
-			t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(700, 650), "Delete", null, Color.Black, new Vector2(10, 5));
-			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(deleteSelected);
-			m_buttonList.AddFirst(t_buttonToAdd);
-
-			t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 650), "Add Eff", null, Color.Black, new Vector2(10, 5));
-			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEffect);
-			m_buttonList.AddFirst(t_buttonToAdd);
-
-			t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(500, 650), "Add Tri", null, Color.Black, new Vector2(10, 5));
-			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addTrigger);
-			m_buttonList.AddFirst(t_buttonToAdd);
 
 			m_eventsToRemove = new Stack<Button>();
 			m_eventsToAdd = new Stack<Event>();
@@ -100,6 +81,26 @@ namespace GrandLarceny
 			{
 				addEvent(t_e);
 			}
+		}
+
+		public override void load()
+		{
+			Button t_buttonToAdd = new Button("dev_bg_info", "dev_bg_info", "dev_bg_info", "dev_bg_info", new Vector2(0, 0), "No more event plz", null, Color.Red, new Vector2(10, 10));
+			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(exitState);
+			m_buttonList.AddFirst(t_buttonToAdd);
+
+			m_buttonList.AddFirst(t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(800, 650), "Add Eve", null, Color.Black, new Vector2(5, 5)));
+			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEvent);
+
+			m_buttonList.AddFirst(t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(700, 650), "Delete", null, Color.Black, new Vector2(10, 5)));
+			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(deleteSelected);
+			
+			m_buttonList.AddFirst(t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(600, 650), "Add Eff", null, Color.Black, new Vector2(10, 5)));
+			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addEffect);
+
+			m_buttonList.AddFirst(t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(500, 650), "Add Tri", null, Color.Black, new Vector2(10, 5)));
+			t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addTrigger);
+			base.load();
 		}
 
 		public void addEvent(Event t_e)

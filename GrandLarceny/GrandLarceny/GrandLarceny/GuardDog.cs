@@ -42,7 +42,7 @@ namespace GrandLarceny
 			m_gravity = 1000;
 		}
 
-		internal bool canSencePlayer()
+		internal bool canSensePlayer()
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			return t_player != null &&
