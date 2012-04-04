@@ -437,9 +437,7 @@ namespace GrandLarceny
 				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
 				t_player.getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
 				t_player.getPosition().getGlobalY() >= m_position.getGlobalY() - 200 &&
-				CollisionManager.possibleLineOfSight(
-				t_player.getPosition().getGlobalCartesianCoordinates() + (t_player.getImg().getSize() / new Vector2(2, 4)),
-				m_position.getGlobalCartesianCoordinates() + (m_img.getSize() / 2));
+				canSeePoint(t_player.getPosition().getGlobalCartesianCoordinates() + (t_player.getImg().getSize() / new Vector2(2, 4)));
 		}
 
 		public bool isFacingRight()
@@ -565,12 +563,13 @@ namespace GrandLarceny
 					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
 					{
 						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+						stop();
 					}
 					else if (m_speed.X > 0 && m_position.getGlobalX() < t_collision.getPosition().getGlobalX())
 					{
 						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+						stop();
 					}
-					stop();
 				}
 				else if (t_collision is Platform)
 				{
@@ -579,12 +578,13 @@ namespace GrandLarceny
 						if (m_speed.X < 0)
 						{
 							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+							stop();
 						}
 						else if (m_speed.X > 0)
 						{
 							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+							stop();
 						}
-						stop();
 					}
 					else
 					{
