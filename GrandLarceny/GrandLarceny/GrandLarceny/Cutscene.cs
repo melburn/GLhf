@@ -14,13 +14,14 @@ namespace GrandLarceny
 		private States m_backState;
 		private String[] m_commands;
 		private int m_comDone;
-		private double m_timeForNextCommand;
+		private float m_timeForNextCommand;
 		private bool m_waiting;
 		private String[] m_currentCommand;
 		private Dictionary<int, GuiObject> m_guis;
 		private LinkedList<GameObject> m_objects;
 		private Stack<GameObject> m_deleteList;
 
+		private float m_timeStart;
 		private Vector2 m_cameraMoveTo;
 		private Position m_oldCamPar;
 
@@ -73,7 +74,7 @@ namespace GrandLarceny
 				}
 				else if (m_currentCommand[0].Equals("setCamera", StringComparison.OrdinalIgnoreCase))
 				{
-					float t_moveDeltaTime = (float)(m_timeForNextCommand - a_gameTime.TotalGameTime.TotalMilliseconds) / float.Parse(m_currentCommand[3]);
+					float t_moveDeltaTime = ( (float)a_gameTime.TotalGameTime.TotalMilliseconds - m_timeStart) / (m_timeForNextCommand - m_timeStart);
 					Position t_camera = Game.getInstance().m_camera.getPosition();
 					t_camera.setGlobalCartesianCoordinates(Vector2.SmoothStep(t_camera.getGlobalCartesianCoordinates(), m_cameraMoveTo, t_moveDeltaTime));
 					if (m_timeForNextCommand <= a_gameTime.TotalGameTime.TotalMilliseconds)
@@ -126,7 +127,7 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_timeForNextCommand = a_gameTime.TotalGameTime.TotalMilliseconds + int.Parse(m_commands[1]);
+				m_timeForNextCommand = (float)a_gameTime.TotalGameTime.TotalMilliseconds + float.Parse(m_commands[1]);
 				return false;
 			}
 			else if (m_currentCommand[0].Equals("addGUI", StringComparison.OrdinalIgnoreCase))
@@ -178,7 +179,8 @@ namespace GrandLarceny
 				}
 				m_waiting = true;
 				m_cameraMoveTo = new Vector2(float.Parse(m_currentCommand[1]), float.Parse(m_currentCommand[2]));
-				m_timeForNextCommand = a_gameTime.TotalGameTime.TotalMilliseconds + int.Parse(m_currentCommand[3]);
+				m_timeForNextCommand = (float)a_gameTime.TotalGameTime.TotalMilliseconds + float.Parse(m_currentCommand[3]);
+				m_timeStart = (float)a_gameTime.TotalGameTime.TotalMilliseconds;
 				return false;
 			}
 			else if (m_currentCommand[0].Equals("addParticle", StringComparison.OrdinalIgnoreCase))
@@ -189,14 +191,18 @@ namespace GrandLarceny
 				}
 				m_objects.AddLast(new Particle(new Vector2(float.Parse(m_currentCommand[1]),float.Parse(m_currentCommand[2])),m_currentCommand[3],float.Parse(m_currentCommand[4]),float.Parse(m_currentCommand[5])));
 			}
-			else if (m_currentCommand[0].Equals("addCinemaDramatic", StringComparison.OrdinalIgnoreCase))
+			else if (m_currentCommand[0].Equals("addCinematic", StringComparison.OrdinalIgnoreCase))
 			{
-				if (m_currentCommand.Length == 1)
-				{
-					throw new ParseException();
-				}
-				Particle tBox = new Particle(new Vector2(float.Parse(m_currentCommand[1]), float.Parse(m_currentCommand[2])), m_currentCommand[3], float.Parse(m_currentCommand[4]), float.Parse(m_currentCommand[5]));
-				m_objects.AddLast(tBox);
+
+				int t_BoxWidth = Game.getInstance().m_graphics.PreferredBackBufferWidth * 2;
+				int t_BoxHeight = Game.getInstance().m_graphics.PreferredBackBufferHeight / 5;
+				int t_windowHeight = Game.getInstance().m_graphics.PreferredBackBufferHeight;
+				Box tBoxTop = new Box(new Vector2(0, 0),t_BoxWidth ,t_BoxHeight , Color.Black, false);
+				m_objects.AddLast(tBoxTop);
+				tBoxTop.setMove(new Vector2(-t_BoxWidth / 2, -t_windowHeight / 2 - t_BoxHeight), new Vector2(-t_BoxWidth / 2, -t_windowHeight/2), a_gameTime, 0.1f);
+				Box tBoxBottom = new Box(new Vector2(0, Game.getInstance().m_graphics.PreferredBackBufferHeight - t_BoxHeight), t_BoxWidth, t_BoxHeight, Color.Black, false);
+				m_objects.AddLast(tBoxBottom);
+				tBoxBottom.setMove(new Vector2(-t_BoxWidth / 2, t_windowHeight / 2 ), new Vector2(-t_BoxWidth / 2, t_windowHeight/2 - t_BoxHeight), a_gameTime, 0.1f);
 				
 			}
 			else

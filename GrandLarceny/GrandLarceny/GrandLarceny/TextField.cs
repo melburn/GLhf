@@ -239,5 +239,10 @@ namespace GrandLarceny
 				}
 			}
 		}
+
+		public void setWrite(bool a_active)
+		{
+			m_writing = a_active;
+		}
 	}
 }
