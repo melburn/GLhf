@@ -132,6 +132,7 @@
     <Compile Include="Events\Effects\EquipEffect.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\Effects\EventEffect.cs" />
+    <Compile Include="Events\Triggers\ChaseTrigger.cs" />
     <Compile Include="Events\Triggers\SwitchTrigger.cs" />
     <Compile Include="Foreground.cs" />
     <Compile Include="Music.cs" />

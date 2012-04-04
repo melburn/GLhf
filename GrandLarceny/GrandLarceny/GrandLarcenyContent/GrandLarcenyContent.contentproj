@@ -710,13 +710,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\corridor_backdrop_spot.png">
-      <Name>corridor_backdrop_spot</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Background\corridor_backdrop_nospot.png">
       <Name>corridor_backdrop_nospot</Name>
       <Importer>TextureImporter</Importer>
@@ -1061,13 +1054,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\corridor_backdrop_nospot2.png">
-      <Name>corridor_backdrop_nospot2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Tile\Wall\window_tile_middle_closed.png">
       <Name>window_tile_middle_closed</Name>
       <Importer>TextureImporter</Importer>
@@ -1138,6 +1124,20 @@
   <ItemGroup>
     <Compile Include="Images\Sprite\Hero\hero_damage.png">
       <Name>hero_damage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Wall\stone_wall_short_room_divider_top.png">
+      <Name>stone_wall_short_room_divider_top</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Wall\window_tile_middle_open.png">
+      <Name>window_tile_middle_open</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

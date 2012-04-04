@@ -531,7 +531,6 @@ namespace GrandLarceny
 						m_facingRight = true;
 						m_speed.X += PLAYERSPEED * 2f;
 					}
-
 				}
 				else
 				{
@@ -744,6 +743,7 @@ namespace GrandLarceny
 							}
 						}
 						m_currentVentilationImage = "hero_ventilation_horizontal";
+						m_facingRight = false;
 					}
 					break;
 				}
@@ -771,6 +771,7 @@ namespace GrandLarceny
 							}
 						}
 						m_currentVentilationImage = "hero_ventilation_horizontal";
+						m_facingRight = true;
 					}
 					break;
 				}

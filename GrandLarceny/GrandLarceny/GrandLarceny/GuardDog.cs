@@ -41,7 +41,11 @@ namespace GrandLarceny
 			m_aiState = AIStatepatroling.getInstance();
 			m_gravity = 1000;
 		}
-
+		public override void loadContent()
+		{
+			base.loadContent();
+			m_collisionShape = new CollisionRectangle(15, 30, m_img.getSize().X - 30, m_img.getSize().Y - 30, m_position);
+		}
 		internal bool canSensePlayer()
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
@@ -121,6 +125,10 @@ namespace GrandLarceny
 		internal void stop()
 		{
 			m_speed.X = 0;
+			if (m_aiState is AIStateChargeing)
+			{
+				m_aiState = AIStatepatroling.getInstance();
+			}
 		}
 		public override void update(GameTime a_gameTime)
 		{
@@ -233,13 +241,13 @@ namespace GrandLarceny
 			{
 				if (t_collision is Wall || t_collision is Window)
 				{
-					if (m_speed.X < 0)
+					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
 					{
-						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 					}
-					else if (m_speed.X > 0)
+					else if (m_speed.X > 0 && m_position.getGlobalX() < t_collision.getPosition().getGlobalX())
 					{
-						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 					}
 					stop();
 				}
@@ -249,11 +257,11 @@ namespace GrandLarceny
 					{
 						if (m_speed.X < 0)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 						}
 						else if (m_speed.X > 0)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 						}
 						stop();
 					}

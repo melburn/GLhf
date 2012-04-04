@@ -181,31 +181,32 @@ namespace GrandLarceny.AI
 				}
 				else
 				{
-					if (t_gc.getRotation() < t_gc.getLeftRotationPoint())
+					if (t_gc.getRotation() < t_gc.getLeftRotationPoint() && t_gc.getRotation() > t_gc.getRightRotationPoint())
 					{
 						if (t_gc.getRotationSpeed() == 0 && t_gc.isTurnReady())
 						{
-							t_gc.rotateRight();
-						}
-						else if (t_gc.getRotationSpeed() < 0)
-						{
-							t_gc.stop();
+							t_gc.rotateCounter();
 						}
 					}
-					else if (t_gc.getRotation() > t_gc.getRightRotationPoint())
+					else
 					{
+						float t_rotationGoal = ((t_gc.getLeftRotationPoint() + t_gc.getRightRotationPoint()) / 2f) % ((float)(Math.PI * 2));
+						bool t_goClock = (t_gc.getRotation() > t_rotationGoal + Math.PI) || ((t_gc.getRotation() > t_rotationGoal - Math.PI) && (t_gc.getRotation() < t_rotationGoal));
 						if (t_gc.getRotationSpeed() == 0 && t_gc.isTurnReady())
 						{
-							t_gc.rotateLeft();
+							if (t_goClock)
+							{
+								t_gc.rotateClockW();
+							}
+							else
+							{
+								t_gc.rotateCounter();
+							}
 						}
-						else if (t_gc.getRotationSpeed() > 0)
+						else if ((t_goClock && t_gc.getRotationSpeed() < 0) || ((!t_goClock) && t_gc.getRotationSpeed() > 0))
 						{
 							t_gc.stop();
 						}
-					}
-					else if (t_gc.getRotationSpeed() == 0)
-					{
-						t_gc.rotateLeft();
 					}
 					return this;
 				}
