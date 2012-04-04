@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
-	class Box
+	public class Box : Environment
 	{
 		private Position			m_position;
 		private Texture2D			m_boxTexture;
@@ -17,7 +17,9 @@ namespace GrandLarceny
 		private Color				m_boxColor;
 		private bool				m_worldBox;
 
-		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, bool a_worldBox) {
+		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, bool a_worldBox)
+		 :base(a_position, "", 0.11f)
+		{
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			if (a_worldBox) {
 				m_position	= new CartesianCoordinate(a_position - Game.getInstance().getResolution() / 2);
@@ -32,7 +34,9 @@ namespace GrandLarceny
 			m_boxTexture.SetData(new[] { a_color });
 		}
 
-		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, Color a_lineColor, int a_lineWidth, bool a_worldBox) {
+		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, Color a_lineColor, int a_lineWidth, bool a_worldBox)
+			:base(a_position, "", 0.11f)
+		{
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			m_boxTexture.SetData(new[] { a_color });
 			if (a_worldBox) {
@@ -68,7 +72,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void draw() {
+		public override void draw(GameTime a_gameTime) {
 			if (m_worldBox) {
 				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, m_position.getGlobalCartesianCoordinates(), null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, 0.011f);
 				

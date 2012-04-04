@@ -98,17 +98,8 @@ namespace GrandLarceny.AI
 				GuardCamera t_gc = (GuardCamera)a_agent;
 				if (t_gc.canSeePlayer())
 				{
-					float t_currentRotation = t_gc.getRotation();
-
-					float t_pointDirection = t_gc.getPosition().getAngleTo(t_gc.getTarget().getPosition().getGlobalCartesianCoordinates());
-					if ((t_currentRotation + Math.PI > t_pointDirection && t_pointDirection < t_currentRotation) || t_pointDirection > t_currentRotation + Math.PI)
-					{
-						t_gc.rotateLeft();
-					}
-					else
-					{
-						t_gc.rotateRight();
-					}
+					float t_pointDirection = t_gc.getPosition().getAngleTo(t_gc.getTarget().getPosition().getGlobalCartesianCoordinates() + new Vector2(30,30));
+					t_gc.setRotation(t_pointDirection);
 					return this;
 				}
 				else
@@ -118,7 +109,7 @@ namespace GrandLarceny.AI
 			}
 			else
 			{
-				throw new ArgumentException("Only guards and dogs can chase");
+				throw new ArgumentException("Only guards, cameras and dogs can chase");
 			}
         }
     }
