@@ -724,5 +724,10 @@ namespace GrandLarceny
 		{
 			return m_guardFaceRight;
 		}
+
+		public bool canSeePoint(Vector2 a_point)
+		{
+			return CollisionManager.possibleLineOfSight(m_position.getGlobalCartesianCoordinates() + new Vector2(0, 10), a_point);
+		}
 	}
 }
