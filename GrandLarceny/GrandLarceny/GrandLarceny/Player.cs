@@ -614,6 +614,10 @@ namespace GrandLarceny
 				m_position.plusYWith(m_standHitBox.m_height - m_hangHitBox.m_height);
 				Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.m_height - m_hangHitBox.m_height));
 			}
+			/*else if (Game.keyClicked(GameState.getUpKey()))
+			{
+				hangClimbAction();
+			}*/
 			
 		}
 
@@ -1201,13 +1205,13 @@ namespace GrandLarceny
 				{
 					m_imgOffsetX = -4;
 					m_imgOffsetX -= m_standHitBox.m_width * 1.9f;
-					m_position.plusXWith(m_standHitBox.m_width * 1.8f);
+					m_position.plusXWith(m_standHitBox.m_width * 1.9f);
 					Game.getInstance().m_camera.getPosition().plusXWith(-m_standHitBox.m_width * 1.9f);
 				}
 				else
 				{
 					m_imgOffsetX = 4;
-					m_position.plusXWith(-m_standHitBox.m_width * 1.8f);
+					m_position.plusXWith(-m_standHitBox.m_width * 1.9f);
 					Game.getInstance().m_camera.getPosition().plusXWith(m_standHitBox.m_width * 1.9f);
 				}
 				setNextPositionX(m_position.getGlobalX());
@@ -1231,7 +1235,7 @@ namespace GrandLarceny
 			m_stunnedDeacceleration = false;
 			m_position.plusYWith(-m_standHitBox.m_height);
 			m_imgOffsetY = 0;
-			//setNextPositionY(m_position.getGlobalY() - m_standHitBox.m_height);
+			setNextPositionY(m_position.getGlobalY());
 			Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
 			if (m_facingRight)
 			{
@@ -1245,6 +1249,7 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.getPosition().plusXWith(m_standHitBox.m_width);
 				//m_imgOffsetX = m_standHitBox.m_width;
 			}
+			setNextPositionX(m_position.getGlobalX());
 			m_img.setAnimationSpeed(10);
 		}
 
