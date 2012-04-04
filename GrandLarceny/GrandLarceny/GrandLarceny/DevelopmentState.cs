@@ -1565,7 +1565,7 @@ namespace GrandLarceny
 		}
 		private void createCamera() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new GuardCamera(getTile(m_worldMouse), "Images//Sprite//Camera//" + assetToCreate, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.25), (float)(Math.PI * 0.75)));
+				addObject(new GuardCamera(getTile(m_worldMouse), "Images//Sprite//Camera//" + assetToCreate, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25)));
 		}
 		private void createWindow() {
 			 if (!collidedWithObject(m_worldMouse))

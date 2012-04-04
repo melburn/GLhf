@@ -377,15 +377,8 @@ namespace GrandLarceny
 			{
 				if (m_running)
 				{
-					if (m_flashLight == null)
-					{
-						m_img.setSprite("Images//Sprite//Guard//guard_walk");
-						m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
-					}
-					else
-					{
-						//m_img.setSprite(running with the flash);
-					}
+					m_img.setSprite("Images//Sprite//Guard//guard_walk");
+					m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
 					if (m_speed.X < 0)
 					{
 						m_speed.X = -CHASINGSPEED;
@@ -397,16 +390,6 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (m_flashLight == null)
-					{
-						m_img.setSprite("Images//Sprite//Guard//guard_walk");
-						m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
-					}
-					else
-					{
-						m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
-						m_flashLight.setSprite("Images//LightCone//light_guard_walk");
-					}
 					if (m_speed.X < 0)
 					{
 						m_speed.X = -MOVEMENTSPEED;
@@ -415,6 +398,15 @@ namespace GrandLarceny
 					{
 						m_speed.X = MOVEMENTSPEED;
 					}
+				}
+			}
+			if (m_running)
+			{
+				if (m_flashLight != null)
+				{
+					m_flashLight.kill();
+					m_flashLightId = 0;
+					m_flashLight = null;
 				}
 			}
 		}
@@ -571,11 +563,11 @@ namespace GrandLarceny
 					{
 						if (m_speed.X < 0)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 						}
 						else if (m_speed.X > 0)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 						}
 						stop();
 					}
