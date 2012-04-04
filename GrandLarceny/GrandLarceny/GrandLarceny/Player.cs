@@ -613,10 +613,7 @@ namespace GrandLarceny
 				m_position.plusYWith(m_standHitBox.m_height - m_hangHitBox.m_height);
 				Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.m_height - m_hangHitBox.m_height));
 			}
-			else if (Game.keyClicked(GameState.getUpKey()))
-			{
-				hangClimbAction();
-			}
+			
 		}
 
 		private void updateHiding(float a_deltaTime)
@@ -1143,7 +1140,7 @@ namespace GrandLarceny
 		{
 			if (m_invulnerableTimer == 0)
 			{
-				setSprite("hero_jump");
+				setSprite("hero_damage");
 				//deals 1 damage
 				m_currentState = State.Jumping;
 				m_health = Math.Max(m_health - 1, 0);
@@ -1153,8 +1150,6 @@ namespace GrandLarceny
 				m_stunnedDeacceleration = true;
 				m_speed = a_knockBackForce;
 				m_invulnerableTimer = 2f;
-				
-				
 			}
 		}
 
@@ -1324,7 +1319,8 @@ namespace GrandLarceny
 			{
 				t_myQX = m_position.getGlobalX() - 10;
 			}
-			string[] t_commands = {"addParticle:"+t_myQX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
+			string[] t_commands = {"addCinematic"
+									,"addParticle:"+t_myQX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
 									  ,"addParticle:"+t_enemyQX+":"+(t_eneY-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
 									  ,  "setCamera:"+ t_diffX+":"+ t_diffY+":"+1000};
 			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
