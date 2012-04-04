@@ -100,7 +100,7 @@ namespace GrandLarceny.AI
 			else if (a_agent is GuardDog)
 			{
 				GuardDog t_guardDog = (GuardDog)a_agent;
-				if (t_guardDog.canSencePlayer())
+				if (t_guardDog.canSensePlayer())
 				{
 					if (t_guardDog.isBarkingPrefered())
 					{

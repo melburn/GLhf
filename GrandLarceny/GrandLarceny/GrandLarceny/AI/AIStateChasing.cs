@@ -77,7 +77,7 @@ namespace GrandLarceny.AI
 			else if (a_agent is GuardDog)
 			{
 				GuardDog t_guardDog = (GuardDog)a_agent;
-				if (t_guardDog.canSencePlayer() && ! t_guardDog.isBarkingPrefered())
+				if (t_guardDog.canSensePlayer() && ! t_guardDog.isBarkingPrefered())
 				{
 					t_guardDog.forgetChaseTarget();
 					t_guardDog.setChargePoint(Math.Sign(Game.getInstance().getState().getPlayer().getPosition().getGlobalX() - t_guardDog.getPosition().getGlobalX()) * AIStateChargeing.CHARGEDISTANCE

@@ -96,6 +96,7 @@ namespace GrandLarceny
 				m_flashLightId = m_flashLight.getId();
 			}
 		}
+
 		public override void loadContent()
 		{
 			base.loadContent();
@@ -115,7 +116,21 @@ namespace GrandLarceny
 				m_flashLight.getPosition().setParentPosition(m_position);
 			}
 			m_facingRight = m_spriteEffects == SpriteEffects.None;
+
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_run");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_walk");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_walk");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_idle");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_turn");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_idle");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_pick_up_flash");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_put_down_flash");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_strike");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_turn");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//qmark");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//Exclmarks");
 		}
+
 		public void setLeftGuardPoint(float a_x)
 		{
 			m_leftPatrolPoint = a_x;
