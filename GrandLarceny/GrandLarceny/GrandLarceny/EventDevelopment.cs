@@ -53,7 +53,8 @@ namespace GrandLarceny
 			newEquip,
 			newSwitch,
 			selectSwitch,
-			newDoorEffect
+			newDoorEffect,
+			newChase
 		}
 
 		public EventDevelopment(DevelopmentState a_backState, LinkedList<Event> a_events)
@@ -193,6 +194,11 @@ namespace GrandLarceny
 						((TextField)(m_guiList.First())).setText("write instead name(string):equip(bool)");
 					}
 				}
+				else if (m_state == State.newChase && Game.keyClicked(Keys.Enter))
+				{
+					addTrigger(new ChaseTrigger(Boolean.Parse(((TextField)m_guiList.First.Value).getText())));
+					goUpOneState();
+				}
 				else if (m_state == State.newDoorEffect && Game.lmbClicked())
 				{
 					Vector2 t_mousePoint = calculateWorldMouse();
@@ -284,6 +290,11 @@ namespace GrandLarceny
 			if (m_state == State.newCutscene || m_state == State.newEquip)
 			{
 				m_state = State.newEffect;
+				m_guiList.RemoveFirst();
+			}
+			else if (m_state == State.newChase)
+			{
+				m_state = State.newChase;
 				m_guiList.RemoveFirst();
 			}
 			else if (m_state == State.newEffect)
@@ -461,17 +472,22 @@ namespace GrandLarceny
 				Button t_buttonToAdd;
 				LinkedList<Button> t_submenu = new LinkedList<Button>();
 
-				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(800, 600), "Player Within Rectangle", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(800, 600), "Rectangle", null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addRectangle);
 				m_buttonsToAdd.Push(t_buttonToAdd);
 				t_submenu.AddLast(t_buttonToAdd);
 
-				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(700, 600), "Player Within Circle", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(700, 600), "not done", null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addCircle);
 				m_buttonsToAdd.Push(t_buttonToAdd);
 				t_submenu.AddLast(t_buttonToAdd);
 
 				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(600, 600), "Switch/Button", null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addSwitch);
+				m_buttonsToAdd.Push(t_buttonToAdd);
+				t_submenu.AddLast(t_buttonToAdd);
+
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser_normal", "DevelopmentHotkeys//btn_layer_chooser_hover", "DevelopmentHotkeys//btn_layer_chooser_pressed", "DevelopmentHotkeys//btn_layer_chooser_toggle", new Vector2(500, 600), "Chase check", null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(addSwitch);
 				m_buttonsToAdd.Push(t_buttonToAdd);
 				t_submenu.AddLast(t_buttonToAdd);
@@ -520,6 +536,9 @@ namespace GrandLarceny
 
 				TextField t_textField = new TextField(new Vector2(300, 200), 200, 100, true, true, true, 0);
 
+				t_textField.setWrite(true);
+				t_textField.setText("write the filename of the cutscene");
+
 				m_guiList.AddFirst(t_textField);
 			}
 		}
@@ -531,6 +550,9 @@ namespace GrandLarceny
 				m_state = State.newEquip;
 
 				TextField t_textField = new TextField(new Vector2(300, 200), 200, 100, true, true, true, 0);
+
+				t_textField.setWrite(true);
+				t_textField.setText("write name(string):equip(bool)");
 
 				m_guiList.AddFirst(t_textField);
 			}
@@ -596,6 +618,20 @@ namespace GrandLarceny
 			if (m_state == State.newEffect)
 			{
 				m_state = State.newDoorEffect;
+			}
+		}
+		public void addChaseTrigger(Button a_care)
+		{
+			if (m_state == State.newTrigger)
+			{
+				m_state = State.newChase;
+				
+				TextField t_textField = new TextField(new Vector2(300, 200), 200, 100, true, true, true, 0);
+
+				t_textField.setWrite(true);
+				t_textField.setText("write bool");
+
+				m_guiList.AddFirst(t_textField);
 			}
 		}
 	}

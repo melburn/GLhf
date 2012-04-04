@@ -1095,11 +1095,7 @@ namespace GrandLarceny
 					} else if (m_selectedObject is Rope) {
 						((Rope)m_selectedObject).setEndpoint(new CartesianCoordinate(getTile(m_worldMouse) + new Vector2(36, 72)));
 					} else if (m_selectedObject is GuardCamera) {
-						if (m_worldMouse.X > m_selectedObject.getPosition().getGlobalX()) {
-							setGuardPoint((GuardCamera)m_selectedObject, true);
-						} else {
-							setGuardPoint((GuardCamera)m_selectedObject, false);
-						}
+						setGuardPoint((GuardCamera)m_selectedObject, m_worldMouse.X > m_selectedObject.getPosition().getGlobalX());
 					}
 					m_dragLine = null;
 				} else {
@@ -1586,7 +1582,7 @@ namespace GrandLarceny
 		}
 		private void createCamera() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new GuardCamera(getTile(m_worldMouse), "Images//Sprite//Camera//" + assetToCreate, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.25), (float)(Math.PI * 0.75)));
+				addObject(new GuardCamera(getTile(m_worldMouse), "Images//Sprite//Camera//" + assetToCreate, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25)));
 		}
 		private void createWindow() {
 			 if (!collidedWithObject(m_worldMouse))

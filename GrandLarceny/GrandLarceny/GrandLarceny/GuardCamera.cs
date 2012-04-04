@@ -16,7 +16,7 @@ namespace GrandLarceny
 		private float m_leftRotation;
 		private float m_rightRotation;
 		private float m_turnTimer;
-		private float m_turnStopTime = 1f;
+		private float m_turnStopTime = 0.5f;
 		private float m_rotationSpeed;
 		private Entity m_chaseTarget;
 		private const float ROTATIONSPEED = 0.7f;
@@ -84,12 +84,12 @@ namespace GrandLarceny
 			return m_rightRotation;
 		}
 
-		internal void rotateRight()
+		internal void rotateClockW()
 		{
 			m_rotationSpeed = ROTATIONSPEED;
 		}
 
-		internal void rotateLeft()
+		internal void rotateCounter()
 		{
 			m_rotationSpeed = -ROTATIONSPEED;
 		}
@@ -145,11 +145,11 @@ namespace GrandLarceny
 		}
 
 		public void setRightGuardPoint(Vector2 a_position) {
-			m_rightRotation = (float)Math.Atan2(m_position.getGlobalY() - a_position.Y, m_position.getGlobalX() - a_position.X);
+			m_rightRotation = m_position.getAngleTo(a_position);
 		}
 
 		public void setLeftGuardPoint(Vector2 a_position) {
-			m_leftRotation = (float)Math.Atan2(m_position.getGlobalY() - a_position.Y, m_position.getGlobalX() - a_position.X);			
+			m_leftRotation = m_position.getAngleTo(a_position);			
 		}
 	}
 }
