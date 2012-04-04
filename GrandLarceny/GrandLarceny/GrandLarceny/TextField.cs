@@ -115,7 +115,7 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime) {
 			m_textToShow.draw(a_gameTime);
-			m_box.draw();
+			m_box.draw(a_gameTime);
 		}
 
 		private void updateSweden(GameTime a_gameTime) {

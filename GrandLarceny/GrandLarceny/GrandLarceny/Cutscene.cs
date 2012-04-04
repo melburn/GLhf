@@ -189,6 +189,16 @@ namespace GrandLarceny
 				}
 				m_objects.AddLast(new Particle(new Vector2(float.Parse(m_currentCommand[1]),float.Parse(m_currentCommand[2])),m_currentCommand[3],float.Parse(m_currentCommand[4]),float.Parse(m_currentCommand[5])));
 			}
+			else if (m_currentCommand[0].Equals("addCinemaDramatic", StringComparison.OrdinalIgnoreCase))
+			{
+				if (m_currentCommand.Length == 1)
+				{
+					throw new ParseException();
+				}
+				Particle tBox = new Particle(new Vector2(float.Parse(m_currentCommand[1]), float.Parse(m_currentCommand[2])), m_currentCommand[3], float.Parse(m_currentCommand[4]), float.Parse(m_currentCommand[5]));
+				m_objects.AddLast(tBox);
+				
+			}
 			else
 			{
 				throw new ParseException();
