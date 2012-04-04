@@ -1136,8 +1136,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Hero\damage.png">
-      <Name>damage</Name>
+    <Compile Include="Images\Sprite\Hero\hero_damage.png">
+      <Name>hero_damage</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
