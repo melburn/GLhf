@@ -79,11 +79,11 @@ namespace GrandLarceny
 						else if (t_input[0].Equals("Right"))
 							m_rightKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Jump"))
-							m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+							m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Roll"))
-							m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+							m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Action"))
-							m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1].ToUpper());
+							m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else
 							System.Console.WriteLine("Unknown keybinding found!");
 						break;
@@ -93,6 +93,7 @@ namespace GrandLarceny
 							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
 						} else if (t_setting[0].Equals("ScreenHeight")) {
 							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
+							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
 						} else if (t_setting[0].Equals("Fullscreen")) {
 							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
 						}
@@ -366,13 +367,27 @@ namespace GrandLarceny
 				}
 			}
 		}
-		public LinkedList<Event> getEvents()
+		internal LinkedList<Event> getEvents()
 		{
 			return m_events;
 		}
 		public string getCurrentLevelName()
 		{
 			return m_currentLevel;
+		}
+
+		public override void moveObjectToLayer(GameObject a_go, int a_layer)
+		{
+			for (int i = 0; i < 5; ++i)
+			{
+				if (m_gameObjectList[i].Contains(a_go))
+				{
+					addObject(a_go, a_layer);
+					removeObject(a_go, i); 
+					return;
+				}
+			}
+			throw new ArgumentException(a_go + " was not found");
 		}
 	}
 }

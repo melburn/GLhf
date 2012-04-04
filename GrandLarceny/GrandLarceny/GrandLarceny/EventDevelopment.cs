@@ -118,6 +118,10 @@ namespace GrandLarceny
 					t_buttonPressed = true;
 				}
 			}
+			foreach (GuiObject t_go in m_guiList)
+			{
+				t_go.update(a_gameTime);
+			}
 			if (!t_buttonPressed)
 			{
 				if (m_state == State.firRectanglePoint && Game.lmbClicked())
@@ -182,6 +186,10 @@ namespace GrandLarceny
 					{
 						addEffect(new EquipEffect(t_text[0], bool.Parse(t_text[1])));
 						goUpOneState();
+					}
+					else
+					{
+						((TextField)(m_guiList.First())).setText("write instead name(string):equip(bool)");
 					}
 				}
 				else if (m_state == State.newDoorEffect && Game.lmbClicked())
@@ -260,7 +268,7 @@ namespace GrandLarceny
 			{
 				t_go.draw(a_gameTime);
 			}
-			if (m_state == State.secRectanglePoint)
+			if (m_state == State.secRectanglePoint || (m_selectedEffTri != null && m_triggers.ContainsKey(m_selectedEffTri) && m_triggers[m_selectedEffTri] is PlayerIsWithinRectangle))
 			{
 				foreach (Line t_l in m_recLines)
 				{
@@ -389,6 +397,10 @@ namespace GrandLarceny
 				if (m_selectedEffTri != null)
 				{
 					m_selectedEffTri.setState(3);
+					if (m_triggers.ContainsKey(m_selectedEffTri) && m_triggers[m_selectedEffTri] is PlayerIsWithinRectangle)
+					{
+						((PlayerIsWithinRectangle)(m_triggers[m_selectedEffTri])).getRectangle(m_recLines);
+					}
 				}
 			}
 		}

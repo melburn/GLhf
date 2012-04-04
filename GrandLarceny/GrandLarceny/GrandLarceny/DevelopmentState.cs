@@ -669,17 +669,13 @@ namespace GrandLarceny
 			}
 			else if (Game.keyClicked(Keys.D1)) {
 				setLayer(0);
-			}
-			else if (Game.keyClicked(Keys.D2)) {
+			} else if (Game.keyClicked(Keys.D2)) {
 				setLayer(1);
-			}
-			else if (Game.keyClicked(Keys.D3)) {
+			} else if (Game.keyClicked(Keys.D3)) {
 				setLayer(2);
-			}
-			else if (Game.keyClicked(Keys.D4)) {
+			} else if (Game.keyClicked(Keys.D4)) {
 				setLayer(3);
-			}
-			else if (Game.keyClicked(Keys.D5)) {
+			} else if (Game.keyClicked(Keys.D5)) {
 				setLayer(4);
 			}
 			/*
@@ -1046,8 +1042,15 @@ namespace GrandLarceny
 					if (m_selectedObject is Guard || m_selectedObject is GuardDog) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36)), new Vector2(36, 36), Vector2.Zero, Color.Green, 5, true);
-						} else if(m_dragLine != null) {
+						} else if (m_dragLine != null) {
 							m_dragLine.setEndpoint(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36));
+						}
+					}
+					if (m_selectedObject is Rope) {
+						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
+							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), new Vector2(36, 36), Vector2.Zero, Color.Black, 5, true);
+						} else if (m_dragLine != null) {
+							m_dragLine.setEndpoint(m_worldMouse);
 						}
 					}
 				}
@@ -1082,6 +1085,8 @@ namespace GrandLarceny
 							setGuardPoint((GuardDog)m_selectedObject, false);
 						}
 						showDogInfo((GuardDog)m_selectedObject);
+					} else if (m_selectedObject is Rope) {
+						((Rope)m_selectedObject).setEndpoint(new CartesianCoordinate(getTile(m_worldMouse) + new Vector2(36, 72)));
 					}
 					m_dragLine = null;
 				} else {

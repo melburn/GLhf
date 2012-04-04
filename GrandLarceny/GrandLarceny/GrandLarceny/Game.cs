@@ -45,8 +45,6 @@ namespace GrandLarceny
 		private Game()
 		{
 			m_graphics = new GraphicsDeviceManager(this);
-			//m_graphics.PreferredBackBufferWidth = 1280;
-			//m_graphics.PreferredBackBufferHeight = 720;
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
 
@@ -156,6 +154,11 @@ namespace GrandLarceny
 		public Progress getProgress()
 		{
 			return m_progress;
+		}
+
+		public static bool isKeyReleased(Keys a_key)
+		{
+			return m_currentKeyInput.IsKeyUp(a_key) && m_previousKeyInput.IsKeyDown(a_key);
 		}
 	}
 }
