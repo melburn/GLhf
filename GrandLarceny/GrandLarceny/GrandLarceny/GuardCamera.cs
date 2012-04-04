@@ -66,6 +66,9 @@ namespace GrandLarceny
 		public bool canSeePlayer()
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
+			if (t_player == null) {
+				return false;
+			}
 			return m_light != null &&
 				t_player.isInLight() &&
 				t_player.getCurrentState() != Player.State.Hiding &&

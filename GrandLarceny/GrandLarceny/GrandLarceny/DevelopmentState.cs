@@ -594,7 +594,7 @@ namespace GrandLarceny
 					m_objectPreview = null;
 					break;
 				case State.Player:
-					m_objectPreview = new Platform(m_worldMouse, "Images//Sprite//Hero//" + assetToCreate, 0.000f);
+					m_objectPreview = new Platform(m_worldMouse, "Images//Sprite//Hero//hero_idle", 0.000f);
 					break;
 				case State.SpotLight:
 					m_objectPreview = new Platform(m_worldMouse, "Images//LightCone//" + assetToCreate, 0.000f);
@@ -1258,8 +1258,10 @@ namespace GrandLarceny
 					break;
 				case State.Player:
 					m_textCurrentMode.setText("Create Hero");
-					createAssetList("Content//Images//Sprite//Hero//");
+					createAssetList(null);
 					m_btnHeroHotkey.setState(3);
+					m_objectPreview = new Platform(m_worldMouse, "Images//Sprite//Hero//hero_stand", 0.000f);
+					assetToCreate = "hero_stand";
 					break;
 				case State.None:
 					m_textCurrentMode.setText("Select");
