@@ -79,6 +79,10 @@ namespace GrandLarceny
 					{
 						t_player.hang(this);
 					}
+					else if (t_player.getCurrentState() == Player.State.Hanging && Game.keyClicked(GameState.getUpKey()))
+					{
+						t_player.hangClimbAction();
+					}
 				}
 			}
 		}

@@ -121,6 +121,7 @@
     <Compile Include="CollisionRectangle.cs" />
     <Compile Include="CollisionShape.cs" />
     <Compile Include="CollisionTriangle.cs" />
+    <Compile Include="CornerHang.cs" />
     <Compile Include="CornerVentilation.cs" />
     <Compile Include="CrossVentilation.cs" />
     <Compile Include="EventDevelopment.cs" />
