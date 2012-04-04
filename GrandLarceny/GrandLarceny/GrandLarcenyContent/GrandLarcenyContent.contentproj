@@ -710,13 +710,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\corridor_backdrop_spot.png">
-      <Name>corridor_backdrop_spot</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Background\corridor_backdrop_nospot.png">
       <Name>corridor_backdrop_nospot</Name>
       <Importer>TextureImporter</Importer>
@@ -1061,13 +1054,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\corridor_backdrop_nospot2.png">
-      <Name>corridor_backdrop_nospot2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Tile\Wall\window_tile_middle_closed.png">
       <Name>window_tile_middle_closed</Name>
       <Importer>TextureImporter</Importer>
@@ -1136,8 +1122,213 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Hero\damage.png">
-      <Name>damage</Name>
+    <Compile Include="Images\Sprite\Hero\hero_damage.png">
+      <Name>hero_damage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_cvent_hotkey_hover.png">
+      <Name>btn_cvent_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_cvent_hotkey_normal.png">
+      <Name>btn_cvent_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_cvent_hotkey_pressed.png">
+      <Name>btn_cvent_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_cvent_hotkey_toggle.png">
+      <Name>btn_cvent_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_foreground_hotkey_hover.png">
+      <Name>btn_foreground_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_foreground_hotkey_normal.png">
+      <Name>btn_foreground_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_foreground_hotkey_pressed.png">
+      <Name>btn_foreground_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_foreground_hotkey_toggle.png">
+      <Name>btn_foreground_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_lightswitch_hotkey_hover.png">
+      <Name>btn_lightswitch_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_lightswitch_hotkey_normal.png">
+      <Name>btn_lightswitch_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_lightswitch_hotkey_pressed.png">
+      <Name>btn_lightswitch_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_lightswitch_hotkey_toggle.png">
+      <Name>btn_lightswitch_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_ovent_hotkey_hover.png">
+      <Name>btn_ovent_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_ovent_hotkey_normal.png">
+      <Name>btn_ovent_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_ovent_hotkey_pressed.png">
+      <Name>btn_ovent_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_ovent_hotkey_toggle.png">
+      <Name>btn_ovent_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_rope_hotkey_hover.png">
+      <Name>btn_rope_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_rope_hotkey_normal.png">
+      <Name>btn_rope_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_rope_hotkey_pressed.png">
+      <Name>btn_rope_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_rope_hotkey_toggle.png">
+      <Name>btn_rope_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_svent_hotkey_hover.png">
+      <Name>btn_svent_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_svent_hotkey_normal.png">
+      <Name>btn_svent_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_svent_hotkey_pressed.png">
+      <Name>btn_svent_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_svent_hotkey_toggle.png">
+      <Name>btn_svent_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_tvent_hotkey_hover.png">
+      <Name>btn_tvent_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_tvent_hotkey_normal.png">
+      <Name>btn_tvent_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_tvent_hotkey_pressed.png">
+      <Name>btn_tvent_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_tvent_hotkey_toggle.png">
+      <Name>btn_tvent_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_window_hotkey_hover.png">
+      <Name>btn_window_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_window_hotkey_normal.png">
+      <Name>btn_window_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_window_hotkey_pressed.png">
+      <Name>btn_window_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_window_hotkey_toggle.png">
+      <Name>btn_window_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\GameGUI\health.png">
+      <Name>health</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\GameGUI\no_health.png">
+      <Name>no_health</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Wall\stone_wall_short_room_divider_top.png">
+      <Name>stone_wall_short_room_divider_top</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Wall\window_tile_middle_open.png">
+      <Name>window_tile_middle_open</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\corridor_backdrop_nospot_short.png">
+      <Name>corridor_backdrop_nospot_short</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

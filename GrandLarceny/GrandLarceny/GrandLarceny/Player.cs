@@ -114,11 +114,11 @@ namespace GrandLarceny
 			base.loadContent();
 			m_health = 3;
 			m_healthHearts = new GuiObject[3];
-			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[0]);
-			m_healthHearts[1] = new GuiObject(new Vector2(200, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			m_healthHearts[1] = new GuiObject(new Vector2(200, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
-			m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "DevelopmentHotkeys//btn_hero_hotkey_normal");
+			m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_stand");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_walk");
@@ -555,7 +555,6 @@ namespace GrandLarceny
 
 		private void updateRolling(float a_deltaTime)
 		{
-
 			if (m_facingRight)
 			{
 				m_speed.X = ROLLSPEED;
@@ -614,10 +613,11 @@ namespace GrandLarceny
 				m_position.plusYWith(m_standHitBox.m_height - m_hangHitBox.m_height);
 				Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.m_height - m_hangHitBox.m_height));
 			}
-			else if (Game.keyClicked(GameState.getUpKey()))
+			/*else if (Game.keyClicked(GameState.getUpKey()))
 			{
 				hangClimbAction();
-			}
+			}*/
+			
 		}
 
 		private void updateHiding(float a_deltaTime)
@@ -725,7 +725,7 @@ namespace GrandLarceny
 				case Direction.Left:
 				{
 					m_currentVentilationImage = "hero_ventilation_idle";
-					if (Game.isKeyPressed(GameState.getLeftKey()))
+					if (Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
 					{
 						m_speed.X = -PLAYERSPEED;
 						t_list = m_leftRightList;
@@ -753,7 +753,7 @@ namespace GrandLarceny
 				case Direction.Right:
 				{
 					m_currentVentilationImage = "hero_ventilation_idle";					
-					if (Game.isKeyPressed(GameState.getRightKey()))
+					if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
 					{
 						m_speed.X = PLAYERSPEED;
 						t_list = m_leftRightList;
@@ -1154,7 +1154,7 @@ namespace GrandLarceny
 		{
 			if (m_invulnerableTimer == 0)
 			{
-				setSprite("hero_jump");
+				setSprite("hero_damage");
 				//deals 1 damage
 				m_currentState = State.Jumping;
 				m_health = Math.Max(m_health - 1, 0);
@@ -1164,8 +1164,6 @@ namespace GrandLarceny
 				m_stunnedDeacceleration = true;
 				m_speed = a_knockBackForce;
 				m_invulnerableTimer = 2f;
-				
-				
 			}
 		}
 
@@ -1175,11 +1173,11 @@ namespace GrandLarceny
 			{
 				if (i + 1 <= m_health)
 				{
-					m_healthHearts[i].setSprite("DevelopmentHotkeys//btn_hero_hotkey_normal");
+					m_healthHearts[i].setSprite("GameGUI//health");
 				}
 				else
 				{
-					m_healthHearts[i].setSprite("DevelopmentHotkeys//btn_hero_hotkey_pressed");
+					m_healthHearts[i].setSprite("GameGUI//no_health");
 				}
 			}
 		}
@@ -1216,13 +1214,13 @@ namespace GrandLarceny
 				{
 					m_imgOffsetX = -4;
 					m_imgOffsetX -= m_standHitBox.m_width * 1.9f;
-					m_position.plusXWith(m_standHitBox.m_width * 1.8f);
+					m_position.plusXWith(m_standHitBox.m_width * 1.9f);
 					Game.getInstance().m_camera.getPosition().plusXWith(-m_standHitBox.m_width * 1.9f);
 				}
 				else
 				{
 					m_imgOffsetX = 4;
-					m_position.plusXWith(-m_standHitBox.m_width * 1.8f);
+					m_position.plusXWith(-m_standHitBox.m_width * 1.9f);
 					Game.getInstance().m_camera.getPosition().plusXWith(m_standHitBox.m_width * 1.9f);
 				}
 				setNextPositionX(m_position.getGlobalX());
@@ -1246,7 +1244,7 @@ namespace GrandLarceny
 			m_stunnedDeacceleration = false;
 			m_position.plusYWith(-m_standHitBox.m_height);
 			m_imgOffsetY = 0;
-			//setNextPositionY(m_position.getGlobalY() - m_standHitBox.m_height);
+			setNextPositionY(m_position.getGlobalY());
 			Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.m_height);
 			if (m_facingRight)
 			{
@@ -1260,6 +1258,7 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.getPosition().plusXWith(m_standHitBox.m_width);
 				//m_imgOffsetX = m_standHitBox.m_width;
 			}
+			setNextPositionX(m_position.getGlobalX());
 			m_img.setAnimationSpeed(10);
 		}
 
@@ -1335,7 +1334,8 @@ namespace GrandLarceny
 			{
 				t_myQX = m_position.getGlobalX() - 10;
 			}
-			string[] t_commands = {"addParticle:"+t_myQX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
+			string[] t_commands = {"addCinematic"
+									,"addParticle:"+t_myQX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
 									  ,"addParticle:"+t_enemyQX+":"+(t_eneY-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
 									  ,  "setCamera:"+ t_diffX+":"+ t_diffY+":"+1000};
 			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);

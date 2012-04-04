@@ -9,13 +9,18 @@ namespace GrandLarceny
 {
 	public class Box : Environment
 	{
-		private Position			m_position;
+		//private Position			m_position;
 		private Texture2D			m_boxTexture;
 		private int					m_width;
 		private int					m_height;
 		private LinkedList<Line>	m_lineList;
 		private Color				m_boxColor;
 		private bool				m_worldBox;
+
+		private Vector2 m_from;
+		private Vector2 m_to;
+		private float m_timer;
+		private float m_timeStart;
 
 		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, bool a_worldBox)
 		 :base(a_position, "", 0.11f)
@@ -120,6 +125,33 @@ namespace GrandLarceny
 
 		public int getWidth() {
 			return m_width;
+		}
+
+		public override void update(GameTime a_gameTime)
+		{
+			if (m_timer >= (float)a_gameTime.TotalGameTime.TotalMilliseconds)
+			{
+				/*m_from.X = m_position.getGlobalX();
+				m_to.X = m_position.getGlobalX();
+				m_from.Y += m_position.getGlobalY();
+				m_to.Y += m_position.getGlobalY();*/
+				float t_moveDelta = ((float)a_gameTime.TotalGameTime.TotalMilliseconds - m_timeStart) / (m_timer - m_timeStart);
+				Vector2 tLerp = Vector2.Lerp(m_from, m_to, t_moveDelta);
+				m_position.setLocalCartesianCoordinates(tLerp);
+			}
+			else if(m_timer > 0)
+			{
+				m_position.setLocalCartesianCoordinates(m_to);
+				m_timer = 0;
+			}
+		}
+
+		public void setMove(Vector2 a_from, Vector2 a_to, GameTime a_gameTime,float a_timer)
+		{
+			m_to = a_to;
+			m_from = a_from;
+			m_timer = (float)a_gameTime.TotalGameTime.TotalMilliseconds + a_timer*1000;
+			m_timeStart = (float)a_gameTime.TotalGameTime.TotalMilliseconds;
 		}
 	}
 }

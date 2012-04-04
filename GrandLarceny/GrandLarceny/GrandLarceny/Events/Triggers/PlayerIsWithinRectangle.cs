@@ -42,23 +42,21 @@ namespace GrandLarceny.Events.Triggers
 			return "Player within Rectangle";
 		}
 
-		public void getRectangle(Line[] a_lines)
+		public Line[] getRectangle(Line[] a_lines)
 		{
 			if (a_lines == null)
 			{
-				throw new ArgumentNullException();
+				a_lines = new Line[4];
 			}
 			else if (a_lines.Length != 4)
 			{
 				throw new ArgumentException();
 			}
-			else
-			{
-				setLineElement(a_lines, 0, new Vector2(m_x1, m_y1), new Vector2(m_x2, m_y1));
-				setLineElement(a_lines, 1, new Vector2(m_x1, m_y1), new Vector2(m_x1, m_y2));
-				setLineElement(a_lines, 2, new Vector2(m_x2, m_y1), new Vector2(m_x2, m_y2));
-				setLineElement(a_lines, 3, new Vector2(m_x1, m_y2), new Vector2(m_x2, m_y2));
-			}
+			setLineElement(a_lines, 0, new Vector2(m_x1, m_y1), new Vector2(m_x2, m_y1));
+			setLineElement(a_lines, 1, new Vector2(m_x1, m_y1), new Vector2(m_x1, m_y2));
+			setLineElement(a_lines, 2, new Vector2(m_x2, m_y1), new Vector2(m_x2, m_y2));
+			setLineElement(a_lines, 3, new Vector2(m_x1, m_y2), new Vector2(m_x2, m_y2));
+			return a_lines;
 		}
 
 		private void setLineElement(Line[] a_lines, int a_index, Vector2 a_start, Vector2 a_end)
