@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class CornerHang : NonMovingObject
 	{
-		public CornerHang(Position a_position, String a_sprite, float a_layer, float a_rotation = 0)
-			: base(a_position, a_sprite, a_layer, a_rotation)
+		public CornerHang(Vector2 a_position, String a_sprite, float a_layer, float a_rotation = 0)
+			: base(new CartesianCoordinate(a_position), a_sprite, a_layer, a_rotation)
 		{
 		}
 

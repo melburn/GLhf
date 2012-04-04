@@ -89,8 +89,8 @@ namespace GrandLarceny
 			} else {
 				float t_zoom = Game.getInstance().m_camera.getZoom();
 				Vector2 t_cartCoord;
-				t_cartCoord.X = m_position.getGlobalX() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalX();
-				t_cartCoord.Y = m_position.getGlobalY() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalY();
+				t_cartCoord.X = m_position.getLocalX() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalX();
+				t_cartCoord.Y = m_position.getLocalY() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalY();
 				
 				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, t_cartCoord, null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width / t_zoom, m_height / t_zoom), SpriteEffects.None, 0.011f);
 				
@@ -131,13 +131,17 @@ namespace GrandLarceny
 		{
 			if (m_timer >= (float)a_gameTime.TotalGameTime.TotalMilliseconds)
 			{
+				/*m_from.X = m_position.getGlobalX();
+				m_to.X = m_position.getGlobalX();
+				m_from.Y += m_position.getGlobalY();
+				m_to.Y += m_position.getGlobalY();*/
 				float t_moveDelta = ((float)a_gameTime.TotalGameTime.TotalMilliseconds - m_timeStart) / (m_timer - m_timeStart);
 				Vector2 tLerp = Vector2.Lerp(m_from, m_to, t_moveDelta);
-				m_position.setGlobalCartesianCoordinates(tLerp);
+				m_position.setLocalCartesianCoordinates(tLerp);
 			}
 			else if(m_timer > 0)
 			{
-				m_position.setGlobalCartesianCoordinates(m_to);
+				m_position.setLocalCartesianCoordinates(m_to);
 				m_timer = 0;
 			}
 		}
