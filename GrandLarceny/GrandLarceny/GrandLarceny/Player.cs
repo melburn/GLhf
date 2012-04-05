@@ -85,7 +85,7 @@ namespace GrandLarceny
 		private bool m_chase = false;
 		private bool m_deactivateChase = false;
 
-		private GameObject m_rope = null;
+		private Rope m_rope = null;
 
 		public enum Direction
 		{
@@ -848,6 +848,7 @@ namespace GrandLarceny
 				m_position.setParentPositionWithoutMoving(null);
 				m_rotate = 0;
 				m_currentState = State.Jumping;
+				m_rope.resetPosition();
 			}
 		}
 		#endregion
@@ -1294,7 +1295,7 @@ namespace GrandLarceny
 			m_currentVentilation = vent;
 		}
 
-		internal void setRope(GameObject a_rope)
+		internal void setRope(Rope a_rope)
 		{
 			m_rope = a_rope;
 		}
