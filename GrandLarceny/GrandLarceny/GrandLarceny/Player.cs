@@ -40,6 +40,7 @@ namespace GrandLarceny
 		public const string VENTIDLEIMAGE = "hero_ventilation_idle";
 		private string m_currentHidingImage;
 		private string m_currentVentilationImage = "hero_ventilation_idle";
+		private string m_currentSwingingImage = "hero_swing_still";
 		[NonSerialized]
 		private CollisionRectangle m_standHitBox;
 		[NonSerialized]
@@ -133,6 +134,9 @@ namespace GrandLarceny
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_idle");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_vertical");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_horizontal");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_back");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_still");
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_forth");
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 72, m_position); // 67
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
@@ -841,6 +845,19 @@ namespace GrandLarceny
 			m_rope.addRotation(m_swingSpeed * a_deltaTime);
 			m_rotate = m_rope.getRotation() - (float)Math.PI / 2;
 			m_position.setSlope(m_rope.getRotation());
+			if (m_swingSpeed > 1f)
+				if (!m_facingRight)
+					m_currentSwingingImage = "hero_swing_back";
+				else
+					m_currentSwingingImage = "hero_swing_forth";
+			else if (m_swingSpeed < -1f)
+				if (m_facingRight)
+					m_currentSwingingImage = "hero_swing_back";
+				else
+					m_currentSwingingImage = "hero_swing_forth";
+			else
+				m_currentSwingingImage = "hero_swing_still";
+
 			if (Game.keyClicked(GameState.getJumpKey()))
 			{
 				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI));
@@ -912,6 +929,11 @@ namespace GrandLarceny
 				case State.Ventilation:
 				{
 					setSprite(m_currentVentilationImage);
+					break;
+				}
+				case State.Swinging:
+				{
+					setSprite(m_currentSwingingImage);
 					break;
 				}
 			}
