@@ -38,7 +38,7 @@ namespace GrandLarceny
 
 		public void zoomOut(float a_zoom)
 		{
-			m_zoom = Math.Max(m_zoom - a_zoom, 0.5f);
+			m_zoom = Math.Max(m_zoom - a_zoom, 0.1f);
 		}
 
 		public float getRotation()

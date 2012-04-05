@@ -596,14 +596,10 @@ namespace GrandLarceny
 				else
 				{
 					m_speed.Y = -JUMPSTRENGTH;
-					if (m_facingRight)
-					{
-						m_speed.X = -PLAYERSPEED*2f;
-					}
+					if (!m_facingRight)
+						m_speed.X += JUMPSTRENGTH;
 					else
-					{
-						m_speed.X = PLAYERSPEED*2f;
-					}
+						m_speed.X -= JUMPSTRENGTH;
 					m_currentState = State.Jumping;
 				}
 			}
