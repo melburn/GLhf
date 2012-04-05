@@ -14,6 +14,7 @@ namespace GrandLarceny
 		private string m_text;
 		private bool m_worldFont;
 		private float m_rotation = 0.0f;
+		private Vector2 m_textOffset;
 
 		public Text(Vector2 a_position, string a_text, string a_spriteFont, Color a_color, bool a_worldFont)
 			: base(a_position, "")
@@ -24,6 +25,7 @@ namespace GrandLarceny
 				m_position = new CartesianCoordinate(a_position - Game.getInstance().getResolution() / 2, Game.getInstance().m_camera.getPosition());
 			}
 			m_text = a_text;
+			m_textOffset = Vector2.Zero;
 			m_font = a_spriteFont;
 			m_color = a_color;
 			m_worldFont = a_worldFont;
@@ -40,6 +42,7 @@ namespace GrandLarceny
 			}
 			m_position.plusWith(a_offset);
 			m_text = a_text;
+			m_textOffset = a_offset;
 			m_font = a_spriteFont;
 			m_color = a_color;
 			m_worldFont = a_worldFont;
@@ -55,6 +58,7 @@ namespace GrandLarceny
 				m_position = new CartesianCoordinate(a_position - Game.getInstance().getResolution() / 2, Game.getInstance().m_camera.getPosition());
 			}
 			m_text = a_text;
+			m_textOffset = Vector2.Zero;
 			m_font = a_spriteFont;
 			m_color = a_color;
 			m_worldFont = a_worldFont;
@@ -92,9 +96,15 @@ namespace GrandLarceny
 		{
 			return m_spriteFont;
 		}
+		public void move(Vector2 a_moveLength) {
+			m_position.plusWith(a_moveLength);
+		}
 		public void setOffset(Vector2 a_offset)
 		{
 			m_position.plusWith(a_offset);
+		}
+		public void setPosition(Vector2 a_position) {
+			m_position = new CartesianCoordinate(a_position + m_textOffset, Game.getInstance().m_camera.getPosition());
 		}
 		public override Rectangle getBox() {
 			return new Rectangle(0, 0, 0, 0);
