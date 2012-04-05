@@ -89,5 +89,10 @@ namespace GrandLarceny
 		{
 			throw new NotImplementedException();
 		}
+
+		public virtual bool objectIsOnLayer(GameObject a_obj, int a_layer)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

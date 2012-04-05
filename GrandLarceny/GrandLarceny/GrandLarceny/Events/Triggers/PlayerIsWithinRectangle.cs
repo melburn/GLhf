@@ -13,13 +13,15 @@ namespace GrandLarceny.Events.Triggers
 		private float m_x2;
 		private float m_y1;
 		private float m_y2;
+		private int m_layer;
 
-		public PlayerIsWithinRectangle(float a_x1, float a_y1, float a_x2, float a_y2)
+		public PlayerIsWithinRectangle(float a_x1, float a_y1, float a_x2, float a_y2, int a_layer)
 		{
 			m_x1 = Math.Min(a_x1, a_x2);
 			m_x2 = Math.Max(a_x1, a_x2);
 			m_y1 = Math.Min(a_y1, a_y2);
 			m_y2 = Math.Max(a_y1, a_y2);
+			m_layer = a_layer;
 		}
 		public override bool isTrue()
 		{
@@ -31,6 +33,7 @@ namespace GrandLarceny.Events.Triggers
 			float t_playerY = Game.getInstance().getState().getPlayer().getPosition().getGlobalY();
 
 			return
+				Game.getInstance().getState().objectIsOnLayer(Game.getInstance().getState().getPlayer(), m_layer) &&
 				t_playerX > m_x1 &&
 				t_playerX < m_x2 &&
 				t_playerY > m_y1 &&
@@ -44,19 +47,26 @@ namespace GrandLarceny.Events.Triggers
 
 		public Line[] getRectangle(Line[] a_lines)
 		{
-			if (a_lines == null)
+			if (Game.getInstance().m_camera.getLayer() == m_layer)
 			{
-				a_lines = new Line[4];
+				if (a_lines == null)
+				{
+					a_lines = new Line[4];
+				}
+				else if (a_lines.Length != 4)
+				{
+					throw new ArgumentException();
+				}
+				setLineElement(a_lines, 0, new Vector2(m_x1, m_y1), new Vector2(m_x2, m_y1));
+				setLineElement(a_lines, 1, new Vector2(m_x1, m_y1), new Vector2(m_x1, m_y2));
+				setLineElement(a_lines, 2, new Vector2(m_x2, m_y1), new Vector2(m_x2, m_y2));
+				setLineElement(a_lines, 3, new Vector2(m_x1, m_y2), new Vector2(m_x2, m_y2));
+				return a_lines;
 			}
-			else if (a_lines.Length != 4)
+			else
 			{
-				throw new ArgumentException();
+				return null;
 			}
-			setLineElement(a_lines, 0, new Vector2(m_x1, m_y1), new Vector2(m_x2, m_y1));
-			setLineElement(a_lines, 1, new Vector2(m_x1, m_y1), new Vector2(m_x1, m_y2));
-			setLineElement(a_lines, 2, new Vector2(m_x2, m_y1), new Vector2(m_x2, m_y2));
-			setLineElement(a_lines, 3, new Vector2(m_x1, m_y2), new Vector2(m_x2, m_y2));
-			return a_lines;
 		}
 
 		private void setLineElement(Line[] a_lines, int a_index, Vector2 a_start, Vector2 a_end)
