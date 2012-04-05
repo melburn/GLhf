@@ -102,7 +102,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
-			m_rotate += m_rotationSpeed * (a_gameTime.ElapsedGameTime.Milliseconds / 1000f);
+			m_rotate = (m_rotate + (m_rotationSpeed * (a_gameTime.ElapsedGameTime.Milliseconds / 1000f))) % (float)(Math.PI * 2);
 			m_light.setRotation(m_rotate);
 			m_turnTimer -= (a_gameTime.ElapsedGameTime.Milliseconds / 1000f);
 		}
