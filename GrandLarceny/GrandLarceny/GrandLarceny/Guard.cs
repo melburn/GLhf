@@ -175,10 +175,12 @@ namespace GrandLarceny
 						{
 							if (m_running)
 							{
+								m_flashLight.kill();
+								m_flashLightId = 0;
+								m_flashLight = null;
 								m_speed.X = CHASINGSPEED;
 								m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-								m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
-								//TODO SPRING
+								m_img.setSprite("Images//Sprite//Guard//guard_run");
 							}
 							else
 							{
@@ -285,10 +287,12 @@ namespace GrandLarceny
 					{
 						if (m_running)
 						{
+							m_flashLight.kill();
+							m_flashLightId = 0;
+							m_flashLight = null;
 							m_speed.X = -CHASINGSPEED;
 							m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-							m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
-							//TODO Spring
+							m_img.setSprite("Images//Sprite//Guard//guard_run");
 						}
 						else
 						{

@@ -144,7 +144,7 @@ namespace GrandLarceny
 					Vector2 t_mouse = calculateWorldMouse();
 					if (Game.lmbClicked())
 					{
-						addTrigger(new PlayerIsWithinRectangle(m_recPoint.X, m_recPoint.Y, t_mouse.X, t_mouse.Y));
+						addTrigger(new PlayerIsWithinRectangle(m_recPoint.X, m_recPoint.Y, t_mouse.X, t_mouse.Y, Game.getInstance().m_camera.getLayer()));
 						m_state = State.newTrigger;
 					}
 					else
@@ -275,7 +275,7 @@ namespace GrandLarceny
 			{
 				t_go.draw(a_gameTime);
 			}
-			if (m_state == State.secRectanglePoint || (m_selectedEffTri != null && m_triggers.ContainsKey(m_selectedEffTri) && m_triggers[m_selectedEffTri] is PlayerIsWithinRectangle))
+			if ((m_state == State.secRectanglePoint || (m_selectedEffTri != null && m_triggers.ContainsKey(m_selectedEffTri) && m_triggers[m_selectedEffTri] is PlayerIsWithinRectangle)) && m_recLines != null)
 			{
 				foreach (Line t_l in m_recLines)
 				{
