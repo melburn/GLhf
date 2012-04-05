@@ -23,7 +23,13 @@ namespace GrandLarceny
 
 		public override void update(GameTime a_gameTime)
 		{
+			bool t_switch = m_img.getImagePath().Equals("Images//LightCone//light_guard_turn") && m_img.getSubImageIndex() < (m_img.getLength() / 2f);
 			base.update(a_gameTime);
+			if (t_switch && m_img.getSubImageIndex() >= (m_img.getLength() / 2f))
+			{
+				m_facingRight = !m_facingRight;
+				m_collisionIsUpdated = false;
+			}
 		}
 
 		public void setFacingRight(bool a_right)
@@ -46,6 +52,7 @@ namespace GrandLarceny
 			{
 				m_img.stop();
 			}
+			m_collisionIsUpdated = false;
 		}
 
 		public void setSubImage(float a_index)
