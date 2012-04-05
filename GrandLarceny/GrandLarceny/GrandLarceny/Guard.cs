@@ -100,7 +100,7 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(15, 10, m_img.getSize().X - 30, m_img.getSize().Y - 10, m_position);
+			m_collisionShape = new CollisionRectangle(25, 10, m_img.getSize().X - 50, m_img.getSize().Y - 10, m_position);
 			m_lampSwitchTargets = new LinkedList<LampSwitch>();
 			if (m_lampSwitchTargetsId == null)
 			{
@@ -175,10 +175,12 @@ namespace GrandLarceny
 						{
 							if (m_running)
 							{
+								m_flashLight.kill();
+								m_flashLightId = 0;
+								m_flashLight = null;
 								m_speed.X = CHASINGSPEED;
 								m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-								m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
-								//TODO SPRING
+								m_img.setSprite("Images//Sprite//Guard//guard_run");
 							}
 							else
 							{
@@ -285,10 +287,12 @@ namespace GrandLarceny
 					{
 						if (m_running)
 						{
+							m_flashLight.kill();
+							m_flashLightId = 0;
+							m_flashLight = null;
 							m_speed.X = -CHASINGSPEED;
 							m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-							m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
-							//TODO Spring
+							m_img.setSprite("Images//Sprite//Guard//guard_run");
 						}
 						else
 						{

@@ -389,5 +389,10 @@ namespace GrandLarceny
 			}
 			throw new ArgumentException(a_go + " was not found");
 		}
+
+		public override bool objectIsOnLayer(GameObject a_obj, int a_layer)
+		{
+			return m_gameObjectList[a_layer].Contains(a_obj);
+		}
 	}
 }
