@@ -199,5 +199,10 @@ namespace GrandLarceny
 		{
 			return m_animationFrames;
 		}
+
+		public float getAnimationSpeed()
+		{
+			return m_animationSpeed;
+		}
 	}
 }

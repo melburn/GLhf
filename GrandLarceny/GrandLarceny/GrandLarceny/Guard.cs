@@ -100,7 +100,7 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(25, 10, m_img.getSize().X - 50, m_img.getSize().Y - 10, m_position);
+			m_collisionShape = new CollisionRectangle(40, 10, m_img.getSize().X - 80, m_img.getSize().Y - 10, m_position);
 			m_lampSwitchTargets = new LinkedList<LampSwitch>();
 			if (m_lampSwitchTargetsId == null)
 			{
