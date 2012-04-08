@@ -160,25 +160,29 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_lastPosition = m_position.getGlobalCartesianCoordinates();
-			if (!m_stunned)
-			{
-				changeAnimation();
-			}
+			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
+			m_invulnerableTimer = Math.Max(m_invulnerableTimer - t_deltaTime, 0);
+
 			if (m_deactivateChase)
 			{
 				activateNormalMode();
 				m_deactivateChase = false;
 			}
+
 			updateState();
 			m_lastState = m_currentState;
+
 			if (m_currentState != State.Hanging)
 			{
 				m_gravity = 1600f;
 			}
-			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
+
 			updateCD(t_deltaTime);
-			m_invulnerableTimer = Math.Max(m_invulnerableTimer - t_deltaTime, 0);
+
 			if (!m_stunned)
+			{
+				changeAnimation();
+				
 				switch (m_currentState)
 				{
 					case State.Stop:
@@ -232,6 +236,7 @@ namespace GrandLarceny
 						break;
 					}
 				}
+			}
 			else
 			{
 				updateStunned(t_deltaTime);
@@ -316,11 +321,17 @@ namespace GrandLarceny
 						
 					}
 					else if (m_stunnedState == State.Rolling || (m_stunnedState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE))
+					{
 						m_collisionShape = m_rollHitBox;
+					}
 					else if (m_stunnedState == State.Slide)
+					{
 						m_collisionShape = m_SlideBox;
+					}
 					else
+					{
 						m_collisionShape = m_standHitBox;
+					}
 				}
 				if (m_currentState == State.Stop)
 				{
@@ -344,8 +355,7 @@ namespace GrandLarceny
 				m_currentState = State.Rolling;
 				return;
 			}
-			if (   (Game.isKeyPressed(GameState.getLeftKey())  && !Game.isKeyPressed(GameState.getRightKey()))
-				|| (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey())))
+			if ((Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey())) || (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey())))
 			{
 				m_currentState = State.Walking;
 
@@ -405,6 +415,7 @@ namespace GrandLarceny
 				m_speed.X = Math.Min(m_speed.X + (DEACCELERATION * a_deltaTime), 0);
 				m_facingRight = false;
 			}
+
 			if (m_speed.X == 0)
 			{
 				m_currentState = State.Stop;
@@ -647,9 +658,6 @@ namespace GrandLarceny
 			{
 				m_cameraPoint.X = 0;
 			}
-
-			
-
 		}
 
 		private void updateVentilation(float a_deltaTime)
@@ -691,6 +699,7 @@ namespace GrandLarceny
 				}
 			}
 		}
+
 		private List<Direction> moveDirectionInVentilation(Direction a_direction)
 		{
 			List<Direction> t_list = null;

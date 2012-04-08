@@ -15,12 +15,13 @@ namespace GrandLarceny
 		{
 			
 		}
+
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(-3,
-						0, 6, m_img.getSize().Y, m_position);
+			m_collisionShape = new CollisionRectangle(-3, 0, 6, m_img.getSize().Y, m_position);
 		}
+
 		internal override void updateCollisionWith(Entity a_collid)
 		{
 			if (a_collid is Player)
