@@ -12,12 +12,15 @@ namespace GrandLarceny
 {
 	class MainMenu : MenuState
 	{
+		#region Members
 		private string[]	m_levelList;
 		private TextField	m_newLevelName;
 		private Text		m_levelText;
 		private Button		m_btnTFAccept;
 		private TimeSpan	m_textTimeOut;
+		#endregion
 
+		#region Constructor & Load
 		public override void load()
 		{
 			base.load();
@@ -39,6 +42,9 @@ namespace GrandLarceny
 				t_count++;
 			}
 		}
+		#endregion
+
+		#region Update & Draw
 		public override void update(GameTime a_gameTime)
 		{
 			foreach (Button t_b in m_buttons)
@@ -62,6 +68,9 @@ namespace GrandLarceny
 			m_newLevelName.draw(a_gameTime);
 			m_levelText.draw(a_gameTime);
 		}
+		#endregion
+
+		#region Main Menu Methods (MMM...Bio)
 		public void playClick(Button a_b)
 		{
 			Game.getInstance().setState(new GameState("Level3.txt"));
@@ -93,5 +102,6 @@ namespace GrandLarceny
 				createNewLevel(a_button);
 			}
 		}
+		#endregion
 	}
 }
