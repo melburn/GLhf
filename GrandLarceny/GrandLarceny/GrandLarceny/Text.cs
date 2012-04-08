@@ -30,6 +30,7 @@ namespace GrandLarceny
 			m_color = a_color;
 			m_worldFont = a_worldFont;
 			m_layer = 0.001f;
+			loadContent();
 		}
 
 		public Text(Vector2 a_position, Vector2 a_offset, string a_text, string a_spriteFont, Color a_color, bool a_worldFont)
@@ -47,6 +48,7 @@ namespace GrandLarceny
 			m_color = a_color;
 			m_worldFont = a_worldFont;
 			m_layer = 0.001f;
+			loadContent();
 		}
 
 		public Text(Vector2 a_position, string a_text, string a_spriteFont, Color a_color, bool a_worldFont, float a_layer)
@@ -63,6 +65,7 @@ namespace GrandLarceny
 			m_color = a_color;
 			m_worldFont = a_worldFont;
 			m_layer = a_layer;
+			loadContent();
 		}
 
 		public override void loadContent()
@@ -133,6 +136,10 @@ namespace GrandLarceny
 					erase();
 				}
 			}
+		}
+
+		public Vector2 measureString() {
+			return m_spriteFont.MeasureString(m_text);
 		}
 	}
 }

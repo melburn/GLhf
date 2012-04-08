@@ -4,19 +4,21 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
 	class TextField : GuiObject {
 		private Text	m_textToShow;
 		private Box		m_box;
+		private Line	m_caret;
 		private bool	m_writing;
 		private bool	m_acceptLetters;
 		private bool	m_acceptNumbers;
 		private bool	m_acceptSpecials;
 		private string	m_currentLocale;
 		private int		m_maxLength;
-		private Vector2 m_posV2;
+		private Vector2	m_posV2;
 		private Keys[]	m_acptLetters = { 
 			Keys.A, Keys.B, Keys.C, Keys.D, Keys.E, Keys.F, Keys.G, Keys.H, Keys.I, Keys.J, Keys.K, Keys.L, Keys.M,
 			Keys.N, Keys.O, Keys.P, Keys.Q, Keys.R, Keys.S, Keys.T, Keys.U, Keys.V, Keys.W, Keys.X, Keys.Y, Keys.Z,
@@ -36,6 +38,7 @@ namespace GrandLarceny
 		{
 			m_textToShow	= new Text(a_position, new Vector2(4, 2), "", "VerdanaBold", Color.Black, false);
 			m_box			= new Box(a_position, a_width, a_height, Color.White, Color.Black, 2, false);
+			m_caret			= new Line(m_box.getPosition(), m_box.getPosition(), new Vector2(5, 3), new Vector2(5, a_height - 3), Color.Black, 1, true); 
 			m_writing		= false;
 			m_acceptLetters	= a_acceptLetters;
 			m_acceptNumbers = a_acceptNumbers;
@@ -79,6 +82,10 @@ namespace GrandLarceny
 		public override Rectangle getBox() {
 			return new Rectangle((int)m_posV2.X, (int)m_posV2.Y, (int)m_box.getWidth(), (int)m_box.getHeight());
 		}
+
+		public Vector2 getSize() {
+			return new Vector2(m_box.getWidth(), m_box.getHeight());
+		}
 		#endregion
 
 		public override void update(GameTime a_gameTime) {
@@ -110,12 +117,21 @@ namespace GrandLarceny
 				} else if (m_textToShow.getText().Length * 10 > m_box.getWidth() + (m_textToShow.getText().Length)) {
 					m_textToShow.erase();
 				}
+				m_caret.setXOffset(m_textToShow.measureString().X + 5);
 			}
 		}
 
 		public override void draw(GameTime a_gameTime) {
 			m_textToShow.draw(a_gameTime);
 			m_box.draw(a_gameTime);
+			if (m_writing) {
+				if (a_gameTime.TotalGameTime.Milliseconds - 500 < 0) {
+					m_caret.setColor(Color.Transparent);
+				} else {
+					m_caret.setColor(Color.Black);
+				}
+				m_caret.draw();
+			}
 		}
 
 		private void updateSweden(GameTime a_gameTime) {

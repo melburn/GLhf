@@ -87,5 +87,23 @@ namespace GrandLarceny
 		public void setColor(Color a_color) {
 			m_lineTexture.SetData(new[] { a_color });
 		}
+
+		public void setOffset(Vector2 a_offset)
+		{
+			m_startPosition.setLocalCartesianCoordinates(a_offset);
+			m_endPosition.setLocalCartesianCoordinates(a_offset);
+		}
+
+		public void setXOffset(float a_offset)
+		{
+			m_startPosition.setLocalX(a_offset);
+			m_endPosition.setLocalX(a_offset);
+		}
+
+		public void setYOffset(float a_offset)
+		{
+			m_startPosition.setLocalY(a_offset);
+			m_endPosition.setLocalY(a_offset);
+		}
 	}
 }

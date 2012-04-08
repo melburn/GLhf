@@ -84,6 +84,17 @@ namespace GrandLarceny
 			m_buttonTexture = a_buttonTexture;
 			loadContent();
 		}
+
+		public Button(string a_buttonTexture, Vector2 a_position) {
+			m_position = new CartesianCoordinate(a_position, Game.getInstance().m_camera.getPosition());
+			setPosition(a_position);
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, 0, 0);
+			m_layer = 0.002f;
+			m_upSound = null;
+			m_downSound = null;
+			m_buttonTexture = a_buttonTexture;
+			loadContent();
+		}
 		
 		public void kill() {
 			m_text.kill();
@@ -208,16 +219,20 @@ namespace GrandLarceny
 		{
 			a_position -= Game.getInstance().getResolution() / 2;
 			m_position = new CartesianCoordinate(a_position, Game.getInstance().m_camera.getPosition());
-			m_text.setPosition(a_position + m_textOffset);
 			m_bounds.X = (int)(a_position.X + Game.getInstance().getResolution().X / 2);
 			m_bounds.Y = (int)(a_position.Y + Game.getInstance().getResolution().Y / 2);
+			if (m_text != null) {
+				m_text.setPosition(a_position + m_textOffset);			
+			}
 		}
 
 		public void move(Vector2 a_moveLength) {
 			m_position.plusWith(a_moveLength);
-			m_text.move(a_moveLength);
 			m_bounds.X += (int)a_moveLength.X;
 			m_bounds.Y += (int)a_moveLength.Y;
+			if (m_text != null) {
+				m_text.move(a_moveLength);
+			}
 		}
 
 		public Vector2 getSize()

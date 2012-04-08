@@ -60,6 +60,12 @@
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
+    <Compile Include="Fonts\Consolas.spritefont">
+      <SubType>Designer</SubType>
+      <Name>Consolas</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="wtf\settings.ini">
       <Name>settings</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1346,6 +1352,28 @@
     </Compile>
     <Compile Include="Images\Sprite\Hero\hero_swing_still.png">
       <Name>hero_swing_still</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\btn_textfield_accept_hover.png">
+      <Name>btn_textfield_accept_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_textfield_accept_normal.png">
+      <Name>btn_textfield_accept_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_textfield_accept_pressed.png">
+      <Name>btn_textfield_accept_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_textfield_accept_toggle.png">
+      <Name>btn_textfield_accept_toggle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

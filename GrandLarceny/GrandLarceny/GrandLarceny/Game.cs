@@ -28,6 +28,7 @@ namespace GrandLarceny
 		internal Camera m_camera;
 
 		public Progress m_progress;
+		private GameTime m_currentGameTime;
 
 		public static Game getInstance()
 		{
@@ -80,6 +81,7 @@ namespace GrandLarceny
 				return;
 			m_currentKeyInput = Keyboard.GetState();
 			m_currentMouse = Mouse.GetState();
+			m_currentGameTime = a_gameTime;
 
 			if (m_nextState != null)
 			{
@@ -94,6 +96,11 @@ namespace GrandLarceny
 			if (m_currentState != null)
 			{
 				m_currentState.update(a_gameTime);
+			}
+
+			if (keyClicked(Keys.F7))
+			{
+				m_nextState = new MainMenu();
 			}
 
 			m_previousMouse = m_currentMouse;
@@ -115,32 +122,42 @@ namespace GrandLarceny
 		{
 			m_nextState = a_newState;
 		}
+
 		public void setCutscene(String a_fileName)
 		{
 			m_nextState = new Cutscene(m_currentState, a_fileName);
 		}
+
 		internal States getState()
 		{
 			return m_currentState;
 		}
-		internal Vector2 getResolution() {
+
+		public Vector2 getResolution()
+		{
 			return new Vector2(m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight);
 		}
-		public static Vector2 getMouseCoords() {
+
+		public static Vector2 getMouseCoords()
+		{
 			return new Vector2(m_currentMouse.X, m_currentMouse.Y);
 		}
+
 		public static bool isKeyPressed(Keys key)
 		{
 			return m_currentKeyInput.IsKeyDown(key);
 		}
+
 		public static bool wasKeyPressed(Keys key)
 		{
 			return m_previousKeyInput.IsKeyDown(key);
 		}
+
 		public static bool keyClicked(Keys a_key)
 		{
 			return m_currentKeyInput.IsKeyDown(a_key) && m_previousKeyInput.IsKeyUp(a_key);
 		}
+
 		public static bool rmbClicked()
 		{
 			return m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Released;
@@ -159,6 +176,10 @@ namespace GrandLarceny
 		public static bool isKeyReleased(Keys a_key)
 		{
 			return m_currentKeyInput.IsKeyUp(a_key) && m_previousKeyInput.IsKeyDown(a_key);
+		}
+		public TimeSpan getGameTime() 
+		{
+			return m_currentGameTime.TotalGameTime;
 		}
 	}
 }
