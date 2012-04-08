@@ -113,9 +113,13 @@ namespace GrandLarceny
 					updateSweden(a_gameTime);
 				}
 				if (m_maxLength != 0 && m_textToShow.getText().Length > m_maxLength) {
-					m_textToShow.erase();
-				} else if (m_textToShow.getText().Length * 10 > m_box.getWidth() + (m_textToShow.getText().Length)) {
-					m_textToShow.erase();
+					for ( ; m_maxLength < m_textToShow.getText().Length; ) {
+						m_textToShow.erase();
+					}
+				} else {
+					while (m_textToShow.measureString().X > m_box.getWidth()) {
+							m_textToShow.erase();
+					}
 				}
 				m_caret.setXOffset(m_textToShow.measureString().X + 5);
 			}
