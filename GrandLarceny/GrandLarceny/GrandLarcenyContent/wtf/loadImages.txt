@@ -2,7 +2,7 @@ Images//LightCone//light_guard_walk:8
 Images//LightCone//light_guard_turn:8
 Images//Sprite//Guard//guard_walk:8
 Images//Sprite//Guard//guard_flash_walk:8
-Images//Sprite//Guard//guard_strike:8
+Images//Sprite//Guard//guard_strike:4
 Images//Sprite//Guard//guard_turn:8
 Images//Sprite//Guard//guard_pick_up_flash:16
 Images//Sprite//Guard//guard_put_down_flash:6
