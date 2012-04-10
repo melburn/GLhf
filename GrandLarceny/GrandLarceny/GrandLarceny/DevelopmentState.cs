@@ -43,6 +43,9 @@ namespace GrandLarceny
 		private Text m_layerInfo;
 		private GuiObject m_UItextBackground;
 
+		private Line m_leftGuardPoint;
+		private Line m_rightGuardPoint;
+
 		private TextField m_textField;
 		
 		/*
@@ -1035,13 +1038,9 @@ namespace GrandLarceny
 			*/
 			if (Game.m_currentMouse.LeftButton == ButtonState.Released && Game.m_previousMouse.LeftButton == ButtonState.Pressed) {
 				if (m_selectedObject != null) {
-					if (m_selectedObject is Guard) {
-						Vector2 t_dragDifference = m_dragFrom - m_selectedObject.getPosition().getGlobalCartesianCoordinates();
-						if (m_selectedObject.getPosition().getGlobalCartesianCoordinates().X <= 0) {
-							t_dragDifference.X += TILE_WIDTH;
-						}
-						setGuardPoint((Guard)m_selectedObject, new Vector2(((Guard)m_selectedObject).getRightPatrolPoint() - t_dragDifference.X, m_worldMouse.Y), true);
-						setGuardPoint((Guard)m_selectedObject, new Vector2(((Guard)m_selectedObject).getLeftPatrolPoint() - t_dragDifference.X, m_worldMouse.Y), false);
+					if (m_selectedObject is Guard && m_selectedObject.getPosition().getGlobalCartesianCoordinates() != m_dragFrom) {
+						setGuardPoint((Guard)m_selectedObject, m_rightGuardPoint.getEndPoint().getGlobalCartesianCoordinates(), true);
+						setGuardPoint((Guard)m_selectedObject, m_leftGuardPoint.getEndPoint().getGlobalCartesianCoordinates(), false);
 						showGuardInfo((Guard)m_selectedObject);
 					}
 				}
@@ -1427,8 +1426,8 @@ namespace GrandLarceny
 		private void showGuardInfo(Guard a_guard) {
 			m_lineList.Clear();
 			m_textGuardInfo.setText(" L: " + a_guard.getLeftPatrolPoint() + "R: " + a_guard.getRightPatrolPoint());
-			m_lineList.AddLast(new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getLeftPatrolPoint() - a_guard.getPosition().getGlobalX() + 36, 72), Color.Green, 5, true));
-			m_lineList.AddLast(new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getRightPatrolPoint() - a_guard.getPosition().getGlobalX() + 36, 72), Color.Green, 5, true));
+			m_lineList.AddLast(m_leftGuardPoint = new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getLeftPatrolPoint() - a_guard.getPosition().getGlobalX() + 36, 72), Color.Green, 5, true));
+			m_lineList.AddLast(m_rightGuardPoint = new Line(a_guard.getPosition(), a_guard.getPosition(), new Vector2(36, 72), new Vector2(a_guard.getRightPatrolPoint() - a_guard.getPosition().getGlobalX() + 36, 72), Color.Green, 5, true));
 		}
 
 		private void showDogInfo(GuardDog a_guard) {

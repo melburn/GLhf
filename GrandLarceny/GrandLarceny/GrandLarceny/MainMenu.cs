@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
 
 namespace GrandLarceny
 {
@@ -31,15 +32,15 @@ namespace GrandLarceny
 			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
 
 			try {
-				m_levelList = Directory.GetFiles("Content\\levels\\");
+				m_levelList = Directory.GetFiles("Content//levels//");
 			} catch (DirectoryNotFoundException) {
-				System.IO.Directory.CreateDirectory("Content\\levels\\");
-				m_levelList = new string[0];
+				System.IO.Directory.CreateDirectory("Content//levels//");
+				return;
 			}
 			int t_count = 0;
 			foreach (string t_level in m_levelList)
 			{
-				string[] t_splitPath = Regex.Split(t_level, "//");
+				string[] t_splitPath = Regex.Split(t_level, "/");
 				Button t_levelButton = new Button("btn_test_empty", "btn_test_empty", "btn_test_empty", "btn_test_empty", 
 					new Vector2(20, 60 * t_count + 20), t_splitPath[t_splitPath.Length - 1], "VerdanaBold", Color.Black, new Vector2(10, 10));
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
@@ -100,6 +101,7 @@ namespace GrandLarceny
 			catch (FileNotFoundException)
 			{
 				FileStream t_file = File.Create("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
+				Thread.Sleep(500);
 				Game.getInstance().setState(new GameState(m_newLevelName.getText() + ".lvl"));
 			}
 		}

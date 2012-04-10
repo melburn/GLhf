@@ -186,13 +186,18 @@ namespace GrandLarceny
 			
 			byte[] t_bytes = new byte[4];
 
-
 			int t_layerIndex = 0;
 			try
 			{
-				t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
-			
-				
+				while (true) {
+					try {
+						t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
+						break;
+					} catch (IOException) {
+						continue;
+					}
+				}
+					
 				BinaryFormatter t_bFormatter = new BinaryFormatter();
 
 				
