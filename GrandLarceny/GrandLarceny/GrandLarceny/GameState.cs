@@ -84,7 +84,7 @@ namespace GrandLarceny
 							m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Action"))
 							m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else
+						else if (t_input[0].Length != 0)
 							System.Console.WriteLine("Unknown keybinding found!");
 						break;
 					case ParseState.Settings:

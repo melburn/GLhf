@@ -282,11 +282,12 @@ namespace GrandLarceny
 			{
 				System.Console.WriteLine("Fail to LoadLevel(DeSerialize) : " + e);
 			}
+			/*
 			catch (FileNotFoundException e)
 			{
 				System.Console.WriteLine("Fail to find file : " + e);
 			}
-
+			*/
 			
 
 

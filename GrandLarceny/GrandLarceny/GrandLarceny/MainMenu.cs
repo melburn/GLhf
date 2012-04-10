@@ -31,7 +31,7 @@ namespace GrandLarceny
 			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
 
 			try {
-				m_levelList = Directory.GetFiles("Content//levels//");
+				m_levelList = Directory.GetFiles("Content\\levels\\");
 			} catch (DirectoryNotFoundException) {
 				System.IO.Directory.CreateDirectory("Content\\levels\\");
 				m_levelList = new string[0];
@@ -92,13 +92,14 @@ namespace GrandLarceny
 		{
 			try
 			{
-				System.IO.File.OpenRead("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
+				File.OpenRead("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
 				m_textTimeOut = Game.getInstance().getGameTime() + new TimeSpan(0, 0, 3);
 				m_levelText.setColor(Color.Red);
 				m_levelText.setText("Level already exists!");
 			}
 			catch (FileNotFoundException)
 			{
+				FileStream t_file = File.Create("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
 				Game.getInstance().setState(new GameState(m_newLevelName.getText() + ".lvl"));
 			}
 		}
