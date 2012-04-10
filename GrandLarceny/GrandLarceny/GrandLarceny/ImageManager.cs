@@ -94,10 +94,7 @@ namespace GrandLarceny
 		{
 			if (a_sprite == null || a_sprite.Equals(""))
 			{
-				m_image = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-				Color t_color = Color.Black;
-				m_image.SetData(new[] { t_color });
-				m_stopped = true;
+				m_image = null;
 				m_imagePath = null;
 				return false;
 			}
@@ -111,13 +108,13 @@ namespace GrandLarceny
 				}
 				catch (ContentLoadException)
 				{
-					System.Console.WriteLine("Omega fail to load texture : " + a_sprite);
-					if (a_sprite.Equals("Images//GUI//")) {
-						m_image = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1);
+					ErrorLogger.getInstance().writeString("Could not load texture "+a_sprite);
+					/*if (a_sprite.Equals("Images//GUI//")) {
+						m_image = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1); Fu din check
 						m_image.SetData<Color>(new[] { Color.Transparent });
-					} else {
+					} else {*/
 						m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
-					}
+					//}
 				}
 				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
 				m_animationWidth = m_image.Width / m_animationFrames;
@@ -143,7 +140,14 @@ namespace GrandLarceny
 
 		public Vector2 getSize()
 		{
-			return new Vector2(m_animationWidth, m_image.Height);
+			if (m_image == null)
+			{
+				return Vector2.Zero;
+			}
+			else
+			{
+				return new Vector2(m_animationWidth, m_image.Height);
+			}
 		}
 
 		public void setAnimationSpeed(float a_speed)

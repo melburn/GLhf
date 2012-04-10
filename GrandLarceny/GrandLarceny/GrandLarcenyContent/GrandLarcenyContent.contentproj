@@ -743,13 +743,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Guard\guard_strike.png">
-      <Name>guard_strike</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Sprite\Guard\guard_turn.png">
       <Name>guard_turn</Name>
       <Importer>TextureImporter</Importer>
@@ -811,13 +804,6 @@
   <ItemGroup>
     <Compile Include="Images\GUI\DevelopmentHotkeys\btn_camera_hotkey_pressed.png">
       <Name>btn_camera_hotkey_pressed</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\Drum\ventil.png">
-      <Name>ventil</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1373,8 +1359,43 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Guard\guard_attack.png">
-      <Name>guard_attack</Name>
+    <Compile Include="Images\Sprite\Guard\guard_strike.png">
+      <Name>guard_strike</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Drum\ventil.png">
+      <Name>ventil</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\wall_pipe_standard.png">
+      <Name>wall_pipe_standard</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\wall_pipe_turn.png">
+      <Name>wall_pipe_turn</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\basement_parking_meter.png">
+      <Name>basement_parking_meter</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\office_space_backdrop.png">
+      <Name>office_space_backdrop</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
