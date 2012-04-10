@@ -19,12 +19,49 @@ namespace GrandLarceny
 		private Text		m_levelText;
 		private Button		m_btnTFAccept;
 		private TimeSpan	m_textTimeOut;
+
+		private ParseState m_currentParse;
+		private enum ParseState {
+			Settings
+		}
 		#endregion
 
 		#region Constructor & Load
 		public override void load()
 		{
 			base.load();
+
+			string[] t_loadedFile = File.ReadAllLines("Content//wtf//settings.ini");
+			foreach (string t_currentLine in t_loadedFile)
+			{
+				if (t_currentLine.Length > 2 && t_currentLine.First() == '[' && t_currentLine.Last() == ']')
+				{
+					if (t_currentLine.Equals("[Graphics]"))
+					{
+						m_currentParse = ParseState.Settings;
+					}
+				}
+				switch (m_currentParse)
+				{
+					case ParseState.Settings:
+						string[] t_setting = t_currentLine.Split('=');
+						if (t_setting[0].Equals("ScreenWidth"))
+						{
+							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
+						}
+						else if (t_setting[0].Equals("ScreenHeight"))
+						{
+							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
+							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
+						}
+						else if (t_setting[0].Equals("Fullscreen"))
+						{
+							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
+						}
+						break;
+				}
+				Game.getInstance().m_graphics.ApplyChanges();
+			}
 
 			m_levelText		= new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
 			m_newLevelName	= new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
@@ -91,17 +128,18 @@ namespace GrandLarceny
 		}
 		private void createNewLevel(Button a_button)
 		{
-			try
+			String t_fileName = "Content\\levels\\" + m_newLevelName.getText() + ".lvl";
+
+			if (File.Exists(t_fileName))
 			{
-				File.OpenRead("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
-				m_textTimeOut = Game.getInstance().getGameTime() + new TimeSpan(0, 0, 3);
-				m_levelText.setColor(Color.Red);
 				m_levelText.setText("Level already exists!");
+				m_levelText.setColor(Color.Red);
+				m_textTimeOut = Game.getInstance().getGameTime() + new TimeSpan(0, 0, 3);
 			}
-			catch (FileNotFoundException)
+			else
 			{
 				FileStream t_file = File.Create("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
-				Game.getInstance().setState(new GameState(m_newLevelName.getText() + ".lvl"));
+				Game.getInstance().setState(new DevelopmentState(m_newLevelName.getText() + ".lvl"));
 			}
 		}
 		#endregion

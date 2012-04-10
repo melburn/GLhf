@@ -592,6 +592,11 @@ namespace GrandLarceny
 				m_stunnedState = State.Stop;
 				m_rollActionCD = 1f;
 			}
+			if (m_speed.Y != 0)
+			{
+				m_speed.X /= 2;
+				m_currentState = State.Jumping;
+			}
 		}
 
 		private void updateHanging()
@@ -877,6 +882,7 @@ namespace GrandLarceny
 				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI));
 				changePositionType();
 				m_position.setParentPositionWithoutMoving(null);
+				m_position.setGlobalX(m_position.getGlobalX() - 36);
 				m_rotate = 0;
 				m_currentState = State.Jumping;
 				m_rope.resetPosition();
@@ -974,7 +980,7 @@ namespace GrandLarceny
 						if (m_lastState == State.Rolling || m_lastState == State.Hiding)
 						{
 							m_position.setLocalY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height) -1);
-							Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
+							Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height);
 							if (m_lastState == State.Hiding)
 							{
 								setLayer(m_originalLayer);
@@ -1036,11 +1042,13 @@ namespace GrandLarceny
 				if (m_currentState == State.Swinging)
 				{
 					m_rotationPoint.Y = 0;
+					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_imgOffsetX = -m_img.getSize().X / 2;
 				}
 				else if (m_lastState == State.Swinging)
 				{
 					m_imgOffsetX = 0;
+					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_rotationPoint.Y = m_img.getSize().Y / 2;
 				}
 			}
@@ -1346,30 +1354,30 @@ namespace GrandLarceny
 			float t_eneY = a_enemy.getPosition().getGlobalY();
 			float t_diffX = (m_position.getGlobalX() + t_eneX) / 2;
 			float t_diffY = (m_position.getGlobalY() + t_eneY) / 2;
-			float t_enemyQX = 0;
+			float t_enemyAtentionMarkX = 0;
 			if(a_enemy is Guard )
 			{
 				if(((Guard)a_enemy).isFacingRight())
 				{
-					t_enemyQX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
+					t_enemyAtentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
 				} 
 				else 
 				{
-					t_enemyQX = t_eneX - 10;
+					t_enemyAtentionMarkX = t_eneX - 10;
 				}
 			}
-			float t_myQX = 0;
+			float t_myAtentionMarkX = 0;
 			if (m_facingRight)
 			{
-				t_myQX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
+				t_myAtentionMarkX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
 			}
 			else
 			{
-				t_myQX = m_position.getGlobalX() - 10;
+				t_myAtentionMarkX = m_position.getGlobalX() - 10;
 			}
 			string[] t_commands = {"addCinematic"
-									,"addParticle:"+t_myQX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
-									  ,"addParticle:"+t_enemyQX+":"+(t_eneY-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
+									,"addParticle:"+t_myAtentionMarkX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
+									  ,"addParticle:"+t_enemyAtentionMarkX+":"+(t_eneY-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
 									  ,  "setCamera:"+ t_diffX+":"+ t_diffY+":"+1000};
 			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
 			Game.getInstance().setState(t_cutScene);
@@ -1385,7 +1393,6 @@ namespace GrandLarceny
 
 		private void activateNormalMode()
 		{
-
 			m_chase = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
 			setIsInLight(false);

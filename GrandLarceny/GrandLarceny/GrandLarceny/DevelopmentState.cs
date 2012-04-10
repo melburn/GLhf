@@ -148,9 +148,22 @@ namespace GrandLarceny
 		{
 			m_guiList = new LinkedList<GuiObject>();
 
-			Level t_loadedLevel = Loader.getInstance().loadLevel(m_levelToLoad);
-			m_gameObjectList = t_loadedLevel.getGameObjects();
-			m_events = t_loadedLevel.getEvents();
+			if (File.Exists("Content\\levels\\" + m_levelToLoad))
+			{
+				Level t_loadedLevel = Loader.getInstance().loadLevel(m_levelToLoad);
+
+				m_gameObjectList = t_loadedLevel.getGameObjects();
+				m_events = t_loadedLevel.getEvents();
+			}
+			else
+			{
+				m_events = new LinkedList<Event>();
+				m_gameObjectList = new LinkedList<GameObject>[5];
+				for (int i = 0; i < m_gameObjectList.Length; ++i)
+				{
+					m_gameObjectList[i] = new LinkedList<GameObject>();
+				}
+			}
 			
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)

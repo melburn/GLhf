@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -46,60 +47,77 @@ namespace GrandLarceny
 			Game.getInstance().m_camera.setZoom(1.0f);
 			m_guiObject = new LinkedList<GuiObject>();
 
-			Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
-			m_gameObjectList = t_loadedLevel.getGameObjects();
-			m_events = t_loadedLevel.getEvents();
+			if (File.Exists("Content\\levels\\"+m_currentLevel))
+			{
+				Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
 
+				m_gameObjectList = t_loadedLevel.getGameObjects();
+				m_events = t_loadedLevel.getEvents();
+			}
+			else
+			{
+				m_events = new LinkedList<Event>();
+				m_gameObjectList = new LinkedList<GameObject>[5];
+				for (int i = 0; i < m_gameObjectList.Length; ++i)
+				{
+					m_gameObjectList[i] = new LinkedList<GameObject>();
+				}
+			}
 			m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
 			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
 
 			string[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//settings.ini");
 			foreach (string t_currentLine in t_loadedFile)
 			{
-				try {
-					if (t_currentLine.First() == '[' && t_currentLine.Last() == ']') {
-						if (t_currentLine.Equals("[Input]")) {
-							m_currentParse = ParseState.Input;
-						} else if (t_currentLine.Equals("[Graphics]")) {
-							m_currentParse = ParseState.Settings;
-						}
+				if (t_currentLine.Length > 2 && t_currentLine.First() == '[' && t_currentLine.Last() == ']')
+				{
+					if (t_currentLine.Equals("[Input]"))
+					{
+						m_currentParse = ParseState.Input;
 					}
-				} catch (InvalidOperationException) {
-					continue;
+					else if (t_currentLine.Equals("[Graphics]"))
+					{
+						m_currentParse = ParseState.Settings;
+					}
 				}
-				switch (m_currentParse) {
+				switch (m_currentParse)
+				{
 					case ParseState.Input:
 						string[] t_input = t_currentLine.Split('=');
 						if (t_input[0].Equals("Up"))
-							m_upKey		= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_upKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Down"))
-							m_downKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_downKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Left"))
-							m_leftKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_leftKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Right"))
-							m_rightKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_rightKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Jump"))
-							m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_jumpKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Roll"))
-							m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+							m_rollKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Action"))
-							m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else if (t_input[0].Length != 0)
-							System.Console.WriteLine("Unknown keybinding found!");
+							m_actionKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else
+							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState");
 						break;
 					case ParseState.Settings:
 						string[] t_setting = t_currentLine.Split('=');
-						if (t_setting[0].Equals("ScreenWidth")) {
+						if (t_setting[0].Equals("ScreenWidth"))
+						{
 							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
-						} else if (t_setting[0].Equals("ScreenHeight")) {
+						}
+						else if (t_setting[0].Equals("ScreenHeight"))
+						{
 							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
 							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
-						} else if (t_setting[0].Equals("Fullscreen")) {
+						}
+						else if (t_setting[0].Equals("Fullscreen"))
+						{
 							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
 						}
 						break;
 				}
-				
 			}
 			Game.getInstance().m_graphics.ApplyChanges();
 
@@ -108,7 +126,7 @@ namespace GrandLarceny
 				m_removeList[i] = new Stack<GameObject>();
 				m_addList[i] = new Stack<GameObject>();
 			}
-			
+
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
 				foreach (GameObject t_go in t_ll)
@@ -126,12 +144,13 @@ namespace GrandLarceny
 			{
 				t_e.loadContent();
 			}
-			
+
 			if (player != null)
 			{
 				Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
 			}
+			
 			base.load();
 		}
 
@@ -157,7 +176,14 @@ namespace GrandLarceny
 				m_currentList++;
 				foreach (GameObject t_gameObject in t_list)
 				{
-					t_gameObject.update(a_gameTime);
+					try
+					{
+						t_gameObject.update(a_gameTime);
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While updating " + t_gameObject + " got exception: " + e);
+					}
 				}
 			}
 
@@ -216,9 +242,16 @@ namespace GrandLarceny
 				while(t_eventNode != null)
 				{
 					LinkedListNode<Event> t_next = t_eventNode.Next;
-					if (t_eventNode.Value.Execute())
+					try
 					{
-						m_events.Remove(t_eventNode);
+						if (t_eventNode.Value.Execute())
+						{
+							m_events.Remove(t_eventNode);
+						}
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While updating " + t_eventNode.Value + " got exception: " + e);
 					}
 					t_eventNode = t_next;
 				}
@@ -231,13 +264,27 @@ namespace GrandLarceny
 		{
 			foreach (GameObject t_gameObject in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
 			{
-				t_gameObject.draw(a_gameTime);
+				try
+				{
+					t_gameObject.draw(a_gameTime);
+				}
+				catch (Exception e)
+				{
+					ErrorLogger.getInstance().writeString("While drawing " + t_gameObject + " got exception: " + e);
+				}
 			}
 			foreach (GuiObject t_go in m_guiObject)
 			{
 				if (!t_go.isDead())
 				{
-					t_go.draw(a_gameTime);
+					try
+					{
+						t_go.draw(a_gameTime);
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While drawing " + t_go + " got exception: " + e);
+					}
 				}
 			}
 		}

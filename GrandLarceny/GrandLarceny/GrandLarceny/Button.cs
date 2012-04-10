@@ -116,7 +116,7 @@ namespace GrandLarceny
 				}
 				catch (ContentLoadException cle)
 				{
-					System.Console.WriteLine("Could not find asset for: " + m_buttonTexture + "\n" + cle.ToString());
+					ErrorLogger.getInstance().writeString("Could not find asset for: " + m_buttonTexture + "\n" + cle.ToString());
 				}
 			}
 			else
