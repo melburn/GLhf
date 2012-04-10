@@ -151,5 +151,10 @@ namespace GrandLarceny
 			else
 				m_position = new CartesianCoordinate(m_position.getLocalCartesianCoordinates(), m_position.getParentPosition());
 		}
+		public void setImageOffset(Vector2 a_offset)
+		{
+			m_imgOffsetX = a_offset.X;
+			m_imgOffsetY = a_offset.Y;
+		}
 	}
 }
