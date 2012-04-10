@@ -75,6 +75,7 @@ namespace GrandLarceny
 		private Button m_btnSecDoorHotkey;
 		private Button m_btnCornerHangHotkey;
 		private Button m_btnCheckPointHotkey;
+		private Button m_btnPropHotkey;
 
 		/*
 		-----------------------------------
@@ -125,7 +126,7 @@ namespace GrandLarceny
 			Ventilation,	Camera,		CrossVent,		TVent,
 			StraVent,		CornerVent, Ventrance,		Window,
 			DuckHidingObject,		StandHidingObject,	Rope,
-			SecDoor,		CornerHang,	Checkpoint
+			SecDoor,		CornerHang,	Checkpoint,		Prop
 		}
 
 		private MenuState m_menuState;
@@ -141,7 +142,6 @@ namespace GrandLarceny
 		{
 			m_levelToLoad = a_levelToLoad;
 			Game.getInstance().m_camera.getPosition().setParentPosition(null);
-			Game.getInstance().m_camera.setPosition(Vector2.Zero);
 		}
 
 		public override void load()
@@ -189,6 +189,7 @@ namespace GrandLarceny
 				foreach (GameObject t_gameObject in t_GOArr) {
 					if (t_gameObject is Player) {
 						m_player = t_gameObject;
+						Game.getInstance().m_camera.setPosition(m_player.getPosition().getGlobalCartesianCoordinates());
 						break;
 					}
 				}
@@ -259,6 +260,8 @@ namespace GrandLarceny
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 6, t_bottomRight.Y - TILE_HEIGHT * 2), "Shift+W", "VerdanaBold", Color.White, t_btnTextOffset));
 			m_buildingButtons.AddLast(m_btnCheckPointHotkey	= new Button(null,
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 6, t_bottomRight.Y - TILE_HEIGHT * 3), "K", "VerdanaBold", Color.White, t_btnTextOffset));
+			m_buildingButtons.AddLast(m_btnPropHotkey		= new Button(null,
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 7, t_bottomRight.Y - TILE_HEIGHT * 1), "C", "VerdanaBold", Color.White, t_btnTextOffset));
 
 			foreach (Button t_button in m_buildingButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -511,6 +514,10 @@ namespace GrandLarceny
 					}
 					if (a_button == m_btnCheckPointHotkey) {
 						setBuildingState(State.Checkpoint);
+						return;
+					}
+					if (a_button == m_btnPropHotkey) {
+						setBuildingState(State.Prop);
 						return;
 					}
 					break;
@@ -977,6 +984,9 @@ namespace GrandLarceny
 							case State.CornerHang:
 								createCornerHang();
 								break;
+							case State.Prop:
+								createProp();
+								break;
 						}
 					} else if (m_itemToCreate == State.Rope) {
 						createRope();
@@ -1417,6 +1427,11 @@ namespace GrandLarceny
 					m_btnCheckPointHotkey.setState(3);
 					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
 					break;
+				case State.Prop:
+					m_textCurrentMode.setText("Props");
+					createAssetList("Content//Images//");
+					m_btnPropHotkey.setState(3);
+					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0) {
 				selectAsset(m_assetButtonList.First());
@@ -1667,62 +1682,68 @@ namespace GrandLarceny
 			if (!collidedWithObject(m_worldMouse))
 				addObject(new CheckPoint(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.200f, 0.0f));
 		}
+		private void createProp() {
+			if (!collidedWithObject(m_worldMouse))
+				addObject(new Environment(getTile(m_worldMouse), "Images//" + assetToCreate, 0.998f));
+		}
 		#endregion
 
 		#region Draw
-		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
-		{
-			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
+		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch) {
+			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer]) {
 				t_gameObject.draw(a_gameTime);
+			}
 			if (Game.getInstance().getState() == this) {
-				foreach (GuiObject t_guiObject in m_guiList)
+				foreach (GuiObject t_guiObject in m_guiList) {
 					t_guiObject.draw(a_gameTime);
-				foreach (Button t_button in m_staticButton)
+				}
+				foreach (Button t_button in m_staticButton) {
 					t_button.draw(a_gameTime, a_spriteBatch);
+				}
 
 				if (m_selectedObject != null) {
 					m_textField.draw(a_gameTime);
 				}
 
-				switch (m_menuState)
-				{
+				switch (m_menuState) {
 					case MenuState.Normal:
-						foreach (Button t_button in m_buildingButtons)
-						{
+						foreach (Button t_button in m_buildingButtons) {
 							t_button.draw(a_gameTime, a_spriteBatch);
 						}
 						break;
 					case MenuState.Guard:
-						foreach (Button t_button in m_guardButtons)
-						{
+						foreach (Button t_button in m_guardButtons) {
 							t_button.draw(a_gameTime, a_spriteBatch);
 						}
 						break;
 					case MenuState.Hide:
-						foreach (Button t_button in m_hideButtons)
-						{
+						foreach (Button t_button in m_hideButtons) {
 							t_button.draw(a_gameTime, a_spriteBatch);
 						}
 						break;
 					case MenuState.Ventilation:
-						foreach (Button t_button in m_ventButtons)
-						{
+						foreach (Button t_button in m_ventButtons) {
 							t_button.draw(a_gameTime, a_spriteBatch);
 						}
 						break;
 				}
 
-				foreach (Button t_button in m_assetButtonList)
+				foreach (Button t_button in m_assetButtonList) {
 					t_button.draw(a_gameTime, a_spriteBatch);
-				foreach (Button t_button in m_layerButtonList)
+				}
+				foreach (Button t_button in m_layerButtonList) {
 					t_button.draw(a_gameTime, a_spriteBatch);
+				}
 			}
-			foreach (Line t_line in m_lineList)
+			foreach (Line t_line in m_lineList) {
 				t_line.draw();
-			if (m_objectPreview != null)
+			}
+			if (m_objectPreview != null) {
 				m_objectPreview.draw(a_gameTime);
-			if (m_dragLine != null)
+			}
+			if (m_dragLine != null) {
 				m_dragLine.draw();
+			}
 		}
 		#endregion
 	}
