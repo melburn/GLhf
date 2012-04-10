@@ -149,10 +149,10 @@ namespace GrandLarceny
 					}
 					else
 					{
-						m_recLines[0].setEndpoint(new Vector2(t_mouse.X, m_recPoint.Y));
-						m_recLines[1].setEndpoint(new Vector2(m_recPoint.X, t_mouse.Y));
-						m_recLines[2].setEndpoint(t_mouse);
-						m_recLines[3].setEndpoint(t_mouse);
+						m_recLines[0].setEndPoint(new Vector2(t_mouse.X, m_recPoint.Y));
+						m_recLines[1].setEndPoint(new Vector2(m_recPoint.X, t_mouse.Y));
+						m_recLines[2].setEndPoint(t_mouse);
+						m_recLines[3].setEndPoint(t_mouse);
 						m_recLines[2].setStartPoint(new Vector2(t_mouse.X, m_recPoint.Y));
 						m_recLines[3].setStartPoint(new Vector2(m_recPoint.X, t_mouse.Y));
 					}

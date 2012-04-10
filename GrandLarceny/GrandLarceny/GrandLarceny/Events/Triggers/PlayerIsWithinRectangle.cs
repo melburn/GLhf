@@ -78,7 +78,7 @@ namespace GrandLarceny.Events.Triggers
 			else
 			{
 				a_lines[a_index].setStartPoint(a_start);
-				a_lines[a_index].setEndpoint(a_end);
+				a_lines[a_index].setEndPoint(a_end);
 			}
 		}
 	}
