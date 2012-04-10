@@ -122,5 +122,10 @@ namespace GrandLarceny
 			base.changePositionType();
 			m_collisionShape.setPosition(m_position);
 		}
+
+		public void setGravity(float a_gravi)
+		{
+			m_gravity = a_gravi;
+		}
 	}
 }
