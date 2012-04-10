@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using GrandLarceny.Events;
-using Microsoft.Xna.Framework.Input;
 using GrandLarceny.Events.Effects;
 using GrandLarceny.Events.Triggers;
 

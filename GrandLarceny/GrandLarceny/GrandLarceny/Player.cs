@@ -160,6 +160,11 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_lastPosition = m_position.getGlobalCartesianCoordinates();
+
+			if (!m_stunned) {
+				changeAnimation();
+			}
+
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
 			m_invulnerableTimer = Math.Max(m_invulnerableTimer - t_deltaTime, 0);
 
