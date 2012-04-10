@@ -101,7 +101,6 @@ namespace GrandLarceny
 			catch (FileNotFoundException)
 			{
 				FileStream t_file = File.Create("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
-				Thread.Sleep(500);
 				Game.getInstance().setState(new GameState(m_newLevelName.getText() + ".lvl"));
 			}
 		}
