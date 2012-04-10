@@ -70,6 +70,7 @@ namespace GrandLarceny
 		private Button m_btnRopeHotkey;
 		private Button m_btnSecDoorHotkey;
 		private Button m_btnCornerHangHotkey;
+		private Button m_btnCheckPointHotkey;
 
 		/*
 		-----------------------------------
@@ -120,7 +121,7 @@ namespace GrandLarceny
 			Ventilation,	Camera,		CrossVent,		TVent,
 			StraVent,		CornerVent, Ventrance,		Window,
 			DuckHidingObject,		StandHidingObject,	Rope,
-			SecDoor,		CornerHang
+			SecDoor,		CornerHang,	Checkpoint
 		}
 
 		private MenuState m_menuState;
@@ -252,6 +253,8 @@ namespace GrandLarceny
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 6, t_bottomRight.Y - TILE_HEIGHT * 1), "E", "VerdanaBold", Color.White, t_btnTextOffset));
 			m_buildingButtons.AddLast(m_btnCornerHangHotkey	= new Button(null,
 				new Vector2(t_bottomRight.X - TILE_WIDTH * 6, t_bottomRight.Y - TILE_HEIGHT * 2), "Shift+W", "VerdanaBold", Color.White, t_btnTextOffset));
+			m_buildingButtons.AddLast(m_btnCheckPointHotkey	= new Button(null,
+				new Vector2(t_bottomRight.X - TILE_WIDTH * 6, t_bottomRight.Y - TILE_HEIGHT * 3), "K", "VerdanaBold", Color.White, t_btnTextOffset));
 
 			foreach (Button t_button in m_buildingButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -502,6 +505,10 @@ namespace GrandLarceny
 						setBuildingState(State.CornerHang);
 						return;
 					}
+					if (a_button == m_btnCheckPointHotkey) {
+						setBuildingState(State.Checkpoint);
+						return;
+					}
 					break;
 				case MenuState.Guard:
 					if (a_button == m_btnGuardHotkey) {
@@ -645,6 +652,9 @@ namespace GrandLarceny
 				case State.CornerHang:
 					m_objectPreview = new Platform(m_worldMouse, "Images//Foregrounds//" + assetToCreate, 0.000f);
 					break;
+				case State.Checkpoint:
+					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
+					break;
 			}
 		}
 		#endregion
@@ -787,6 +797,9 @@ namespace GrandLarceny
 						}
 						if (Game.keyClicked(Keys.E)) {
 							guiButtonClick(m_btnSecDoorHotkey);
+						}
+						if (Game.keyClicked(Keys.K)) {
+							guiButtonClick(m_btnCheckPointHotkey);
 						}
 						break;
 					case MenuState.Guard:
@@ -963,6 +976,8 @@ namespace GrandLarceny
 						}
 					} else if (m_itemToCreate == State.Rope) {
 						createRope();
+					} else if (m_itemToCreate == State.Checkpoint) {
+						createCheckPoint();
 					}
 					return;
 				}
@@ -1383,6 +1398,12 @@ namespace GrandLarceny
 					m_objectPreview = new Platform(m_worldMouse, "Images//Automagi//CornerThingy", 0.000f);
 					assetToCreate = "CornerThingy";
 					break;
+				case State.Checkpoint:
+					m_textCurrentMode.setText("Checkpoint");
+					createAssetList(null);
+					m_btnCheckPointHotkey.setState(3);
+					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
+					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0) {
 				selectAsset(m_assetButtonList.First());
@@ -1628,6 +1649,10 @@ namespace GrandLarceny
 		private void createCornerHang() {
 			if (!collidedWithObject(m_worldMouse))
 				addObject(new CornerHang(getTile(m_worldMouse), "Images//Automagi//" + assetToCreate, 0.400f, 0.0f));
+		}
+		private void createCheckPoint() {
+			if (!collidedWithObject(m_worldMouse))
+				addObject(new CheckPoint(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.200f, 0.0f));
 		}
 		#endregion
 

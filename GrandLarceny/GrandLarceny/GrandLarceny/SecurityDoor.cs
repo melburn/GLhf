@@ -93,14 +93,30 @@ namespace GrandLarceny
 
 					}
 					//Colliding with ze zeeling
-					else if (t_player.getLastPosition().Y >= getLastPosition().Y + getHitBox().getOutBox().Height)
+					else
 					{
-						t_player.setNextPositionY(getPosition().getGlobalY() + getHitBox().getOutBox().Height);
-						t_player.setSpeedY(0);
+						if (t_player.getCurrentState() == Player.State.Jumping)
+						{
+							t_player.setNextPositionY(getPosition().getGlobalY() + getHitBox().getOutBox().Height);
+							t_player.setSpeedY(getVerticalMovement());
+						}
+						else if (t_player.getPosition().getGlobalX() > m_position.getGlobalX() + (m_collisionShape.getOutBox().Width / 2))
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
+						}
+						else
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() - t_playerOutBox.Width);
+						}
 					}
 				}
 
 			}
+		}
+
+		public float getVerticalMovement()
+		{
+			return -m_img.getAnimationSpeed() * (m_img.getSize().Y / m_img.getLength());
 		}
 
 		public void setCloseWhenOpen(bool a_value)
