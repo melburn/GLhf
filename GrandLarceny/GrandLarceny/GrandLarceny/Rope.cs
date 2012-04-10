@@ -89,7 +89,7 @@ namespace GrandLarceny
 			if (a_collid is Player)
 			{
 				Player t_player = (Player)a_collid;
-				if (t_player.getRope() != this)
+				if (t_player.getRope() != this && t_player.getHitBox().collidesWithLineSegment(m_line.getStartPoint().getGlobalCartesianCoordinates(), m_line.getEndPoint().getGlobalCartesianCoordinates()))
 				{
 					t_player.setState(Player.State.Swinging);
 					t_player.changePositionType();
