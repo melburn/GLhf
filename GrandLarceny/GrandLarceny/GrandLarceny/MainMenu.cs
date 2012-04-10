@@ -30,7 +30,12 @@ namespace GrandLarceny
 			m_buttons.Add(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
 			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
 
-			m_levelList = Directory.GetFiles("Content//levels//");
+			try {
+				m_levelList = Directory.GetFiles("Content//levels//");
+			} catch (DirectoryNotFoundException) {
+				System.IO.Directory.CreateDirectory("Content\\levels\\");
+				m_levelList = new string[0];
+			}
 			int t_count = 0;
 			foreach (string t_level in m_levelList)
 			{
@@ -95,11 +100,6 @@ namespace GrandLarceny
 			catch (FileNotFoundException)
 			{
 				Game.getInstance().setState(new GameState(m_newLevelName.getText() + ".lvl"));
-			}
-			catch (DirectoryNotFoundException)
-			{
-				System.IO.Directory.CreateDirectory("Content\\levels\\");
-				createNewLevel(a_button);
 			}
 		}
 		#endregion

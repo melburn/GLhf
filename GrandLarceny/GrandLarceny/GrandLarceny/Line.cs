@@ -63,6 +63,7 @@ namespace GrandLarceny
 		{
 			m_endPosition = new CartesianCoordinate(a_endPoint + a_endOffset);
 		}
+
 		public void setEndPoint(Position a_position)
 		{
 			m_endPosition = a_position;
