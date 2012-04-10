@@ -39,8 +39,8 @@ namespace GrandLarceny
 		public const string DUCKHIDINGIMAGE = "hero_hide";
 		public const string VENTIDLEIMAGE = "hero_ventilation_idle";
 		private string m_currentHidingImage;
-		private string m_currentVentilationImage = "hero_ventilation_idle";
-		private string m_currentSwingingImage = "hero_swing_still";
+		private string m_currentVentilationImage;
+		private string m_currentSwingingImage;
 		[NonSerialized]
 		private CollisionRectangle m_standHitBox;
 		[NonSerialized]
@@ -152,6 +152,7 @@ namespace GrandLarceny
 			m_playerCurrentSpeed = PLAYERSPEED;
 			m_swingSpeed = 0;
 			m_currentVentilationImage = VENTIDLEIMAGE;
+			m_currentSwingingImage = "hero_swing_still";
 
 		}
 		#endregion

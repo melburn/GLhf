@@ -25,7 +25,7 @@ namespace GrandLarceny
 
 		public override void loadContent()
 		{
-			base.loadContent();			
+			base.loadContent();
 			m_line = new Line(m_position, m_position, new Vector2(36, 0), new Vector2(36, 72), Color.Black, 5, true);
 			m_collisionShape = new CollisionRectangle(0, 0, 72, 72, m_position);
 			m_rotationPoint.Y = 0;
@@ -63,19 +63,23 @@ namespace GrandLarceny
 			m_line.draw();
 		}
 
-		public override CollisionShape getImageBox() {
+		public override CollisionShape getImageBox()
+		{
 			return new CollisionRectangle(0, 0, 72, 72, m_position);
 		}
 
-		public void setEndpoint(Vector2 a_endPoint) {
+		public void setEndpoint(Vector2 a_endPoint)
+		{
 			m_line.setEndPoint(a_endPoint);
 		}
 
-		public void setEndpoint(Position a_position) {
+		public void setEndpoint(Position a_position)
+		{
 			m_line.setEndPoint(a_position);
 		}
 
-		public void setEndpoint(Position a_position, Vector2 a_offset) {
+		public void setEndpoint(Position a_position, Vector2 a_offset)
+		{
 			m_line.setEndPoint(a_position, a_offset);
 		}
 
@@ -92,6 +96,20 @@ namespace GrandLarceny
 				if (t_player.getRope() != this && t_player.getHitBox().collidesWithLineSegment(m_line.getStartPoint().getGlobalCartesianCoordinates(), m_line.getEndPoint().getGlobalCartesianCoordinates()))
 				{
 					t_player.setState(Player.State.Swinging);
+					if (Vector2.Distance(t_player.getPosition().getGlobalCartesianCoordinates(), m_line.getStartPoint().getGlobalCartesianCoordinates())
+						< Math.Min(Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates()),
+						Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width / 2, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates())))
+					{
+					}
+					else if (Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates())
+						< Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width / 2, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates()))
+					{
+						t_player.getPosition().plusXWith(t_player.getHitBox().getOutBox().Width);
+					}
+					else
+					{
+						t_player.getPosition().plusXWith(t_player.getHitBox().getOutBox().Width / 2);
+					}
 					t_player.changePositionType();
 					m_rotate = (float)Math.Atan2(-(m_position.getGlobalY() - t_player.getPosition().getGlobalY()), -(m_position.getGlobalX() - t_player.getPosition().getGlobalX()));
 					t_player.getPosition().setParentPositionWithoutMoving(m_line.getStartPoint());
