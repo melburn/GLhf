@@ -55,7 +55,7 @@ namespace GrandLarceny
 				m_swingSpeed = m_swingSpeed * 0.97f;
 				m_rotate += m_swingSpeed;
 			}
-			m_line.setEndpoint(m_line.getStartPoint().getGlobalCartesianCoordinates() + new Vector2(m_lenght * (float)Math.Cos(m_rotate), m_lenght * (float)Math.Sin(m_rotate)), Vector2.Zero);
+			m_line.setEndPoint(m_line.getStartPoint().getGlobalCartesianCoordinates() + new Vector2(m_lenght * (float)Math.Cos(m_rotate), m_lenght * (float)Math.Sin(m_rotate)), Vector2.Zero);
 		}
 
 		public override void draw(GameTime a_gameTime)
@@ -68,15 +68,15 @@ namespace GrandLarceny
 		}
 
 		public void setEndpoint(Vector2 a_endPoint) {
-			m_line.setEndpoint(a_endPoint);
+			m_line.setEndPoint(a_endPoint);
 		}
 
 		public void setEndpoint(Position a_position) {
-			m_line.setEndpoint(a_position);
+			m_line.setEndPoint(a_position);
 		}
 
 		public void setEndpoint(Position a_position, Vector2 a_offset) {
-			m_line.setEndpoint(a_position, a_offset);
+			m_line.setEndPoint(a_position, a_offset);
 		}
 
 		public void resetPosition()
