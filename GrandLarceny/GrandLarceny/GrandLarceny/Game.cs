@@ -60,10 +60,19 @@ namespace GrandLarceny
 		protected override void Initialize()
 		{
 			ErrorLogger.getInstance().writeString("GrandLarceny initiated at "+System.DateTime.Now);
-			m_camera = new Camera();
-			m_currentState = new MainMenu();
-			m_currentState.load();
-			base.Initialize();
+			try
+			{
+				m_camera = new Camera();
+				m_currentState = new MainMenu();
+				m_currentState.load();
+				base.Initialize();
+			}
+			catch (Exception e)
+			{
+				ErrorLogger.getInstance().writeString("While instantiating: " + e);
+				ErrorLogger.getInstance().writeString("Terminating");
+				Exit();
+			}
 		}
 
 		protected override void LoadContent()
@@ -89,17 +98,31 @@ namespace GrandLarceny
 				m_currentState = m_nextState;
 				if (!m_currentState.isLoaded())
 				{
-					m_currentState.load();
+					try
+					{
+						m_currentState.load();
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
+					}
 				}
 				m_nextState = null;
 			}
 
 			if (m_currentState != null)
 			{
-				m_currentState.update(a_gameTime);
+				try
+				{
+					m_currentState.update(a_gameTime);
+				}
+				catch (Exception e)
+				{
+					ErrorLogger.getInstance().writeString("While updating " + m_currentState + " got exception: " + e);
+				}
 			}
 
-			if (keyClicked(Keys.F7))
+			if (keyClicked(Keys.F7)) //Asså det här är ju inte ok
 			{
 				m_nextState = new MainMenu();
 			}
@@ -113,7 +136,14 @@ namespace GrandLarceny
 		{
 			GraphicsDevice.Clear(new Color(46, 46, 73));
 			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
-			m_currentState.draw(a_gameTime, m_spriteBatch);
+			try
+			{
+				m_currentState.draw(a_gameTime, m_spriteBatch);
+			}
+			catch (Exception e)
+			{
+				ErrorLogger.getInstance().writeString("While drawing " + m_currentState + " got exception: " + e);
+			}
 			m_spriteBatch.End();
 
 			base.Draw(a_gameTime);

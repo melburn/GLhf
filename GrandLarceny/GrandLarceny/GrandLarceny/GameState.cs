@@ -176,7 +176,14 @@ namespace GrandLarceny
 				m_currentList++;
 				foreach (GameObject t_gameObject in t_list)
 				{
-					t_gameObject.update(a_gameTime);
+					try
+					{
+						t_gameObject.update(a_gameTime);
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While updating " + t_gameObject + " got exception: " + e);
+					}
 				}
 			}
 
@@ -235,9 +242,16 @@ namespace GrandLarceny
 				while(t_eventNode != null)
 				{
 					LinkedListNode<Event> t_next = t_eventNode.Next;
-					if (t_eventNode.Value.Execute())
+					try
 					{
-						m_events.Remove(t_eventNode);
+						if (t_eventNode.Value.Execute())
+						{
+							m_events.Remove(t_eventNode);
+						}
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While updating " + t_eventNode.Value + " got exception: " + e);
 					}
 					t_eventNode = t_next;
 				}
@@ -250,13 +264,27 @@ namespace GrandLarceny
 		{
 			foreach (GameObject t_gameObject in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
 			{
-				t_gameObject.draw(a_gameTime);
+				try
+				{
+					t_gameObject.draw(a_gameTime);
+				}
+				catch (Exception e)
+				{
+					ErrorLogger.getInstance().writeString("While drawing " + t_gameObject + " got exception: " + e);
+				}
 			}
 			foreach (GuiObject t_go in m_guiObject)
 			{
 				if (!t_go.isDead())
 				{
-					t_go.draw(a_gameTime);
+					try
+					{
+						t_go.draw(a_gameTime);
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While drawing " + t_go + " got exception: " + e);
+					}
 				}
 			}
 		}
