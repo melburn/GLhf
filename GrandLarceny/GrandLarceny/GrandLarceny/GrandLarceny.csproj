@@ -124,6 +124,7 @@
     <Compile Include="CornerHang.cs" />
     <Compile Include="CornerVentilation.cs" />
     <Compile Include="CrossVentilation.cs" />
+    <Compile Include="ErrorLogger.cs" />
     <Compile Include="EventDevelopment.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />

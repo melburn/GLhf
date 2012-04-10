@@ -90,16 +90,20 @@ namespace GrandLarceny
 		}
 		private void createNewLevel(Button a_button)
 		{
-			try
+			String t_fileName = "Content\\levels\\" + m_newLevelName.getText() + ".lvl";
+			if (!Directory.Exists("Content\\levels\\"))
 			{
-				System.IO.File.OpenRead("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
-				m_textTimeOut = Game.getInstance().getGameTime() + new TimeSpan(0, 0, 3);
-				m_levelText.setColor(Color.Red);
-				m_levelText.setText("Level already exists!");
+				System.IO.Directory.CreateDirectory("Content\\levels\\");
 			}
-			catch (FileNotFoundException)
+			if (File.Exists(t_fileName))
 			{
-				Game.getInstance().setState(new GameState(m_newLevelName.getText() + ".lvl"));
+				m_levelText.setText("Level already exists!");
+				m_levelText.setColor(Color.Red);
+				m_textTimeOut = Game.getInstance().getGameTime() + new TimeSpan(0, 0, 3);
+			}
+			else
+			{
+				Game.getInstance().setState(new DevelopmentState(m_newLevelName.getText() + ".lvl"));
 			}
 		}
 		#endregion
