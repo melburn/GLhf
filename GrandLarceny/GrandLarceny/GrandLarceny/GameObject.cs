@@ -51,6 +51,7 @@ namespace GrandLarceny
 
 		public virtual void saveObject()
 		{
+			m_spritePath = m_img.getImagePath();
 			m_objectId = ++s_lastId;
 		}
 

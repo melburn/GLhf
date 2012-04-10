@@ -59,6 +59,7 @@ namespace GrandLarceny
 
 		protected override void Initialize()
 		{
+			ErrorLogger.getInstance().writeString("GrandLarceny initiated at "+System.DateTime.Now);
 			m_camera = new Camera();
 			m_currentState = new MainMenu();
 			m_currentState.load();
