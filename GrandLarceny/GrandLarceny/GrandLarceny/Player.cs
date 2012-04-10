@@ -877,6 +877,7 @@ namespace GrandLarceny
 				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI));
 				changePositionType();
 				m_position.setParentPositionWithoutMoving(null);
+				m_position.setGlobalX(m_position.getGlobalX() - 36);
 				m_rotate = 0;
 				m_currentState = State.Jumping;
 				m_rope.resetPosition();
@@ -1036,11 +1037,13 @@ namespace GrandLarceny
 				if (m_currentState == State.Swinging)
 				{
 					m_rotationPoint.Y = 0;
+					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_imgOffsetX = -m_img.getSize().X / 2;
 				}
 				else if (m_lastState == State.Swinging)
 				{
 					m_imgOffsetX = 0;
+					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_rotationPoint.Y = m_img.getSize().Y / 2;
 				}
 			}

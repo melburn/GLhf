@@ -1077,28 +1077,28 @@ namespace GrandLarceny
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), new Vector2(36, 36), Vector2.Zero, Color.Yellow, 5, true);
 						} else if (m_dragLine != null) {
-							m_dragLine.setEndpoint(m_worldMouse);
+							m_dragLine.setEndPoint(m_worldMouse);
 						}
 					}
 					if (m_selectedObject is Guard || m_selectedObject is GuardDog) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36)), new Vector2(36, 36), Vector2.Zero, Color.Green, 5, true);
 						} else if (m_dragLine != null) {
-							m_dragLine.setEndpoint(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36));
+							m_dragLine.setEndPoint(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36));
 						}
 					}
 					if (m_selectedObject is Rope) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), new Vector2(36, 36), Vector2.Zero, Color.Black, 5, true);
 						} else if (m_dragLine != null) {
-							m_dragLine.setEndpoint(m_worldMouse);
+							m_dragLine.setEndPoint(m_worldMouse);
 						}
 					}
 					if (m_selectedObject is GuardCamera) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), Vector2.Zero, Vector2.Zero, Color.Red, 5, true);
 						} else if (m_dragLine != null) {
-							m_dragLine.setEndpoint(m_worldMouse);
+							m_dragLine.setEndPoint(m_worldMouse);
 						}
 					}
 				}
