@@ -1095,17 +1095,13 @@ namespace GrandLarceny
 
 					if (m_selectedObject is SpotLight) {
 						m_selectedObject.getPosition().setLocalX(t_mousePosition.X + m_selectedObject.getBox().Width);
+						m_selectedObject.getPosition().setLocalY(t_mousePosition.Y);
 					} else if (m_selectedObject is Rope) {
-						((Rope)m_selectedObject).moveRope(t_mousePosition);
-						/*
-						m_selectedObject.getPosition().setLocalX(t_mousePosition.X + 36);
-						((Rope)m_selectedObject).getEndpoint().setLocalX(m_selectedObject.getPosition().getLocalX());
-						((Rope)m_selectedObject).getEndpoint().setLocalY(t_mousePosition.Y + ((Rope)m_selectedObject).getLength());
-						*/
+						((Rope)m_selectedObject).moveRope(new Vector2(getTile(m_worldMouse).X - 36, getTile(m_worldMouse).Y));
 					} else {
 						m_selectedObject.getPosition().setLocalX(t_mousePosition.X);
+						m_selectedObject.getPosition().setLocalY(t_mousePosition.Y);
 					}
-					//m_selectedObject.getPosition().setLocalY(t_mousePosition.Y);
 				}
 			}
 
@@ -1132,13 +1128,6 @@ namespace GrandLarceny
 					}
 					if (m_selectedObject is Rope) {
 						((Rope)m_selectedObject).setEndpoint(new Vector2(m_selectedObject.getPosition().getLocalX(), m_worldMouse.Y));
-						/*
-						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
-							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(m_worldMouse), new Vector2(36, 0), Vector2.Zero, Color.Black, 5, true);
-						} else if (m_dragLine != null) {
-							m_dragLine.setEndPoint(new Vector2(m_selectedObject.getPosition().getLocalX(), m_worldMouse.Y));
-						}
-						*/
 					}
 					if (m_selectedObject is GuardCamera) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {

@@ -100,7 +100,8 @@ namespace GrandLarceny
 		}
 
 		public void moveRope(Vector2 a_position) {
-			m_startPosition.setLocalX(a_position.X + 36);
+			m_startPosition.setLocalX(a_position.X);
+			m_startPosition.plusXWith(36);
 			m_startPosition.setLocalY(a_position.Y);
 		}
 
