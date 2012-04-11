@@ -24,7 +24,6 @@ namespace GrandLarceny
 			{
 				m_instance = new Serializer();
 			}
-
 			return m_instance;
 		}
 
@@ -56,7 +55,6 @@ namespace GrandLarceny
 			t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Create);
 			BinaryFormatter t_bFormatter = new BinaryFormatter();
 			
-
 			LinkedList<string> t_unikName = new LinkedList<string>();
 			LinkedList<LinkedList<GameObject>> t_objekts = new LinkedList<LinkedList<GameObject>>();
 
@@ -69,11 +67,8 @@ namespace GrandLarceny
 			long t_fstreamLastPos = t_fstream.Position;
 			long t_objectListSize = t_fstream.Position;
 			
-			
-			
 			foreach (LinkedList<GameObject> t_goList in a_save.getGameObjects())
 			{
-
 				t_fstream.Position = t_fstream.Position + 4;
 				foreach(GameObject t_go in t_goList)
 				{
@@ -115,7 +110,6 @@ namespace GrandLarceny
 					{
 						t_stream.Close();
 					}
-
 				}
 
 				byte[] t_layerSize = new byte[4];
@@ -160,13 +154,13 @@ namespace GrandLarceny
 			{
 				ErrorLogger.getInstance().writeString("While saving, failed to serialized event");
 			}
+
 			if (t_stream != null)
 			{
 				t_stream.Close();
 			}
 			//Serialize events done
 
-			
 			if (t_fstream != null)
 			{
 				t_fstream.Close();
@@ -190,20 +184,27 @@ namespace GrandLarceny
 			
 			byte[] t_bytes = new byte[4];
 
-
 			int t_layerIndex = 0;
 			try
 			{
-				t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
-			
-				
+				while (true)
+				{
+					try
+					{
+						t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
+						break;
+					}
+					catch (IOException)
+					{
+						continue;
+					}
+				}
+					
 				BinaryFormatter t_bFormatter = new BinaryFormatter();
-
 				
 				t_fstream.Read(t_bytes, 0, t_bytes.Length);
 				int t_gameObjectListSize = BitConverter.ToInt32(t_bytes, 0);
-				 
-
+				
 				//load GameObjects
 				while (true)
 				{
@@ -245,17 +246,15 @@ namespace GrandLarceny
 							ErrorLogger.getInstance().writeString("Fail to DeSerialize GameObject while loading: " + e);
 						}
 					}
-
 					t_layerIndex++;
+
 					if (t_fstream.Position >= t_gameObjectListSize)
 					{
 						break;
 					}
-
 				}
 				t_loadingLevel.setLevelObjects(t_gameObjectsList);
 
-				
 				try
 				{
 					//load Events
@@ -277,21 +276,17 @@ namespace GrandLarceny
 					ErrorLogger.getInstance().writeString("Fail to DeSerialize Event while loading " + e);
 				}
 				t_loadingLevel.setEvents(t_events);
-				
-
 			}
 			catch (FileLoadException e)
 			{
 				ErrorLogger.getInstance().writeString("Could not deserialize level: " + e);
 			}
 
-			
-
-
 			if (t_fstream != null)
 			{
 				t_fstream.Close();
 			}
+
 			if (t_mStream != null)
 			{
 				t_mStream.Close();
@@ -303,7 +298,6 @@ namespace GrandLarceny
 			}
 
 			return t_loadingLevel;
-
 		}
 	}
 }
