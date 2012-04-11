@@ -26,10 +26,17 @@ namespace GrandLarceny.Events.Effects
 
 		public override void execute()
 		{
-			m_doorToOpen.setCloseWhenOpen(true);
-			m_doorToOpen.setOpeningSpeed(m_openSpeed);
-			m_doorToOpen.setClosingSpeed(m_closeSpeed);
-			m_doorToOpen.open();
+			if (m_doorToOpen == null)
+			{
+				ErrorLogger.getInstance().writeString("DoorOpenEffect can't find door " + m_doorLink);
+			}
+			else
+			{
+				m_doorToOpen.setCloseWhenOpen(true);
+				m_doorToOpen.setOpeningSpeed(m_openSpeed);
+				m_doorToOpen.setClosingSpeed(m_closeSpeed);
+				m_doorToOpen.open();
+			}
 		}
 
 		public override string ToString()
