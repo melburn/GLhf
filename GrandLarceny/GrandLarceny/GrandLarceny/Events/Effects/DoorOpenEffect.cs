@@ -18,6 +18,7 @@ namespace GrandLarceny.Events.Effects
 
 		public DoorOpenEffect(SecurityDoor a_doorToOpen, float a_openSpeed, float a_closeSpeed)
 		{
+			m_closeAfterwards = true;
 			m_doorToOpen = a_doorToOpen;
 			m_openSpeed = a_openSpeed;
 			m_closeSpeed = a_closeSpeed;
@@ -32,7 +33,7 @@ namespace GrandLarceny.Events.Effects
 			}
 			else
 			{
-				m_doorToOpen.setCloseWhenOpen(true);
+				m_doorToOpen.setCloseWhenOpen(m_closeAfterwards);
 				m_doorToOpen.setOpeningSpeed(m_openSpeed);
 				m_doorToOpen.setClosingSpeed(m_closeSpeed);
 				m_doorToOpen.open();
