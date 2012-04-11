@@ -59,29 +59,32 @@ namespace GrandLarceny
 
 		public void draw(Vector2 a_imgPosition, float a_rotation, Vector2 a_origin, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f, float a_xScale = 1.0f, float a_yScale = 1.0f)
 		{
-			if (a_xScale <= 0)
+			if (m_image != null)
 			{
-				throw new ArgumentException("xScale has to be positive. was "+a_xScale);
-			}
-			if (a_yScale <= 0)
-			{
-				throw new ArgumentException("yScale has to be positive. was "+a_yScale);
-			}
-			if (a_color == null)
-			{
-				a_color = Color.White;
-			}
+				if (a_xScale <= 0)
+				{
+					throw new ArgumentException("xScale has to be positive. was " + a_xScale);
+				}
+				if (a_yScale <= 0)
+				{
+					throw new ArgumentException("yScale has to be positive. was " + a_yScale);
+				}
+				if (a_color == null)
+				{
+					a_color = Color.White;
+				}
 
-			Game.getInstance().getSpriteBatch().Draw(
-				m_image,
-				new Rectangle((int)(Math.Round(a_imgPosition.X)+(a_origin.X*a_xScale)), (int)(Math.Round(a_imgPosition.Y)+(a_origin.Y*a_yScale)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
-				new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
-				a_color,
-				a_rotation,
-				a_origin,
-				a_spriteEffect,
-				a_layer
-			);
+				Game.getInstance().getSpriteBatch().Draw(
+					m_image,
+					new Rectangle((int)(Math.Round(a_imgPosition.X) + (a_origin.X * a_xScale)), (int)(Math.Round(a_imgPosition.Y) + (a_origin.Y * a_yScale)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
+					new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
+					a_color,
+					a_rotation,
+					a_origin,
+					a_spriteEffect,
+					a_layer
+				);
+			}
 		}
 
 		public void setSprite(Texture2D a_texture) {
