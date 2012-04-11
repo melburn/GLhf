@@ -15,21 +15,25 @@ namespace GrandLarceny
 		private float m_lenght;
 		private float m_swingSpeed;
 
+		private Position m_startPosition;
+		private Position m_endPosition;
+
 		private bool m_moveToStart = true;
 
 		public Rope(Vector2 a_posV2, string a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-
 		}
 
 		public override void loadContent()
 		{
-			base.loadContent();
-			m_line = new Line(m_position, m_position, new Vector2(36, 0), new Vector2(36, 72), Color.Black, 5, true);
-			m_collisionShape = new CollisionRectangle(0, 0, 72, 72, m_position);
+			base.loadContent();			
+			m_startPosition = m_position;
+			m_endPosition = new CartesianCoordinate(m_position.getGlobalCartesianCoordinates() + new Vector2(0, (float)Math.Max(m_lenght,72)));
+			m_endPosition.setParentPositionWithoutMoving(m_startPosition);
+			m_line = new Line(m_startPosition, m_endPosition, new Vector2(36, 0), new Vector2(36, 0), Color.Black, 5, true);
+			m_collisionShape = new CollisionRectangle(33, 0, 6, m_lenght, m_startPosition);
 			m_rotationPoint.Y = 0;
-			m_lenght = m_line.getStartPoint().getDistanceTo(m_line.getEndPoint());
 			m_rotate = (float)Math.PI / 2;
 		}
 
@@ -62,25 +66,50 @@ namespace GrandLarceny
 		{
 			m_line.draw();
 		}
-
-		public override CollisionShape getImageBox()
-		{
-			return new CollisionRectangle(0, 0, 72, 72, m_position);
+		public override CollisionShape getImageBox() {
+			return new CollisionRectangle(0, 0, 72, 72, m_startPosition);
 		}
 
-		public void setEndpoint(Vector2 a_endPoint)
-		{
-			m_line.setEndPoint(a_endPoint);
+		public void setLength(float a_length) {
+			m_lenght = a_length;
+			m_endPosition = new CartesianCoordinate(m_position.getGlobalCartesianCoordinates() + new Vector2(0, (float)Math.Max(m_lenght, 72)));
 		}
 
-		public void setEndpoint(Position a_position)
-		{
-			m_line.setEndPoint(a_position);
+		public void setEndpoint(Vector2 a_endPoint) {
+			m_endPosition = new CartesianCoordinate(a_endPoint);
+			m_endPosition.setParentPositionWithoutMoving(m_startPosition);
+			m_endPosition.plusXWith(36);
+			m_line.setEndPoint(m_endPosition);
+			m_lenght = m_line.getStartPoint().getDistanceTo(m_line.getEndPoint());
 		}
 
-		public void setEndpoint(Position a_position, Vector2 a_offset)
-		{
-			m_line.setEndPoint(a_position, a_offset);
+		public void setEndpoint(Position a_position) {
+			m_endPosition = a_position;
+			m_endPosition.setParentPositionWithoutMoving(m_startPosition);
+			m_endPosition.plusXWith(36);
+			m_line.setEndPoint(m_endPosition);
+			m_lenght = m_line.getStartPoint().getDistanceTo(m_line.getEndPoint());
+		}
+
+		public void setEndpoint(Position a_position, Vector2 a_offset) {
+			m_endPosition = new CartesianCoordinate(a_offset, a_position);
+			m_endPosition.setParentPositionWithoutMoving(m_startPosition);
+			m_endPosition.plusXWith(36);
+			m_line.setEndPoint(m_endPosition);
+			m_lenght = m_line.getStartPoint().getDistanceTo(m_line.getEndPoint());
+		}
+
+		public void moveRope(Vector2 a_position) {
+			m_startPosition.setLocalX(a_position.X + 36);
+			m_startPosition.setLocalY(a_position.Y);
+		}
+
+		public Position getEndpoint() {
+			return m_endPosition;
+		}
+
+		public float getLength() {
+			return m_lenght;
 		}
 
 		public void resetPosition()
