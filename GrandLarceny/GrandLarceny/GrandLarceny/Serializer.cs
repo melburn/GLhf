@@ -274,7 +274,7 @@ namespace GrandLarceny
 				}
 				catch (SerializationException e)
 				{
-					ErrorLogger.getInstance().writeString("Fail to DeSerialize Event while loading\n" + e);
+					ErrorLogger.getInstance().writeString("Fail to DeSerialize Event while loading " + e);
 				}
 				t_loadingLevel.setEvents(t_events);
 				
