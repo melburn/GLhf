@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 namespace GrandLarceny
 {
@@ -156,7 +157,14 @@ namespace GrandLarceny
 
 		public void setCutscene(String a_fileName)
 		{
-			m_nextState = new Cutscene(m_currentState, a_fileName);
+			if (File.Exists(a_fileName))
+			{
+				m_nextState = new Cutscene(m_currentState, a_fileName);
+			}
+			else
+			{
+				ErrorLogger.getInstance().writeString("While setting cutscene, could not find " + a_fileName);
+			}
 		}
 
 		internal States getState()
