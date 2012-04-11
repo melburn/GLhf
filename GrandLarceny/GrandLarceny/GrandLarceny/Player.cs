@@ -85,6 +85,7 @@ namespace GrandLarceny
 		private bool m_stunnedFlipSprite = false;
 		private bool m_chase = false;
 		private bool m_deactivateChase = false;
+		private bool m_runMode = true;
 
 		private Rope m_rope = null;
 
@@ -436,7 +437,7 @@ namespace GrandLarceny
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
-			if (m_chase)
+			if (m_chase || m_runMode)
 			{
 				m_img.setAnimationSpeed(Math.Abs(m_speed.X / 22f));
 			}
@@ -910,7 +911,7 @@ namespace GrandLarceny
 				}
 				case State.Walking:
 				{
-					if (m_chase)
+					if (m_chase || m_runMode)
 						setSprite("hero_run");
 					else
 						setSprite("hero_walk");
@@ -1063,7 +1064,7 @@ namespace GrandLarceny
 		{
 			m_collidedWithWall = false;
 			m_ladderDirection = 0;
-			if (!m_chase)
+			if (!m_chase && !m_runMode)
 			{
 				setIsInLight(false);
 			}
@@ -1237,7 +1238,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void windowAction()
+		public void windowAction(bool a_playerToSneakMode)
 		{
 			if (m_windowActionCD <= 0)
 			{
@@ -1281,7 +1282,17 @@ namespace GrandLarceny
 				setNextPositionX(m_position.getGlobalX());
 
 				m_img.setAnimationSpeed(10);
-				deactivateChaseMode();
+
+
+				if (a_playerToSneakMode)
+				{
+					deactivateChaseMode();	
+				}
+				else
+				{
+					activateRunMode();
+				}
+
 			}
 		}
 
@@ -1407,21 +1418,18 @@ namespace GrandLarceny
 		private void activateNormalMode()
 		{
 			m_chase = false;
+			m_runMode = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
 			setIsInLight(false);
 			((GameState)Game.getInstance().getState()).clearAggro();
 		}
 		private void activateRunMode()
 		{
-			
+			m_runMode = true;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			setIsInLight(true);
 		}
-		public void activateSneakMode()
-		{
-			m_playerCurrentSpeed = PLAYERSPEED;
-			setIsInLight(false);
-		}
+
 		public override void changePositionType()
 		{
 			base.changePositionType();
