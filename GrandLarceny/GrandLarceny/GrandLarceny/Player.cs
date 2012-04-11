@@ -152,6 +152,7 @@ namespace GrandLarceny
 			m_playerCurrentSpeed = PLAYERSPEED;
 			m_swingSpeed = 0;
 			m_currentVentilationImage = VENTIDLEIMAGE;
+			m_position.plusYWith(-1);
 
 		}
 		#endregion
@@ -159,6 +160,7 @@ namespace GrandLarceny
 		#region update
 		public override void update(GameTime a_gameTime)
 		{
+			
 			m_lastPosition = m_position.getGlobalCartesianCoordinates();
 
 			if (!m_stunned) {
@@ -173,6 +175,7 @@ namespace GrandLarceny
 				activateNormalMode();
 				m_deactivateChase = false;
 			}
+			
 
 			updateState();
 			m_lastState = m_currentState;
@@ -568,7 +571,7 @@ namespace GrandLarceny
 			}
 			if (m_ladderDirection == Direction.None)
 			{
-				//m_currentState = State.Jumping;
+				m_currentState = State.Jumping;
 				m_nextPosition.Y = m_position.getGlobalY() + 1;
 			}
 		}
@@ -1407,6 +1410,17 @@ namespace GrandLarceny
 			m_playerCurrentSpeed = PLAYERSPEED;
 			setIsInLight(false);
 			((GameState)Game.getInstance().getState()).clearAggro();
+		}
+		private void activateRunMode()
+		{
+			
+			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
+			setIsInLight(true);
+		}
+		public void activateSneakMode()
+		{
+			m_playerCurrentSpeed = PLAYERSPEED;
+			setIsInLight(false);
 		}
 		public override void changePositionType()
 		{
