@@ -436,8 +436,8 @@ namespace GrandLarceny
 			m_textField.update(a_gameTime);
 
 			if (m_selectedObject != null) {
-				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / TILE_WIDTH;
-				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y / TILE_HEIGHT;
+				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X * TILE_WIDTH;
+				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y * TILE_HEIGHT;
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
 				if (m_selectedObject is Guard) {
 					Guard t_guard = (Guard)m_selectedObject;
@@ -1252,7 +1252,7 @@ namespace GrandLarceny
 		}
 
 		private Vector2 getTile(Vector2 a_pixelPosition) {
-			if (a_pixelPosition.X >= 0)
+			/*if (a_pixelPosition.X >= 0)
 				a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % TILE_WIDTH);
 			else
 				a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % TILE_WIDTH) - TILE_WIDTH;
@@ -1262,6 +1262,10 @@ namespace GrandLarceny
 			else
 				a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % TILE_HEIGHT) - TILE_HEIGHT;
 
+			return a_pixelPosition;*/
+			//Asså vad är detta jag fixar
+			a_pixelPosition.X = (float)(Math.Floor(a_pixelPosition.X / TILE_WIDTH));
+			a_pixelPosition.Y = (float)(Math.Floor(a_pixelPosition.Y / TILE_HEIGHT));
 			return a_pixelPosition;
 		}
 
