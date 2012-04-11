@@ -136,14 +136,14 @@ namespace GrandLarceny
 		{
 			GraphicsDevice.Clear(new Color(46, 46, 73));
 			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
-			try
-			{
+			//try
+			//{
 				m_currentState.draw(a_gameTime, m_spriteBatch);
-			}
-			catch (Exception e)
-			{
-				ErrorLogger.getInstance().writeString("While drawing " + m_currentState + " got exception: " + e);
-			}
+			//}
+			//catch (Exception e)
+			//{
+				//ErrorLogger.getInstance().writeString("While drawing " + m_currentState + " got exception: " + e);
+			//}
 			m_spriteBatch.End();
 
 			base.Draw(a_gameTime);
