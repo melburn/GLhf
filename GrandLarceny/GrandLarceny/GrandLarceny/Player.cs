@@ -1204,10 +1204,21 @@ namespace GrandLarceny
 				m_health = Math.Max(m_health - 1, 0);
 				updateHealthGUI();
 				m_stunned = true;
-				m_stunnedTimer = 0.8f;
 				m_stunnedDeacceleration = true;
 				m_speed = a_knockBackForce;
-				m_invulnerableTimer = 2f;
+
+				if (m_health <= 0)
+				{
+					m_stunnedTimer = 5f;
+					m_invulnerableTimer = 5f;
+
+					Game.getInstance().setState(new DeathScene(Game.getInstance().getState().getObjectList()));
+				}
+				else
+				{
+					m_stunnedTimer = 0.8f;
+					m_invulnerableTimer = 2f;
+				}
 			}
 		}
 
@@ -1300,7 +1311,6 @@ namespace GrandLarceny
 			{
 				m_position.plusXWith(-m_standHitBox.m_width);
 				Game.getInstance().m_camera.getPosition().plusXWith(m_standHitBox.m_width);
-				//m_imgOffsetX = m_standHitBox.m_width;
 			}
 			setNextPositionX(m_position.getGlobalX());
 			m_img.setAnimationSpeed(10);
