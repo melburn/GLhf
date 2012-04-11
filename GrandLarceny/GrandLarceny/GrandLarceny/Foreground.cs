@@ -18,6 +18,8 @@ namespace GrandLarceny
 		private float m_fadingTime;
 		private bool m_fadingOut;
 		private float m_currentfadingTime;
+		private bool m_triggerSneak = true;
+		private bool m_hasCollidWithPlayer = false;
 
 		public Foreground(Vector2 a_posV2, string a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
@@ -139,7 +141,7 @@ namespace GrandLarceny
 				{
 					t_fg.setVisible(false);
 				}
-				
+
 			}
 		}
 
