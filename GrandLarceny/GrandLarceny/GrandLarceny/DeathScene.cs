@@ -4,24 +4,51 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace GrandLarceny
 {
 	public class DeathScene : States
 	{
 		private LinkedList<GameObject>[] m_gameObjects;
+		private TimeSpan m_timer;
+		private String m_levelName;
+		private int m_currentList;
+		private Player m_player;
 		public DeathScene(LinkedList<GameObject>[] a_gameObjects)
 		{
+			if (File.Exists("Content\\levels\\Checkpoint.lvl"))
+			{
+				m_levelName = "Checkpoint.lvl";
+			}
+			else if (Game.getInstance().getState() is GameState)
+			{
+				m_levelName = ((GameState)Game.getInstance().getState()).getLevelName();
+			}
+			else
+			{
+				throw new InvalidCastException("DeathScene can only be created when in GameState");
+			}
 			m_gameObjects = a_gameObjects;
+			m_player = Game.getInstance().getState().getPlayer();
 		}
 
 
 		public override void update(GameTime a_gameTime)
 		{
-			GameTime t_slowTime = new GameTime(a_gameTime.TotalGameTime, new TimeSpan(a_gameTime.ElapsedGameTime.Ticks / 3));
-			foreach (LinkedList<GameObject> t_llgo in m_gameObjects)
+			if (m_timer == TimeSpan.Zero)
 			{
-				foreach (GameObject t_go in t_llgo)
+				m_timer = Game.getInstance().getGameTime() + new TimeSpan(0, 0, 4);
+			}
+			else if (m_timer <= Game.getInstance().getGameTime())
+			{
+				Game.getInstance().setState(new GameState(m_levelName));
+				return;
+			}
+			GameTime t_slowTime = new GameTime(a_gameTime.TotalGameTime, new TimeSpan(a_gameTime.ElapsedGameTime.Ticks / 3));
+			for(m_currentList = 0; m_currentList < 5; ++m_currentList)
+			{
+				foreach (GameObject t_go in m_gameObjects[m_currentList])
 				{
 					try
 					{
@@ -30,6 +57,31 @@ namespace GrandLarceny
 					catch (Exception e)
 					{
 						ErrorLogger.getInstance().writeString("While updating " + t_go + " from DeathScene got exception: " + e);
+					}
+				}
+			}
+			m_currentList = -1;
+			for (m_currentList = 0; m_currentList < 5; ++m_currentList)
+			{
+				foreach (GameObject t_firstGameObject in m_gameObjects[m_currentList])
+				{
+					if (t_firstGameObject is MovingObject)
+					{
+						List<Entity> t_collided = new List<Entity>();
+						foreach (GameObject t_secondGameObject in m_gameObjects[m_currentList])
+						{
+							if (t_secondGameObject is Entity && t_firstGameObject != t_secondGameObject
+								&& ((Entity)t_firstGameObject).getHitBox() != null && ((Entity)t_secondGameObject).getHitBox() != null
+								&& GameState.checkBigBoxCollision(((Entity)t_firstGameObject).getHitBox().getOutBox(), ((Entity)t_secondGameObject).getHitBox().getOutBox()))
+							{
+								t_collided.Add((Entity)t_secondGameObject);
+							}
+						}
+						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
+						if (!(t_firstGameObject.getPosition() is PolarCoordinate))
+						{
+							((Entity)t_firstGameObject).updatePosition();
+						}
 					}
 				}
 			}
@@ -48,6 +100,11 @@ namespace GrandLarceny
 					ErrorLogger.getInstance().writeString("While drawing " + t_gameObject + " from DeathScene got exception: " + e);
 				}
 			}
+		}
+
+		public override Player getPlayer()
+		{
+			return m_player;
 		}
 	}
 }
