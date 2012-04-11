@@ -11,7 +11,7 @@ namespace GrandLarceny
 		private Rectangle m_bounds;
 		private string m_guiSprite;
 
-		public GuiObject(Vector2 a_posV2, string a_sprite) : base(a_posV2, null, 0.002f)
+		public GuiObject(Vector2 a_posV2, string a_sprite) : base(a_posV2, "Images//GUI//" + a_sprite, 0.002f)
 		{
 			m_position = new CartesianCoordinate(a_posV2 - Game.getInstance().getResolution() / 2, Game.getInstance().m_camera.getPosition());
 			m_bounds.X = (int)a_posV2.X;

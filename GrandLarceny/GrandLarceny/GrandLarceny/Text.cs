@@ -20,7 +20,7 @@ namespace GrandLarceny
 
 		#region Constructor & Load
 		public Text(Vector2 a_position, string a_text, string a_spriteFont, Color a_color, bool a_worldFont)
-			: base(a_position, "")
+			: base(a_position, null)
 		{
 			if (a_worldFont)
 			{

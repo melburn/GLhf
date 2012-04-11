@@ -136,7 +136,7 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_guis.Add(int.Parse(m_currentCommand[1]),new GuiObject(new Vector2(float.Parse(m_currentCommand[2]),float.Parse(m_currentCommand[3])),m_currentCommand[4]));
+				m_guis.Add(int.Parse(m_currentCommand[1]), new GuiObject(new Vector2(float.Parse(m_currentCommand[2]), float.Parse(m_currentCommand[3])), m_currentCommand[4]));
 			}
 			else if (m_currentCommand[0].Equals("removeGui", StringComparison.OrdinalIgnoreCase))
 			{
