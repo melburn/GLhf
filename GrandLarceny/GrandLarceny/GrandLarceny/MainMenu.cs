@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
 
 namespace GrandLarceny
 {
@@ -18,12 +19,49 @@ namespace GrandLarceny
 		private Text		m_levelText;
 		private Button		m_btnTFAccept;
 		private TimeSpan	m_textTimeOut;
+
+		private ParseState m_currentParse;
+		private enum ParseState {
+			Settings
+		}
 		#endregion
 
 		#region Constructor & Load
 		public override void load()
 		{
 			base.load();
+
+			string[] t_loadedFile = File.ReadAllLines("Content//wtf//settings.ini");
+			foreach (string t_currentLine in t_loadedFile)
+			{
+				if (t_currentLine.Length > 2 && t_currentLine.First() == '[' && t_currentLine.Last() == ']')
+				{
+					if (t_currentLine.Equals("[Graphics]"))
+					{
+						m_currentParse = ParseState.Settings;
+					}
+				}
+				switch (m_currentParse)
+				{
+					case ParseState.Settings:
+						string[] t_setting = t_currentLine.Split('=');
+						if (t_setting[0].Equals("ScreenWidth"))
+						{
+							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
+						}
+						else if (t_setting[0].Equals("ScreenHeight"))
+						{
+							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
+							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
+						}
+						else if (t_setting[0].Equals("Fullscreen"))
+						{
+							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
+						}
+						break;
+				}
+				Game.getInstance().m_graphics.ApplyChanges();
+			}
 
 			m_levelText		= new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
 			m_newLevelName	= new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
@@ -33,13 +71,13 @@ namespace GrandLarceny
 			try {
 				m_levelList = Directory.GetFiles("Content//levels//");
 			} catch (DirectoryNotFoundException) {
-				System.IO.Directory.CreateDirectory("Content\\levels\\");
-				m_levelList = new string[0];
+				System.IO.Directory.CreateDirectory("Content//levels//");
+				return;
 			}
 			int t_count = 0;
 			foreach (string t_level in m_levelList)
 			{
-				string[] t_splitPath = Regex.Split(t_level, "//");
+				string[] t_splitPath = Regex.Split(t_level, "/");
 				Button t_levelButton = new Button("btn_test_empty", "btn_test_empty", "btn_test_empty", "btn_test_empty", 
 					new Vector2(20, 60 * t_count + 20), t_splitPath[t_splitPath.Length - 1], "VerdanaBold", Color.Black, new Vector2(10, 10));
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
@@ -91,10 +129,7 @@ namespace GrandLarceny
 		private void createNewLevel(Button a_button)
 		{
 			String t_fileName = "Content\\levels\\" + m_newLevelName.getText() + ".lvl";
-			if (!Directory.Exists("Content\\levels\\"))
-			{
-				System.IO.Directory.CreateDirectory("Content\\levels\\");
-			}
+
 			if (File.Exists(t_fileName))
 			{
 				m_levelText.setText("Level already exists!");
@@ -103,6 +138,7 @@ namespace GrandLarceny
 			}
 			else
 			{
+				FileStream t_file = File.Create("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
 				Game.getInstance().setState(new DevelopmentState(m_newLevelName.getText() + ".lvl"));
 			}
 		}

@@ -14,15 +14,23 @@ namespace GrandLarceny
 		{
 		}
 
+		public override void loadContent()
+		{
+			base.loadContent();
+			m_collisionShape = new CollisionRectangle(0, 0, m_img.getSize().X, 30, m_position);
+		}
+
 		internal override void updateCollisionWith(Entity a_collid)
 		{
 			base.updateCollisionWith(a_collid);
 			if (a_collid is Player)
 			{
 				Player t_player = (Player)a_collid;
-				if (t_player.getCurrentState() == Player.State.Hanging)
+				if (t_player.getCurrentState() == Player.State.Slide)
 				{
-					t_player.setSpeedY(0);
+					
+					t_player.setNextPositionY(t_player.getLastPosition().Y);
+					
 				}
 			}
 		}
