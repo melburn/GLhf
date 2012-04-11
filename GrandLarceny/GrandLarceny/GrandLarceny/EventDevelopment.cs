@@ -391,6 +391,11 @@ namespace GrandLarceny
 				m_switchTriggerType.setState(0);
 				m_switchTriggerType = null;
 			}
+			else if (m_state == State.newDoorEffect)
+			{
+				t_goingToPop = true;
+				m_state = State.newEffect;
+			}
 
 			if (t_goingToPop)
 			{

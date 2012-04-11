@@ -153,6 +153,7 @@ namespace GrandLarceny
 			m_swingSpeed = 0;
 			m_currentVentilationImage = VENTIDLEIMAGE;
 			m_currentSwingingImage = "hero_swing_still";
+			m_position.plusYWith(-1);
 
 		}
 		#endregion
@@ -160,6 +161,7 @@ namespace GrandLarceny
 		#region update
 		public override void update(GameTime a_gameTime)
 		{
+			
 			m_lastPosition = m_position.getGlobalCartesianCoordinates();
 
 			if (!m_stunned) {
@@ -174,6 +176,7 @@ namespace GrandLarceny
 				activateNormalMode();
 				m_deactivateChase = false;
 			}
+			
 
 			updateState();
 			m_lastState = m_currentState;
@@ -569,7 +572,7 @@ namespace GrandLarceny
 			}
 			if (m_ladderDirection == Direction.None)
 			{
-				//m_currentState = State.Jumping;
+				m_currentState = State.Jumping;
 				m_nextPosition.Y = m_position.getGlobalY() + 1;
 			}
 		}
@@ -1202,10 +1205,21 @@ namespace GrandLarceny
 				m_health = Math.Max(m_health - 1, 0);
 				updateHealthGUI();
 				m_stunned = true;
-				m_stunnedTimer = 0.8f;
 				m_stunnedDeacceleration = true;
 				m_speed = a_knockBackForce;
-				m_invulnerableTimer = 2f;
+
+				if (m_health <= 0)
+				{
+					m_stunnedTimer = 5f;
+					m_invulnerableTimer = 5f;
+
+					Game.getInstance().setState(new DeathScene(Game.getInstance().getState().getObjectList()));
+				}
+				else
+				{
+					m_stunnedTimer = 0.8f;
+					m_invulnerableTimer = 2f;
+				}
 			}
 		}
 
@@ -1298,7 +1312,6 @@ namespace GrandLarceny
 			{
 				m_position.plusXWith(-m_standHitBox.m_width);
 				Game.getInstance().m_camera.getPosition().plusXWith(m_standHitBox.m_width);
-				//m_imgOffsetX = m_standHitBox.m_width;
 			}
 			setNextPositionX(m_position.getGlobalX());
 			m_img.setAnimationSpeed(10);
@@ -1398,6 +1411,17 @@ namespace GrandLarceny
 			m_playerCurrentSpeed = PLAYERSPEED;
 			setIsInLight(false);
 			((GameState)Game.getInstance().getState()).clearAggro();
+		}
+		private void activateRunMode()
+		{
+			
+			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
+			setIsInLight(true);
+		}
+		public void activateSneakMode()
+		{
+			m_playerCurrentSpeed = PLAYERSPEED;
+			setIsInLight(false);
 		}
 		public override void changePositionType()
 		{

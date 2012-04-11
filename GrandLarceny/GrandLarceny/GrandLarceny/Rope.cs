@@ -104,19 +104,18 @@ namespace GrandLarceny
 					else if (Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates())
 						< Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width / 2, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates()))
 					{
-						t_player.getPosition().plusXWith(t_player.getHitBox().getOutBox().Width);
-						Game.getInstance().m_camera.getPosition().plusXWith(-t_player.getHitBox().getOutBox().Width);
+						t_player.addPositionXAfterDraw(t_player.getHitBox().getOutBox().Width);
+		//				Game.getInstance().m_camera.getPosition().plusXWith(-t_player.getHitBox().getOutBox().Width);
 					}
 					else
 					{
-						t_player.getPosition().plusXWith(t_player.getHitBox().getOutBox().Width / 2);
-						Game.getInstance().m_camera.getPosition().plusXWith(-t_player.getHitBox().getOutBox().Width / 2);
+						t_player.addPositionXAfterDraw(t_player.getHitBox().getOutBox().Width / 2);
+		//				Game.getInstance().m_camera.getPosition().plusXWith(-t_player.getHitBox().getOutBox().Width / 2);
 					}
 					t_player.changePositionType();
 		//			m_rotate = (float)Math.Atan2(-(m_position.getGlobalY() - t_player.getPosition().getGlobalY()), -(m_position.getGlobalX() - t_player.getPosition().getGlobalX()));
 					t_player.getPosition().setParentPositionWithoutMoving(m_line.getStartPoint());
 					t_player.setRope(this);
-					t_player.getPosition().setSlope(m_rotate);
 					t_player.setSpeedX(0);
 					t_player.setSpeedY(0);
 					m_moveToStart = false;

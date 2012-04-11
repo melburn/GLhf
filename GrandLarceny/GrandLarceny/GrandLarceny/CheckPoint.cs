@@ -23,7 +23,7 @@ namespace GrandLarceny
 					Level tLevel = new Level();
 					tLevel.setLevelObjects(Game.getInstance().getState().getObjectList());
 					tLevel.setEvents(((GameState)Game.getInstance().getState()).getEvents());
-					//Serializer.getInstance().SaveLevel("Checkpoint.txt",tLevel);
+					Serializer.getInstance().SaveLevel("Checkpoint.lvl",tLevel);
 				}
 			}
 		}

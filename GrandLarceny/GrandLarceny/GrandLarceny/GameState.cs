@@ -173,7 +173,7 @@ namespace GrandLarceny
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
 
-				m_currentList++;
+				++m_currentList;
 				foreach (GameObject t_gameObject in t_list)
 				{
 					try
@@ -440,6 +440,11 @@ namespace GrandLarceny
 		public override bool objectIsOnLayer(GameObject a_obj, int a_layer)
 		{
 			return m_gameObjectList[a_layer].Contains(a_obj);
+		}
+
+		public string getLevelName()
+		{
+			return m_currentLevel;
 		}
 	}
 }
