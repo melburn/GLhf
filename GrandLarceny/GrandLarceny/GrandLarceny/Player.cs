@@ -833,18 +833,21 @@ namespace GrandLarceny
 		private void updateSwinging(float a_deltaTime)
 		{
 			m_gravity = 0;
-			if (Game.isKeyPressed(GameState.getRightKey()))
+			if (m_position.getLength() > 0)
 			{
-				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
+				if (Game.isKeyPressed(GameState.getRightKey()))
 				{
-					m_swingSpeed -= 20 * a_deltaTime;
+					if (m_swingSpeed > -MAXSWINGSPEED)
+					{
+						m_swingSpeed -= (300 * a_deltaTime) / m_position.getLength();
+					}
 				}
-			}
-			else if (Game.isKeyPressed(GameState.getLeftKey()))
-			{
-				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
+				else if (Game.isKeyPressed(GameState.getLeftKey()))
 				{
-					m_swingSpeed += 20 * a_deltaTime;
+					if (m_swingSpeed < MAXSWINGSPEED)
+					{
+						m_swingSpeed += (300 * a_deltaTime) / m_position.getLength();
+					}
 				}
 			}
 			/*if (m_rope.getRotation() < Math.PI * 1.5f && m_rope.getRotation() > Math.PI / 2)
@@ -862,10 +865,10 @@ namespace GrandLarceny
 					m_swingSpeed = 0;
 				}
 			}*/
-			m_swingSpeed += (float)(Math.Cos(m_rope.getRotation()) * 30 * a_deltaTime);
-			m_swingSpeed = m_swingSpeed * 0.99f;
+			m_swingSpeed += (float) ( (Math.Cos(m_rope.getRotation()) * 2500 * a_deltaTime) / m_position.getLength() );
+			m_swingSpeed *= 0.99f;
 			m_rope.addRotation(m_swingSpeed * a_deltaTime);
-			m_rotate = m_rope.getRotation() - (float)Math.PI / 2;
+			m_rotate = (m_rope.getRotation() - ((float)(Math.PI / 2.0))) % ((float)(Math.PI * 2.0));
 			m_position.setSlope(m_rope.getRotation());
 			if (m_swingSpeed > 1f)
 				if (!m_facingRight)

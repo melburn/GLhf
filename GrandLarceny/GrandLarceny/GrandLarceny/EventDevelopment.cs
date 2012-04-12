@@ -251,7 +251,7 @@ namespace GrandLarceny
 					{
 						if (t_go is SecurityDoor && t_go.getBox().Contains((int)t_mousePoint.X, (int)t_mousePoint.Y))
 						{
-							addEffect(new DoorOpenEffect((SecurityDoor)t_go, 10, 1));
+							addEffect(new DoorOpenEffect((SecurityDoor)t_go, 10, 10));
 							goUpOneState();
 							break;
 						}
