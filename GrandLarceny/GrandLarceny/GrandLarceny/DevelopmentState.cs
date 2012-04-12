@@ -436,8 +436,7 @@ namespace GrandLarceny
 			m_textField.update(a_gameTime);
 
 			if (m_selectedObject != null) {
-				m_selectedInfoV2.X = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).X / TILE_WIDTH;
-				m_selectedInfoV2.Y = getTile(m_selectedObject.getPosition().getGlobalCartesianCoordinates()).Y / TILE_HEIGHT;
+				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesianCoordinates());
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
 				if (m_selectedObject is Guard) {
 					Guard t_guard = (Guard)m_selectedObject;
@@ -1078,29 +1077,22 @@ namespace GrandLarceny
 			*/
 			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Pressed) {
 				if (m_selectedObject != null && m_menuState != MenuState.Inactive && !collidedWithGui(new Vector2(Game.m_currentMouse.X, Game.m_currentMouse.Y))) {
-					if (m_dragOffset == Vector2.Zero || m_dragOffset == null) {
+					/*if (m_dragOffset == Vector2.Zero || m_dragOffset == null) {
 						m_dragOffset = new Vector2(
 							m_worldMouse.X - m_selectedObject.getPosition().getGlobalX(),
 							m_worldMouse.Y - m_selectedObject.getPosition().getGlobalY()
 						);
-						if (m_worldMouse.X < 0) {
-							m_dragOffset.X -= TILE_WIDTH;
-						}
-						if (m_worldMouse.Y < 0) {
-							m_dragOffset.Y -= TILE_HEIGHT;
-						}
-					}
+					}*/
 					
-					Vector2 t_mousePosition = getTile(m_worldMouse - m_dragOffset);
+					Vector2 t_mousePosition = getTileCoordinates(m_worldMouse/* - m_dragOffset*/);
 
 					if (m_selectedObject is SpotLight) {
-						m_selectedObject.getPosition().setLocalX(t_mousePosition.X + m_selectedObject.getBox().Width);
-						m_selectedObject.getPosition().setLocalY(t_mousePosition.Y);
+						m_selectedObject.getPosition().setGlobalCartesianCoordinates(
+							new Vector2(t_mousePosition.X + m_selectedObject.getBox().Width,t_mousePosition.Y));
 					} else if (m_selectedObject is Rope) {
-						((Rope)m_selectedObject).moveRope(new Vector2(getTile(m_worldMouse).X - 36, getTile(m_worldMouse).Y));
+						((Rope)m_selectedObject).moveRope(new Vector2(getTileCoordinates(m_worldMouse).X - 36, getTileCoordinates(m_worldMouse).Y));
 					} else {
-						m_selectedObject.getPosition().setLocalX(t_mousePosition.X);
-						m_selectedObject.getPosition().setLocalY(t_mousePosition.Y);
+						m_selectedObject.getPosition().setGlobalCartesianCoordinates(t_mousePosition);
 					}
 				}
 			}
@@ -1141,12 +1133,12 @@ namespace GrandLarceny
 			
 			/*
 			-----------------------------------
-			Right Mouse Button Click Up
+			Right Mouse Button Release
 			-----------------------------------
 			*/
 			if (Game.m_currentMouse.RightButton == ButtonState.Released && Game.m_previousMouse.RightButton == ButtonState.Pressed) {
 				if (m_selectedObject != null && m_selectedObject is Rope) {
-					((Rope)m_selectedObject).setEndpoint(new Vector2(m_selectedObject.getPosition().getLocalX(), getTile(m_worldMouse).Y + 72));
+					((Rope)m_selectedObject).setEndpoint(new Vector2(m_selectedObject.getPosition().getLocalX(), getTileCoordinates(m_worldMouse).Y + 72));
 				}
 				if (m_dragLine != null) {
 					if (m_selectedObject is LampSwitch) {
@@ -1251,18 +1243,18 @@ namespace GrandLarceny
 			m_lineList.Clear();
 		}
 
-		private Vector2 getTile(Vector2 a_pixelPosition) {
-			if (a_pixelPosition.X >= 0)
-				a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % TILE_WIDTH);
-			else
-				a_pixelPosition.X = a_pixelPosition.X - (a_pixelPosition.X % TILE_WIDTH) - TILE_WIDTH;
-
-			if (a_pixelPosition.Y >= 0)
-				a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % TILE_HEIGHT);
-			else
-				a_pixelPosition.Y = a_pixelPosition.Y - (a_pixelPosition.Y % TILE_HEIGHT) - TILE_HEIGHT;
-
-			return a_pixelPosition;
+		public Vector2 getTileVector(Vector2 a_pixelPosition) {
+			Vector2 t_ret = a_pixelPosition;
+			t_ret.X = (float)(Math.Floor(a_pixelPosition.X / TILE_WIDTH));
+			t_ret.Y = (float)(Math.Floor(a_pixelPosition.Y / TILE_HEIGHT));
+			return t_ret;
+		}
+		public Vector2 getTileCoordinates(Vector2 a_pixelPosition)
+		{
+			Vector2 t_ret = getTileVector(a_pixelPosition);
+			t_ret.X *= TILE_WIDTH;
+			t_ret.Y *= TILE_HEIGHT;
+			return t_ret;
 		}
 
 		private bool ctrlMod() {
@@ -1475,15 +1467,15 @@ namespace GrandLarceny
 		private void setGuardPoint(NPE a_guard, Vector2 a_position, bool a_right) {
 			if (a_guard is Guard) {
 				if (a_right) {
-					((Guard)a_guard).setRightGuardPoint(getTile(a_position).X);
+					((Guard)a_guard).setRightGuardPoint(getTileCoordinates(a_position).X);
 				} else {
-					((Guard)a_guard).setLeftGuardPoint(getTile(a_position).X);
+					((Guard)a_guard).setLeftGuardPoint(getTileCoordinates(a_position).X);
 				}
 			} else if (a_guard is GuardDog) {
 				if (a_right) {
-					((GuardDog)a_guard).setRightGuardPoint(getTile(a_position).X);
+					((GuardDog)a_guard).setRightGuardPoint(getTileCoordinates(a_position).X);
 				} else {
-					((GuardDog)a_guard).setLeftGuardPoint(getTile(a_position).X);
+					((GuardDog)a_guard).setLeftGuardPoint(getTileCoordinates(a_position).X);
 				}
 			} else if (a_guard is GuardCamera) {
 				if (a_right) {
@@ -1602,7 +1594,7 @@ namespace GrandLarceny
 		private void createPlayer() {
 			if (m_player == null) {
 				if (!collidedWithObject(m_worldMouse)) {
-					Player t_player = new Player(getTile(m_worldMouse), "Images//Sprite//Hero//" + assetToCreate, 0.300f);
+					Player t_player = new Player(getTileCoordinates(m_worldMouse), "Images//Sprite//Hero//" + assetToCreate, 0.300f);
 					m_player = t_player;
 					addObject(t_player);
 				}
@@ -1610,94 +1602,94 @@ namespace GrandLarceny
 		}
 		private void createPlatform() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new Platform(getTile(m_worldMouse), "Images//Tile//Floor//" + assetToCreate, 0.350f));
+				addObject(new Platform(getTileCoordinates(m_worldMouse), "Images//Tile//Floor//" + assetToCreate, 0.350f));
 		}
 		private void createLadder() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new Ladder(getTile(m_worldMouse), "Images//Tile//Ladder//" + assetToCreate, 0.350f));
+				addObject(new Ladder(getTileCoordinates(m_worldMouse), "Images//Tile//Ladder//" + assetToCreate, 0.350f));
 		}
 		private void createSpotLight() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new SpotLight(getTile(m_worldMouse), "Images//LightCone//"  + assetToCreate, 0.200f, (float)(Math.PI * 0.5f), true));
+				addObject(new SpotLight(getTileCoordinates(m_worldMouse), "Images//LightCone//" + assetToCreate, 0.200f, (float)(Math.PI * 0.5f), true));
 		}
 		private void createBackground() {
-			addObject(new Environment(getTile(m_worldMouse), "Images//Background//"  + assetToCreate, 0.999f));
+			addObject(new Environment(getTileCoordinates(m_worldMouse), "Images//Background//" + assetToCreate, 0.999f));
 		}
 		private void createGuard() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new Guard(getTile(m_worldMouse), "Images//Sprite//Guard//" + assetToCreate, getTile(m_worldMouse).X, true, 0.250f));
+				addObject(new Guard(getTileCoordinates(m_worldMouse), "Images//Sprite//Guard//" + assetToCreate, getTileCoordinates(m_worldMouse).X, true, 0.250f));
 		}
 		private void createWall() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new Wall(getTile(m_worldMouse), "Images//Tile//Wall//" + assetToCreate, 0.350f));
+				addObject(new Wall(getTileCoordinates(m_worldMouse), "Images//Tile//Wall//" + assetToCreate, 0.350f));
 		}
 		private void createDuckHidingObject() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new DuckHideObject(getTile(m_worldMouse), "Images//Prop//DuckHide//" + assetToCreate, 0.700f));
+				addObject(new DuckHideObject(getTileCoordinates(m_worldMouse), "Images//Prop//DuckHide//" + assetToCreate, 0.700f));
 		}
 		private void createStandHideObject() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new StandHideObject(getTile(m_worldMouse), "Images//Prop//StandHide//" + assetToCreate, 0.700f));
+				addObject(new StandHideObject(getTileCoordinates(m_worldMouse), "Images//Prop//StandHide//" + assetToCreate, 0.700f));
 		}
 		private void createGuardDog() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new GuardDog(getTile(m_worldMouse), "Images//Sprite//GuardDog//" + assetToCreate, getTile(m_worldMouse).X, getTile(m_worldMouse).X, 0.299f));
+				addObject(new GuardDog(getTileCoordinates(m_worldMouse), "Images//Sprite//GuardDog//" + assetToCreate, getTileCoordinates(m_worldMouse).X, getTileCoordinates(m_worldMouse).X, 0.299f));
 		}
 		private void createLightSwitch() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new LampSwitch(getTile(m_worldMouse), "Images//Prop//Button//" + assetToCreate, 0.750f));
+				addObject(new LampSwitch(getTileCoordinates(m_worldMouse), "Images//Prop//Button//" + assetToCreate, 0.750f));
 		}
 		private void createCrossVent() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new CrossVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//Cross//" + assetToCreate, 0.700f));
+				addObject(new CrossVentilation(getTileCoordinates(m_worldMouse), "Images//Tile//Ventilation//Cross//" + assetToCreate, 0.700f));
 		}
 		private void createTVent() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new TVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//TVent//" + assetToCreate, 0.700f));
+				addObject(new TVentilation(getTileCoordinates(m_worldMouse), "Images//Tile//Ventilation//TVent//" + assetToCreate, 0.700f));
 		}
 		private void createStraightVent() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new StraightVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//Straight//" + assetToCreate, 0.700f));
+				addObject(new StraightVentilation(getTileCoordinates(m_worldMouse), "Images//Tile//Ventilation//Straight//" + assetToCreate, 0.700f));
 		}
 		private void createCornerVent() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new CornerVentilation(getTile(m_worldMouse), "Images//Tile//Ventilation//Corner//" + assetToCreate, 0.700f));
+				addObject(new CornerVentilation(getTileCoordinates(m_worldMouse), "Images//Tile//Ventilation//Corner//" + assetToCreate, 0.700f));
 		}
 		private void createVentrance() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new VentilationDrum(getTile(m_worldMouse), "Images//Tile//Ventilation//Drum//" + assetToCreate, 0.700f));
+				addObject(new VentilationDrum(getTileCoordinates(m_worldMouse), "Images//Tile//Ventilation//Drum//" + assetToCreate, 0.700f));
 		}
 		private void createForeground() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new Foreground(getTile(m_worldMouse), "Images//Foregrounds//" + assetToCreate, 0.100f));
+				addObject(new Foreground(getTileCoordinates(m_worldMouse), "Images//Foregrounds//" + assetToCreate, 0.100f));
 		}
 		private void createRope() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new Rope(getTile(m_worldMouse) + new Vector2(36, 0), null, 0.100f));
+				addObject(new Rope(getTileCoordinates(m_worldMouse) + new Vector2(36, 0), null, 0.100f));
 		}
 		private void createCamera() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new GuardCamera(getTile(m_worldMouse), "Images//Sprite//Camera//" + assetToCreate, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25)));
+				addObject(new GuardCamera(getTileCoordinates(m_worldMouse), "Images//Sprite//Camera//" + assetToCreate, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25)));
 		}
 		private void createWindow() {
 			 if (!collidedWithObject(m_worldMouse))
-				addObject(new Window(getTile(m_worldMouse), "Images//Tile//Window//" + assetToCreate, 0.700f));
+				 addObject(new Window(getTileCoordinates(m_worldMouse), "Images//Tile//Window//" + assetToCreate, 0.700f));
 		}
 		private void createSecDoor() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new SecurityDoor(getTile(m_worldMouse), "Images//Prop//SecurityDoor//" + assetToCreate, 0.700f));
+				addObject(new SecurityDoor(getTileCoordinates(m_worldMouse), "Images//Prop//SecurityDoor//" + assetToCreate, 0.700f));
 		}
 		private void createCornerHang() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new CornerHang(getTile(m_worldMouse), "Images//Automagi//" + assetToCreate, 0.400f, 0.0f));
+				addObject(new CornerHang(getTileCoordinates(m_worldMouse), "Images//Automagi//" + assetToCreate, 0.400f, 0.0f));
 		}
 		private void createCheckPoint() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new CheckPoint(getTile(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.200f, 0.0f));
+				addObject(new CheckPoint(getTileCoordinates(m_worldMouse), "Images//Tile//1x1_tile_ph", 0.200f, 0.0f));
 		}
 		private void createProp() {
 			if (!collidedWithObject(m_worldMouse))
-				addObject(new Environment(getTile(m_worldMouse), "Images//" + assetToCreate, 0.998f));
+				addObject(new Environment(getTileCoordinates(m_worldMouse), "Images//" + assetToCreate, 0.998f));
 		}
 		#endregion
 
