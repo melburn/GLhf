@@ -391,6 +391,12 @@ namespace GrandLarceny
 				return;
 			}
 
+			if (Game.isKeyPressed(Keys.LeftShift)) {
+				activateRunMode();
+			} else {
+
+			}
+			
 			if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_speed.X > m_playerCurrentSpeed)
@@ -1416,7 +1422,6 @@ namespace GrandLarceny
 		}
 		private void activateRunMode()
 		{
-			
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			setIsInLight(true);
 		}
