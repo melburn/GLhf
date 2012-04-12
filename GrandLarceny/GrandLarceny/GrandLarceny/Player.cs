@@ -85,6 +85,7 @@ namespace GrandLarceny
 		private bool m_stunnedFlipSprite = false;
 		private bool m_chase = false;
 		private bool m_deactivateChase = false;
+		private bool m_runMode = false;
 
 		private Rope m_rope = null;
 
@@ -391,6 +392,12 @@ namespace GrandLarceny
 				return;
 			}
 
+			if (Game.isKeyPressed(Keys.LeftShift) && !m_runMode) {
+				toggleRunMode();
+			} else if (Game.isKeyReleased(Keys.LeftShift) && m_runMode) {
+				toggleRunMode();
+			}
+			
 			if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_speed.X > m_playerCurrentSpeed)
@@ -436,7 +443,7 @@ namespace GrandLarceny
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
-			if (m_chase)
+			if (m_chase || m_runMode)
 			{
 				m_img.setAnimationSpeed(Math.Abs(m_speed.X / 22f));
 			}
@@ -914,7 +921,7 @@ namespace GrandLarceny
 				}
 				case State.Walking:
 				{
-					if (m_chase)
+					if (m_chase || m_runMode)
 						setSprite("hero_run");
 					else
 						setSprite("hero_walk");
@@ -1067,7 +1074,7 @@ namespace GrandLarceny
 		{
 			m_collidedWithWall = false;
 			m_ladderDirection = 0;
-			if (!m_chase)
+			if (!m_chase && !m_runMode)
 			{
 				setIsInLight(false);
 			}
@@ -1285,7 +1292,12 @@ namespace GrandLarceny
 				setNextPositionX(m_position.getGlobalX());
 
 				m_img.setAnimationSpeed(10);
-				deactivateChaseMode();
+
+
+			
+				deactivateChaseMode();	
+				
+
 			}
 		}
 
@@ -1382,7 +1394,7 @@ namespace GrandLarceny
 			float t_enemyAtentionMarkX = 0;
 			if(a_enemy is Guard )
 			{
-				if(((Guard)a_enemy).isFacingRight())
+				if (((Guard)a_enemy).isFacingRight())
 				{
 					t_enemyAtentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
 				} 
@@ -1419,21 +1431,21 @@ namespace GrandLarceny
 		private void activateNormalMode()
 		{
 			m_chase = false;
+			m_runMode = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
 			setIsInLight(false);
 			((GameState)Game.getInstance().getState()).clearAggro();
 		}
-		private void activateRunMode()
+		private void toggleRunMode()
 		{
-			
-			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
-			setIsInLight(true);
+			m_runMode = !m_runMode;
+			if (m_runMode)
+				m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
+			else
+				m_playerCurrentSpeed = PLAYERSPEED;
+			setIsInLight(m_runMode);
 		}
-		public void activateSneakMode()
-		{
-			m_playerCurrentSpeed = PLAYERSPEED;
-			setIsInLight(false);
-		}
+
 		public override void changePositionType()
 		{
 			base.changePositionType();

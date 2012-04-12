@@ -78,6 +78,8 @@ namespace GrandLarceny
 			foreach (string t_level in m_levelList)
 			{
 				string[] t_splitPath = Regex.Split(t_level, "/");
+				if (t_level.EndsWith(".lvl") == false)
+					continue;
 				Button t_levelButton = new Button("btn_test_empty", "btn_test_empty", "btn_test_empty", "btn_test_empty", 
 					new Vector2(20, 60 * t_count + 20), t_splitPath[t_splitPath.Length - 1], "VerdanaBold", Color.Black, new Vector2(10, 10));
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);

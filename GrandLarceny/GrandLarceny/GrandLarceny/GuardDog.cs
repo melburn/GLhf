@@ -45,6 +45,7 @@ namespace GrandLarceny
 		{
 			base.loadContent();
 			m_collisionShape = new CollisionRectangle(15, 30, m_img.getSize().X - 30, m_img.getSize().Y - 30, m_position);
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//GuardDog//dog_walk");
 		}
 		internal bool canSensePlayer()
 		{

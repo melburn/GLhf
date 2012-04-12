@@ -168,14 +168,27 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_currentList = -1;
-			
+
+			if (Game.keyClicked(Keys.I)) {
+				Game.getInstance().m_camera.printInfo();
+			}
+			if (Game.isKeyPressed(Keys.Q))
+			{
+				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
+			}
+
+			if (Game.isKeyPressed(Keys.F5))
+			{
+				Game.getInstance().setState(new GameState(m_currentLevel));
+				Game.getInstance().m_camera.setLayer(0);
+			}
 
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
-
 				++m_currentList;
 				foreach (GameObject t_gameObject in t_list)
 				{
+					
 					try
 					{
 						t_gameObject.update(a_gameTime);
@@ -187,23 +200,13 @@ namespace GrandLarceny
 				}
 			}
 
-			if (Game.isKeyPressed(Keys.Q))
-			{
-				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
-			}
-
-			if (Game.isKeyPressed(Keys.F5))
-			{
-				Game.getInstance().setState(new GameState(m_currentLevel));
-				Game.getInstance().m_camera.setLayer(0);
-			}
 			m_currentList = -1;
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
 				++m_currentList;
 				foreach (GameObject t_firstGameObject in t_list)
 				{
-					if (t_firstGameObject is MovingObject)
+					if (t_firstGameObject is MovingObject && Game.getInstance().m_camera.isInCamera(t_firstGameObject))
 					{
 						List<Entity> t_collided = new List<Entity>();
 						foreach (GameObject t_secondGameObject in t_list)
@@ -218,7 +221,10 @@ namespace GrandLarceny
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
 						if(!(t_firstGameObject.getPosition() is PolarCoordinate))
 						((Entity)t_firstGameObject).updatePosition();
-
+					} else {
+						if (t_firstGameObject is Entity || t_firstGameObject is Guard) {
+							((Entity)t_firstGameObject).setGravity(0.0f);
+						}
 					}
 
 					if (t_firstGameObject.isDead() && !m_removeList[m_currentList].Contains(t_firstGameObject))
