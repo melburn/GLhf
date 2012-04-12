@@ -28,6 +28,7 @@ namespace GrandLarceny
 		private static Keys m_jumpKey;
 		private static Keys m_rollKey;
 		private static Keys m_actionKey;
+		private static Keys m_sprintKey;
 
 		private Player player;
 
@@ -98,6 +99,8 @@ namespace GrandLarceny
 							m_rollKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Action"))
 							m_actionKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Sprint"))
+							m_sprintKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else
 							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState");
 						break;
@@ -400,6 +403,11 @@ namespace GrandLarceny
 		public static Keys getActionKey()
 		{
 			return m_actionKey;
+		}
+
+		public static Keys getSprintKey()
+		{
+			return m_sprintKey;
 		}
 
 
