@@ -36,6 +36,7 @@ namespace GrandLarceny
 		private Vector2 m_worldMouse;
 		private Vector2 m_dragOffset;
 		private Vector2 m_dragFrom;
+		private bool m_firstDrag = true;
 
 		private Text m_textCurrentMode;
 		private Text m_textSelectedObjectPosition;
@@ -1066,8 +1067,8 @@ namespace GrandLarceny
 						showGuardInfo((Guard)m_selectedObject);
 					}
 				}
-				m_dragOffset = Vector2.Zero;
 				m_dragFrom = Vector2.Zero;
+				m_firstDrag = true;
 			}
 
 			/*
@@ -1077,14 +1078,15 @@ namespace GrandLarceny
 			*/
 			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Pressed) {
 				if (m_selectedObject != null && m_menuState != MenuState.Inactive && !collidedWithGui(new Vector2(Game.m_currentMouse.X, Game.m_currentMouse.Y))) {
-					/*if (m_dragOffset == Vector2.Zero || m_dragOffset == null) {
+					if (m_firstDrag) {
 						m_dragOffset = new Vector2(
-							m_worldMouse.X - m_selectedObject.getPosition().getGlobalX(),
-							m_worldMouse.Y - m_selectedObject.getPosition().getGlobalY()
+							(float)Math.Floor((m_worldMouse.X - m_selectedObject.getPosition().getGlobalX()) / ((float)(TILE_WIDTH))) * ((float)(TILE_WIDTH)),
+							(float)Math.Floor((m_worldMouse.Y - m_selectedObject.getPosition().getGlobalY()) / ((float)(TILE_HEIGHT)) * ((float)(TILE_HEIGHT)))
 						);
-					}*/
+						m_firstDrag = false;
+					}
 					
-					Vector2 t_mousePosition = getTileCoordinates(m_worldMouse/* - m_dragOffset*/);
+					Vector2 t_mousePosition = getTileCoordinates(m_worldMouse - m_dragOffset);
 
 					if (m_selectedObject is SpotLight) {
 						m_selectedObject.getPosition().setGlobalCartesianCoordinates(
