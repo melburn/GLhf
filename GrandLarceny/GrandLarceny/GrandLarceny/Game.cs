@@ -60,6 +60,7 @@ namespace GrandLarceny
 
 		protected override void Initialize()
 		{
+			ErrorLogger.getInstance().clearFile();
 			ErrorLogger.getInstance().writeString("GrandLarceny initiated at "+System.DateTime.Now);
 			try
 			{
