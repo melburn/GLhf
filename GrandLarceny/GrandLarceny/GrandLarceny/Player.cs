@@ -392,11 +392,11 @@ namespace GrandLarceny
 				return;
 			}
 
-			if (Game.isKeyPressed(GameState.getSprintKey()) && !m_runMode)
+			if (!m_chase && Game.isKeyPressed(GameState.getSprintKey()) && !m_runMode)
 			{
 				toggleRunMode();
 			}
-			else if (Game.isKeyReleased(GameState.getSprintKey()) && m_runMode)
+			else if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
 			{
 				toggleRunMode();
 			}

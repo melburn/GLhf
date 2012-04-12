@@ -101,23 +101,24 @@ namespace GrandLarceny
 							m_actionKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Sprint"))
 							m_sprintKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].StartsWith("["))
+							break;
 						else
-							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState");
+							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState" + t_input[0]);
 						break;
 					case ParseState.Settings:
 						string[] t_setting = t_currentLine.Split('=');
-						if (t_setting[0].Equals("ScreenWidth"))
-						{
+						if (t_setting[0].Equals("ScreenWidth")) {
 							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
-						}
-						else if (t_setting[0].Equals("ScreenHeight"))
-						{
+						} else if (t_setting[0].Equals("ScreenHeight")) {
 							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
 							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
-						}
-						else if (t_setting[0].Equals("Fullscreen"))
-						{
+						} else if (t_setting[0].Equals("Fullscreen")) {
 							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
+						} else if (t_setting[0].StartsWith("[")) {
+							break;
+						} else {
+							ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
 						}
 						break;
 				}
