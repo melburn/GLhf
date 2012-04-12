@@ -839,14 +839,14 @@ namespace GrandLarceny
 				{
 					if (m_swingSpeed > -MAXSWINGSPEED)
 					{
-						m_swingSpeed -= (300 * a_deltaTime) / m_position.getLength();
+						m_swingSpeed -= (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
 				else if (Game.isKeyPressed(GameState.getLeftKey()))
 				{
 					if (m_swingSpeed < MAXSWINGSPEED)
 					{
-						m_swingSpeed += (300 * a_deltaTime) / m_position.getLength();
+						m_swingSpeed += (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
 			}
@@ -865,7 +865,7 @@ namespace GrandLarceny
 					m_swingSpeed = 0;
 				}
 			}*/
-			m_swingSpeed += (float) ( (Math.Cos(m_rope.getRotation()) * 2500 * a_deltaTime) / m_position.getLength() );
+			m_swingSpeed += (float) ( (Math.Cos(m_rope.getRotation()) * 3000 * a_deltaTime) / m_position.getLength() );
 			m_swingSpeed *= 0.99f;
 			m_rope.addRotation(m_swingSpeed * a_deltaTime);
 			m_rotate = (m_rope.getRotation() - ((float)(Math.PI / 2.0))) % ((float)(Math.PI * 2.0));
@@ -885,7 +885,8 @@ namespace GrandLarceny
 
 			if (Game.keyClicked(GameState.getJumpKey()))
 			{
-				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI));
+				float t_force = m_swingSpeed * (m_position.getLength() + (m_img.getSize().Y / 2));
+				m_speed = new Vector2(t_force * (float)Math.Cos(m_rotate + Math.PI), t_force * (float)Math.Sin(m_rotate + Math.PI));
 				changePositionType();
 				m_position.setParentPositionWithoutMoving(null);
 				m_position.setGlobalX(m_position.getGlobalX() - 36);
@@ -1338,6 +1339,14 @@ namespace GrandLarceny
 		public void setState(State a_state)
 		{
 			m_currentState = a_state;
+			if (a_state == State.Swinging)
+			{
+				//Den här raden kan se konstig ut. Men det ska fungera
+				//Prata med Anton för mer info
+				m_swingSpeed = (float)(-(m_speed.X * Math.Sin(m_position.getSlope()) - m_speed.Y * Math.Cos(m_position.getSlope())) / m_position.getLength());
+
+				m_speed = Vector2.Zero;
+			}
 		}
 		private void updateFlip()
 		{
