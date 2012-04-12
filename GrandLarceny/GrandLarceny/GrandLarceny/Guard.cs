@@ -592,9 +592,8 @@ namespace GrandLarceny
 					}
 					else
 					{
-						if (m_gravity > 0)
+						if (m_speed.Y > 0)
 						{
-							m_gravity = 0;
 							m_speed.Y = 0;
 							m_nextPosition.Y = (t_collision.getPosition().getGlobalY() - m_img.getSize().Y);
 						}
