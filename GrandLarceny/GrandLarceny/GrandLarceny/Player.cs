@@ -85,7 +85,7 @@ namespace GrandLarceny
 		private bool m_stunnedFlipSprite = false;
 		private bool m_chase = false;
 		private bool m_deactivateChase = false;
-		private bool m_runMode = true;
+		private bool m_runMode = false;
 
 		private Rope m_rope = null;
 
@@ -1238,7 +1238,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void windowAction(bool a_playerToSneakMode)
+		public void windowAction()
 		{
 			if (m_windowActionCD <= 0)
 			{
@@ -1284,14 +1284,9 @@ namespace GrandLarceny
 				m_img.setAnimationSpeed(10);
 
 
-				if (a_playerToSneakMode)
-				{
-					deactivateChaseMode();	
-				}
-				else
-				{
-					activateRunMode();
-				}
+			
+				deactivateChaseMode();	
+				
 
 			}
 		}

@@ -176,6 +176,7 @@ namespace GrandLarceny
 				++m_currentList;
 				foreach (GameObject t_gameObject in t_list)
 				{
+					
 					try
 					{
 						t_gameObject.update(a_gameTime);

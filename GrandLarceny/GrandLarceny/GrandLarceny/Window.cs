@@ -107,21 +107,15 @@ namespace GrandLarceny
 				if ((Game.keyClicked(GameState.getActionKey()) || Game.keyClicked(GameState.getActionKey()))&& !t_player.isStunned()
 					&& (t_player.getCurrentState() == Player.State.Hanging || t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
 				{
-					bool t_playerToSneakMode = false;
-					if ((t_player.getPosition().getGlobalX() > m_position.getGlobalX() && m_spriteEffects == SpriteEffects.None)
-						|| (t_player.getPosition().getGlobalX() < m_position.getGlobalX() && m_spriteEffects == SpriteEffects.FlipHorizontally))
-					{
-						t_playerToSneakMode = true;
-					}
 
 					if (t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
 					{
-						t_player.windowAction(t_playerToSneakMode);
+						t_player.windowAction();
 					}
 					else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY())
 					{
 
-						t_player.windowAction(t_playerToSneakMode);
+						t_player.windowAction();
 					}
 				} 
 			}
