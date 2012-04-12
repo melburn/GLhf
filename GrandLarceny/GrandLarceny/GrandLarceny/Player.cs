@@ -1370,7 +1370,7 @@ namespace GrandLarceny
 			float t_enemyAtentionMarkX = 0;
 			if(a_enemy is Guard )
 			{
-				if(((Guard)a_enemy).isFacingRight())
+				if (((Guard)a_enemy).isFacingRight())
 				{
 					t_enemyAtentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
 				} 

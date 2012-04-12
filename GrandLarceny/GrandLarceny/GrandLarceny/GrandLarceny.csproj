@@ -197,7 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GrandLarcenyContent\GrandLarcenyContent.contentproj">
-      <Name>GrandLarcenyContent</Name>
+      <Name>GrandLarcenyContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
       <Project>{E110AA7A-B83A-4C6B-BF33-AD4E16160744}</Project>
     </ProjectReference>

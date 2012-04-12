@@ -10,7 +10,6 @@ namespace GrandLarceny
 	[Serializable()]
 	public class NPE : MovingObject
 	{
-		
 		protected AIState m_aiState;
 
 		//kan sättas till false för att deaktivera ai
@@ -21,8 +20,6 @@ namespace GrandLarceny
 		{
 		}
 
-	
-
 		public override void update(GameTime a_gameTime)
 		{
 			m_lastPosition = m_position.getGlobalCartesianCoordinates();
@@ -32,15 +29,15 @@ namespace GrandLarceny
 			}
 			base.update(a_gameTime);
 		}
+
 		public AIState getAIState()
 		{
 			return m_aiState;
 		}
+
 		public void setAIState(AIState a_aIState)
 		{
 			m_aiState = a_aIState;
 		}
-
-		
 	}
 }

@@ -79,6 +79,7 @@ namespace GrandLarceny
 		protected override void LoadContent()
 		{
 			m_spriteBatch = new SpriteBatch(GraphicsDevice);
+			m_camera.load();
 		}
 
 		protected override void UnloadContent()
