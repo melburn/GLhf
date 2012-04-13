@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 namespace GrandLarceny
 {
@@ -27,6 +28,9 @@ namespace GrandLarceny
 
 		internal Camera m_camera;
 
+		public Progress m_progress;
+		private GameTime m_currentGameTime;
+
 		public static Game getInstance()
 		{
 			if (m_myGame != null)
@@ -43,10 +47,10 @@ namespace GrandLarceny
 		private Game()
 		{
 			m_graphics = new GraphicsDeviceManager(this);
-			m_graphics.PreferredBackBufferWidth = 1280;
-			m_graphics.PreferredBackBufferHeight = 720;
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
+
+			m_progress = new Progress("fin");
 		}
 
 		public SpriteBatch getSpriteBatch()
@@ -56,16 +60,27 @@ namespace GrandLarceny
 
 		protected override void Initialize()
 		{
-			m_camera = new Camera();
-			m_currentState = new MainMenu();
-			m_currentState.load();
-
-			base.Initialize();
+			ErrorLogger.getInstance().clearFile();
+			ErrorLogger.getInstance().writeString("GrandLarceny initiated at "+System.DateTime.Now);
+			try
+			{
+				m_camera = new Camera();
+				m_currentState = new MainMenu();
+				m_currentState.load();
+				base.Initialize();
+			}
+			catch (Exception e)
+			{
+				ErrorLogger.getInstance().writeString("While instantiating: " + e);
+				ErrorLogger.getInstance().writeString("Terminating");
+				Exit();
+			}
 		}
 
 		protected override void LoadContent()
 		{
 			m_spriteBatch = new SpriteBatch(GraphicsDevice);
+			m_camera.load();
 		}
 
 		protected override void UnloadContent()
@@ -79,20 +94,40 @@ namespace GrandLarceny
 				return;
 			m_currentKeyInput = Keyboard.GetState();
 			m_currentMouse = Mouse.GetState();
+			m_currentGameTime = a_gameTime;
 
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;
 				if (!m_currentState.isLoaded())
 				{
-					m_currentState.load();
+					try
+					{
+						m_currentState.load();
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
+					}
 				}
 				m_nextState = null;
 			}
 
 			if (m_currentState != null)
 			{
-				m_currentState.update(a_gameTime);
+				try
+				{
+					m_currentState.update(a_gameTime);
+				}
+				catch (Exception e)
+				{
+					ErrorLogger.getInstance().writeString("While updating " + m_currentState + " got exception: " + e);
+				}
+			}
+
+			if (keyClicked(Keys.F7)) //Asså det här är ju inte ok
+			{
+				m_nextState = new MainMenu();
 			}
 
 			m_previousMouse = m_currentMouse;
@@ -102,7 +137,7 @@ namespace GrandLarceny
 
 		protected override void Draw(GameTime a_gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+			GraphicsDevice.Clear(new Color(46, 46, 73));
 			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
 			m_currentState.draw(a_gameTime, m_spriteBatch);
 			m_spriteBatch.End();
@@ -114,32 +149,49 @@ namespace GrandLarceny
 		{
 			m_nextState = a_newState;
 		}
+
 		public void setCutscene(String a_fileName)
 		{
-			m_nextState = new Cutscene(m_currentState, a_fileName);
+			if (File.Exists(a_fileName))
+			{
+				m_nextState = new Cutscene(m_currentState, a_fileName);
+			}
+			else
+			{
+				ErrorLogger.getInstance().writeString("While setting cutscene, could not find " + a_fileName);
+			}
 		}
+
 		internal States getState()
 		{
 			return m_currentState;
 		}
-		internal Vector2 getResolution() {
+
+		public Vector2 getResolution()
+		{
 			return new Vector2(m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight);
 		}
-		public static Vector2 getMouseCoords() {
+
+		public static Vector2 getMouseCoords()
+		{
 			return new Vector2(m_currentMouse.X, m_currentMouse.Y);
 		}
+
 		public static bool isKeyPressed(Keys key)
 		{
 			return m_currentKeyInput.IsKeyDown(key);
 		}
+
 		public static bool wasKeyPressed(Keys key)
 		{
 			return m_previousKeyInput.IsKeyDown(key);
 		}
+
 		public static bool keyClicked(Keys a_key)
 		{
 			return m_currentKeyInput.IsKeyDown(a_key) && m_previousKeyInput.IsKeyUp(a_key);
 		}
+
 		public static bool rmbClicked()
 		{
 			return m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Released;
@@ -148,6 +200,20 @@ namespace GrandLarceny
 		internal static bool lmbClicked()
 		{
 			return m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released;
+		}
+
+		public Progress getProgress()
+		{
+			return m_progress;
+		}
+
+		public static bool isKeyReleased(Keys a_key)
+		{
+			return m_currentKeyInput.IsKeyUp(a_key) && m_previousKeyInput.IsKeyDown(a_key);
+		}
+		public TimeSpan getGameTime() 
+		{
+			return m_currentGameTime.TotalGameTime;
 		}
 	}
 }

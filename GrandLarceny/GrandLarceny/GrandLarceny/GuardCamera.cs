@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using GrandLarceny.AI;
 
 namespace GrandLarceny
 {
@@ -14,6 +15,8 @@ namespace GrandLarceny
 		private int m_lightLink;
 		private float m_leftRotation;
 		private float m_rightRotation;
+		private float m_turnTimer;
+		private float m_turnStopTime = 0.5f;
 		private float m_rotationSpeed;
 		private Entity m_chaseTarget;
 		private const float ROTATIONSPEED = 0.7f;
@@ -63,10 +66,13 @@ namespace GrandLarceny
 		public bool canSeePlayer()
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
+			if (t_player == null) {
+				return false;
+			}
 			return m_light != null &&
 				t_player.isInLight() &&
 				t_player.getCurrentState() != Player.State.Hiding &&
-				CollisionManager.Collides(m_light.getCollisionShape(), Game.getInstance().getState().getPlayer().getCollisionShape());
+				CollisionManager.Collides(m_light.getHitBox(), Game.getInstance().getState().getPlayer().getHitBox());
 		}
 
 		public float getLeftRotationPoint()
@@ -78,12 +84,12 @@ namespace GrandLarceny
 			return m_rightRotation;
 		}
 
-		internal void rotateRight()
+		internal void rotateClockW()
 		{
 			m_rotationSpeed = ROTATIONSPEED;
 		}
 
-		internal void rotateLeft()
+		internal void rotateCounter()
 		{
 			m_rotationSpeed = -ROTATIONSPEED;
 		}
@@ -96,8 +102,9 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
-			m_rotate += m_rotationSpeed * (a_gameTime.ElapsedGameTime.Milliseconds / 1000f);
+			m_rotate = (m_rotate + (m_rotationSpeed * (a_gameTime.ElapsedGameTime.Milliseconds / 1000f))) % (float)(Math.PI * 2);
 			m_light.setRotation(m_rotate);
+			m_turnTimer -= (a_gameTime.ElapsedGameTime.Milliseconds / 1000f);
 		}
 
 		internal Entity getTarget()
@@ -109,10 +116,7 @@ namespace GrandLarceny
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			m_chaseTarget = t_player;
-			if (!t_player.isChase())
-			{
-				t_player.activateChaseMode();
-			}
+			
 		}
 
 		public override void kill()
@@ -126,12 +130,26 @@ namespace GrandLarceny
 		internal void stop()
 		{
 			m_rotationSpeed = 0;
+			m_turnTimer = m_turnStopTime;
 		}
 
 		public override void addRotation(float a_rotation)
 		{
 			base.addRotation(a_rotation);
 			m_light.setRotation(m_rotate);
-		} 
+		}
+
+		public bool isTurnReady()
+		{
+			return m_turnTimer <= 0;
+		}
+
+		public void setRightGuardPoint(Vector2 a_position) {
+			m_rightRotation = m_position.getAngleTo(a_position);
+		}
+
+		public void setLeftGuardPoint(Vector2 a_position) {
+			m_leftRotation = m_position.getAngleTo(a_position);			
+		}
 	}
 }

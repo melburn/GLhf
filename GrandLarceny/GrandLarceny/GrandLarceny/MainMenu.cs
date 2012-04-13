@@ -6,44 +6,116 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.Xna.Framework.Input;
+using System.Threading;
 
 namespace GrandLarceny
 {
 	class MainMenu : MenuState
 	{
-		string[] m_levelList;
+		#region Members
+		private string[]	m_levelList;
+		private TextField	m_newLevelName;
+		private Text		m_levelText;
+		private Button		m_btnTFAccept;
+		private TimeSpan	m_textTimeOut;
+
+		private ParseState m_currentParse;
+		private enum ParseState {
+			Settings
+		}
+		#endregion
+
+		#region Constructor & Load
 		public override void load()
 		{
 			base.load();
-			m_levelList = Directory.GetFiles("Content//levels//");
 
+			string[] t_loadedFile = File.ReadAllLines("Content//wtf//settings.ini");
+			foreach (string t_currentLine in t_loadedFile)
+			{
+				if (t_currentLine.Length > 2 && t_currentLine.First() == '[' && t_currentLine.Last() == ']')
+				{
+					if (t_currentLine.Equals("[Graphics]"))
+					{
+						m_currentParse = ParseState.Settings;
+					}
+				}
+				switch (m_currentParse)
+				{
+					case ParseState.Settings:
+						string[] t_setting = t_currentLine.Split('=');
+						if (t_setting[0].Equals("ScreenWidth"))
+						{
+							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
+						}
+						else if (t_setting[0].Equals("ScreenHeight"))
+						{
+							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
+							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
+						}
+						else if (t_setting[0].Equals("Fullscreen"))
+						{
+							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
+						}
+						break;
+				}
+				Game.getInstance().m_graphics.ApplyChanges();
+			}
+
+			m_levelText		= new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
+			m_newLevelName	= new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
+			m_buttons.Add(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
+			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
+
+			try {
+				m_levelList = Directory.GetFiles("Content//levels//");
+			} catch (DirectoryNotFoundException) {
+				System.IO.Directory.CreateDirectory("Content//levels//");
+				return;
+			}
 			int t_count = 0;
 			foreach (string t_level in m_levelList)
 			{
-				t_count++;
-				string[] t_splitPath = Regex.Split(t_level, "//");
-				Button t_levelButton = new Button("btn_test_empty", "btn_test_empty", "btn_test_empty", "btn_test_empty", new Vector2(200, 200 * t_count), t_splitPath[t_splitPath.Length - 1], "VerdanaBold", Color.Black, new Vector2(10, 10));
+				string[] t_splitPath = Regex.Split(t_level, "/");
+				if (t_level.EndsWith(".lvl") == false)
+					continue;
+				Button t_levelButton = new Button("btn_test_empty", "btn_test_empty", "btn_test_empty", "btn_test_empty", 
+					new Vector2(20, 60 * t_count + 20), t_splitPath[t_splitPath.Length - 1], "VerdanaBold", Color.Black, new Vector2(10, 10));
 				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
 				m_buttons.Add(t_levelButton);
-			}
-
-			if (m_buttons.Count == 0) {
-				Button t_button = new Button("btn_test", new Vector2(15, 38), null, null, Color.Black, Vector2.Zero);
-				t_button.m_clickEvent += new Button.clickDelegate(playClick);
-				m_buttons.Add(t_button);
+				t_count++;
 			}
 		}
+		#endregion
+
+		#region Update & Draw
 		public override void update(GameTime a_gameTime)
 		{
 			foreach (Button t_b in m_buttons)
 				t_b.update();
+			m_newLevelName.update(a_gameTime);
+			if (a_gameTime.TotalGameTime > m_textTimeOut)
+			{
+				m_levelText.setText("New Level:");
+				m_levelText.setColor(Color.White);
+			}
+			if (Game.keyClicked(Keys.Enter)	&& m_newLevelName.isWriting())
+			{
+				createNewLevel(m_btnTFAccept);
+			}
 		}
 
-		public override void draw(GameTime gameTime, SpriteBatch spriteBatch)
+		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			foreach (Button t_b in m_buttons)
-				t_b.draw(gameTime, spriteBatch);
+				t_b.draw(a_gameTime, a_spriteBatch);
+			m_newLevelName.draw(a_gameTime);
+			m_levelText.draw(a_gameTime);
 		}
+		#endregion
+
+		#region Main Menu Methods (MMM...Bio)
 		public void playClick(Button a_b)
 		{
 			Game.getInstance().setState(new GameState("Level3.txt"));
@@ -56,5 +128,22 @@ namespace GrandLarceny
 		{
 			Game.getInstance().setState(new GameState(a_b.getText()));
 		}
+		private void createNewLevel(Button a_button)
+		{
+			String t_fileName = "Content\\levels\\" + m_newLevelName.getText() + ".lvl";
+
+			if (File.Exists(t_fileName))
+			{
+				m_levelText.setText("Level already exists!");
+				m_levelText.setColor(Color.Red);
+				m_textTimeOut = Game.getInstance().getGameTime() + new TimeSpan(0, 0, 3);
+			}
+			else
+			{
+				FileStream t_file = File.Create("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
+				Game.getInstance().setState(new DevelopmentState(m_newLevelName.getText() + ".lvl"));
+			}
+		}
+		#endregion
 	}
 }

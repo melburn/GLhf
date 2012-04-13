@@ -15,12 +15,13 @@ namespace GrandLarceny
 		{
 			
 		}
+
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(-3,
-						0, 6, m_img.getSize().Y, m_position);
+			m_collisionShape = new CollisionRectangle(-3, 0, 6, m_img.getSize().Y, m_position);
 		}
+
 		internal override void updateCollisionWith(Entity a_collid)
 		{
 			if (a_collid is Player)
@@ -29,11 +30,10 @@ namespace GrandLarceny
 				if (CollisionManager.Contains(this.getHitBox(), t_playerGlobalCoordinate))
 				{
 					Player t_player = (Player)a_collid;
-					if ((Keyboard.GetState().IsKeyDown(Keys.Up) 
-						&& (t_player.getCurrentState() == Player.State.Walking 
-						|| t_player.getCurrentState() == Player.State.Stop))
-						|| (t_player.getCurrentState() != Player.State.Walking 
-						&& t_player.getCurrentState() != Player.State.Stop))
+					if (
+						(Game.keyClicked(GameState.getUpKey()) && (t_player.getCurrentState() == Player.State.Walking || t_player.getCurrentState() == Player.State.Stop))
+						|| (t_player.getCurrentState() != Player.State.Walking && t_player.getCurrentState() != Player.State.Stop)
+					)
 					{
 						if (this.m_spriteEffects == SpriteEffects.FlipHorizontally)
 							t_player.setIsOnLadderWithDirection(Player.Direction.Left);

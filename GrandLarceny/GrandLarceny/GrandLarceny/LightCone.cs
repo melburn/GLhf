@@ -35,7 +35,7 @@ namespace GrandLarceny
 			m_imgOffsetY = -m_rotationPoint.Y * m_YScale;
 		}
 
-		public void setRotation(float a_rotation)
+		public override void setRotation(float a_rotation)
 		{
 			if (m_rotate != a_rotation)
 			{
@@ -91,7 +91,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if(t_player.getHidingImage().Equals(Player.STANDHIDINGIMAGE))
+					if (t_player.getHidingImage().Equals(Player.STANDHIDINGIMAGE))
 					{
 						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width+72 > m_position.getGlobalX())
 						{

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GrandLarceny.AI;
 
 namespace GrandLarceny
 {
@@ -14,7 +15,7 @@ namespace GrandLarceny
         private float m_rightPatrolPoint;
         private Boolean m_hasPatrol;
         private Boolean m_hasFlashLight;
-        public Boolean m_inALightArea = false;
+		private Boolean m_guardFaceRight;
 		[NonSerialized]
 		private LinkedList<LampSwitch> m_lampSwitchTargets;
 		private LinkedList<int> m_lampSwitchTargetsId;
@@ -22,9 +23,9 @@ namespace GrandLarceny
         private const float MOVEMENTSPEED = 150;
 		private const float CHASINGSPEED = 450;
 		private const float WALKINGANIMATIONSPEED = MOVEMENTSPEED / 16;
-		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 16;
+		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 25;
 		private const float TURNANIMATIONSPEED = 10f;
-		private const float TURNQUICKANIMATIONSPEED = 15f;
+		private const float TURNQUICKANIMATIONSPEED = 50f;
 
 		[NonSerialized]
         private Entity m_chaseTarget = null;
@@ -42,13 +43,39 @@ namespace GrandLarceny
 		[NonSerialized]
 		private bool m_striking;
 
+		#region Guard Textures
+		[NonSerialized]
+		private Texture2D t2d_run;
+		[NonSerialized]
+		private Texture2D t2d_walk;
+		[NonSerialized]
+		private Texture2D t2d_flashWalk;
+		[NonSerialized]
+		private Texture2D t2d_flashIdle;
+		[NonSerialized]
+		private Texture2D t2d_flashTurn;
+		[NonSerialized]
+		private Texture2D t2d_idle;
+		[NonSerialized]
+		private Texture2D t2d_pickUpFlash;
+		[NonSerialized]
+		private Texture2D t2d_putDownFlash;
+		[NonSerialized]
+		private Texture2D t2d_strike;
+		[NonSerialized]
+		private Texture2D t2d_turn;
+		[NonSerialized]
+		private Texture2D t2d_qmark;
+		[NonSerialized]
+		private Texture2D t2d_emark;
+		#endregion
+
 		//flashlight addicted guard always has their flashlight up
 		private Boolean m_FlashLightAddicted;
 
 		public Guard(Vector2 a_posV2, String a_sprite, float a_leftpatrolPoint, float a_rightpatrolPoint, Boolean a_hasFlashLight, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			m_facingRight = true;
 			m_leftPatrolPoint = a_leftpatrolPoint;
 			m_rightPatrolPoint = a_rightpatrolPoint;
 			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
@@ -62,11 +89,11 @@ namespace GrandLarceny
 				m_flashLightId = m_flashLight.getId();
 			}
 			m_gravity = 1000;
+			m_guardFaceRight = m_facingRight;
 		}
         public Guard(Vector2 a_posV2, String a_sprite, float a_patrolPoint, Boolean a_hasFlashLight, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			m_facingRight = true;
             m_hasPatrol = false;
             m_hasFlashLight = a_hasFlashLight;
             m_leftPatrolPoint = a_patrolPoint;
@@ -80,6 +107,7 @@ namespace GrandLarceny
 				m_flashLightId = m_flashLight.getId();
 			}
 			m_gravity = 1000;
+			m_guardFaceRight = m_facingRight;
 		}
 
 		public override void linkObject()
@@ -95,10 +123,11 @@ namespace GrandLarceny
 				m_flashLightId = m_flashLight.getId();
 			}
 		}
+
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(15, 10, m_img.getSize().X - 30, m_img.getSize().Y - 10, m_position);
+			m_collisionShape = new CollisionRectangle(20, 10, m_img.getSize().X - 40, m_img.getSize().Y - 10, m_position);
 			m_lampSwitchTargets = new LinkedList<LampSwitch>();
 			if (m_lampSwitchTargetsId == null)
 			{
@@ -113,7 +142,24 @@ namespace GrandLarceny
 				m_flashLight = (FlashCone)Game.getInstance().getState().getObjectById(m_flashLightId);
 				m_flashLight.getPosition().setParentPosition(m_position);
 			}
+			m_facingRight = m_spriteEffects == SpriteEffects.None;
+
+			#region Texture Loading
+			t2d_run				= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_run");
+			t2d_walk			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_walk");
+			t2d_flashWalk		= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_walk");
+			t2d_flashIdle		= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_idle");
+			t2d_flashTurn		= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_turn");
+			t2d_idle			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_idle");
+			t2d_pickUpFlash		= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_pick_up_flash");
+			t2d_putDownFlash	= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_put_down_flash");
+			t2d_strike			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_strike");
+			t2d_turn			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_turn");
+			t2d_qmark			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//qmark");
+			t2d_emark			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//Exclmarks");
+			#endregion
 		}
+
 		public void setLeftGuardPoint(float a_x)
 		{
 			m_leftPatrolPoint = a_x;
@@ -145,8 +191,7 @@ namespace GrandLarceny
 							{
 								m_speed.X = CHASINGSPEED;
 								m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-								m_img.setSprite("Images//Sprite//Guard//guard_walk");
-								//TODO SPRING
+								m_img.setSprite("Images//Sprite//Guard//guard_run");
 							}
 							else
 							{
@@ -159,10 +204,12 @@ namespace GrandLarceny
 						{
 							if (m_running)
 							{
+								m_flashLight.kill();
+								m_flashLightId = 0;
+								m_flashLight = null;
 								m_speed.X = CHASINGSPEED;
 								m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-								m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
-								//TODO SPRING
+								m_img.setSprite("Images//Sprite//Guard//guard_run");
 							}
 							else
 							{
@@ -256,8 +303,7 @@ namespace GrandLarceny
 						{
 							m_speed.X = -CHASINGSPEED;
 							m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-							m_img.setSprite("Images//Sprite//Guard//guard_walk");
-							//TODO Spring
+							m_img.setSprite("Images//Sprite//Guard//guard_run");
 						}
 						else
 						{
@@ -270,10 +316,12 @@ namespace GrandLarceny
 					{
 						if (m_running)
 						{
+							m_flashLight.kill();
+							m_flashLightId = 0;
+							m_flashLight = null;
 							m_speed.X = -CHASINGSPEED;
 							m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
-							m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
-							//TODO Spring
+							m_img.setSprite("Images//Sprite//Guard//guard_run");
 						}
 						else
 						{
@@ -377,15 +425,8 @@ namespace GrandLarceny
 			{
 				if (m_running)
 				{
-					if (m_flashLight == null)
-					{
-						m_img.setSprite("Images//Sprite//Guard//guard_walk");
-						m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
-					}
-					else
-					{
-						//m_img.setSprite(running with the flash);
-					}
+					m_img.setSprite("Images//Sprite//Guard//guard_walk");
+					m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
 					if (m_speed.X < 0)
 					{
 						m_speed.X = -CHASINGSPEED;
@@ -397,16 +438,6 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (m_flashLight == null)
-					{
-						m_img.setSprite("Images//Sprite//Guard//guard_walk");
-						m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
-					}
-					else
-					{
-						m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
-						m_flashLight.setSprite("Images//LightCone//light_guard_walk");
-					}
 					if (m_speed.X < 0)
 					{
 						m_speed.X = -MOVEMENTSPEED;
@@ -417,6 +448,15 @@ namespace GrandLarceny
 					}
 				}
 			}
+			if (m_running)
+			{
+				if (m_flashLight != null)
+				{
+					m_flashLight.kill();
+					m_flashLightId = 0;
+					m_flashLight = null;
+				}
+			}
 		}
 
 		public bool canSeePlayer()
@@ -425,14 +465,19 @@ namespace GrandLarceny
 
 			return t_player != null &&
 				((t_player.getCurrentState() != Player.State.Hiding && t_player.isInLight())
-				|| (t_player.isInLight() && t_player.getCurrentState() == Player.State.Hiding && t_player.isFacingRight() == m_facingRight)) &&
+				|| (t_player.isInLight() && t_player.getCurrentState() == Player.State.Hiding && t_player.isFacingRight() == isFacingRight())) &&
 				isFacingTowards(t_player.getPosition().getGlobalX()) &&
 				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
 				t_player.getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
 				t_player.getPosition().getGlobalY() >= m_position.getGlobalY() - 200 &&
-				CollisionManager.possibleLineOfSight(
-				t_player.getPosition().getGlobalCartesianCoordinates() + (t_player.getImg().getSize() / new Vector2(2, 4)),
-				m_position.getGlobalCartesianCoordinates() + (m_img.getSize() / 2));
+				canSeePoint(t_player.getPosition().getGlobalCartesianCoordinates() + (t_player.getImg().getSize() / new Vector2(2, 4)));
+		}
+
+		public bool isFacingRight()
+		{
+			return m_facingRight ^
+				(m_img.getSubImageIndex() > 5.5 &&
+				(m_img.getImagePath().Equals("Images//Sprite//Guard//guard_flash_turn") || m_img.getImagePath().Equals("Images//Sprite//Guard//guard_turn")));
 		}
 
 		public bool isFacingTowards(float a_x)
@@ -441,13 +486,11 @@ namespace GrandLarceny
 			{
 				if (m_img.getSubImageIndex() < 5)
 				{
-					return (a_x <= m_position.getGlobalX() && !m_facingRight)
-					|| (a_x >= m_position.getGlobalX() && m_facingRight);
+					return (a_x >= m_position.getGlobalX() == m_facingRight);
 				}
 				else if (m_img.getSubImageIndex() >= 6)
 				{
-					return (a_x <= m_position.getGlobalX() && m_facingRight)
-					|| (a_x >= m_position.getGlobalX() && !m_facingRight);
+					return (a_x <= m_position.getGlobalX() == m_facingRight);
 				}
 				else
 				{
@@ -456,8 +499,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				return (a_x <= m_position.getGlobalX() && ! m_facingRight)
-					|| (a_x >= m_position.getGlobalX() && m_facingRight);
+				return (a_x >= m_position.getGlobalX() == m_facingRight);
 			}
 		}
 		public override void update(GameTime a_gameTime)
@@ -472,12 +514,12 @@ namespace GrandLarceny
 						m_striking = false;
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 					}
-					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_turn")
+					else if (m_img.getImage() == t2d_turn)
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 						m_facingRight = !m_facingRight;
 					}
-					else if(m_img.getImagePath() == "Images//Sprite//Guard//guard_flash_turn")
+					else if (m_img.getImage() == t2d_flashIdle)
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 						m_facingRight = !m_facingRight;
@@ -493,7 +535,7 @@ namespace GrandLarceny
 						}
 
 					}
-					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_pick_up_flash")
+					else if (m_img.getImage() == t2d_pickUpFlash)
 					{
 						m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
 						m_flashLightId = m_flashLight.getId();
@@ -504,7 +546,7 @@ namespace GrandLarceny
 						Game.getInstance().getState().addObject(m_flashLight);
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 					}
-					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_put_down_flash")
+					else if (m_img.getImage() == t2d_putDownFlash)
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 					}
@@ -513,7 +555,7 @@ namespace GrandLarceny
 
 			base.update(a_gameTime);
 
-			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000f),0);
+			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000f), 0);
 
 			if ((m_aiState != AIStateChasing.getInstance()) && canSeePlayer())
 			{
@@ -541,7 +583,7 @@ namespace GrandLarceny
 			m_chaseTarget = t_player;
 			if (!t_player.isChase())
 			{
-				t_player.activateChaseMode();
+				t_player.activateChaseMode(this);
 			}
 		}
 		internal override void collisionCheck(List<Entity> a_collisionList)
@@ -553,13 +595,14 @@ namespace GrandLarceny
 				{
 					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
 					{
-						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+						stop();
 					}
 					else if (m_speed.X > 0 && m_position.getGlobalX() < t_collision.getPosition().getGlobalX())
 					{
-						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+						stop();
 					}
-					stop();
 				}
 				else if (t_collision is Platform)
 				{
@@ -567,19 +610,19 @@ namespace GrandLarceny
 					{
 						if (m_speed.X < 0)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+							stop();
 						}
 						else if (m_speed.X > 0)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+							stop();
 						}
-						stop();
 					}
 					else
 					{
-						if (m_gravity > 0)
+						if (m_speed.Y > 0)
 						{
-							m_gravity = 0;
 							m_speed.Y = 0;
 							m_nextPosition.Y = (t_collision.getPosition().getGlobalY() - m_img.getSize().Y);
 						}
@@ -709,6 +752,21 @@ namespace GrandLarceny
 		public void toggleFlashLightAddicted()
 		{
 			m_FlashLightAddicted = !m_FlashLightAddicted;
+		}
+		public override void flip()
+		{
+			base.flip();
+			m_facingRight = m_spriteEffects == SpriteEffects.None;
+			m_guardFaceRight = m_facingRight;
+		}
+		public bool guardFaceRight()
+		{
+			return m_guardFaceRight;
+		}
+
+		public bool canSeePoint(Vector2 a_point)
+		{
+			return CollisionManager.possibleLineOfSight(m_position.getGlobalCartesianCoordinates() + new Vector2(0, 10), a_point);
 		}
 	}
 }

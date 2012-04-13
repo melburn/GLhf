@@ -16,6 +16,11 @@ namespace GrandLarceny
 		{
 			m_coordinates = a_coordinates;
 		}
+		public PolarCoordinate(Vector2 a_coordinates, Position a_parentPosition)
+		{
+			m_coordinates = a_coordinates;
+			m_parentPosition = a_parentPosition;
+		}
 		public PolarCoordinate(float a_radie, float a_slope)
 		{
 			m_coordinates = new Vector2(a_radie, a_slope);
@@ -92,7 +97,7 @@ namespace GrandLarceny
 
 		public override float getLength()
 		{
-			return m_coordinates.Y;
+			return m_coordinates.X;
 		}
 
 		public override float getLocalX()
@@ -128,12 +133,24 @@ namespace GrandLarceny
 		}
 		public override void setParentPositionWithoutMoving(Position a_parentPosition)
 		{
+			Position t_parent = a_parentPosition;
+			while (t_parent != null)
+			{
+				if (t_parent == this)
+				{
+					throw new ArgumentException("This parenting will cause an inheirt paradox");
+				}
+				else
+				{
+					t_parent = t_parent.getParentPosition();
+				}
+			}
 			if (a_parentPosition == null)
 			{
 				m_coordinates = getGlobalPolarCoordinates();
 			}
 			else{
-			m_coordinates = convertCartesianToPolar(getGlobalCartesianCoordinates() - a_parentPosition.getGlobalCartesianCoordinates());
+				m_coordinates = convertCartesianToPolar(getGlobalCartesianCoordinates() - a_parentPosition.getGlobalCartesianCoordinates());
 			}
 			m_parentPosition = a_parentPosition;
 		}

@@ -6,7 +6,7 @@ using System.Text;
 namespace GrandLarceny.Events
 {
 	[Serializable()]
-	class Event
+	public class Event
 	{
 		private LinkedList<EventTrigger> m_triggers;
 		private LinkedList<EventEffect> m_effects;
@@ -66,6 +66,30 @@ namespace GrandLarceny.Events
 		public bool remove(EventTrigger a_eveTrigger)
 		{
 			return m_triggers.Remove(a_eveTrigger);
+		}
+
+
+		public void linkObject()
+		{
+			foreach (EventEffect t_ee in m_effects)
+			{
+				t_ee.linkObject();
+			}
+			foreach (EventTrigger t_et in m_triggers)
+			{
+				t_et.linkObject();
+			}
+		}
+		public void loadContent()
+		{
+			foreach (EventEffect t_ee in m_effects)
+			{
+				t_ee.loadContent();
+			}
+			foreach (EventTrigger t_et in m_triggers)
+			{
+				t_et.loadContent();
+			}
 		}
 	}
 }

@@ -43,11 +43,11 @@ namespace GrandLarceny
 				}
 				catch(System.FormatException)
 				{
-					Console.Out.WriteLine("Parse fail : "+ f_currentLine);
+					ErrorLogger.getInstance().writeString("Parse fail in loading of animationSizes at line : " + f_currentLine);
 				}
 				catch (System.IndexOutOfRangeException)
 				{
-					Console.Out.WriteLine("det finns inga colon : " + f_currentLine);
+					ErrorLogger.getInstance().writeString("Parse fail (missing colon) in loading of animationSizes at line : " + f_currentLine);
 				}
 			}
 		}
@@ -63,7 +63,7 @@ namespace GrandLarceny
 
 		public Level loadLevel(string a_levelName)
 		{
-				return Serializer.getInstance().loadLevel(a_levelName);
+			return Serializer.getInstance().loadLevel(a_levelName);
 		}
 
 

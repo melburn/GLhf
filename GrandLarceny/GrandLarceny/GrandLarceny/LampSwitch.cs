@@ -19,7 +19,7 @@ namespace GrandLarceny
 		public LampSwitch(Vector2 a_position, String a_sprite, float a_layer)
 			: base(a_position, a_sprite, a_layer)
 		{
-			m_switchedOn = a_sprite == "Images//Prop//Button//light_switch_on";
+			m_switchedOn = a_sprite == "Images//Prop//Button//1x1_alight_switch_on";
 			m_connectedToAll = false;
 		}
 
@@ -68,7 +68,7 @@ namespace GrandLarceny
 				m_switchedOn = !m_switchedOn;
 				if (m_switchedOn)
 				{
-					m_img.setSprite("Images//Prop//Button//light_switch_on");
+					m_img.setSprite("Images//Prop//Button//1x1_alight_switch_on");
 				}
 				else
 				{
@@ -88,7 +88,7 @@ namespace GrandLarceny
 					{
 						foreach (GameObject t_guard in Game.getInstance().getState().getCurrentList())
 						{
-							if (t_guard is Guard && CollisionManager.possibleLineOfSight(t_guard.getPosition().getGlobalCartesianCoordinates(), m_position.getGlobalCartesianCoordinates()))
+							if (t_guard is Guard && ((Guard)t_guard).canSeePoint(m_position.getGlobalCartesianCoordinates()))
 							{
 								((Guard)t_guard).addLampSwitchTarget(this);
 							}
@@ -100,17 +100,12 @@ namespace GrandLarceny
 
 		public bool isOn()
 		{
-			foreach (SpotLight t_spotLight in m_connectedSpotLights)
-			{
-				if (!t_spotLight.isLit())
-					return false;
-			}
-			return true;
+			return m_switchedOn;
 		}
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (a_collid is Player && Game.keyClicked(Keys.Up))
+			if (a_collid is Player && Game.keyClicked(GameState.getActionKey()))
 			{
 				toggleSwitch();
 			}

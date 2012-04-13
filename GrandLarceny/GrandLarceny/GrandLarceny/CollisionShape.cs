@@ -26,5 +26,9 @@ namespace GrandLarceny
 		{
 			return m_position;
 		}
+		public virtual void setPosition(Position a_position)
+		{
+			m_position = a_position;
+		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using GrandLarceny.AI;
 
 namespace GrandLarceny
 {
@@ -28,10 +29,12 @@ namespace GrandLarceny
 			}
 			base.update(a_gameTime);
 		}
+
 		public AIState getAIState()
 		{
 			return m_aiState;
 		}
+
 		public void setAIState(AIState a_aIState)
 		{
 			m_aiState = a_aIState;

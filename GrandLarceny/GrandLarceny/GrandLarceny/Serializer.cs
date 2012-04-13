@@ -24,7 +24,6 @@ namespace GrandLarceny
 			{
 				m_instance = new Serializer();
 			}
-
 			return m_instance;
 		}
 
@@ -45,13 +44,17 @@ namespace GrandLarceny
 					t_go.linkObject();
 				}
 			}
+
+			foreach (Event t_e in a_save.getEvents())
+			{
+				t_e.linkObject();
+			}
 			MemoryStream t_stream = null;
 			FileStream t_fstream = null;
 
 			t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Create);
 			BinaryFormatter t_bFormatter = new BinaryFormatter();
 			
-
 			LinkedList<string> t_unikName = new LinkedList<string>();
 			LinkedList<LinkedList<GameObject>> t_objekts = new LinkedList<LinkedList<GameObject>>();
 
@@ -64,11 +67,8 @@ namespace GrandLarceny
 			long t_fstreamLastPos = t_fstream.Position;
 			long t_objectListSize = t_fstream.Position;
 			
-			
-			
 			foreach (LinkedList<GameObject> t_goList in a_save.getGameObjects())
 			{
-
 				t_fstream.Position = t_fstream.Position + 4;
 				foreach(GameObject t_go in t_goList)
 				{
@@ -100,13 +100,16 @@ namespace GrandLarceny
 					}
 					catch (FileNotFoundException)
 					{
-						System.Console.WriteLine("Fail to SaveLevel(Serializer) : "+index+" Who are fuck : "+t_serializeList.ElementAt<GameObject>(0).GetType().Name);
+						ErrorLogger.getInstance().writeString("Fail to save serialize, FileNotFound: " + t_serializeList.ElementAt<GameObject>(0));
+					}
+					catch (SerializationException)
+					{
+						ErrorLogger.getInstance().writeString("Fail to serialize while saving: " + t_serializeList.ElementAt<GameObject>(0));
 					}
 					if (t_stream != null)
 					{
 						t_stream.Close();
 					}
-
 				}
 
 				byte[] t_layerSize = new byte[4];
@@ -147,17 +150,17 @@ namespace GrandLarceny
 				t_fstream.Write(t_msPos, 0, t_msPos.Length);
 				t_fstream.Write(t_stream.GetBuffer(), 0, (int)t_stream.Position);
 			}
-			catch (FileNotFoundException)
+			catch (SerializationException)
 			{
-				System.Console.WriteLine("Fail to SaveLevel(Serializer) : Event saving fails");
+				ErrorLogger.getInstance().writeString("While saving, failed to serialized event");
 			}
+
 			if (t_stream != null)
 			{
 				t_stream.Close();
 			}
 			//Serialize events done
 
-			
 			if (t_fstream != null)
 			{
 				t_fstream.Close();
@@ -181,35 +184,37 @@ namespace GrandLarceny
 			
 			byte[] t_bytes = new byte[4];
 
-
 			int t_layerIndex = 0;
 			try
 			{
-				t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
-			
-				
+				while (true)
+				{
+					try
+					{
+						t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
+						break;
+					}
+					catch (IOException)
+					{
+						continue;
+					}
+				}
+					
 				BinaryFormatter t_bFormatter = new BinaryFormatter();
-
 				
 				t_fstream.Read(t_bytes, 0, t_bytes.Length);
 				int t_gameObjectListSize = BitConverter.ToInt32(t_bytes, 0);
-				 
-
+				
 				//load GameObjects
-				for (; ; )
+				while (true)
 				{
 					float t_fstreamPos = t_fstream.Position;
 					t_bytes = new byte[4];
 					t_fstream.Read(t_bytes, 0, t_bytes.Length);
 					int t_layerSize = BitConverter.ToInt32(t_bytes, 0);
 
-					for (; ; )
+					while (t_fstream.Position < t_layerSize + t_fstreamPos)
 					{
-						if (t_fstream.Position >= t_layerSize + t_fstreamPos)
-						{
-							break;
-						}
-
 						t_bytes = new byte[4];
 						t_fstream.Read(t_bytes, 0, t_bytes.Length);
 						int t_objectListSize = BitConverter.ToInt32(t_bytes, 0);
@@ -234,21 +239,22 @@ namespace GrandLarceny
 						}
 						catch (SerializationException e)
 						{
-							System.Console.WriteLine("Fail to DeSerialize : " + e);
-							//t_fstream.Position = t_fstream.Position + t_objectListSize;
+							ErrorLogger.getInstance().writeString("Fail to DeSerialize GameObject while loading: " + e);
+						}
+						catch (OutOfMemoryException e)
+						{
+							ErrorLogger.getInstance().writeString("Fail to DeSerialize GameObject while loading: " + e);
 						}
 					}
-
 					t_layerIndex++;
+
 					if (t_fstream.Position >= t_gameObjectListSize)
 					{
 						break;
 					}
-
 				}
 				t_loadingLevel.setLevelObjects(t_gameObjectsList);
 
-				
 				try
 				{
 					//load Events
@@ -267,28 +273,20 @@ namespace GrandLarceny
 				}
 				catch (SerializationException e)
 				{
-					System.Console.WriteLine("Fail to DeSerialize : " + e);
+					ErrorLogger.getInstance().writeString("Fail to DeSerialize Event while loading " + e);
 				}
 				t_loadingLevel.setEvents(t_events);
-				
-
 			}
 			catch (FileLoadException e)
 			{
-				System.Console.WriteLine("Fail to LoadLevel(DeSerialize) : " + e);
+				ErrorLogger.getInstance().writeString("Could not deserialize level: " + e);
 			}
-			catch (FileNotFoundException e)
-			{
-				System.Console.WriteLine("Fail to find file : " + e);
-			}
-
-			
-
 
 			if (t_fstream != null)
 			{
 				t_fstream.Close();
 			}
+
 			if (t_mStream != null)
 			{
 				t_mStream.Close();
@@ -300,7 +298,6 @@ namespace GrandLarceny
 			}
 
 			return t_loadingLevel;
-
 		}
 	}
 }

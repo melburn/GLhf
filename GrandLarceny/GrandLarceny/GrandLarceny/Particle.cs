@@ -6,8 +6,10 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
-	class Particle : GameObject
+	public class Particle : GameObject
 	{
+		float m_timer = 0;
+
 		public Particle(Vector2 a_position, String a_sprite, float a_animationSpeed, float a_layer)
 			:base(new CartesianCoordinate(a_position), a_sprite, a_layer)
 		{
@@ -15,10 +17,16 @@ namespace GrandLarceny
 			m_img.setLooping(false);
 		}
 
+		public void addTimer(float a_timer)
+		{
+			m_timer = a_timer;
+		}
+
 		public override void update(GameTime a_gameTime)
 		{
+			
 			base.update(a_gameTime);
-			if (m_img.isStopped())
+			if (m_img.isStopped() && m_timer <= a_gameTime.TotalGameTime.TotalMilliseconds)
 			{
 				m_dead = true;
 			}

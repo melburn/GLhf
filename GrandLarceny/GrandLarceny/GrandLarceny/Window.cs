@@ -4,24 +4,35 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
 	[Serializable()]
 	public class Window : NonMovingObject
 	{
+		float m_playerOn;
 
 		public Window(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
 		}
 
-		public override void loadContent()
+		public override void update(GameTime a_gameTime)
 		{
-			base.loadContent();
-			//m_collisionShape = new CollisionRectangle(0, (m_img.getSize().Y/3)*2, m_img.getSize().X, m_img.getSize().Y/3, m_position);
-			//m_collisionShape = new CollisionRectangle(1, 0, m_img.getSize().X-1, m_img.getSize().Y, m_position);
+			base.update(a_gameTime);
+			if (m_playerOn > 0)
+			{
+
+				m_playerOn -= ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
+				if (m_playerOn <= 0)
+				{
+					Game.getInstance().getState().getPlayer().deactivateChaseMode();
+				}
+			}
+
 		}
+
 		public override bool isTransparent()
 		{
 			return false;
@@ -36,7 +47,8 @@ namespace GrandLarceny
 					//Colliding with ze floor
 					if ((int)t_player.getLastPosition().Y + t_player.getHitBox().getOutBox().Height <= (int)getLastPosition().Y && t_player.getCurrentState() != Player.State.Hanging)
 					{
-						t_player.setNextPositionY(getPosition().getGlobalY() - t_player.getCollisionShape().getOutBox().Height);
+						m_playerOn = 0.2f;
+						t_player.setNextPositionY(getPosition().getGlobalY() - t_player.getHitBox().getOutBox().Height);
 						t_player.setSpeedY(0);
 						if (t_player.getCurrentState() == Player.State.Jumping || t_player.getCurrentState() == Player.State.Climbing
 							|| t_player.getCurrentState() == Player.State.Slide)
@@ -80,7 +92,7 @@ namespace GrandLarceny
 				}
 				else
 				{	
-					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && Game.isKeyPressed(GameState.getUpKey()))
+					if (t_player.getCurrentState() == Player.State.Climbing && t_player.getPosition().getGlobalY() <= m_position.getGlobalY() && Game.keyClicked(GameState.getUpKey()))
 					{
 						t_player.setNextPositionY(m_position.getGlobalY());	
 						t_player.setState(Player.State.Hanging);
@@ -92,13 +104,17 @@ namespace GrandLarceny
 					}
 				}
 					
-				if (Game.isKeyPressed(GameState.getActionKey()) && !t_player.isStunned()
+				if ((Game.keyClicked(GameState.getActionKey()) || Game.keyClicked(GameState.getActionKey()))&& !t_player.isStunned()
 					&& (t_player.getCurrentState() == Player.State.Hanging || t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
 				{
-					if(t_player.getCurrentState() == Player.State.Hanging)
+
+					if (t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
+					{
 						t_player.windowAction();
+					}
 					else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY())
 					{
+
 						t_player.windowAction();
 					}
 				} 

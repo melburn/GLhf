@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GrandLarceny.AI;
 
 namespace GrandLarceny
 {
@@ -14,7 +15,7 @@ namespace GrandLarceny
 		private float m_rightPatrolPoint;
 		private Boolean m_hasPatrol;
 		private const float MOVEMENTSPEED = 80;
-		private const float CHARGEINGSPEED = 400;
+		private const float CHARGEINGSPEED = 540;
 		private const float WALKANISPEED = 7;
 		private const float CHARGEANISPEED = 20;
 		private const float BARKCOOLDOWN = 0.8f;
@@ -40,8 +41,13 @@ namespace GrandLarceny
 			m_aiState = AIStatepatroling.getInstance();
 			m_gravity = 1000;
 		}
-
-		internal bool canSencePlayer()
+		public override void loadContent()
+		{
+			base.loadContent();
+			m_collisionShape = new CollisionRectangle(15, 30, m_img.getSize().X - 30, m_img.getSize().Y - 30, m_position);
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//GuardDog//dog_walk");
+		}
+		internal bool canSensePlayer()
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			return t_player != null &&
@@ -76,9 +82,13 @@ namespace GrandLarceny
 			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
 		}
 
-		internal float getLeftpatrolPoint()
+		internal float getLeftPatrolPoint()
 		{
 			return m_leftPatrolPoint;
+		}
+		internal float getRightPatrolPoint()
+		{
+			return m_rightPatrolPoint;
 		}
 
 		internal void goRight()
@@ -95,11 +105,6 @@ namespace GrandLarceny
 			}
 			m_facingRight = true;
 			m_barking = false;
-		}
-
-		internal float getRightpatrolPoint()
-		{
-			return m_rightPatrolPoint;
 		}
 
 		internal void goLeft()
@@ -121,6 +126,10 @@ namespace GrandLarceny
 		internal void stop()
 		{
 			m_speed.X = 0;
+			if (m_aiState is AIStateChargeing)
+			{
+				m_aiState = AIStatepatroling.getInstance();
+			}
 		}
 		public override void update(GameTime a_gameTime)
 		{
@@ -208,10 +217,7 @@ namespace GrandLarceny
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			m_chaseTarget = t_player;
-			if (!t_player.isChase())
-			{
-				t_player.activateChaseMode();
-			}
+			
 		}
 
 		internal void forgetChaseTarget()
@@ -236,13 +242,13 @@ namespace GrandLarceny
 			{
 				if (t_collision is Wall || t_collision is Window)
 				{
-					if (m_speed.X < 0)
+					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
 					{
-						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 					}
-					else if (m_speed.X > 0)
+					else if (m_speed.X > 0 && m_position.getGlobalX() < t_collision.getPosition().getGlobalX())
 					{
-						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 					}
 					stop();
 				}
@@ -252,11 +258,11 @@ namespace GrandLarceny
 					{
 						if (m_speed.X < 0)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 						}
 						else if (m_speed.X > 0)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - m_collisionShape.getOutBox().Width);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 						}
 						stop();
 					}
@@ -279,21 +285,24 @@ namespace GrandLarceny
 				else if (t_collision is Player)
 				{
 					Player t_player = (Player)t_collision;
-					if (m_aiState == AIStateChargeing.getInstance())
+					if (t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
 					{
-						if (m_facingRight)
+						if (m_aiState == AIStateChargeing.getInstance())
 						{
-							t_player.dealDamageTo(new Vector2(400, -400));
+							if (m_facingRight)
+							{
+								t_player.dealDamageTo(new Vector2(400, -400));
+							}
+							else
+							{
+								t_player.dealDamageTo(new Vector2(-400, -400));
+							}
 						}
 						else
 						{
-							t_player.dealDamageTo(new Vector2(-400,-400));
+							chasePlayer();
+							m_aiState = AIStateChargeing.getInstance();
 						}
-					}
-					else if (m_aiState == AIStateChargeing.getInstance() && t_player.getCurrentState() != Player.State.Rolling && t_player.getCurrentState() != Player.State.Hiding)
-					{
-						chasePlayer();
-						m_aiState = AIStateChargeing.getInstance();
 					}
 				}
 			}

@@ -38,7 +38,6 @@ namespace GrandLarceny
 			m_layer = a_layer;
 			m_spritePath = a_sprite;
 			loadContent();
-
 		}
 		public GameObject(Position a_position, string a_sprite, float a_layer, float a_rotation = 0)
 		{
@@ -48,11 +47,11 @@ namespace GrandLarceny
 			m_layer = a_layer;
 			m_spritePath = a_sprite;
 			loadContent();
-
 		}
 
 		public virtual void saveObject()
 		{
+			m_spritePath = m_img.getImagePath();
 			m_objectId = ++s_lastId;
 		}
 
@@ -61,7 +60,7 @@ namespace GrandLarceny
 
 		}
 
-		public void flip()
+		public virtual void flip()
 		{
 			if (m_spriteEffects == SpriteEffects.None)
 				m_spriteEffects = SpriteEffects.FlipHorizontally;
@@ -111,11 +110,10 @@ namespace GrandLarceny
 			m_layer = a_layer;
 		}
 		
-		public void setColor(Color a_color)
+		public virtual void setColor(Color a_color)
 		{
 			m_color = a_color;
 		}
-
 		public ImageManager getImg()
 		{
 			return m_img;
@@ -123,6 +121,10 @@ namespace GrandLarceny
 		public float getRotation()
 		{
 			return m_rotate;
+		}
+		public virtual void setRotation(float a_rotation)
+		{
+			m_rotate = a_rotation % ((float)Math.PI * 2);
 		}
 		public virtual void addRotation(float a_rotation)
 		{
@@ -141,6 +143,18 @@ namespace GrandLarceny
 		public static void resetGameObjectId()
 		{
 			s_lastId = 1;
+		}
+		public virtual void changePositionType()
+		{
+			if (m_position is CartesianCoordinate)
+				m_position = new PolarCoordinate(m_position.getLocalPolarCoordinates(), m_position.getParentPosition());
+			else
+				m_position = new CartesianCoordinate(m_position.getLocalCartesianCoordinates(), m_position.getParentPosition());
+		}
+		public void setImageOffset(Vector2 a_offset)
+		{
+			m_imgOffsetX = a_offset.X;
+			m_imgOffsetY = a_offset.Y;
 		}
 	}
 }

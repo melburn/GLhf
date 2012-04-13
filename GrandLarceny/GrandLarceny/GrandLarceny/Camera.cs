@@ -13,12 +13,17 @@ namespace GrandLarceny
 		private float m_zoom;
 		private float m_rotation;
 		private Position m_position;
+		private CollisionRectangle m_cameraBox;
 
 		public Camera()
 		{
 			m_zoom = 1.0f;
 			m_rotation = 0.0f;
 			m_position = new CartesianCoordinate(Vector2.Zero);
+		}
+
+		public void load() {
+			m_cameraBox = new CollisionRectangle(-Game.getInstance().getResolution().X, -Game.getInstance().getResolution().Y, Game.getInstance().getResolution().X * 2, Game.getInstance().getResolution().Y * 2, m_position);			
 		}
 
 		public float getZoom()
@@ -38,7 +43,7 @@ namespace GrandLarceny
 
 		public void zoomOut(float a_zoom)
 		{
-			m_zoom = Math.Max(m_zoom - a_zoom, 0.5f);
+			m_zoom = Math.Max(m_zoom - a_zoom, 0.1f);
 		}
 
 		public float getRotation()
@@ -71,6 +76,11 @@ namespace GrandLarceny
 			m_position.setParentPosition(a_parent);
 		}
 
+		public bool isInCamera(GameObject a_gameObject)
+		{
+			return CollisionManager.Contains(m_cameraBox, a_gameObject.getPosition().getGlobalCartesianCoordinates());
+		}
+
 		/*
 		Använder magi för att förklara hur saker ska ritas ut 
 		*/ 
@@ -92,6 +102,10 @@ namespace GrandLarceny
 		internal void setLayer(int a_layer)
 		{
 			m_layer = a_layer;
+		}
+
+		public void printInfo() {
+			System.Console.WriteLine(m_cameraBox.ToString());
 		}
 	}
 }

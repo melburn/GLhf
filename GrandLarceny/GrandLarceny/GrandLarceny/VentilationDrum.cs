@@ -19,20 +19,37 @@ namespace GrandLarceny
 			if (a_collider is Player)
 			{
 				Player t_player = (Player)a_collider;
-				if (Game.keyClicked(Keys.Up))
-					if (Game.getInstance().m_camera.getLayer() == 0)
+				if (Game.keyClicked(GameState.getActionKey()))
+				{
+					if (t_player.getCurrentState() == Player.State.Ventilation)
 					{
+						if (Game.getInstance().m_camera.getLayer() == 0)
+						{
+							Game.getInstance().getState().moveObjectToLayer(t_player, 0);
+							t_player.setNextPosition(m_position.getGlobalCartesianCoordinates());
+							t_player.setState(Player.State.Jumping);
+						}
+						else
+						{
+							Game.getInstance().m_camera.setLayer(0);
+						}
+					}
+					else if (Game.getInstance().m_camera.getLayer() == 0 && !t_player.isStunned())
+					{
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.changePositionType();
+							t_player.setRotation(0);
+							t_player.getPosition().setParentPositionWithoutMoving(null);
+						}
 						Game.getInstance().getState().changeLayer(1);
 						t_player.setState(Player.State.Ventilation);
 						t_player.setNextPosition(m_position.getGlobalCartesianCoordinates());
 						t_player.deactivateChaseMode();
+						t_player.setSpeedX(0);
+						t_player.setSpeedY(0);
 					}
-					else if (Game.getInstance().m_camera.getLayer() == 1)
-					{
-						Game.getInstance().getState().changeLayer(0);
-						t_player.setState(Player.State.Stop);
-
-					}
+				}
 			}
 		}
 	}

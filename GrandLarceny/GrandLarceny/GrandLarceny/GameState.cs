@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using GrandLarceny.Events;
+using GrandLarceny.AI;
 
 namespace GrandLarceny
 {
@@ -26,9 +28,15 @@ namespace GrandLarceny
 		private static Keys m_jumpKey;
 		private static Keys m_rollKey;
 		private static Keys m_actionKey;
-		private static Keys m_sneakKey;
+		private static Keys m_sprintKey;
 
 		private Player player;
+
+		private ParseState m_currentParse;
+		private enum ParseState {
+			Settings,
+			Input
+		}
 
 		public GameState(string a_levelToLoad)
 		{
@@ -40,18 +48,89 @@ namespace GrandLarceny
 			Game.getInstance().m_camera.setZoom(1.0f);
 			m_guiObject = new LinkedList<GuiObject>();
 
-			Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
-			m_gameObjectList = t_loadedLevel.getGameObjects();
-			m_events = t_loadedLevel.getEvents();
+			if (File.Exists("Content\\levels\\"+m_currentLevel))
+			{
+				Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
 
+				m_gameObjectList = t_loadedLevel.getGameObjects();
+				m_events = t_loadedLevel.getEvents();
+			}
+			else
+			{
+				m_events = new LinkedList<Event>();
+				m_gameObjectList = new LinkedList<GameObject>[5];
+				for (int i = 0; i < m_gameObjectList.Length; ++i)
+				{
+					m_gameObjectList[i] = new LinkedList<GameObject>();
+				}
+			}
 			m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
 			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
+
+			string[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//settings.ini");
+			foreach (string t_currentLine in t_loadedFile)
+			{
+				if (t_currentLine.Length > 2 && t_currentLine.First() == '[' && t_currentLine.Last() == ']')
+				{
+					if (t_currentLine.Equals("[Input]"))
+					{
+						m_currentParse = ParseState.Input;
+					}
+					else if (t_currentLine.Equals("[Graphics]"))
+					{
+						m_currentParse = ParseState.Settings;
+					}
+				}
+				switch (m_currentParse)
+				{
+					case ParseState.Input:
+						string[] t_input = t_currentLine.Split('=');
+						if (t_input[0].Equals("Up"))
+							m_upKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Down"))
+							m_downKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Left"))
+							m_leftKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Right"))
+							m_rightKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Jump"))
+							m_jumpKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Roll"))
+							m_rollKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Action"))
+							m_actionKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Sprint"))
+							m_sprintKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].StartsWith("["))
+							break;
+						else
+							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState" + t_input[0]);
+						break;
+					case ParseState.Settings:
+						string[] t_setting = t_currentLine.Split('=');
+						if (t_setting[0].Equals("ScreenWidth")) {
+							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
+						} else if (t_setting[0].Equals("ScreenHeight")) {
+							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
+							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
+						} else if (t_setting[0].Equals("Fullscreen")) {
+							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
+						} else if (t_setting[0].StartsWith("[")) {
+							break;
+						} else {
+							ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
+						}
+						break;
+				}
+			}
+			Game.getInstance().m_graphics.ApplyChanges();
+
 			for (int i = 0; i < m_gameObjectList.Length; ++i)
 			{
 				m_removeList[i] = new Stack<GameObject>();
 				m_addList[i] = new Stack<GameObject>();
 			}
-			
+
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
 				foreach (GameObject t_go in t_ll)
@@ -64,36 +143,18 @@ namespace GrandLarceny
 					}
 				}
 			}
-			
+
+			foreach (Event t_e in m_events)
+			{
+				t_e.loadContent();
+			}
+
 			if (player != null)
 			{
 				Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
 			}
-
-			string[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//input.ini");
-			foreach (string t_currentLine in t_loadedFile)
-			{
-				string[] t_keybinding = t_currentLine.Split('=');
-				if (t_keybinding[0].Equals("Up"))
-					m_upKey		= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else if (t_keybinding[0].Equals("Down"))
-					m_downKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else if (t_keybinding[0].Equals("Left"))
-					m_leftKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else if (t_keybinding[0].Equals("Right"))
-					m_rightKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else if (t_keybinding[0].Equals("Jump"))
-					m_jumpKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1].ToUpper());
-				else if (t_keybinding[0].Equals("Roll"))
-					m_rollKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1].ToUpper());
-				else if (t_keybinding[0].Equals("Action"))
-					m_actionKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1].ToUpper());
-				else if (t_keybinding[0].Equals("Sneak"))
-					m_sneakKey	= (Keys)Enum.Parse(typeof(Keys), t_keybinding[1]);
-				else
-					System.Console.WriteLine("Unknown keybinding found!");
-			}
+			
 			base.load();
 		}
 
@@ -111,35 +172,45 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_currentList = -1;
-			
 
-			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
-			{
-
-				m_currentList++;
-				foreach (GameObject t_gameObject in t_list)
-				{
-					t_gameObject.update(a_gameTime);
-				}
+			if (Game.keyClicked(Keys.I)) {
+				Game.getInstance().m_camera.printInfo();
 			}
-
 			if (Game.isKeyPressed(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
 
-			if (Game.isKeyPressed(Keys.R))
+			if (Game.isKeyPressed(Keys.F5))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
 			}
+
+			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
+			{
+				++m_currentList;
+				foreach (GameObject t_gameObject in t_list)
+				{
+					
+					try
+					{
+						t_gameObject.update(a_gameTime);
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While updating " + t_gameObject + " got exception: " + e);
+					}
+				}
+			}
+
 			m_currentList = -1;
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
 				++m_currentList;
 				foreach (GameObject t_firstGameObject in t_list)
 				{
-					if (t_firstGameObject is MovingObject)
+					if (t_firstGameObject is MovingObject && Game.getInstance().m_camera.isInCamera(t_firstGameObject))
 					{
 						List<Entity> t_collided = new List<Entity>();
 						foreach (GameObject t_secondGameObject in t_list)
@@ -152,8 +223,12 @@ namespace GrandLarceny
 							}
 						}
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
+						if(!(t_firstGameObject.getPosition() is PolarCoordinate))
 						((Entity)t_firstGameObject).updatePosition();
-
+					} else {
+						if (t_firstGameObject is Entity || t_firstGameObject is Guard) {
+							((Entity)t_firstGameObject).setGravity(0.0f);
+						}
 					}
 
 					if (t_firstGameObject.isDead() && !m_removeList[m_currentList].Contains(t_firstGameObject))
@@ -177,9 +252,16 @@ namespace GrandLarceny
 				while(t_eventNode != null)
 				{
 					LinkedListNode<Event> t_next = t_eventNode.Next;
-					if (t_eventNode.Value.Execute())
+					try
 					{
-						m_events.Remove(t_eventNode);
+						if (t_eventNode.Value.Execute())
+						{
+							m_events.Remove(t_eventNode);
+						}
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While updating " + t_eventNode.Value + " got exception: " + e);
 					}
 					t_eventNode = t_next;
 				}
@@ -192,13 +274,27 @@ namespace GrandLarceny
 		{
 			foreach (GameObject t_gameObject in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
 			{
-				t_gameObject.draw(a_gameTime);
+				try
+				{
+					t_gameObject.draw(a_gameTime);
+				}
+				catch (Exception e)
+				{
+					ErrorLogger.getInstance().writeString("While drawing " + t_gameObject + " got exception: " + e);
+				}
 			}
 			foreach (GuiObject t_go in m_guiObject)
 			{
 				if (!t_go.isDead())
 				{
-					t_go.draw(a_gameTime);
+					try
+					{
+						t_go.draw(a_gameTime);
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While drawing " + t_go + " got exception: " + e);
+					}
 				}
 			}
 		}
@@ -310,10 +406,12 @@ namespace GrandLarceny
 			return m_actionKey;
 		}
 
-		public static Keys getSneakKey()
+		public static Keys getSprintKey()
 		{
-			return m_sneakKey;
+			return m_sprintKey;
 		}
+
+
 		public void clearAggro()
 		{
 			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
@@ -330,6 +428,38 @@ namespace GrandLarceny
 					}
 				}
 			}
+		}
+		internal LinkedList<Event> getEvents()
+		{
+			return m_events;
+		}
+		public string getCurrentLevelName()
+		{
+			return m_currentLevel;
+		}
+
+		public override void moveObjectToLayer(GameObject a_go, int a_layer)
+		{
+			for (int i = 0; i < 5; ++i)
+			{
+				if (m_gameObjectList[i].Contains(a_go))
+				{
+					addObject(a_go, a_layer);
+					removeObject(a_go, i); 
+					return;
+				}
+			}
+			throw new ArgumentException(a_go + " was not found");
+		}
+
+		public override bool objectIsOnLayer(GameObject a_obj, int a_layer)
+		{
+			return m_gameObjectList[a_layer].Contains(a_obj);
+		}
+
+		public string getLevelName()
+		{
+			return m_currentLevel;
 		}
 	}
 }

@@ -31,7 +31,7 @@ namespace GrandLarceny
 						if (t_player.getCurrentState() == Player.State.Jumping
 							&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
 							&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right))
-							&& t_player.hasBoots())
+							&& Game.getInstance().getProgress().hasEquipment("boots"))
 						{
 							t_player.setState(Player.State.Slide);
 							t_player.setFacingRight(true);
@@ -46,7 +46,7 @@ namespace GrandLarceny
 						if (t_player.getCurrentState() == Player.State.Jumping
 							&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
 							&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right))
-							&& t_player.hasBoots())
+							&& Game.getInstance().getProgress().hasEquipment("boots"))
 						{
 							t_player.setState(Player.State.Slide);
 							t_player.setFacingRight(false);
@@ -57,12 +57,34 @@ namespace GrandLarceny
 					//Colliding with ze zeeling
 					else if ((int)t_player.getLastPosition().Y >= (int)getLastPosition().Y + getHitBox().getOutBox().Height)
 					{
-						t_player.setNextPositionY(getPosition().getGlobalY() + getHitBox().getOutBox().Height);
-						t_player.setSpeedY(0);
+						if (t_player.getCurrentState() == Player.State.Stop)
+						{
+							if (t_player.getPosition().getGlobalX() > m_position.getGlobalX() + (m_collisionShape.getOutBox().Width / 2))
+							{
+								t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
+							}
+							else
+							{
+								t_player.setNextPositionX(getPosition().getGlobalX() - t_playerOutBox.Width);
+							}
+						}
+						else
+						{
+							t_player.setNextPositionY(getPosition().getGlobalY() + getHitBox().getOutBox().Height);
+							t_player.setSpeedY(0);
+						}
 					}
 				}
-				if(GameState.checkBigBoxCollision(getHitBox().getOutBox(), t_player.getSlideBox().getOutBox()))
+				if (GameState.checkBigBoxCollision(getHitBox().getOutBox(), t_player.getSlideBox().getOutBox()))
+				{
 					t_player.setCollidedWithWall(true);
+				}
+				if (t_player.getCurrentState() == Player.State.Rolling 
+					&& t_player.getPosition().getGlobalY() > m_position.getGlobalY() + m_collisionShape.getOutBox().Width 
+					&& t_player.isChase())
+				{
+					t_player.deactivateChaseMode();
+				}
 			}
 		}
 
