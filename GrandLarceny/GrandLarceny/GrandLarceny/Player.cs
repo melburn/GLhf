@@ -838,15 +838,23 @@ namespace GrandLarceny
 			{
 				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
 				{
-					m_swingSpeed -= 20 * a_deltaTime;
+					m_swingSpeed -= 10 * a_deltaTime;
 				}
 			}
 			else if (Game.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
 				{
-					m_swingSpeed += 20 * a_deltaTime;
+					m_swingSpeed += 10 * a_deltaTime;
 				}
+			}
+			if (Game.isKeyPressed(GameState.getUpKey()))
+			{
+				m_position.setLength(m_position.getLength() - 2f);
+			}
+			else if (Game.isKeyPressed(GameState.getDownKey()))
+			{
+				m_position.setLength(m_position.getLength() + 2f);
 			}
 			/*if (m_rope.getRotation() < Math.PI * 1.5f && m_rope.getRotation() > Math.PI / 2)
 			{
@@ -883,13 +891,14 @@ namespace GrandLarceny
 
 			if (Game.keyClicked(GameState.getJumpKey()))
 			{
-				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI));
+				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI)) / 2;
 				changePositionType();
 				m_position.setParentPositionWithoutMoving(null);
 				m_position.setGlobalX(m_position.getGlobalX() - 36);
 				m_rotate = 0;
 				m_currentState = State.Jumping;
 				m_rope.resetPosition();
+				m_swingSpeed = 0;
 			}
 		}
 		#endregion

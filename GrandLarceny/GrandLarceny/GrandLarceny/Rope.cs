@@ -7,18 +7,18 @@ using Microsoft.Xna.Framework;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class Rope : NonMovingObject
+	class Rope : MovingObject
 	{
 		[NonSerialized()]
-		private Line m_line;
+		protected Line m_line;
 
-		private float m_lenght;
-		private float m_swingSpeed;
+		protected float m_lenght;
+		protected float m_swingSpeed;
 
-		private Position m_startPosition;
-		private Position m_endPosition;
+		protected Position m_startPosition;
+		protected Position m_endPosition;
 
-		private bool m_moveToStart = true;
+		protected bool m_moveToStart = true;
 
 		public Rope(Vector2 a_posV2, string a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)

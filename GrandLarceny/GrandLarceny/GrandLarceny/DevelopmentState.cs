@@ -35,6 +35,7 @@ namespace GrandLarceny
 		private Vector2 m_selectedInfoV2;
 		private Vector2 m_worldMouse;
 		private Vector2 m_dragOffset;
+		//lol kommentar.
 		private Vector2 m_dragFrom;
 
 		private Text m_textCurrentMode;
