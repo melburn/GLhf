@@ -1012,7 +1012,7 @@ namespace GrandLarceny
 							deleteObject(m_selectedObject);
 							m_selectedInfoV2 = Vector2.Zero;
 							m_selectedObject = null;
-							return;
+							return; //TODO
 						} else if (m_selectedObject is Guard) {
 							showGuardInfo((Guard)m_selectedObject);
 						} else if (m_selectedObject is GuardDog) {
@@ -1033,6 +1033,12 @@ namespace GrandLarceny
 			*/
 			if (Game.m_currentMouse.LeftButton == ButtonState.Released && Game.m_previousMouse.LeftButton == ButtonState.Pressed) {
 				m_dragOffset = Vector2.Zero;
+				if (m_selectedObject != null) {
+					if (m_selectedObject is Guard || m_selectedObject is GuardDog) {
+						setGuardPoint((Guard)m_selectedObject, new Vector2(((Guard)m_selectedObject).getLeftPatrolPoint(), m_selectedObject.getPosition().getGlobalY()), false);
+						setGuardPoint((Guard)m_selectedObject, new Vector2(((Guard)m_selectedObject).getRightPatrolPoint(), m_selectedObject.getPosition().getGlobalY()), true);
+					}
+				}
 			}
 
 			/*
@@ -1081,7 +1087,7 @@ namespace GrandLarceny
 						}
 					}
 					if (m_selectedObject is Guard || m_selectedObject is GuardDog) {
-						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
+						if (m_dragLine == null && ((Entity)m_selectedObject).getImageBox().contains(m_worldMouse)) {
 							m_dragLine = new Line(m_selectedObject.getPosition(), new CartesianCoordinate(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36)), new Vector2(36, 36), Vector2.Zero, Color.Green, 5, true);
 						} else if (m_dragLine != null) {
 							m_dragLine.setEndpoint(new Vector2(m_worldMouse.X, m_selectedObject.getPosition().getGlobalY() + 36));
@@ -1121,22 +1127,22 @@ namespace GrandLarceny
 						showLightSwitchInfo((LampSwitch)m_selectedObject);
 					} else if (m_selectedObject is Guard) {
 						if (m_worldMouse.X > m_selectedObject.getPosition().getGlobalX()) {
-							setGuardPoint((Guard)m_selectedObject, true);
+							setGuardPoint((Guard)m_selectedObject, m_worldMouse, true);
 						} else {
-							setGuardPoint((Guard)m_selectedObject, false);
+							setGuardPoint((Guard)m_selectedObject, m_worldMouse,  false);
 						}
 						showGuardInfo((Guard)m_selectedObject);
 					} else if (m_selectedObject is GuardDog) {
 						if (m_worldMouse.X > m_selectedObject.getPosition().getGlobalX()) {
-							setGuardPoint((GuardDog)m_selectedObject, true);
+							setGuardPoint((GuardDog)m_selectedObject, m_worldMouse, true);
 						} else {
-							setGuardPoint((GuardDog)m_selectedObject, false);
+							setGuardPoint((GuardDog)m_selectedObject, m_worldMouse, false);
 						}
 						showDogInfo((GuardDog)m_selectedObject);
 					} else if (m_selectedObject is Rope) {
 						((Rope)m_selectedObject).setEndpoint(new CartesianCoordinate(getTile(m_worldMouse) + new Vector2(36, 72)));
 					} else if (m_selectedObject is GuardCamera) {
-						setGuardPoint((GuardCamera)m_selectedObject, m_worldMouse.X > m_selectedObject.getPosition().getGlobalX());
+						setGuardPoint((GuardCamera)m_selectedObject, m_worldMouse, m_worldMouse.X > m_selectedObject.getPosition().getGlobalX());
 					}
 					m_dragLine = null;
 				} else {
@@ -1431,24 +1437,25 @@ namespace GrandLarceny
 			}
 		}
 
-		private void setGuardPoint(NPE a_guard, bool a_right) {
+		private void setGuardPoint(NPE a_guard, Vector2 a_position, bool a_right) {
+			System.Console.WriteLine(a_position);
 			if (a_guard is Guard) {
 				if (a_right) {
-					((Guard)a_guard).setRightGuardPoint(getTile(m_worldMouse).X);
+					((Guard)a_guard).setRightGuardPoint(getTile(a_position).X);
 				} else {
-					((Guard)a_guard).setLeftGuardPoint(getTile(m_worldMouse).X);
+					((Guard)a_guard).setLeftGuardPoint(getTile(a_position).X);
 				}
 			} else if (a_guard is GuardDog) {
 				if (a_right) {
-					((GuardDog)a_guard).setRightGuardPoint(getTile(m_worldMouse).X);
+					((GuardDog)a_guard).setRightGuardPoint(getTile(a_position).X);
 				} else {
-					((GuardDog)a_guard).setLeftGuardPoint(getTile(m_worldMouse).X);
+					((GuardDog)a_guard).setLeftGuardPoint(getTile(a_position).X);
 				}
 			} else if (a_guard is GuardCamera) {
 				if (a_right) {
-					((GuardCamera)a_guard).setRightGuardPoint(m_worldMouse);
+					((GuardCamera)a_guard).setRightGuardPoint(a_position);
 				} else {
-					((GuardCamera)a_guard).setLeftGuardPoint(m_worldMouse);
+					((GuardCamera)a_guard).setLeftGuardPoint(a_position);
 				}
 			} else {
 				throw new ArgumentException();
