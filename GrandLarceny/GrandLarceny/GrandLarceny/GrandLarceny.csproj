@@ -113,6 +113,7 @@
     <Compile Include="AI\AIStateChasing.cs" />
     <Compile Include="AI\AIStateGoingToTheSwitch.cs" />
     <Compile Include="AI\AIStatePatrolling.cs" />
+    <Compile Include="Factories\AssetFactory.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
@@ -124,6 +125,8 @@
     <Compile Include="CornerHang.cs" />
     <Compile Include="CornerVentilation.cs" />
     <Compile Include="CrossVentilation.cs" />
+    <Compile Include="DeathScene.cs" />
+    <Compile Include="ErrorLogger.cs" />
     <Compile Include="EventDevelopment.cs" />
     <Compile Include="DevelopmentState.cs" />
     <Compile Include="DuckHideObject.cs" />
@@ -135,7 +138,9 @@
     <Compile Include="Events\Effects\EventEffect.cs" />
     <Compile Include="Events\Triggers\ChaseTrigger.cs" />
     <Compile Include="Events\Triggers\SwitchTrigger.cs" />
+    <Compile Include="Factories\GuiListFactory.cs" />
     <Compile Include="Foreground.cs" />
+    <Compile Include="GuardEntity.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />
@@ -195,7 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GrandLarcenyContent\GrandLarcenyContent.contentproj">
-      <Name>GrandLarcenyContent</Name>
+      <Name>GrandLarcenyContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
       <Project>{E110AA7A-B83A-4C6B-BF33-AD4E16160744}</Project>
     </ProjectReference>
@@ -227,7 +232,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

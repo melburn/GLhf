@@ -2,7 +2,7 @@ Images//LightCone//light_guard_walk:8
 Images//LightCone//light_guard_turn:8
 Images//Sprite//Guard//guard_walk:8
 Images//Sprite//Guard//guard_flash_walk:8
-Images//Sprite//Guard//guard_strike:8
+Images//Sprite//Guard//guard_strike:4
 Images//Sprite//Guard//guard_turn:8
 Images//Sprite//Guard//guard_pick_up_flash:16
 Images//Sprite//Guard//guard_put_down_flash:6
@@ -13,8 +13,9 @@ Images//Sprite//Guard//guard_run:8
 Images//Sprite//Hero//hero_walk:8
 Images//Sprite//Hero//hero_roll:4
 Images//Sprite//Hero//hero_window_climb:8
-Images//Sprite//GuardDog//sphinx_monster_walk_cycle:10
+Images//Sprite//GuardDog//dog_walk:10
 Images//Sprite//Hero//hero_climb_ledge:4
 Images//Sprite//Hero//hero_window_heave:4
 Images//Sprite//Hero//hero_run:8
 Images//Prop//SecurityDoor//SecurityDoor:10
+Images//Sprite//Hero//hero_ventilation_horizontal:6

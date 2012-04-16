@@ -9,11 +9,8 @@ using GrandLarceny.AI;
 namespace GrandLarceny
 {
 	[Serializable()]
-	public class Guard : NPE
+	public class Guard : GuardEntity
 	{
-        private float m_leftPatrolPoint;
-        private float m_rightPatrolPoint;
-        private Boolean m_hasPatrol;
         private Boolean m_hasFlashLight;
 		private Boolean m_guardFaceRight;
 		[NonSerialized]
@@ -42,6 +39,33 @@ namespace GrandLarceny
 		private float m_strikeReloadTime = 0;
 		[NonSerialized]
 		private bool m_striking;
+
+		#region Guard Textures
+		[NonSerialized]
+		private Texture2D t2d_run;
+		[NonSerialized]
+		private Texture2D t2d_walk;
+		[NonSerialized]
+		private Texture2D t2d_flashWalk;
+		[NonSerialized]
+		private Texture2D t2d_flashIdle;
+		[NonSerialized]
+		private Texture2D t2d_flashTurn;
+		[NonSerialized]
+		private Texture2D t2d_idle;
+		[NonSerialized]
+		private Texture2D t2d_pickUpFlash;
+		[NonSerialized]
+		private Texture2D t2d_putDownFlash;
+		[NonSerialized]
+		private Texture2D t2d_strike;
+		[NonSerialized]
+		private Texture2D t2d_turn;
+		[NonSerialized]
+		private Texture2D t2d_qmark;
+		[NonSerialized]
+		private Texture2D t2d_emark;
+		#endregion
 
 		//flashlight addicted guard always has their flashlight up
 		private Boolean m_FlashLightAddicted;
@@ -100,7 +124,7 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(40, 10, m_img.getSize().X - 80, m_img.getSize().Y - 10, m_position);
+			m_collisionShape = new CollisionRectangle(20, 10, m_img.getSize().X - 40, m_img.getSize().Y - 10, m_position);
 			m_lampSwitchTargets = new LinkedList<LampSwitch>();
 			if (m_lampSwitchTargetsId == null)
 			{
@@ -117,37 +141,22 @@ namespace GrandLarceny
 			}
 			m_facingRight = m_spriteEffects == SpriteEffects.None;
 
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_run");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_walk");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_walk");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_idle");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_turn");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_idle");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_pick_up_flash");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_put_down_flash");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_strike");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_turn");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//qmark");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//Exclmarks");
+			#region Texture Loading
+			t2d_run				= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_run");
+			t2d_walk			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_walk");
+			t2d_flashWalk		= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_walk");
+			t2d_flashIdle		= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_idle");
+			t2d_flashTurn		= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_flash_turn");
+			t2d_idle			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_idle");
+			t2d_pickUpFlash		= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_pick_up_flash");
+			t2d_putDownFlash	= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_put_down_flash");
+			t2d_strike			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_strike");
+			t2d_turn			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_turn");
+			t2d_qmark			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//qmark");
+			t2d_emark			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//Exclmarks");
+			#endregion
 		}
 
-		public void setLeftGuardPoint(float a_x)
-		{
-			m_leftPatrolPoint = a_x;
-			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
-		}
-
-		public void setRightGuardPoint(float a_x)
-		{
-			m_rightPatrolPoint = a_x;
-			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
-		}
-		public void setGuardPoint(float a_x)
-		{
-			m_hasPatrol = false;
-			m_leftPatrolPoint = a_x;
-			m_rightPatrolPoint = a_x;
-		}
 		internal void goRight()
 		{
 			if (m_aiActive)
@@ -360,20 +369,10 @@ namespace GrandLarceny
 				m_flashLight = null;
 			}
 		}
-		internal float getLeftPatrolPoint()
-		{
-			return m_leftPatrolPoint;
-		}
-
 
 		internal bool hasPatrol()
 		{
 			return m_hasPatrol;
-		}
-
-		internal float getRightPatrolPoint()
-		{
-			return m_rightPatrolPoint;
 		}
 
 		internal Entity getChaseTarget()
@@ -485,12 +484,12 @@ namespace GrandLarceny
 						m_striking = false;
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 					}
-					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_turn")
+					else if (m_img.getImage() == t2d_turn)
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 						m_facingRight = !m_facingRight;
 					}
-					else if(m_img.getImagePath() == "Images//Sprite//Guard//guard_flash_turn")
+					else if (m_img.getImage() == t2d_flashIdle)
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 						m_facingRight = !m_facingRight;
@@ -506,7 +505,7 @@ namespace GrandLarceny
 						}
 
 					}
-					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_pick_up_flash")
+					else if (m_img.getImage() == t2d_pickUpFlash)
 					{
 						m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
 						m_flashLightId = m_flashLight.getId();
@@ -517,7 +516,7 @@ namespace GrandLarceny
 						Game.getInstance().getState().addObject(m_flashLight);
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 					}
-					else if (m_img.getImagePath() == "Images//Sprite//Guard//guard_put_down_flash")
+					else if (m_img.getImage() == t2d_putDownFlash)
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 					}
@@ -526,7 +525,7 @@ namespace GrandLarceny
 
 			base.update(a_gameTime);
 
-			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000f),0);
+			m_strikeReloadTime = Math.Max(m_strikeReloadTime - (a_gameTime.ElapsedGameTime.Milliseconds / 1000f), 0);
 
 			if ((m_aiState != AIStateChasing.getInstance()) && canSeePlayer())
 			{
@@ -592,9 +591,8 @@ namespace GrandLarceny
 					}
 					else
 					{
-						if (m_gravity > 0)
+						if (m_speed.Y > 0)
 						{
-							m_gravity = 0;
 							m_speed.Y = 0;
 							m_nextPosition.Y = (t_collision.getPosition().getGlobalY() - m_img.getSize().Y);
 						}

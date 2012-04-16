@@ -59,45 +59,39 @@ namespace GrandLarceny
 
 		public void draw(Vector2 a_imgPosition, float a_rotation, Vector2 a_origin, Color a_color, SpriteEffects a_spriteEffect = SpriteEffects.None, float a_layer = 0.0f, float a_xScale = 1.0f, float a_yScale = 1.0f)
 		{
-			if (a_xScale <= 0)
+			if (m_image != null)
 			{
-				throw new ArgumentException("xScale has to be positive. was "+a_xScale);
-			}
-			if (a_yScale <= 0)
-			{
-				throw new ArgumentException("yScale has to be positive. was "+a_yScale);
-			}
-			if (a_color == null)
-			{
-				a_color = Color.White;
-			}
+				if (a_xScale <= 0)
+				{
+					throw new ArgumentException("xScale has to be positive. was " + a_xScale);
+				}
+				if (a_yScale <= 0)
+				{
+					throw new ArgumentException("yScale has to be positive. was " + a_yScale);
+				}
+				if (a_color == null)
+				{
+					a_color = Color.White;
+				}
 
-			Game.getInstance().getSpriteBatch().Draw(
-				m_image,
-				new Rectangle((int)(Math.Round(a_imgPosition.X)+(a_origin.X*a_xScale)), (int)(Math.Round(a_imgPosition.Y)+(a_origin.Y*a_yScale)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
-				new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
-				a_color,
-				a_rotation,
-				a_origin,
-				a_spriteEffect,
-				a_layer
-			);
-		}
-
-		public void setSprite(Texture2D a_texture) {
-			m_stopped = true;
-			m_imagePath = null;
-			m_image = a_texture;
+				Game.getInstance().getSpriteBatch().Draw(
+					m_image,
+					new Rectangle((int)(Math.Round(a_imgPosition.X) + (a_origin.X * a_xScale)), (int)(Math.Round(a_imgPosition.Y) + (a_origin.Y * a_yScale)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
+					new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
+					a_color,
+					a_rotation,
+					a_origin,
+					a_spriteEffect,
+					a_layer
+				);
+			}
 		}
 
 		public bool setSprite(string a_sprite)
 		{
 			if (a_sprite == null || a_sprite.Equals(""))
 			{
-				m_image = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-				Color t_color = Color.Black;
-				m_image.SetData(new[] { t_color });
-				m_stopped = true;
+				m_image = null;
 				m_imagePath = null;
 				return false;
 			}
@@ -111,13 +105,8 @@ namespace GrandLarceny
 				}
 				catch (ContentLoadException)
 				{
-					System.Console.WriteLine("Omega fail to load texture : " + a_sprite);
-					if (a_sprite.Equals("Images//GUI//")) {
-						m_image = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1);
-						m_image.SetData<Color>(new[] { Color.Transparent });
-					} else {
-						m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
-					}
+					ErrorLogger.getInstance().writeString("Could not load texture "+a_sprite);
+					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
 				}
 				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
 				m_animationWidth = m_image.Width / m_animationFrames;
@@ -143,7 +132,14 @@ namespace GrandLarceny
 
 		public Vector2 getSize()
 		{
-			return new Vector2(m_animationWidth, m_image.Height);
+			if (m_image == null)
+			{
+				return Vector2.Zero;
+			}
+			else
+			{
+				return new Vector2(m_animationWidth, m_image.Height);
+			}
 		}
 
 		public void setAnimationSpeed(float a_speed)
@@ -203,6 +199,10 @@ namespace GrandLarceny
 		public float getAnimationSpeed()
 		{
 			return m_animationSpeed;
+		}
+
+		public Texture2D getImage() {
+			return m_image;
 		}
 	}
 }

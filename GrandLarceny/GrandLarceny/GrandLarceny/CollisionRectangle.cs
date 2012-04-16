@@ -152,6 +152,9 @@ namespace GrandLarceny
 		{
 			return new CartesianCoordinate(new Vector2(m_position.getGlobalX() + m_xOffset, m_position.getGlobalY() + m_yOffset));
 		}
-
+		public override string ToString()
+		{
+			return "{ " + m_xOffset + ", " + m_yOffset + " : " + m_width + ", " + m_height + " : " + m_position.getGlobalX() + ", " + m_position.getGlobalY() + " }";
+		}
 	}
 }

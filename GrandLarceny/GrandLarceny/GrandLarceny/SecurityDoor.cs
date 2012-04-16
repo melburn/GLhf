@@ -39,7 +39,7 @@ namespace GrandLarceny
 			if (!m_open)
 			{
 				m_open = true;
-				m_img.setAnimationSpeed(m_closeSpeed);
+				m_img.setAnimationSpeed(m_openSpeed);
 				m_img.run();
 			}
 		}
@@ -48,7 +48,7 @@ namespace GrandLarceny
 			if (m_open)
 			{
 				m_open = false;
-				m_img.setAnimationSpeed(-m_openSpeed);
+				m_img.setAnimationSpeed(-m_closeSpeed);
 				m_img.run();
 			}
 		}

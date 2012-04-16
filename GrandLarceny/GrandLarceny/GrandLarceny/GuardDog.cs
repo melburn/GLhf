@@ -9,11 +9,8 @@ using GrandLarceny.AI;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class GuardDog : NPE
+	class GuardDog : GuardEntity
 	{
-		private float m_leftPatrolPoint;
-		private float m_rightPatrolPoint;
-		private Boolean m_hasPatrol;
 		private const float MOVEMENTSPEED = 80;
 		private const float CHARGEINGSPEED = 540;
 		private const float WALKANISPEED = 7;
@@ -45,6 +42,7 @@ namespace GrandLarceny
 		{
 			base.loadContent();
 			m_collisionShape = new CollisionRectangle(15, 30, m_img.getSize().X - 30, m_img.getSize().Y - 30, m_position);
+			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//GuardDog//dog_walk");
 		}
 		internal bool canSensePlayer()
 		{
@@ -62,32 +60,6 @@ namespace GrandLarceny
 		{
 			return (a_x <= m_position.getGlobalX() && !m_facingRight)
 				|| (a_x >= m_position.getGlobalX() && m_facingRight);
-		}
-
-		internal bool haspatrol()
-		{
-			return m_hasPatrol;
-		}
-
-		public void setLeftGuardPoint(float a_x)
-		{
-			m_leftPatrolPoint = a_x;
-			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
-		}
-
-		public void setRightGuardPoint(float a_x)
-		{
-			m_rightPatrolPoint = a_x;
-			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
-		}
-
-		internal float getLeftPatrolPoint()
-		{
-			return m_leftPatrolPoint;
-		}
-		internal float getRightPatrolPoint()
-		{
-			return m_rightPatrolPoint;
 		}
 
 		internal void goRight()

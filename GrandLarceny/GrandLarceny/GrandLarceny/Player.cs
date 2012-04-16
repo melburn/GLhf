@@ -85,6 +85,7 @@ namespace GrandLarceny
 		private bool m_stunnedFlipSprite = false;
 		private bool m_chase = false;
 		private bool m_deactivateChase = false;
+		private bool m_runMode = false;
 
 		private Rope m_rope = null;
 
@@ -152,6 +153,7 @@ namespace GrandLarceny
 			m_playerCurrentSpeed = PLAYERSPEED;
 			m_swingSpeed = 0;
 			m_currentVentilationImage = VENTIDLEIMAGE;
+			m_position.plusYWith(-1);
 
 		}
 		#endregion
@@ -159,7 +161,13 @@ namespace GrandLarceny
 		#region update
 		public override void update(GameTime a_gameTime)
 		{
+			
 			m_lastPosition = m_position.getGlobalCartesianCoordinates();
+
+			if (!m_stunned) {
+				changeAnimation();
+			}
+
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
 			m_invulnerableTimer = Math.Max(m_invulnerableTimer - t_deltaTime, 0);
 
@@ -173,6 +181,7 @@ namespace GrandLarceny
 				activateNormalMode();
 				m_deactivateChase = false;
 			}
+			
 
 			updateState();
 			m_lastState = m_currentState;
@@ -388,6 +397,15 @@ namespace GrandLarceny
 				return;
 			}
 
+			if (!m_chase && Game.isKeyPressed(GameState.getSprintKey()) && !m_runMode)
+			{
+				toggleRunMode();
+			}
+			else if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
+			{
+				toggleRunMode();
+			}
+			
 			if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_speed.X > m_playerCurrentSpeed)
@@ -433,7 +451,7 @@ namespace GrandLarceny
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
-			if (m_chase)
+			if (m_chase || m_runMode)
 			{
 				m_img.setAnimationSpeed(Math.Abs(m_speed.X / 22f));
 			}
@@ -568,7 +586,7 @@ namespace GrandLarceny
 			}
 			if (m_ladderDirection == Direction.None)
 			{
-				//m_currentState = State.Jumping;
+				m_currentState = State.Jumping;
 				m_nextPosition.Y = m_position.getGlobalY() + 1;
 			}
 		}
@@ -591,6 +609,11 @@ namespace GrandLarceny
 				m_stunnedDeacceleration = true;
 				m_stunnedState = State.Stop;
 				m_rollActionCD = 1f;
+			}
+			if (m_speed.Y != 0)
+			{
+				m_speed.X /= 2;
+				m_currentState = State.Jumping;
 			}
 		}
 
@@ -825,18 +848,21 @@ namespace GrandLarceny
 		private void updateSwinging(float a_deltaTime)
 		{
 			m_gravity = 0;
-			if (Game.isKeyPressed(GameState.getRightKey()))
+			if (m_position.getLength() > 0)
 			{
-				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
+				if (Game.isKeyPressed(GameState.getRightKey()))
 				{
-					m_swingSpeed -= 20 * a_deltaTime;
+					if (m_swingSpeed > -MAXSWINGSPEED)
+					{
+						m_swingSpeed -= (500 * a_deltaTime) / m_position.getLength();
+					}
 				}
-			}
-			else if (Game.isKeyPressed(GameState.getLeftKey()))
-			{
-				if (m_swingSpeed < MAXSWINGSPEED && m_swingSpeed > -MAXSWINGSPEED)
+				else if (Game.isKeyPressed(GameState.getLeftKey()))
 				{
-					m_swingSpeed += 20 * a_deltaTime;
+					if (m_swingSpeed < MAXSWINGSPEED)
+					{
+						m_swingSpeed += (500 * a_deltaTime) / m_position.getLength();
+					}
 				}
 			}
 			/*if (m_rope.getRotation() < Math.PI * 1.5f && m_rope.getRotation() > Math.PI / 2)
@@ -854,10 +880,10 @@ namespace GrandLarceny
 					m_swingSpeed = 0;
 				}
 			}*/
-			m_swingSpeed += (float)(Math.Cos(m_rope.getRotation()) * 30 * a_deltaTime);
-			m_swingSpeed = m_swingSpeed * 0.99f;
+			m_swingSpeed += (float) ( (Math.Cos(m_rope.getRotation()) * 3000 * a_deltaTime) / m_position.getLength() );
+			m_swingSpeed *= 0.99f;
 			m_rope.addRotation(m_swingSpeed * a_deltaTime);
-			m_rotate = m_rope.getRotation() - (float)Math.PI / 2;
+			m_rotate = (m_rope.getRotation() - ((float)(Math.PI / 2.0))) % ((float)(Math.PI * 2.0));
 			m_position.setSlope(m_rope.getRotation());
 			if (m_swingSpeed > 1f)
 				if (!m_facingRight)
@@ -874,9 +900,11 @@ namespace GrandLarceny
 
 			if (Game.keyClicked(GameState.getJumpKey()))
 			{
-				m_speed = new Vector2(m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Cos(m_rotate + Math.PI), m_swingSpeed * (m_position.getLength() + m_collisionShape.getOutBox().Height / 2) * (float)Math.Sin(m_rotate + Math.PI));
+				float t_force = m_swingSpeed * (m_position.getLength() + (m_img.getSize().Y / 2));
+				m_speed = new Vector2(t_force * (float)Math.Cos(m_rotate + Math.PI), t_force * (float)Math.Sin(m_rotate + Math.PI));
 				changePositionType();
 				m_position.setParentPositionWithoutMoving(null);
+				m_position.setGlobalX(m_position.getGlobalX() - 36);
 				m_rotate = 0;
 				m_currentState = State.Jumping;
 				m_rope.resetPosition();
@@ -901,7 +929,7 @@ namespace GrandLarceny
 				}
 				case State.Walking:
 				{
-					if (m_chase)
+					if (m_chase || m_runMode)
 						setSprite("hero_run");
 					else
 						setSprite("hero_walk");
@@ -974,7 +1002,7 @@ namespace GrandLarceny
 						if (m_lastState == State.Rolling || m_lastState == State.Hiding)
 						{
 							m_position.setLocalY(m_position.getLocalY() - (m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height) -1);
-							Game.getInstance().m_camera.getPosition().plusYWith(m_rollHitBox.getOutBox().Height);
+							Game.getInstance().m_camera.getPosition().plusYWith(m_standHitBox.getOutBox().Height - m_rollHitBox.getOutBox().Height);
 							if (m_lastState == State.Hiding)
 							{
 								setLayer(m_originalLayer);
@@ -1036,11 +1064,13 @@ namespace GrandLarceny
 				if (m_currentState == State.Swinging)
 				{
 					m_rotationPoint.Y = 0;
+					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_imgOffsetX = -m_img.getSize().X / 2;
 				}
 				else if (m_lastState == State.Swinging)
 				{
 					m_imgOffsetX = 0;
+					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_rotationPoint.Y = m_img.getSize().Y / 2;
 				}
 			}
@@ -1052,7 +1082,7 @@ namespace GrandLarceny
 		{
 			m_collidedWithWall = false;
 			m_ladderDirection = 0;
-			if (!m_chase)
+			if (!m_chase && !m_runMode)
 			{
 				setIsInLight(false);
 			}
@@ -1193,10 +1223,21 @@ namespace GrandLarceny
 				m_health = Math.Max(m_health - 1, 0);
 				updateHealthGUI();
 				m_stunned = true;
-				m_stunnedTimer = 0.8f;
 				m_stunnedDeacceleration = true;
 				m_speed = a_knockBackForce;
-				m_invulnerableTimer = 2f;
+
+				if (m_health <= 0)
+				{
+					m_stunnedTimer = 5f;
+					m_invulnerableTimer = 5f;
+
+					Game.getInstance().setState(new DeathScene(Game.getInstance().getState().getObjectList()));
+				}
+				else
+				{
+					m_stunnedTimer = 0.8f;
+					m_invulnerableTimer = 2f;
+				}
 			}
 		}
 
@@ -1259,7 +1300,12 @@ namespace GrandLarceny
 				setNextPositionX(m_position.getGlobalX());
 
 				m_img.setAnimationSpeed(10);
-				deactivateChaseMode();
+
+
+			
+				deactivateChaseMode();	
+				
+
 			}
 		}
 
@@ -1289,7 +1335,6 @@ namespace GrandLarceny
 			{
 				m_position.plusXWith(-m_standHitBox.m_width);
 				Game.getInstance().m_camera.getPosition().plusXWith(m_standHitBox.m_width);
-				//m_imgOffsetX = m_standHitBox.m_width;
 			}
 			setNextPositionX(m_position.getGlobalX());
 			m_img.setAnimationSpeed(10);
@@ -1314,6 +1359,14 @@ namespace GrandLarceny
 		public void setState(State a_state)
 		{
 			m_currentState = a_state;
+			if (a_state == State.Swinging)
+			{
+				//Den här raden kan se konstig ut. Men det ska fungera
+				//Prata med Anton för mer info
+				m_swingSpeed = (float)(-(m_speed.X * Math.Sin(m_position.getSlope()) - m_speed.Y * Math.Cos(m_position.getSlope())) / m_position.getLength());
+
+				m_speed = Vector2.Zero;
+			}
 		}
 		private void updateFlip()
 		{
@@ -1346,30 +1399,30 @@ namespace GrandLarceny
 			float t_eneY = a_enemy.getPosition().getGlobalY();
 			float t_diffX = (m_position.getGlobalX() + t_eneX) / 2;
 			float t_diffY = (m_position.getGlobalY() + t_eneY) / 2;
-			float t_enemyQX = 0;
+			float t_enemyAtentionMarkX = 0;
 			if(a_enemy is Guard )
 			{
-				if(((Guard)a_enemy).isFacingRight())
+				if (((Guard)a_enemy).isFacingRight())
 				{
-					t_enemyQX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
+					t_enemyAtentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
 				} 
 				else 
 				{
-					t_enemyQX = t_eneX - 10;
+					t_enemyAtentionMarkX = t_eneX - 10;
 				}
 			}
-			float t_myQX = 0;
+			float t_myAtentionMarkX = 0;
 			if (m_facingRight)
 			{
-				t_myQX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
+				t_myAtentionMarkX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
 			}
 			else
 			{
-				t_myQX = m_position.getGlobalX() - 10;
+				t_myAtentionMarkX = m_position.getGlobalX() - 10;
 			}
 			string[] t_commands = {"addCinematic"
-									,"addParticle:"+t_myQX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
-									  ,"addParticle:"+t_enemyQX+":"+(t_eneY-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
+									,"addParticle:"+t_myAtentionMarkX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
+									  ,"addParticle:"+t_enemyAtentionMarkX+":"+(t_eneY-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
 									  ,  "setCamera:"+ t_diffX+":"+ t_diffY+":"+1000};
 			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
 			Game.getInstance().setState(t_cutScene);
@@ -1385,12 +1438,22 @@ namespace GrandLarceny
 
 		private void activateNormalMode()
 		{
-
 			m_chase = false;
+			m_runMode = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
 			setIsInLight(false);
 			((GameState)Game.getInstance().getState()).clearAggro();
 		}
+		private void toggleRunMode()
+		{
+			m_runMode = !m_runMode;
+			if (m_runMode)
+				m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
+			else
+				m_playerCurrentSpeed = PLAYERSPEED;
+			setIsInLight(m_runMode);
+		}
+
 		public override void changePositionType()
 		{
 			base.changePositionType();
