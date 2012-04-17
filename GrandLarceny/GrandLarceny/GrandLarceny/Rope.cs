@@ -59,6 +59,7 @@ namespace GrandLarceny
 				m_swingSpeed = m_swingSpeed * 0.97f;
 				m_rotate += m_swingSpeed;
 			}
+			if (!(this is Hookshot))
 			m_line.setEndPoint(m_line.getStartPoint().getGlobalCartesianCoordinates() + new Vector2(m_lenght * (float)Math.Cos(m_rotate), m_lenght * (float)Math.Sin(m_rotate)), Vector2.Zero);
 		}
 

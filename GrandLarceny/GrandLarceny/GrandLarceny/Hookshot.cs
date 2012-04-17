@@ -9,19 +9,19 @@ namespace GrandLarceny
 	class Hookshot : Rope
 	{
 		Player m_player;
+
 		private bool m_isReady = false;
+
+		private Vector2 m_direction = Vector2.Zero;
+
 		public Hookshot(Vector2 a_posV2, string a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
 		}
-		public Hookshot(Vector2 a_posV2, string a_sprite, float a_layer, Player a_player)
-			: base (a_posV2, a_sprite, a_layer)
-		{
-			m_player = a_player;
-		}
 
 		public override void loadContent()
 		{
+			m_player = Game.getInstance().getState().getPlayer();
 			base.loadContent();
 			m_line.setStartPoint(m_player.getPosition().getGlobalCartesianCoordinates());
 			m_position.setGlobalCartesianCoordinates(m_player.getPosition().getGlobalCartesianCoordinates());
@@ -48,7 +48,15 @@ namespace GrandLarceny
 			{
 				Game.getInstance().getState().removeObject(this);
 			}
-			m_line.setEndPoint(m_line.getStartPoint().getGlobalCartesianCoordinates() + new Vector2(m_lenght * (float)Math.Cos(m_rotate), m_lenght * (float)Math.Sin(m_rotate)), Vector2.Zero);
+			if (m_isReady)
+			{
+				m_line.setEndPoint(m_line.getStartPoint().getGlobalCartesianCoordinates() + new Vector2(m_lenght * (float)Math.Cos(m_rotate), m_lenght * (float)Math.Sin(m_rotate)), Vector2.Zero);
+			}
+			else
+			{
+				m_line.setStartPoint(m_player.getPosition().getGlobalCartesianCoordinates());
+				m_line.setEndPoint(m_line.getEndPoint().getGlobalCartesianCoordinates() + (m_direction * 10));
+			}
 		}
 
 		internal override void collisionCheck(List<Entity> a_collisionList)
@@ -62,6 +70,17 @@ namespace GrandLarceny
 		{
 			if(a_collid is Player && m_isReady)
 				base.updateCollisionWith(a_collid);
+		}
+		public void setDirection(Vector2 a_direction)
+		{
+			m_direction = Vector2.Normalize(a_direction);
+		}
+		public void changeMode()
+		{
+			m_isReady = true;
+			Vector2 t_end = m_line.getEndPoint().getGlobalCartesianCoordinates();
+			m_line.setEndPoint(m_line.getStartPoint());
+			m_line.setStartPoint(t_end);
 		}
 	}
 }

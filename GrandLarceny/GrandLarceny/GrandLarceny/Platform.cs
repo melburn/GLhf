@@ -85,6 +85,10 @@ namespace GrandLarceny
 					}
 				}
 			}
+			else if (a_collider is Hookshot)
+			{
+				((Hookshot)a_collider).changeMode();
+			}
 		}
 
 		public override bool isTransparent()
