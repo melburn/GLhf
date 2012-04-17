@@ -18,7 +18,6 @@ namespace GrandLarceny
 		private LinkedList<Event> m_events;
 		private string m_currentLevel;
 		private int m_currentList;
-
 		private static Keys m_upKey;
 		private static Keys m_downKey;
 		private static Keys m_leftKey;
