@@ -23,12 +23,12 @@ namespace GrandLarceny
 		}
 		public PolarCoordinate(float a_radie, float a_slope)
 		{
-			m_coordinates = new Vector2(a_radie, a_slope);
+			setLocalPolarCoordinates(a_radie, a_slope);
 		}
 
 		public PolarCoordinate(float a_radie, float a_slope, Position a_parent)
 		{
-			m_coordinates = new Vector2(a_radie, a_slope);
+			setLocalPolarCoordinates(a_radie, a_slope);
 			m_parentPosition = a_parent;
 		}
 
@@ -73,8 +73,14 @@ namespace GrandLarceny
 
 		public override void setLocalPolarCoordinates(float a_radius, float a_radians)
 		{
-			m_coordinates.X = a_radius;
-			m_coordinates.Y = a_radians;
+			if (a_radius < 0)
+			{
+				m_coordinates = new Vector2(-a_radius, (float)((a_radians + Math.PI) % (Math.PI * 2.0)));
+			}
+			else
+			{
+				m_coordinates = new Vector2(a_radius, a_radians);
+			}
 		}
 
 		public override void plusWith(Vector2 a_term)
@@ -85,14 +91,18 @@ namespace GrandLarceny
 			}
 		}
 
-		public override void setLength(float length)
+		public override void setLength(float a_length)
 		{
-			m_coordinates.X = length;
+			if (a_length < 0)
+			{
+				m_coordinates.Y = (float)((m_coordinates.X + Math.PI) % (Math.PI * 2.0));
+			}
+			m_coordinates.X = a_length;
 		}
 
 		public override void rotate(float a_radians)
 		{
-			m_coordinates.Y += a_radians;
+			m_coordinates.Y = (float) ((m_coordinates.Y + a_radians) % (Math.PI * 2.0));
 		}
 
 		public override float getLength()
