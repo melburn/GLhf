@@ -251,5 +251,17 @@ namespace GrandLarceny
 				m_coordinates = convertCartesianToPolar(a_position - m_parentPosition.getGlobalCartesianCoordinates());
 			}
 		}
+
+		public override string ToString()
+		{
+			if (m_parentPosition == null)
+			{
+				return "(L:" + m_coordinates.X + ",R:" + m_coordinates.Y + ")";
+			}
+			else
+			{
+				return "(L:" + m_coordinates.X + ",R:" + m_coordinates.Y + ") + P";
+			}
+		}
 	}
 }
