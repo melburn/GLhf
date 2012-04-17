@@ -155,7 +155,6 @@ namespace GrandLarceny
 			m_currentVentilationImage = VENTIDLEIMAGE;
 			m_currentSwingingImage = "hero_swing_still";
 			m_position.plusYWith(-1);
-
 		}
 		#endregion
 
@@ -625,7 +624,7 @@ namespace GrandLarceny
 			{
 				if (Game.isKeyPressed(GameState.getDownKey()))
 				{
-					m_position.plusYWith(1);
+					m_position.plusYWith(3);
 					m_currentState = State.Jumping;
 					m_speed.Y = 0;
 					if (m_facingRight)

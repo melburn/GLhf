@@ -9,7 +9,7 @@ namespace GrandLarceny
 {
 	public class MenuState : States
 	{
-		internal List<Button> m_buttons = new List<Button>();
+		internal LinkedList<Button> m_buttons = new LinkedList<Button>();
 
 		public override void update(GameTime a_gameTime)
 		{

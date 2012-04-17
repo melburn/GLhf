@@ -43,9 +43,7 @@ namespace GrandLarceny
 		public override void load()
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
-			m_guiList = new LinkedList<GuiObject>();
-
-			if (File.Exists("Content\\levels\\"+m_currentLevel))
+			if (File.Exists("Content\\levels\\" + m_currentLevel))
 			{
 				Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
 
@@ -220,8 +218,8 @@ namespace GrandLarceny
 							}
 						}
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
-						if(!(t_firstGameObject.getPosition() is PolarCoordinate))
-						((Entity)t_firstGameObject).updatePosition();
+						if (!(t_firstGameObject.getPosition() is PolarCoordinate))
+							((Entity)t_firstGameObject).updatePosition();
 					} else {
 						if (t_firstGameObject is Entity || t_firstGameObject is Guard) {
 							((Entity)t_firstGameObject).setGravity(0.0f);
@@ -351,21 +349,6 @@ namespace GrandLarceny
 		public override void addGuiObject(GuiObject a_go)
 		{
 			m_guiList.AddLast(a_go);
-		}
-
-		internal override GameObject getObjectById(int a_id)
-		{
-			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
-			{
-				foreach (GameObject t_go in t_goList)
-				{
-					if (a_id == t_go.getId())
-					{
-						return t_go;
-					}
-				}
-			}
-			return null;
 		}
 
 		public static Keys getUpKey()

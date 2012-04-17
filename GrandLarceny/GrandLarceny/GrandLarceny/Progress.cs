@@ -9,6 +9,7 @@ namespace GrandLarceny
 	public class Progress
 	{
 		private String m_saveName;
+		private LinkedList<String> m_levelCleared;
 		private Dictionary<String,Boolean> m_equipments;
 		private Dictionary<String, int> m_consumables;
 
@@ -55,6 +56,15 @@ namespace GrandLarceny
 		public bool hasConsumable(string a_consumable)
 		{
 			return m_consumables.ContainsKey(a_consumable) && m_consumables[a_consumable] > 0;
+		}
+		public Boolean hasClearedLevel(string a_level)
+		{
+			return m_levelCleared.Contains(a_level);
+		}
+
+		public void setLevelCleared(string a_level)
+		{
+			m_levelCleared.AddLast(a_level);
 		}
 	}
 }
