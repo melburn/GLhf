@@ -43,7 +43,6 @@ namespace GrandLarceny
 		public override void load()
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
-            m_currentLevel += ".lvl";
 			if (File.Exists("Content\\levels\\" + m_currentLevel))
 			{
 				Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);

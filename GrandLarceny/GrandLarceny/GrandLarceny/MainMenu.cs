@@ -122,7 +122,7 @@ namespace GrandLarceny
 		}
 		public void startLevelClick(Button a_b)
 		{
-			Game.getInstance().setState(new GameState(a_b.getText()));
+			Game.getInstance().setState(new GameState(a_b.getText() + ".lvl"));
 		}
 		private void createNewLevel(Button a_button)
 		{
