@@ -13,7 +13,7 @@ Images//Sprite//Guard//guard_run:8
 Images//Sprite//Hero//hero_walk:8
 Images//Sprite//Hero//hero_roll:4
 Images//Sprite//Hero//hero_window_climb:8
-Images//Sprite//GuardDog//sphinx_monster_walk_cycle:10
+Images//Sprite//GuardDog//dog_walk:10
 Images//Sprite//Hero//hero_climb_ledge:4
 Images//Sprite//Hero//hero_window_heave:4
 Images//Sprite//Hero//hero_run:8
