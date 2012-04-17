@@ -19,3 +19,4 @@ Images//Sprite//Hero//hero_window_heave:4
 Images//Sprite//Hero//hero_run:8
 Images//Prop//SecurityDoor//SecurityDoor:10
 Images//Sprite//Hero//hero_ventilation_horizontal:6
+Images//Sprite//Hero//hero_ventilation_vertical:6
