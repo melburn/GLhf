@@ -625,7 +625,7 @@ namespace GrandLarceny
 			{
 				if (Game.isKeyPressed(GameState.getDownKey()))
 				{
-					m_position.plusYWith(1);
+					m_position.plusYWith(3);
 					m_currentState = State.Jumping;
 					m_speed.Y = 0;
 					if (m_facingRight)
@@ -868,27 +868,12 @@ namespace GrandLarceny
 			}
 			if (Game.isKeyPressed(GameState.getUpKey()))
 			{
-				m_position.setLength(m_position.getLength() - 2f);
+				m_position.setLength(Math.Max(m_position.getLength() - (200f * a_deltaTime), 50));
 			}
 			else if (Game.isKeyPressed(GameState.getDownKey()))
 			{
-				m_position.setLength(m_position.getLength() + 2f);
+				m_position.setLength(Math.Min(m_position.getLength() + (200f * a_deltaTime), m_rope.getLength()));
 			}
-			/*if (m_rope.getRotation() < Math.PI * 1.5f && m_rope.getRotation() > Math.PI / 2)
-			{
-				m_swingSpeed -= 0.005f;
-			}
-			else if (m_rope.getRotation() < Math.PI / 2 && m_rope.getRotation() > 0 || m_rope.getRotation() > Math.PI * 1.5f)
-			{
-				m_swingSpeed += 0.005f;
-			}
-			else
-			{
-				if (m_swingSpeed < 0.002f && m_swingSpeed > -0.002f)
-				{
-					m_swingSpeed = 0;
-				}
-			}*/
 			m_swingSpeed += (float) ( (Math.Cos(m_rope.getRotation()) * 3000 * a_deltaTime) / m_position.getLength() );
 			m_swingSpeed *= 0.99f;
 			m_rope.addRotation(m_swingSpeed * a_deltaTime);
@@ -910,7 +895,24 @@ namespace GrandLarceny
 			if (Game.keyClicked(GameState.getJumpKey()))
 			{
 				float t_force = m_swingSpeed * (m_position.getLength() + (m_img.getSize().Y / 2));
-				m_speed = new Vector2(t_force * (float)Math.Cos(m_rotate + Math.PI), t_force * (float)Math.Sin(m_rotate + Math.PI));
+				Vector2 t_inputForce = new Vector2();
+				if (Game.isKeyPressed(GameState.getUpKey()))
+				{
+					t_inputForce.Y -= 200;
+				}
+				if (Game.isKeyPressed(GameState.getDownKey()))
+				{
+					t_inputForce.Y += 200;
+				}
+				if (Game.isKeyPressed(GameState.getRightKey()))
+				{
+					t_inputForce.X += 200;
+				}
+				if (Game.isKeyPressed(GameState.getLeftKey()))
+				{
+					t_inputForce.X -= 200;
+				}
+				m_speed = new Vector2(t_force * (float)Math.Cos(m_rotate + Math.PI), t_force * (float)Math.Sin(m_rotate + Math.PI)) + t_inputForce;
 				changePositionType();
 				m_position.setParentPositionWithoutMoving(null);
 				m_position.setGlobalX(m_position.getGlobalX() - 36);
