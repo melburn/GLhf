@@ -113,6 +113,7 @@
     <Compile Include="AI\AIStateChasing.cs" />
     <Compile Include="AI\AIStateGoingToTheSwitch.cs" />
     <Compile Include="AI\AIStatePatrolling.cs" />
+    <Compile Include="Factories\AssetFactory.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
@@ -137,8 +138,10 @@
     <Compile Include="Events\Effects\EventEffect.cs" />
     <Compile Include="Events\Triggers\ChaseTrigger.cs" />
     <Compile Include="Events\Triggers\SwitchTrigger.cs" />
+    <Compile Include="Factories\GuiListFactory.cs" />
     <Compile Include="Foreground.cs" />
     <Compile Include="Hookshot.cs" />
+    <Compile Include="GuardEntity.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />

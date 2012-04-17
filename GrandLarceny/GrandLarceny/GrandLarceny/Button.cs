@@ -38,9 +38,7 @@ namespace GrandLarceny
 		private bool m_isFocused;
 		private bool m_isPressed;
 		private bool m_isToggled;
-
-		private MouseState m_currMouseState;
-		private MouseState m_prevMouseState;
+		private bool m_isVisible;
 
 		private State m_currentState = State.Normal;
 
@@ -72,6 +70,7 @@ namespace GrandLarceny
 			m_layer = 0.002f;
 			m_upSound = null;
 			m_downSound = null;
+			m_isVisible = true;
 		}
 
 		public Button(string a_buttonTexture, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
@@ -88,6 +87,7 @@ namespace GrandLarceny
 			m_upSound = null;
 			m_downSound = null;
 			m_buttonTexture = a_buttonTexture;
+			m_isVisible = true;
 			loadContent();
 		}
 
@@ -100,6 +100,7 @@ namespace GrandLarceny
 			m_upSound = null;
 			m_downSound = null;
 			m_buttonTexture = a_buttonTexture;
+			m_isVisible = true;
 			loadContent();
 		}
 
@@ -139,13 +140,13 @@ namespace GrandLarceny
 		#region Update & Draw
 		public bool update()
 		{
-			m_prevMouseState = m_currMouseState;
-			m_currMouseState = Mouse.GetState();
-
+			if (!m_isVisible) {
+				return false;
+			}
 			if (m_bounds.Contains(Mouse.GetState().X, Mouse.GetState().Y))
 			{
 				m_isFocused = true;
-				if (m_currMouseState.LeftButton == ButtonState.Pressed && m_prevMouseState.LeftButton == ButtonState.Released)
+				if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released)
 				{
 					if (m_downSound != null)
 					{
@@ -153,7 +154,7 @@ namespace GrandLarceny
 					}
 					m_isPressed = true;
 				}
-				if (m_isPressed && (m_prevMouseState.LeftButton == ButtonState.Pressed && m_currMouseState.LeftButton == ButtonState.Released))
+				if (m_isPressed && (Game.m_previousMouse.LeftButton == ButtonState.Pressed && Game.m_currentMouse.LeftButton == ButtonState.Released))
 				{
 					if (m_upSound != null)
 					{
@@ -176,6 +177,9 @@ namespace GrandLarceny
 
 		public void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
+			if (!m_isVisible) {
+				return;
+			}
 			CartesianCoordinate t_cartCoord = new CartesianCoordinate(m_position.getLocalCartesianCoordinates() / Game.getInstance().m_camera.getZoom(), m_position.getParentPosition());
 			if (m_isPressed || m_currentState == State.Pressed)
 			{
@@ -295,6 +299,16 @@ namespace GrandLarceny
 		{
 			m_downSound = new Sound("SoundEffects//GUI//" + a_path);
 		}
+
+		public bool isVisible()
+		{
+			return m_isVisible;
+		}
+
+		public void setVisible(bool a_visible)
+		{
+			m_isVisible = a_visible;
+		}
 		#endregion
 
 		#region Position Methods
@@ -318,8 +332,8 @@ namespace GrandLarceny
 		public void move(Vector2 a_moveLength)
 		{
 			m_position.plusWith(a_moveLength);
-			m_bounds.X += (int)a_moveLength.X;
-			m_bounds.Y += (int)a_moveLength.Y;
+			m_bounds.X = (int)(m_position.getLocalX() + Game.getInstance().getResolution().X / 2);
+			m_bounds.Y = (int)(m_position.getLocalY() + Game.getInstance().getResolution().Y / 2);
 			if (m_text != null)
 			{
 				m_text.move(a_moveLength);
