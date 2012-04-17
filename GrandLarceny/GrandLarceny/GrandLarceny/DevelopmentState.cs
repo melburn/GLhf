@@ -161,11 +161,6 @@ namespace GrandLarceny
 				foreach (GameObject t_go in t_ll)
 				{
 					t_go.loadContent();
-
-					if (t_go is Player)
-					{
-						Game.getInstance().getState().setPlayer((Player)t_go);
-					}
 				}
 			}
 
@@ -1179,8 +1174,10 @@ namespace GrandLarceny
 		#endregion
 		
 		#region Development Methods
-		private void clearSelectedObject() {
-			if (m_selectedObject != null) {
+		private void clearSelectedObject()
+		{
+			if (m_selectedObject != null)
+			{
 				m_selectedObject.setColor(Color.White);
 				m_selectedObject = null;
 				m_selectedInfoV2 = Vector2.Zero;
@@ -1443,10 +1440,6 @@ namespace GrandLarceny
 
 		public void deleteObject(GameObject a_gameObject)
 		{
-			if (a_gameObject is Player)
-			{
-				Game.getInstance().getState().setPlayer(null);
-			}
 			a_gameObject.kill();
 
 			if (a_gameObject is SpotLight)
@@ -1471,15 +1464,16 @@ namespace GrandLarceny
 				}
 			}
 			m_gameObjectList[m_currentLayer].Remove(a_gameObject);
+
+			if (a_gameObject is Player)
+			{
+				Game.getInstance().getState().setPlayer(null);
+			}
 		}
 
 		public override void setPlayer(Player a_player)
 		{
-			if (m_player == null)
-			{
-				m_player = a_player;
-				addObject(m_player);
-			}
+			m_player = a_player;
 		}
 		#endregion
 

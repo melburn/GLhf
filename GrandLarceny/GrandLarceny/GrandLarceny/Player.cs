@@ -115,6 +115,7 @@ namespace GrandLarceny
 		{
 			base.loadContent();
 			m_health = 3;
+			/*
 			m_healthHearts = new GuiObject[3];
 			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[0]);
@@ -122,6 +123,7 @@ namespace GrandLarceny
 			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
 			m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
+			*/
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_stand");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_walk");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_jump");
@@ -155,7 +157,6 @@ namespace GrandLarceny
 			m_currentVentilationImage = VENTIDLEIMAGE;
 			m_currentSwingingImage = "hero_swing_still";
 			m_position.plusYWith(-1);
-
 		}
 		#endregion
 
