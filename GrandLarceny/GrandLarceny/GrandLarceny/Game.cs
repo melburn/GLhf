@@ -103,14 +103,14 @@ namespace GrandLarceny
 				m_currentState = m_nextState;
 				if (!m_currentState.isLoaded())
 				{
-					try
-					{
+					//try
+					//{
 						m_currentState.load();
-					}
-					catch (Exception e)
-					{
-						ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
-					}
+					//}
+					//catch (Exception e)
+					//{
+						//ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
+					//}
 				}
 				m_nextState = null;
 			}

@@ -667,6 +667,12 @@ namespace GrandLarceny
 				case State.Checkpoint:
 					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
 					break;
+				case State.SecDoor:
+					m_objectPreview = new Platform(m_worldMouse, "Images//Prop//SecurityDoor//" + t_newAsset, 0.000f);
+					break;
+				case State.Camera:
+					m_objectPreview = new Platform(m_worldMouse, "Images//Sprite//Camera//camera", 0.000f);
+					break;
 			}
 		}
 		#endregion
@@ -720,7 +726,6 @@ namespace GrandLarceny
 					guiButtonClick(m_btnStandHideHotkey);
 				}
 				if (Game.keyClicked(Keys.S)) {
-					m_sndSave.play();
 					if (m_selectedObject != null) {
 						m_selectedObject.setColor(Color.White);
 						m_selectedObject = null;
@@ -1159,7 +1164,7 @@ namespace GrandLarceny
 		#region Collision Check
 		public override bool collidedWithObject(Vector2 a_coordinate)
 		{
-			foreach (GameObject t_gameObject in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
+			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
 				if (t_gameObject is Environment || t_gameObject is LightCone) {
 					continue;
