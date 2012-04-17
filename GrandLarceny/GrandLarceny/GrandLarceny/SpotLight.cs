@@ -41,7 +41,7 @@ namespace GrandLarceny
 			{
 				m_light = (LightCone)Game.getInstance().getState().getObjectById(m_lightLink);
 			}
-			if(m_light != null)
+			if (m_light != null)
 			{
 				m_light.getPosition().setParentPosition(m_position);
 			}

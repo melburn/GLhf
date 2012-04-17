@@ -136,7 +136,6 @@ namespace GrandLarceny
 		{
 			m_levelToLoad = a_levelToLoad;
 			Game.getInstance().m_camera.getPosition().setParentPosition(null);
-			load();
 		}
 
 		public override void load()
@@ -151,7 +150,6 @@ namespace GrandLarceny
 			else
 			{
 				m_events = new LinkedList<Event>();
-				m_gameObjectList = new LinkedList<GameObject>[5];
 				for (int i = 0; i < m_gameObjectList.Length; ++i)
 				{
 					m_gameObjectList[i] = new LinkedList<GameObject>();
@@ -197,6 +195,9 @@ namespace GrandLarceny
 						Game.getInstance().m_camera.setPosition(m_player.getPosition().getGlobalCartesianCoordinates());
 						break;
 					}
+				}
+				if (m_player != null) {
+					break;
 				}
 			}
 			
@@ -1419,21 +1420,6 @@ namespace GrandLarceny
 		public override void addGuiObject(GuiObject a_go)
 		{
 			m_guiList.AddLast(a_go);
-		}
-
-		internal override GameObject getObjectById(int a_id)
-		{
-			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
-			{
-				foreach (GameObject t_go in t_goList)
-				{
-					if (a_id == t_go.getId())
-					{
-						return t_go;
-					}
-				}
-			}
-			return null;
 		}
 
 		public override LinkedList<GameObject>[] getObjectList()
