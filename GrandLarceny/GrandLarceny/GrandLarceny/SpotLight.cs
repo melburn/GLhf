@@ -45,30 +45,38 @@ namespace GrandLarceny
 			{
 				m_light.getPosition().setParentPosition(m_position);
 			}
-			m_rotationPoint.Y = m_img.getSize().Y / 2;
-			m_rotationPoint.X = 0;
+			
 			m_imgOffsetY = -m_rotationPoint.Y * m_YScale;
-			m_collisionShape = new CollisionRectangle((float)Math.Min(Math.Min(Math.Min((m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate), (m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate)),
-				(m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
-				(m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
-				(float)Math.Min(Math.Min(Math.Min((m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate),
-				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate)),
-				(m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))),
-				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))),
-				(float)(Math.Max(Math.Max(Math.Max((m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate), (m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate)),
-				(m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
-				(m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))) -
-				Math.Min(Math.Min(Math.Min((m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate), (m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate)),
-				(m_img.getSize().Y / 2) * Math.Cos(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate))),
-				(m_img.getSize().Y / 2) * Math.Cos(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Cos(m_rotate)))),
-				(float)(Math.Max(Math.Max(Math.Max((m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate),
-				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate)),
-				(m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))),
-				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))) -
-				(Math.Min(Math.Min(Math.Min((m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate),
-				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate)),
-				(m_img.getSize().Y / 2) * Math.Sin(0.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))),
-				(m_img.getSize().Y / 2) * Math.Sin(1.5 * Math.PI + m_rotate) + (m_img.getSize().X * Math.Sin(m_rotate))))),
+
+			float t_halfHeight = m_img.getSize().Y / 2;
+			float t_width = m_img.getSize().X;
+			float t_cosRotate = (float)Math.Cos(m_rotate);
+			float t_sinRotate = (float)Math.Sin(m_rotate);
+
+			m_rotationPoint.Y = t_halfHeight;
+			m_rotationPoint.X = 0;
+
+			m_collisionShape = new CollisionRectangle((float)Math.Min(Math.Min(Math.Min(t_halfHeight * -t_sinRotate, t_halfHeight * t_sinRotate),
+				t_halfHeight * -t_sinRotate + (t_width * t_cosRotate)),
+				t_halfHeight * t_sinRotate + (t_width * t_cosRotate)),
+				(float)Math.Min(Math.Min(Math.Min((t_halfHeight) * t_cosRotate,
+				t_halfHeight * -t_cosRotate),
+				t_halfHeight * t_cosRotate + (t_width * t_sinRotate)),
+				t_halfHeight * -t_cosRotate + (t_width * t_sinRotate)),
+				(float)(Math.Max(Math.Max(Math.Max((t_halfHeight) * -t_sinRotate, t_halfHeight * t_sinRotate),
+				t_halfHeight * -t_sinRotate + (t_width * t_cosRotate)),
+				t_halfHeight * t_sinRotate + (t_width * t_cosRotate)) -
+				Math.Min(Math.Min(Math.Min((t_halfHeight) * -t_sinRotate, t_halfHeight * t_sinRotate),
+				t_halfHeight * -t_sinRotate + (t_width * t_cosRotate)),
+				t_halfHeight * t_sinRotate + (t_width * t_cosRotate))),
+				(float)(Math.Max(Math.Max(Math.Max((t_halfHeight) * t_cosRotate,
+				t_halfHeight * -t_cosRotate),
+				t_halfHeight * t_cosRotate + (t_width * t_sinRotate)),
+				t_halfHeight * -t_cosRotate + (t_width * t_sinRotate)) -
+				(Math.Min(Math.Min(Math.Min((t_halfHeight) * t_cosRotate,
+				t_halfHeight * -t_cosRotate),
+				t_halfHeight * t_cosRotate + (t_width * t_sinRotate)),
+				t_halfHeight * -t_cosRotate + (t_width * t_sinRotate)))),
 				m_position);
 		}
 
