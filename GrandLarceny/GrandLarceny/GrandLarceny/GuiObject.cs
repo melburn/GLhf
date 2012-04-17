@@ -11,12 +11,24 @@ namespace GrandLarceny
 		private Rectangle m_bounds;
 		private string m_guiSprite;
 
-		public GuiObject(Vector2 a_posV2, string a_sprite) : base(a_posV2, "Images//GUI//" + a_sprite, 0.002f)
+		public GuiObject(Vector2 a_posV2, string a_sprite) : base(a_posV2, adjustPath(a_sprite) , 0.002f)
 		{
 			m_position = new CartesianCoordinate(a_posV2 - Game.getInstance().getResolution() / 2, Game.getInstance().m_camera.getPosition());
 			m_bounds.X = (int)a_posV2.X;
 			m_bounds.Y = (int)a_posV2.Y;
 			m_guiSprite = a_sprite;
+		}
+
+		private static string adjustPath(string a_sprite)
+		{
+			if (a_sprite == null || a_sprite.Equals(""))
+			{
+				return null;
+			}
+			else
+			{
+				return "Images//GUI//" + a_sprite;
+			}
 		}
 
 		public override void loadContent()

@@ -13,10 +13,8 @@ namespace GrandLarceny
 {
 	public class GameState : States
 	{
-		private LinkedList<GameObject>[] m_gameObjectList;
 		private Stack<GameObject>[] m_removeList;
 		private Stack<GameObject>[] m_addList;
-		private LinkedList<GuiObject> m_guiObject;
 		private LinkedList<Event> m_events;
 		private string m_currentLevel;
 		private int m_currentList;
@@ -28,6 +26,7 @@ namespace GrandLarceny
 		private static Keys m_jumpKey;
 		private static Keys m_rollKey;
 		private static Keys m_actionKey;
+		private static Keys m_sprintKey;
 
 		private Player player;
 
@@ -45,7 +44,7 @@ namespace GrandLarceny
 		public override void load()
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
-			m_guiObject = new LinkedList<GuiObject>();
+			m_guiList = new LinkedList<GuiObject>();
 
 			if (File.Exists("Content\\levels\\"+m_currentLevel))
 			{
@@ -98,23 +97,26 @@ namespace GrandLarceny
 							m_rollKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Action"))
 							m_actionKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Sprint"))
+							m_sprintKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].StartsWith("["))
+							break;
 						else
-							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState");
+							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState" + t_input[0]);
 						break;
 					case ParseState.Settings:
 						string[] t_setting = t_currentLine.Split('=');
-						if (t_setting[0].Equals("ScreenWidth"))
-						{
+						if (t_setting[0].Equals("ScreenWidth")) {
 							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
-						}
-						else if (t_setting[0].Equals("ScreenHeight"))
-						{
+						} else if (t_setting[0].Equals("ScreenHeight")) {
 							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
 							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
-						}
-						else if (t_setting[0].Equals("Fullscreen"))
-						{
+						} else if (t_setting[0].Equals("Fullscreen")) {
 							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
+						} else if (t_setting[0].StartsWith("[")) {
+							break;
+						} else {
+							ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
 						}
 						break;
 				}
@@ -279,7 +281,7 @@ namespace GrandLarceny
 					ErrorLogger.getInstance().writeString("While drawing " + t_gameObject + " got exception: " + e);
 				}
 			}
-			foreach (GuiObject t_go in m_guiObject)
+			foreach (GuiObject t_go in m_guiList)
 			{
 				if (!t_go.isDead())
 				{
@@ -349,7 +351,7 @@ namespace GrandLarceny
 		}
 		public override void addGuiObject(GuiObject a_go)
 		{
-			m_guiObject.AddLast(a_go);
+			m_guiList.AddLast(a_go);
 		}
 
 		internal override GameObject getObjectById(int a_id)
@@ -402,6 +404,10 @@ namespace GrandLarceny
 			return m_actionKey;
 		}
 
+		public static Keys getSprintKey()
+		{
+			return m_sprintKey;
+		}
 
 		public void clearAggro()
 		{

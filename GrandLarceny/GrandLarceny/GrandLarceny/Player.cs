@@ -171,6 +171,11 @@ namespace GrandLarceny
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
 			m_invulnerableTimer = Math.Max(m_invulnerableTimer - t_deltaTime, 0);
 
+			if (!m_stunned)
+			{
+				changeAnimation();
+			}
+
 			if (m_deactivateChase)
 			{
 				activateNormalMode();
@@ -392,9 +397,12 @@ namespace GrandLarceny
 				return;
 			}
 
-			if (Game.isKeyPressed(Keys.LeftShift) && !m_runMode) {
+			if (!m_chase && Game.isKeyPressed(GameState.getSprintKey()) && !m_runMode)
+			{
 				toggleRunMode();
-			} else if (Game.isKeyReleased(Keys.LeftShift) && m_runMode) {
+			}
+			else if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
+			{
 				toggleRunMode();
 			}
 			

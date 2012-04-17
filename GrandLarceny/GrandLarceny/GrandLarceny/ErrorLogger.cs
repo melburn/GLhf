@@ -50,5 +50,12 @@ namespace GrandLarceny
 		{
 			return writeString(a_str, m_consoleWrite);
 		}
+
+		public void clearFile()
+		{
+			TextWriter t_textWriter = new StreamWriter("ErrorLog.txt", false);
+			t_textWriter.WriteLine("Errors cleared");
+			t_textWriter.Close();
+		}
 	}
 }
