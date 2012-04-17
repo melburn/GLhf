@@ -181,7 +181,7 @@ namespace GrandLarceny
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
-			m_textField = new TextField(new Vector2(Game.getInstance().getResolution().X - 50, Game.getInstance().getResolution().Y - 278), 50, 25, false, true, false, 3);
+			m_guiList.AddLast(m_textField = new TextField(new Vector2(Game.getInstance().getResolution().X - 50, Game.getInstance().getResolution().Y - 278), 50, 25, false, true, false, 3));
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
