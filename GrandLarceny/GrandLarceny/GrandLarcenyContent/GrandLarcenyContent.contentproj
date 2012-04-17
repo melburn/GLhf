@@ -130,8 +130,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\GUI\btn_test_empty.png">
-      <Name>btn_test_empty</Name>
+    <Compile Include="Images\GUI\btn_test_empty_normal.png">
+      <Name>btn_test_empty_normal</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1403,6 +1403,30 @@
   <ItemGroup>
     <Compile Include="Images\Background\office_space_window.png">
       <Name>office_space_window</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\btn_test_empty_toggle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>btn_test_empty_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\btn_test_empty_hover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>btn_test_empty_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\btn_test_empty_pressed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>btn_test_empty_pressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

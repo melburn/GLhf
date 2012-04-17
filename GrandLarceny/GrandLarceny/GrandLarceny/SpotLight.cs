@@ -14,6 +14,7 @@ namespace GrandLarceny
 		private bool m_turnedOffForEver = false;
 		[NonSerialized]
 		LightCone m_light;
+
 		public SpotLight(Vector2 a_position, string a_sprite, float a_layer, float a_rotation, bool a_lit) :
 			base(a_position, a_sprite, a_layer)
 		{
@@ -26,19 +27,21 @@ namespace GrandLarceny
 				m_lightLink = m_light.getId();
 			}
 		}
+
 		public override void linkObject()
 		{
 			base.linkObject();
 			if(m_light != null)
 				m_lightLink = m_light.getId();
 		}
+
 		public override void loadContent() {
 			base.loadContent();
 			if (m_lightLink > 0)
 			{
 				m_light = (LightCone)Game.getInstance().getState().getObjectById(m_lightLink);
 			}
-			if(m_light != null)
+			if (m_light != null)
 			{
 				m_light.getPosition().setParentPosition(m_position);
 			}

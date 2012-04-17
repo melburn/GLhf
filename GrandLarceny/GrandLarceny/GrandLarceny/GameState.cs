@@ -43,9 +43,8 @@ namespace GrandLarceny
 		public override void load()
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
-			m_guiList = new LinkedList<GuiObject>();
 
-			if (File.Exists("Content\\levels\\"+m_currentLevel))
+			if (File.Exists("Content\\levels\\" + m_currentLevel))
 			{
 				Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
 
@@ -351,21 +350,6 @@ namespace GrandLarceny
 		public override void addGuiObject(GuiObject a_go)
 		{
 			m_guiList.AddLast(a_go);
-		}
-
-		internal override GameObject getObjectById(int a_id)
-		{
-			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
-			{
-				foreach (GameObject t_go in t_goList)
-				{
-					if (a_id == t_go.getId())
-					{
-						return t_go;
-					}
-				}
-			}
-			return null;
 		}
 
 		public static Keys getUpKey()
