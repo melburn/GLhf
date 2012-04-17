@@ -65,8 +65,6 @@ namespace GrandLarceny
 
 			m_levelText		= new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
 			m_newLevelName	= new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
-			m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
-			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
 
 			string[] t_ext = { ".lvl" };
 			if (!Directory.Exists("Content//levels//"))
@@ -77,6 +75,8 @@ namespace GrandLarceny
 			GuiListFactory.setListPosition(m_buttons, new Vector2(25, 25));
 			GuiListFactory.setTextOffset(m_buttons, new Vector2(10, 10));
 			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, 60));
+			m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
+			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
 
 			foreach (Button t_button in m_buttons)
 			{
