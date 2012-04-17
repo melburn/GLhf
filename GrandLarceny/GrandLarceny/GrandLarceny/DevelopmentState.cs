@@ -726,7 +726,6 @@ namespace GrandLarceny
 					guiButtonClick(m_btnStandHideHotkey);
 				}
 				if (Game.keyClicked(Keys.S)) {
-					m_sndSave.play();
 					if (m_selectedObject != null) {
 						m_selectedObject.setColor(Color.White);
 						m_selectedObject = null;
@@ -1165,7 +1164,7 @@ namespace GrandLarceny
 		#region Collision Check
 		public override bool collidedWithObject(Vector2 a_coordinate)
 		{
-			foreach (GameObject t_gameObject in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
+			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
 				if (t_gameObject is Environment || t_gameObject is LightCone) {
 					continue;
