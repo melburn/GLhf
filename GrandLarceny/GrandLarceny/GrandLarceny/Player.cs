@@ -39,8 +39,8 @@ namespace GrandLarceny
 		public const string DUCKHIDINGIMAGE = "hero_hide";
 		public const string VENTIDLEIMAGE = "hero_ventilation_idle";
 		private string m_currentHidingImage;
-		private string m_currentVentilationImage = "hero_ventilation_idle";
-		private string m_currentSwingingImage = "hero_swing_still";
+		private string m_currentVentilationImage;
+		private string m_currentSwingingImage;
 		[NonSerialized]
 		private CollisionRectangle m_standHitBox;
 		[NonSerialized]
@@ -153,6 +153,7 @@ namespace GrandLarceny
 			m_playerCurrentSpeed = PLAYERSPEED;
 			m_swingSpeed = 0;
 			m_currentVentilationImage = VENTIDLEIMAGE;
+			m_currentSwingingImage = "hero_swing_still";
 			m_position.plusYWith(-1);
 
 		}
@@ -865,6 +866,14 @@ namespace GrandLarceny
 					}
 				}
 			}
+			if (Game.isKeyPressed(GameState.getUpKey()))
+			{
+				m_position.setLength(m_position.getLength() - 2f);
+			}
+			else if (Game.isKeyPressed(GameState.getDownKey()))
+			{
+				m_position.setLength(m_position.getLength() + 2f);
+			}
 			/*if (m_rope.getRotation() < Math.PI * 1.5f && m_rope.getRotation() > Math.PI / 2)
 			{
 				m_swingSpeed -= 0.005f;
@@ -908,6 +917,7 @@ namespace GrandLarceny
 				m_rotate = 0;
 				m_currentState = State.Jumping;
 				m_rope.resetPosition();
+				m_swingSpeed = 0;
 			}
 		}
 		#endregion
@@ -1457,7 +1467,7 @@ namespace GrandLarceny
 		public override void changePositionType()
 		{
 			base.changePositionType();
-			Game.getInstance().m_camera.getPosition().setParentPosition(m_position);
+			Game.getInstance().m_camera.getPosition().setParentPositionWithoutMoving(m_position);
 			m_standHitBox.setPosition(m_position);
 			m_rollHitBox.setPosition(m_position);
 			m_SlideBox.setPosition(m_position);

@@ -7,18 +7,18 @@ using Microsoft.Xna.Framework;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class Rope : NonMovingObject
+	class Rope : MovingObject
 	{
 		[NonSerialized()]
-		private Line m_line;
+		protected Line m_line;
 
-		private float m_lenght;
-		private float m_swingSpeed;
+		protected float m_lenght;
+		protected float m_swingSpeed;
 
-		private Position m_startPosition;
-		private Position m_endPosition;
+		protected Position m_startPosition;
+		protected Position m_endPosition;
 
-		private bool m_moveToStart = true;
+		protected bool m_moveToStart = true;
 
 		public Rope(Vector2 a_posV2, string a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
@@ -66,7 +66,6 @@ namespace GrandLarceny
 		{
 			m_line.draw();
 		}
-
 		public override CollisionShape getImageBox() {
 			return new CollisionRectangle(0, 0, 72, 72, m_startPosition);
 		}
@@ -126,9 +125,26 @@ namespace GrandLarceny
 				Player t_player = (Player)a_collid;
 				if (t_player.getRope() != this && t_player.getHitBox().collidesWithLineSegment(m_line.getStartPoint().getGlobalCartesianCoordinates(), m_line.getEndPoint().getGlobalCartesianCoordinates()))
 				{
+					t_player.setState(Player.State.Swinging);
+					if (Vector2.Distance(t_player.getPosition().getGlobalCartesianCoordinates(), m_line.getStartPoint().getGlobalCartesianCoordinates())
+						< Math.Min(Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates()),
+						Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width / 2, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates())))
+					{
+					}
+					else if (Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates())
+						< Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesianCoordinates().X + t_player.getHitBox().getOutBox().Width / 2, t_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates()))
+					{
+						t_player.addPositionXAfterDraw(t_player.getHitBox().getOutBox().Width);
+		//				Game.getInstance().m_camera.getPosition().plusXWith(-t_player.getHitBox().getOutBox().Width);
+					}
+					else
+					{
+						t_player.addPositionXAfterDraw(t_player.getHitBox().getOutBox().Width / 2);
+		//				Game.getInstance().m_camera.getPosition().plusXWith(-t_player.getHitBox().getOutBox().Width / 2);
+					}
 					t_player.setRope(this);
 					t_player.changePositionType();
-					m_rotate = (float)Math.Atan2(-(m_position.getGlobalY() - t_player.getPosition().getGlobalY()), -(m_position.getGlobalX() - t_player.getPosition().getGlobalX()));
+		//			m_rotate = (float)Math.Atan2(-(m_position.getGlobalY() - t_player.getPosition().getGlobalY()), -(m_position.getGlobalX() - t_player.getPosition().getGlobalX()));
 					t_player.getPosition().setParentPositionWithoutMoving(m_line.getStartPoint());
 					t_player.setState(Player.State.Swinging);
 					m_moveToStart = false;

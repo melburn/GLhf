@@ -140,6 +140,7 @@
     <Compile Include="Events\Triggers\SwitchTrigger.cs" />
     <Compile Include="Factories\GuiListFactory.cs" />
     <Compile Include="Foreground.cs" />
+    <Compile Include="Hookshot.cs" />
     <Compile Include="GuardEntity.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
@@ -200,7 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GrandLarcenyContent\GrandLarcenyContent.contentproj">
-      <Name>GrandLarcenyContent %28Content%29</Name>
+      <Name>GrandLarcenyContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
       <Project>{E110AA7A-B83A-4C6B-BF33-AD4E16160744}</Project>
     </ProjectReference>
