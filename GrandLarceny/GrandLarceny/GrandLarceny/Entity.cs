@@ -13,7 +13,7 @@ namespace GrandLarceny
 		protected Vector2 m_speed;
 
 		//pixel per sekund per sekund
-		protected float m_gravity = 0f;
+		protected float m_gravity = 0.0f;
 
 		protected Vector2 m_lastPosition;
 		protected Vector2 m_nextPosition;
@@ -45,11 +45,16 @@ namespace GrandLarceny
 		{
 			//m_lastPosition = m_position.getGlobalCartesianCoordinates();
 			base.update(a_gameTime);
-
+			
 			float t_deltaTime = ((float)(a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
-			m_speed.Y += m_gravity * t_deltaTime;
-			m_position.plusWith(m_speed * t_deltaTime);
-			m_nextPosition = m_position.getLocalCartesianCoordinates();
+			
+			if (Game.getInstance().m_camera.isInCamera(this)) {
+				
+				m_speed.Y += m_gravity * t_deltaTime;
+			}
+				m_position.plusWith(m_speed * t_deltaTime);
+				m_nextPosition = m_position.getLocalCartesianCoordinates();
+			
 		}
 
 		public virtual CollisionShape getHitBox()

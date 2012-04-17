@@ -142,12 +142,11 @@ namespace GrandLarceny
 						t_player.addPositionXAfterDraw(t_player.getHitBox().getOutBox().Width / 2);
 		//				Game.getInstance().m_camera.getPosition().plusXWith(-t_player.getHitBox().getOutBox().Width / 2);
 					}
+					t_player.setRope(this);
 					t_player.changePositionType();
 		//			m_rotate = (float)Math.Atan2(-(m_position.getGlobalY() - t_player.getPosition().getGlobalY()), -(m_position.getGlobalX() - t_player.getPosition().getGlobalX()));
 					t_player.getPosition().setParentPositionWithoutMoving(m_line.getStartPoint());
-					t_player.setRope(this);
-					t_player.setSpeedX(0);
-					t_player.setSpeedY(0);
+					t_player.setState(Player.State.Swinging);
 					m_moveToStart = false;
 				}
 			}

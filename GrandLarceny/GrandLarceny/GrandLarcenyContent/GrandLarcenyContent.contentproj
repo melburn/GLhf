@@ -914,8 +914,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\GuardDog\sphinx_monster_walk_cycle.png">
-      <Name>sphinx_monster_walk_cycle</Name>
+    <Compile Include="Images\Sprite\GuardDog\dog_walk.png">
+      <Name>dog_walk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

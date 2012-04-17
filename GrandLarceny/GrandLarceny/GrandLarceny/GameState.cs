@@ -27,6 +27,7 @@ namespace GrandLarceny
 		private static Keys m_jumpKey;
 		private static Keys m_rollKey;
 		private static Keys m_actionKey;
+		private static Keys m_sprintKey;
 
 		private Player player;
 
@@ -97,23 +98,26 @@ namespace GrandLarceny
 							m_rollKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
 						else if (t_input[0].Equals("Action"))
 							m_actionKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].Equals("Sprint"))
+							m_sprintKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+						else if (t_input[0].StartsWith("["))
+							break;
 						else
-							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState");
+							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState" + t_input[0]);
 						break;
 					case ParseState.Settings:
 						string[] t_setting = t_currentLine.Split('=');
-						if (t_setting[0].Equals("ScreenWidth"))
-						{
+						if (t_setting[0].Equals("ScreenWidth")) {
 							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
-						}
-						else if (t_setting[0].Equals("ScreenHeight"))
-						{
+						} else if (t_setting[0].Equals("ScreenHeight")) {
 							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
 							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
-						}
-						else if (t_setting[0].Equals("Fullscreen"))
-						{
+						} else if (t_setting[0].Equals("Fullscreen")) {
 							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
+						} else if (t_setting[0].StartsWith("[")) {
+							break;
+						} else {
+							ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
 						}
 						break;
 				}
@@ -167,14 +171,27 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_currentList = -1;
-			
+
+			if (Game.keyClicked(Keys.I)) {
+				Game.getInstance().m_camera.printInfo();
+			}
+			if (Game.isKeyPressed(Keys.Q))
+			{
+				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
+			}
+
+			if (Game.isKeyPressed(Keys.F5))
+			{
+				Game.getInstance().setState(new GameState(m_currentLevel));
+				Game.getInstance().m_camera.setLayer(0);
+			}
 
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
-
 				++m_currentList;
 				foreach (GameObject t_gameObject in t_list)
 				{
+					
 					try
 					{
 						t_gameObject.update(a_gameTime);
@@ -186,23 +203,13 @@ namespace GrandLarceny
 				}
 			}
 
-			if (Game.isKeyPressed(Keys.Q))
-			{
-				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
-			}
-
-			if (Game.isKeyPressed(Keys.F5))
-			{
-				Game.getInstance().setState(new GameState(m_currentLevel));
-				Game.getInstance().m_camera.setLayer(0);
-			}
 			m_currentList = -1;
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
 			{
 				++m_currentList;
 				foreach (GameObject t_firstGameObject in t_list)
 				{
-					if (t_firstGameObject is MovingObject)
+					if (t_firstGameObject is MovingObject && Game.getInstance().m_camera.isInCamera(t_firstGameObject))
 					{
 						List<Entity> t_collided = new List<Entity>();
 						foreach (GameObject t_secondGameObject in t_list)
@@ -217,7 +224,10 @@ namespace GrandLarceny
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
 						if(!(t_firstGameObject.getPosition() is PolarCoordinate))
 						((Entity)t_firstGameObject).updatePosition();
-
+					} else {
+						if (t_firstGameObject is Entity || t_firstGameObject is Guard) {
+							((Entity)t_firstGameObject).setGravity(0.0f);
+						}
 					}
 
 					if (t_firstGameObject.isDead() && !m_removeList[m_currentList].Contains(t_firstGameObject))
@@ -393,6 +403,11 @@ namespace GrandLarceny
 		public static Keys getActionKey()
 		{
 			return m_actionKey;
+		}
+
+		public static Keys getSprintKey()
+		{
+			return m_sprintKey;
 		}
 
 

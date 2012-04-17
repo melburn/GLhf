@@ -87,12 +87,6 @@ namespace GrandLarceny
 			}
 		}
 
-		public void setSprite(Texture2D a_texture) {
-			m_stopped = true;
-			m_imagePath = null;
-			m_image = a_texture;
-		}
-
 		public bool setSprite(string a_sprite)
 		{
 			if (a_sprite == null || a_sprite.Equals(""))
@@ -112,12 +106,7 @@ namespace GrandLarceny
 				catch (ContentLoadException)
 				{
 					ErrorLogger.getInstance().writeString("Could not load texture "+a_sprite);
-					/*if (a_sprite.Equals("Images//GUI//")) {
-						m_image = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1); Fu din check
-						m_image.SetData<Color>(new[] { Color.Transparent });
-					} else {*/
-						m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
-					//}
+					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
 				}
 				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
 				m_animationWidth = m_image.Width / m_animationFrames;
@@ -210,6 +199,10 @@ namespace GrandLarceny
 		public float getAnimationSpeed()
 		{
 			return m_animationSpeed;
+		}
+
+		public Texture2D getImage() {
+			return m_image;
 		}
 	}
 }
