@@ -29,6 +29,7 @@ namespace GrandLarceny
 
 		public void SaveLevel(string a_fileName, Level a_save)
 		{
+			GameObject.resetGameObjectId();
 			foreach (LinkedList<GameObject> t_goSaveList in a_save.getGameObjects())
 			{
 				foreach (GameObject t_go in t_goSaveList)
@@ -61,7 +62,6 @@ namespace GrandLarceny
 			int index = 0;
 			
 			long t_fstreamDiffSize = 0;
-			GameObject.resetGameObjectId();
 			long t_objectListBegin = t_fstream.Position;
 			t_fstream.Position = t_fstream.Position + 4;
 			long t_fstreamLastPos = t_fstream.Position;
