@@ -140,6 +140,7 @@ namespace GrandLarceny
 
 		public override void load()
 		{
+            m_levelToLoad += ".lvl";
 			if (File.Exists("Content\\levels\\" + m_levelToLoad))
 			{
 				Level t_loadedLevel = Loader.getInstance().loadLevel(m_levelToLoad);
