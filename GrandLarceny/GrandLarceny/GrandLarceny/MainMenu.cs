@@ -65,26 +65,22 @@ namespace GrandLarceny
 
 			m_levelText		= new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
 			m_newLevelName	= new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
-			m_buttons.Add(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
+			m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
 			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
 
-			try {
-				m_levelList = Directory.GetFiles("Content//levels//");
-			} catch (DirectoryNotFoundException) {
-				System.IO.Directory.CreateDirectory("Content//levels//");
-				return;
-			}
-			int t_count = 0;
-			foreach (string t_level in m_levelList)
+			string[] t_ext = { ".lvl" };
+			if (!Directory.Exists("Content//levels//"))
 			{
-				string[] t_splitPath = Regex.Split(t_level, "/");
-				if (t_level.EndsWith(".lvl") == false)
-					continue;
-				Button t_levelButton = new Button("btn_test_empty", "btn_test_empty", "btn_test_empty", "btn_test_empty", 
-					new Vector2(20, 60 * t_count + 20), t_splitPath[t_splitPath.Length - 1], "VerdanaBold", Color.Black, new Vector2(10, 10));
-				t_levelButton.m_clickEvent += new Button.clickDelegate(startLevelClick);
-				m_buttons.Add(t_levelButton);
-				t_count++;
+				System.IO.Directory.CreateDirectory("Content//levels//");
+			}
+			m_buttons = GuiListFactory.createListFromDirectory("Content//levels//", t_ext, "btn_test_empty");
+			GuiListFactory.setListPosition(m_buttons, new Vector2(25, 25));
+			GuiListFactory.setTextOffset(m_buttons, new Vector2(10, 10));
+			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, 60));
+
+			foreach (Button t_button in m_buttons)
+			{
+				t_button.m_clickEvent += new Button.clickDelegate(startLevelClick);				
 			}
 		}
 		#endregion
