@@ -9,11 +9,8 @@ using GrandLarceny.AI;
 namespace GrandLarceny
 {
 	[Serializable()]
-	public class Guard : NPE
+	public class Guard : GuardEntity
 	{
-        private float m_leftPatrolPoint;
-        private float m_rightPatrolPoint;
-        private Boolean m_hasPatrol;
         private Boolean m_hasFlashLight;
 		private Boolean m_guardFaceRight;
 		[NonSerialized]
@@ -160,23 +157,6 @@ namespace GrandLarceny
 			#endregion
 		}
 
-		public void setLeftGuardPoint(float a_x)
-		{
-			m_leftPatrolPoint = a_x;
-			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
-		}
-
-		public void setRightGuardPoint(float a_x)
-		{
-			m_rightPatrolPoint = a_x;
-			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
-		}
-		public void setGuardPoint(float a_x)
-		{
-			m_hasPatrol = false;
-			m_leftPatrolPoint = a_x;
-			m_rightPatrolPoint = a_x;
-		}
 		internal void goRight()
 		{
 			if (m_aiActive)
@@ -389,20 +369,10 @@ namespace GrandLarceny
 				m_flashLight = null;
 			}
 		}
-		internal float getLeftPatrolPoint()
-		{
-			return m_leftPatrolPoint;
-		}
-
 
 		internal bool hasPatrol()
 		{
 			return m_hasPatrol;
-		}
-
-		internal float getRightPatrolPoint()
-		{
-			return m_rightPatrolPoint;
 		}
 
 		internal Entity getChaseTarget()

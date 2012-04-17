@@ -13,10 +13,8 @@ namespace GrandLarceny
 {
 	public class GameState : States
 	{
-		private LinkedList<GameObject>[] m_gameObjectList;
 		private Stack<GameObject>[] m_removeList;
 		private Stack<GameObject>[] m_addList;
-		private LinkedList<GuiObject> m_guiObject;
 		private LinkedList<Event> m_events;
 		private string m_currentLevel;
 		private int m_currentList;
@@ -46,7 +44,7 @@ namespace GrandLarceny
 		public override void load()
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
-			m_guiObject = new LinkedList<GuiObject>();
+			m_guiList = new LinkedList<GuiObject>();
 
 			if (File.Exists("Content\\levels\\"+m_currentLevel))
 			{
@@ -283,7 +281,7 @@ namespace GrandLarceny
 					ErrorLogger.getInstance().writeString("While drawing " + t_gameObject + " got exception: " + e);
 				}
 			}
-			foreach (GuiObject t_go in m_guiObject)
+			foreach (GuiObject t_go in m_guiList)
 			{
 				if (!t_go.isDead())
 				{
@@ -353,7 +351,7 @@ namespace GrandLarceny
 		}
 		public override void addGuiObject(GuiObject a_go)
 		{
-			m_guiObject.AddLast(a_go);
+			m_guiList.AddLast(a_go);
 		}
 
 		internal override GameObject getObjectById(int a_id)
@@ -410,7 +408,6 @@ namespace GrandLarceny
 		{
 			return m_sprintKey;
 		}
-
 
 		public void clearAggro()
 		{

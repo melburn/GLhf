@@ -25,6 +25,8 @@ namespace GrandLarceny
 		public static MouseState m_currentMouse;
 		public static KeyboardState m_previousKeyInput;
 		public static KeyboardState m_currentKeyInput;
+		public const int TILE_WIDTH = 72;
+		public const int TILE_HEIGHT = 72;
 
 		internal Camera m_camera;
 
@@ -192,15 +194,52 @@ namespace GrandLarceny
 			return m_currentKeyInput.IsKeyDown(a_key) && m_previousKeyInput.IsKeyUp(a_key);
 		}
 
-		public static bool rmbClicked()
+		#region Game Mouse
+		public static bool lmbPressed()
+		{
+			return m_currentMouse.LeftButton == ButtonState.Pressed;
+		}
+
+		public static bool lmbDown()
+		{
+			return m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released;
+		}
+
+		public static bool lmbUp()
+		{
+			return m_currentMouse.LeftButton == ButtonState.Released && m_previousMouse.LeftButton == ButtonState.Pressed;
+		}
+
+		public static bool rmbPressed()
+		{
+			return m_currentMouse.RightButton == ButtonState.Pressed;
+		}
+
+		public static bool rmbDown()
 		{
 			return m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Released;
 		}
 
-		internal static bool lmbClicked()
+		public static bool rmbUp()
 		{
-			return m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released;
+			return m_currentMouse.RightButton == ButtonState.Released && m_previousMouse.RightButton == ButtonState.Pressed;
 		}
+
+		public static bool mmbPressed()
+		{
+			return m_currentMouse.MiddleButton == ButtonState.Pressed;
+		}
+
+		public static bool mmbDown()
+		{
+			return m_currentMouse.MiddleButton == ButtonState.Pressed && m_previousMouse.MiddleButton == ButtonState.Released;
+		}
+
+		public static bool mmbUp()
+		{
+			return m_currentMouse.MiddleButton == ButtonState.Released && m_previousMouse.MiddleButton == ButtonState.Pressed;
+		}
+		#endregion
 
 		public Progress getProgress()
 		{
