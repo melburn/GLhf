@@ -85,7 +85,7 @@ namespace GrandLarceny
 
 		protected override void UnloadContent()
 		{
-			
+			ErrorLogger.getInstance().writeString("GrandLarceny terminated at " + System.DateTime.Now);
 		}
 
 		protected override void Update(GameTime a_gameTime)
