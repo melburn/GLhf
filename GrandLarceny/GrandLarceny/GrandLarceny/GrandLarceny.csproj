@@ -113,6 +113,8 @@
     <Compile Include="AI\AIStateChasing.cs" />
     <Compile Include="AI\AIStateGoingToTheSwitch.cs" />
     <Compile Include="AI\AIStatePatrolling.cs" />
+    <Compile Include="ConsumableKey.cs" />
+    <Compile Include="Events\Effects\FinnishLevelEffect.cs" />
     <Compile Include="Factories\AssetFactory.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Button.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="Foreground.cs" />
     <Compile Include="Hookshot.cs" />
     <Compile Include="GuardEntity.cs" />
+    <Compile Include="LockedDoor.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />
