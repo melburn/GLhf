@@ -87,38 +87,6 @@ namespace GrandLarceny
 			}
 		}
 
-		public bool setSprite(string a_sprite)
-		{
-			if (a_sprite == null || a_sprite.Equals(""))
-			{
-				m_image = null;
-				m_imagePath = null;
-				return false;
-			}
-			else if (!a_sprite.Equals(m_imagePath))
-			{
-				m_stopped = false;
-				m_looping = true;
-				try
-				{
-					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
-				}
-				catch (ContentLoadException)
-				{
-					ErrorLogger.getInstance().writeString("Could not load texture "+a_sprite);
-					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
-				}
-				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
-				m_animationWidth = m_image.Width / m_animationFrames;
-				m_subImageNumber = 0;
-				m_imagePath = a_sprite;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
 
 		public void stop()
 		{
@@ -207,7 +175,40 @@ namespace GrandLarceny
 
 		public Boolean isTexture(Texture2D a_texture)
 		{
-			return m_image = a_texture;
+			return m_image == a_texture;
+		}
+
+		public bool setSprite(string a_sprite)
+		{
+			if (a_sprite == null || a_sprite.Equals(""))
+			{
+				m_image = null;
+				m_imagePath = null;
+				return false;
+			}
+			else if (!a_sprite.Equals(m_imagePath))
+			{
+				m_stopped = false;
+				m_looping = true;
+				try
+				{
+					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
+				}
+				catch (ContentLoadException)
+				{
+					ErrorLogger.getInstance().writeString("Could not load texture " + a_sprite);
+					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
+				}
+				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
+				m_animationWidth = m_image.Width / m_animationFrames;
+				m_subImageNumber = 0;
+				m_imagePath = a_sprite;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }

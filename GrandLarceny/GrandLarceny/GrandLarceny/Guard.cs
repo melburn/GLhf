@@ -96,7 +96,7 @@ namespace GrandLarceny
             m_leftPatrolPoint = a_patrolPoint;
             m_rightPatrolPoint = a_patrolPoint;
 			m_aiState = AIStatepatroling.getInstance();
-			m_FlashLightAddicted = a_sprite == "Images//Sprite//Guard//guard_flash_idle";
+			m_FlashLightAddicted = m_img.isTexture(t2d_flashIdle);
 			if (m_hasFlashLight && m_FlashLightAddicted)
 			{
 				m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
@@ -124,7 +124,7 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(20, 10, m_img.getSize().X - 40, m_img.getSize().Y - 10, m_position);
+			m_collisionShape = new CollisionRectangle(10, 10, m_img.getSize().X - 20, m_img.getSize().Y - 10, m_position);
 			m_lampSwitchTargets = new LinkedList<LampSwitch>();
 			if (m_lampSwitchTargetsId == null)
 			{
@@ -484,12 +484,12 @@ namespace GrandLarceny
 						m_striking = false;
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 					}
-					else if (m_img.getImage() == t2d_turn)
+					else if (m_img.isTexture(t2d_turn))
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 						m_facingRight = !m_facingRight;
 					}
-					else if (m_img.getImage() == t2d_flashIdle)
+					else if (m_img.isTexture(t2d_flashTurn))
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 						m_facingRight = !m_facingRight;
@@ -505,7 +505,7 @@ namespace GrandLarceny
 						}
 
 					}
-					else if (m_img.getImage() == t2d_pickUpFlash)
+					else if (m_img.isTexture(t2d_pickUpFlash))
 					{
 						m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
 						m_flashLightId = m_flashLight.getId();
@@ -516,7 +516,7 @@ namespace GrandLarceny
 						Game.getInstance().getState().addObject(m_flashLight);
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 					}
-					else if (m_img.getImage() == t2d_putDownFlash)
+					else if (m_img.isTexture(t2d_putDownFlash))
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 					}

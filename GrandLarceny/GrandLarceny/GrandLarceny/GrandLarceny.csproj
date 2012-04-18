@@ -115,6 +115,7 @@
     <Compile Include="AI\AIStatePatrolling.cs" />
     <Compile Include="Consumable.cs" />
     <Compile Include="CollisionLine.cs" />
+    <Compile Include="ConsumableHeart.cs" />
     <Compile Include="ConsumableKey.cs" />
     <Compile Include="Events\Effects\FinnishLevelEffect.cs" />
     <Compile Include="Factories\AssetFactory.cs" />
