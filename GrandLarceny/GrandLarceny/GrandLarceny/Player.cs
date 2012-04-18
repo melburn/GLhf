@@ -1481,6 +1481,10 @@ namespace GrandLarceny
 			setIsInLight(m_runMode);
 		}
 
+		public void setSwingSpeed(float a_speed)
+		{
+			m_swingSpeed = a_speed;
+		}
 		public override void changePositionType()
 		{
 			base.changePositionType();

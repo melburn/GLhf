@@ -69,18 +69,34 @@ namespace GrandLarceny
 					//Colliding with ze left wall
 					if ((int)t_player.getLastPosition().X + 1 >= (int)getLastPosition().X + getHitBox().getOutBox().Width)
 					{
-						
-						t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
-						t_player.setSpeedX(0);
-						t_player.hang(this);
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
+						}
+						else
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
+							t_player.setSpeedX(0);
+							t_player.hang(this);
+						}
 						
 					}
 					//Colliding with ze right wall
 					if ((int)t_player.getLastPosition().X + t_player.getHitBox().getOutBox().Width - 1 <= (int)getLastPosition().X)
 					{
-						t_player.setNextPositionX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
-						t_player.setSpeedX(0);
-						t_player.hang(this);
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
+						}
+						else
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
+							t_player.setSpeedX(0);
+							t_player.hang(this);
+						}
+
 					}
 					t_player.hang(this);
 				}

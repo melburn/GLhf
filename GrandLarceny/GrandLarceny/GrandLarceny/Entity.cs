@@ -53,7 +53,7 @@ namespace GrandLarceny
 				m_speed.Y += m_gravity * t_deltaTime;
 			}
 				m_position.plusWith(m_speed * t_deltaTime);
-				m_nextPosition = m_position.getLocalCartesianCoordinates();
+				m_nextPosition = m_position.getGlobalCartesianCoordinates();
 			
 		}
 
