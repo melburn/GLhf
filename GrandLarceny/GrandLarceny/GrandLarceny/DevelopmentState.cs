@@ -435,8 +435,112 @@ namespace GrandLarceny
 			}
 		}
 
-		public void guiButtonClick(Button a_button) {			if (!a_button.isButtonPressed()) {				a_button.playDownSound();			}			if (a_button == m_btnSelectHotkey) {				setBuildingState(State.None);				return;			}			if (a_button == m_btnDeleteHotkey) {				setBuildingState(State.Delete);				return;			}			switch (m_menuState) {				case MenuState.Normal:					if (a_button == m_btnLadderHotkey) {						setBuildingState(State.Ladder);						return;					}					if (a_button == m_btnPlatformHotkey) {						setBuildingState(State.Platform);						return;					}					if (a_button == m_btnBackgroundHotkey) {						setBuildingState(State.Background);						return;					}					if (a_button == m_btnHeroHotkey) {						setBuildingState(State.Player);						return;					}					if (a_button == m_btnSpotlightHotkey) {						setBuildingState(State.SpotLight);						return;					}					if (a_button == m_btnGuardHotkey) {						m_menuState = MenuState.Guard;						setBuildingState(State.None);						return;					}					if (a_button == m_btnWallHotkey) {						setBuildingState(State.Wall);						return;					}					if (a_button == m_btnDuckHideHotkey) {						m_menuState = MenuState.Hide;						setBuildingState(State.None);						return;					}					if (a_button == m_btnLightSwitchHotkey) {						setBuildingState(State.LightSwitch);						return;					}					if (a_button == m_btnVentHotkey) {						m_menuState = MenuState.Ventilation;						setBuildingState(State.None);						return;					}					if (a_button == m_btnWindowHotkey) {						setBuildingState(State.Window);						return;					}					if (a_button == m_btnForegroundHotkey) {						setBuildingState(State.Foreground);						return;					}					if (a_button == m_btnRopeHotkey) {						setBuildingState(State.Rope);						return;					}					if (a_button == m_btnSecDoorHotkey) {						setBuildingState(State.SecDoor);						return;					}					if (a_button == m_btnCornerHangHotkey) {						setBuildingState(State.CornerHang);						return;					}					if (a_button == m_btnCheckPointHotkey) {						setBuildingState(State.Checkpoint);						return;					}					if (a_button == m_btnPropHotkey) {						setBuildingState(State.Prop);						return;					}					break;				case MenuState.Guard:					if (a_button == m_btnGuardHotkey) {						setBuildingState(State.Guard);						return;
-					}					if (a_button == m_btnDogHotkey) {						setBuildingState(State.GuardDog);						return;					}					if (a_button == m_btnCameraHotkey) {						setBuildingState(State.Camera);						return;					}					break;				case MenuState.Hide:					if (a_button == m_btnDuckHideHotkey) {						setBuildingState(State.DuckHidingObject);						return;					}					if (a_button == m_btnStandHideHotkey) {
+		public void guiButtonClick(Button a_button) {
+			if (!a_button.isButtonPressed()) {
+				a_button.playDownSound();
+			}
+			if (a_button == m_btnSelectHotkey) {
+				setBuildingState(State.None);
+				return;
+			}
+			if (a_button == m_btnDeleteHotkey) {
+				setBuildingState(State.Delete);
+				return;
+			}
+			switch (m_menuState) {
+				case MenuState.Normal:
+					if (a_button == m_btnLadderHotkey) {
+						setBuildingState(State.Ladder);
+						return;
+					}
+					if (a_button == m_btnPlatformHotkey) {
+						setBuildingState(State.Platform);
+						return;
+					}
+					if (a_button == m_btnBackgroundHotkey) {
+						setBuildingState(State.Background);
+						return;
+					}
+					if (a_button == m_btnHeroHotkey) {
+						setBuildingState(State.Player);
+						return;
+					}
+					if (a_button == m_btnSpotlightHotkey) {
+						setBuildingState(State.SpotLight);
+						return;
+					}
+					if (a_button == m_btnGuardHotkey) {
+						m_menuState = MenuState.Guard;
+						setBuildingState(State.None);
+						return;
+					}
+					if (a_button == m_btnWallHotkey) {
+						setBuildingState(State.Wall);
+						return;
+					}
+					if (a_button == m_btnDuckHideHotkey) {
+						m_menuState = MenuState.Hide;
+						setBuildingState(State.None);
+						return;
+					}
+					if (a_button == m_btnLightSwitchHotkey) {
+						setBuildingState(State.LightSwitch);
+						return;
+					}
+					if (a_button == m_btnVentHotkey) {
+						m_menuState = MenuState.Ventilation;
+						setBuildingState(State.None);
+						return;
+					}
+					if (a_button == m_btnWindowHotkey) {
+						setBuildingState(State.Window);
+						return;
+					}
+					if (a_button == m_btnForegroundHotkey) {
+						setBuildingState(State.Foreground);
+						return;
+					}
+					if (a_button == m_btnRopeHotkey) {
+						setBuildingState(State.Rope);
+						return;
+					}
+					if (a_button == m_btnSecDoorHotkey) {
+						setBuildingState(State.SecDoor);
+						return;
+					}
+					if (a_button == m_btnCornerHangHotkey) {
+						setBuildingState(State.CornerHang);
+						return;
+					}
+					if (a_button == m_btnCheckPointHotkey) {
+						setBuildingState(State.Checkpoint);
+						return;
+					}
+					if (a_button == m_btnPropHotkey) {
+						setBuildingState(State.Prop);
+						return;
+					}
+					break;
+				case MenuState.Guard:
+					if (a_button == m_btnGuardHotkey) {
+						setBuildingState(State.Guard);
+						return;
+					}
+					if (a_button == m_btnDogHotkey) {
+						setBuildingState(State.GuardDog);
+						return;
+					}
+					if (a_button == m_btnCameraHotkey) {
+						setBuildingState(State.Camera);
+						return;
+					}
+					break;
+				case MenuState.Hide:
+					if (a_button == m_btnDuckHideHotkey) {
+						setBuildingState(State.DuckHidingObject);
+						return;
+					}
+					if (a_button == m_btnStandHideHotkey) {
 						setBuildingState(State.StandHidingObject);
 						return;
 					}
@@ -562,6 +666,12 @@ namespace GrandLarceny
 					break;
 				case State.Checkpoint:
 					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
+					break;
+				case State.SecDoor:
+					m_objectPreview = new Platform(m_worldMouse, "Images//Prop//SecurityDoor//" + t_newAsset, 0.000f);
+					break;
+				case State.Camera:
+					m_objectPreview = new Platform(m_worldMouse, "Images//Sprite//Camera//camera", 0.000f);
 					break;
 			}
 		}
