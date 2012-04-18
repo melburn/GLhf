@@ -1113,11 +1113,7 @@ namespace GrandLarceny
 			{
 				setIsInLight(false);
 			}
-			if (a_collisionList.Count == 0 && m_collisionShape != null)
-			{
-				//		m_currentState = State.Jumping;
-			}
-			else
+			if(a_collisionList.Count != 0)
 			{
 				base.collisionCheck(a_collisionList);
 			}
