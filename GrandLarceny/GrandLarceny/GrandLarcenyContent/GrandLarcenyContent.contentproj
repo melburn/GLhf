@@ -698,22 +698,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\window_tile_middle_open_window.png">
-      <Name>window_tile_middle_open_window</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Images\Background\corridor_backdrop_nospot.png">
       <Name>corridor_backdrop_nospot</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\backdrop_door.png">
-      <Name>backdrop_door</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -860,27 +848,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\backdrop_corridor_nameplate.png">
-      <Name>backdrop_corridor_nameplate</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\backdrop_corridor_props_pipe.png">
-      <Name>backdrop_corridor_props_pipe</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\backdrop_corridor_props_pipe_with_extension.png">
-      <Name>backdrop_corridor_props_pipe_with_extension</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Background\2x2_corridor_backdrop_nospot.png">
       <Name>2x2_corridor_backdrop_nospot</Name>
       <Importer>TextureImporter</Importer>
@@ -993,13 +960,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\elevator door.png">
-      <Name>elevator door</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Prop\SecurityDoor\SecurityDoor.png">
       <Name>SecurityDoor</Name>
       <Importer>TextureImporter</Importer>
@@ -1009,13 +969,6 @@
   <ItemGroup>
     <Compile Include="Images\Background\basement_backdrop_3.png">
       <Name>basement_backdrop_3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\basement_pipe.png">
-      <Name>basement_pipe</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1368,36 +1321,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\wall_pipe_standard.png">
-      <Name>wall_pipe_standard</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\wall_pipe_turn.png">
-      <Name>wall_pipe_turn</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\basement_parking_meter.png">
-      <Name>basement_parking_meter</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Background\office_space_backdrop.png">
       <Name>office_space_backdrop</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\office_space_window.png">
-      <Name>office_space_window</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1422,6 +1347,67 @@
     <Compile Include="Images\GUI\btn_test_empty_pressed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>btn_test_empty_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Prop\Clutter\backdrop_corridor_nameplate.png">
+      <Name>backdrop_corridor_nameplate</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\backdrop_corridor_props_pipe.png">
+      <Name>backdrop_corridor_props_pipe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\backdrop_corridor_props_pipe_with_extension.png">
+      <Name>backdrop_corridor_props_pipe_with_extension</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\basement_parking_meter.png">
+      <Name>basement_parking_meter</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\basement_pipe.png">
+      <Name>basement_pipe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\elevator door.png">
+      <Name>elevator door</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\office_space_window.png">
+      <Name>office_space_window</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\wall_pipe_turn.png">
+      <Name>wall_pipe_turn</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\window_tile_middle_open_window.png">
+      <Name>window_tile_middle_open_window</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\corridor_backdrop_nospot_02_extension_tile.png">
+      <Name>corridor_backdrop_nospot_02_extension_tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Prop\Clutter\wall_pipe_standard.png">
+      <Name>wall_pipe_standard</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
