@@ -669,6 +669,9 @@ namespace GrandLarceny
 				case State.Camera:
 					m_objectPreview = new Platform(m_worldMouse, "Images//Sprite//Camera//camera", 0.000f);
 					break;
+				case State.Prop:
+					m_objectPreview = new Platform(m_worldMouse, "Images//Prop//Clutter//" + t_newAsset, 0.000f);
+					break;
 			}
 		}
 		#endregion
@@ -794,7 +797,7 @@ namespace GrandLarceny
 							guiButtonClick(m_btnVentHotkey);
 						}
 						if (Game.keyClicked(Keys.C)) {
-							guiButtonClick(m_btnCameraHotkey);
+							guiButtonClick(m_btnPropHotkey);
 						}
 						if (Game.keyClicked(Keys.A)) {
 							guiButtonClick(m_btnDuckHideHotkey);
@@ -1068,12 +1071,16 @@ namespace GrandLarceny
 						);
 						m_firstDrag = false;
 					}
-					
-					Vector2 t_mousePosition = getTileCoordinates(m_worldMouse - m_dragOffset);
+
+					Vector2 t_mousePosition;
+					if (shiftMod()) {
+						t_mousePosition = m_worldMouse - m_dragOffset;
+					} else {
+						t_mousePosition = getTileCoordinates(m_worldMouse - m_dragOffset);
+					}
 
 					if (m_selectedObject is SpotLight) {
-						m_selectedObject.getPosition().setGlobalCartesianCoordinates(
-							new Vector2(t_mousePosition.X + m_selectedObject.getBox().Width,t_mousePosition.Y));
+						m_selectedObject.getPosition().setGlobalCartesianCoordinates(new Vector2(t_mousePosition.X + m_selectedObject.getBox().Width,t_mousePosition.Y));
 					} else if (m_selectedObject is Rope) {
 						((Rope)m_selectedObject).moveRope(new Vector2(getTileCoordinates(m_worldMouse).X - 36, getTileCoordinates(m_worldMouse).Y));
 					} else {
@@ -1327,7 +1334,7 @@ namespace GrandLarceny
 					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
 					break;
 				case State.Prop:
-					createAssetList("Content//Images//");
+					createAssetList("Content//Images//Prop//Clutter//");
 					m_btnPropHotkey.setState(3);
 					break;
 			}
