@@ -167,7 +167,6 @@ namespace GrandLarceny
 			}
 		}
 
-
 		public Level loadLevel(string a_fileName)
 		{
 			Level t_loadingLevel = new Level();
@@ -298,6 +297,69 @@ namespace GrandLarceny
 			}
 
 			return t_loadingLevel;
+		}
+
+		public void saveGame( string a_saveFileName, Progress a_progress)
+		{
+			FileStream t_fstream;
+			BinaryFormatter t_bFormatter = new BinaryFormatter();
+			try
+			{
+				t_fstream = File.Open("Content//Levels//" + a_saveFileName, FileMode.Create);
+				try
+				{
+					t_bFormatter.Serialize(t_fstream, a_progress);
+				}
+				catch (SerializationException e)
+				{
+					ErrorLogger.getInstance().writeString("Could not serialize progress, serializeing failed: " + e);
+				}
+				if (t_fstream != null)
+				{
+					t_fstream.Close();
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file not found: " + e);
+			}
+			catch (FileLoadException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file fail to load: " + e);
+			}
+		}
+
+		public Progress loadProgress(string a_saveFileName)
+		{
+			Progress t_progg = new Progress(a_saveFileName);
+			FileStream t_fstream;
+			BinaryFormatter t_bFormatter = new BinaryFormatter();
+			try
+			{
+				t_fstream = File.Open("Content//Levels//" + a_saveFileName, FileMode.Open);
+				try
+				{
+					t_progg = (Progress)t_bFormatter.Deserialize(t_fstream);
+				}
+				catch (SerializationException e)
+				{
+					ErrorLogger.getInstance().writeString("Could not serialize progress, serializeing failed: " + e);
+				}
+				if (t_fstream != null)
+				{
+					t_fstream.Close();
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file not found: " + e);
+			}
+			catch (FileLoadException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file fail to load: " + e);
+			}
+
+			return t_progg;
 		}
 	}
 }
