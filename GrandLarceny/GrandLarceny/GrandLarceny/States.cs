@@ -84,7 +84,17 @@ namespace GrandLarceny
 		
 		internal virtual GameObject getObjectById(int a_id)
 		{
-			throw new NotImplementedException();
+			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
+			{
+				foreach (GameObject t_go in t_goList)
+				{
+					if (a_id == t_go.getId())
+					{
+						return t_go;
+					}
+				}
+			}
+			return null;
 		}
 
 		public Vector2 calculateWorldMouse()

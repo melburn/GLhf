@@ -11,7 +11,9 @@ namespace GrandLarceny
 		public static void createPlayer(Vector2 a_position)
 		{
 			States t_state = Game.getInstance().getState();
-			t_state.setPlayer(new Player(t_state.getTileCoordinates(a_position), "Images//Sprite//Hero//hero_stand", 0.300f));
+			Player t_player = new Player(t_state.getTileCoordinates(a_position), "Images//Sprite//Hero//hero_stand", 0.300f);
+			t_state.setPlayer(t_player);
+			t_state.addObject(t_player);
 		}
 
 		public static void createPlatform(Vector2 a_position, string a_asset)

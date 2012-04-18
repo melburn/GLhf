@@ -24,6 +24,7 @@ namespace GrandLarceny
 					tLevel.setLevelObjects(Game.getInstance().getState().getObjectList());
 					tLevel.setEvents(((GameState)Game.getInstance().getState()).getEvents());
 					Serializer.getInstance().SaveLevel("Checkpoint.lvl",tLevel);
+					Serializer.getInstance().saveGame("Checkpoint.prog", Game.getInstance().getProgress());
 				}
 			}
 		}

@@ -52,6 +52,10 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
+			if (Game.getInstance().getState().getPlayer().getHitBox() == null)
+			{
+				m_visible = false;
+			}
 			float t_deltaTime = ((float)(a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
 
 			if (m_fadingTime > 0 && m_currentfadingTime == 0)
@@ -118,7 +122,6 @@ namespace GrandLarceny
 				m_fadingTime = 1f;
 			}
 			m_visible = true;
-			
 		}
 
 		public override void draw(GameTime a_gameTime)
@@ -134,6 +137,12 @@ namespace GrandLarceny
 		{
 			if (a_collid is Player && CollisionManager.Collides(this.getHitBox(), a_collid.getHitBox()))
 			{
+				fadeOut();
+			}
+		}
+
+		private void fadeOut()
+		{
 				m_visible = false;
 				m_fading = true;
 
@@ -141,8 +150,6 @@ namespace GrandLarceny
 				{
 					t_fg.setVisible(false);
 				}
-
-			}
 		}
 
 		public void addForeGround(Foreground a_foreground, bool a_addBack)

@@ -136,7 +136,6 @@ namespace GrandLarceny
 		{
 			m_levelToLoad = a_levelToLoad;
 			Game.getInstance().m_camera.getPosition().setParentPosition(null);
-			load();
 		}
 
 		public override void load()
@@ -151,7 +150,6 @@ namespace GrandLarceny
 			else
 			{
 				m_events = new LinkedList<Event>();
-				m_gameObjectList = new LinkedList<GameObject>[5];
 				for (int i = 0; i < m_gameObjectList.Length; ++i)
 				{
 					m_gameObjectList[i] = new LinkedList<GameObject>();
@@ -163,11 +161,6 @@ namespace GrandLarceny
 				foreach (GameObject t_go in t_ll)
 				{
 					t_go.loadContent();
-
-					if (t_go is Player)
-					{
-						Game.getInstance().getState().setPlayer((Player)t_go);
-					}
 				}
 			}
 
@@ -188,7 +181,7 @@ namespace GrandLarceny
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
-			m_textField = new TextField(new Vector2(Game.getInstance().getResolution().X - 50, Game.getInstance().getResolution().Y - 278), 50, 25, false, true, false, 3);
+			m_guiList.AddLast(m_textField = new TextField(new Vector2(Game.getInstance().getResolution().X - 50, Game.getInstance().getResolution().Y - 278), 50, 25, false, true, false, 3));
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -197,6 +190,9 @@ namespace GrandLarceny
 						Game.getInstance().m_camera.setPosition(m_player.getPosition().getGlobalCartesianCoordinates());
 						break;
 					}
+				}
+				if (m_player != null) {
+					break;
 				}
 			}
 			
@@ -1178,8 +1174,10 @@ namespace GrandLarceny
 		#endregion
 		
 		#region Development Methods
-		private void clearSelectedObject() {
-			if (m_selectedObject != null) {
+		private void clearSelectedObject()
+		{
+			if (m_selectedObject != null)
+			{
 				m_selectedObject.setColor(Color.White);
 				m_selectedObject = null;
 				m_selectedInfoV2 = Vector2.Zero;
@@ -1421,21 +1419,6 @@ namespace GrandLarceny
 			m_guiList.AddLast(a_go);
 		}
 
-		internal override GameObject getObjectById(int a_id)
-		{
-			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
-			{
-				foreach (GameObject t_go in t_goList)
-				{
-					if (a_id == t_go.getId())
-					{
-						return t_go;
-					}
-				}
-			}
-			return null;
-		}
-
 		public override LinkedList<GameObject>[] getObjectList()
 		{
 			return m_gameObjectList;
@@ -1457,10 +1440,6 @@ namespace GrandLarceny
 
 		public void deleteObject(GameObject a_gameObject)
 		{
-			if (a_gameObject is Player)
-			{
-				Game.getInstance().getState().setPlayer(null);
-			}
 			a_gameObject.kill();
 
 			if (a_gameObject is SpotLight)
@@ -1485,15 +1464,16 @@ namespace GrandLarceny
 				}
 			}
 			m_gameObjectList[m_currentLayer].Remove(a_gameObject);
+
+			if (a_gameObject is Player)
+			{
+				Game.getInstance().getState().setPlayer(null);
+			}
 		}
 
 		public override void setPlayer(Player a_player)
 		{
-			if (m_player == null)
-			{
-				m_player = a_player;
-				addObject(m_player);
-			}
+			m_player = a_player;
 		}
 		#endregion
 

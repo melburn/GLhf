@@ -29,6 +29,7 @@ namespace GrandLarceny
 
 		public void SaveLevel(string a_fileName, Level a_save)
 		{
+			GameObject.resetGameObjectId();
 			foreach (LinkedList<GameObject> t_goSaveList in a_save.getGameObjects())
 			{
 				foreach (GameObject t_go in t_goSaveList)
@@ -61,7 +62,6 @@ namespace GrandLarceny
 			int index = 0;
 			
 			long t_fstreamDiffSize = 0;
-			GameObject.resetGameObjectId();
 			long t_objectListBegin = t_fstream.Position;
 			t_fstream.Position = t_fstream.Position + 4;
 			long t_fstreamLastPos = t_fstream.Position;
@@ -166,7 +166,6 @@ namespace GrandLarceny
 				t_fstream.Close();
 			}
 		}
-
 
 		public Level loadLevel(string a_fileName)
 		{
@@ -298,6 +297,69 @@ namespace GrandLarceny
 			}
 
 			return t_loadingLevel;
+		}
+
+		public void saveGame( string a_saveFileName, Progress a_progress)
+		{
+			FileStream t_fstream;
+			BinaryFormatter t_bFormatter = new BinaryFormatter();
+			try
+			{
+				t_fstream = File.Open("Content//Levels//" + a_saveFileName, FileMode.Create);
+				try
+				{
+					t_bFormatter.Serialize(t_fstream, a_progress);
+				}
+				catch (SerializationException e)
+				{
+					ErrorLogger.getInstance().writeString("Could not serialize progress, serializeing failed: " + e);
+				}
+				if (t_fstream != null)
+				{
+					t_fstream.Close();
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file not found: " + e);
+			}
+			catch (FileLoadException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file fail to load: " + e);
+			}
+		}
+
+		public Progress loadProgress(string a_saveFileName)
+		{
+			Progress t_progg = new Progress(a_saveFileName);
+			FileStream t_fstream;
+			BinaryFormatter t_bFormatter = new BinaryFormatter();
+			try
+			{
+				t_fstream = File.Open("Content//Levels//" + a_saveFileName, FileMode.Open);
+				try
+				{
+					t_progg = (Progress)t_bFormatter.Deserialize(t_fstream);
+				}
+				catch (SerializationException e)
+				{
+					ErrorLogger.getInstance().writeString("Could not serialize progress, serializeing failed: " + e);
+				}
+				if (t_fstream != null)
+				{
+					t_fstream.Close();
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file not found: " + e);
+			}
+			catch (FileLoadException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file fail to load: " + e);
+			}
+
+			return t_progg;
 		}
 	}
 }

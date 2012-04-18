@@ -31,6 +31,7 @@ namespace GrandLarceny
 		internal Camera m_camera;
 
 		public Progress m_progress;
+		public Progress m_nextProgress;
 		private GameTime m_currentGameTime;
 
 		public static Game getInstance()
@@ -52,7 +53,7 @@ namespace GrandLarceny
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
 
-			m_progress = new Progress("fin");
+			m_progress = new Progress("temp.prog");
 		}
 
 		public SpriteBatch getSpriteBatch()
@@ -113,6 +114,11 @@ namespace GrandLarceny
 					//}
 				}
 				m_nextState = null;
+			}
+			if (m_nextProgress != null)
+			{
+				m_progress = m_nextProgress;
+				m_nextProgress = null;
 			}
 
 			if (m_currentState != null)
@@ -244,6 +250,11 @@ namespace GrandLarceny
 		public Progress getProgress()
 		{
 			return m_progress;
+		}
+
+		public void setProgress(string a_progressName)
+		{
+			m_nextProgress = Serializer.getInstance().loadProgress(a_progressName);
 		}
 
 		public static bool isKeyReleased(Keys a_key)
