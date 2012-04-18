@@ -43,7 +43,7 @@ namespace GrandLarceny
 			m_OutBox.X = (int)Math.Floor(Math.Min(Math.Min(m_AOffset.X, m_BOffset.X), m_COffset.X) + m_position.getGlobalX());
 			return base.getOutBox();
 		}
-		public override bool Collides(CollisionShape a_cs)
+		public override bool collides(CollisionShape a_cs)
 		{
 			if (a_cs is CollisionRectangle)
 			{
@@ -62,6 +62,10 @@ namespace GrandLarceny
 						return true;
 					}
 				}
+			}
+			else if (a_cs is CollisionLine)
+			{
+				return collidesWithLineSegment(((CollisionLine)a_cs).getPosition().getGlobalCartesianCoordinates(), ((CollisionLine)a_cs).getEndPosition().getGlobalCartesianCoordinates());
 			}
 			return false;
 		}
