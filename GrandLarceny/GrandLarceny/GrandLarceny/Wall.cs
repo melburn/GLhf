@@ -80,7 +80,9 @@ namespace GrandLarceny
 					t_player.setCollidedWithWall(true);
 				}
 				if (t_player.getCurrentState() == Player.State.Rolling 
-					&& t_player.getPosition().getGlobalY() > m_position.getGlobalY() + m_collisionShape.getOutBox().Width 
+					&& t_player.getPosition().getGlobalY() > m_position.getGlobalY() + m_collisionShape.getOutBox().Height 
+					&& m_position.getGlobalX() < (t_player.getPosition().getGlobalX()+t_player.getHitBox().getOutBox().Width/2)
+					&& m_position.getGlobalX() + m_collisionShape.getOutBox().Width > (t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width / 2)
 					&& t_player.isChase())
 				{
 					t_player.deactivateChaseMode();

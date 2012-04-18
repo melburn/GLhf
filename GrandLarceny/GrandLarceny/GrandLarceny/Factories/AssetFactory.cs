@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
@@ -152,7 +153,14 @@ namespace GrandLarceny
 		public static void createProp(Vector2 a_position, string a_asset)
 		{
 			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.998f));
+			if (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift))
+			{
+				t_state.addObject(new Environment(a_position, a_asset, 0.998f));
+			}
+			else
+			{
+				t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.998f));
+			}
 		}
 	}
 }
