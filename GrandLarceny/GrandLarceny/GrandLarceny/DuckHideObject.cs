@@ -36,6 +36,10 @@ namespace GrandLarceny
 						t_player.setHidingImage(Player.DUCKHIDINGIMAGE);
 						t_player.setSpeedX(0);
 					}
+					else
+					{
+						t_player.setInteractionVisibillity(true);
+					}
 				}
 			}
 		}

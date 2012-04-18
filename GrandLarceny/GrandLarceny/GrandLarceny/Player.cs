@@ -57,6 +57,8 @@ namespace GrandLarceny
 		[NonSerialized]
 		private bool m_isInLight;
 		[NonSerialized]
+		private GameObject m_interactionArrow;
+		[NonSerialized]
 		private Direction m_ladderDirection;
 		[NonSerialized]
 		private float m_invulnerableTimer;
@@ -138,6 +140,9 @@ namespace GrandLarceny
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_back");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_still");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_forth");
+			m_interactionArrow = new GameObject(new CartesianCoordinate(new Vector2(15, -70), m_position), "Images//GUI//GameGUI//interaction", m_layer - 0.1f);
+			setInteractionVisibillity(false);
+			m_interactionArrow.getImg().setAnimationSpeed(20f);
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 72, m_position); // 67
 			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
@@ -161,7 +166,7 @@ namespace GrandLarceny
 		#region update
 		public override void update(GameTime a_gameTime)
 		{
-
+			m_interactionArrow.update(a_gameTime);
 			m_lastPosition = m_position.getGlobalCartesianCoordinates();
 
 			if (!m_stunned)
@@ -1113,11 +1118,8 @@ namespace GrandLarceny
 			{
 				setIsInLight(false);
 			}
-			if (a_collisionList.Count == 0 && m_collisionShape != null)
-			{
-				//		m_currentState = State.Jumping;
-			}
-			else
+			setInteractionVisibillity(false);
+			if(a_collisionList.Count != 0)
 			{
 				base.collisionCheck(a_collisionList);
 			}
@@ -1140,6 +1142,11 @@ namespace GrandLarceny
 					m_facingRight = true;
 				}
 			}
+		}
+
+		public void setInteractionVisibillity(bool a_show)
+		{
+			m_interactionArrow.setVisible(a_show);
 		}
 		public bool isInLight()
 		{
@@ -1237,7 +1244,7 @@ namespace GrandLarceny
 		public override void draw(GameTime a_gameTime)
 		{
 			base.draw(a_gameTime);
-
+			m_interactionArrow.draw(a_gameTime);
 		}
 
 		public void dealDamageTo(Vector2 a_knockBackForce)
@@ -1481,6 +1488,10 @@ namespace GrandLarceny
 			setIsInLight(m_runMode);
 		}
 
+		public void setSwingSpeed(float a_speed)
+		{
+			m_swingSpeed = a_speed;
+		}
 		public override void changePositionType()
 		{
 			base.changePositionType();

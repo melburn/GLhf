@@ -20,3 +20,5 @@ Images//Sprite//Hero//hero_run:8
 Images//Prop//SecurityDoor//SecurityDoor:10
 Images//Sprite//Hero//hero_ventilation_horizontal:6
 Images//Sprite//Hero//hero_ventilation_vertical:6
+Images//Sprite//Consumables//shinyheart:10
+Images//GUI//GameGUI//interaction:5
