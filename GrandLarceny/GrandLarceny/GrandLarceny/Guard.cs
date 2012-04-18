@@ -395,7 +395,7 @@ namespace GrandLarceny
 			{
 				if (m_running)
 				{
-					m_img.setSprite("Images//Sprite//Guard//guard_walk");
+					m_img.setSprite("Images//Sprite//Guard//guard_run");
 					m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
 					if (m_speed.X < 0)
 					{
@@ -627,29 +627,26 @@ namespace GrandLarceny
 					}
 				}
 			}
-			if (m_gravity == 0)
+			if (t_supportingPlatform == null)
 			{
-				if (t_supportingPlatform == null)
+				m_gravity = 500;
+			}
+			else
+			{
+				if (m_speed.X > 0)
 				{
-					m_gravity = 500;
-				}
-				else
-				{
-					if (m_speed.X > 0)
+					if (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X < m_collisionShape.getOutBox().X + m_collisionShape.getOutBox().Width)
 					{
-						if (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X < m_collisionShape.getOutBox().X + m_collisionShape.getOutBox().Width)
-						{
-							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X - m_collisionShape.getOutBox().Width);
-							stop();
-						}
+						m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X - m_collisionShape.getOutBox().Width);
+						stop();
 					}
-					else if (m_speed.X < 0)
+				}
+				else if (m_speed.X < 0)
+				{
+					if (t_supportingPlatform.getPosition().getGlobalX() > m_collisionShape.getOutBox().X)
 					{
-						if (t_supportingPlatform.getPosition().getGlobalX() > m_collisionShape.getOutBox().X)
-						{
-							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX()) -((CollisionRectangle)m_collisionShape).m_xOffset;
-							stop();
-						}
+						m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX()) -((CollisionRectangle)m_collisionShape).m_xOffset;
+						stop();
 					}
 				}
 			}
