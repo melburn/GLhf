@@ -145,6 +145,8 @@
     <Compile Include="Foreground.cs" />
     <Compile Include="Hookshot.cs" />
     <Compile Include="GuardEntity.cs" />
+    <Compile Include="HubMenu.cs" />
+    <Compile Include="LoadAndSaveMenu.cs" />
     <Compile Include="LockedDoor.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
