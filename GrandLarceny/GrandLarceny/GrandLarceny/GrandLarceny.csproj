@@ -113,6 +113,8 @@
     <Compile Include="AI\AIStateChasing.cs" />
     <Compile Include="AI\AIStateGoingToTheSwitch.cs" />
     <Compile Include="AI\AIStatePatrolling.cs" />
+    <Compile Include="CollisionLine.cs" />
+    <Compile Include="Events\Effects\FinnishLevelEffect.cs" />
     <Compile Include="Factories\AssetFactory.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Button.cs" />

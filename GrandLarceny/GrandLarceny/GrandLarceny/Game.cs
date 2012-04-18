@@ -87,7 +87,7 @@ namespace GrandLarceny
 
 		protected override void UnloadContent()
 		{
-			
+			ErrorLogger.getInstance().writeString("GrandLarceny terminated at " + System.DateTime.Now);
 		}
 
 		protected override void Update(GameTime a_gameTime)
@@ -103,14 +103,14 @@ namespace GrandLarceny
 				m_currentState = m_nextState;
 				if (!m_currentState.isLoaded())
 				{
-					try
-					{
+					//try
+					//{
 						m_currentState.load();
-					}
-					catch (Exception e)
-					{
-						ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
-					}
+					//}
+					//catch (Exception e)
+					//{
+						//ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
+					//}
 				}
 				m_nextState = null;
 			}

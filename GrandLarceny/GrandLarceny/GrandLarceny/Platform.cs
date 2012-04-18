@@ -85,9 +85,9 @@ namespace GrandLarceny
 					}
 				}
 			}
-			else if (a_collider is Hookshot)
+			else if (a_collider is Hookshot && m_collisionShape.collides(a_collider.getHitBox()))
 			{
-				((Hookshot)a_collider).changeMode();
+				((Hookshot)a_collider).changeMode(this);
 			}
 		}
 

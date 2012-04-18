@@ -435,8 +435,112 @@ namespace GrandLarceny
 			}
 		}
 
-		public void guiButtonClick(Button a_button) {			if (!a_button.isButtonPressed()) {				a_button.playDownSound();			}			if (a_button == m_btnSelectHotkey) {				setBuildingState(State.None);				return;			}			if (a_button == m_btnDeleteHotkey) {				setBuildingState(State.Delete);				return;			}			switch (m_menuState) {				case MenuState.Normal:					if (a_button == m_btnLadderHotkey) {						setBuildingState(State.Ladder);						return;					}					if (a_button == m_btnPlatformHotkey) {						setBuildingState(State.Platform);						return;					}					if (a_button == m_btnBackgroundHotkey) {						setBuildingState(State.Background);						return;					}					if (a_button == m_btnHeroHotkey) {						setBuildingState(State.Player);						return;					}					if (a_button == m_btnSpotlightHotkey) {						setBuildingState(State.SpotLight);						return;					}					if (a_button == m_btnGuardHotkey) {						m_menuState = MenuState.Guard;						setBuildingState(State.None);						return;					}					if (a_button == m_btnWallHotkey) {						setBuildingState(State.Wall);						return;					}					if (a_button == m_btnDuckHideHotkey) {						m_menuState = MenuState.Hide;						setBuildingState(State.None);						return;					}					if (a_button == m_btnLightSwitchHotkey) {						setBuildingState(State.LightSwitch);						return;					}					if (a_button == m_btnVentHotkey) {						m_menuState = MenuState.Ventilation;						setBuildingState(State.None);						return;					}					if (a_button == m_btnWindowHotkey) {						setBuildingState(State.Window);						return;					}					if (a_button == m_btnForegroundHotkey) {						setBuildingState(State.Foreground);						return;					}					if (a_button == m_btnRopeHotkey) {						setBuildingState(State.Rope);						return;					}					if (a_button == m_btnSecDoorHotkey) {						setBuildingState(State.SecDoor);						return;					}					if (a_button == m_btnCornerHangHotkey) {						setBuildingState(State.CornerHang);						return;					}					if (a_button == m_btnCheckPointHotkey) {						setBuildingState(State.Checkpoint);						return;					}					if (a_button == m_btnPropHotkey) {						setBuildingState(State.Prop);						return;					}					break;				case MenuState.Guard:					if (a_button == m_btnGuardHotkey) {						setBuildingState(State.Guard);						return;
-					}					if (a_button == m_btnDogHotkey) {						setBuildingState(State.GuardDog);						return;					}					if (a_button == m_btnCameraHotkey) {						setBuildingState(State.Camera);						return;					}					break;				case MenuState.Hide:					if (a_button == m_btnDuckHideHotkey) {						setBuildingState(State.DuckHidingObject);						return;					}					if (a_button == m_btnStandHideHotkey) {
+		public void guiButtonClick(Button a_button) {
+			if (!a_button.isButtonPressed()) {
+				a_button.playDownSound();
+			}
+			if (a_button == m_btnSelectHotkey) {
+				setBuildingState(State.None);
+				return;
+			}
+			if (a_button == m_btnDeleteHotkey) {
+				setBuildingState(State.Delete);
+				return;
+			}
+			switch (m_menuState) {
+				case MenuState.Normal:
+					if (a_button == m_btnLadderHotkey) {
+						setBuildingState(State.Ladder);
+						return;
+					}
+					if (a_button == m_btnPlatformHotkey) {
+						setBuildingState(State.Platform);
+						return;
+					}
+					if (a_button == m_btnBackgroundHotkey) {
+						setBuildingState(State.Background);
+						return;
+					}
+					if (a_button == m_btnHeroHotkey) {
+						setBuildingState(State.Player);
+						return;
+					}
+					if (a_button == m_btnSpotlightHotkey) {
+						setBuildingState(State.SpotLight);
+						return;
+					}
+					if (a_button == m_btnGuardHotkey) {
+						m_menuState = MenuState.Guard;
+						setBuildingState(State.None);
+						return;
+					}
+					if (a_button == m_btnWallHotkey) {
+						setBuildingState(State.Wall);
+						return;
+					}
+					if (a_button == m_btnDuckHideHotkey) {
+						m_menuState = MenuState.Hide;
+						setBuildingState(State.None);
+						return;
+					}
+					if (a_button == m_btnLightSwitchHotkey) {
+						setBuildingState(State.LightSwitch);
+						return;
+					}
+					if (a_button == m_btnVentHotkey) {
+						m_menuState = MenuState.Ventilation;
+						setBuildingState(State.None);
+						return;
+					}
+					if (a_button == m_btnWindowHotkey) {
+						setBuildingState(State.Window);
+						return;
+					}
+					if (a_button == m_btnForegroundHotkey) {
+						setBuildingState(State.Foreground);
+						return;
+					}
+					if (a_button == m_btnRopeHotkey) {
+						setBuildingState(State.Rope);
+						return;
+					}
+					if (a_button == m_btnSecDoorHotkey) {
+						setBuildingState(State.SecDoor);
+						return;
+					}
+					if (a_button == m_btnCornerHangHotkey) {
+						setBuildingState(State.CornerHang);
+						return;
+					}
+					if (a_button == m_btnCheckPointHotkey) {
+						setBuildingState(State.Checkpoint);
+						return;
+					}
+					if (a_button == m_btnPropHotkey) {
+						setBuildingState(State.Prop);
+						return;
+					}
+					break;
+				case MenuState.Guard:
+					if (a_button == m_btnGuardHotkey) {
+						setBuildingState(State.Guard);
+						return;
+					}
+					if (a_button == m_btnDogHotkey) {
+						setBuildingState(State.GuardDog);
+						return;
+					}
+					if (a_button == m_btnCameraHotkey) {
+						setBuildingState(State.Camera);
+						return;
+					}
+					break;
+				case MenuState.Hide:
+					if (a_button == m_btnDuckHideHotkey) {
+						setBuildingState(State.DuckHidingObject);
+						return;
+					}
+					if (a_button == m_btnStandHideHotkey) {
 						setBuildingState(State.StandHidingObject);
 						return;
 					}
@@ -563,6 +667,12 @@ namespace GrandLarceny
 				case State.Checkpoint:
 					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
 					break;
+				case State.SecDoor:
+					m_objectPreview = new Platform(m_worldMouse, "Images//Prop//SecurityDoor//" + t_newAsset, 0.000f);
+					break;
+				case State.Camera:
+					m_objectPreview = new Platform(m_worldMouse, "Images//Sprite//Camera//camera", 0.000f);
+					break;
 			}
 		}
 		#endregion
@@ -616,7 +726,6 @@ namespace GrandLarceny
 					guiButtonClick(m_btnStandHideHotkey);
 				}
 				if (Game.keyClicked(Keys.S)) {
-					m_sndSave.play();
 					if (m_selectedObject != null) {
 						m_selectedObject.setColor(Color.White);
 						m_selectedObject = null;
@@ -990,7 +1099,7 @@ namespace GrandLarceny
 			*/
 			if (Game.rmbUp()) {
 				if (m_selectedObject != null && m_selectedObject is Rope) {
-					((Rope)m_selectedObject).setEndpoint(new Vector2(m_selectedObject.getPosition().getLocalX(), getTileCoordinates(m_worldMouse).Y + 72));
+					((Rope)m_selectedObject).setEndPoint(new Vector2(m_selectedObject.getPosition().getLocalX(), getTileCoordinates(m_worldMouse).Y + 72));
 				}
 				if (m_dragLine != null) {
 					if (m_selectedObject is LampSwitch) {
@@ -1038,7 +1147,7 @@ namespace GrandLarceny
 						}
 					}
 					if (m_selectedObject is Rope) {
-						((Rope)m_selectedObject).setEndpoint(new Vector2(m_selectedObject.getPosition().getLocalX(), m_worldMouse.Y));
+						((Rope)m_selectedObject).setEndPoint(new Vector2(m_selectedObject.getPosition().getLocalX(), m_worldMouse.Y));
 					}
 					if (m_selectedObject is GuardCamera) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
@@ -1055,7 +1164,7 @@ namespace GrandLarceny
 		#region Collision Check
 		public override bool collidedWithObject(Vector2 a_coordinate)
 		{
-			foreach (GameObject t_gameObject in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
+			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
 				if (t_gameObject is Environment || t_gameObject is LightCone) {
 					continue;
