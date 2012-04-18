@@ -379,11 +379,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Floor\1x1_floor_tile_basic.png">
-      <Name>1x1_floor_tile_basic</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Tile\Wall\1x1_wall_tile.png">
       <Name>1x1_wall_tile</Name>
       <Importer>TextureImporter</Importer>

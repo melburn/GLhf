@@ -1095,7 +1095,7 @@ namespace GrandLarceny
 			*/
 			if (Game.rmbUp()) {
 				if (m_selectedObject != null && m_selectedObject is Rope) {
-					((Rope)m_selectedObject).setEndpoint(new Vector2(m_selectedObject.getPosition().getLocalX(), getTileCoordinates(m_worldMouse).Y + 72));
+					((Rope)m_selectedObject).setEndPoint(new Vector2(m_selectedObject.getPosition().getLocalX(), getTileCoordinates(m_worldMouse).Y + 72));
 				}
 				if (m_dragLine != null) {
 					if (m_selectedObject is LampSwitch) {
@@ -1143,7 +1143,7 @@ namespace GrandLarceny
 						}
 					}
 					if (m_selectedObject is Rope) {
-						((Rope)m_selectedObject).setEndpoint(new Vector2(m_selectedObject.getPosition().getLocalX(), m_worldMouse.Y));
+						((Rope)m_selectedObject).setEndPoint(new Vector2(m_selectedObject.getPosition().getLocalX(), m_worldMouse.Y));
 					}
 					if (m_selectedObject is GuardCamera) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {

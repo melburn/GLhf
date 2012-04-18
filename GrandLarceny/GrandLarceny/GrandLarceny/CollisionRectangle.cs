@@ -45,7 +45,7 @@ namespace GrandLarceny
 			return m_OutBox;
 		}
 
-		public override bool Collides(CollisionShape a_cs)
+		public override bool collides(CollisionShape a_cs)
 		{
 			if (a_cs is CollisionRectangle)
 			{
@@ -58,7 +58,11 @@ namespace GrandLarceny
 			}
 			else if (a_cs is CollisionTriangle)
 			{
-				return a_cs.Collides(this);
+				return a_cs.collides(this);
+			}
+			else if (a_cs is CollisionLine)
+			{
+				return collidesWithLineSegment(((CollisionLine)a_cs).getPosition().getGlobalCartesianCoordinates(), ((CollisionLine)a_cs).getEndPosition().getGlobalCartesianCoordinates());
 			}
 			return false;
 		}

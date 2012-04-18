@@ -26,7 +26,7 @@ namespace GrandLarceny
 
 		public virtual void load()
 		{
-			//m_loaded = true;
+			m_loaded = true;
 		}
 
 		public abstract void update(GameTime a_gameTime);

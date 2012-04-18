@@ -15,8 +15,23 @@ namespace GrandLarceny
 
 		public Progress(String a_saveName)
 		{
-			m_saveName = a_saveName;
 			m_equipments = new Dictionary<string, bool>();
+			m_levelCleared = new LinkedList<string>();
+			m_consumables = new Dictionary<string, int>();
+			m_saveName = a_saveName;
+		}
+
+		public string getName()
+		{
+			return m_saveName;
+		}
+
+		public void setProgress(string a_saveName, LinkedList<String> a_levelsCleared, Dictionary<String, Boolean> a_equipments, Dictionary<String, int> a_consumables)
+		{
+			m_saveName = a_saveName;
+			m_levelCleared = a_levelsCleared;
+			m_equipments = a_equipments;
+			m_consumables = a_consumables;
 		}
 
 		public Boolean hasEquipment(string a_equipment)

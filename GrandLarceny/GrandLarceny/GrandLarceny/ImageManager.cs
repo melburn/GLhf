@@ -204,5 +204,10 @@ namespace GrandLarceny
 		public Texture2D getImage() {
 			return m_image;
 		}
+
+		public Boolean isTexture(Texture2D a_texture)
+		{
+			return m_image = a_texture;
+		}
 	}
 }

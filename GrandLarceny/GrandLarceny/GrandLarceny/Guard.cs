@@ -447,12 +447,12 @@ namespace GrandLarceny
 		{
 			return m_facingRight ^
 				(m_img.getSubImageIndex() > 5.5 &&
-				(m_img.getImagePath().Equals("Images//Sprite//Guard//guard_flash_turn") || m_img.getImagePath().Equals("Images//Sprite//Guard//guard_turn")));
+				(m_img.isTexture(t2d_flashTurn) || m_img.isTexture(t2d_turn)));
 		}
 
 		public bool isFacingTowards(float a_x)
 		{
-			if(m_img.getImagePath().Equals("Images//Sprite//Guard//guard_flash_turn") || m_img.getImagePath().Equals("Images//Sprite//Guard//guard_turn"))
+			if (m_img.isTexture(t2d_flashTurn) || m_img.isTexture(t2d_turn))
 			{
 				if (m_img.getSubImageIndex() < 5)
 				{
