@@ -728,6 +728,18 @@ namespace GrandLarceny
 			base.flip();
 			m_facingRight = m_spriteEffects == SpriteEffects.None;
 			m_guardFaceRight = m_facingRight;
+			if (m_flashLight != null)
+			{
+				m_flashLight.setFacingRight(m_facingRight);
+				if (m_facingRight)
+				{
+					m_flashLight.getPosition().setLocalX(0);
+				}
+				else
+				{
+					m_flashLight.getPosition().setLocalX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+				}
+			}
 		}
 		public bool guardFaceRight()
 		{

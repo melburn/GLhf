@@ -113,6 +113,7 @@
     <Compile Include="AI\AIStateChasing.cs" />
     <Compile Include="AI\AIStateGoingToTheSwitch.cs" />
     <Compile Include="AI\AIStatePatrolling.cs" />
+    <Compile Include="Consumable.cs" />
     <Compile Include="ConsumableKey.cs" />
     <Compile Include="Events\Effects\FinnishLevelEffect.cs" />
     <Compile Include="Factories\AssetFactory.cs" />
