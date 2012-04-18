@@ -27,6 +27,7 @@ namespace GrandLarceny
 		protected float m_imgOffsetX = 0;
 		protected float m_imgOffsetY = 0;
 		protected Vector2 m_rotationPoint = Vector2.Zero;
+		protected Vector2 m_changePositionAfterDraw = Vector2.Zero;
 
 		private string m_spritePath;
 
@@ -97,6 +98,14 @@ namespace GrandLarceny
 			t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
 
 			m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
+
+			if (m_changePositionAfterDraw != Vector2.Zero)
+			{
+				if (this is Player)
+					Game.getInstance().m_camera.getPosition().plusXWith(-m_changePositionAfterDraw.X);
+				m_position.plusWith(m_changePositionAfterDraw);
+				m_changePositionAfterDraw = Vector2.Zero;
+			}
 		}
 		public bool isDead()
 		{
@@ -155,6 +164,10 @@ namespace GrandLarceny
 		{
 			m_imgOffsetX = a_offset.X;
 			m_imgOffsetY = a_offset.Y;
+		}
+		public void addPositionXAfterDraw(float a_addX)
+		{
+			m_changePositionAfterDraw.X = a_addX;
 		}
 	}
 }
