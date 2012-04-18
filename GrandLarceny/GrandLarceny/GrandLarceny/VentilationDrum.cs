@@ -50,6 +50,10 @@ namespace GrandLarceny
 						t_player.setSpeedY(0);
 					}
 				}
+				else
+				{
+					t_player.setInteractionVisibillity(true);
+				}
 			}
 		}
 	}

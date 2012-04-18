@@ -28,6 +28,7 @@ namespace GrandLarceny
 		protected float m_imgOffsetY = 0;
 		protected Vector2 m_rotationPoint = Vector2.Zero;
 		protected Vector2 m_changePositionAfterDraw = Vector2.Zero;
+		protected Boolean m_visible;
 
 		private string m_spritePath;
 
@@ -74,6 +75,7 @@ namespace GrandLarceny
 			m_color = Color.White;
 			m_img = new ImageManager(m_spritePath);
 			m_rotationPoint = m_img.getSize() / 2;
+			m_visible = true;
 		}
 		
 		public Position getPosition()
@@ -93,18 +95,21 @@ namespace GrandLarceny
 
 		public virtual void draw(GameTime a_gameTime)
 		{
-			Vector2 t_imgPosition;
-			t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
-			t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
-
-			m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
-
-			if (m_changePositionAfterDraw != Vector2.Zero)
+			if (m_visible)
 			{
-				if (this is Player)
-					Game.getInstance().m_camera.getPosition().plusXWith(-m_changePositionAfterDraw.X);
-				m_position.plusWith(m_changePositionAfterDraw);
-				m_changePositionAfterDraw = Vector2.Zero;
+				Vector2 t_imgPosition;
+				t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
+				t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
+
+				m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
+
+				if (m_changePositionAfterDraw != Vector2.Zero)
+				{
+					if (this is Player)
+						Game.getInstance().m_camera.getPosition().plusXWith(-m_changePositionAfterDraw.X);
+					m_position.plusWith(m_changePositionAfterDraw);
+					m_changePositionAfterDraw = Vector2.Zero;
+				}
 			}
 		}
 		public bool isDead()
@@ -168,6 +173,11 @@ namespace GrandLarceny
 		public void addPositionXAfterDraw(float a_addX)
 		{
 			m_changePositionAfterDraw.X = a_addX;
+		}
+
+		public void setVisible(bool a_visible)
+		{
+			m_visible = a_visible;
 		}
 	}
 }
