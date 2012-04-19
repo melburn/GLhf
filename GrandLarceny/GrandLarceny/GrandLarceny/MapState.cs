@@ -35,7 +35,7 @@ namespace GrandLarceny
 			{
 				t_colors[i] = Color.Lerp(Color.LightBlue, Color.Blue, ((float)i) / ((float)t_colors.Length));
 			}
-			m_topLeftPoint = Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates()  - (((Game.getInstance().getResolution() / 2f) - new Vector2(20)) * Game.getInstance().m_camera.getZoom());
+			m_topLeftPoint = Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates() - (((Game.getInstance().getResolution() / 2f) - new Vector2(20)) * Game.getInstance().m_camera.getZoom());
 			foreach(GameObject f_go in m_backState.getObjectList()[Game.getInstance().m_camera.getLayer()])
 			{
 				if (f_go is Entity && !((Entity)f_go).isTransparent())
@@ -73,7 +73,7 @@ namespace GrandLarceny
 				}
 			}
 		}
-		public override void update(Microsoft.Xna.Framework.GameTime a_gameTime)
+		public override void update(GameTime a_gameTime)
 		{
 			if (Game.keyClicked(Microsoft.Xna.Framework.Input.Keys.M))
 			{

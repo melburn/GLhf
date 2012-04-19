@@ -109,7 +109,6 @@ namespace GrandLarceny
 		private int m_currentLayer = 0;
 		private string m_levelToLoad;
 		private bool m_building;
-		private bool m_ventilation;
 
 		private State m_itemToCreate;
 		private enum State
@@ -721,7 +720,7 @@ namespace GrandLarceny
 				}
 				if (Game.keyClicked(Keys.V)) {
 					if (m_copyTarget != null) {
-						AssetFactory.copyAsset(m_selectedObject);
+						AssetFactory.copyAsset(m_copyTarget);
 					}
 				}
 			} else if (shiftMod()) {
@@ -1101,7 +1100,6 @@ namespace GrandLarceny
 					}
 					m_dragLine = null;
 				} else {
-					m_ventilation = false;
 					clearSelectedObject();
 					setBuildingState(State.None);
 					m_menuState = MenuState.Normal;
