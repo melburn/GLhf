@@ -135,7 +135,7 @@ namespace GrandLarceny
 
 			if (keyClicked(Keys.F7)) //Asså det här är ju inte ok
 			{
-				m_nextState = new MainMenu();
+				m_nextState = new HubMenu();
 			}
 
 			m_previousMouse = m_currentMouse;
@@ -254,7 +254,10 @@ namespace GrandLarceny
 
 		public void setProgress(string a_progressName)
 		{
-			m_nextProgress = Serializer.getInstance().loadProgress(a_progressName);
+			if (!a_progressName.Equals("temp.prog"))
+			{
+				m_nextProgress = Serializer.getInstance().loadProgress(a_progressName);
+			}
 		}
 
 		public static bool isKeyReleased(Keys a_key)

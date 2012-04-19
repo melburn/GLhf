@@ -58,7 +58,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_light = new LightCone(this, "Images//LightCone//Ljus", m_layer + 0.001f, 300f, 100f);
+				m_light = new LightCone(this, "Images//LightCone//Ljus", m_img.getSize().X, m_layer + 0.001f, 400f, 100f, m_layer - 0.01f, "Images//LightCone//ljusboll");
 				m_lightLink = m_light.getId();
 				(Game.getInstance().getState()).addObject(m_light);
 			}

@@ -23,6 +23,7 @@ namespace GrandLarceny
 		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 25;
 		private const float TURNANIMATIONSPEED = 10f;
 		private const float TURNQUICKANIMATIONSPEED = 50f;
+		private const float PICKUPSPEED = 10f;
 
 		[NonSerialized]
         private Entity m_chaseTarget = null;
@@ -96,7 +97,7 @@ namespace GrandLarceny
             m_leftPatrolPoint = a_patrolPoint;
             m_rightPatrolPoint = a_patrolPoint;
 			m_aiState = AIStatepatroling.getInstance();
-			m_FlashLightAddicted = a_sprite == "Images//Sprite//Guard//guard_flash_idle";
+			m_FlashLightAddicted = m_img.isTexture(t2d_flashIdle);
 			if (m_hasFlashLight && m_FlashLightAddicted)
 			{
 				m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
@@ -124,7 +125,7 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_collisionShape = new CollisionRectangle(20, 10, m_img.getSize().X - 40, m_img.getSize().Y - 10, m_position);
+			m_collisionShape = new CollisionRectangle(10, 10, m_img.getSize().X - 20, m_img.getSize().Y - 10, m_position);
 			m_lampSwitchTargets = new LinkedList<LampSwitch>();
 			if (m_lampSwitchTargetsId == null)
 			{
@@ -346,6 +347,7 @@ namespace GrandLarceny
 					{
 						Game.getInstance().getState().addObject(new Particle(new Vector2(m_position.getGlobalX() - 22, m_position.getGlobalY() - 10), "Images//Sprite//Guard//qmark", 10f, m_layer));
 					}
+					m_img.setAnimationSpeed(PICKUPSPEED);
 				}
 				else
 				{
@@ -395,7 +397,7 @@ namespace GrandLarceny
 			{
 				if (m_running)
 				{
-					m_img.setSprite("Images//Sprite//Guard//guard_walk");
+					m_img.setSprite("Images//Sprite//Guard//guard_run");
 					m_img.setAnimationSpeed(CHASINGANIMATIONSPEED);
 					if (m_speed.X < 0)
 					{
@@ -447,12 +449,12 @@ namespace GrandLarceny
 		{
 			return m_facingRight ^
 				(m_img.getSubImageIndex() > 5.5 &&
-				(m_img.getImagePath().Equals("Images//Sprite//Guard//guard_flash_turn") || m_img.getImagePath().Equals("Images//Sprite//Guard//guard_turn")));
+				(m_img.isTexture(t2d_flashTurn) || m_img.isTexture(t2d_turn)));
 		}
 
 		public bool isFacingTowards(float a_x)
 		{
-			if(m_img.getImagePath().Equals("Images//Sprite//Guard//guard_flash_turn") || m_img.getImagePath().Equals("Images//Sprite//Guard//guard_turn"))
+			if (m_img.isTexture(t2d_flashTurn) || m_img.isTexture(t2d_turn))
 			{
 				if (m_img.getSubImageIndex() < 5)
 				{
@@ -484,12 +486,12 @@ namespace GrandLarceny
 						m_striking = false;
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 					}
-					else if (m_img.getImage() == t2d_turn)
+					else if (m_img.isTexture(t2d_turn))
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 						m_facingRight = !m_facingRight;
 					}
-					else if (m_img.getImage() == t2d_flashIdle)
+					else if (m_img.isTexture(t2d_flashTurn))
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 						m_facingRight = !m_facingRight;
@@ -505,7 +507,7 @@ namespace GrandLarceny
 						}
 
 					}
-					else if (m_img.getImage() == t2d_pickUpFlash)
+					else if (m_img.isTexture(t2d_pickUpFlash))
 					{
 						m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
 						m_flashLightId = m_flashLight.getId();
@@ -516,7 +518,7 @@ namespace GrandLarceny
 						Game.getInstance().getState().addObject(m_flashLight);
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 					}
-					else if (m_img.getImage() == t2d_putDownFlash)
+					else if (m_img.isTexture(t2d_putDownFlash))
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
 					}
@@ -627,29 +629,26 @@ namespace GrandLarceny
 					}
 				}
 			}
-			if (m_gravity == 0)
+			if (t_supportingPlatform == null)
 			{
-				if (t_supportingPlatform == null)
+				m_gravity = 500;
+			}
+			else
+			{
+				if (m_speed.X > 0)
 				{
-					m_gravity = 500;
-				}
-				else
-				{
-					if (m_speed.X > 0)
+					if (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X < m_collisionShape.getOutBox().X + m_collisionShape.getOutBox().Width)
 					{
-						if (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X < m_collisionShape.getOutBox().X + m_collisionShape.getOutBox().Width)
-						{
-							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X - m_collisionShape.getOutBox().Width);
-							stop();
-						}
+						m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX() + t_supportingPlatform.getImg().getSize().X - m_collisionShape.getOutBox().Width);
+						stop();
 					}
-					else if (m_speed.X < 0)
+				}
+				else if (m_speed.X < 0)
+				{
+					if (t_supportingPlatform.getPosition().getGlobalX() > m_collisionShape.getOutBox().X)
 					{
-						if (t_supportingPlatform.getPosition().getGlobalX() > m_collisionShape.getOutBox().X)
-						{
-							m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX()) -((CollisionRectangle)m_collisionShape).m_xOffset;
-							stop();
-						}
+						m_nextPosition.X = (t_supportingPlatform.getPosition().getGlobalX()) -((CollisionRectangle)m_collisionShape).m_xOffset;
+						stop();
 					}
 				}
 			}
@@ -728,6 +727,18 @@ namespace GrandLarceny
 			base.flip();
 			m_facingRight = m_spriteEffects == SpriteEffects.None;
 			m_guardFaceRight = m_facingRight;
+			if (m_flashLight != null)
+			{
+				m_flashLight.setFacingRight(m_facingRight);
+				if (m_facingRight)
+				{
+					m_flashLight.getPosition().setLocalX(0);
+				}
+				else
+				{
+					m_flashLight.getPosition().setLocalX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+				}
+			}
 		}
 		public bool guardFaceRight()
 		{

@@ -9,6 +9,7 @@ namespace GrandLarceny
 	public class Progress
 	{
 		private String m_saveName;
+		private String m_userName;
 		private LinkedList<String> m_levelCleared;
 		private Dictionary<String,Boolean> m_equipments;
 		private Dictionary<String, int> m_consumables;
@@ -80,6 +81,16 @@ namespace GrandLarceny
 		public void setLevelCleared(string a_level)
 		{
 			m_levelCleared.AddLast(a_level);
+		}
+
+		public void setUserName(string a_userName)
+		{
+			m_userName = a_userName;
+		}
+
+		public string getUserName()
+		{
+			return m_userName;
 		}
 	}
 }

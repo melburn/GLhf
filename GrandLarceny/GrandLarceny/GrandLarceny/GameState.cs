@@ -171,15 +171,18 @@ namespace GrandLarceny
 			if (Game.keyClicked(Keys.I)) {
 				Game.getInstance().m_camera.printInfo();
 			}
-			if (Game.isKeyPressed(Keys.Q))
+			else if (Game.keyClicked(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
-
-			if (Game.isKeyPressed(Keys.F5))
+			else if (Game.keyClicked(Keys.F5))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
+			}
+			else if (Game.keyClicked(Keys.M))
+			{
+				Game.getInstance().setState(new MapState(this));
 			}
 
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
@@ -218,8 +221,7 @@ namespace GrandLarceny
 							}
 						}
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
-						if (!(t_firstGameObject.getPosition() is PolarCoordinate))
-							((Entity)t_firstGameObject).updatePosition();
+						((Entity)t_firstGameObject).updatePosition();
 					} else {
 						if (t_firstGameObject is Entity || t_firstGameObject is Guard) {
 							((Entity)t_firstGameObject).setGravity(0.0f);

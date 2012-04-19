@@ -105,9 +105,16 @@ namespace GrandLarceny
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (a_collid is Player && Game.keyClicked(GameState.getActionKey()))
+			if (a_collid is Player && a_collid.getHitBox().collides(m_collisionShape))
 			{
-				toggleSwitch();
+				if (Game.keyClicked(GameState.getActionKey()))
+				{
+					toggleSwitch();
+				}
+				else
+				{
+					((Player)(a_collid)).setInteractionVisibillity(true);
+				}
 			}
 		}
 

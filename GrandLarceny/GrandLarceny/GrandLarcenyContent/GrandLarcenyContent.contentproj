@@ -841,13 +841,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\LightCone\lamp.png">
-      <Name>lamp</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Background\2x2_corridor_backdrop_nospot.png">
       <Name>2x2_corridor_backdrop_nospot</Name>
       <Importer>TextureImporter</Importer>
@@ -1408,6 +1401,51 @@
   <ItemGroup>
     <Compile Include="Images\Prop\Clutter\wall_pipe_standard.png">
       <Name>wall_pipe_standard</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Consumables\shinyheart.png">
+      <Name>shinyheart</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\GameGUI\interaction.png">
+      <Name>interaction</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\Dark1.png">
+      <Name>Dark1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\Dark2.png">
+      <Name>Dark2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\Dark3.png">
+      <Name>Dark3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\LightCone\ljusboll.png">
+      <Name>ljusboll</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\LightCone\lamp.png">
+      <Name>lamp</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
