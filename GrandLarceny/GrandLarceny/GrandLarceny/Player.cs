@@ -714,7 +714,7 @@ namespace GrandLarceny
 			m_gravity = 0;
 			if (Game.getInstance().m_camera.getLayer() == 0)
 			{
-				if (Game.keyClicked(GameState.getUpKey()) || Game.keyClicked(GameState.getDownKey()))
+				if (Game.keyClicked(GameState.getLeftKey()) || Game.keyClicked(GameState.getRightKey()))
 				{
 					Game.getInstance().m_camera.setLayer(1);
 					m_cameraPoint.X = 0;
