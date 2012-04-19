@@ -841,13 +841,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\LightCone\lamp.png">
-      <Name>lamp</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Background\2x2_corridor_backdrop_nospot.png">
       <Name>2x2_corridor_backdrop_nospot</Name>
       <Importer>TextureImporter</Importer>
@@ -1446,6 +1439,13 @@
   <ItemGroup>
     <Compile Include="Images\LightCone\ljusboll.png">
       <Name>ljusboll</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\LightCone\lamp.png">
+      <Name>lamp</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
