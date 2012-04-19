@@ -12,13 +12,19 @@ namespace GrandLarceny
 	{
 		private float m_length;
 		private float m_width;
+
+		[NonSerialized]
+		private GameObject m_backLight;
+
+		private String m_backLightSprite;
+		private float m_backLayer;
 	
 
 		[NonSerialized]
 		private bool m_collisionIsUpdated;
 
-		public LightCone(GameObject a_parent, string a_sprite, float a_layer, float a_length, float a_width) :
-			base((Position)new CartesianCoordinate(Vector2.Zero,a_parent.getPosition()), a_sprite, a_layer, a_parent.getRotation())
+		public LightCone(GameObject a_parent, string a_sprite, float a_offset, float a_layer, float a_length, float a_width, float a_backLayer, string a_backSprite) :
+			base((Position)new PolarCoordinate(a_offset, a_parent.getRotation(), a_parent.getPosition()), a_sprite, a_layer, a_parent.getRotation())
 		{
 			if (a_length <= 0)
 			{
@@ -33,12 +39,19 @@ namespace GrandLarceny
 			m_XScale = a_length / 500;
 			m_YScale = a_width / 500;
 			m_imgOffsetY = -m_rotationPoint.Y * m_YScale;
+			m_backLayer = a_backLayer;
+			if (a_backSprite != null)
+			{
+				m_backLightSprite = a_backSprite;
+				m_backLight = new GameObject(new CartesianCoordinate(Vector2.Zero, m_position), m_backLightSprite, a_backLayer);
+			}
 		}
 
 		public override void setRotation(float a_rotation)
 		{
 			if (m_rotate != a_rotation)
 			{
+				m_position.setSlope(a_rotation);
 				m_rotate = a_rotation;
 				m_collisionIsUpdated = false;
 			}
@@ -46,6 +59,7 @@ namespace GrandLarceny
 		public override void addRotation(float a_rotation)
 		{
 			base.addRotation(a_rotation);
+			m_position.setSlope(a_rotation);
 			m_collisionIsUpdated = false;
 		}
 		public override void loadContent()
@@ -55,6 +69,10 @@ namespace GrandLarceny
 			m_rotationPoint.X = 0;
 			m_rotationPoint.Y = m_img.getSize().Y / 2;
 			m_imgOffsetY = -m_rotationPoint.Y*m_YScale;
+			if (m_backLightSprite != null)
+			{
+				m_backLight = new GameObject(new CartesianCoordinate(Vector2.Zero, m_position), m_backLightSprite, m_backLayer);
+			}
 		}
 
 		public override CollisionShape getHitBox()
@@ -103,6 +121,15 @@ namespace GrandLarceny
 						}
 					}
 				}
+			}
+		}
+
+		public override void draw(GameTime a_gameTime)
+		{
+			base.draw(a_gameTime);
+			if (m_backLight != null)
+			{
+				m_backLight.draw(a_gameTime);
 			}
 		}
 	}
