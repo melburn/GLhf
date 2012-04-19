@@ -719,6 +719,11 @@ namespace GrandLarceny
 				if (Game.keyClicked(Keys.C)) {
 					m_copyTarget = m_selectedObject;
 				}
+				if (Game.keyClicked(Keys.V)) {
+					if (m_copyTarget != null) {
+						AssetFactory.copyAsset(m_selectedObject);
+					}
+				}
 			} else if (shiftMod()) {
 				switch (m_menuState) {
 					case MenuState.Normal:
@@ -917,7 +922,7 @@ namespace GrandLarceny
 								AssetFactory.createWall(m_worldMouse, m_objectPreview.getImg().getImagePath());
 								break;
 							case State.DuckHidingObject:
-								AssetFactory.createDuckHidingObject(m_worldMouse, m_objectPreview.getImg().getImagePath());
+								AssetFactory.createDuckHideObject(m_worldMouse, m_objectPreview.getImg().getImagePath());
 								break;
 							case State.StandHidingObject:
 								AssetFactory.createStandHideObject(m_worldMouse, m_objectPreview.getImg().getImagePath());

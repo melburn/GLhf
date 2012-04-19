@@ -53,7 +53,7 @@ namespace GrandLarceny
 			t_state.addObject(new Wall(t_state.getTileCoordinates(a_position), a_asset, 0.350f));
 		}
 
-		public static void createDuckHidingObject(Vector2 a_position, string a_asset)
+		public static void createDuckHideObject(Vector2 a_position, string a_asset)
 		{
 			States t_state = Game.getInstance().getState();
 			t_state.addObject(new DuckHideObject(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
@@ -160,6 +160,83 @@ namespace GrandLarceny
 			else
 			{
 				t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.998f));
+			}
+		}
+
+		public static void copyAsset(GameObject a_asset)
+		{
+			States t_state = Game.getInstance().getState();
+			Vector2 t_position = a_asset.getPosition().getGlobalCartesianCoordinates();
+			string t_imagePath = a_asset.getImg().getImagePath();
+
+			if (a_asset is Player) {
+				createPlayer(t_position);
+			}
+			if (a_asset is Platform) {
+				createPlatform(t_position, t_imagePath);
+			}
+			if (a_asset is Ladder) {
+				createLadder(t_position, t_imagePath);
+			}
+			if (a_asset is SpotLight) {
+				createSpotLight(t_position, t_imagePath);
+			}
+			if (a_asset is Environment) {
+				createBackground(t_position, t_imagePath);
+			}
+			if (a_asset is Guard) {
+				createGuard(t_position, t_imagePath);
+			}
+			if (a_asset is Wall) {
+				createWall(t_position, t_imagePath);
+			}
+			if (a_asset is DuckHideObject) {
+				createDuckHideObject(t_position, t_imagePath);
+			}
+			if (a_asset is StandHideObject) {
+				createStandHideObject(t_position, t_imagePath);
+			}
+			if (a_asset is GuardDog) {
+				createGuardDog(t_position, t_imagePath);
+			}
+			if (a_asset is LampSwitch) {
+				createLightSwitch(t_position, t_imagePath);
+			}
+			if (a_asset is CrossVentilation) {
+				createCrossVent(t_position, t_imagePath);
+			}
+			if (a_asset is TVentilation) {
+				createTVent(t_position, t_imagePath);
+			}
+			if (a_asset is StraightVentilation) {
+				createStraightVent(t_position, t_imagePath);
+			}
+			if (a_asset is CornerVentilation) {
+				createCornerVent(t_position, t_imagePath);
+			}
+			if (a_asset is VentilationDrum) {
+				createVentrance(t_position, t_imagePath);
+			}
+			if (a_asset is Foreground) {
+				createForeground(t_position, t_imagePath);
+			}
+			if (a_asset is Rope) {
+				createRope(t_position);
+			}
+			if (a_asset is GuardCamera) {
+				createCamera(t_position, t_imagePath);
+			}
+			if (a_asset is Window) {
+				createWindow(t_position, t_imagePath);
+			}
+			if (a_asset is SecurityDoor) {
+				createSecDoor(t_position, t_imagePath);
+			}
+			if (a_asset is CornerHang) {
+				createCornerHang(t_position, t_imagePath);
+			}
+			if (a_asset is CheckPoint) {
+				createCheckPoint(t_position);
 			}
 		}
 	}
