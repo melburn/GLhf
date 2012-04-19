@@ -11,6 +11,9 @@ namespace GrandLarceny
 	{
 		private Texture2D m_map;
 		private States m_backState;
+		private float m_zoom = 36f;
+
+		private Vector2 m_topLeftPoint;
 
 		public MapState(States a_backState)
 		{
@@ -30,8 +33,9 @@ namespace GrandLarceny
 			Color[] t_colors = new Color[m_map.Width * m_map.Height];
 			for (int i = 0; i < t_colors.Length; ++i)
 			{
-				t_colors[i] = new Color(0,0,i / t_colors.Length);
+				t_colors[i] = new Color(0,0,((float)i) / ((float)(t_colors.Length)));
 			}
+			m_topLeftPoint = Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates();
 			foreach(GameObject f_go in m_backState.getObjectList()[Game.getInstance().m_camera.getLayer()])
 			{
 				if (f_go is Entity && !((Entity)f_go).isTransparent())
@@ -44,11 +48,11 @@ namespace GrandLarceny
 
 		private void addRectangle(Rectangle a_rectangle, Color a_color, Color[] a_oldArray, int a_width)
 		{
-			for(int y = (int)Math.Floor(((float)(a_rectangle.Y)) / 36f); y < (int)Math.Ceiling(((float)(a_rectangle.Y + a_rectangle.Height)) / 36f); ++y)
+			for (int y = (int)Math.Floor(((float)(a_rectangle.Y)) / m_zoom); y < (int)Math.Ceiling(((float)(a_rectangle.Y + a_rectangle.Height)) / m_zoom); ++y)
 			{
 				if (y >= 0 && y < a_oldArray.Length / a_width)
 				{
-					for (int x = (int)Math.Floor(((float)(a_rectangle.X)) / 36f); x < (int)Math.Ceiling(((float)(a_rectangle.X + a_rectangle.Width)) / 36f); ++x)
+					for (int x = (int)Math.Floor(((float)(a_rectangle.X)) / m_zoom); x < (int)Math.Ceiling(((float)(a_rectangle.X + a_rectangle.Width)) / m_zoom); ++x)
 					{
 						if (x > 0 && x < a_width)
 						{
