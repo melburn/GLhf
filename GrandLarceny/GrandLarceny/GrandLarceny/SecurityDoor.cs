@@ -141,5 +141,10 @@ namespace GrandLarceny
 				m_img.setAnimationSpeed(-m_closeSpeed);
 			}
 		}
+
+		public override bool isTransparent()
+		{
+			return false;
+		}
 	}
 }

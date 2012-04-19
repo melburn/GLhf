@@ -11,7 +11,7 @@ namespace GrandLarceny
 	{
 		private Texture2D m_map;
 		private States m_backState;
-		private float m_zoom = 36f;
+		private float m_zoom = 18f;
 
 		private Vector2 m_topLeftPoint;
 
@@ -35,7 +35,7 @@ namespace GrandLarceny
 			{
 				t_colors[i] = new Color(0,0,((float)i) / ((float)(t_colors.Length)));
 			}
-			m_topLeftPoint = Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates();
+			m_topLeftPoint = Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates()  - (((Game.getInstance().getResolution() / 2f) - new Vector2(20)) * Game.getInstance().m_camera.getZoom());
 			foreach(GameObject f_go in m_backState.getObjectList()[Game.getInstance().m_camera.getLayer()])
 			{
 				if (f_go is Entity && !((Entity)f_go).isTransparent())
@@ -48,11 +48,11 @@ namespace GrandLarceny
 
 		private void addRectangle(Rectangle a_rectangle, Color a_color, Color[] a_oldArray, int a_width)
 		{
-			for (int y = (int)Math.Floor(((float)(a_rectangle.Y)) / m_zoom); y < (int)Math.Ceiling(((float)(a_rectangle.Y + a_rectangle.Height)) / m_zoom); ++y)
+			for (int y = (int)(Math.Floor(((float)(a_rectangle.Y)) / m_zoom) - m_topLeftPoint.Y); y < (int)(Math.Ceiling(((float)(a_rectangle.Y + a_rectangle.Height)) / m_zoom) - m_topLeftPoint.Y); ++y)
 			{
 				if (y >= 0 && y < a_oldArray.Length / a_width)
 				{
-					for (int x = (int)Math.Floor(((float)(a_rectangle.X)) / m_zoom); x < (int)Math.Ceiling(((float)(a_rectangle.X + a_rectangle.Width)) / m_zoom); ++x)
+					for (int x = (int)(Math.Floor(((float)(a_rectangle.X)) / m_zoom) - m_topLeftPoint.X); x < (int)(Math.Ceiling(((float)(a_rectangle.X + a_rectangle.Width)) / m_zoom) - m_topLeftPoint.X); ++x)
 					{
 						if (x > 0 && x < a_width)
 						{
@@ -72,7 +72,7 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			a_spriteBatch.Draw(m_map, new Vector2(20), Color.White);
+			a_spriteBatch.Draw(m_map, Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates() - (((Game.getInstance().getResolution() / 2f) - new Vector2(20)) * Game.getInstance().m_camera.getZoom()), Color.White);
 		}
 	}
 }
