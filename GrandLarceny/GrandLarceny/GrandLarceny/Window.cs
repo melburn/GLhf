@@ -47,11 +47,16 @@ namespace GrandLarceny
 					//Colliding with ze floor
 					if ((int)t_player.getLastPosition().Y + t_player.getHitBox().getOutBox().Height <= (int)getLastPosition().Y && t_player.getCurrentState() != Player.State.Hanging)
 					{
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
+						}
 						m_playerOn = 0.2f;
 						t_player.setNextPositionY(getPosition().getGlobalY() - t_player.getHitBox().getOutBox().Height);
 						t_player.setSpeedY(0);
 						if (t_player.getCurrentState() == Player.State.Jumping || t_player.getCurrentState() == Player.State.Climbing
-							|| t_player.getCurrentState() == Player.State.Slide)
+							|| t_player.getCurrentState() == Player.State.Slide || t_player.getCurrentState() == Player.State.Swinging)
 						{
 							if (t_player.getSpeed().X == 0)
 							{
@@ -69,24 +74,47 @@ namespace GrandLarceny
 					//Colliding with ze zeeling
 					else if ((int)t_player.getLastPosition().Y + ((CollisionRectangle)t_player.getHitBox()).m_yOffset >= (int)getLastPosition().Y + getHitBox().getOutBox().Height)
 					{
-						t_player.setNextPositionY(getPosition().getGlobalY() + getHitBox().getOutBox().Height);
-						t_player.setSpeedY(0);
-						return;
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
+						}
+						else
+						{
+							t_player.setNextPositionY(getPosition().getGlobalY() + getHitBox().getOutBox().Height);
+							t_player.setSpeedY(0);
+							return;
+						}
 					}
 					//Colliding with ze left wall
 					else if (t_player.getPosition().getGlobalX() + (t_player.getHitBox().getOutBox().Width/2) > m_position.getGlobalX() + (m_collisionShape.getOutBox().Width/2))
 					{
-						t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
-						t_player.setSpeedX(0);
-						t_player.hang(this);
-
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
+						}
+						else
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
+							t_player.setSpeedX(0);
+							t_player.hang(this);
+						}
 					}
 					//Colliding with ze right wall
 					else if (t_player.getPosition().getGlobalX() + (t_player.getHitBox().getOutBox().Width / 2) < m_position.getGlobalX() + (m_collisionShape.getOutBox().Width / 2))
 					{
-						t_player.setNextPositionX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
-						t_player.setSpeedX(0);
-						t_player.hang(this);
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
+						}
+						else
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
+							t_player.setSpeedX(0);
+							t_player.hang(this);
+						}
 					}
 					//t_player.hang(this);
 				}
