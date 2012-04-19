@@ -23,6 +23,7 @@ namespace GrandLarceny
 		private const float CHASINGANIMATIONSPEED = CHASINGSPEED / 25;
 		private const float TURNANIMATIONSPEED = 10f;
 		private const float TURNQUICKANIMATIONSPEED = 50f;
+		private const float PICKUPSPEED = 10f;
 
 		[NonSerialized]
         private Entity m_chaseTarget = null;
@@ -346,6 +347,7 @@ namespace GrandLarceny
 					{
 						Game.getInstance().getState().addObject(new Particle(new Vector2(m_position.getGlobalX() - 22, m_position.getGlobalY() - 10), "Images//Sprite//Guard//qmark", 10f, m_layer));
 					}
+					m_img.setAnimationSpeed(PICKUPSPEED);
 				}
 				else
 				{
