@@ -171,16 +171,16 @@ namespace GrandLarceny
 			if (Game.keyClicked(Keys.I)) {
 				Game.getInstance().m_camera.printInfo();
 			}
-			else if (Game.isKeyPressed(Keys.Q))
+			else if (Game.keyClicked(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
-			else if (Game.isKeyPressed(Keys.F5))
+			else if (Game.keyClicked(Keys.F5))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
 			}
-			else if (Game.isKeyPressed(Keys.M))
+			else if (Game.keyClicked(Keys.M))
 			{
 				Game.getInstance().setState(new MapState(this));
 			}

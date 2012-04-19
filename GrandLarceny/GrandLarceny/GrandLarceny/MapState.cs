@@ -60,7 +60,7 @@ namespace GrandLarceny
 		}
 		public override void update(Microsoft.Xna.Framework.GameTime a_gameTime)
 		{
-			if (Game.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
+			if (Game.keyClicked(Microsoft.Xna.Framework.Input.Keys.M))
 			{
 				Game.getInstance().setState(m_backState);
 			}
