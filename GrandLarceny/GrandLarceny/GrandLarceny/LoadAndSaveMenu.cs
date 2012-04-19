@@ -130,14 +130,23 @@ namespace GrandLarceny
 
 		public void saveProgressClick(Button a_b)
 		{
-			if (!Directory.Exists("Content//levels//" + a_b.getText()))
+			int t_index = 4;
+			for (int i = 0; i < 3; ++i)
+			{
+				if (m_buttons.ElementAt(i) == a_b)
+				{
+					t_index = i+1;
+				}
+			}
+
+			if (!File.Exists("Content//levels//Slot "+t_index+".prog"))
 			{
 				m_newSaveName.getPosition().setGlobalX(a_b.getPosition().getGlobalX());
 				m_newSaveName.getPosition().setGlobalY(a_b.getPosition().getGlobalY());
 				m_newSaveName.setVisible(true);
 				m_newSaveName.setText("Enter the name");
 				m_newSaveName.setWrite(true);
-				m_saveTo = a_b.getText() + ".prog";
+				m_saveTo = "Slot "+(t_index+1)+".prog";
 			}
 			else
 			{
