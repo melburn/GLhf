@@ -32,6 +32,18 @@ namespace GrandLarceny
 				t_colors[i] = new Color(0,0,i / t_colors.Length);
 			}
 			m_map.SetData(t_colors);
+			foreach(GameObject f_go in m_backState.getObjectList()[Game.getInstance().m_camera.getLayer()])
+			{
+				if (f_go is Entity && !((Entity)f_go).isTransparent())
+				{
+					addRectangle(((Entity)f_go).getBox());
+				}
+			}
+		}
+
+		private void addRectangle(Rectangle a_rectangle)
+		{
+			//for(int y = (int)Math.Floor(a_rectangle.Y / 36f); y < (int)Math.Ceiling((a_rectangle.Y + a_rectangle.Height) / 
 		}
 		public override void update(Microsoft.Xna.Framework.GameTime a_gameTime)
 		{
