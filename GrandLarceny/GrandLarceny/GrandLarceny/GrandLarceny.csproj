@@ -150,6 +150,7 @@
     <Compile Include="HubMenu.cs" />
     <Compile Include="LoadAndSaveMenu.cs" />
     <Compile Include="LockedDoor.cs" />
+    <Compile Include="MapState.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />
