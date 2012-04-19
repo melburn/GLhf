@@ -20,30 +20,43 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
-			m_map = new Texture2D(Game.getInstance().GraphicsDevice, ((int)(Game.getInstance().getResolution().X)) - 40, ((int)(Game.getInstance().getResolution().Y)) - 40, false, SurfaceFormat.Color);
 			setMapTexture();
 		}
 
 		private void setMapTexture()
 		{
+			int t_width = ((int)(Game.getInstance().getResolution().X)) - 40;
+			m_map = new Texture2D(Game.getInstance().GraphicsDevice, t_width, ((int)(Game.getInstance().getResolution().Y)) - 40, false, SurfaceFormat.Color);
 			Color[] t_colors = new Color[m_map.Width * m_map.Height];
 			for (int i = 0; i < t_colors.Length; ++i)
 			{
 				t_colors[i] = new Color(0,0,i / t_colors.Length);
 			}
-			m_map.SetData(t_colors);
 			foreach(GameObject f_go in m_backState.getObjectList()[Game.getInstance().m_camera.getLayer()])
 			{
 				if (f_go is Entity && !((Entity)f_go).isTransparent())
 				{
-					addRectangle(((Entity)f_go).getBox());
+					addRectangle(((Entity)f_go).getBox(), Color.White, t_colors, t_width);
 				}
 			}
+			m_map.SetData(t_colors);
 		}
 
-		private void addRectangle(Rectangle a_rectangle)
+		private void addRectangle(Rectangle a_rectangle, Color a_color, Color[] a_oldArray, int a_width)
 		{
-			//for(int y = (int)Math.Floor(a_rectangle.Y / 36f); y < (int)Math.Ceiling((a_rectangle.Y + a_rectangle.Height) / 
+			for(int y = (int)Math.Floor(((float)(a_rectangle.Y)) / 36f); y < (int)Math.Ceiling(((float)(a_rectangle.Y + a_rectangle.Height)) / 36f); ++y)
+			{
+				if (y >= 0 && y < a_oldArray.Length / a_width)
+				{
+					for (int x = (int)Math.Floor(((float)(a_rectangle.X)) / 36f); x < (int)Math.Ceiling(((float)(a_rectangle.X + a_rectangle.Width)) / 36f); ++x)
+					{
+						if (x > 0 && x < a_width)
+						{
+							a_oldArray[y * a_width + x] = a_color;
+						}
+					}
+				}
+			}
 		}
 		public override void update(Microsoft.Xna.Framework.GameTime a_gameTime)
 		{
