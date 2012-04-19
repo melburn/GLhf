@@ -872,14 +872,14 @@ namespace GrandLarceny
 			{
 				if (Game.isKeyPressed(GameState.getRightKey()))
 				{
-					if (m_swingSpeed > -MAXSWINGSPEED && !((m_rotate < Math.PI/2 || m_rotate > Math.PI * 1.5f) && m_swingSpeed <= 0 && m_swingSpeed >= -0.1f))
+					if (m_swingSpeed > -MAXSWINGSPEED && !((m_rotate < Math.PI/2 || m_rotate > Math.PI * 1.5f) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f))
 					{
 						m_swingSpeed -= (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
 				else if (Game.isKeyPressed(GameState.getLeftKey()))
 				{
-					if (m_swingSpeed < MAXSWINGSPEED && !((m_rotate > Math.PI / 2 || m_rotate < Math.PI * 1.5f) && m_swingSpeed >= 0 && m_swingSpeed <= 0.1f))
+					if (m_swingSpeed < MAXSWINGSPEED && !((m_rotate > Math.PI / 2 || m_rotate < Math.PI * 1.5f) && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f))
 					{
 						m_swingSpeed += (500 * a_deltaTime) / m_position.getLength();
 					}
@@ -998,6 +998,11 @@ namespace GrandLarceny
 				case State.Ventilation:
 					{
 						setSprite(m_currentVentilationImage);
+						if (m_currentVentilation != null)
+						{
+							m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
+							m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
+						}
 						break;
 					}
 				case State.Swinging:
