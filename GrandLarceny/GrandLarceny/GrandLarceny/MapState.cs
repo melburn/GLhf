@@ -33,20 +33,24 @@ namespace GrandLarceny
 			Color[] t_colors = new Color[m_map.Width * m_map.Height];
 			for (int i = 0; i < t_colors.Length; ++i)
 			{
-				t_colors[i] = new Color(0,0,((float)i) / ((float)(t_colors.Length)));
+				t_colors[i] = Color.Lerp(Color.LightBlue, Color.Blue, ((float)i) / ((float)t_colors.Length));
 			}
 			m_topLeftPoint = Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates()  - (((Game.getInstance().getResolution() / 2f) - new Vector2(20)) * Game.getInstance().m_camera.getZoom());
 			foreach(GameObject f_go in m_backState.getObjectList()[Game.getInstance().m_camera.getLayer()])
 			{
 				if (f_go is Entity && !((Entity)f_go).isTransparent())
 				{
-					addRectangle(((Entity)f_go).getBox(), Color.White, t_colors, t_width);
+					addRectangle(((Entity)f_go).getHitBox().getOutBox(), true, t_colors, t_width);
+				}
+				else if(f_go is Environment)
+				{
+					addRectangle(f_go.getBox(), false, t_colors, t_width);
 				}
 			}
 			m_map.SetData(t_colors);
 		}
 
-		private void addRectangle(Rectangle a_rectangle, Color a_color, Color[] a_oldArray, int a_width)
+		private void addRectangle(Rectangle a_rectangle, Boolean a_white, Color[] a_oldArray, int a_width)
 		{
 			for (int y = (int)(Math.Floor(((float)(a_rectangle.Y)) / m_zoom) - m_topLeftPoint.Y); y < (int)(Math.Ceiling(((float)(a_rectangle.Y + a_rectangle.Height)) / m_zoom) - m_topLeftPoint.Y); ++y)
 			{
@@ -56,7 +60,14 @@ namespace GrandLarceny
 					{
 						if (x > 0 && x < a_width)
 						{
-							a_oldArray[y * a_width + x] = a_color;
+							if (a_white)
+							{
+								a_oldArray[y * a_width + x] = Color.White;
+							}
+							else if(a_oldArray[y * a_width + x] != Color.White)
+							{
+								a_oldArray[y * a_width + x] = new Color(160,160,255);
+							}
 						}
 					}
 				}
