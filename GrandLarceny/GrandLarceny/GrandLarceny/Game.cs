@@ -135,7 +135,7 @@ namespace GrandLarceny
 
 			if (keyClicked(Keys.F7)) //Asså det här är ju inte ok
 			{
-				m_nextState = new MainMenu();
+				m_nextState = new HubMenu();
 			}
 
 			m_previousMouse = m_currentMouse;

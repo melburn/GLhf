@@ -87,5 +87,10 @@ namespace GrandLarceny
 		{
 			m_userName = a_userName;
 		}
+
+		public string getUserName()
+		{
+			return m_userName;
+		}
 	}
 }

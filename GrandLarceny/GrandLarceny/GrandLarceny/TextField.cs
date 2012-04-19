@@ -101,6 +101,11 @@ namespace GrandLarceny
 		{
 			m_writing = a_active;
 		}
+
+		public bool isVisible()
+		{
+			return m_visible;
+		}
 		#endregion
 
 		#region Update & Draw
