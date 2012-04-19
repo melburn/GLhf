@@ -1496,6 +1496,7 @@ namespace GrandLarceny
 		{
 			base.changePositionType();
 			Game.getInstance().m_camera.getPosition().setParentPositionWithoutMoving(m_position);
+			m_interactionArrow.getPosition().setParentPosition(m_position);
 			m_standHitBox.setPosition(m_position);
 			m_rollHitBox.setPosition(m_position);
 			m_SlideBox.setPosition(m_position);
