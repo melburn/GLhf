@@ -152,7 +152,7 @@ namespace GrandLarceny
 			if (a_collid is Player)
 			{
 				Player t_player = (Player)a_collid;
-				if (t_player.getRope() != this && t_player.getHitBox().collides(m_collisionShape))
+				if (t_player.getRope() != this && t_player.getHitBox().collides(m_collisionShape) && !(t_player.getPosition() is PolarCoordinate))
 				{
 					t_player.setState(Player.State.Swinging);
 					if (!(Vector2.Distance(t_player.getPosition().getGlobalCartesianCoordinates(), m_line.getStartPoint().getGlobalCartesianCoordinates())
