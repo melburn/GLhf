@@ -51,7 +51,7 @@ namespace GrandLarceny
 				t_button.m_clickEvent += new Button.clickDelegate(startLevelClick);
 			}
 
-			Button t_saveProgressButton = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 400), "New Game", "VerdanaBold", Color.White, new Vector2(10, 0));
+			Button t_saveProgressButton = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 400), "Save Game", "VerdanaBold", Color.White, new Vector2(10, 0));
 			t_saveProgressButton.m_clickEvent += new Button.clickDelegate(saveProgressClick);
 			m_buttons.AddLast(t_saveProgressButton);
 		}
