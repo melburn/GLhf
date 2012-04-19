@@ -582,12 +582,12 @@ namespace GrandLarceny
 					if (m_facingRight)
 					{
 						m_facingRight = false;
-						m_speed.X -= PLAYERSPEED * 2f;
+						m_speed.X -= PLAYERSPEEDCHASEMODE * 2f;
 					}
 					else
 					{
 						m_facingRight = true;
-						m_speed.X += PLAYERSPEED * 2f;
+						m_speed.X += PLAYERSPEEDCHASEMODE * 2f;
 					}
 				}
 				else
@@ -658,11 +658,11 @@ namespace GrandLarceny
 				}
 				else
 				{
-					m_speed.Y = -JUMPSTRENGTH;
+					m_speed.Y = -(JUMPSTRENGTH-70);
 					if (!m_facingRight)
-						m_speed.X += JUMPSTRENGTH;
+						m_speed.X += PLAYERSPEEDCHASEMODE * 2f;
 					else
-						m_speed.X -= JUMPSTRENGTH;
+						m_speed.X -= PLAYERSPEEDCHASEMODE * 2f;
 					m_currentState = State.Jumping;
 				}
 			}
