@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public abstract class Consumable : NonMovingObject
 	{
 		public Consumable(Vector2 a_position, String a_sprite, float a_layer)
