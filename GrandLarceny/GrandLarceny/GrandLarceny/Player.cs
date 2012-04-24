@@ -582,12 +582,12 @@ namespace GrandLarceny
 					if (m_facingRight)
 					{
 						m_facingRight = false;
-						m_speed.X -= PLAYERSPEEDCHASEMODE * 2f;
+						m_speed.X -= PLAYERSPEEDCHASEMODE * 1.5f;
 					}
 					else
 					{
 						m_facingRight = true;
-						m_speed.X += PLAYERSPEEDCHASEMODE * 2f;
+						m_speed.X += PLAYERSPEEDCHASEMODE * 1.5f;
 					}
 				}
 				else
@@ -660,9 +660,9 @@ namespace GrandLarceny
 				{
 					m_speed.Y = -(JUMPSTRENGTH-70);
 					if (!m_facingRight)
-						m_speed.X += PLAYERSPEEDCHASEMODE * 2f;
+						m_speed.X += PLAYERSPEEDCHASEMODE * 1.5f;
 					else
-						m_speed.X -= PLAYERSPEEDCHASEMODE * 2f;
+						m_speed.X -= PLAYERSPEEDCHASEMODE * 1.5f;
 					m_currentState = State.Jumping;
 				}
 			}
@@ -872,14 +872,14 @@ namespace GrandLarceny
 			{
 				if (Game.isKeyPressed(GameState.getRightKey()))
 				{
-					if (m_swingSpeed > -MAXSWINGSPEED && !((m_rotate < Math.PI/2 || m_rotate > Math.PI * 1.5f) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f))
+					if (m_swingSpeed > -MAXSWINGSPEED && !((m_rotate < Math.PI && m_rotate != 0) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f))
 					{
 						m_swingSpeed -= (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
 				else if (Game.isKeyPressed(GameState.getLeftKey()))
 				{
-					if (m_swingSpeed < MAXSWINGSPEED && !((m_rotate > Math.PI / 2 || m_rotate < Math.PI * 1.5f) && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f))
+					if (m_swingSpeed < MAXSWINGSPEED && !(m_rotate > Math.PI && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f))
 					{
 						m_swingSpeed += (500 * a_deltaTime) / m_position.getLength();
 					}
@@ -933,7 +933,6 @@ namespace GrandLarceny
 					t_inputForce.X -= 200;
 				}
 				m_speed = new Vector2(t_force * (float)Math.Cos(m_rotate + Math.PI), t_force * (float)Math.Sin(m_rotate + Math.PI)) + t_inputForce;
-				changePositionType();
 				m_currentState = State.Jumping;
 			}
 		}
@@ -1089,9 +1088,10 @@ namespace GrandLarceny
 						m_collisionShape = m_rollHitBox;
 					}
 				}
-				if (m_lastState == State.Jumping && m_currentState != State.Swinging)
+				if (m_lastState != State.Swinging && m_currentState != State.Swinging)
 				{
-					m_rope = null;
+					if(m_rope != null && !m_rope.getHitBox().collides(m_collisionShape))
+						m_rope = null;
 				}
 				if (m_currentState == State.Swinging)
 				{
@@ -1104,12 +1104,13 @@ namespace GrandLarceny
 					m_imgOffsetX = 0;
 					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_rotationPoint.Y = m_img.getSize().Y / 2;
+					changePositionType();
 					m_position.setParentPositionWithoutMoving(null);
 					m_rotate = 0;
 					m_rope.resetPosition();
 					m_swingSpeed = 0;
-					if(!m_facingRight)
-						m_position.setGlobalX(m_position.getGlobalX() - 36);
+					m_position.setGlobalX(m_position.getGlobalX() - 36);
+					Game.getInstance().m_camera.getPosition().setGlobalX(Game.getInstance().m_camera.getPosition().getGlobalX() + 36);
 				}
 			}
 		}
