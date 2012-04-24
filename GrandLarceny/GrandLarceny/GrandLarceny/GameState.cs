@@ -231,8 +231,9 @@ namespace GrandLarceny
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
 						((Entity)t_firstGameObject).updatePosition();
 					} else {
-						if (t_firstGameObject is Entity || t_firstGameObject is Guard) {
+						if (t_firstGameObject is Entity) {
 							((Entity)t_firstGameObject).setGravity(0.0f);
+							((Entity)t_firstGameObject).setSpeedY(0.0f);
 						}
 					}
 
