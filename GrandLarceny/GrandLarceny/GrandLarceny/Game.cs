@@ -123,14 +123,14 @@ namespace GrandLarceny
 
 			if (m_currentState != null)
 			{
-				try
-				{
+				//try
+				//{
 					m_currentState.update(a_gameTime);
-				}
-				catch (Exception e)
-				{
-					ErrorLogger.getInstance().writeString("While updating " + m_currentState + " got exception: " + e);
-				}
+				//}
+				//catch (Exception e)
+				//{
+					//ErrorLogger.getInstance().writeString("While updating " + m_currentState + " got exception: " + e);
+				//}
 			}
 
 			if (keyClicked(Keys.F7)) //Asså det här är ju inte ok

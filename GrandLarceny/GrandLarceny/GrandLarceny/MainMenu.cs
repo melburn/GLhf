@@ -90,11 +90,13 @@ namespace GrandLarceny
 		{
 			Game.getInstance().Exit();
 		}
+
 		public void newGameClick(Button a_b)
 		{
 			Game.getInstance().setState(new HubMenu());
 			Game.getInstance().setProgress("temp.prog");
 		}
+
 		public void loadGameClick(Button a_b)
 		{
 			Game.getInstance().setState(new LoadAndSaveMenu(false, this));

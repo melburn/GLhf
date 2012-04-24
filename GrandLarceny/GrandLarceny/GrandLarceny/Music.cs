@@ -12,7 +12,8 @@ namespace GrandLarceny
 		private string m_filepath;
 		private Song m_music;
 
-		public Music(string a_filepath) {
+		public Music(string a_filepath)
+		{
 			m_filepath = a_filepath;
 			loadContent();
 		}
@@ -22,18 +23,24 @@ namespace GrandLarceny
 			m_music = Game.getInstance().Content.Load<Song>("Sounds//Music//" + m_filepath);		
 		}
 
-		public void play() {
+		public void play()
+		{
 			MediaPlayer.Play(m_music);
 		}
 
-		public static void stop() {
+		public static void stop()
+		{
 			MediaPlayer.Stop();
 		}
 
-		public static void togglePause() {
-			if (MediaPlayer.State == MediaState.Paused) {
+		public static void togglePause()
+		{
+			if (MediaPlayer.State == MediaState.Paused)
+			{
 				MediaPlayer.Resume();
-			} else {			
+			}
+			else
+			{
 				MediaPlayer.Pause();
 			}
 		}
