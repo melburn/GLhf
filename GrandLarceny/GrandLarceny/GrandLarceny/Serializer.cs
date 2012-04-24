@@ -27,6 +27,22 @@ namespace GrandLarceny
 			return m_instance;
 		}
 
+		public FileStream getFileToStream(string a_fileName, bool a_willCreate)
+		{
+			FileStream t_file;
+			if (a_willCreate)
+			{
+				t_file = File.Open("Content//Levels//" + a_fileName, FileMode.Create);
+			}
+			else
+			{
+				t_file = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
+			}
+
+			return t_file;
+
+		}
+
 		public void SaveLevel(string a_fileName, Level a_save)
 		{
 			GameObject.resetGameObjectId();
@@ -360,6 +376,13 @@ namespace GrandLarceny
 			}
 
 			return t_progg;
+		}
+
+		public void saveCheckPoint(MemoryStream a_checkPoint)
+		{
+			a_checkPoint = new MemoryStream();
+			
+			
 		}
 	}
 }

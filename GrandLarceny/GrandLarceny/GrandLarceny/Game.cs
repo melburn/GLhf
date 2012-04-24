@@ -34,6 +34,8 @@ namespace GrandLarceny
 		public Progress m_nextProgress;
 		private GameTime m_currentGameTime;
 
+		private MemoryStream m_checkPoint;
+
 		public static Game getInstance()
 		{
 			if (m_myGame != null)
@@ -267,6 +269,16 @@ namespace GrandLarceny
 		public TimeSpan getGameTime() 
 		{
 			return m_currentGameTime.TotalGameTime;
+		}
+
+		public bool hasCheckPoint()
+		{
+			return m_checkPoint != null;
+		}
+
+		public MemoryStream getCheckPoint()
+		{
+			return m_checkPoint;
 		}
 	}
 }
