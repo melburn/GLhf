@@ -108,6 +108,12 @@ namespace GrandLarceny
 			t_state.addObject(new VentilationDrum(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
+		public static void createVentEnd(Vector2 a_position, string a_asset)
+		{
+			States t_state = Game.getInstance().getState();
+			t_state.addObject(new VentilationEnd(a_position, a_asset, 0.700f));
+		}
+
 		public static void createForeground(Vector2 a_position, string a_asset)
 		{
 			States t_state = Game.getInstance().getState();
