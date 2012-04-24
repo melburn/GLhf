@@ -94,7 +94,7 @@ namespace GrandLarceny
 		public void newGameClick(Button a_b)
 		{
 			Game.getInstance().setState(new HubMenu());
-			Game.getInstance().setProgress("temp.prog");
+			Game.getInstance().setProgress("temp.prog", false);
 		}
 
 		public void loadGameClick(Button a_b)

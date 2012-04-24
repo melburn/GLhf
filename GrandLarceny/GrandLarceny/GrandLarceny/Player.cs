@@ -205,6 +205,11 @@ namespace GrandLarceny
 			if (!m_stunned)
 			{
 				changeAnimation();
+				
+				if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
+				{
+					toggleRunMode();
+				}
 
 				switch (m_currentState)
 				{
@@ -410,10 +415,6 @@ namespace GrandLarceny
 			{
 				toggleRunMode();
 			}
-			else if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
-			{
-				toggleRunMode();
-			}
 
 			if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
 			{
@@ -476,6 +477,7 @@ namespace GrandLarceny
 
 		private void updateJumping(float a_deltaTime)
 		{
+			
 			if (Game.keyClicked(GameState.getRollKey()))
 			{
 				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesianCoordinates(), null, 0.100f);

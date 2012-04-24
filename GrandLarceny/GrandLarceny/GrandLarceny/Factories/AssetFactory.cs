@@ -163,6 +163,18 @@ namespace GrandLarceny
 			}
 		}
 
+		public static void createKey(Vector2 a_position, string a_asset)
+		{
+			States t_state = Game.getInstance().getState();
+			t_state.addObject(new ConsumableKey(a_position, a_asset, 0.250f));
+		}
+
+		public static void createHeart(Vector2 a_position, string a_asset)
+		{
+			States t_state = Game.getInstance().getState();
+			t_state.addObject(new ConsumableHeart(a_position, a_asset, 0.250f));
+		}
+
 		public static void copyAsset(GameObject a_asset)
 		{
 			States t_state = Game.getInstance().getState();

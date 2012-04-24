@@ -21,6 +21,7 @@ namespace GrandLarceny
 		private LinkedList<Button> m_ventButtons;
 		private LinkedList<Button> m_guardButtons;
 		private LinkedList<Button> m_hideButtons;
+		private LinkedList<Button> m_collButtons;
 
 		private LinkedList<Button> m_assetButtonList;
 		private LinkedList<Button> m_layerButtonList;
@@ -100,6 +101,14 @@ namespace GrandLarceny
 		private Button m_btnGuardHotkey;
 		private Button m_btnDogHotkey;
 		private Button m_btnCameraHotkey;
+		
+		/*
+		-----------------------------------
+		Guard buttons
+		-----------------------------------
+		*/
+		private Button m_btnCollHotkey;
+		private Button m_btnHeartHotkey;
 
 		private Line m_dragLine = null;
 
@@ -119,13 +128,14 @@ namespace GrandLarceny
 			Ventilation,	Camera,		CrossVent,		TVent,
 			StraVent,		CornerVent, Ventrance,		Window,
 			DuckHidingObject,		StandHidingObject,	Rope,
-			SecDoor,		CornerHang,	Checkpoint,		Prop
+			SecDoor,		CornerHang,	Checkpoint,		Prop,
+			Heart,			Key
 		}
 
 		private MenuState m_menuState;
 		private enum MenuState {
 			Ventilation,	Guard,		Hide,		Inactive,
-			Normal
+			Normal,			Collectible
 		}
 		#endregion
 
@@ -172,6 +182,7 @@ namespace GrandLarceny
 			m_buttonList.AddLast(m_guardButtons		= new LinkedList<Button>());
 			m_buttonList.AddLast(m_hideButtons		= new LinkedList<Button>());
 			m_buttonList.AddLast(m_assetButtonList	= new LinkedList<Button>());
+			m_buttonList.AddLast(m_collButtons		= new LinkedList<Button>());
 
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
@@ -233,6 +244,7 @@ namespace GrandLarceny
 			m_staticButton.AddLast(m_btnCornerHangHotkey	= new Button(null,										new Vector2(0, 32 * m_staticButton.Count()), "Shift+W", "VerdanaBold", Color.Black, t_btnTextOffset));
 			m_staticButton.AddLast(m_btnCheckPointHotkey	= new Button(null,										new Vector2(0, 32 * m_staticButton.Count()), "K", "VerdanaBold", Color.Black, t_btnTextOffset));
 			m_staticButton.AddLast(m_btnPropHotkey			= new Button(null,										new Vector2(0, 32 * m_staticButton.Count()), "C", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_staticButton.AddLast(m_btnCollHotkey			= new Button(null,										new Vector2(0, 32 * m_staticButton.Count()), "Z", "VerdanaBold", Color.Black, t_btnTextOffset));
 
 			foreach (Button t_button in m_staticButton) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -288,6 +300,20 @@ namespace GrandLarceny
 				t_guardMenu + new Vector2(m_guardButtons.Count * 32, 0), "C", "VerdanaBold", Color.Black, t_btnTextOffset));
 
 			foreach (Button t_button in m_guardButtons) {
+				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
+				t_button.setDownSound("button");
+			}
+			
+			/*
+			-----------------------------------
+			Collectible object buttons
+			-----------------------------------
+			*/
+
+			Vector2 t_collMenu = new Vector2(m_btnCollHotkey.getBox().X + 32, m_btnCollHotkey.getBox().Y);
+			m_collButtons.AddLast(m_btnHeartHotkey = new Button(null, t_collMenu + new Vector2(m_collButtons.Count * 32, 0), "?", "VerdanaBold", Color.Black, t_btnTextOffset));
+
+			foreach (Button t_button in m_collButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
 				t_button.setDownSound("button");
 			}
@@ -365,6 +391,11 @@ namespace GrandLarceny
 					break;
 				case MenuState.Ventilation:
 					foreach (Button t_button in m_ventButtons) {
+						t_button.update();
+					}
+					break;
+				case MenuState.Collectible:
+					foreach (Button t_button in m_collButtons) {
 						t_button.update();
 					}
 					break;
@@ -467,6 +498,11 @@ namespace GrandLarceny
 						setBuildingState(State.Prop);
 						return;
 					}
+					if (a_button == m_btnCollHotkey) {
+						m_menuState = MenuState.Collectible;
+						setBuildingState(State.None);
+						return;
+					}
 					if (a_button == m_btnVentHotkey) {
 						m_menuState = MenuState.Ventilation;
 						setBuildingState(State.None);
@@ -530,6 +566,18 @@ namespace GrandLarceny
 					}
 					if (a_button == m_btnStraVentHotkey) {
 						setBuildingState(State.StraVent);
+						return;
+					}
+					m_menuState = MenuState.Normal;
+					guiButtonClick(a_button);
+					break;
+				case MenuState.Collectible:
+					if (a_button == m_btnCollHotkey) {
+						setBuildingState(State.Key);
+						return;
+					}
+					if (a_button == m_btnHeartHotkey) {
+						setBuildingState(State.Heart);
 						return;
 					}
 					m_menuState = MenuState.Normal;
@@ -703,11 +751,11 @@ namespace GrandLarceny
 					Level t_saveLevel = new Level();
 					t_saveLevel.setLevelObjects(m_gameObjectList);
 					t_saveLevel.setEvents(m_events);
-					Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
+					Serializer.getInstance().SaveLevel(Serializer.getInstance().getFileToStream(m_levelToLoad, true), t_saveLevel);
 
 				}
 				if (Game.keyClicked(Keys.O)) {
-					Level t_newLevel = Serializer.getInstance().loadLevel(m_levelToLoad);
+					Level t_newLevel = Serializer.getInstance().loadLevel(Serializer.getInstance().getFileToStream(m_levelToLoad, false));
 					m_gameObjectList = t_newLevel.getGameObjects();
 					foreach (LinkedList<GameObject> t_arr in m_gameObjectList) {
 						foreach (GameObject f_gb in t_arr) {
@@ -722,6 +770,9 @@ namespace GrandLarceny
 					if (m_copyTarget != null) {
 						AssetFactory.copyAsset(m_copyTarget);
 					}
+				}
+				if (Game.keyClicked(Keys.N) && m_selectedObject != null) {
+					((Window)m_selectedObject).toggleOpen();
 				}
 			} else if (shiftMod()) {
 				switch (m_menuState) {
@@ -970,7 +1021,13 @@ namespace GrandLarceny
 								break;
 							case State.Checkpoint:
 								AssetFactory.createCheckPoint(m_worldMouse);
-								break;									
+								break;
+							case State.Key:
+								AssetFactory.createKey(m_worldMouse, m_objectPreview.getImg().getImagePath());
+								break;
+							case State.Heart:
+								AssetFactory.createHeart(m_worldMouse, m_objectPreview.getImg().getImagePath());
+								break;				
 						}
 						return;
 					}
@@ -1316,6 +1373,16 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Prop//Clutter//");
 					m_btnPropHotkey.setState(3);
 					break;
+				case State.Key:
+					createAssetList(null);
+					m_btnCollHotkey.setState(3);
+					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
+					break;
+				case State.Heart:
+					createAssetList(null);
+					m_btnHeartHotkey.setState(3);
+					m_objectPreview = new Platform(m_worldMouse, "Images//GUI//GameGUI//health", 0.000f);
+					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)
 			{
@@ -1496,6 +1563,11 @@ namespace GrandLarceny
 						break;
 					case MenuState.Ventilation:
 						foreach (Button t_button in m_ventButtons) {
+							t_button.draw(a_gameTime, a_spriteBatch);
+						}
+						break;
+					case MenuState.Collectible:
+						foreach (Button t_button in m_collButtons) {
 							t_button.draw(a_gameTime, a_spriteBatch);
 						}
 						break;

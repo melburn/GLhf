@@ -8,7 +8,6 @@ using GrandLarceny.Events;
 
 namespace GrandLarceny
 {
-	//[Serializable]
 	class Level
 	{
 		private LinkedList<GameObject>[] m_loadedList;

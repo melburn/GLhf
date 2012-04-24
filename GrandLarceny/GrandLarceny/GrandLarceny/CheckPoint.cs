@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace GrandLarceny
 {
@@ -25,8 +26,9 @@ namespace GrandLarceny
 						Level tLevel = new Level();
 						tLevel.setLevelObjects(Game.getInstance().getState().getObjectList());
 						tLevel.setEvents(((GameState)Game.getInstance().getState()).getEvents());
-						Serializer.getInstance().SaveLevel("Checkpoint.lvl", tLevel);
-						Serializer.getInstance().saveGame("Checkpoint.prog", Game.getInstance().getProgress());
+
+						Serializer.getInstance().SaveLevel(Game.getInstance().getCheckPointLevel(true), tLevel);
+						Serializer.getInstance().saveGame(Game.getInstance().getCheckPointProgress(true), Game.getInstance().getProgress());
 					}
 					else
 					{

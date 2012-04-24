@@ -13,10 +13,13 @@ namespace GrandLarceny
 {
 	public class GameState : States
 	{
+		private LinkedList<Environment> m_unexplored;
+
 		private Stack<GameObject>[] m_removeList;
 		private Stack<GameObject>[] m_addList;
 		private LinkedList<Event> m_events;
 		private string m_currentLevel;
+		private bool m_loadCheckpoint;
 		private int m_currentList;
 		private static Keys m_upKey;
 		private static Keys m_downKey;
@@ -40,10 +43,23 @@ namespace GrandLarceny
 			m_currentLevel = a_levelToLoad;
 		}
 
+		public GameState(string a_levelToLoad, bool a_checkpoint)
+		{
+			m_currentLevel = a_levelToLoad;
+			m_loadCheckpoint = true;
+		}
+
 		public override void load()
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
-			if (File.Exists("Content\\levels\\" + m_currentLevel))
+			if (m_loadCheckpoint)
+			{
+				Level t_loadedLevel = Loader.getInstance().loadCheckPoint();
+
+				m_gameObjectList = t_loadedLevel.getGameObjects();
+				m_events = t_loadedLevel.getEvents();
+			}
+			else if (File.Exists("Content\\levels\\" + m_currentLevel))
 			{
 				Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
 
@@ -126,6 +142,8 @@ namespace GrandLarceny
 				m_addList[i] = new Stack<GameObject>();
 			}
 
+			m_unexplored = new LinkedList<Environment>();
+
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
 				foreach (GameObject t_go in t_ll)
@@ -135,6 +153,10 @@ namespace GrandLarceny
 					if (t_go is Player)
 					{
 						Game.getInstance().getState().setPlayer((Player)t_go);
+					}
+					else if(t_go is Environment && !((Environment)t_go).isExplored() )
+					{
+						m_unexplored.AddLast((Environment)t_go);
 					}
 				}
 			}
@@ -223,8 +245,9 @@ namespace GrandLarceny
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
 						((Entity)t_firstGameObject).updatePosition();
 					} else {
-						if (t_firstGameObject is Entity || t_firstGameObject is Guard) {
+						if (t_firstGameObject is Entity) {
 							((Entity)t_firstGameObject).setGravity(0.0f);
+							((Entity)t_firstGameObject).setSpeedY(0.0f);
 						}
 					}
 
@@ -261,6 +284,21 @@ namespace GrandLarceny
 						ErrorLogger.getInstance().writeString("While updating " + t_eventNode.Value + " got exception: " + e);
 					}
 					t_eventNode = t_next;
+				}
+
+				if (player != null)
+				{
+					LinkedListNode<Environment> t_enviroNode = m_unexplored.First;
+					while (t_enviroNode != null)
+					{
+						LinkedListNode<Environment> t_next = t_enviroNode.Next;
+						if (t_enviroNode.Value.collidesWith(player))
+						{
+							t_enviroNode.Value.setExplored(true);
+							m_unexplored.Remove(t_enviroNode);
+						}
+						t_enviroNode = t_next;
+					}
 				}
 			}
 		}
