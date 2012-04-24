@@ -46,9 +46,11 @@ namespace GrandLarceny
 		[NonSerialized]
 		private CollisionRectangle m_rollHitBox;
 		[NonSerialized]
-		private CollisionRectangle m_SlideBox;
+		private CollisionRectangle m_slideBox;
 		[NonSerialized]
 		private CollisionRectangle m_hangHitBox;
+		[NonSerialized]
+		private CollisionRectangle m_swingHitBox;
 
 		private State m_currentState = State.Stop;
 		private State m_lastState = State.Stop;
@@ -145,8 +147,9 @@ namespace GrandLarceny
 			m_interactionArrow.getImg().setAnimationSpeed(20f);
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 72, m_position); // 67
-			m_SlideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
+			m_slideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
 			m_hangHitBox = new CollisionRectangle(0, 0, 70, 80, m_position);
+			m_swingHitBox = new CollisionRectangle(-36, 0, 70, 127, m_position);
 			m_collisionShape = m_standHitBox;
 			m_ventilationDirection = new List<Direction>();
 			m_upDownList = new List<Direction>();
@@ -202,6 +205,11 @@ namespace GrandLarceny
 			if (!m_stunned)
 			{
 				changeAnimation();
+				
+				if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
+				{
+					toggleRunMode();
+				}
 
 				switch (m_currentState)
 				{
@@ -346,7 +354,7 @@ namespace GrandLarceny
 					}
 					else if (m_stunnedState == State.Slide)
 					{
-						m_collisionShape = m_SlideBox;
+						m_collisionShape = m_slideBox;
 					}
 					else
 					{
@@ -404,10 +412,6 @@ namespace GrandLarceny
 			}
 
 			if (!m_chase && Game.isKeyPressed(GameState.getSprintKey()) && !m_runMode)
-			{
-				toggleRunMode();
-			}
-			else if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
 			{
 				toggleRunMode();
 			}
@@ -473,6 +477,7 @@ namespace GrandLarceny
 
 		private void updateJumping(float a_deltaTime)
 		{
+			
 			if (Game.keyClicked(GameState.getRollKey()))
 			{
 				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesianCoordinates(), null, 0.100f);
@@ -872,14 +877,14 @@ namespace GrandLarceny
 			{
 				if (Game.isKeyPressed(GameState.getRightKey()))
 				{
-					if (m_swingSpeed > -MAXSWINGSPEED && !((m_rotate < Math.PI && m_rotate != 0) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f))
+					if (m_swingSpeed > -MAXSWINGSPEED && !((m_rotate > Math.PI && m_rotate != 0) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f))
 					{
 						m_swingSpeed -= (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
 				else if (Game.isKeyPressed(GameState.getLeftKey()))
 				{
-					if (m_swingSpeed < MAXSWINGSPEED && !(m_rotate > Math.PI && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f))
+					if (m_swingSpeed < MAXSWINGSPEED && !(m_rotate < Math.PI && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f))
 					{
 						m_swingSpeed += (500 * a_deltaTime) / m_position.getLength();
 					}
@@ -1098,6 +1103,7 @@ namespace GrandLarceny
 					m_rotationPoint.Y = 0;
 					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_imgOffsetX = -m_img.getSize().X / 2;
+					m_collisionShape = m_swingHitBox;
 				}
 				else if (m_lastState == State.Swinging)
 				{
@@ -1111,6 +1117,7 @@ namespace GrandLarceny
 					m_swingSpeed = 0;
 					m_position.setGlobalX(m_position.getGlobalX() - 36);
 					Game.getInstance().m_camera.getPosition().setGlobalX(Game.getInstance().m_camera.getPosition().getGlobalX() + 36);
+					m_collisionShape = m_standHitBox;
 				}
 			}
 		}
@@ -1241,7 +1248,7 @@ namespace GrandLarceny
 
 		public CollisionShape getSlideBox()
 		{
-			return m_SlideBox;
+			return m_slideBox;
 		}
 		public void setVentilationDirection(List<Direction> a_d)
 		{
@@ -1506,8 +1513,9 @@ namespace GrandLarceny
 			m_interactionArrow.getPosition().setParentPosition(m_position);
 			m_standHitBox.setPosition(m_position);
 			m_rollHitBox.setPosition(m_position);
-			m_SlideBox.setPosition(m_position);
+			m_slideBox.setPosition(m_position);
 			m_hangHitBox.setPosition(m_position);
+			m_swingHitBox.setPosition(m_position);
 		}
 		#endregion
 	}

@@ -16,15 +16,11 @@ namespace GrandLarceny
 		private String m_progressName;
 		private int m_currentList;
 		private Player m_player;
+
 		public DeathScene(LinkedList<GameObject>[] a_gameObjects)
 		{
-			if (File.Exists("Content\\levels\\Checkpoint.lvl") && File.Exists("Content\\levels\\Checkpoint.prog"))
-			{
-				m_levelName = "Checkpoint.lvl";
-				m_progressName = "Checkpoint.prog";
-				
-			}
-			else if (Game.getInstance().getState() is GameState)
+			
+			if (Game.getInstance().getState() is GameState)
 			{
 				m_levelName = ((GameState)Game.getInstance().getState()).getLevelName();
 				m_progressName = Game.getInstance().getProgress().getName();
@@ -46,8 +42,17 @@ namespace GrandLarceny
 			}
 			else if (m_timer <= Game.getInstance().getGameTime())
 			{
-				Game.getInstance().setState(new GameState(m_levelName));
-				Game.getInstance().setProgress(m_progressName);
+				if (Game.getInstance().hasCheckPoint())
+				{
+					Game.getInstance().setState(new GameState(m_levelName, true));
+					Game.getInstance().setProgress(m_progressName, true);
+
+				}
+				else
+				{
+					Game.getInstance().setState(new GameState(m_levelName));
+					Game.getInstance().setProgress(m_progressName, false);
+				}
 				return;
 			}
 			GameTime t_slowTime = new GameTime(a_gameTime.TotalGameTime, new TimeSpan(a_gameTime.ElapsedGameTime.Ticks / 3));

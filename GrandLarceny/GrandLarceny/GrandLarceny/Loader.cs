@@ -63,7 +63,12 @@ namespace GrandLarceny
 
 		public Level loadLevel(string a_levelName)
 		{
-			return Serializer.getInstance().loadLevel(a_levelName);
+			return Serializer.getInstance().loadLevel(Serializer.getInstance().getFileToStream(a_levelName, false));
+		}
+
+		public Level loadCheckPoint()
+		{
+			return Serializer.getInstance().loadLevel(Game.getInstance().getCheckPointLevel(false));
 		}
 
 
