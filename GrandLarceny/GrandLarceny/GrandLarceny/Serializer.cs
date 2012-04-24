@@ -186,18 +186,7 @@ namespace GrandLarceny
 			int t_layerIndex = 0;
 			try
 			{
-				while (true)
-				{
-					try
-					{
-						t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
-						break;
-					}
-					catch (IOException)
-					{
-						continue;
-					}
-				}
+				t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
 					
 				BinaryFormatter t_bFormatter = new BinaryFormatter();
 				
@@ -264,7 +253,10 @@ namespace GrandLarceny
 					t_fstream.Read(t_eventsInByte, 0, t_eventsSize);
 					t_mStream.Write(t_eventsInByte, 0, t_eventsSize);
 					t_mStream.Position = 0;
-					t_events = (LinkedList<Event>)t_bFormatter.Deserialize(t_mStream);
+					if (t_mStream.Length != 0) 
+					{
+						t_events = (LinkedList<Event>)t_bFormatter.Deserialize(t_mStream);
+					}
 					if (t_mStream != null)
 					{
 						t_mStream.Close();
