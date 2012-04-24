@@ -771,6 +771,9 @@ namespace GrandLarceny
 						AssetFactory.copyAsset(m_copyTarget);
 					}
 				}
+				if (Game.keyClicked(Keys.N) && m_selectedObject != null) {
+					((Window)m_selectedObject).toggleOpen();
+				}
 			} else if (shiftMod()) {
 				switch (m_menuState) {
 					case MenuState.Normal:
