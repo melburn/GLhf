@@ -23,7 +23,7 @@ namespace GrandLarceny
 		}
 
 		public void load() {
-			m_cameraBox = new CollisionRectangle(-Game.getInstance().getResolution().X, -Game.getInstance().getResolution().Y, Game.getInstance().getResolution().X * 2, Game.getInstance().getResolution().Y * 2, m_position);			
+			m_cameraBox = new CollisionRectangle(-Game.getInstance().getResolution().X, -Game.getInstance().getResolution().Y, Game.getInstance().getResolution().X * 2, Game.getInstance().getResolution().Y * 2, m_position);
 		}
 
 		public float getZoom()
