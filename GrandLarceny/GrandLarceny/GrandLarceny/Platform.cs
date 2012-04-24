@@ -123,7 +123,7 @@ namespace GrandLarceny
 					{
 						t_player.hang(this);
 					}
-					else if (t_player.getCurrentState() == Player.State.Hanging && Game.isKeyPressed(GameState.getUpKey()))
+					else if (t_player.getPosition().getGlobalY() + 10 > m_position.getGlobalY() && t_player.getCurrentState() == Player.State.Hanging && Game.isKeyPressed(GameState.getUpKey()))
 					{
 						t_player.hangClimbAction();
 					}

@@ -198,6 +198,7 @@
     <Compile Include="Sound.cs" />
     <Compile Include="SpotLight.cs" />
     <Compile Include="States.cs" />
+    <Compile Include="VentilationEnd.cs" />
     <Compile Include="Ventilation.cs" />
     <Compile Include="VentilationDrum.cs" />
     <Compile Include="StraightVentilation.cs" />
