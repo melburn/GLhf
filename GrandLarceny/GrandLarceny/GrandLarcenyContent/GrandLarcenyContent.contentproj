@@ -1565,8 +1565,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Ventilation\EndVent\ventil_short_tile_w_floor_wall.png">
-      <Name>ventil_short_tile_w_floor_wall</Name>
+    <Compile Include="Images\Tile\Ventilation\EndVent\endventilation.png">
+      <Name>endventilation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
