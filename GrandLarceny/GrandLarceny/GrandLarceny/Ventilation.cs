@@ -9,16 +9,16 @@ namespace GrandLarceny
 	[Serializable()]
 	class Ventilation : NonMovingObject
 	{
-		internal static List<Player.Direction> m_leftList = new List<Player.Direction>() { Player.Direction.Left };
-		internal static List<Player.Direction> m_rightList = new List<Player.Direction>() { Player.Direction.Right };
 		internal static List<Player.Direction> m_upList = new List<Player.Direction>() { Player.Direction.Up };
 		internal static List<Player.Direction> m_downList = new List<Player.Direction>() { Player.Direction.Down };
+		internal static List<Player.Direction> m_leftList = new List<Player.Direction>() { Player.Direction.Left };
+		internal static List<Player.Direction> m_rightList = new List<Player.Direction>() { Player.Direction.Right };
 		internal static List<Player.Direction> m_upDownList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Down };
-		internal static List<Player.Direction> m_leftRightList = new List<Player.Direction>() { Player.Direction.Left, Player.Direction.Right };
 		internal static List<Player.Direction> m_upLeftList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Left };
 		internal static List<Player.Direction> m_upRightList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Right };
 		internal static List<Player.Direction> m_leftDownList = new List<Player.Direction>() { Player.Direction.Left, Player.Direction.Down };
 		internal static List<Player.Direction> m_rightDownList = new List<Player.Direction>() { Player.Direction.Right, Player.Direction.Down };
+		internal static List<Player.Direction> m_leftRightList = new List<Player.Direction>() { Player.Direction.Left, Player.Direction.Right };
 		internal static List<Player.Direction> m_upLeftDownList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Left, Player.Direction.Down };
 		internal static List<Player.Direction> m_upRightDownList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Right, Player.Direction.Down };
 		internal static List<Player.Direction> m_upLeftRightList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Left, Player.Direction.Right };

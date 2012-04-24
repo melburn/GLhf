@@ -539,8 +539,6 @@ namespace GrandLarceny
 
 		private void updateSliding(float a_deltaTime)
 		{
-			//if (m_lastPosition.Y != m_position.getGlobalY())
-			//{
 			if (((!m_facingRight && Game.isKeyPressed(GameState.getRightKey())) || (m_facingRight && Game.isKeyPressed(GameState.getLeftKey())))
 				&& m_collidedWithWall)
 			{
@@ -560,8 +558,8 @@ namespace GrandLarceny
 			}
 			m_currentState = State.Jumping;
 			return;
-			//}
-			//m_currentState = State.Walking;
+			
+			
 		}
 
 		private void updateClimbing()
