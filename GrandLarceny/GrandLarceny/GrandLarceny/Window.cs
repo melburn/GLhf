@@ -140,7 +140,7 @@ namespace GrandLarceny
 				if(!t_player.isStunned() && (t_player.getCurrentState() == Player.State.Hanging
 					|| t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
 				{
-					if (Game.keyClicked(GameState.getActionKey()) && !m_open)
+					if (Game.keyClicked(GameState.getActionKey()) && m_open)
 					{
 
 						if (t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)

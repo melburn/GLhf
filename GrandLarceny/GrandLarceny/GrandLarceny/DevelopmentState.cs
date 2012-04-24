@@ -84,6 +84,7 @@ namespace GrandLarceny
 		private Button m_btnCornerVentHotkey;
 		private Button m_btnTVentHotkey;
 		private Button m_btnStraVentHotkey;
+		private Button m_btnEndVentHotkey;
 
 		/*
 		-----------------------------------
@@ -129,7 +130,7 @@ namespace GrandLarceny
 			StraVent,		CornerVent, Ventrance,		Window,
 			DuckHidingObject,		StandHidingObject,	Rope,
 			SecDoor,		CornerHang,	Checkpoint,		Prop,
-			Heart,			Key
+			Heart,			Key,		EndVent
 		}
 
 		private MenuState m_menuState;
@@ -266,6 +267,8 @@ namespace GrandLarceny
 				t_ventMenu + new Vector2(m_ventButtons.Count * 32, 0), "C", "VerdanaBold", Color.Black, t_btnTextOffset));
 			m_ventButtons.AddLast(m_btnCornerVentHotkey = new Button("DevelopmentHotkeys//btn_ovent_hotkey",
 				t_ventMenu + new Vector2(m_ventButtons.Count * 32, 0), "O", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_ventButtons.AddLast(m_btnEndVentHotkey	= new Button(null,
+				t_ventMenu + new Vector2(m_ventButtons.Count * 32, 0), "E", "VerdanaBold", Color.Black, t_btnTextOffset));
 
 			foreach (Button t_button in m_ventButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -566,6 +569,10 @@ namespace GrandLarceny
 					}
 					if (a_button == m_btnStraVentHotkey) {
 						setBuildingState(State.StraVent);
+						return;
+					}
+					if (a_button == m_btnEndVentHotkey) {
+						setBuildingState(State.EndVent);
 						return;
 					}
 					m_menuState = MenuState.Normal;
@@ -883,6 +890,9 @@ namespace GrandLarceny
 						if (Game.keyClicked(Keys.V)) {
 							guiButtonClick(m_btnVentHotkey);
 						}
+						if (Game.keyClicked(Keys.E)) {
+							guiButtonClick(m_btnEndVentHotkey);
+						}
 						break;
 				}
 				if (Game.keyClicked(Keys.R)) {
@@ -1027,7 +1037,10 @@ namespace GrandLarceny
 								break;
 							case State.Heart:
 								AssetFactory.createHeart(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;				
+								break;
+							case State.EndVent:
+								AssetFactory.createVentEnd(m_worldMouse, m_objectPreview.getImg().getImagePath());
+								break;
 						}
 						return;
 					}
@@ -1381,7 +1394,12 @@ namespace GrandLarceny
 				case State.Heart:
 					createAssetList(null);
 					m_btnHeartHotkey.setState(3);
-					m_objectPreview = new Platform(m_worldMouse, "Images//GUI//GameGUI//health", 0.000f);
+					m_objectPreview = new Platform(m_worldMouse, "Images//Sprite//Consumables//shinyheart", 0.000f);
+					break;
+				case State.EndVent:
+					createAssetList(null);
+					m_btnEndVentHotkey.setState(3);
+					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)
