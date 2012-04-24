@@ -44,13 +44,14 @@ namespace GrandLarceny
 			GuiListFactory.setListPosition(m_buttons, new Vector2(25, 25));
 			GuiListFactory.setTextOffset(m_buttons, new Vector2(10, 10));
 			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, 60));
-			m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
-			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
+			
 			foreach (Button t_button in m_buttons)
 			{
 				t_button.m_clickEvent += new Button.clickDelegate(startLevelClick);
 			}
 
+			m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
+			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
 			Button t_saveProgressButton = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 400), "Save Game", "VerdanaBold", Color.White, new Vector2(10, 0));
 			t_saveProgressButton.m_clickEvent += new Button.clickDelegate(saveProgressClick);
 			m_buttons.AddLast(t_saveProgressButton);
@@ -88,14 +89,17 @@ namespace GrandLarceny
 		{
 			Game.getInstance().setState(new GameState("Level3.txt"));
 		}
+
 		public void exitClick(Button a_b)
 		{
 			Game.getInstance().Exit();
 		}
+
 		public void startLevelClick(Button a_b)
 		{
 			Game.getInstance().setState(new GameState(a_b.getText() + ".lvl"));
 		}
+
 		private void createNewLevel(Button a_button)
 		{
 			String t_fileName = "Content\\levels\\" + m_newLevelName.getText() + ".lvl";
@@ -109,6 +113,7 @@ namespace GrandLarceny
 			else
 			{
 				FileStream t_file = File.Create("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
+				t_file.Close();
 				Game.getInstance().setState(new DevelopmentState(m_newLevelName.getText() + ".lvl"));
 			}
 		}
