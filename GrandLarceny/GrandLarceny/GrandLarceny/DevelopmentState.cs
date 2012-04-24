@@ -703,11 +703,11 @@ namespace GrandLarceny
 					Level t_saveLevel = new Level();
 					t_saveLevel.setLevelObjects(m_gameObjectList);
 					t_saveLevel.setEvents(m_events);
-					Serializer.getInstance().SaveLevel(m_levelToLoad, t_saveLevel);
+					Serializer.getInstance().SaveLevel(Serializer.getInstance().getFileToStream(m_levelToLoad, true), t_saveLevel);
 
 				}
 				if (Game.keyClicked(Keys.O)) {
-					Level t_newLevel = Serializer.getInstance().loadLevel(m_levelToLoad);
+					Level t_newLevel = Serializer.getInstance().loadLevel(Serializer.getInstance().getFileToStream(m_levelToLoad, false));
 					m_gameObjectList = t_newLevel.getGameObjects();
 					foreach (LinkedList<GameObject> t_arr in m_gameObjectList) {
 						foreach (GameObject f_gb in t_arr) {

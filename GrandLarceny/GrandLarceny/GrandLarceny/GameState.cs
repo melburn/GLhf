@@ -17,6 +17,7 @@ namespace GrandLarceny
 		private Stack<GameObject>[] m_addList;
 		private LinkedList<Event> m_events;
 		private string m_currentLevel;
+		private bool m_loadCheckpoint;
 		private int m_currentList;
 		private static Keys m_upKey;
 		private static Keys m_downKey;
@@ -40,10 +41,23 @@ namespace GrandLarceny
 			m_currentLevel = a_levelToLoad;
 		}
 
+		public GameState(string a_levelToLoad, bool a_checkpoint)
+		{
+			m_currentLevel = a_levelToLoad;
+			m_loadCheckpoint = true;
+		}
+
 		public override void load()
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
-			if (File.Exists("Content\\levels\\" + m_currentLevel))
+			if (m_loadCheckpoint)
+			{
+				Level t_loadedLevel = Loader.getInstance().loadCheckPoint();
+
+				m_gameObjectList = t_loadedLevel.getGameObjects();
+				m_events = t_loadedLevel.getEvents();
+			}
+			else if (File.Exists("Content\\levels\\" + m_currentLevel))
 			{
 				Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
 
