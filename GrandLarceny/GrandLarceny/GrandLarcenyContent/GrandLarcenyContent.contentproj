@@ -911,13 +911,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\Straight\ventil_short_tile_w_floor_wall.png">
-      <Name>ventil_short_tile_w_floor_wall</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Tile\Ventilation\TVent\ventil_short_tile_w_floor_tjunction.png">
       <Name>ventil_short_tile_w_floor_tjunction</Name>
       <Importer>TextureImporter</Importer>
@@ -1562,6 +1555,18 @@
     </Compile>
     <Compile Include="Images\Sprite\Hero\hero_window_heave_light.png">
       <Name>hero_window_heave_light</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\EndVent\aventil_exit.png">
+      <Name>aventil_exit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Ventilation\EndVent\endventilation.png">
+      <Name>endventilation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
