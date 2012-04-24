@@ -34,6 +34,9 @@ namespace GrandLarceny
 		public Progress m_nextProgress;
 		private GameTime m_currentGameTime;
 
+		private MemoryStream m_checkPointLevel;
+		private MemoryStream m_checkPointProgress;
+
 		public static Game getInstance()
 		{
 			if (m_myGame != null)
@@ -252,11 +255,15 @@ namespace GrandLarceny
 			return m_progress;
 		}
 
-		public void setProgress(string a_progressName)
+		public void setProgress(string a_progressName, bool a_checkPoint)
 		{
-			if (!a_progressName.Equals("temp.prog"))
+			if (a_checkPoint)
 			{
-				m_nextProgress = Serializer.getInstance().loadProgress(a_progressName);
+				m_nextProgress = Serializer.getInstance().loadProgress(Game.getInstance().getCheckPointProgress(false));
+			}
+			else if (!a_progressName.Equals("temp.prog"))
+			{
+				m_nextProgress = Serializer.getInstance().loadProgress(Serializer.getInstance().getFileToStream(a_progressName,false));
 			}
 		}
 
@@ -267,6 +274,39 @@ namespace GrandLarceny
 		public TimeSpan getGameTime() 
 		{
 			return m_currentGameTime.TotalGameTime;
+		}
+
+		public bool hasCheckPoint()
+		{
+			if (m_checkPointLevel != null && m_checkPointLevel.Length != 0)
+				return true;
+			else
+				return false;
+		}
+
+		public MemoryStream getCheckPointLevel(bool a_save)
+		{
+			if (a_save)
+			{
+				m_checkPointLevel = new MemoryStream();
+			}
+			else
+			{
+				m_checkPointLevel.Position = 0;
+			}
+			return m_checkPointLevel;
+		}
+		public MemoryStream getCheckPointProgress(bool a_save)
+		{
+			if (a_save)
+			{
+				m_checkPointProgress = new MemoryStream();
+			}
+			else
+			{
+				m_checkPointProgress.Position = 0;
+			}
+			return m_checkPointProgress;
 		}
 	}
 }

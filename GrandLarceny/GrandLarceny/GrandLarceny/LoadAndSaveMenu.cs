@@ -76,7 +76,7 @@ namespace GrandLarceny
 			{
 				if (t_progressFiles[i] != null)
 				{
-					Progress tProgg = Serializer.getInstance().loadProgress(t_progressFiles[i]);
+					Progress tProgg = Serializer.getInstance().loadProgress(Serializer.getInstance().getFileToStream(t_progressFiles[i], false));
 					m_buttons.ElementAt(i).setText(tProgg.getUserName());
 				}
 			}
@@ -93,7 +93,7 @@ namespace GrandLarceny
 				if (m_newSaveName.isWriting() && Game.keyClicked(Keys.Enter))
 				{
 					Game.getInstance().getProgress().setUserName(m_newSaveName.getText());
-					Serializer.getInstance().saveGame(m_saveTo, Game.getInstance().getProgress());
+					Serializer.getInstance().saveGame(Serializer.getInstance().getFileToStream(m_saveTo, true), Game.getInstance().getProgress());
 					m_saveTo = null;
 					m_newSaveName.setVisible(false);
 					updateSaveText();
@@ -123,7 +123,7 @@ namespace GrandLarceny
 			{
 				if (m_buttons.ElementAt(i) == a_b)
 				{
-					Game.getInstance().setProgress("Slot "+(i+1)+".prog");
+					Game.getInstance().setProgress("Slot "+(i+1)+".prog", false);
 				}
 			}
 		}
@@ -150,7 +150,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				Serializer.getInstance().saveGame(a_b.getText(), Game.getInstance().getProgress());
+				Serializer.getInstance().saveGame(Serializer.getInstance().getFileToStream(a_b.getText(), true), Game.getInstance().getProgress());
 			}
 		}
 

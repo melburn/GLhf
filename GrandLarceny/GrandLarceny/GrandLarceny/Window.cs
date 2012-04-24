@@ -11,11 +11,13 @@ namespace GrandLarceny
 	[Serializable()]
 	public class Window : NonMovingObject
 	{
-		float m_playerOn;
+		private float m_playerOn;
+		private bool m_open;
 
 		public Window(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
+			m_open = true;
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -23,20 +25,24 @@ namespace GrandLarceny
 			base.update(a_gameTime);
 			if (m_playerOn > 0)
 			{
-
 				m_playerOn -= ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
 				if (m_playerOn <= 0)
 				{
 					Game.getInstance().getState().getPlayer().deactivateChaseMode();
 				}
 			}
-
 		}
 
 		public override bool isTransparent()
 		{
 			return false;
 		}
+
+		public void toggleOpen()
+		{
+			m_open = !m_open;
+		}
+
 		internal override void updateCollisionWith(Entity a_collider)
 		{
 			if (a_collider is Player)
@@ -45,6 +51,7 @@ namespace GrandLarceny
 				if (CollisionManager.Collides(this.getHitBox(), a_collider.getHitBox()))
 				{
 					//Colliding with ze floor
+					/*
 					if ((int)t_player.getLastPosition().Y + t_player.getHitBox().getOutBox().Height <= (int)getLastPosition().Y && t_player.getCurrentState() != Player.State.Hanging)
 					{
 						if (t_player.getCurrentState() == Player.State.Swinging)
@@ -66,13 +73,12 @@ namespace GrandLarceny
 							{
 								t_player.setState(Player.State.Walking);
 							}
-						}
-						
+						}				
 						return;
 					}
-
+					*/
 					//Colliding with ze zeeling
-					else if ((int)t_player.getLastPosition().Y + ((CollisionRectangle)t_player.getHitBox()).m_yOffset >= (int)getLastPosition().Y + getHitBox().getOutBox().Height)
+					if ((int)t_player.getLastPosition().Y + ((CollisionRectangle)t_player.getHitBox()).m_yOffset >= (int)getLastPosition().Y + getHitBox().getOutBox().Height)
 					{
 						if (t_player.getCurrentState() == Player.State.Swinging)
 						{
@@ -134,7 +140,7 @@ namespace GrandLarceny
 				if(!t_player.isStunned() && (t_player.getCurrentState() == Player.State.Hanging
 					|| t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
 				{
-					if (Game.keyClicked(GameState.getActionKey()))
+					if (Game.keyClicked(GameState.getActionKey()) && !m_open)
 					{
 
 						if (t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
@@ -143,7 +149,6 @@ namespace GrandLarceny
 						}
 						else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY())
 						{
-
 							t_player.windowAction();
 						}
 					}
