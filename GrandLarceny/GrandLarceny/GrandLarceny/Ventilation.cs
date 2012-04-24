@@ -9,6 +9,10 @@ namespace GrandLarceny
 	[Serializable()]
 	class Ventilation : NonMovingObject
 	{
+		internal static List<Player.Direction> m_leftList = new List<Player.Direction>() { Player.Direction.Left };
+		internal static List<Player.Direction> m_rightList = new List<Player.Direction>() { Player.Direction.Right };
+		internal static List<Player.Direction> m_upList = new List<Player.Direction>() { Player.Direction.Up };
+		internal static List<Player.Direction> m_downList = new List<Player.Direction>() { Player.Direction.Down };
 		internal static List<Player.Direction> m_upDownList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Down };
 		internal static List<Player.Direction> m_leftRightList = new List<Player.Direction>() { Player.Direction.Left, Player.Direction.Right };
 		internal static List<Player.Direction> m_upLeftList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Left };
@@ -20,12 +24,13 @@ namespace GrandLarceny
 		internal static List<Player.Direction> m_upLeftRightList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Left, Player.Direction.Right };
 		internal static List<Player.Direction> m_leftRightDownList = new List<Player.Direction>() { Player.Direction.Right, Player.Direction.Left, Player.Direction.Down };
 		internal static List<Player.Direction> m_upleftRightDownList = new List<Player.Direction>() { Player.Direction.Up, Player.Direction.Left, Player.Direction.Right, Player.Direction.Down };
-		
-		public Ventilation(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
+
+		public Ventilation(Vector2 a_posV2, String a_sprite, float a_layer)
+			: base(a_posV2, a_sprite, a_layer)
 		{
-		
+
 		}
-		
+
 		public override void loadContent()
 		{
 			base.loadContent();
