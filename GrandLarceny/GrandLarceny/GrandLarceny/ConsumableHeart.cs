@@ -16,7 +16,15 @@ namespace GrandLarceny
 		}
 		protected override void collect()
 		{
-			throw new NotImplementedException();
+			Player t_player = Game.getInstance().getState().getPlayer();
+			if (t_player == null)
+			{
+				ErrorLogger.getInstance().writeString("Player collected a heart, but there is somehow no player, skipped");
+			}
+			else
+			{
+				t_player.heal(1);
+			}
 		}
 	}
 }

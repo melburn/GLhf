@@ -1304,6 +1304,19 @@ namespace GrandLarceny
 			}
 		}
 
+		public void heal(int a_amount)
+		{
+			if (a_amount < 0)
+			{
+				ErrorLogger.getInstance().writeString("Player can not be healed a negative amount, skipped");
+			}
+			else
+			{
+				m_health = (int)Math.Min(m_health + a_amount, 3);
+				updateHealthGUI();
+			}
+		}
+
 		public void windowAction()
 		{
 			if (m_windowActionCD <= 0)
@@ -1518,5 +1531,6 @@ namespace GrandLarceny
 			m_swingHitBox.setPosition(m_position);
 		}
 		#endregion
+
 	}
 }
