@@ -439,7 +439,10 @@ namespace GrandLarceny
 				{
 					if (t_go is Guard)
 					{
-						((NPE)t_go).setAIState(AIStateGoingToTheSwitch.getInstance());
+						if (((NPE)t_go).getAIState() is AIStateChasing)
+						{
+							((NPE)t_go).setAIState(AIStateGoingToTheSwitch.getInstance());
+						}
 					}
 					else if (t_go is GuardDog)
 					{

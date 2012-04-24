@@ -58,18 +58,18 @@ namespace GrandLarceny.AI
 					else
 					{
 						float t_guardPoint = t_guard.getLeftPatrolPoint();
-						if (t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
+						if (t_guard.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
 						{
 							if (t_guard.getHorizontalSpeed() >= 0)
 							{
-								t_guard.goRight();
+								t_guard.goLeft();
 							}
 						}
-						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
+						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
 						{
 							if (t_guard.getHorizontalSpeed() <= 0)
 							{
-								t_guard.goLeft();
+								t_guard.goRight();
 							}
 						}
 						else

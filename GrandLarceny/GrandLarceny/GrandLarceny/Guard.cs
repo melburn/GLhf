@@ -410,6 +410,8 @@ namespace GrandLarceny
 				}
 				else
 				{
+					m_img.setSprite("Images//Sprite//Guard//guard_walk");
+					m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 					if (m_speed.X < 0)
 					{
 						m_speed.X = -MOVEMENTSPEED;
@@ -420,14 +422,11 @@ namespace GrandLarceny
 					}
 				}
 			}
-			if (m_running)
+			if (m_running && m_flashLight != null)
 			{
-				if (m_flashLight != null)
-				{
-					m_flashLight.kill();
-					m_flashLightId = 0;
-					m_flashLight = null;
-				}
+				m_flashLight.kill();
+				m_flashLightId = 0;
+				m_flashLight = null;
 			}
 		}
 
