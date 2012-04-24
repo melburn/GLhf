@@ -13,6 +13,8 @@ namespace GrandLarceny
 {
 	public class GameState : States
 	{
+		private LinkedList<Environment> m_unexplored;
+
 		private Stack<GameObject>[] m_removeList;
 		private Stack<GameObject>[] m_addList;
 		private LinkedList<Event> m_events;
@@ -126,6 +128,8 @@ namespace GrandLarceny
 				m_addList[i] = new Stack<GameObject>();
 			}
 
+			m_unexplored = new LinkedList<Environment>();
+
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
 				foreach (GameObject t_go in t_ll)
@@ -135,6 +139,10 @@ namespace GrandLarceny
 					if (t_go is Player)
 					{
 						Game.getInstance().getState().setPlayer((Player)t_go);
+					}
+					else if(t_go is Environment && !((Environment)t_go).isExplored() )
+					{
+						m_unexplored.AddLast((Environment)t_go);
 					}
 				}
 			}
@@ -261,6 +269,21 @@ namespace GrandLarceny
 						ErrorLogger.getInstance().writeString("While updating " + t_eventNode.Value + " got exception: " + e);
 					}
 					t_eventNode = t_next;
+				}
+
+				if (player != null)
+				{
+					LinkedListNode<Environment> t_enviroNode = m_unexplored.First;
+					while (t_enviroNode != null)
+					{
+						LinkedListNode<Environment> t_next = t_enviroNode.Next;
+						if (t_enviroNode.Value.collidesWith(player))
+						{
+							t_enviroNode.Value.setExplored(true);
+							m_unexplored.Remove(t_enviroNode);
+						}
+						t_enviroNode = t_next;
+					}
 				}
 			}
 		}
