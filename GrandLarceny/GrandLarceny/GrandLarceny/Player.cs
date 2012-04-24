@@ -946,7 +946,14 @@ namespace GrandLarceny
 		#region change animation and state
 		private void setSprite(string a_sprite)
 		{
-			m_img.setSprite("Images//Sprite//Hero//" + a_sprite);
+			if (m_isInLight)
+			{
+				m_img.setSprite("Images//Sprite//Hero//" + a_sprite+"_light");
+			}
+			else
+			{
+				m_img.setSprite("Images//Sprite//Hero//" + a_sprite);
+			}
 		}
 
 		private void changeAnimation()
@@ -1215,15 +1222,16 @@ namespace GrandLarceny
 
 		public void setIsInLight(bool a_isInLight)
 		{
+			if (m_isInLight && !a_isInLight)
+			{
+				String t_oldName = m_img.getImagePath();
+				m_img.setSpriteSilently(t_oldName.Remove(t_oldName.Length - 6));
+			}
+			else if(!m_isInLight && a_isInLight)
+			{
+				m_img.setSpriteSilently(m_img.getImagePath()+"_light");
+			}
 			m_isInLight = a_isInLight;
-			if (m_isInLight)
-			{
-				m_color = Color.White;
-			}
-			else
-			{
-				m_color = new Color(new Vector3(0.7f, 0.7f, 1f));
-			}
 		}
 
 		public void setCollidedWithWall(bool a_collided)
