@@ -193,21 +193,54 @@ namespace GrandLarceny
 				try
 				{
 					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
+					m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
+					m_animationWidth = m_image.Width / m_animationFrames;
+					m_subImageNumber = 0;
+					m_imagePath = a_sprite;
 				}
 				catch (ContentLoadException)
 				{
 					ErrorLogger.getInstance().writeString("Could not load texture " + a_sprite);
 					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
+					return false;
 				}
-				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
-				m_animationWidth = m_image.Width / m_animationFrames;
-				m_subImageNumber = 0;
-				m_imagePath = a_sprite;
 				return true;
 			}
 			else
 			{
 				return false;
+			}
+		}
+
+		public bool setSpriteSilently(string a_sprite)
+		{
+			if (a_sprite == null || a_sprite.Equals(""))
+			{
+				m_image = null;
+				m_imagePath = null;
+				return false;
+			}
+			else
+			{
+				try
+				{
+					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
+					m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
+					m_animationWidth = m_image.Width / m_animationFrames;
+					m_imagePath = a_sprite;
+					if (m_subImageNumber >= m_animationFrames)
+					{
+						ErrorLogger.getInstance().writeString("While setting sprite silently, current subimage is higher then new animationsize. new sprite is: "+a_sprite);
+						m_subImageNumber = 0;
+					}
+					return true;
+				}
+				catch (ContentLoadException)
+				{
+					ErrorLogger.getInstance().writeString("Could not load texture " + a_sprite);
+					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
+					return false;
+				}
 			}
 		}
 	}
