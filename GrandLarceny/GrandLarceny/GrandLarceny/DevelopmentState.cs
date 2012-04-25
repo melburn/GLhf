@@ -1416,9 +1416,9 @@ namespace GrandLarceny
 		private void showGuardInfo(GuardEntity a_guard)
 		{
 			m_lineList.Clear();
-			m_textGuardInfo.setText(" L: " + ((Guard)a_guard).getLeftPatrolPoint() + "R: " + ((Guard)a_guard).getRightPatrolPoint());
-			m_lineList.AddLast(m_leftGuardPoint = ((Guard)a_guard).showLeftGuardPoint());
-			m_lineList.AddLast(m_rightGuardPoint = ((Guard)a_guard).showRightGuardPoint());
+			m_textGuardInfo.setText(" L: " + a_guard.getLeftPatrolPoint() + "R: " + a_guard.getRightPatrolPoint());
+			m_lineList.AddLast(m_leftGuardPoint = a_guard.showLeftGuardPoint());
+			m_lineList.AddLast(m_rightGuardPoint = a_guard.showRightGuardPoint());
 		}
 
 		private void showLightSwitchInfo(LampSwitch a_lightswitch)
