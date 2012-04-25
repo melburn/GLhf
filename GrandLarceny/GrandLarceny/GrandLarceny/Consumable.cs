@@ -16,13 +16,12 @@ namespace GrandLarceny
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (a_collid is Player && !m_dead)
+			if (a_collid is Player && !m_dead && collect())
 			{
-				collect();
 				m_dead = true;
 			}
 		}
 
-		abstract protected void collect();
+		abstract protected Boolean collect();
 	}
 }
