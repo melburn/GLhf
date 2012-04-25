@@ -593,13 +593,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\GuardDog\dog_idle.png">
-      <Name>dog_idle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Sprite\Hero\hero_walk.png">
       <Name>hero_walk</Name>
       <Importer>TextureImporter</Importer>
