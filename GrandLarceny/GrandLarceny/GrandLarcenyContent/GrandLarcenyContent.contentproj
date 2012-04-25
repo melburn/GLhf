@@ -593,13 +593,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\GuardDog\dog_idle.png">
-      <Name>dog_idle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Sprite\Hero\hero_walk.png">
       <Name>hero_walk</Name>
       <Importer>TextureImporter</Importer>
@@ -1567,6 +1560,20 @@
     </Compile>
     <Compile Include="Images\Tile\Ventilation\EndVent\endventilation.png">
       <Name>endventilation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\bg_house_01.png">
+      <Name>bg_house_01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\bg_house_02.png">
+      <Name>bg_house_02</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

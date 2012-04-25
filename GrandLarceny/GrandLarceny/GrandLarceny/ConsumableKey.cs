@@ -14,9 +14,10 @@ namespace GrandLarceny
 		{
 		}
 
-		protected override void collect()
+		protected override Boolean collect()
 		{
 			Game.getInstance().getProgress().increaseConsumable("key");
+			return true;
 		}
 	}
 }
