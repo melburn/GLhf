@@ -31,6 +31,7 @@ namespace GrandLarceny
 
 		private int m_playerCurrentSpeed;
 		private int m_health;
+		private int m_slideTimer;
 
 		[NonSerialized]
 		public GuiObject[] m_healthHearts;
@@ -160,6 +161,7 @@ namespace GrandLarceny
 			m_leftRightList.Add(Direction.Right);
 			m_playerCurrentSpeed = PLAYERSPEED;
 			m_swingSpeed = 0;
+			m_slideTimer = 0;
 			m_currentVentilationImage = VENTIDLEIMAGE;
 			m_currentSwingingImage = "hero_swing_still";
 			m_position.plusYWith(-1);
@@ -230,7 +232,7 @@ namespace GrandLarceny
 						}
 					case State.Slide:
 						{
-							updateSliding(t_deltaTime);
+							updateSliding(a_gameTime);
 							break;
 						}
 					case State.Climbing:
@@ -537,29 +539,37 @@ namespace GrandLarceny
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		}
 
-		private void updateSliding(float a_deltaTime)
+		private void updateSliding(GameTime a_gameTime)
 		{
+			if(m_slideTimer < a_gameTime.TotalGameTime.TotalMilliseconds && m_slideTimer != 0)
+			{
+				m_currentState = State.Jumping;
+				m_slideTimer = 0;
+				return;
+			}
+
 			if (((!m_facingRight && Game.isKeyPressed(GameState.getRightKey())) || (m_facingRight && Game.isKeyPressed(GameState.getLeftKey())))
 				&& m_collidedWithWall)
 			{
-				if (Game.keyClicked(GameState.getJumpKey()))
-				{
-					m_speed.Y = -JUMPSTRENGTH;
-					if (m_facingRight == true)
-						m_speed.X += JUMPSTRENGTH;
-					else
-						m_speed.X -= JUMPSTRENGTH;
-					m_currentState = State.Jumping;
-					return;
-				}
-				if (m_speed.Y > SLIDESPEED)
-					m_speed.Y = SLIDESPEED;
-				return;
+				m_slideTimer = 0;
 			}
-			m_currentState = State.Jumping;
-			return;
-			
-			
+			else
+			{
+				if (m_slideTimer == 0)
+					m_slideTimer = (int)a_gameTime.TotalGameTime.TotalMilliseconds + 150;
+			}
+			if (Game.keyClicked(GameState.getJumpKey()))
+			{
+				m_speed.Y = -JUMPSTRENGTH;
+				if (m_facingRight == true)
+					m_speed.X += JUMPSTRENGTH;
+				else
+					m_speed.X -= JUMPSTRENGTH;
+				m_currentState = State.Jumping;
+				m_slideTimer = 0;
+			}
+			else if (m_speed.Y > SLIDESPEED)
+				m_speed.Y = SLIDESPEED;
 		}
 
 		private void updateClimbing()
@@ -721,14 +731,6 @@ namespace GrandLarceny
 				{
 					Game.getInstance().m_camera.setLayer(1);
 					m_cameraPoint.X = 0;
-				}
-				else if (Game.isKeyPressed(GameState.getLeftKey()))
-				{
-					m_cameraPoint.X = Math.Max(m_cameraPoint.X - (500 * a_deltaTime), -1000);
-				}
-				else if (Game.isKeyPressed(GameState.getRightKey()))
-				{
-					m_cameraPoint.X = Math.Min(m_cameraPoint.X + (500 * a_deltaTime), 1000);
 				}
 				else
 				{

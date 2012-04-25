@@ -23,7 +23,7 @@ namespace GrandLarceny
 				{
 					if (0 == Math.Round(((2 * m_rotate) / Math.PI) % 4))
 					{
-						t_player.setVentilationDirection(m_leftList);
+						t_player.setVentilationDirection(m_rightList);
 					}
 					else if (1 == Math.Round(((2 * m_rotate) / Math.PI) % 4))
 					{
@@ -31,7 +31,7 @@ namespace GrandLarceny
 					}
 					else if (2 == Math.Round(((2 * m_rotate) / Math.PI) % 4))
 					{
-						t_player.setVentilationDirection(m_rightList);
+						t_player.setVentilationDirection(m_leftList);
 					}
 					else if (3 == Math.Round(((2 * m_rotate) / Math.PI) % 4))
 					{
