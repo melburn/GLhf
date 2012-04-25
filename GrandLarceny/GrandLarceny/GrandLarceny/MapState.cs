@@ -128,7 +128,6 @@ namespace GrandLarceny
 				Vector2 t_worldPos = m_backState.getPlayer().getPosition().getGlobalCartesianCoordinates() + (m_backState.getPlayer().getImg().getSize() / 2f);
 				Vector2 t_screenPos = (Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates() - t_worldPos) / m_zoom + new Vector2(15f);
 				Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates() - ((t_screenPos - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
-				//Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates() + ((t_worldPos * Game.getInstance().m_camera.getZoom()) / m_zoom) + new Vector2(5f, 5f);
 				a_spriteBatch.Draw(m_playerPoint, t_renderPos, Color.White);
 			}
 			a_spriteBatch.Draw(m_map, t_mapPos, Color.White);
