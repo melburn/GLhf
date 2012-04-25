@@ -783,7 +783,7 @@ namespace GrandLarceny
 						AssetFactory.copyAsset(m_copyTarget);
 					}
 				}
-				if (Game.keyClicked(Keys.N) && m_selectedObject != null) {
+				if (Game.keyClicked(Keys.N) && m_selectedObject != null && m_selectedObject is Window) {
 					((Window)m_selectedObject).toggleOpen();
 				}
 			} else if (shiftMod()) {

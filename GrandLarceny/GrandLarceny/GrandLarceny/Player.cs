@@ -700,6 +700,16 @@ namespace GrandLarceny
 				|| Game.keyClicked(GameState.getActionKey()))
 			{
 				m_currentState = State.Stop;
+				if (m_facingRight)
+				{
+					m_position.plusXWith(40);
+					Game.getInstance().m_camera.getPosition().plusXWith(-30);
+				}
+				else
+				{
+					m_position.plusXWith(-40);
+					Game.getInstance().m_camera.getPosition().plusXWith(30);
+				}
 			}
 
 			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
