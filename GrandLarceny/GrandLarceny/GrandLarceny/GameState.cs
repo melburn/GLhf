@@ -234,7 +234,8 @@ namespace GrandLarceny
 				++m_currentList;
 				foreach (GameObject t_firstGameObject in t_list)
 				{
-					if (t_firstGameObject is MovingObject && Game.getInstance().m_camera.isInCamera(t_firstGameObject))
+					if (t_firstGameObject is MovingObject && (Game.getInstance().m_camera.isInCamera(t_firstGameObject) ||
+						(t_firstGameObject is NPE && (((NPE)t_firstGameObject).getAIState() is AIStateChasing || ((NPE)t_firstGameObject).getAIState() is AIStateChargeing))))
 					{
 						List<Entity> t_collided = new List<Entity>();
 						foreach (GameObject t_secondGameObject in t_list)
@@ -248,11 +249,9 @@ namespace GrandLarceny
 						}
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
 						((Entity)t_firstGameObject).updatePosition();
-					} else {
-						if (t_firstGameObject is Entity) {
+					} else if (t_firstGameObject is Entity) {
 							((Entity)t_firstGameObject).setGravity(0.0f);
 							((Entity)t_firstGameObject).setSpeedY(0.0f);
-						}
 					}
 
 					if (t_firstGameObject.isDead() && !m_removeList[m_currentList].Contains(t_firstGameObject))

@@ -122,7 +122,6 @@ namespace GrandLarceny
 							t_player.hang(this);
 						}
 					}
-					//t_player.hang(this);
 				}
 				else
 				{	
@@ -140,21 +139,24 @@ namespace GrandLarceny
 				if(!t_player.isStunned() && (t_player.getCurrentState() == Player.State.Hanging
 					|| t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
 				{
-					if (Game.keyClicked(GameState.getActionKey()) && m_open)
+					if (m_open)
 					{
+						if (Game.keyClicked(GameState.getActionKey()))
+						{
 
-						if (t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
-						{
-							t_player.windowAction();
+							if (t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
+							{
+								t_player.windowAction();
+							}
+							else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY())
+							{
+								t_player.windowAction();
+							}
 						}
-						else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY())
+						else
 						{
-							t_player.windowAction();
+							t_player.setInteractionVisibillity(true);
 						}
-					}
-					else
-					{
-						t_player.setInteractionVisibillity(true);
 					}
 				}
 			}
