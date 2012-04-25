@@ -193,6 +193,10 @@ namespace GrandLarceny
 			if (Game.keyClicked(Keys.I)) {
 				Game.getInstance().m_camera.printInfo();
 			}
+			else if (Game.keyClicked(Keys.W))
+			{
+				Game.getInstance().getProgress().setEquipment("boots", true);
+			}
 			else if (Game.keyClicked(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
