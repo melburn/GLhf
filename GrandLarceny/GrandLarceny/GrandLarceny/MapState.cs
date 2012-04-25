@@ -45,7 +45,7 @@ namespace GrandLarceny
 			m_centerPoint = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates();
 			m_topLeftPoint = m_centerPoint - ((Game.getInstance().getResolution() / 2f) * m_zoom);
 
-			foreach(GameObject f_go in m_backState.getObjectList()[Game.getInstance().m_camera.getLayer()])
+			foreach(GameObject f_go in m_backState.getObjectList()[0])
 			{
 				if (f_go is Entity && !((Entity)f_go).isTransparent())
 				{
