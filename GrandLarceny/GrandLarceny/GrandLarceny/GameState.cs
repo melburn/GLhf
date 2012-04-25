@@ -235,7 +235,7 @@ namespace GrandLarceny
 				foreach (GameObject t_firstGameObject in t_list)
 				{
 					if (t_firstGameObject is MovingObject && (Game.getInstance().m_camera.isInCamera(t_firstGameObject) ||
-						(t_firstGameObject is NPE && (((NPE)t_firstGameObject).getAIState() is AIStateChasing) || ((NPE)t_firstGameObject).getAIState() is AIStateChargeing)))
+						(t_firstGameObject is NPE && (((NPE)t_firstGameObject).getAIState() is AIStateChasing || ((NPE)t_firstGameObject).getAIState() is AIStateChargeing))))
 					{
 						List<Entity> t_collided = new List<Entity>();
 						foreach (GameObject t_secondGameObject in t_list)
