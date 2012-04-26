@@ -136,27 +136,25 @@ namespace GrandLarceny
 						t_player.hang(this);
 					}
 				}
-				if(!t_player.isStunned() && (t_player.getCurrentState() == Player.State.Hanging
+				if(m_open && !t_player.isStunned() && (t_player.getCurrentState() == Player.State.Hanging
 					|| t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking))
 				{
-					if (m_open)
+					if (t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
 					{
-						if (Game.keyClicked(GameState.getActionKey()))
+						if (Game.isKeyPressed(GameState.getActionKey()))
 						{
-
-							if (t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
-							{
-								t_player.windowAction();
-							}
-							else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY())
-							{
-								t_player.windowAction();
-							}
+							t_player.windowAction();
 						}
 						else
 						{
 							t_player.setInteractionVisibillity(true);
 						}
+							
+					}
+					else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY() && t_player.getCurrentState() == Player.State.Walking
+						&& ((t_player.getPosition().getGlobalX() < m_position.getGlobalX() && t_player.isFacingRight()) || (t_player.getPosition().getGlobalX() > m_position.getGlobalX() && !t_player.isFacingRight())))
+					{
+						t_player.windowAction();
 					}
 				}
 			}

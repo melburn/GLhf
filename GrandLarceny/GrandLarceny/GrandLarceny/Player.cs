@@ -123,9 +123,9 @@ namespace GrandLarceny
 			m_healthHearts = new GuiObject[3];
 			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[0]);
-			m_healthHearts[1] = new GuiObject(new Vector2(200, 50), "GameGUI//health");
+			m_healthHearts[1] = new GuiObject(new Vector2(180, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
-			m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "GameGUI//health");
+			m_healthHearts[2] = new GuiObject(new Vector2(260, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_stand");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_walk");
@@ -337,8 +337,8 @@ namespace GrandLarceny
 						{
 							m_lastState = State.Hanging;
 							m_imgOffsetY += m_rollHitBox.m_height / 4f;
-							m_position.plusYWith(m_rollHitBox.m_height / 1.3f - 1);
-							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.3f);
+							m_position.plusYWith(m_rollHitBox.m_height / 1.295f - 1);
+							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.295f);
 						}
 						else
 						{
@@ -700,6 +700,16 @@ namespace GrandLarceny
 				|| Game.keyClicked(GameState.getActionKey()))
 			{
 				m_currentState = State.Stop;
+				if (m_facingRight)
+				{
+					m_position.plusXWith(40);
+					Game.getInstance().m_camera.getPosition().plusXWith(-30);
+				}
+				else
+				{
+					m_position.plusXWith(-40);
+					Game.getInstance().m_camera.getPosition().plusXWith(30);
+				}
 			}
 
 			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
@@ -1028,6 +1038,11 @@ namespace GrandLarceny
 		{
 			if (m_currentState != m_lastState)
 			{
+				if (m_runMode == true && (m_currentState != State.Walking && m_currentState != State.Jumping))
+				{
+					toggleRunMode();
+				}
+
 				if ((m_lastState == State.Rolling || (m_lastState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE) || m_lastState == State.Hanging)
 					&& m_currentState != State.Rolling && m_currentState != State.Hanging)
 				{

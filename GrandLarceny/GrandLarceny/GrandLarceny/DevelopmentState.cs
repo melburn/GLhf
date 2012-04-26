@@ -47,6 +47,7 @@ namespace GrandLarceny
 		private Box m_statusBar;
 
 		private TextField m_textField;
+		private TextField m_parrScrollTF;
 		
 		/*
 		-----------------------------------
@@ -194,6 +195,8 @@ namespace GrandLarceny
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
 			m_guiList.AddLast(m_textField = new TextField(new Vector2(400, 0), 50, 25, false, true, false, 3));
+
+			m_guiList.AddLast(m_parrScrollTF = new TextField(new Vector2(500, 0), 70, 25, false, true, false, 3));
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -423,6 +426,7 @@ namespace GrandLarceny
 				t_gui.update(a_gameTime);
 			}
 			m_textField.update(a_gameTime);
+			m_parrScrollTF.update(a_gameTime);
 
 			if (m_selectedObject != null) {
 				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesianCoordinates());
@@ -726,6 +730,21 @@ namespace GrandLarceny
 				}
 				return;
 			}
+			if (m_parrScrollTF.isWriting())
+			{
+				if (Game.keyClicked(Keys.Enter) && m_selectedObject != null && m_selectedObject is Environment)
+				{
+					try
+					{
+						((Environment)m_selectedObject).setParrScroll(int.Parse(m_parrScrollTF.getText()));
+					}
+					catch (FormatException)
+					{
+					}
+					clearSelectedObject();
+				}
+				return;
+			}
 			if (Game.keyClicked(Keys.F5)) {
 				m_currentLayer = 0;
 				Game.getInstance().setState(new GameState(m_levelToLoad));
@@ -783,7 +802,7 @@ namespace GrandLarceny
 						AssetFactory.copyAsset(m_copyTarget);
 					}
 				}
-				if (Game.keyClicked(Keys.N) && m_selectedObject != null) {
+				if (Game.keyClicked(Keys.N) && m_selectedObject != null && m_selectedObject is Window) {
 					((Window)m_selectedObject).toggleOpen();
 				}
 			} else if (shiftMod()) {
@@ -1088,6 +1107,16 @@ namespace GrandLarceny
 							showLightSwitchInfo((LampSwitch)m_selectedObject);
 						}
 						m_textField.setText((m_selectedObject.getLayer() * 1000).ToString());
+						if (m_selectedObject is Environment)
+						{
+							m_parrScrollTF.setText(((Environment)m_selectedObject).getParrScroll().ToString());
+							m_parrScrollTF.setVisible(false);
+						}
+						else
+						{
+							m_parrScrollTF.setText("");
+							m_parrScrollTF.setVisible(true);
+						}
 						m_selectedObject.setColor(Color.Yellow);
 						m_dragFrom = m_selectedObject.getPosition().getGlobalCartesianCoordinates();
 					}
@@ -1416,9 +1445,9 @@ namespace GrandLarceny
 		private void showGuardInfo(GuardEntity a_guard)
 		{
 			m_lineList.Clear();
-			m_textGuardInfo.setText(" L: " + ((Guard)a_guard).getLeftPatrolPoint() + "R: " + ((Guard)a_guard).getRightPatrolPoint());
-			m_lineList.AddLast(m_leftGuardPoint = ((Guard)a_guard).showLeftGuardPoint());
-			m_lineList.AddLast(m_rightGuardPoint = ((Guard)a_guard).showRightGuardPoint());
+			m_textGuardInfo.setText(" L: " + a_guard.getLeftPatrolPoint() + "R: " + a_guard.getRightPatrolPoint());
+			m_lineList.AddLast(m_leftGuardPoint = a_guard.showLeftGuardPoint());
+			m_lineList.AddLast(m_rightGuardPoint = a_guard.showRightGuardPoint());
 		}
 
 		private void showLightSwitchInfo(LampSwitch a_lightswitch)
@@ -1572,6 +1601,7 @@ namespace GrandLarceny
 				m_statusBar.draw(a_gameTime);
 				if (m_selectedObject != null) {
 					m_textField.draw(a_gameTime);
+					m_parrScrollTF.draw(a_gameTime);
 				}
 				switch (m_menuState) {
 					case MenuState.Guard:

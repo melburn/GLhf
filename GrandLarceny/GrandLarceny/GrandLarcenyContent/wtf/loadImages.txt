@@ -30,3 +30,4 @@ Images//Sprite//Hero//hero_ventilation_horizontal_light:6
 Images//Sprite//Hero//hero_ventilation_vertical_light:6
 Images//Sprite//Consumables//shinyheart:10
 Images//Prop//SecurityDoor//SecurityDoor:10
+Images//Sprite//Consumables//Sparkle:8

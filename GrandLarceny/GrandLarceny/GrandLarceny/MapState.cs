@@ -23,7 +23,7 @@ namespace GrandLarceny
 		public MapState(States a_backState)
 		{
 			m_backState = a_backState;
-			m_colors = new Color[] { Color.White, Color.Yellow, new Color(130, 130, 250) };
+			m_colors = new Color[] { Color.Black, Color.Yellow, new Color(130, 130, 250) };
 		}
 
 		public override void load()
@@ -39,7 +39,7 @@ namespace GrandLarceny
 			Color[] t_colors = new Color[m_map.Width * m_map.Height];
 			for (int i = 0; i < t_colors.Length; ++i)
 			{
-				t_colors[i] = Color.Lerp(Color.LightBlue, Color.Blue, ((float)i) / ((float)t_colors.Length));
+				t_colors[i] = Color.Lerp(Color.LightBlue, Color.Teal, ((float)i) / ((float)t_colors.Length));
 			}
 
 			m_centerPoint = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates();
