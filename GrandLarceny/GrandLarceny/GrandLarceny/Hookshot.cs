@@ -112,7 +112,7 @@ namespace GrandLarceny
 				}
 			}
 			m_player.setRope(this);
-			m_player.changePositionType();
+			m_player.changePositionToPolar();
 			m_player.getPosition().setParentPositionWithoutMoving(m_line.getStartPoint());
 			m_player.setState(Player.State.Swinging);
 			if (m_player.getPosition().getLength() < 50)

@@ -337,8 +337,8 @@ namespace GrandLarceny
 						{
 							m_lastState = State.Hanging;
 							m_imgOffsetY += m_rollHitBox.m_height / 4f;
-							m_position.plusYWith(m_rollHitBox.m_height / 1.3f - 1);
-							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.3f);
+							m_position.plusYWith(m_rollHitBox.m_height / 1.295f - 1);
+							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.295f);
 						}
 						else
 						{
@@ -1038,6 +1038,11 @@ namespace GrandLarceny
 		{
 			if (m_currentState != m_lastState)
 			{
+				if (m_runMode == true && (m_currentState != State.Walking && m_currentState != State.Jumping))
+				{
+					toggleRunMode();
+				}
+
 				if ((m_lastState == State.Rolling || (m_lastState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE) || m_lastState == State.Hanging)
 					&& m_currentState != State.Rolling && m_currentState != State.Hanging)
 				{
@@ -1124,17 +1129,25 @@ namespace GrandLarceny
 				}
 				else if (m_lastState == State.Swinging)
 				{
-					m_imgOffsetX = 0;
 					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_rotationPoint.Y = m_img.getSize().Y / 2;
-					changePositionType();
+					changePositionToCartesian();
 					m_position.setParentPositionWithoutMoving(null);
 					m_rotate = 0;
 					m_rope.resetPosition();
 					m_swingSpeed = 0;
-					m_position.setGlobalX(m_position.getGlobalX() - 36);
-					Game.getInstance().m_camera.getPosition().setGlobalX(Game.getInstance().m_camera.getPosition().getGlobalX() + 36);
-					m_collisionShape = m_standHitBox;
+					if (m_currentState != State.Ventilation)
+					{
+						m_imgOffsetX = 0;
+						m_position.setGlobalX(m_position.getGlobalX() - 36);
+						Game.getInstance().m_camera.getPosition().setGlobalX(Game.getInstance().m_camera.getPosition().getGlobalX() + 36);
+						m_collisionShape = m_standHitBox;
+					}
+				}
+				if (m_lastState == State.Ventilation)
+				{
+					m_imgOffsetX = 0;
+					m_imgOffsetY = 0;
 				}
 			}
 		}
