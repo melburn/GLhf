@@ -27,8 +27,8 @@ namespace GrandLarceny
 					if (Game.keyClicked(GameState.getActionKey()))
 					{
 
-						Vector2 t_playerGlobal = a_collider.getPosition().getGlobalCartesianCoordinates();
-						float t_myPositionX = m_position.getGlobalCartesianCoordinates().X;
+						Vector2 t_playerGlobal = a_collider.getPosition().getGlobalCartesian();
+						float t_myPositionX = m_position.getGlobalCartesian().X;
 
 						if (t_playerGlobal.X < t_myPositionX)
 						{

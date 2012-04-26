@@ -44,7 +44,7 @@ namespace GrandLarceny
 			{
 				m_backLightSprite = a_backSprite;
 				m_backLight = new GameObject(new CartesianCoordinate(Vector2.Zero, m_position), m_backLightSprite, a_backLayer);
-				m_backLight.getPosition().setLocalCartesianCoordinates(-m_backLight.getImg().getSize() / 2f);
+				m_backLight.getPosition().setLocalCartesian(-m_backLight.getImg().getSize() / 2f);
 			}
 		}
 
@@ -73,7 +73,7 @@ namespace GrandLarceny
 			if (m_backLightSprite != null)
 			{
 				m_backLight = new GameObject(new CartesianCoordinate(Vector2.Zero, m_position), m_backLightSprite, m_backLayer);
-				m_backLight.getPosition().setLocalCartesianCoordinates(-m_backLight.getImg().getSize() / 2f);
+				m_backLight.getPosition().setLocalCartesian(-m_backLight.getImg().getSize() / 2f);
 			}
 		}
 

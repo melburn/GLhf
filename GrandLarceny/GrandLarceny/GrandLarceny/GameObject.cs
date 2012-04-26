@@ -58,9 +58,7 @@ namespace GrandLarceny
 		}
 
 		public virtual void linkObject()
-		{
-
-		}
+		{}
 
 		public virtual void flip()
 		{
@@ -97,9 +95,9 @@ namespace GrandLarceny
 		{
 			if (m_visible)
 			{
-				Vector2 t_imgPosition;
-				t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
-				t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
+				Vector2 t_imgPosition = m_position.getFlooredGlobalCartesian() + new Vector2(m_imgOffsetX,m_imgOffsetY);
+				///*t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
+				//t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
 
 				m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
 
@@ -161,9 +159,9 @@ namespace GrandLarceny
 		public virtual void changePositionType()
 		{
 			if (m_position is CartesianCoordinate)
-				m_position = new PolarCoordinate(m_position.getLocalPolarCoordinates(), m_position.getParentPosition());
+				m_position = new PolarCoordinate(m_position.getLocalPolar(), m_position.getParentPosition());
 			else
-				m_position = new CartesianCoordinate(m_position.getLocalCartesianCoordinates(), m_position.getParentPosition());
+				m_position = new CartesianCoordinate(m_position.getLocalCartesian(), m_position.getParentPosition());
 		}
 		public void setImageOffset(Vector2 a_offset)
 		{

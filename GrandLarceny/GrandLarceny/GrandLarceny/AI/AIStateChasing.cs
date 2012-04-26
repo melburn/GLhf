@@ -84,7 +84,7 @@ namespace GrandLarceny.AI
 							+ Game.getInstance().getState().getPlayer().getPosition().getGlobalX());
 					return AIStateChargeing.getInstance();
 				}
-				if ((Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesianCoordinates() - t_guardDog.getPosition().getGlobalCartesianCoordinates()).Length() <= AIStateBark.BARKDISTANCE)
+				if ((Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesian() - t_guardDog.getPosition().getGlobalCartesian()).Length() <= AIStateBark.BARKDISTANCE)
 				{
 					return AIStateBark.getInstance();
 				}
@@ -98,7 +98,7 @@ namespace GrandLarceny.AI
 				GuardCamera t_gc = (GuardCamera)a_agent;
 				if (t_gc.canSeePlayer())
 				{
-					float t_pointDirection = t_gc.getPosition().getAngleTo(t_gc.getTarget().getPosition().getGlobalCartesianCoordinates() + new Vector2(30,30));
+					float t_pointDirection = t_gc.getPosition().getAngleTo(t_gc.getTarget().getPosition().getGlobalCartesian() + new Vector2(30,30));
 					t_gc.setRotation(t_pointDirection);
 					return this;
 				}

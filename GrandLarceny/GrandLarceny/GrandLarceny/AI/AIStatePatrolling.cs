@@ -42,11 +42,11 @@ namespace GrandLarceny.AI
 					}
 					else if (t_guard.hasPatrol())
 					{
-						if (t_guard.getPosition().getGlobalCartesianCoordinates().X < t_guard.getLeftPatrolPoint())
+						if (t_guard.getPosition().getGlobalCartesian().X < t_guard.getLeftPatrolPoint())
 						{
 							t_guard.goRight();
 						}
-						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X > t_guard.getRightPatrolPoint())
+						else if (t_guard.getPosition().getGlobalCartesian().X > t_guard.getRightPatrolPoint())
 						{
 							t_guard.goLeft();
 						}
@@ -58,14 +58,14 @@ namespace GrandLarceny.AI
 					else
 					{
 						float t_guardPoint = t_guard.getLeftPatrolPoint();
-						if (t_guard.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
+						if (t_guard.getPosition().getGlobalCartesian().X - 10 > t_guardPoint)
 						{
 							if (t_guard.getHorizontalSpeed() >= 0)
 							{
 								t_guard.goLeft();
 							}
 						}
-						else if (t_guard.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
+						else if (t_guard.getPosition().getGlobalCartesian().X + 10 < t_guardPoint)
 						{
 							if (t_guard.getHorizontalSpeed() <= 0)
 							{
@@ -124,14 +124,14 @@ namespace GrandLarceny.AI
 						{
 							t_guardDog.setChargeing(false);
 						}
-						if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X < t_guardDog.getLeftPatrolPoint())
+						if (t_guardDog.getPosition().getGlobalCartesian().X < t_guardDog.getLeftPatrolPoint())
 						{
 							if (t_guardDog.getHorizontalSpeed() <= 0)
 							{
 								t_guardDog.goRight();
 							}
 						}
-						else if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X > t_guardDog.getRightPatrolPoint())
+						else if (t_guardDog.getPosition().getGlobalCartesian().X > t_guardDog.getRightPatrolPoint())
 						{
 							if (t_guardDog.getHorizontalSpeed() >= 0)
 							{
@@ -146,14 +146,14 @@ namespace GrandLarceny.AI
 					else
 					{
 						float t_guardPoint = t_guardDog.getLeftPatrolPoint();
-						if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X - 10 > t_guardPoint)
+						if (t_guardDog.getPosition().getGlobalCartesian().X - 10 > t_guardPoint)
 						{
 							if (t_guardDog.getHorizontalSpeed() >= 0)
 							{
 								t_guardDog.goRight();
 							}
 						}
-						else if (t_guardDog.getPosition().getGlobalCartesianCoordinates().X + 10 < t_guardPoint)
+						else if (t_guardDog.getPosition().getGlobalCartesian().X + 10 < t_guardPoint)
 						{
 							if (t_guardDog.getHorizontalSpeed() <= 0)
 							{

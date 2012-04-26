@@ -82,8 +82,8 @@ namespace GrandLarceny
 
 		public void setOffset(Vector2 a_offset)
 		{
-			m_startPosition.setLocalCartesianCoordinates(a_offset);
-			m_endPosition.setLocalCartesianCoordinates(a_offset);
+			m_startPosition.setLocalCartesian(a_offset);
+			m_endPosition.setLocalCartesian(a_offset);
 		}
 
 		public void setXOffset(float a_offset)
@@ -103,11 +103,11 @@ namespace GrandLarceny
 		public void draw()
 		{
 			float t_angle = (float)Math.Atan2(m_endPosition.getGlobalY() - m_startPosition.getGlobalY(), m_endPosition.getGlobalX() - m_startPosition.getGlobalX());
-			float t_length = Vector2.Distance(m_startPosition.getGlobalCartesianCoordinates(), m_endPosition.getGlobalCartesianCoordinates());
+			float t_length = Vector2.Distance(m_startPosition.getGlobalCartesian(), m_endPosition.getGlobalCartesian());
 
 			if (m_worldLine)
 			{
-				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesianCoordinates(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width), SpriteEffects.None, 0.010f);
+				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width), SpriteEffects.None, 0.010f);
 			}
 			else
 			{

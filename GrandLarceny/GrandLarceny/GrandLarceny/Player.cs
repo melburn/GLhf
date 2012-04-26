@@ -172,7 +172,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_interactionArrow.update(a_gameTime);
-			m_lastPosition = m_position.getGlobalCartesianCoordinates();
+			m_lastPosition = m_position.getGlobalCartesian();
 
 			if (!m_stunned)
 			{
@@ -274,7 +274,7 @@ namespace GrandLarceny
 
 			updateFlip();
 			base.update(a_gameTime);
-			if ((Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates() - m_cameraPoint).Length() > 3)
+			if ((Game.getInstance().m_camera.getPosition().getLocalCartesian() - m_cameraPoint).Length() > 3)
 			{
 				Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
 			}
@@ -482,7 +482,7 @@ namespace GrandLarceny
 			
 			if (Game.keyClicked(GameState.getRollKey()))
 			{
-				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesianCoordinates(), null, 0.100f);
+				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesian(), null, 0.100f);
 				if (m_facingRight)
 				{
 					t_hs.setDirection(new Vector2(100, -100));

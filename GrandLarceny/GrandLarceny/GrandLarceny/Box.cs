@@ -100,11 +100,11 @@ namespace GrandLarceny
 				m_to.Y += m_position.getGlobalY();*/
 				float t_moveDelta = ((float)a_gameTime.TotalGameTime.TotalMilliseconds - m_timeStart) / (m_timer - m_timeStart);
 				Vector2 tLerp = Vector2.Lerp(m_from, m_to, t_moveDelta);
-				m_position.setLocalCartesianCoordinates(tLerp);
+				m_position.setLocalCartesian(tLerp);
 			}
 			else if (m_timer > 0)
 			{
-				m_position.setLocalCartesianCoordinates(m_to);
+				m_position.setLocalCartesian(m_to);
 				m_timer = 0;
 			}
 		}
@@ -113,7 +113,7 @@ namespace GrandLarceny
 		{
 			if (m_worldBox)
 			{
-				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, m_position.getGlobalCartesianCoordinates(), null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, m_layer);
+				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, m_position.getGlobalCartesian(), null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, m_layer);
 				
 				if (m_lineList != null && m_lineList.Count > 0)
 				{

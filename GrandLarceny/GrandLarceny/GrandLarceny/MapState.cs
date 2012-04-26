@@ -10,7 +10,8 @@ namespace GrandLarceny
 	class MapState : States
 	{
 		private Texture2D m_map;
-		private Texture2D m_playerPoint;
+
+		private Texture2D m_mapPoint;
 
 		private States m_backState;
 		private float m_zoom = 18f;
@@ -20,10 +21,13 @@ namespace GrandLarceny
 
 		private Color[] m_colors;
 
+		private LinkedList<Vector2> m_goals;
+
 		public MapState(States a_backState)
 		{
 			m_backState = a_backState;
 			m_colors = new Color[] { Color.Black, Color.Yellow, new Color(130, 130, 250) };
+			m_goals = new LinkedList<Vector2>();
 		}
 
 		public override void load()
@@ -42,7 +46,7 @@ namespace GrandLarceny
 				t_colors[i] = Color.Lerp(Color.LightBlue, Color.Teal, ((float)i) / ((float)t_colors.Length));
 			}
 
-			m_centerPoint = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates();
+			m_centerPoint = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
 			m_topLeftPoint = m_centerPoint - ((Game.getInstance().getResolution() / 2f) * m_zoom);
 
 			foreach(GameObject f_go in m_backState.getObjectList()[0])
@@ -61,6 +65,13 @@ namespace GrandLarceny
 					{
 						addRectangle(f_go.getBox(), 2, t_colors, t_width);
 					}
+				}
+				else if (f_go is ConsumableGoal)
+				{
+					Vector2 t_worldPos = f_go.getPosition().getGlobalCartesian() + (f_go.getImg().getSize() / 2f);
+					Vector2 t_screenPos = (Game.getInstance().m_camera.getPosition().getGlobalCartesian() - t_worldPos) / m_zoom + new Vector2(15f);
+					Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - ((t_screenPos - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
+					m_goals.AddLast(t_renderPos);
 				}
 			}
 			m_map.SetData(t_colors);
@@ -95,40 +106,48 @@ namespace GrandLarceny
 		}
 		public override void update(GameTime a_gameTime)
 		{
-			updatePlayerPoint(a_gameTime);
 			if (Game.keyClicked(Microsoft.Xna.Framework.Input.Keys.M))
 			{
 				Game.getInstance().setState(m_backState);
 			}
+			else
+			{
+				m_mapPoint = updatePointTexture(a_gameTime);
+			}
 		}
 
-		public void updatePlayerPoint(GameTime a_gameTime)
+		public Texture2D updatePointTexture(GameTime a_gameTime)
 		{
 			int t_width = 30;
 			int t_height = 30;
-			float t_innerRadius = 1.5f * (4f + (float)Math.Cos(a_gameTime.TotalGameTime.TotalSeconds*5.0));
-			float t_outerRadius = 2f * (4f + (float)Math.Cos(a_gameTime.TotalGameTime.TotalSeconds*5.0));
-			m_playerPoint = new Texture2D(Game.getInstance().GraphicsDevice, t_width, t_height, false, SurfaceFormat.Color);
+			float t_innerRadius = 1.5f * (4f + (float)Math.Cos(a_gameTime.TotalGameTime.TotalSeconds * 5.0));
+			float t_outerRadius = 2f * (4f + (float)Math.Cos(a_gameTime.TotalGameTime.TotalSeconds * 5.0));
+			Texture2D t_ret = new Texture2D(Game.getInstance().GraphicsDevice, t_width, t_height, false, SurfaceFormat.Color);
 			Color[] t_colors = new Color[t_width * t_height];
 			Position t_playerPos = m_backState.getPlayer().getPosition();
 			for (int i = 0; i < t_colors.Length; ++i)
 			{
-				float t_distanceFromMid = (float)Math.Sqrt(Math.Pow((i % t_width)-(t_width/2f),2.0)+Math.Pow(Math.Floor(((float)i)/((float)t_width))-(t_height/2),2.0));
+				float t_distanceFromMid = (float)Math.Sqrt(Math.Pow((i % t_width) - (t_width / 2f), 2.0) + Math.Pow(Math.Floor(((float)i) / ((float)t_width)) - (t_height / 2), 2.0));
 				float t_alpha = (t_distanceFromMid - t_outerRadius) / (t_innerRadius - t_outerRadius);
-				t_colors[i] = Color.Lerp(Color.Red, Color.Transparent, 1f-t_alpha);
+				t_colors[i] = Color.Lerp(Color.White, Color.Transparent, 1f - t_alpha);
 			}
-			m_playerPoint.SetData(t_colors);
+			t_ret.SetData(t_colors);
+			return t_ret;
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			Vector2 t_mapPos = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates() - (((Game.getInstance().getResolution() / 2f) - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
-			if (m_playerPoint != null)
+			Vector2 t_mapPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - (((Game.getInstance().getResolution() / 2f) - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
+			if (m_mapPoint != null)
 			{
-				Vector2 t_worldPos = m_backState.getPlayer().getPosition().getGlobalCartesianCoordinates() + (m_backState.getPlayer().getImg().getSize() / 2f);
-				Vector2 t_screenPos = (Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates() - t_worldPos) / m_zoom + new Vector2(15f);
-				Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates() - ((t_screenPos - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
-				a_spriteBatch.Draw(m_playerPoint, t_renderPos, Color.White);
+				Vector2 t_worldPos = m_backState.getPlayer().getPosition().getGlobalCartesian() + (m_backState.getPlayer().getImg().getSize() / 2f);
+				Vector2 t_screenPos = (Game.getInstance().m_camera.getPosition().getGlobalCartesian() - t_worldPos) / m_zoom + new Vector2(15f);
+				Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - ((t_screenPos - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
+				a_spriteBatch.Draw(m_mapPoint, t_renderPos, Color.Red);
+			}
+			foreach (Vector2 f_v in m_goals)
+			{
+				a_spriteBatch.Draw(m_mapPoint, f_v, Color.Turquoise);
 			}
 			a_spriteBatch.Draw(m_map, t_mapPos, Color.White);
 		}

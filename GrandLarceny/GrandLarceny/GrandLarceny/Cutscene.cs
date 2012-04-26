@@ -76,7 +76,7 @@ namespace GrandLarceny
 				{
 					float t_moveDeltaTime = ( (float)a_gameTime.TotalGameTime.TotalMilliseconds - m_timeStart) / (m_timeForNextCommand - m_timeStart);
 					Position t_camera = Game.getInstance().m_camera.getPosition();
-					t_camera.setGlobalCartesianCoordinates(Vector2.SmoothStep(t_camera.getGlobalCartesianCoordinates(), m_cameraMoveTo, t_moveDeltaTime));
+					t_camera.setGlobalCartesian(Vector2.SmoothStep(t_camera.getGlobalCartesian(), m_cameraMoveTo, t_moveDeltaTime));
 					if (m_timeForNextCommand <= a_gameTime.TotalGameTime.TotalMilliseconds)
 					{
 						m_waiting = false;

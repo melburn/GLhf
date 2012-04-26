@@ -22,11 +22,11 @@ namespace GrandLarceny
 		{
 			if (a_cs is CollisionRectangle)
 			{
-				return a_cs.collidesWithLineSegment(m_position.getGlobalCartesianCoordinates(), m_endPosition.getGlobalCartesianCoordinates());
+				return a_cs.collidesWithLineSegment(m_position.getGlobalCartesian(), m_endPosition.getGlobalCartesian());
 			}
 			else if (a_cs is CollisionLine)
 			{
-				return collidesWithLineSegment(((CollisionLine)a_cs).getPosition().getGlobalCartesianCoordinates(), ((CollisionLine)a_cs).getEndPosition().getGlobalCartesianCoordinates());
+				return collidesWithLineSegment(((CollisionLine)a_cs).getPosition().getGlobalCartesian(), ((CollisionLine)a_cs).getEndPosition().getGlobalCartesian());
 			}
 			return false;
 		}
@@ -40,12 +40,12 @@ namespace GrandLarceny
 		}
 		public override void setPosition(Position a_position)
 		{
-			setStartPosition(a_position.getGlobalCartesianCoordinates());
+			setStartPosition(a_position.getGlobalCartesian());
 		}
 
 		public void setEndPosition(Vector2 a_pos)
 		{
-			m_endPosition.setGlobalCartesianCoordinates(a_pos);
+			m_endPosition.setGlobalCartesian(a_pos);
 			m_OutBox.X = (int)Math.Floor(Math.Min(m_position.getGlobalX(), m_endPosition.getGlobalX()));
 			m_OutBox.Y = (int)Math.Floor(Math.Min(m_position.getGlobalY(), m_endPosition.getGlobalY()));
 			m_OutBox.Width = (int)Math.Floor(Math.Abs(Math.Max(m_position.getGlobalX(), m_endPosition.getGlobalX()) - Math.Min(m_position.getGlobalX(), m_endPosition.getGlobalX())));
@@ -53,7 +53,7 @@ namespace GrandLarceny
 		}
 		public void setStartPosition(Vector2 a_pos)
 		{
-			m_position.setGlobalCartesianCoordinates(a_pos);
+			m_position.setGlobalCartesian(a_pos);
 			m_OutBox.X = (int)Math.Floor(Math.Min(m_position.getGlobalX(), m_endPosition.getGlobalX()));
 			m_OutBox.Y = (int)Math.Floor(Math.Min(m_position.getGlobalY(), m_endPosition.getGlobalY()));
 			m_OutBox.Width = (int)Math.Floor(Math.Abs(Math.Max(m_position.getGlobalX(), m_endPosition.getGlobalX()) - Math.Min(m_position.getGlobalX(), m_endPosition.getGlobalX())));
