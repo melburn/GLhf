@@ -158,6 +158,16 @@ namespace GrandLarceny
 		{
 			s_lastId = 1;
 		}
+		public void changePositionToPolar()
+		{
+			if (m_position is CartesianCoordinate)
+				changePositionType();
+		}
+		public void changePositionToCartesian()
+		{
+			if (m_position is PolarCoordinate)
+				changePositionType();
+		}
 		public virtual void changePositionType()
 		{
 			if (m_position is CartesianCoordinate)
