@@ -337,8 +337,8 @@ namespace GrandLarceny
 						{
 							m_lastState = State.Hanging;
 							m_imgOffsetY += m_rollHitBox.m_height / 4f;
-							m_position.plusYWith(m_rollHitBox.m_height / 1.3f - 1);
-							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.3f);
+							m_position.plusYWith(m_rollHitBox.m_height / 1.295f - 1);
+							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.295f);
 						}
 						else
 						{
@@ -1038,6 +1038,11 @@ namespace GrandLarceny
 		{
 			if (m_currentState != m_lastState)
 			{
+				if (m_runMode == true && (m_currentState != State.Walking && m_currentState != State.Jumping))
+				{
+					toggleRunMode();
+				}
+
 				if ((m_lastState == State.Rolling || (m_lastState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE) || m_lastState == State.Hanging)
 					&& m_currentState != State.Rolling && m_currentState != State.Hanging)
 				{
