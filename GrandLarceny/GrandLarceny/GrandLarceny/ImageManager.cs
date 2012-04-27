@@ -76,7 +76,7 @@ namespace GrandLarceny
 
 				Game.getInstance().getSpriteBatch().Draw(
 					m_image,
-					new Rectangle((int)(Math.Round(a_imgPosition.X) + (a_origin.X * a_xScale)), (int)(Math.Round(a_imgPosition.Y) + (a_origin.Y * a_yScale)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
+					new Rectangle((int)(a_imgPosition.X + (a_origin.X * a_xScale)), (int)(a_imgPosition.Y + (a_origin.Y * a_yScale)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
 					new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
 					a_color,
 					a_rotation,
@@ -87,38 +87,6 @@ namespace GrandLarceny
 			}
 		}
 
-		public bool setSprite(string a_sprite)
-		{
-			if (a_sprite == null || a_sprite.Equals(""))
-			{
-				m_image = null;
-				m_imagePath = null;
-				return false;
-			}
-			else if (!a_sprite.Equals(m_imagePath))
-			{
-				m_stopped = false;
-				m_looping = true;
-				try
-				{
-					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
-				}
-				catch (ContentLoadException)
-				{
-					ErrorLogger.getInstance().writeString("Could not load texture "+a_sprite);
-					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
-				}
-				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
-				m_animationWidth = m_image.Width / m_animationFrames;
-				m_subImageNumber = 0;
-				m_imagePath = a_sprite;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
 
 		public void stop()
 		{
@@ -203,6 +171,77 @@ namespace GrandLarceny
 
 		public Texture2D getImage() {
 			return m_image;
+		}
+
+		public Boolean isTexture(Texture2D a_texture)
+		{
+			return m_image == a_texture;
+		}
+
+		public bool setSprite(string a_sprite)
+		{
+			if (a_sprite == null || a_sprite.Equals(""))
+			{
+				m_image = null;
+				m_imagePath = null;
+				return false;
+			}
+			else if (!a_sprite.Equals(m_imagePath))
+			{
+				m_stopped = false;
+				m_looping = true;
+				try
+				{
+					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
+					m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
+					m_animationWidth = m_image.Width / m_animationFrames;
+					m_subImageNumber = 0;
+					m_imagePath = a_sprite;
+				}
+				catch (ContentLoadException)
+				{
+					ErrorLogger.getInstance().writeString("Could not load texture " + a_sprite);
+					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
+					return false;
+				}
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public bool setSpriteSilently(string a_sprite)
+		{
+			if (a_sprite == null || a_sprite.Equals(""))
+			{
+				m_image = null;
+				m_imagePath = null;
+				return false;
+			}
+			else
+			{
+				try
+				{
+					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
+					m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
+					m_animationWidth = m_image.Width / m_animationFrames;
+					m_imagePath = a_sprite;
+					if (m_subImageNumber >= m_animationFrames)
+					{
+						ErrorLogger.getInstance().writeString("While setting sprite silently, current subimage is higher then new animationsize. new sprite is: "+a_sprite);
+						m_subImageNumber = 0;
+					}
+					return true;
+				}
+				catch (ContentLoadException)
+				{
+					ErrorLogger.getInstance().writeString("Could not load texture " + a_sprite);
+					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
+					return false;
+				}
+			}
 		}
 	}
 }

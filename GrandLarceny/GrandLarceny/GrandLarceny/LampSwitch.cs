@@ -88,7 +88,7 @@ namespace GrandLarceny
 					{
 						foreach (GameObject t_guard in Game.getInstance().getState().getCurrentList())
 						{
-							if (t_guard is Guard && ((Guard)t_guard).canSeePoint(m_position.getGlobalCartesianCoordinates()))
+							if (t_guard is Guard && ((Guard)t_guard).canSeePoint(m_position.getGlobalCartesian()))
 							{
 								((Guard)t_guard).addLampSwitchTarget(this);
 							}
@@ -105,9 +105,16 @@ namespace GrandLarceny
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (a_collid is Player && Game.keyClicked(GameState.getActionKey()))
+			if (a_collid is Player && a_collid.getHitBox().collides(m_collisionShape))
 			{
-				toggleSwitch();
+				if (Game.keyClicked(GameState.getActionKey()))
+				{
+					toggleSwitch();
+				}
+				else
+				{
+					((Player)(a_collid)).setInteractionVisibillity(true);
+				}
 			}
 		}
 

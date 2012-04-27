@@ -27,37 +27,56 @@ namespace GrandLarceny
 					//Colliding with ze left Wall wall
 					if ((int)t_player.getLastPosition().X + 1 >= (int)getLastPosition().X + getHitBox().getOutBox().Width)
 					{
-						t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
-						if (t_player.getCurrentState() == Player.State.Jumping
-							&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
-							&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right))
-							&& Game.getInstance().getProgress().hasEquipment("boots"))
+						if (t_player.getCurrentState() == Player.State.Swinging)
 						{
-							t_player.setState(Player.State.Slide);
-							t_player.setFacingRight(true);
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
 						}
-						t_player.setSpeedX(0);
-
+						else
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
+							if (t_player.getCurrentState() == Player.State.Jumping
+								&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
+								&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right))
+								&& Game.getInstance().getProgress().hasEquipment("boots"))
+							{
+								t_player.setState(Player.State.Slide);
+								t_player.setFacingRight(true);
+							}
+							t_player.setSpeedX(0);
+						}
 					}
 					//Colliding with ze right Wall wall
 					else if ((int)t_player.getLastPosition().X + t_playerOutBox.Width - 1 <= (int)getLastPosition().X)
 					{
-						t_player.setNextPositionX(getPosition().getGlobalX() - t_playerOutBox.Width);
-						if (t_player.getCurrentState() == Player.State.Jumping
-							&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
-							&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right))
-							&& Game.getInstance().getProgress().hasEquipment("boots"))
+						if (t_player.getCurrentState() == Player.State.Swinging)
 						{
-							t_player.setState(Player.State.Slide);
-							t_player.setFacingRight(false);
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
 						}
-						t_player.setSpeedX(0);
-
+						else
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() - t_playerOutBox.Width);
+							if (t_player.getCurrentState() == Player.State.Jumping
+								&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
+								&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right))
+								&& Game.getInstance().getProgress().hasEquipment("boots"))
+							{
+								t_player.setState(Player.State.Slide);
+								t_player.setFacingRight(false);
+							}
+							t_player.setSpeedX(0);
+						}
 					}
 					//Colliding with ze zeeling
 					else if ((int)t_player.getLastPosition().Y >= (int)getLastPosition().Y + getHitBox().getOutBox().Height)
 					{
-						if (t_player.getCurrentState() == Player.State.Stop)
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
+						}
+						else if (t_player.getCurrentState() == Player.State.Stop)
 						{
 							if (t_player.getPosition().getGlobalX() > m_position.getGlobalX() + (m_collisionShape.getOutBox().Width / 2))
 							{
@@ -80,7 +99,9 @@ namespace GrandLarceny
 					t_player.setCollidedWithWall(true);
 				}
 				if (t_player.getCurrentState() == Player.State.Rolling 
-					&& t_player.getPosition().getGlobalY() > m_position.getGlobalY() + m_collisionShape.getOutBox().Width 
+					&& t_player.getPosition().getGlobalY() > m_position.getGlobalY() + m_collisionShape.getOutBox().Height 
+					&& m_position.getGlobalX() < (t_player.getPosition().getGlobalX()+t_player.getHitBox().getOutBox().Width/2)
+					&& m_position.getGlobalX() + m_collisionShape.getOutBox().Width > (t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width / 2)
 					&& t_player.isChase())
 				{
 					t_player.deactivateChaseMode();

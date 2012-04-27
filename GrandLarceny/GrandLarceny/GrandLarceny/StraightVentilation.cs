@@ -20,7 +20,7 @@ namespace GrandLarceny
 			if (a_collider is Player)
 			{
 				Player t_player = (Player)a_collider;
-				if (CollisionManager.Contains(getHitBox(), t_player.getPosition().getGlobalCartesianCoordinates()))
+				if (CollisionManager.Contains(getHitBox(), t_player.getPosition().getGlobalCartesian()))
 				{
 					if (1 == Math.Round(((2 * m_rotate) / Math.PI) % 4) || 3 == Math.Round(((2 * m_rotate) / Math.PI) % 4))
 					{

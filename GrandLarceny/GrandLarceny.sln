@@ -5,13 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrandLarceny", "GrandLarcen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrandLarcenyContent", "GrandLarceny\GrandLarcenyContent\GrandLarcenyContent.contentproj", "{E110AA7A-B83A-4C6B-BF33-AD4E16160744}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2F8A18C1-B226-4261-9AE9-70EF424FA581}"
-	ProjectSection(SolutionItems) = preProject
-		GrandLarceny.vsmdi = GrandLarceny.vsmdi
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = GrandLarceny.vsmdi

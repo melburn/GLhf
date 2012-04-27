@@ -20,7 +20,7 @@ namespace GrandLarceny
 			m_width = a_width;
 			m_height = a_height;
 			m_position = a_position;	
-			m_OutBox = new Rectangle((int)(m_xOffset + m_position.getGlobalX()), (int)(m_yOffset + m_position.getGlobalY()), (int)m_width, (int)m_height);
+			m_OutBox = new Rectangle((int)Math.Floor(m_xOffset + m_position.getGlobalX()), (int)Math.Floor(m_yOffset + m_position.getGlobalY()), (int)Math.Ceiling(m_width), (int)Math.Ceiling(m_height));
 		}
 
 		public void setPosition(Vector2 a_pos)
@@ -45,7 +45,7 @@ namespace GrandLarceny
 			return m_OutBox;
 		}
 
-		public override bool Collides(CollisionShape a_cs)
+		public override bool collides(CollisionShape a_cs)
 		{
 			if (a_cs is CollisionRectangle)
 			{
@@ -58,7 +58,11 @@ namespace GrandLarceny
 			}
 			else if (a_cs is CollisionTriangle)
 			{
-				return a_cs.Collides(this);
+				return a_cs.collides(this);
+			}
+			else if (a_cs is CollisionLine)
+			{
+				return collidesWithLineSegment(((CollisionLine)a_cs).getPosition().getGlobalCartesian(), ((CollisionLine)a_cs).getEndPosition().getGlobalCartesian());
 			}
 			return false;
 		}

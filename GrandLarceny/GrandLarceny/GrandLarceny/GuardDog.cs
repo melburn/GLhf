@@ -9,11 +9,8 @@ using GrandLarceny.AI;
 namespace GrandLarceny
 {
 	[Serializable()]
-	class GuardDog : NPE
+	class GuardDog : GuardEntity
 	{
-		private float m_leftPatrolPoint;
-		private float m_rightPatrolPoint;
-		private Boolean m_hasPatrol;
 		private const float MOVEMENTSPEED = 80;
 		private const float CHARGEINGSPEED = 540;
 		private const float WALKANISPEED = 7;
@@ -51,7 +48,7 @@ namespace GrandLarceny
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			return t_player != null &&
-				((t_player.getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() < m_senceRange ||
+				((t_player.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() < m_senceRange ||
 				(t_player.isInLight() &&
 				isFacingTowards(t_player.getPosition().getGlobalX()) &&
 				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
@@ -63,32 +60,6 @@ namespace GrandLarceny
 		{
 			return (a_x <= m_position.getGlobalX() && !m_facingRight)
 				|| (a_x >= m_position.getGlobalX() && m_facingRight);
-		}
-
-		internal bool haspatrol()
-		{
-			return m_hasPatrol;
-		}
-
-		public void setLeftGuardPoint(float a_x)
-		{
-			m_leftPatrolPoint = a_x;
-			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
-		}
-
-		public void setRightGuardPoint(float a_x)
-		{
-			m_rightPatrolPoint = a_x;
-			m_hasPatrol = (m_leftPatrolPoint != m_rightPatrolPoint);
-		}
-
-		internal float getLeftPatrolPoint()
-		{
-			return m_leftPatrolPoint;
-		}
-		internal float getRightPatrolPoint()
-		{
-			return m_rightPatrolPoint;
 		}
 
 		internal void goRight()
@@ -142,7 +113,7 @@ namespace GrandLarceny
 					//play sound
 					foreach (GameObject go in Game.getInstance().getState().getCurrentList())
 					{
-						if (go is Guard && (go.getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() <= AIStateBark.BARKRADIUS && ((NPE)go).getAIState() != AIStateChasing.getInstance())
+						if (go is Guard && (go.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() <= AIStateBark.BARKRADIUS && ((NPE)go).getAIState() != AIStateChasing.getInstance())
 						{
 							((Guard)go).setChaseTarget(m_chaseTarget);
 							((NPE)go).setAIState(AIStateChasing.getInstance());

@@ -24,7 +24,7 @@ namespace GrandLarceny
 			if (a_collider is Player)
 			{
 				Player t_player = (Player)a_collider;
-				Vector2 t_playerGlobalPosition = a_collider.getPosition().getGlobalCartesianCoordinates();
+				Vector2 t_playerGlobalPosition = a_collider.getPosition().getGlobalCartesian();
 				Rectangle t_playerOutBox = a_collider.getHitBox().getOutBox();
 				if (CollisionManager.Contains(this.getHitBox(), 
 					new Vector2(t_playerGlobalPosition.X + t_playerOutBox.Width/2, t_playerGlobalPosition.Y + t_playerOutBox.Height/2)))
@@ -35,6 +35,10 @@ namespace GrandLarceny
 						t_player.setState(Player.State.Hiding);
 						t_player.setHidingImage(Player.DUCKHIDINGIMAGE);
 						t_player.setSpeedX(0);
+					}
+					else
+					{
+						t_player.setInteractionVisibillity(true);
 					}
 				}
 			}

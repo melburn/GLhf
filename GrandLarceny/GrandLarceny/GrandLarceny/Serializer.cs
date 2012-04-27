@@ -27,8 +27,25 @@ namespace GrandLarceny
 			return m_instance;
 		}
 
-		public void SaveLevel(string a_fileName, Level a_save)
+		public FileStream getFileToStream(string a_fileName, bool a_willCreate)
 		{
+			FileStream t_file;
+			if (a_willCreate)
+			{
+				t_file = File.Open("Content//Levels//" + a_fileName, FileMode.Create);
+			}
+			else
+			{
+				t_file = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
+			}
+
+			return t_file;
+
+		}
+
+		public void SaveLevel(Stream a_stream, Level a_save)
+		{
+			GameObject.resetGameObjectId();
 			foreach (LinkedList<GameObject> t_goSaveList in a_save.getGameObjects())
 			{
 				foreach (GameObject t_go in t_goSaveList)
@@ -50,9 +67,9 @@ namespace GrandLarceny
 				t_e.linkObject();
 			}
 			MemoryStream t_stream = null;
-			FileStream t_fstream = null;
+			//FileStream t_fstream = null;
 
-			t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Create);
+			//t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Create);
 			BinaryFormatter t_bFormatter = new BinaryFormatter();
 			
 			LinkedList<string> t_unikName = new LinkedList<string>();
@@ -61,15 +78,14 @@ namespace GrandLarceny
 			int index = 0;
 			
 			long t_fstreamDiffSize = 0;
-			GameObject.resetGameObjectId();
-			long t_objectListBegin = t_fstream.Position;
-			t_fstream.Position = t_fstream.Position + 4;
-			long t_fstreamLastPos = t_fstream.Position;
-			long t_objectListSize = t_fstream.Position;
+			long t_objectListBegin = a_stream.Position;
+			a_stream.Position = a_stream.Position + 4;
+			long t_fstreamLastPos = a_stream.Position;
+			long t_objectListSize = a_stream.Position;
 			
 			foreach (LinkedList<GameObject> t_goList in a_save.getGameObjects())
 			{
-				t_fstream.Position = t_fstream.Position + 4;
+				a_stream.Position = a_stream.Position + 4;
 				foreach(GameObject t_go in t_goList)
 				{
 					if (!t_unikName.Contains(t_go.GetType().Name))
@@ -94,8 +110,8 @@ namespace GrandLarceny
 						t_bFormatter.Serialize(t_stream, t_serializeList);
 						byte[] t_msPos = new byte[4];
 						t_msPos = BitConverter.GetBytes((int)t_stream.Position);
-						t_fstream.Write(t_msPos, 0, t_msPos.Length);
-						t_fstream.Write(t_stream.GetBuffer(), 0, (int)t_stream.Position);
+						a_stream.Write(t_msPos, 0, t_msPos.Length);
+						a_stream.Write(t_stream.GetBuffer(), 0, (int)t_stream.Position);
 
 					}
 					catch (FileNotFoundException)
@@ -113,25 +129,25 @@ namespace GrandLarceny
 				}
 
 				byte[] t_layerSize = new byte[4];
-				t_fstreamDiffSize = t_fstream.Position - t_fstreamLastPos;
+				t_fstreamDiffSize = a_stream.Position - t_fstreamLastPos;
 				t_layerSize = BitConverter.GetBytes((int)t_fstreamDiffSize);
-				t_fstream.Position = t_fstream.Position - t_fstreamDiffSize;
-				t_fstream.Write(t_layerSize, 0, t_layerSize.Length);
+				a_stream.Position = a_stream.Position - t_fstreamDiffSize;
+				a_stream.Write(t_layerSize, 0, t_layerSize.Length);
 
 				t_objectListSize += t_fstreamDiffSize;
 
-				t_fstreamLastPos = t_fstream.Length;
-				t_fstream.Position = t_fstream.Length;
+				t_fstreamLastPos = a_stream.Length;
+				a_stream.Position = a_stream.Length;
 				t_unikName = new LinkedList<string>();
 				index++;
 				t_objekts = new LinkedList<LinkedList<GameObject>>();
-			} 
+			}
 
-			t_fstream.Position = t_objectListBegin;
+			a_stream.Position = t_objectListBegin;
 			byte[] t_objectListSizeInByte = new byte[4];
 			t_objectListSizeInByte = BitConverter.GetBytes((int)t_objectListSize);
-			t_fstream.Write(t_objectListSizeInByte, 0 , t_objectListSizeInByte.Length);
-			t_fstream.Position = t_fstream.Length;
+			a_stream.Write(t_objectListSizeInByte, 0, t_objectListSizeInByte.Length);
+			a_stream.Position = a_stream.Length;
 
 			if (t_stream != null)
 			{
@@ -147,8 +163,8 @@ namespace GrandLarceny
 				t_bFormatter.Serialize(t_stream, t_events);
 				byte[] t_msPos = new byte[4];
 				t_msPos = BitConverter.GetBytes((int)t_stream.Position);
-				t_fstream.Write(t_msPos, 0, t_msPos.Length);
-				t_fstream.Write(t_stream.GetBuffer(), 0, (int)t_stream.Position);
+				a_stream.Write(t_msPos, 0, t_msPos.Length);
+				a_stream.Write(t_stream.GetBuffer(), 0, (int)t_stream.Position);
 			}
 			catch (SerializationException)
 			{
@@ -161,17 +177,16 @@ namespace GrandLarceny
 			}
 			//Serialize events done
 
-			if (t_fstream != null)
+			if (a_stream != null && a_stream is FileStream)
 			{
-				t_fstream.Close();
+				a_stream.Close();
 			}
 		}
 
-
-		public Level loadLevel(string a_fileName)
+		public Level loadLevel(Stream a_stream)
 		{
 			Level t_loadingLevel = new Level();
-			FileStream t_fstream = null;
+			//FileStream t_fstream = null;
 			MemoryStream t_mStream = null;
 			LinkedList<GameObject> t_gameObject = new LinkedList<GameObject>();
 			LinkedList<GameObject>[] t_gameObjectsList = new LinkedList<GameObject>[5];
@@ -187,43 +202,32 @@ namespace GrandLarceny
 			int t_layerIndex = 0;
 			try
 			{
-				while (true)
-				{
-					try
-					{
-						t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
-						break;
-					}
-					catch (IOException)
-					{
-						continue;
-					}
-				}
+				//t_fstream = File.Open("Content//Levels//" + a_fileName, FileMode.Open);
 					
 				BinaryFormatter t_bFormatter = new BinaryFormatter();
-				
-				t_fstream.Read(t_bytes, 0, t_bytes.Length);
+
+				a_stream.Read(t_bytes, 0, t_bytes.Length);
 				int t_gameObjectListSize = BitConverter.ToInt32(t_bytes, 0);
 				
 				//load GameObjects
 				while (true)
 				{
-					float t_fstreamPos = t_fstream.Position;
+					float t_fstreamPos = a_stream.Position;
 					t_bytes = new byte[4];
-					t_fstream.Read(t_bytes, 0, t_bytes.Length);
+					a_stream.Read(t_bytes, 0, t_bytes.Length);
 					int t_layerSize = BitConverter.ToInt32(t_bytes, 0);
 
-					while (t_fstream.Position < t_layerSize + t_fstreamPos)
+					while (a_stream.Position < t_layerSize + t_fstreamPos)
 					{
 						t_bytes = new byte[4];
-						t_fstream.Read(t_bytes, 0, t_bytes.Length);
+						a_stream.Read(t_bytes, 0, t_bytes.Length);
 						int t_objectListSize = BitConverter.ToInt32(t_bytes, 0);
 
 						try
 						{
 							t_mStream = new MemoryStream();
 							byte[] t_objectListInByte = new byte[t_objectListSize];
-							t_fstream.Read(t_objectListInByte, 0, t_objectListSize);
+							a_stream.Read(t_objectListInByte, 0, t_objectListSize);
 							t_mStream.Write(t_objectListInByte, 0, t_objectListSize);
 
 							t_mStream.Position = 0;
@@ -248,7 +252,7 @@ namespace GrandLarceny
 					}
 					t_layerIndex++;
 
-					if (t_fstream.Position >= t_gameObjectListSize)
+					if (a_stream.Position >= t_gameObjectListSize)
 					{
 						break;
 					}
@@ -259,13 +263,16 @@ namespace GrandLarceny
 				{
 					//load Events
 					t_mStream = new MemoryStream();
-					t_fstream.Read(t_bytes, 0, t_bytes.Length);
+					a_stream.Read(t_bytes, 0, t_bytes.Length);
 					int t_eventsSize = BitConverter.ToInt32(t_bytes, 0);
 					byte[] t_eventsInByte = new byte[t_eventsSize];
-					t_fstream.Read(t_eventsInByte, 0, t_eventsSize);
+					a_stream.Read(t_eventsInByte, 0, t_eventsSize);
 					t_mStream.Write(t_eventsInByte, 0, t_eventsSize);
 					t_mStream.Position = 0;
-					t_events = (LinkedList<Event>)t_bFormatter.Deserialize(t_mStream);
+					if (t_mStream.Length != 0) 
+					{
+						t_events = (LinkedList<Event>)t_bFormatter.Deserialize(t_mStream);
+					}
 					if (t_mStream != null)
 					{
 						t_mStream.Close();
@@ -282,9 +289,9 @@ namespace GrandLarceny
 				ErrorLogger.getInstance().writeString("Could not deserialize level: " + e);
 			}
 
-			if (t_fstream != null)
+			if (a_stream != null && a_stream is FileStream)
 			{
-				t_fstream.Close();
+				a_stream.Close();
 			}
 
 			if (t_mStream != null)
@@ -298,6 +305,69 @@ namespace GrandLarceny
 			}
 
 			return t_loadingLevel;
+		}
+
+		public void saveGame(Stream a_saveStream, Progress a_progress)
+		{
+			//FileStream t_fstream;
+			BinaryFormatter t_bFormatter = new BinaryFormatter();
+			try
+			{
+				//t_fstream = File.Open("Content//Levels//" + a_saveFileName, FileMode.Create);
+				try
+				{
+					t_bFormatter.Serialize(a_saveStream, a_progress);
+				}
+				catch (SerializationException e)
+				{
+					ErrorLogger.getInstance().writeString("Could not serialize progress, serializeing failed: " + e);
+				}
+				if (a_saveStream != null && a_saveStream is FileStream)
+				{
+					a_saveStream.Close();
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file not found: " + e);
+			}
+			catch (FileLoadException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file fail to load: " + e);
+			}
+		}
+
+		public Progress loadProgress(Stream a_saveStream)
+		{
+			Progress t_progg = null;
+			//FileStream t_fstream;
+			BinaryFormatter t_bFormatter = new BinaryFormatter();
+			try
+			{
+				//t_fstream = File.Open("Content//Levels//" + a_saveFileName, FileMode.Open);
+				try
+				{
+					t_progg = (Progress)t_bFormatter.Deserialize(a_saveStream);
+				}
+				catch (SerializationException e)
+				{
+					ErrorLogger.getInstance().writeString("Could not serialize progress, serializeing failed: " + e);
+				}
+				if (a_saveStream != null && a_saveStream is FileStream)
+				{
+					a_saveStream.Close();
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file not found: " + e);
+			}
+			catch (FileLoadException e)
+			{
+				ErrorLogger.getInstance().writeString("Could not serialize progress, file fail to load: " + e);
+			}
+
+			return t_progg;
 		}
 	}
 }

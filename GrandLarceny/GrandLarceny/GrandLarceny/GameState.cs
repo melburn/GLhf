@@ -13,14 +13,14 @@ namespace GrandLarceny
 {
 	public class GameState : States
 	{
-		private LinkedList<GameObject>[] m_gameObjectList;
+		private LinkedList<Environment> m_unexplored;
+
 		private Stack<GameObject>[] m_removeList;
 		private Stack<GameObject>[] m_addList;
-		private LinkedList<GuiObject> m_guiObject;
 		private LinkedList<Event> m_events;
 		private string m_currentLevel;
+		private bool m_loadCheckpoint;
 		private int m_currentList;
-
 		private static Keys m_upKey;
 		private static Keys m_downKey;
 		private static Keys m_leftKey;
@@ -29,6 +29,8 @@ namespace GrandLarceny
 		private static Keys m_rollKey;
 		private static Keys m_actionKey;
 		private static Keys m_sprintKey;
+
+		private Texture2D m_background;
 
 		private Player player;
 
@@ -43,12 +45,23 @@ namespace GrandLarceny
 			m_currentLevel = a_levelToLoad;
 		}
 
+		public GameState(string a_levelToLoad, bool a_checkpoint)
+		{
+			m_currentLevel = a_levelToLoad;
+			m_loadCheckpoint = true;
+		}
+
 		public override void load()
 		{
 			Game.getInstance().m_camera.setZoom(1.0f);
-			m_guiObject = new LinkedList<GuiObject>();
+			if (m_loadCheckpoint)
+			{
+				Level t_loadedLevel = Loader.getInstance().loadCheckPoint();
 
-			if (File.Exists("Content\\levels\\"+m_currentLevel))
+				m_gameObjectList = t_loadedLevel.getGameObjects();
+				m_events = t_loadedLevel.getEvents();
+			}
+			else if (File.Exists("Content\\levels\\" + m_currentLevel))
 			{
 				Level t_loadedLevel = Loader.getInstance().loadLevel(m_currentLevel);
 
@@ -131,6 +144,8 @@ namespace GrandLarceny
 				m_addList[i] = new Stack<GameObject>();
 			}
 
+			m_unexplored = new LinkedList<Environment>();
+
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
 				foreach (GameObject t_go in t_ll)
@@ -140,6 +155,10 @@ namespace GrandLarceny
 					if (t_go is Player)
 					{
 						Game.getInstance().getState().setPlayer((Player)t_go);
+					}
+					else if(t_go is Environment && !((Environment)t_go).isExplored() )
+					{
+						m_unexplored.AddLast((Environment)t_go);
 					}
 				}
 			}
@@ -154,7 +173,9 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
 			}
-			
+
+			m_background = Game.getInstance().Content.Load<Texture2D>("Images//Background//starry_sky_01");
+
 			base.load();
 		}
 
@@ -176,15 +197,22 @@ namespace GrandLarceny
 			if (Game.keyClicked(Keys.I)) {
 				Game.getInstance().m_camera.printInfo();
 			}
-			if (Game.isKeyPressed(Keys.Q))
+			else if (Game.keyClicked(Keys.W))
+			{
+				Game.getInstance().getProgress().setEquipment("boots", true);
+			}
+			else if (Game.keyClicked(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
-
-			if (Game.isKeyPressed(Keys.F5))
+			else if (Game.keyClicked(Keys.F5))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
+			}
+			else if (Game.keyClicked(Keys.M))
+			{
+				Game.getInstance().setState(new MapState(this));
 			}
 
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
@@ -210,7 +238,8 @@ namespace GrandLarceny
 				++m_currentList;
 				foreach (GameObject t_firstGameObject in t_list)
 				{
-					if (t_firstGameObject is MovingObject && Game.getInstance().m_camera.isInCamera(t_firstGameObject))
+					if (t_firstGameObject is MovingObject && (Game.getInstance().m_camera.isInCamera(t_firstGameObject) ||
+						(t_firstGameObject is NPE && (((NPE)t_firstGameObject).getAIState() is AIStateChasing || ((NPE)t_firstGameObject).getAIState() is AIStateChargeing))))
 					{
 						List<Entity> t_collided = new List<Entity>();
 						foreach (GameObject t_secondGameObject in t_list)
@@ -223,12 +252,10 @@ namespace GrandLarceny
 							}
 						}
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
-						if(!(t_firstGameObject.getPosition() is PolarCoordinate))
 						((Entity)t_firstGameObject).updatePosition();
-					} else {
-						if (t_firstGameObject is Entity || t_firstGameObject is Guard) {
+					} else if (t_firstGameObject is Entity) {
 							((Entity)t_firstGameObject).setGravity(0.0f);
-						}
+							((Entity)t_firstGameObject).setSpeedY(0.0f);
 					}
 
 					if (t_firstGameObject.isDead() && !m_removeList[m_currentList].Contains(t_firstGameObject))
@@ -265,6 +292,21 @@ namespace GrandLarceny
 					}
 					t_eventNode = t_next;
 				}
+
+				if (player != null)
+				{
+					LinkedListNode<Environment> t_enviroNode = m_unexplored.First;
+					while (t_enviroNode != null)
+					{
+						LinkedListNode<Environment> t_next = t_enviroNode.Next;
+						if (t_enviroNode.Value.collidesWith(player))
+						{
+							t_enviroNode.Value.setExplored(true);
+							m_unexplored.Remove(t_enviroNode);
+						}
+						t_enviroNode = t_next;
+					}
+				}
 			}
 		}
 		/*
@@ -283,7 +325,7 @@ namespace GrandLarceny
 					ErrorLogger.getInstance().writeString("While drawing " + t_gameObject + " got exception: " + e);
 				}
 			}
-			foreach (GuiObject t_go in m_guiObject)
+			foreach (GuiObject t_go in m_guiList)
 			{
 				if (!t_go.isDead())
 				{
@@ -296,6 +338,10 @@ namespace GrandLarceny
 						ErrorLogger.getInstance().writeString("While drawing " + t_go + " got exception: " + e);
 					}
 				}
+			}
+			if (m_background != null)
+			{
+				a_spriteBatch.Draw(m_background, Game.getInstance().m_camera.getRectangle(), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
 			}
 		}
 
@@ -353,22 +399,7 @@ namespace GrandLarceny
 		}
 		public override void addGuiObject(GuiObject a_go)
 		{
-			m_guiObject.AddLast(a_go);
-		}
-
-		internal override GameObject getObjectById(int a_id)
-		{
-			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
-			{
-				foreach (GameObject t_go in t_goList)
-				{
-					if (a_id == t_go.getId())
-					{
-						return t_go;
-					}
-				}
-			}
-			return null;
+			m_guiList.AddLast(a_go);
 		}
 
 		public static Keys getUpKey()
@@ -411,7 +442,6 @@ namespace GrandLarceny
 			return m_sprintKey;
 		}
 
-
 		public void clearAggro()
 		{
 			foreach (LinkedList<GameObject> t_goList in m_gameObjectList)
@@ -420,7 +450,10 @@ namespace GrandLarceny
 				{
 					if (t_go is Guard)
 					{
-						((NPE)t_go).setAIState(AIStateGoingToTheSwitch.getInstance());
+						if (((NPE)t_go).getAIState() is AIStateChasing)
+						{
+							((NPE)t_go).setAIState(AIStateGoingToTheSwitch.getInstance());
+						}
 					}
 					else if (t_go is GuardDog)
 					{

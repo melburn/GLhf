@@ -25,11 +25,17 @@ namespace GrandLarceny
 		public static MouseState m_currentMouse;
 		public static KeyboardState m_previousKeyInput;
 		public static KeyboardState m_currentKeyInput;
+		public const int TILE_WIDTH = 72;
+		public const int TILE_HEIGHT = 72;
 
 		internal Camera m_camera;
 
 		public Progress m_progress;
+		public Progress m_nextProgress;
 		private GameTime m_currentGameTime;
+
+		private MemoryStream m_checkPointLevel;
+		private MemoryStream m_checkPointProgress;
 
 		public static Game getInstance()
 		{
@@ -50,7 +56,7 @@ namespace GrandLarceny
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
 
-			m_progress = new Progress("fin");
+			m_progress = new Progress("temp.prog");
 		}
 
 		public SpriteBatch getSpriteBatch()
@@ -85,7 +91,7 @@ namespace GrandLarceny
 
 		protected override void UnloadContent()
 		{
-			
+			ErrorLogger.getInstance().writeString("GrandLarceny terminated at " + System.DateTime.Now);
 		}
 
 		protected override void Update(GameTime a_gameTime)
@@ -101,33 +107,38 @@ namespace GrandLarceny
 				m_currentState = m_nextState;
 				if (!m_currentState.isLoaded())
 				{
-					try
-					{
+					//try
+					//{
 						m_currentState.load();
-					}
-					catch (Exception e)
-					{
-						ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
-					}
+					//}
+					//catch (Exception e)
+					//{
+						//ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
+					//}
 				}
 				m_nextState = null;
+			}
+			if (m_nextProgress != null)
+			{
+				m_progress = m_nextProgress;
+				m_nextProgress = null;
 			}
 
 			if (m_currentState != null)
 			{
-				try
-				{
+				//try
+				//{
 					m_currentState.update(a_gameTime);
-				}
-				catch (Exception e)
-				{
-					ErrorLogger.getInstance().writeString("While updating " + m_currentState + " got exception: " + e);
-				}
+				//}
+				//catch (Exception e)
+				//{
+					//ErrorLogger.getInstance().writeString("While updating " + m_currentState + " got exception: " + e);
+				//}
 			}
 
 			if (keyClicked(Keys.F7)) //Asså det här är ju inte ok
 			{
-				m_nextState = new MainMenu();
+				m_nextState = new HubMenu();
 			}
 
 			m_previousMouse = m_currentMouse;
@@ -192,19 +203,68 @@ namespace GrandLarceny
 			return m_currentKeyInput.IsKeyDown(a_key) && m_previousKeyInput.IsKeyUp(a_key);
 		}
 
-		public static bool rmbClicked()
+		#region Game Mouse
+		public static bool lmbPressed()
 		{
-			return m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Released;
+			return m_currentMouse.LeftButton == ButtonState.Pressed;
 		}
 
-		internal static bool lmbClicked()
+		public static bool lmbDown()
 		{
 			return m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released;
 		}
 
+		public static bool lmbUp()
+		{
+			return m_currentMouse.LeftButton == ButtonState.Released && m_previousMouse.LeftButton == ButtonState.Pressed;
+		}
+
+		public static bool rmbPressed()
+		{
+			return m_currentMouse.RightButton == ButtonState.Pressed;
+		}
+
+		public static bool rmbDown()
+		{
+			return m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Released;
+		}
+
+		public static bool rmbUp()
+		{
+			return m_currentMouse.RightButton == ButtonState.Released && m_previousMouse.RightButton == ButtonState.Pressed;
+		}
+
+		public static bool mmbPressed()
+		{
+			return m_currentMouse.MiddleButton == ButtonState.Pressed;
+		}
+
+		public static bool mmbDown()
+		{
+			return m_currentMouse.MiddleButton == ButtonState.Pressed && m_previousMouse.MiddleButton == ButtonState.Released;
+		}
+
+		public static bool mmbUp()
+		{
+			return m_currentMouse.MiddleButton == ButtonState.Released && m_previousMouse.MiddleButton == ButtonState.Pressed;
+		}
+		#endregion
+
 		public Progress getProgress()
 		{
 			return m_progress;
+		}
+
+		public void setProgress(string a_progressName, bool a_checkPoint)
+		{
+			if (a_checkPoint)
+			{
+				m_nextProgress = Serializer.getInstance().loadProgress(Game.getInstance().getCheckPointProgress(false));
+			}
+			else if (!a_progressName.Equals("temp.prog"))
+			{
+				m_nextProgress = Serializer.getInstance().loadProgress(Serializer.getInstance().getFileToStream(a_progressName,false));
+			}
 		}
 
 		public static bool isKeyReleased(Keys a_key)
@@ -214,6 +274,39 @@ namespace GrandLarceny
 		public TimeSpan getGameTime() 
 		{
 			return m_currentGameTime.TotalGameTime;
+		}
+
+		public bool hasCheckPoint()
+		{
+			if (m_checkPointLevel != null && m_checkPointLevel.Length != 0)
+				return true;
+			else
+				return false;
+		}
+
+		public MemoryStream getCheckPointLevel(bool a_save)
+		{
+			if (a_save)
+			{
+				m_checkPointLevel = new MemoryStream();
+			}
+			else
+			{
+				m_checkPointLevel.Position = 0;
+			}
+			return m_checkPointLevel;
+		}
+		public MemoryStream getCheckPointProgress(bool a_save)
+		{
+			if (a_save)
+			{
+				m_checkPointProgress = new MemoryStream();
+			}
+			else
+			{
+				m_checkPointProgress.Position = 0;
+			}
+			return m_checkPointProgress;
 		}
 	}
 }

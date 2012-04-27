@@ -23,7 +23,7 @@ namespace GrandLarceny
 		}
 
 		public void load() {
-			m_cameraBox = new CollisionRectangle(-Game.getInstance().getResolution().X, -Game.getInstance().getResolution().Y, Game.getInstance().getResolution().X * 2, Game.getInstance().getResolution().Y * 2, m_position);			
+			m_cameraBox = new CollisionRectangle(-Game.getInstance().getResolution().X, -Game.getInstance().getResolution().Y, Game.getInstance().getResolution().X * 2, Game.getInstance().getResolution().Y * 2, m_position);
 		}
 
 		public float getZoom()
@@ -63,7 +63,7 @@ namespace GrandLarceny
 
 		public void setPosition(Vector2 a_posV2)
 		{
-			m_position.setLocalCartesianCoordinates(a_posV2);
+			m_position.setLocalCartesian(a_posV2);
 		}
 
 		public void move(Vector2 a_posV2)
@@ -78,7 +78,7 @@ namespace GrandLarceny
 
 		public bool isInCamera(GameObject a_gameObject)
 		{
-			return CollisionManager.Contains(m_cameraBox, a_gameObject.getPosition().getGlobalCartesianCoordinates());
+			return CollisionManager.Contains(m_cameraBox, a_gameObject.getPosition().getGlobalCartesian());
 		}
 
 		/*
@@ -86,7 +86,7 @@ namespace GrandLarceny
 		*/ 
 		public Matrix getTransformation(GraphicsDevice a_gd)
 		{
-			Vector2 t_posV2 = m_position.getGlobalCartesianCoordinates();
+			Vector2 t_posV2 = m_position.getGlobalCartesian();
 			return Matrix.CreateTranslation(
 				new Vector3(-t_posV2.X, -t_posV2.Y, 0)) 
 				* Matrix.CreateRotationZ(m_rotation) 
@@ -106,6 +106,11 @@ namespace GrandLarceny
 
 		public void printInfo() {
 			System.Console.WriteLine(m_cameraBox.ToString());
+		}
+
+		public Rectangle getRectangle()
+		{
+			return m_cameraBox.getOutBox();
 		}
 	}
 }

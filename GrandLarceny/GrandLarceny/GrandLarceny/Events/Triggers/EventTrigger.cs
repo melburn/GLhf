@@ -9,7 +9,6 @@ namespace GrandLarceny.Events
 	public abstract class EventTrigger
 	{
 		public abstract bool isTrue();
-		public abstract override string ToString();
 		public virtual void linkObject() { }
 		public virtual void loadContent() { }
 	}

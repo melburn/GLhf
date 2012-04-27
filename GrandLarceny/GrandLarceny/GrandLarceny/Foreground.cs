@@ -13,7 +13,7 @@ namespace GrandLarceny
 		private LinkedList<Foreground> m_foregrounds;
 		private LinkedList<int> m_foregroundsId;
 
-		private bool m_visible;
+		private bool m_totallyVisible;
 		private bool m_fading;
 		private float m_fadingTime;
 		private bool m_fadingOut;
@@ -25,7 +25,7 @@ namespace GrandLarceny
 			: base(a_posV2, a_sprite, a_layer)
 		{
 			m_foregrounds = new LinkedList<Foreground>();
-			m_visible = true;
+			m_totallyVisible = true;
 		}
 
 		public override void loadContent()
@@ -52,6 +52,10 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
+			if (Game.getInstance().getState().getPlayer().getHitBox() == null)
+			{
+				m_totallyVisible = false;
+			}
 			float t_deltaTime = ((float)(a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
 
 			if (m_fadingTime > 0 && m_currentfadingTime == 0)
@@ -103,28 +107,27 @@ namespace GrandLarceny
 				
 			}
 
-			if (m_visible && m_fadingOut)
+			if (m_totallyVisible && m_fadingOut)
 			{
 				m_fading = true;
-				m_visible = true;
+				m_totallyVisible = true;
 				m_fadingOut = false;
 				m_fadingTime = 1f;
 
 			}
-			else if (!m_visible && !m_fadingOut)
+			else if (!m_totallyVisible && !m_fadingOut)
 			{
 				m_fading = true;
 				m_fadingOut = true;
 				m_fadingTime = 1f;
 			}
-			m_visible = true;
-			
+			m_totallyVisible = true;
 		}
 
 		public override void draw(GameTime a_gameTime)
 		{
 
-			if (m_visible || m_fading)
+			if (m_totallyVisible || m_fading)
 			{
 				base.draw(a_gameTime);
 			}
@@ -134,15 +137,19 @@ namespace GrandLarceny
 		{
 			if (a_collid is Player && CollisionManager.Collides(this.getHitBox(), a_collid.getHitBox()))
 			{
-				m_visible = false;
+				fadeOut();
+			}
+		}
+
+		private void fadeOut()
+		{
+				m_totallyVisible = false;
 				m_fading = true;
 
 				foreach (Foreground t_fg in m_foregrounds)
 				{
-					t_fg.setVisible(false);
+					t_fg.setTotallyVisible(false);
 				}
-
-			}
 		}
 
 		public void addForeGround(Foreground a_foreground, bool a_addBack)
@@ -172,9 +179,9 @@ namespace GrandLarceny
 			}
 		}
 
-		public void setVisible(bool a_visible)
+		public void setTotallyVisible(bool a_visible)
 		{
-			m_visible = a_visible;
+			m_totallyVisible = a_visible;
 			m_fading = true;
 		}
 

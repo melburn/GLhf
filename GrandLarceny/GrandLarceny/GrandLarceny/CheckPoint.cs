@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace GrandLarceny
 {
@@ -18,12 +19,21 @@ namespace GrandLarceny
 			if (a_collider is Player)
 			{
 				Player t_player = (Player)a_collider;
-				if (CollisionManager.Collides(this.getHitBox(), a_collider.getHitBox()) && Game.isKeyPressed(GameState.getActionKey()))
+				if(CollisionManager.Collides(this.getHitBox(), a_collider.getHitBox()))
 				{
-					Level tLevel = new Level();
-					tLevel.setLevelObjects(Game.getInstance().getState().getObjectList());
-					tLevel.setEvents(((GameState)Game.getInstance().getState()).getEvents());
-					Serializer.getInstance().SaveLevel("Checkpoint.lvl",tLevel);
+					if (Game.isKeyPressed(GameState.getActionKey()))
+					{
+						Level tLevel = new Level();
+						tLevel.setLevelObjects(Game.getInstance().getState().getObjectList());
+						tLevel.setEvents(((GameState)Game.getInstance().getState()).getEvents());
+
+						Serializer.getInstance().SaveLevel(Game.getInstance().getCheckPointLevel(true), tLevel);
+						Serializer.getInstance().saveGame(Game.getInstance().getCheckPointProgress(true), Game.getInstance().getProgress());
+					}
+					else
+					{
+						t_player.setInteractionVisibillity(true);
+					}
 				}
 			}
 		}

@@ -20,8 +20,9 @@ namespace GrandLarceny
 		private float m_rotationSpeed;
 		private Entity m_chaseTarget;
 		private const float ROTATIONSPEED = 0.7f;
+
 		public GuardCamera(Vector2 a_position, String a_sprite, float a_layer, float a_rotation, float a_leftRotation, float a_rightRotation)
-			:base(a_position,a_sprite,a_layer)
+			: base(a_position,a_sprite,a_layer)
 		{
 			if (a_rotation < 0 || a_rotation > 2 * Math.PI ||
 				a_leftRotation < 0 || a_leftRotation > 2 * Math.PI ||
@@ -57,7 +58,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_light = new LightCone(this, "Images//LightCone//Ljus", m_layer + 0.001f, 300f, 100f);
+				m_light = new LightCone(this, "Images//LightCone//Ljus", m_img.getSize().X, m_layer + 0.001f, 400f, 100f, m_layer - 0.01f, "Images//LightCone//ljusboll");
 				m_lightLink = m_light.getId();
 				(Game.getInstance().getState()).addObject(m_light);
 			}

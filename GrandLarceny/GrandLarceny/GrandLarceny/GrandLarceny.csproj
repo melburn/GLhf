@@ -93,6 +93,9 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -113,6 +116,14 @@
     <Compile Include="AI\AIStateChasing.cs" />
     <Compile Include="AI\AIStateGoingToTheSwitch.cs" />
     <Compile Include="AI\AIStatePatrolling.cs" />
+    <Compile Include="Consumable.cs" />
+    <Compile Include="CollisionLine.cs" />
+    <Compile Include="ConsumableGoal.cs" />
+    <Compile Include="ConsumableHeart.cs" />
+    <Compile Include="ConsumableKey.cs" />
+    <Compile Include="Events\Effects\FinnishLevelEffect.cs" />
+    <Compile Include="Events\Triggers\IsDeadTrigger.cs" />
+    <Compile Include="Factories\AssetFactory.cs" />
     <Compile Include="Box.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
@@ -137,7 +148,14 @@
     <Compile Include="Events\Effects\EventEffect.cs" />
     <Compile Include="Events\Triggers\ChaseTrigger.cs" />
     <Compile Include="Events\Triggers\SwitchTrigger.cs" />
+    <Compile Include="Factories\GuiListFactory.cs" />
     <Compile Include="Foreground.cs" />
+    <Compile Include="Hookshot.cs" />
+    <Compile Include="GuardEntity.cs" />
+    <Compile Include="HubMenu.cs" />
+    <Compile Include="LoadAndSaveMenu.cs" />
+    <Compile Include="LockedDoor.cs" />
+    <Compile Include="MapState.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />
@@ -185,6 +203,7 @@
     <Compile Include="Sound.cs" />
     <Compile Include="SpotLight.cs" />
     <Compile Include="States.cs" />
+    <Compile Include="VentilationEnd.cs" />
     <Compile Include="Ventilation.cs" />
     <Compile Include="VentilationDrum.cs" />
     <Compile Include="StraightVentilation.cs" />
@@ -197,7 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GrandLarcenyContent\GrandLarcenyContent.contentproj">
-      <Name>GrandLarcenyContent %28Content%29</Name>
+      <Name>GrandLarcenyContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
       <Project>{E110AA7A-B83A-4C6B-BF33-AD4E16160744}</Project>
     </ProjectReference>

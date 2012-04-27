@@ -9,6 +9,9 @@ namespace GrandLarceny
 	[Serializable()]
 	public class CornerHang : NonMovingObject
 	{
+
+		private bool m_playerOn = false;
+
 		public CornerHang(Vector2 a_position, String a_sprite, float a_layer, float a_rotation = 0)
 			: base(new CartesianCoordinate(a_position), a_sprite, a_layer, a_rotation)
 		{
@@ -26,11 +29,20 @@ namespace GrandLarceny
 			if (a_collid is Player)
 			{
 				Player t_player = (Player)a_collid;
-				if (t_player.getCurrentState() == Player.State.Slide)
+				if (t_player.getCurrentState() == Player.State.Slide || m_playerOn)
 				{
-					
-					t_player.setNextPositionY(t_player.getLastPosition().Y);
-					
+					m_playerOn = true;
+					t_player.setState(Player.State.Slide);
+					t_player.setNextPositionY(m_position.getGlobalY());
+					t_player.setSpeedY(0);
+					if (Game.isKeyPressed(GameState.getDownKey())
+						|| Game.keyClicked(GameState.getJumpKey())
+						|| (t_player.isFacingRight() && Game.isKeyPressed(GameState.getRightKey()))
+						|| (!t_player.isFacingRight() && Game.isKeyPressed(GameState.getLeftKey())))
+					{
+						m_playerOn = false;
+						t_player.setState(Player.State.Jumping);
+					}
 				}
 			}
 		}

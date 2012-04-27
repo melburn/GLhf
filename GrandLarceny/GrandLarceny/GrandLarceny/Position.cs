@@ -12,13 +12,15 @@ namespace GrandLarceny
 		[NonSerialized]
 		protected Position m_parentPosition;
 
-		abstract public Vector2 getLocalCartesianCoordinates();
-		abstract public Vector2 getGlobalCartesianCoordinates();
-		abstract public Vector2 getLocalPolarCoordinates();
-		abstract public Vector2 getGlobalPolarCoordinates();
-		abstract public void setLocalCartesianCoordinates(Vector2 a_position);
-		abstract public void setGlobalCartesianCoordinates(Vector2 a_position);
-		abstract public void setLocalPolarCoordinates(float a_radius, float a_radians);
+		abstract public Vector2 getLocalCartesian();
+		abstract public Vector2 getGlobalCartesian();
+		abstract public Vector2 getLocalPolar();
+		abstract public Vector2 getGlobalPolar();
+		abstract public Vector2 getFlooredGlobalCartesian();
+		abstract public Vector2 getFlooredLocalCartesian();
+		abstract public void setLocalCartesian(Vector2 a_position);
+		abstract public void setGlobalCartesian(Vector2 a_position);
+		abstract public void setLocalPolar(float a_radius, float a_radians);
 		abstract public void plusWith(Vector2 a_term);
 		abstract public void setLength(float length);
 		abstract public void rotate(float a_radians);
@@ -72,17 +74,22 @@ namespace GrandLarceny
 
 		public float getDistanceTo(Position a_point)
 		{
-			return (a_point.getGlobalCartesianCoordinates()-getGlobalCartesianCoordinates()).Length();
+			return (a_point.getGlobalCartesian()-getGlobalCartesian()).Length();
 		}
 		public float getDistanceTo(Vector2 a_point)
 		{
-			return (a_point - getGlobalCartesianCoordinates()).Length();
+			return (a_point - getGlobalCartesian()).Length();
 		}
 
 		public float getAngleTo(Vector2 a_point)
 		{
-			Vector2 t_ThisPoint = getGlobalCartesianCoordinates();
+			Vector2 t_ThisPoint = getGlobalCartesian();
 			return (float)(Math.Atan2((double)(t_ThisPoint.Y - a_point.Y), (double)(t_ThisPoint.X - a_point.X)) + Math.PI);
+		}
+
+		public static Vector2 floor(Vector2 m_coordinates)
+		{
+			return new Vector2((float)Math.Floor(m_coordinates.X), (float)Math.Floor(m_coordinates.Y));
 		}
 	}
 }

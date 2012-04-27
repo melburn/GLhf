@@ -48,13 +48,12 @@ namespace GrandLarceny
 			
 			float t_deltaTime = ((float)(a_gameTime.ElapsedGameTime.Milliseconds)) / 1000.0f;
 			
-			if (Game.getInstance().m_camera.isInCamera(this)) {
-				
+			if (Game.getInstance().m_camera.isInCamera(this))
+			{
 				m_speed.Y += m_gravity * t_deltaTime;
 			}
-				m_position.plusWith(m_speed * t_deltaTime);
-				m_nextPosition = m_position.getLocalCartesianCoordinates();
-			
+			m_position.plusWith(m_speed * t_deltaTime);
+			m_nextPosition = m_position.getGlobalCartesian();	
 		}
 
 		public virtual CollisionShape getHitBox()
@@ -120,7 +119,7 @@ namespace GrandLarceny
 
 		public void updatePosition()
 		{
-			m_position.setGlobalCartesianCoordinates(m_nextPosition);
+			m_position.setGlobalCartesian(m_nextPosition);
 		}
 		public override void changePositionType()
 		{

@@ -25,7 +25,7 @@ namespace GrandLarceny
 
 		#region Constructor & Load
 		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, bool a_worldBox)
-			:base(a_position, "", 0.11f)
+			: base(a_position, "", 0.110f)
 		{
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			if (a_worldBox)
@@ -45,7 +45,7 @@ namespace GrandLarceny
 		}
 
 		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, Color a_lineColor, int a_lineWidth, bool a_worldBox)
-			:base(a_position, "", 0.11f)
+			: base(a_position, "", 0.110f)
 		{
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			m_boxTexture.SetData(new[] { a_color });
@@ -100,11 +100,11 @@ namespace GrandLarceny
 				m_to.Y += m_position.getGlobalY();*/
 				float t_moveDelta = ((float)a_gameTime.TotalGameTime.TotalMilliseconds - m_timeStart) / (m_timer - m_timeStart);
 				Vector2 tLerp = Vector2.Lerp(m_from, m_to, t_moveDelta);
-				m_position.setLocalCartesianCoordinates(tLerp);
+				m_position.setLocalCartesian(tLerp);
 			}
-			else if(m_timer > 0)
+			else if (m_timer > 0)
 			{
-				m_position.setLocalCartesianCoordinates(m_to);
+				m_position.setLocalCartesian(m_to);
 				m_timer = 0;
 			}
 		}
@@ -113,7 +113,7 @@ namespace GrandLarceny
 		{
 			if (m_worldBox)
 			{
-				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, m_position.getGlobalCartesianCoordinates(), null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, 0.011f);
+				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, m_position.getGlobalCartesian(), null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, m_layer);
 				
 				if (m_lineList != null && m_lineList.Count > 0)
 				{
@@ -130,7 +130,7 @@ namespace GrandLarceny
 				t_cartCoord.X = m_position.getLocalX() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalX();
 				t_cartCoord.Y = m_position.getLocalY() / t_zoom + Game.getInstance().m_camera.getPosition().getGlobalY();
 				
-				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, t_cartCoord, null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width / t_zoom, m_height / t_zoom), SpriteEffects.None, 0.011f);
+				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, t_cartCoord, null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width / t_zoom, m_height / t_zoom), SpriteEffects.None, m_layer);
 				
 				if (m_lineList != null && m_lineList.Count > 0)
 				{
@@ -175,7 +175,7 @@ namespace GrandLarceny
 		{
 			m_to = a_to;
 			m_from = a_from;
-			m_timer = (float)a_gameTime.TotalGameTime.TotalMilliseconds + a_timer*1000;
+			m_timer = (float)a_gameTime.TotalGameTime.TotalMilliseconds + a_timer * 1000;
 			m_timeStart = (float)a_gameTime.TotalGameTime.TotalMilliseconds;
 		}
 		#endregion

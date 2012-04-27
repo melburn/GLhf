@@ -23,38 +23,38 @@ namespace GrandLarceny
 		}
 		public PolarCoordinate(float a_radie, float a_slope)
 		{
-			m_coordinates = new Vector2(a_radie, a_slope);
+			setLocalPolar(a_radie, a_slope);
 		}
 
 		public PolarCoordinate(float a_radie, float a_slope, Position a_parent)
 		{
-			m_coordinates = new Vector2(a_radie, a_slope);
+			setLocalPolar(a_radie, a_slope);
 			m_parentPosition = a_parent;
 		}
 
-		public override Vector2 getLocalCartesianCoordinates()
+		public override Vector2 getLocalCartesian()
 		{
 			return convertPolarToCartesian(m_coordinates);
 		}
 
-		public override Vector2 getGlobalCartesianCoordinates()
+		public override Vector2 getGlobalCartesian()
 		{
 			if (m_parentPosition == null)
 			{
-				return getLocalCartesianCoordinates();
+				return getLocalCartesian();
 			}
 			else
 			{
-				return m_parentPosition.getGlobalCartesianCoordinates() + getLocalCartesianCoordinates();
+				return m_parentPosition.getGlobalCartesian() + getLocalCartesian();
 			}
 		}
 
-		public override Vector2 getLocalPolarCoordinates()
+		public override Vector2 getLocalPolar()
 		{
 			return m_coordinates;
 		}
 
-		public override Vector2 getGlobalPolarCoordinates()
+		public override Vector2 getGlobalPolar()
 		{
 			if (m_parentPosition == null)
 			{
@@ -62,19 +62,25 @@ namespace GrandLarceny
 			}
 			else
 			{
-				return convertCartesianToPolar(getGlobalCartesianCoordinates());
+				return convertCartesianToPolar(getGlobalCartesian());
 			}
 		}
 
-		public override void setLocalCartesianCoordinates(Vector2 a_position)
+		public override void setLocalCartesian(Vector2 a_position)
 		{
 			m_coordinates = convertCartesianToPolar(a_position);
 		}
 
-		public override void setLocalPolarCoordinates(float a_radius, float a_radians)
+		public override void setLocalPolar(float a_radius, float a_radians)
 		{
-			m_coordinates.X = a_radius;
-			m_coordinates.Y = a_radians;
+			if (a_radius < 0)
+			{
+				m_coordinates = new Vector2(-a_radius, (float)((a_radians + Math.PI) % (Math.PI * 2.0)));
+			}
+			else
+			{
+				m_coordinates = new Vector2(a_radius, a_radians);
+			}
 		}
 
 		public override void plusWith(Vector2 a_term)
@@ -85,14 +91,18 @@ namespace GrandLarceny
 			}
 		}
 
-		public override void setLength(float length)
+		public override void setLength(float a_length)
 		{
-			m_coordinates.X = length;
+			if (a_length < 0)
+			{
+				m_coordinates.Y = (float)((m_coordinates.X + Math.PI) % (Math.PI * 2.0));
+			}
+			m_coordinates.X = a_length;
 		}
 
 		public override void rotate(float a_radians)
 		{
-			m_coordinates.Y += a_radians;
+			m_coordinates.Y = (float) ((m_coordinates.Y + a_radians) % (Math.PI * 2.0));
 		}
 
 		public override float getLength()
@@ -147,10 +157,10 @@ namespace GrandLarceny
 			}
 			if (a_parentPosition == null)
 			{
-				m_coordinates = getGlobalPolarCoordinates();
+				m_coordinates = getGlobalPolar();
 			}
 			else{
-				m_coordinates = convertCartesianToPolar(getGlobalCartesianCoordinates() - a_parentPosition.getGlobalCartesianCoordinates());
+				m_coordinates = convertCartesianToPolar(getGlobalCartesian() - a_parentPosition.getGlobalCartesian());
 			}
 			m_parentPosition = a_parentPosition;
 		}
@@ -230,7 +240,7 @@ namespace GrandLarceny
 			m_coordinates = convertCartesianToPolar(t_cartesian);
 		}
 
-		public override void setGlobalCartesianCoordinates(Vector2 a_position)
+		public override void setGlobalCartesian(Vector2 a_position)
 		{
 			if (m_parentPosition == null)
 			{
@@ -238,8 +248,37 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_coordinates = convertCartesianToPolar(a_position - m_parentPosition.getGlobalCartesianCoordinates());
+				m_coordinates = convertCartesianToPolar(a_position - m_parentPosition.getGlobalCartesian());
 			}
+		}
+
+		public override string ToString()
+		{
+			if (m_parentPosition == null)
+			{
+				return "(L:" + m_coordinates.X + ",R:" + m_coordinates.Y + ")";
+			}
+			else
+			{
+				return "(L:" + m_coordinates.X + ",R:" + m_coordinates.Y + ") + P";
+			}
+		}
+
+		public override Vector2 getFlooredGlobalCartesian()
+		{
+			if (m_parentPosition == null)
+			{
+				return floor(convertPolarToCartesian(m_coordinates));
+			}
+			else
+			{
+				return floor(convertPolarToCartesian(m_coordinates)) + m_parentPosition.getFlooredGlobalCartesian();
+			}
+		}
+
+		public override Vector2 getFlooredLocalCartesian()
+		{
+			return floor(convertPolarToCartesian(m_coordinates));
 		}
 	}
 }
