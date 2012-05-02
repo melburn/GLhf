@@ -22,7 +22,7 @@ namespace GrandLarceny
 
 		public override void update(GameTime a_gameTime)
 		{
-			m_lastPosition = m_position.getGlobalCartesianCoordinates();
+			m_lastPosition = m_position.getGlobalCartesian();
 			if (m_aiState != null && m_aiActive)
 			{
 				m_aiState = m_aiState.execute(this);

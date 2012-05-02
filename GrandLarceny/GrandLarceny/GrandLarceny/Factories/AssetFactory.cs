@@ -184,7 +184,7 @@ namespace GrandLarceny
 		public static void copyAsset(GameObject a_asset)
 		{
 			States t_state = Game.getInstance().getState();
-			Vector2 t_position = a_asset.getPosition().getGlobalCartesianCoordinates();
+			Vector2 t_position = a_asset.getPosition().getGlobalCartesian();
 			string t_imagePath = a_asset.getImg().getImagePath();
 
 			if (a_asset is Player) {

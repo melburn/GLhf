@@ -88,7 +88,7 @@ namespace GrandLarceny
 					{
 						foreach (GameObject t_guard in Game.getInstance().getState().getCurrentList())
 						{
-							if (t_guard is Guard && ((Guard)t_guard).canSeePoint(m_position.getGlobalCartesianCoordinates()))
+							if (t_guard is Guard && ((Guard)t_guard).canSeePoint(m_position.getGlobalCartesian()))
 							{
 								((Guard)t_guard).addLampSwitchTarget(this);
 							}

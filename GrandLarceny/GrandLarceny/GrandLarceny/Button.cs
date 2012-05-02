@@ -180,25 +180,25 @@ namespace GrandLarceny
 			if (!m_isVisible) {
 				return;
 			}
-			CartesianCoordinate t_cartCoord = new CartesianCoordinate(m_position.getLocalCartesianCoordinates() / Game.getInstance().m_camera.getZoom(), m_position.getParentPosition());
+			CartesianCoordinate t_cartCoord = new CartesianCoordinate(m_position.getLocalCartesian() / Game.getInstance().m_camera.getZoom(), m_position.getParentPosition());
 			if (m_isPressed || m_currentState == State.Pressed)
 			{
-				a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
+				a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
 					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			}
 			else if (m_isFocused || m_currentState == State.Hover)
 			{
-				a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
+				a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
 					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			}
 			else if (m_isToggled || m_currentState == State.Toggled)
 			{
-				a_spriteBatch.Draw(m_toggleTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
+				a_spriteBatch.Draw(m_toggleTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
 					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			}
 			else
 			{
-				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesianCoordinates(), null, Color.White, 0.0f, 
+				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
 					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
 			}
 			if (m_text != null)

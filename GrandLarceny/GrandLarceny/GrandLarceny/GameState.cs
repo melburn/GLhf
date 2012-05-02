@@ -30,6 +30,8 @@ namespace GrandLarceny
 		private static Keys m_actionKey;
 		private static Keys m_sprintKey;
 
+		private Texture2D m_background;
+
 		private Player player;
 
 		private ParseState m_currentParse;
@@ -171,7 +173,9 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
 			}
-			
+
+			m_background = Game.getInstance().Content.Load<Texture2D>("Images//Background//starry_sky_01");
+
 			base.load();
 		}
 
@@ -334,6 +338,10 @@ namespace GrandLarceny
 						ErrorLogger.getInstance().writeString("While drawing " + t_go + " got exception: " + e);
 					}
 				}
+			}
+			if (m_background != null)
+			{
+				a_spriteBatch.Draw(m_background, Game.getInstance().m_camera.getRectangle(), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
 			}
 		}
 

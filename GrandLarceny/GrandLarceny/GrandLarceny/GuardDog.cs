@@ -48,7 +48,7 @@ namespace GrandLarceny
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			return t_player != null &&
-				((t_player.getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() < m_senceRange ||
+				((t_player.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() < m_senceRange ||
 				(t_player.isInLight() &&
 				isFacingTowards(t_player.getPosition().getGlobalX()) &&
 				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
@@ -113,7 +113,7 @@ namespace GrandLarceny
 					//play sound
 					foreach (GameObject go in Game.getInstance().getState().getCurrentList())
 					{
-						if (go is Guard && (go.getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() <= AIStateBark.BARKRADIUS && ((NPE)go).getAIState() != AIStateChasing.getInstance())
+						if (go is Guard && (go.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() <= AIStateBark.BARKRADIUS && ((NPE)go).getAIState() != AIStateChasing.getInstance())
 						{
 							((Guard)go).setChaseTarget(m_chaseTarget);
 							((NPE)go).setAIState(AIStateChasing.getInstance());

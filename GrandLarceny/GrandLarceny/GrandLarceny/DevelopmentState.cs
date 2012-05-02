@@ -47,6 +47,7 @@ namespace GrandLarceny
 		private Box m_statusBar;
 
 		private TextField m_textField;
+		private TextField m_parrScrollTF;
 		
 		/*
 		-----------------------------------
@@ -195,11 +196,13 @@ namespace GrandLarceny
 
 			m_guiList.AddLast(m_textField = new TextField(new Vector2(400, 0), 50, 25, false, true, false, 3));
 
+			m_guiList.AddLast(m_parrScrollTF = new TextField(new Vector2(500, 0), 70, 25, false, true, false, 3));
+
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
 					if (t_gameObject is Player) {
 						m_player = t_gameObject;
-						Game.getInstance().m_camera.setPosition(m_player.getPosition().getGlobalCartesianCoordinates());
+						Game.getInstance().m_camera.setPosition(m_player.getPosition().getGlobalCartesian());
 						break;
 					}
 				}
@@ -423,9 +426,10 @@ namespace GrandLarceny
 				t_gui.update(a_gameTime);
 			}
 			m_textField.update(a_gameTime);
+			m_parrScrollTF.update(a_gameTime);
 
 			if (m_selectedObject != null) {
-				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesianCoordinates());
+				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());
 				m_textSelectedObjectPosition.setText(m_selectedInfoV2.ToString());
 				if (m_selectedObject is Guard) {
 					Guard t_guard = (Guard)m_selectedObject;
@@ -726,6 +730,21 @@ namespace GrandLarceny
 				}
 				return;
 			}
+			if (m_parrScrollTF.isWriting())
+			{
+				if (Game.keyClicked(Keys.Enter) && m_selectedObject != null && m_selectedObject is Environment)
+				{
+					try
+					{
+						((Environment)m_selectedObject).setParrScroll(int.Parse(m_parrScrollTF.getText()));
+					}
+					catch (FormatException)
+					{
+					}
+					clearSelectedObject();
+				}
+				return;
+			}
 			if (Game.keyClicked(Keys.F5)) {
 				m_currentLayer = 0;
 				Game.getInstance().setState(new GameState(m_levelToLoad));
@@ -783,7 +802,7 @@ namespace GrandLarceny
 						AssetFactory.copyAsset(m_copyTarget);
 					}
 				}
-				if (Game.keyClicked(Keys.N) && m_selectedObject != null) {
+				if (Game.keyClicked(Keys.N) && m_selectedObject != null && m_selectedObject is Window) {
 					((Window)m_selectedObject).toggleOpen();
 				}
 			} else if (shiftMod()) {
@@ -945,7 +964,7 @@ namespace GrandLarceny
 			-----------------------------------
 			*/
 			if (Game.mmbPressed()) {
-				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates();
+				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
 				t_difference.X = (Mouse.GetState().X - Game.getInstance().getResolution().X / 2) / 20 / Game.getInstance().m_camera.getZoom();
 				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().getResolution().Y / 2) / 20 / Game.getInstance().m_camera.getZoom();
 				Game.getInstance().m_camera.getPosition().plusWith(t_difference);
@@ -1088,8 +1107,18 @@ namespace GrandLarceny
 							showLightSwitchInfo((LampSwitch)m_selectedObject);
 						}
 						m_textField.setText((m_selectedObject.getLayer() * 1000).ToString());
+						if (m_selectedObject is Environment)
+						{
+							m_parrScrollTF.setText(((Environment)m_selectedObject).getParrScroll().ToString());
+							m_parrScrollTF.setVisible(false);
+						}
+						else
+						{
+							m_parrScrollTF.setText("");
+							m_parrScrollTF.setVisible(true);
+						}
 						m_selectedObject.setColor(Color.Yellow);
-						m_dragFrom = m_selectedObject.getPosition().getGlobalCartesianCoordinates();
+						m_dragFrom = m_selectedObject.getPosition().getGlobalCartesian();
 					}
 				}
 			}
@@ -1101,9 +1130,9 @@ namespace GrandLarceny
 			*/
 			if (Game.lmbUp()) {
 				if (m_selectedObject != null) {
-					if (m_selectedObject is Guard && m_selectedObject.getPosition().getGlobalCartesianCoordinates() != m_dragFrom) {
-						setGuardPoint((Guard)m_selectedObject, m_rightGuardPoint.getEndPoint().getGlobalCartesianCoordinates(), true);
-						setGuardPoint((Guard)m_selectedObject, m_leftGuardPoint.getEndPoint().getGlobalCartesianCoordinates(), false);
+					if (m_selectedObject is Guard && m_selectedObject.getPosition().getGlobalCartesian() != m_dragFrom) {
+						setGuardPoint((Guard)m_selectedObject, m_rightGuardPoint.getEndPoint().getGlobalCartesian(), true);
+						setGuardPoint((Guard)m_selectedObject, m_leftGuardPoint.getEndPoint().getGlobalCartesian(), false);
 						showGuardInfo((Guard)m_selectedObject);
 					}
 				}
@@ -1134,11 +1163,11 @@ namespace GrandLarceny
 					}
 
 					if (m_selectedObject is SpotLight) {
-						m_selectedObject.getPosition().setGlobalCartesianCoordinates(new Vector2(t_mousePosition.X + m_selectedObject.getBox().Width,t_mousePosition.Y));
+						m_selectedObject.getPosition().setGlobalCartesian(new Vector2(t_mousePosition.X + m_selectedObject.getBox().Width,t_mousePosition.Y));
 					} else if (m_selectedObject is Rope) {
 						((Rope)m_selectedObject).moveRope(new Vector2(getTileCoordinates(m_worldMouse).X - 36, getTileCoordinates(m_worldMouse).Y));
 					} else {
-						m_selectedObject.getPosition().setGlobalCartesianCoordinates(t_mousePosition);
+						m_selectedObject.getPosition().setGlobalCartesian(t_mousePosition);
 					}
 				}
 			}
@@ -1572,6 +1601,7 @@ namespace GrandLarceny
 				m_statusBar.draw(a_gameTime);
 				if (m_selectedObject != null) {
 					m_textField.draw(a_gameTime);
+					m_parrScrollTF.draw(a_gameTime);
 				}
 				switch (m_menuState) {
 					case MenuState.Guard:

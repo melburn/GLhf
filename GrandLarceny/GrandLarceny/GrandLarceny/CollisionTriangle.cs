@@ -65,7 +65,7 @@ namespace GrandLarceny
 			}
 			else if (a_cs is CollisionLine)
 			{
-				return collidesWithLineSegment(((CollisionLine)a_cs).getPosition().getGlobalCartesianCoordinates(), ((CollisionLine)a_cs).getEndPosition().getGlobalCartesianCoordinates());
+				return collidesWithLineSegment(((CollisionLine)a_cs).getPosition().getGlobalCartesian(), ((CollisionLine)a_cs).getEndPosition().getGlobalCartesian());
 			}
 			return false;
 		}
@@ -73,17 +73,17 @@ namespace GrandLarceny
 		public Vector2[] getFourPoints()
 		{
 			Vector2[] t_ret = new Vector2[4];
-			t_ret[3] = m_AOffset + m_position.getGlobalCartesianCoordinates();
-			t_ret[1] = m_BOffset + m_position.getGlobalCartesianCoordinates();
-			t_ret[2] = m_COffset + m_position.getGlobalCartesianCoordinates();
+			t_ret[3] = m_AOffset + m_position.getGlobalCartesian();
+			t_ret[1] = m_BOffset + m_position.getGlobalCartesian();
+			t_ret[2] = m_COffset + m_position.getGlobalCartesian();
 			t_ret[0] = new Vector2((m_AOffset.X + m_BOffset.X + m_COffset.X) / 3 + m_position.getGlobalX(), (m_AOffset.Y + m_BOffset.Y + m_COffset.Y) / 3 + m_position.getGlobalY());
 			return t_ret;
 		}
 		public override bool contains(Vector2 a_point)
 		{
-			Vector2 t_pointA = m_AOffset + m_position.getGlobalCartesianCoordinates();
-			Vector2 t_pointB = m_BOffset + m_position.getGlobalCartesianCoordinates();
-			Vector2 t_pointC = m_COffset + m_position.getGlobalCartesianCoordinates();
+			Vector2 t_pointA = m_AOffset + m_position.getGlobalCartesian();
+			Vector2 t_pointB = m_BOffset + m_position.getGlobalCartesian();
+			Vector2 t_pointC = m_COffset + m_position.getGlobalCartesian();
 			return (getAngle(t_pointA, t_pointB, a_point) <= getAngle(t_pointA, t_pointB, t_pointC) &&
 				getAngle(t_pointA, t_pointC, a_point) <= getAngle(t_pointA, t_pointC, t_pointB) &&
 				getAngle(t_pointB, t_pointA, a_point) <= getAngle(t_pointB, t_pointA, t_pointC)) &&

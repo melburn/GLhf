@@ -518,7 +518,7 @@ namespace GrandLarceny
 			*/
 			if (Game.m_currentMouse.MiddleButton == ButtonState.Pressed && Game.m_previousMouse.MiddleButton == ButtonState.Pressed)
 			{
-				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesianCoordinates();
+				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
 				t_difference.X = (Mouse.GetState().X - Game.getInstance().getResolution().X / 2) / 20 / Game.getInstance().m_camera.getZoom();
 				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().getResolution().Y / 2) / 20 / Game.getInstance().m_camera.getZoom();
 				Game.getInstance().m_camera.getPosition().plusWith(t_difference);

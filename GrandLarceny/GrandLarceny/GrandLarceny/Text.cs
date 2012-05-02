@@ -163,7 +163,7 @@ namespace GrandLarceny
 
 			if (m_worldFont)
 			{
-				t_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesianCoordinates(), m_color);
+				t_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesian(), m_color);
 			}
 			else
 			{	

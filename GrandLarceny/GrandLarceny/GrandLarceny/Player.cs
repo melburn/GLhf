@@ -123,9 +123,9 @@ namespace GrandLarceny
 			m_healthHearts = new GuiObject[3];
 			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[0]);
-			m_healthHearts[1] = new GuiObject(new Vector2(200, 50), "GameGUI//health");
+			m_healthHearts[1] = new GuiObject(new Vector2(180, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
-			m_healthHearts[2] = new GuiObject(new Vector2(300, 50), "GameGUI//health");
+			m_healthHearts[2] = new GuiObject(new Vector2(260, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_stand");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_walk");
@@ -172,7 +172,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			m_interactionArrow.update(a_gameTime);
-			m_lastPosition = m_position.getGlobalCartesianCoordinates();
+			m_lastPosition = m_position.getGlobalCartesian();
 
 			if (!m_stunned)
 			{
@@ -274,7 +274,7 @@ namespace GrandLarceny
 
 			updateFlip();
 			base.update(a_gameTime);
-			if ((Game.getInstance().m_camera.getPosition().getLocalCartesianCoordinates() - m_cameraPoint).Length() > 3)
+			if ((Game.getInstance().m_camera.getPosition().getLocalCartesian() - m_cameraPoint).Length() > 3)
 			{
 				Game.getInstance().m_camera.getPosition().smoothStep(m_cameraPoint, CAMERASPEED);
 			}
@@ -337,8 +337,8 @@ namespace GrandLarceny
 						{
 							m_lastState = State.Hanging;
 							m_imgOffsetY += m_rollHitBox.m_height / 4f;
-							m_position.plusYWith(m_rollHitBox.m_height / 1.3f - 1);
-							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.3f);
+							m_position.plusYWith(m_rollHitBox.m_height / 1.295f - 1);
+							Game.getInstance().m_camera.getPosition().plusYWith(-m_rollHitBox.m_height / 1.295f);
 						}
 						else
 						{
@@ -482,7 +482,7 @@ namespace GrandLarceny
 			
 			if (Game.keyClicked(GameState.getRollKey()))
 			{
-				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesianCoordinates(), null, 0.100f);
+				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesian(), null, 0.100f);
 				if (m_facingRight)
 				{
 					t_hs.setDirection(new Vector2(100, -100));
@@ -700,6 +700,16 @@ namespace GrandLarceny
 				|| Game.keyClicked(GameState.getActionKey()))
 			{
 				m_currentState = State.Stop;
+				if (m_facingRight)
+				{
+					m_position.plusXWith(40);
+					Game.getInstance().m_camera.getPosition().plusXWith(-30);
+				}
+				else
+				{
+					m_position.plusXWith(-40);
+					Game.getInstance().m_camera.getPosition().plusXWith(30);
+				}
 			}
 
 			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
@@ -1028,6 +1038,11 @@ namespace GrandLarceny
 		{
 			if (m_currentState != m_lastState)
 			{
+				if (m_runMode == true && (m_currentState != State.Walking && m_currentState != State.Jumping))
+				{
+					toggleRunMode();
+				}
+
 				if ((m_lastState == State.Rolling || (m_lastState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE) || m_lastState == State.Hanging)
 					&& m_currentState != State.Rolling && m_currentState != State.Hanging)
 				{
@@ -1114,17 +1129,25 @@ namespace GrandLarceny
 				}
 				else if (m_lastState == State.Swinging)
 				{
-					m_imgOffsetX = 0;
 					m_rotationPoint.X = m_img.getSize().X / 2;
 					m_rotationPoint.Y = m_img.getSize().Y / 2;
-					changePositionType();
+					changePositionToCartesian();
 					m_position.setParentPositionWithoutMoving(null);
 					m_rotate = 0;
 					m_rope.resetPosition();
 					m_swingSpeed = 0;
-					m_position.setGlobalX(m_position.getGlobalX() - 36);
-					Game.getInstance().m_camera.getPosition().setGlobalX(Game.getInstance().m_camera.getPosition().getGlobalX() + 36);
-					m_collisionShape = m_standHitBox;
+					if (m_currentState != State.Ventilation)
+					{
+						m_imgOffsetX = 0;
+						m_position.setGlobalX(m_position.getGlobalX() - 36);
+						Game.getInstance().m_camera.getPosition().setGlobalX(Game.getInstance().m_camera.getPosition().getGlobalX() + 36);
+						m_collisionShape = m_standHitBox;
+					}
+				}
+				if (m_lastState == State.Ventilation)
+				{
+					m_imgOffsetX = 0;
+					m_imgOffsetY = 0;
 				}
 			}
 		}

@@ -25,9 +25,9 @@ namespace GrandLarceny
 		{
 			m_player = Game.getInstance().getState().getPlayer();
 			base.loadContent();
-			m_line.setStartPoint(m_player.getPosition().getGlobalCartesianCoordinates());
+			m_line.setStartPoint(m_player.getPosition().getGlobalCartesian());
 			m_line.setEndPoint(m_line.getStartPoint());
-			m_position.setGlobalCartesianCoordinates(m_player.getPosition().getGlobalCartesianCoordinates());
+			m_position.setGlobalCartesian(m_player.getPosition().getGlobalCartesian());
 			m_moveToStart = false;
 			timeToLive = (float)Game.getInstance().getGameTime().TotalMilliseconds + 200;
 		}
@@ -57,13 +57,13 @@ namespace GrandLarceny
 			}
 			if (m_isReady)
 			{
-				m_line.setEndPoint(m_line.getStartPoint().getGlobalCartesianCoordinates() + new Vector2(m_lenght * (float)Math.Cos(m_rotate), m_lenght * (float)Math.Sin(m_rotate)), Vector2.Zero);
+				m_line.setEndPoint(m_line.getStartPoint().getGlobalCartesian() + new Vector2(m_lenght * (float)Math.Cos(m_rotate), m_lenght * (float)Math.Sin(m_rotate)), Vector2.Zero);
 			}
 			else
 			{
-				m_line.setStartPoint(m_player.getPosition().getGlobalCartesianCoordinates());
-				m_line.setEndPoint(m_line.getEndPoint().getGlobalCartesianCoordinates() + (m_direction * 50), Vector2.Zero);
-				m_lenght = Vector2.Distance(m_startPosition.getGlobalCartesianCoordinates(), m_endPosition.getGlobalCartesianCoordinates());
+				m_line.setStartPoint(m_player.getPosition().getGlobalCartesian());
+				m_line.setEndPoint(m_line.getEndPoint().getGlobalCartesian() + (m_direction * 50), Vector2.Zero);
+				m_lenght = Vector2.Distance(m_startPosition.getGlobalCartesian(), m_endPosition.getGlobalCartesian());
 			}
 		}
 
@@ -93,16 +93,16 @@ namespace GrandLarceny
 			float t_colliderY = a_collider.getPosition().getGlobalY() + a_collider.getHitBox().getOutBox().Height;
 			m_isReady = true;
 			setStartPoint(new Vector2(((-t_startX * t_endY)	+ (t_startX	* t_colliderY) + (t_startY * t_endX) - (t_endX * t_colliderY)) / (t_startY -t_endY), t_colliderY));
-			setEndPoint(m_player.getPosition().getGlobalCartesianCoordinates() + new Vector2(m_player.getHitBox().getOutBox().Width / 2, m_player.getHitBox().getOutBox().Height / 2));
-			m_rotate = m_startPosition.getAngleTo(m_endPosition.getGlobalCartesianCoordinates());
+			setEndPoint(m_player.getPosition().getGlobalCartesian() + new Vector2(m_player.getHitBox().getOutBox().Width / 2, m_player.getHitBox().getOutBox().Height / 2));
+			m_rotate = m_startPosition.getAngleTo(m_endPosition.getGlobalCartesian());
 			
 			m_player.setState(Player.State.Swinging);
-			if (!(Vector2.Distance(m_player.getPosition().getGlobalCartesianCoordinates(), m_line.getStartPoint().getGlobalCartesianCoordinates())
-				< Math.Min(Vector2.Distance(new Vector2(m_player.getPosition().getGlobalCartesianCoordinates().X + m_player.getHitBox().getOutBox().Width, m_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates()),
-				Vector2.Distance(new Vector2(m_player.getPosition().getGlobalCartesianCoordinates().X + m_player.getHitBox().getOutBox().Width / 2, m_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates()))))
+			if (!(Vector2.Distance(m_player.getPosition().getGlobalCartesian(), m_line.getStartPoint().getGlobalCartesian())
+				< Math.Min(Vector2.Distance(new Vector2(m_player.getPosition().getGlobalCartesian().X + m_player.getHitBox().getOutBox().Width, m_player.getPosition().getGlobalCartesian().Y), m_line.getStartPoint().getGlobalCartesian()),
+				Vector2.Distance(new Vector2(m_player.getPosition().getGlobalCartesian().X + m_player.getHitBox().getOutBox().Width / 2, m_player.getPosition().getGlobalCartesian().Y), m_line.getStartPoint().getGlobalCartesian()))))
 			{
-				if (Vector2.Distance(new Vector2(m_player.getPosition().getGlobalCartesianCoordinates().X + m_player.getHitBox().getOutBox().Width, m_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates())
-					< Vector2.Distance(new Vector2(m_player.getPosition().getGlobalCartesianCoordinates().X + m_player.getHitBox().getOutBox().Width / 2, m_player.getPosition().getGlobalCartesianCoordinates().Y), m_line.getStartPoint().getGlobalCartesianCoordinates()))
+				if (Vector2.Distance(new Vector2(m_player.getPosition().getGlobalCartesian().X + m_player.getHitBox().getOutBox().Width, m_player.getPosition().getGlobalCartesian().Y), m_line.getStartPoint().getGlobalCartesian())
+					< Vector2.Distance(new Vector2(m_player.getPosition().getGlobalCartesian().X + m_player.getHitBox().getOutBox().Width / 2, m_player.getPosition().getGlobalCartesian().Y), m_line.getStartPoint().getGlobalCartesian()))
 				{
 					m_player.addPositionXAfterDraw(m_player.getHitBox().getOutBox().Width);
 				}
@@ -112,7 +112,7 @@ namespace GrandLarceny
 				}
 			}
 			m_player.setRope(this);
-			m_player.changePositionType();
+			m_player.changePositionToPolar();
 			m_player.getPosition().setParentPositionWithoutMoving(m_line.getStartPoint());
 			m_player.setState(Player.State.Swinging);
 			if (m_player.getPosition().getLength() < 50)
