@@ -1149,6 +1149,10 @@ namespace GrandLarceny
 					m_imgOffsetX = 0;
 					m_imgOffsetY = 0;
 				}
+                else if (m_currentState == State.Ventilation)
+                {
+                    m_img.setAnimationSpeed(15);
+                }
 			}
 		}
 		#endregion
