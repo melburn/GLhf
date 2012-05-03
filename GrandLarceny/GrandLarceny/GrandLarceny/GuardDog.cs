@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GrandLarceny.AI;
 using Microsoft.Xna.Framework.Audio;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace GrandLarceny
 {
@@ -21,7 +23,7 @@ namespace GrandLarceny
 		private Boolean m_facingRight;
 		private Boolean m_barking = false;
 		private float m_sightRange = 576f;
-		private float m_senceRange = 144f;
+		private float m_senseRange = 144f;
 		private float m_chargeEndPoint;
 		private float m_barkTimer = 0f;
 		private Entity m_chaseTarget = null;
@@ -47,7 +49,14 @@ namespace GrandLarceny
 		{
 			base.loadContent();
 			m_collisionShape = new CollisionRectangle(15, 30, m_img.getSize().X - 30, m_img.getSize().Y - 30, m_position);
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//GuardDog//dog_walk");
+			string[] t_heroSprites = Directory.GetFiles("Content//Images//Sprite//GuardDog//");
+			foreach (string t_file in t_heroSprites) {
+				string[] t_splitFile = Regex.Split(t_file, "//");
+				string[] t_extless = t_splitFile[t_splitFile.Length - 1].Split('.');
+				if (t_extless[1].Equals("xnb")) {
+					Game.getInstance().Content.Load<Texture2D>("Images//Sprite//GuardDog//" + t_extless[0]);
+				}
+			}
 			(m_dogBark = new Sound("//SoundEffects//Game//dog_bark")).loadContent();
 		}
 
@@ -55,7 +64,7 @@ namespace GrandLarceny
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			return t_player != null &&
-				((t_player.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() < m_senceRange ||
+				((t_player.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() < m_senseRange ||
 				(t_player.isInLight() &&
 				isFacingTowards(t_player.getPosition().getGlobalX()) &&
 				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&

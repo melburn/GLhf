@@ -28,7 +28,7 @@ namespace GrandLarceny
 		protected float m_imgOffsetY = 0;
 		protected Vector2 m_rotationPoint = Vector2.Zero;
 		protected Vector2 m_changePositionAfterDraw = Vector2.Zero;
-		protected Boolean m_visible;
+		protected Boolean m_visible = true;
 
 		private string m_spritePath;
 

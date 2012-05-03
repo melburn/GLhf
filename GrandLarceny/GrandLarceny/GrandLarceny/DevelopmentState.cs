@@ -46,6 +46,8 @@ namespace GrandLarceny
 
 		private Box m_statusBar;
 
+		private Text m_layerLabel;
+		private Text m_parallaxLabel;
 		private TextField m_layerTextField;
 		private TextField m_parallaxScrollTF;
 		
@@ -194,8 +196,10 @@ namespace GrandLarceny
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
+			m_guiList.AddLast(m_layerLabel = new Text(new Vector2(350, 3), "Layer:", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_layerTextField = new TextField(new Vector2(400, 0), 50, 25, false, true, false, 3));
-			m_guiList.AddLast(m_parallaxScrollTF = new TextField(new Vector2(500, 0), 70, 25, false, true, false, 3));
+			m_guiList.AddLast(m_parallaxLabel = new Text(new Vector2(460, 3), "Parallax Value:", "VerdanaBold", Color.Black, false));
+			m_guiList.AddLast(m_parallaxScrollTF = new TextField(new Vector2(580, 0), 70, 25, false, true, false, 3));
 
 			foreach (LinkedList<GameObject> t_GOArr in m_gameObjectList) {
 				foreach (GameObject t_gameObject in t_GOArr) {
@@ -210,8 +214,8 @@ namespace GrandLarceny
 				}
 			}
 			
-			m_guiList.AddLast(m_textObjectInfo	= new Text(new Vector2(100, 0), "", "VerdanaBold", Color.Black, false));
-			m_guiList.AddLast(m_textGuardInfo	= new Text(new Vector2(12, 74), "", "VerdanaBold", Color.Black, false));
+			m_guiList.AddLast(m_textObjectInfo	= new Text(new Vector2(10, 3), "", "VerdanaBold", Color.Black, false));
+			m_guiList.AddLast(m_textGuardInfo	= new Text(new Vector2(480, 3), "", "VerdanaBold", Color.Black, false));
 			m_statusBar	= new Box(new Vector2(0, 0), (int)Game.getInstance().getResolution().X, 25, Color.LightGray, false);
 			m_statusBar.setLayer(0.111f);
 
@@ -384,6 +388,10 @@ namespace GrandLarceny
 			}
 
 			m_statusBar.update(a_gameTime);
+			if (m_selectedObject != null && m_selectedObject is Environment) {
+				m_parallaxScrollTF.update(a_gameTime);
+				m_parallaxLabel.update(a_gameTime);
+			}
 
 			foreach (Button t_button in m_assetButtonList) {
 				t_button.update();
@@ -425,7 +433,6 @@ namespace GrandLarceny
 				t_gui.update(a_gameTime);
 			}
 			m_layerTextField.update(a_gameTime);
-			m_parallaxScrollTF.update(a_gameTime);
 
 			if (m_selectedObject != null) {
 				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());
@@ -1129,12 +1136,8 @@ namespace GrandLarceny
 						if (m_selectedObject is Environment)
 						{
 							m_parallaxScrollTF.setText(((Environment)m_selectedObject).getParrScroll().ToString());
-							m_parallaxScrollTF.setVisible(false);
-						}
-						else
-						{
-							m_parallaxScrollTF.setText("");
 							m_parallaxScrollTF.setVisible(true);
+							m_parallaxLabel.setVisible(true);
 						}
 						m_selectedObject.setColor(Color.Yellow);
 						m_dragFrom = m_selectedObject.getPosition().getGlobalCartesian();
@@ -1291,6 +1294,8 @@ namespace GrandLarceny
 				m_selectedObject = null;
 				m_selectedInfoV2 = Vector2.Zero;
 			}
+			m_parallaxLabel.setVisible(false);
+			m_parallaxScrollTF.setVisible(false);
 			m_objectPreview = null;
 			m_lineList.Clear();
 		}
@@ -1620,10 +1625,14 @@ namespace GrandLarceny
 				foreach (Button t_button in m_staticButton) {
 					t_button.draw(a_gameTime, a_spriteBatch);
 				}
+			
 				m_statusBar.draw(a_gameTime);
 				if (m_selectedObject != null) {
 					m_layerTextField.draw(a_gameTime);
-					m_parallaxScrollTF.draw(a_gameTime);
+					if (m_selectedObject is Environment) {
+						m_parallaxLabel.draw(a_gameTime);
+						m_parallaxScrollTF.draw(a_gameTime);
+					}
 				}
 				switch (m_menuState) {
 					case MenuState.Guard:

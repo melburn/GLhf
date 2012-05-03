@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -75,22 +77,21 @@ namespace GrandLarceny
 		private float m_originalLayer;
 		private float m_swingSpeed;
 
-
 		private List<Direction> m_ventilationDirection;
 		private List<Direction> m_leftRightList;
 		private List<Direction> m_upDownList;
 
 		private Entity m_currentVentilation = null;
 
-		private bool m_facingRight = false;
-		private bool m_collidedWithWall = false;
-		private bool m_stunned = false;
-		private bool m_stunnedDeacceleration = true;
-		private bool m_stunnedGravity = true;
-		private bool m_stunnedFlipSprite = false;
-		private bool m_chase = false;
-		private bool m_deactivateChase = false;
-		private bool m_runMode = false;
+		private bool m_facingRight				= false;
+		private bool m_collidedWithWall			= false;
+		private bool m_stunned					= false;
+		private bool m_stunnedDeacceleration	= true;
+		private bool m_stunnedGravity			= true;
+		private bool m_stunnedFlipSprite		= false;
+		private bool m_chase					= false;
+		private bool m_deactivateChase			= false;
+		private bool m_runMode					= false;
 
 		private Rope m_rope = null;
 
@@ -127,22 +128,16 @@ namespace GrandLarceny
 			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
 			m_healthHearts[2] = new GuiObject(new Vector2(260, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_stand");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_walk");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_jump");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_fall");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_slide");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_hang");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_roll");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb_ledge");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_window_heave");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_idle");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_vertical");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_horizontal");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_back");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_still");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_forth");
+
+			string[] t_heroSprites = Directory.GetFiles("Content//Images//Sprite//Hero//");
+			foreach (string t_file in t_heroSprites) {
+				string[] t_splitFile = Regex.Split(t_file, "//");
+				string[] t_extless = t_splitFile[t_splitFile.Length - 1].Split('.');
+				if (t_extless[1].Equals("xnb")) {
+					Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//" + t_extless[0]);
+				}
+			}
+
 			m_interactionArrow = new GameObject(new CartesianCoordinate(new Vector2(15, -70), m_position), "Images//GUI//GameGUI//interaction", m_layer - 0.1f);
 			setInteractionVisibility(false);
 			m_interactionArrow.getImg().setAnimationSpeed(20f);
@@ -1007,10 +1002,15 @@ namespace GrandLarceny
 						break;
 					}
 				case State.Climbing:
-					{
+				{
+					if (m_speed.Y < 0)
+						setSprite("ladderclimb");
+					else if (m_speed.Y > 0)
+						setSprite("ladderclimbdown");
+					else
 						setSprite("hero_climb");
-						break;
-					}
+					break;
+				}
 				case State.Hiding:
 					{
 						setSprite(m_currentHidingImage);
@@ -1115,6 +1115,10 @@ namespace GrandLarceny
 						m_collisionShape = m_rollHitBox;
 					}
 				}
+				else if (m_currentState == State.Climbing)
+				{
+					m_img.setAnimationSpeed(15);
+				}
 				if (m_lastState != State.Swinging && m_currentState != State.Swinging)
 				{
 					if (m_rope != null && !m_rope.getHitBox().collides(m_collisionShape))
@@ -1179,15 +1183,18 @@ namespace GrandLarceny
 					m_position.plusYWith(-1);
 				}
 				m_currentState = State.Climbing;
+				
 				if (m_speed.Y < -Player.CLIMBINGSPEED || m_speed.Y > Player.CLIMBINGSPEED)
 					m_speed.Y = 0;
 				if (m_ladderDirection == Direction.Left)
 				{
 					m_facingRight = false;
+					m_imgOffsetX = 7;
 				}
 				else
 				{
 					m_facingRight = true;
+					m_imgOffsetX = -7;
 				}
 			}
 		}

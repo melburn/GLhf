@@ -167,6 +167,8 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime)
 		{
+			if (!m_visible)
+				return;
 			m_textToShow.draw(a_gameTime);
 			m_box.draw(a_gameTime);
 			if (m_writing)
