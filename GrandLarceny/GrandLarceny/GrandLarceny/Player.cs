@@ -212,59 +212,59 @@ namespace GrandLarceny
 				{
 					toggleRunMode();
 				}
-
+				
 				switch (m_currentState)
 				{
 					case State.Stop:
-						{
-							updateStop(t_deltaTime);
-							break;
-						}
+					{
+						updateStop(t_deltaTime);
+						break;
+					}
 					case State.Walking:
-						{
-							updateWalking(t_deltaTime);
-							break;
-						}
+					{
+						updateWalking(t_deltaTime);
+						break;
+					}
 					case State.Jumping:
-						{
-							updateJumping(t_deltaTime);
-							break;
-						}
+					{
+						updateJumping(t_deltaTime);
+						break;
+					}
 					case State.Slide:
-						{
-							updateSliding(a_gameTime);
-							break;
-						}
+					{
+						updateSliding(a_gameTime);
+						break;
+					}
 					case State.Climbing:
-						{
-							updateClimbing();
-							break;
-						}
+					{
+						updateClimbing();
+						break;
+					}
 					case State.Rolling:
-						{
-							updateRolling(t_deltaTime);
-							break;
-						}
+					{
+						updateRolling(t_deltaTime);
+						break;
+					}
 					case State.Hanging:
-						{
-							updateHanging();
-							break;
-						}
+					{
+						updateHanging();
+						break;
+					}
 					case State.Hiding:
-						{
-							updateHiding(t_deltaTime);
-							break;
-						}
+					{
+						updateHiding(t_deltaTime);
+						break;
+					}
 					case State.Ventilation:
-						{
-							updateVentilation(t_deltaTime);
-							break;
-						}
+					{
+						updateVentilation(t_deltaTime);
+						break;
+					}
 					case State.Swinging:
-						{
-							updateSwinging(t_deltaTime);
-							break;
-						}
+					{
+						updateSwinging(t_deltaTime);
+						break;
+					}
 				}
 			}
 			else
@@ -1038,7 +1038,7 @@ namespace GrandLarceny
 		{
 			if (m_currentState != m_lastState)
 			{
-				if (m_runMode == true && (m_currentState != State.Walking && m_currentState != State.Jumping))
+				if (!m_chase && m_runMode && (m_currentState != State.Walking && m_currentState != State.Jumping))
 				{
 					toggleRunMode();
 				}
@@ -1397,11 +1397,7 @@ namespace GrandLarceny
 
 				m_img.setAnimationSpeed(10);
 
-
-
 				deactivateChaseMode();
-
-
 			}
 		}
 
@@ -1495,38 +1491,38 @@ namespace GrandLarceny
 			float t_eneY = a_enemy.getPosition().getGlobalY();
 			float t_diffX = (m_position.getGlobalX() + t_eneX) / 2;
 			float t_diffY = (m_position.getGlobalY() + t_eneY) / 2;
-			float t_enemyAtentionMarkX = 0;
+			float t_enemyAttentionMarkX = 0;
 			if (a_enemy is Guard)
 			{
 				if (((Guard)a_enemy).isFacingRight())
 				{
-					t_enemyAtentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
+					t_enemyAttentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
 				}
 				else
 				{
-					t_enemyAtentionMarkX = t_eneX - 10;
+					t_enemyAttentionMarkX = t_eneX - 10;
 				}
 			}
-			float t_myAtentionMarkX = 0;
+			float t_myAttentionMarkX = 0;
 			if (m_facingRight)
 			{
-				t_myAtentionMarkX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
+				t_myAttentionMarkX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
 			}
 			else
 			{
-				t_myAtentionMarkX = m_position.getGlobalX() - 10;
+				t_myAttentionMarkX = m_position.getGlobalX() - 10;
 			}
-			string[] t_commands = {"addCinematic"
-									,"addParticle:"+t_myAtentionMarkX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
-									  ,"addParticle:"+t_enemyAtentionMarkX+":"+(t_eneY-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
-									  ,  "setCamera:"+ t_diffX+":"+ t_diffY+":"+1000};
+			string[] t_commands = { "addCinematic"
+									, "addParticle:" + t_myAttentionMarkX + ":" + (m_position.getGlobalY() - 20) + ":" + "Images//Sprite//Guard//Exclmarks" + ":" + 10f + ":" + a_enemy.getLayer()
+									, "addParticle:" + t_enemyAttentionMarkX + ":" + (t_eneY - 20) + ":" + "Images//Sprite//Guard//Exclmarks" + ":" + 10f + ":" + a_enemy.getLayer()
+									, "setCamera:" + t_diffX+":" + t_diffY + ":" + 1000 };
 			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
 			Game.getInstance().setState(t_cutScene);
 			m_chase = true;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			setIsInLight(true);
-
 		}
+
 		public void deactivateChaseMode()
 		{
 			m_deactivateChase = true;
