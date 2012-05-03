@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -127,22 +129,16 @@ namespace GrandLarceny
 			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
 			m_healthHearts[2] = new GuiObject(new Vector2(260, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_stand");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_walk");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_jump");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_fall");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_slide");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_hang");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_roll");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb_ledge");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_window_heave");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_idle");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_vertical");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_horizontal");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_back");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_still");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_forth");
+
+			string[] t_heroSprites = Directory.GetFiles("Content//Images//Sprite//Hero//");
+			foreach (string t_file in t_heroSprites) {
+				string[] t_splitFile = Regex.Split(t_file, "//");
+				string[] t_extless = t_splitFile[t_splitFile.Length - 1].Split('.');
+				if (t_extless[1].Equals("xnb")) {
+					Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//" + t_extless[0]);
+				}
+			}
+
 			m_interactionArrow = new GameObject(new CartesianCoordinate(new Vector2(15, -70), m_position), "Images//GUI//GameGUI//interaction", m_layer - 0.1f);
 			setInteractionVisibility(false);
 			m_interactionArrow.getImg().setAnimationSpeed(20f);

@@ -19,6 +19,16 @@ namespace GrandLarceny
 		{
 
 		}
+
+		public override void loadContent()
+		{
+			if (m_isLocked)
+				m_img = new ImageManager("Images//Tile//Ventilation//Drum//ventil_locked_placeholder");
+			else
+				m_img = new ImageManager("Images//Tile//Ventilation//Drum//ventil");
+			base.loadContent();
+		}
+
 		internal override void updateCollisionWith(Entity a_collider)
 		{
 			if (a_collider is Player)
@@ -88,15 +98,15 @@ namespace GrandLarceny
 		{
 			return m_isLocked;
 		}
-		public void setPairedVentilation(VentilationDrum a_ventialtion)
+		public void setPairedVentilation(VentilationDrum a_ventilation)
 		{
-			m_pairedVentilation = a_ventialtion;
+			m_pairedVentilation = a_ventilation;
 		}
 		public override void kill()
 		{
 			if (m_pairedVentilation != null)
 			{
-				((DevelopmentState)Game.getInstance().getState()).deleteObject(m_pairedVentilation);
+				((DevelopmentState)Game.getInstance().getState()).removeObject(m_pairedVentilation);
 			}
 			base.kill();
 		}
