@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GrandLarceny.AI;
+using Microsoft.Xna.Framework.Audio;
 
 namespace GrandLarceny
 {
@@ -25,6 +26,9 @@ namespace GrandLarceny
 		private float m_barkTimer = 0f;
 		private Entity m_chaseTarget = null;
 
+		[NonSerialized()]
+		private Sound m_dogBark;
+
 		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftPatrolPoint, float a_rightPatrolPoint, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
@@ -38,12 +42,15 @@ namespace GrandLarceny
 			m_aiState = AIStatepatroling.getInstance();
 			m_gravity = 1000;
 		}
+
 		public override void loadContent()
 		{
 			base.loadContent();
 			m_collisionShape = new CollisionRectangle(15, 30, m_img.getSize().X - 30, m_img.getSize().Y - 30, m_position);
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//GuardDog//dog_walk");
+			(m_dogBark = new Sound("//SoundEffects//Game//dog_bark")).loadContent();
 		}
+
 		internal bool canSensePlayer()
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
@@ -314,6 +321,7 @@ namespace GrandLarceny
 
 		internal void startBarking()
 		{
+			m_dogBark.play();
 			m_chargeing = false;
 			m_speed.X = 0;
 			m_barkTimer = BARKCOOLDOWN;

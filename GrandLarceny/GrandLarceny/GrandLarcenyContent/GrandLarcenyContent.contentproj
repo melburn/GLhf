@@ -1642,6 +1642,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Images\Background\bg_casino_sp_hotfix.png">
+      <Name>bg_casino_sp_hotfix</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\clouds_01.png">
+      <Name>clouds_01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Sounds\SoundEffects\Game\32584__redjim__fabric-rustling.wav">
       <Name>32584__redjim__fabric-rustling</Name>
       <Importer>WavImporter</Importer>
@@ -1661,6 +1671,34 @@
       <Name>dog_bark</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Wall\crate_2.png">
+      <Name>crate_2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Floor\crate_2_144_72.png">
+      <Name>crate_2_144_72</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Floor\open_bar_sign_left.png">
+      <Name>open_bar_sign_left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\open_bar_sign_right.png">
+      <Name>open_bar_sign_right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
