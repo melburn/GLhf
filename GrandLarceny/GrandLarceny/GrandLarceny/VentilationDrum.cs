@@ -74,9 +74,9 @@ namespace GrandLarceny
 		{
 			if (m_pairedVentilation != null)
 			{
-				m_pairedVentilation.setPairedVentialtion(null);
+				m_pairedVentilation.setPairedVentilation(null);
 				m_pairedVentilation.toggleLocked();
-				m_pairedVentilation.setPairedVentialtion(this);
+				m_pairedVentilation.setPairedVentilation(this);
 			}
 			m_isLocked = !m_isLocked;
 			if (m_isLocked)
