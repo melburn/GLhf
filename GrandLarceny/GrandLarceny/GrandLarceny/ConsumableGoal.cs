@@ -21,7 +21,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				Game.getInstance().getState().getPlayer().setInteractionVisibillity(true);
+				Game.getInstance().getState().getPlayer().setInteractionVisibility(true);
 				return false;
 			}
 		}

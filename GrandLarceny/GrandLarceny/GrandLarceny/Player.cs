@@ -144,7 +144,7 @@ namespace GrandLarceny
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_still");
 			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_forth");
 			m_interactionArrow = new GameObject(new CartesianCoordinate(new Vector2(15, -70), m_position), "Images//GUI//GameGUI//interaction", m_layer - 0.1f);
-			setInteractionVisibillity(false);
+			setInteractionVisibility(false);
 			m_interactionArrow.getImg().setAnimationSpeed(20f);
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 72, m_position); // 67
@@ -1166,7 +1166,7 @@ namespace GrandLarceny
 			{
 				setIsInLight(false);
 			}
-			setInteractionVisibillity(false);
+			setInteractionVisibility(false);
 			if(a_collisionList.Count != 0)
 			{
 				base.collisionCheck(a_collisionList);
@@ -1192,7 +1192,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void setInteractionVisibillity(bool a_show)
+		public void setInteractionVisibility(bool a_show)
 		{
 			m_interactionArrow.setVisible(a_show);
 		}
