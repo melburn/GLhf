@@ -10,7 +10,10 @@ namespace GrandLarceny
 	[Serializable()]
 	class VentilationDrum : NonMovingObject
 	{
+		[NonSerialized]
 		VentilationDrum m_pairedVentilation = null;
+
+		int m_pairedVentilationId = 0;
 
 		bool m_isLocked = false;
 		
@@ -18,6 +21,20 @@ namespace GrandLarceny
 			: base(a_posV2, a_sprite, a_layer)
 		{
 
+		}
+
+		public override void loadContent()
+		{
+			base.loadContent();
+			if (m_pairedVentilationId != 0 && m_pairedVentilation == null)
+			{
+				m_pairedVentilation = (VentilationDrum)Game.getInstance().getState().getObjectById(m_pairedVentilationId);
+			}
+		}
+		public override void saveObject()
+		{
+			base.saveObject();
+			m_pairedVentilation.setPairedVentilation(this);
 		}
 		internal override void updateCollisionWith(Entity a_collider)
 		{
@@ -91,6 +108,10 @@ namespace GrandLarceny
 		public void setPairedVentilation(VentilationDrum a_ventialtion)
 		{
 			m_pairedVentilation = a_ventialtion;
+			if (a_ventialtion != null)
+				m_pairedVentilationId = a_ventialtion.getId();
+			else
+				m_pairedVentilationId = 0;
 		}
 		public override void kill()
 		{
