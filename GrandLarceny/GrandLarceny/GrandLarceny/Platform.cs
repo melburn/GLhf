@@ -48,10 +48,41 @@ namespace GrandLarceny
 						}
 						return;
 					}
+					//Colliding with ze left wall
+					if ((int)t_player.getLastPosition().X + 1 >= (int)getLastPosition().X + getHitBox().getOutBox().Width)
+					{
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
+						}
+						else
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
+							t_player.setSpeedX(0);
+							t_player.hang(this);
+						}
+						
+					}
+					//Colliding with ze right wall
+					else if ((int)t_player.getLastPosition().X + t_player.getHitBox().getOutBox().Width - 1 <= (int)getLastPosition().X)
+					{
+						if (t_player.getCurrentState() == Player.State.Swinging)
+						{
+							t_player.setNextPosition(t_player.getLastPosition());
+							t_player.setSwingSpeed(0);
+						}
+						else
+						{
+							t_player.setNextPositionX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
+							t_player.setSpeedX(0);
+							t_player.hang(this);
+						}
 
+					}
 					//Colliding with ze zeeling
 					else if ((int)t_player.getLastPosition().Y + ((CollisionRectangle)t_player.getHitBox()).m_yOffset >= (int)getLastPosition().Y + getHitBox().getOutBox().Height)
-					{	
+					{
 						if (t_player.getCurrentState() == Player.State.Stop)
 						{
 							if (t_player.getLastPosition().X < m_position.getGlobalX())
@@ -76,38 +107,6 @@ namespace GrandLarceny
 							t_player.setSpeedY(0);
 						}
 						return;
-					}
-					//Colliding with ze left wall
-					if ((int)t_player.getLastPosition().X + 1 >= (int)getLastPosition().X + getHitBox().getOutBox().Width)
-					{
-						if (t_player.getCurrentState() == Player.State.Swinging)
-						{
-							t_player.setNextPosition(t_player.getLastPosition());
-							t_player.setSwingSpeed(0);
-						}
-						else
-						{
-							t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
-							t_player.setSpeedX(0);
-							t_player.hang(this);
-						}
-						
-					}
-					//Colliding with ze right wall
-					if ((int)t_player.getLastPosition().X + t_player.getHitBox().getOutBox().Width - 1 <= (int)getLastPosition().X)
-					{
-						if (t_player.getCurrentState() == Player.State.Swinging)
-						{
-							t_player.setNextPosition(t_player.getLastPosition());
-							t_player.setSwingSpeed(0);
-						}
-						else
-						{
-							t_player.setNextPositionX(getPosition().getGlobalX() - t_player.getHitBox().getOutBox().Width);
-							t_player.setSpeedX(0);
-							t_player.hang(this);
-						}
-
 					}
 					t_player.hang(this);
 				}
