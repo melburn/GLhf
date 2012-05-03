@@ -803,8 +803,12 @@ namespace GrandLarceny
 						AssetFactory.copyAsset(m_copyTarget);
 					}
 				}
-				if (Game.keyClicked(Keys.N) && m_selectedObject != null && m_selectedObject is Window) {
-					((Window)m_selectedObject).toggleOpen();
+				if (Game.keyClicked(Keys.N) && m_selectedObject != null) {
+					if (m_selectedObject is Window) {
+						((Window)m_selectedObject).toggleOpen();
+					} else if (m_selectedObject is VentilationDrum) {
+						((VentilationDrum)m_selectedObject).toggleLocked();
+					}
 				}
 			} else if (shiftMod()) {
 				switch (m_menuState) {
