@@ -73,5 +73,13 @@ namespace GrandLarceny
 				t_button.setText(t_button.getText(), a_offset);
 			}
 		}
+
+		public static void setSelection(LinkedList<Button> a_list, int a_selection)
+		{
+			foreach (Button t_button in a_list)
+			{
+				t_button.setState(a_selection);
+			}
+		}
 	}
 }

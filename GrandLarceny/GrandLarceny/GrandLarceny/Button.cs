@@ -309,6 +309,22 @@ namespace GrandLarceny
 		{
 			m_isVisible = a_visible;
 		}
+
+		public int getState()
+		{
+			switch (m_currentState)
+			{
+				case State.Normal:
+					return 0;
+				case State.Hover:
+					return 1;
+				case State.Pressed:
+					return 2;
+				case State.Toggled:
+					return 3;
+			}
+			return -1;
+		}
 		#endregion
 
 		#region Position Methods
