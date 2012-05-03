@@ -33,10 +33,6 @@ namespace GrandLarceny
 							Game.getInstance().getState().moveObjectToLayer(t_player, 0);
 							t_player.setNextPosition(m_position.getGlobalCartesian());
 							t_player.setState(Player.State.Jumping);
-							if (m_pairedVentilation.isLocked())
-							{
-								m_pairedVentilation.toggleLocked();
-							}
 						}
 						else
 						{
@@ -54,10 +50,6 @@ namespace GrandLarceny
 							t_player.deactivateChaseMode();
 							t_player.setSpeedX(0);
 							t_player.setSpeedY(0);
-							if (m_pairedVentilation.isLocked())
-							{
-								m_pairedVentilation.toggleLocked();
-							}
 						}
 					}
 					else
@@ -80,6 +72,12 @@ namespace GrandLarceny
 		}
 		public void toggleLocked()
 		{
+			if (m_pairedVentilation != null)
+			{
+				m_pairedVentilation.setPairedVentialtion(null);
+				m_pairedVentilation.toggleLocked();
+				m_pairedVentilation.setPairedVentialtion(this);
+			}
 			m_isLocked = !m_isLocked;
 			if (m_isLocked)
 				m_img.setSprite("Images//Tile//Ventilation//Drum//ventil_locked_placeholder");
