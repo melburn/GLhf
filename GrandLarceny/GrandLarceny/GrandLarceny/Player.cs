@@ -77,22 +77,21 @@ namespace GrandLarceny
 		private float m_originalLayer;
 		private float m_swingSpeed;
 
-
 		private List<Direction> m_ventilationDirection;
 		private List<Direction> m_leftRightList;
 		private List<Direction> m_upDownList;
 
 		private Entity m_currentVentilation = null;
 
-		private bool m_facingRight = false;
-		private bool m_collidedWithWall = false;
-		private bool m_stunned = false;
-		private bool m_stunnedDeacceleration = true;
-		private bool m_stunnedGravity = true;
-		private bool m_stunnedFlipSprite = false;
-		private bool m_chase = false;
-		private bool m_deactivateChase = false;
-		private bool m_runMode = false;
+		private bool m_facingRight				= false;
+		private bool m_collidedWithWall			= false;
+		private bool m_stunned					= false;
+		private bool m_stunnedDeacceleration	= true;
+		private bool m_stunnedGravity			= true;
+		private bool m_stunnedFlipSprite		= false;
+		private bool m_chase					= false;
+		private bool m_deactivateChase			= false;
+		private bool m_runMode					= false;
 
 		private Rope m_rope = null;
 
@@ -954,7 +953,7 @@ namespace GrandLarceny
 		{
 			if (m_isInLight)
 			{
-				m_img.setSprite("Images//Sprite//Hero//" + a_sprite+"_light");
+				m_img.setSprite("Images//Sprite//Hero//" + a_sprite + "_light");
 			}
 			else
 			{
@@ -1004,7 +1003,12 @@ namespace GrandLarceny
 				}
 				case State.Climbing:
 				{
-					setSprite("hero_climb");
+					if (m_speed.Y < 0)
+						setSprite("ladderclimb");
+					else if (m_speed.Y > 0)
+						setSprite("ladderclimbdown");
+					else
+						setSprite("hero_climb");
 					break;
 				}
 				case State.Hiding:
@@ -1111,6 +1115,10 @@ namespace GrandLarceny
 						m_collisionShape = m_rollHitBox;
 					}
 				}
+				else if (m_currentState == State.Climbing)
+				{
+					m_img.setAnimationSpeed(15);
+				}
 				if (m_lastState != State.Swinging && m_currentState != State.Swinging)
 				{
 					if(m_rope != null && !m_rope.getHitBox().collides(m_collisionShape))
@@ -1175,15 +1183,18 @@ namespace GrandLarceny
 					m_position.plusYWith(-1);
 				}
 				m_currentState = State.Climbing;
+				
 				if (m_speed.Y < -Player.CLIMBINGSPEED || m_speed.Y > Player.CLIMBINGSPEED)
 					m_speed.Y = 0;
 				if (m_ladderDirection == Direction.Left)
 				{
 					m_facingRight = false;
+					m_imgOffsetX = 7;
 				}
 				else
 				{
 					m_facingRight = true;
+					m_imgOffsetX = -7;
 				}
 			}
 		}
