@@ -74,9 +74,9 @@ namespace GrandLarceny
 		{
 			if (m_pairedVentilation != null)
 			{
-				m_pairedVentilation.setPairedVentialtion(null);
+				m_pairedVentilation.setPairedVentilation(null);
 				m_pairedVentilation.toggleLocked();
-				m_pairedVentilation.setPairedVentialtion(this);
+				m_pairedVentilation.setPairedVentilation(this);
 			}
 			m_isLocked = !m_isLocked;
 			if (m_isLocked)
@@ -88,7 +88,7 @@ namespace GrandLarceny
 		{
 			return m_isLocked;
 		}
-		public void setPairedVentialtion(VentilationDrum a_ventialtion)
+		public void setPairedVentilation(VentilationDrum a_ventialtion)
 		{
 			m_pairedVentilation = a_ventialtion;
 		}
@@ -96,8 +96,7 @@ namespace GrandLarceny
 		{
 			if (m_pairedVentilation != null)
 			{
-				m_pairedVentilation.kill();
-				m_pairedVentilation = null;
+				((DevelopmentState)Game.getInstance().getState()).deleteObject(m_pairedVentilation);
 			}
 			base.kill();
 		}
