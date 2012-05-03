@@ -94,5 +94,14 @@ namespace GrandLarceny
 		{
 			m_pairedVentilation = a_ventialtion;
 		}
+		public override void kill()
+		{
+			if (m_pairedVentilation != null)
+			{
+				m_pairedVentilation.kill();
+				m_pairedVentilation = null;
+			}
+			base.kill();
+		}
 	}
 }
