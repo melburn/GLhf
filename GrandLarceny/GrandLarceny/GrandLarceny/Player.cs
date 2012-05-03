@@ -207,64 +207,64 @@ namespace GrandLarceny
 			if (!m_stunned)
 			{
 				changeAnimation();
-				
+
 				if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
 				{
 					toggleRunMode();
 				}
-				
+
 				switch (m_currentState)
 				{
 					case State.Stop:
-					{
-						updateStop(t_deltaTime);
-						break;
-					}
+						{
+							updateStop(t_deltaTime);
+							break;
+						}
 					case State.Walking:
-					{
-						updateWalking(t_deltaTime);
-						break;
-					}
+						{
+							updateWalking(t_deltaTime);
+							break;
+						}
 					case State.Jumping:
-					{
-						updateJumping(t_deltaTime);
-						break;
-					}
+						{
+							updateJumping(t_deltaTime);
+							break;
+						}
 					case State.Slide:
-					{
-						updateSliding(a_gameTime);
-						break;
-					}
+						{
+							updateSliding(a_gameTime);
+							break;
+						}
 					case State.Climbing:
-					{
-						updateClimbing();
-						break;
-					}
+						{
+							updateClimbing();
+							break;
+						}
 					case State.Rolling:
-					{
-						updateRolling(t_deltaTime);
-						break;
-					}
+						{
+							updateRolling(t_deltaTime);
+							break;
+						}
 					case State.Hanging:
-					{
-						updateHanging();
-						break;
-					}
+						{
+							updateHanging();
+							break;
+						}
 					case State.Hiding:
-					{
-						updateHiding(t_deltaTime);
-						break;
-					}
+						{
+							updateHiding(t_deltaTime);
+							break;
+						}
 					case State.Ventilation:
-					{
-						updateVentilation(t_deltaTime);
-						break;
-					}
+						{
+							updateVentilation(t_deltaTime);
+							break;
+						}
 					case State.Swinging:
-					{
-						updateSwinging(t_deltaTime);
-						break;
-					}
+						{
+							updateSwinging(t_deltaTime);
+							break;
+						}
 				}
 			}
 			else
@@ -479,7 +479,7 @@ namespace GrandLarceny
 
 		private void updateJumping(float a_deltaTime)
 		{
-			
+
 			if (Game.keyClicked(GameState.getRollKey()))
 			{
 				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesian(), null, 0.100f);
@@ -541,7 +541,7 @@ namespace GrandLarceny
 
 		private void updateSliding(GameTime a_gameTime)
 		{
-			if(m_slideTimer < a_gameTime.TotalGameTime.TotalMilliseconds && m_slideTimer != 0)
+			if (m_slideTimer < a_gameTime.TotalGameTime.TotalMilliseconds && m_slideTimer != 0)
 			{
 				m_currentState = State.Jumping;
 				m_slideTimer = 0;
@@ -671,7 +671,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					m_speed.Y = -(JUMPSTRENGTH-70);
+					m_speed.Y = -(JUMPSTRENGTH - 70);
 					if (!m_facingRight)
 						m_speed.X += PLAYERSPEEDCHASEMODE * 1.5f;
 					else
@@ -958,7 +958,7 @@ namespace GrandLarceny
 		{
 			if (m_isInLight)
 			{
-				m_img.setSprite("Images//Sprite//Hero//" + a_sprite+"_light");
+				m_img.setSprite("Images//Sprite//Hero//" + a_sprite + "_light");
 			}
 			else
 			{
@@ -971,66 +971,66 @@ namespace GrandLarceny
 			switch (m_currentState)
 			{
 				case State.Stop:
-				{
-					setSprite("hero_stand");
-					break;
-				}
-				case State.Walking:
-				{
-					if (m_chase || m_runMode)
-						setSprite("hero_run");
-					else
-						setSprite("hero_walk");
-					break;
-				}
-				case State.Jumping:
-				{
-					if (m_speed.Y < 0)
-						setSprite("hero_jump");
-					else
-						setSprite("hero_fall");
-					break;
-				}
-				case State.Rolling:
-				{
-					setSprite("hero_roll");
-					break;
-				}
-				case State.Slide:
-				{
-					setSprite("hero_slide");
-					break;
-				}
-				case State.Hanging:
-				{
-					setSprite("hero_hang");
-					break;
-				}
-				case State.Climbing:
-				{
-					setSprite("hero_climb");
-					break;
-				}
-				case State.Hiding:
-				{
-					setSprite(m_currentHidingImage);
-					break;
-				}
-				case State.Ventilation:
-				{
-					setSprite(m_currentVentilationImage);
-					if (m_currentVentilation != null)
 					{
-						m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
-						m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
+						setSprite("hero_stand");
+						break;
 					}
-					break;
-				}
+				case State.Walking:
+					{
+						if (m_chase || m_runMode)
+							setSprite("hero_run");
+						else
+							setSprite("hero_walk");
+						break;
+					}
+				case State.Jumping:
+					{
+						if (m_speed.Y < 0)
+							setSprite("hero_jump");
+						else
+							setSprite("hero_fall");
+						break;
+					}
+				case State.Rolling:
+					{
+						setSprite("hero_roll");
+						break;
+					}
+				case State.Slide:
+					{
+						setSprite("hero_slide");
+						break;
+					}
+				case State.Hanging:
+					{
+						setSprite("hero_hang");
+						break;
+					}
+				case State.Climbing:
+					{
+						setSprite("hero_climb");
+						break;
+					}
+				case State.Hiding:
+					{
+						setSprite(m_currentHidingImage);
+						break;
+					}
+				case State.Ventilation:
+					{
+						setSprite(m_currentVentilationImage);
+						if (m_currentVentilation != null)
+						{
+							m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
+							m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
+						}
+						break;
+					}
 				case State.Swinging:
-				{
-					setSprite(m_currentSwingingImage);
-					break;
-				}
+					{
+						setSprite(m_currentSwingingImage);
+						break;
+					}
 			}
 		}
 
@@ -1117,7 +1117,7 @@ namespace GrandLarceny
 				}
 				if (m_lastState != State.Swinging && m_currentState != State.Swinging)
 				{
-					if(m_rope != null && !m_rope.getHitBox().collides(m_collisionShape))
+					if (m_rope != null && !m_rope.getHitBox().collides(m_collisionShape))
 						m_rope = null;
 				}
 				if (m_currentState == State.Swinging)
@@ -1149,10 +1149,10 @@ namespace GrandLarceny
 					m_imgOffsetX = 0;
 					m_imgOffsetY = 0;
 				}
-                else if (m_currentState == State.Ventilation)
-                {
-                    m_img.setAnimationSpeed(15);
-                }
+				else if (m_currentState == State.Ventilation)
+				{
+					m_img.setAnimationSpeed(15);
+				}
 			}
 		}
 		#endregion
@@ -1167,7 +1167,7 @@ namespace GrandLarceny
 				setIsInLight(false);
 			}
 			setInteractionVisibility(false);
-			if(a_collisionList.Count != 0)
+			if (a_collisionList.Count != 0)
 			{
 				base.collisionCheck(a_collisionList);
 			}
@@ -1254,9 +1254,9 @@ namespace GrandLarceny
 				String t_oldName = m_img.getImagePath();
 				m_img.setSpriteSilently(t_oldName.Remove(t_oldName.Length - 6));
 			}
-			else if(!m_isInLight && a_isInLight)
+			else if (!m_isInLight && a_isInLight)
 			{
-				m_img.setSpriteSilently(m_img.getImagePath()+"_light");
+				m_img.setSpriteSilently(m_img.getImagePath() + "_light");
 			}
 			m_isInLight = a_isInLight;
 		}
