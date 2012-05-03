@@ -32,7 +32,7 @@ namespace GrandLarceny
 					}
 					else
 					{
-						t_player.setInteractionVisibillity(true);
+						t_player.setInteractionVisibility(true);
 					}
 				}
 			}

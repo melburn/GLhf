@@ -199,7 +199,10 @@ namespace GrandLarceny
 			}
 			else if (Game.keyClicked(Keys.W))
 			{
-				Game.getInstance().getProgress().setEquipment("boots", true);
+                if (!Game.getInstance().getProgress().hasEquipment("boots"))
+                    Game.getInstance().getProgress().setEquipment("boots", true);
+                else
+                    Game.getInstance().getProgress().setEquipment("boots", false);
 			}
 			else if (Game.keyClicked(Keys.Q))
 			{

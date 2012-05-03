@@ -113,7 +113,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					((Player)(a_collid)).setInteractionVisibillity(true);
+					((Player)(a_collid)).setInteractionVisibility(true);
 				}
 			}
 		}
