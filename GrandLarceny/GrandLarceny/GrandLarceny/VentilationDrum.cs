@@ -90,7 +90,7 @@ namespace GrandLarceny
 		{
 			return m_isLocked;
 		}
-		public void setPairedVentialtion(VentilationDrum a_ventialtion)
+		public void setPairedVentilation(VentilationDrum a_ventialtion)
 		{
 			m_pairedVentilation = a_ventialtion;
 		}
@@ -98,8 +98,7 @@ namespace GrandLarceny
 		{
 			if (m_pairedVentilation != null)
 			{
-				m_pairedVentilation.kill();
-				m_pairedVentilation = null;
+				((DevelopmentState)Game.getInstance().getState()).deleteObject(m_pairedVentilation);
 			}
 			base.kill();
 		}

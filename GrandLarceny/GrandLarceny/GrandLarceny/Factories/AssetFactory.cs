@@ -105,7 +105,12 @@ namespace GrandLarceny
 		public static void createVentrance(Vector2 a_position, string a_asset)
 		{
 			States t_state = Game.getInstance().getState();
-			t_state.addObject(new VentilationDrum(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			VentilationDrum t_outsideVentrance = new VentilationDrum(t_state.getTileCoordinates(a_position), a_asset, 0.700f);
+			VentilationDrum t_insideVentrance = new VentilationDrum(t_state.getTileCoordinates(a_position), a_asset, 0.700f);
+			t_outsideVentrance.setPairedVentilation(t_insideVentrance);
+			t_insideVentrance.setPairedVentilation(t_outsideVentrance);
+			t_state.addObject(t_outsideVentrance, 0);
+			t_state.addObject(t_insideVentrance, 1);
 		}
 
 		public static void createVentEnd(Vector2 a_position, string a_asset)
