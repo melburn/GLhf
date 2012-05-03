@@ -159,5 +159,12 @@ namespace GrandLarceny
 				}
 			}
 		}
+
+		public override string ToString() {
+			if (m_open)
+				return base.ToString() + ": Open";
+			else
+				return base.ToString() + ": Closed";
+		}
 	}
 }

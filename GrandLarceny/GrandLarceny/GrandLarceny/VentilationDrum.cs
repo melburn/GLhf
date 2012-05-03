@@ -74,5 +74,12 @@ namespace GrandLarceny
             else
                 m_img.setSprite("Images//Tile//Ventilation//Drum//ventil");
         }
+
+		public override string ToString() {
+			if (m_isLocked)
+				return base.ToString() + ": Closed";
+			else
+				return base.ToString() + ": Open";
+		}
 	}
 }
