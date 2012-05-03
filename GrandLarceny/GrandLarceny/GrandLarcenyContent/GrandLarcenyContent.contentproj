@@ -322,20 +322,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\bg_wc.jpg">
-      <Name>bg_wc</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\bg_window.png">
-      <Name>bg_window</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Sprite\Hero\hero_hang.png">
       <Name>hero_hang</Name>
       <Importer>TextureImporter</Importer>
@@ -345,23 +331,6 @@
   <ItemGroup>
     <Compile Include="Images\Sprite\Guard\guard_walk.png">
       <Name>guard_walk</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\vbg_proto_1.png">
-      <Name>vbg_proto_1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Background\vbg_proto_2.png">
-      <Name>vbg_proto_2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Background\tbg_bg_1.png">
-      <Name>tbg_bg_1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -379,33 +348,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Wall\1x1_wall_tile.png">
-      <Name>1x1_wall_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Tile\Window\1x1_window_tile.png">
       <Name>1x1_window_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Wall\1x2_wall_tile.png">
-      <Name>1x2_wall_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Floor\2x1_floor_tile.jpg">
-      <Name>2x1_floor_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Floor\5x1_floor_tile.png">
-      <Name>5x1_floor_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Floor\5x1_floor_tile_broken.png">
-      <Name>5x1_floor_tile_broken</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -103,5 +103,13 @@ namespace GrandLarceny
 			}
 			base.kill();
 		}
+
+		public override string ToString()
+		{
+			if (m_isLocked)
+				return base.ToString() + ": Closed";
+			else
+				return base.ToString() + ": Open";
+		}
 	}
 }

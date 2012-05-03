@@ -189,5 +189,9 @@ namespace GrandLarceny
 		{
 			m_visible = a_visible;
 		}
+
+		public override string ToString() {
+			return m_objectId + ": " + m_position.getGlobalCartesian().ToString() + ":" + m_layer;
+		}
 	}
 }
