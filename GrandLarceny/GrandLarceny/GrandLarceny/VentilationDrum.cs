@@ -57,7 +57,7 @@ namespace GrandLarceny
                 {
                     if (Game.keyClicked(GameState.getActionKey()) && t_player.getCurrentState() != Player.State.Jumping)
                     {
-                        m_isLocked = false;
+                        toggleLocked();
                     }
                     else
                     {
