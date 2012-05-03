@@ -214,7 +214,7 @@ namespace GrandLarceny
 			m_guiList.AddLast(m_textSelectedObjectPosition	= new Text(new Vector2(100, 0), "Nothing Selected", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_textGuardInfo				= new Text(new Vector2(12, 74), "", "VerdanaBold", Color.Black, false));
 			m_statusBar	= new Box(new Vector2(0, 0), (int)Game.getInstance().getResolution().X, 25, Color.LightGray, false);
-			m_statusBar.setLayer(0.999f);
+			m_statusBar.setLayer(0.111f);
 
 			Vector2 t_btnTextOffset = new Vector2(22, 17);
 			Vector2 t_bottomRight = new Vector2(Game.getInstance().getResolution().X, Game.getInstance().getResolution().Y);
@@ -320,7 +320,7 @@ namespace GrandLarceny
 			*/
 
 			Vector2 t_collMenu = new Vector2(m_btnCollHotkey.getBox().X + 32, m_btnCollHotkey.getBox().Y);
-			m_collButtons.AddLast(m_btnHeartHotkey = new Button(null, t_collMenu + new Vector2(m_collButtons.Count * 32, 0), "?", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_collButtons.AddLast(m_btnHeartHotkey = new Button(null, t_collMenu + new Vector2(m_collButtons.Count * 32, 0), "H", "VerdanaBold", Color.Black, t_btnTextOffset));
 
 			foreach (Button t_button in m_collButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -803,8 +803,12 @@ namespace GrandLarceny
 						AssetFactory.copyAsset(m_copyTarget);
 					}
 				}
-				if (Game.keyClicked(Keys.N) && m_selectedObject != null && m_selectedObject is Window) {
-					((Window)m_selectedObject).toggleOpen();
+				if (Game.keyClicked(Keys.N) && m_selectedObject != null) {
+					if (m_selectedObject is Window) {
+						((Window)m_selectedObject).toggleOpen();
+					} else if (m_selectedObject is VentilationDrum) {
+						((VentilationDrum)m_selectedObject).toggleLocked();
+					}
 				}
 			} else if (shiftMod()) {
 				switch (m_menuState) {
@@ -879,6 +883,9 @@ namespace GrandLarceny
 						if (Game.keyClicked(Keys.K)) {
 							guiButtonClick(m_btnCheckPointHotkey);
 						}
+						if (Game.keyClicked(Keys.Z)) {
+							guiButtonClick(m_btnCollHotkey);
+						}
 						break;
 					case MenuState.Guard:
 						if (Game.keyClicked(Keys.G)) {
@@ -917,6 +924,11 @@ namespace GrandLarceny
 						}
 						if (Game.keyClicked(Keys.E)) {
 							guiButtonClick(m_btnEndVentHotkey);
+						}
+						break;
+					case MenuState.Collectible:
+						if (Game.keyClicked(Keys.H)) {
+							guiButtonClick(m_btnHeartHotkey);
 						}
 						break;
 				}

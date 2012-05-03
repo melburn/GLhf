@@ -971,66 +971,66 @@ namespace GrandLarceny
 			switch (m_currentState)
 			{
 				case State.Stop:
-					{
-						setSprite("hero_stand");
-						break;
-					}
+				{
+					setSprite("hero_stand");
+					break;
+				}
 				case State.Walking:
-					{
-						if (m_chase || m_runMode)
-							setSprite("hero_run");
-						else
-							setSprite("hero_walk");
-						break;
-					}
+				{
+					if (m_chase || m_runMode)
+						setSprite("hero_run");
+					else
+						setSprite("hero_walk");
+					break;
+				}
 				case State.Jumping:
-					{
-						if (m_speed.Y < 0)
-							setSprite("hero_jump");
-						else
-							setSprite("hero_fall");
-						break;
-					}
+				{
+					if (m_speed.Y < 0)
+						setSprite("hero_jump");
+					else
+						setSprite("hero_fall");
+					break;
+				}
 				case State.Rolling:
-					{
-						setSprite("hero_roll");
-						break;
-					}
+				{
+					setSprite("hero_roll");
+					break;
+				}
 				case State.Slide:
-					{
-						setSprite("hero_slide");
-						break;
-					}
+				{
+					setSprite("hero_slide");
+					break;
+				}
 				case State.Hanging:
-					{
-						setSprite("hero_hang");
-						break;
-					}
+				{
+					setSprite("hero_hang");
+					break;
+				}
 				case State.Climbing:
-					{
-						setSprite("hero_climb");
-						break;
-					}
+				{
+					setSprite("hero_climb");
+					break;
+				}
 				case State.Hiding:
-					{
-						setSprite(m_currentHidingImage);
-						break;
-					}
+				{
+					setSprite(m_currentHidingImage);
+					break;
+				}
 				case State.Ventilation:
+				{
+					setSprite(m_currentVentilationImage);
+					if (m_currentVentilation != null)
 					{
-						setSprite(m_currentVentilationImage);
-						if (m_currentVentilation != null)
-						{
-							m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
-							m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
-						}
-						break;
+						m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
+						m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
 					}
+					break;
+				}
 				case State.Swinging:
-					{
-						setSprite(m_currentSwingingImage);
-						break;
-					}
+				{
+					setSprite(m_currentSwingingImage);
+					break;
+				}
 			}
 		}
 
