@@ -15,7 +15,6 @@ namespace GrandLarceny
 	{
 		private LinkedList<Environment> m_unexplored;
 
-		private Stack<GameObject>[] m_removeList;
 		private Stack<GameObject>[] m_addList;
 		private LinkedList<Event> m_events;
 		private string m_currentLevel;
@@ -78,7 +77,7 @@ namespace GrandLarceny
 					m_gameObjectList[i] = new LinkedList<GameObject>();
 				}
 			}
-			m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
+			//m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
 			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
 
 			string[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//settings.ini");
@@ -150,10 +149,10 @@ namespace GrandLarceny
 
 			for (int i = 0; i < m_gameObjectList.Length; ++i)
 			{
-				m_removeList[i] = new Stack<GameObject>();
+				//m_removeList[i] = new Stack<GameObject>();
 				m_addList[i] = new Stack<GameObject>();
 			}
-
+			
 			m_unexplored = new LinkedList<Environment>();
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
@@ -286,10 +285,12 @@ namespace GrandLarceny
 						t_list.AddLast(t_goToAdd);
 					}
 				}
+				/*
 				while (m_removeList[m_currentList].Count > 0)
 				{
 					t_list.Remove(m_removeList[m_currentList].Pop());
 				}
+				*/
 				LinkedListNode<Event> t_eventNode = m_events.First;
 				while (t_eventNode != null)
 				{

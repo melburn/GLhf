@@ -211,7 +211,7 @@ namespace GrandLarceny
 			}
 			
 			m_guiList.AddLast(m_textObjectInfo	= new Text(new Vector2(100, 0), "", "VerdanaBold", Color.Black, false));
-			m_guiList.AddLast(m_textGuardInfo				= new Text(new Vector2(12, 74), "", "VerdanaBold", Color.Black, false));
+			m_guiList.AddLast(m_textGuardInfo	= new Text(new Vector2(12, 74), "", "VerdanaBold", Color.Black, false));
 			m_statusBar	= new Box(new Vector2(0, 0), (int)Game.getInstance().getResolution().X, 25, Color.LightGray, false);
 			m_statusBar.setLayer(0.111f);
 
@@ -1531,7 +1531,9 @@ namespace GrandLarceny
 
 		public override void removeObject(GameObject a_object)
 		{
-			m_gameObjectList[m_currentLayer].Remove(a_object);
+			for (int i = 0; i < m_gameObjectList.Length; i++) {			
+				m_gameObjectList[i].Remove(a_object);
+			}
 		}
 
 		public override void removeObject(GameObject a_object, int a_layer)
