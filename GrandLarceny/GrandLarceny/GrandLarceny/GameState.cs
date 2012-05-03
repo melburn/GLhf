@@ -35,7 +35,8 @@ namespace GrandLarceny
 		private Player player;
 
 		private ParseState m_currentParse;
-		private enum ParseState {
+		private enum ParseState
+		{
 			Settings,
 			Input
 		}
@@ -121,16 +122,25 @@ namespace GrandLarceny
 						break;
 					case ParseState.Settings:
 						string[] t_setting = t_currentLine.Split('=');
-						if (t_setting[0].Equals("ScreenWidth")) {
+						if (t_setting[0].Equals("ScreenWidth"))
+						{
 							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
-						} else if (t_setting[0].Equals("ScreenHeight")) {
+						}
+						else if (t_setting[0].Equals("ScreenHeight"))
+						{
 							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
 							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
-						} else if (t_setting[0].Equals("Fullscreen")) {
+						}
+						else if (t_setting[0].Equals("Fullscreen"))
+						{
 							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
-						} else if (t_setting[0].StartsWith("[")) {
+						}
+						else if (t_setting[0].StartsWith("["))
+						{
 							break;
-						} else {
+						}
+						else
+						{
 							ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
 						}
 						break;
@@ -156,7 +166,7 @@ namespace GrandLarceny
 					{
 						Game.getInstance().getState().setPlayer((Player)t_go);
 					}
-					else if(t_go is Environment && !((Environment)t_go).isExplored() )
+					else if (t_go is Environment && !((Environment)t_go).isExplored())
 					{
 						m_unexplored.AddLast((Environment)t_go);
 					}
@@ -194,15 +204,16 @@ namespace GrandLarceny
 		{
 			m_currentList = -1;
 
-			if (Game.keyClicked(Keys.I)) {
+			if (Game.keyClicked(Keys.I))
+			{
 				Game.getInstance().m_camera.printInfo();
 			}
 			else if (Game.keyClicked(Keys.W))
 			{
-                if (!Game.getInstance().getProgress().hasEquipment("boots"))
-                    Game.getInstance().getProgress().setEquipment("boots", true);
-                else
-                    Game.getInstance().getProgress().setEquipment("boots", false);
+				if (!Game.getInstance().getProgress().hasEquipment("boots"))
+					Game.getInstance().getProgress().setEquipment("boots", true);
+				else
+					Game.getInstance().getProgress().setEquipment("boots", false);
 			}
 			else if (Game.keyClicked(Keys.Q))
 			{
@@ -255,9 +266,11 @@ namespace GrandLarceny
 						}
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
 						((Entity)t_firstGameObject).updatePosition();
-					} else if (t_firstGameObject is Entity) {
-							((Entity)t_firstGameObject).setGravity(0.0f);
-							((Entity)t_firstGameObject).setSpeedY(0.0f);
+					}
+					else if (t_firstGameObject is Entity)
+					{
+						((Entity)t_firstGameObject).setGravity(0.0f);
+						((Entity)t_firstGameObject).setSpeedY(0.0f);
 					}
 
 					if (t_firstGameObject.isDead() && !m_removeList[m_currentList].Contains(t_firstGameObject))
@@ -268,7 +281,7 @@ namespace GrandLarceny
 				while (m_addList[m_currentList].Count > 0)
 				{
 					GameObject t_goToAdd = m_addList[m_currentList].Pop();
-					if(! t_list.Contains(t_goToAdd))
+					if (!t_list.Contains(t_goToAdd))
 					{
 						t_list.AddLast(t_goToAdd);
 					}
@@ -278,7 +291,7 @@ namespace GrandLarceny
 					t_list.Remove(m_removeList[m_currentList].Pop());
 				}
 				LinkedListNode<Event> t_eventNode = m_events.First;
-				while(t_eventNode != null)
+				while (t_eventNode != null)
 				{
 					LinkedListNode<Event> t_next = t_eventNode.Next;
 					try
@@ -379,7 +392,8 @@ namespace GrandLarceny
 		{
 			return m_gameObjectList;
 		}
-		public override LinkedList<GameObject> getCurrentList() {
+		public override LinkedList<GameObject> getCurrentList()
+		{
 			return m_gameObjectList[m_currentList];
 		}
 		public override void changeLayer(int a_newLayer)
@@ -480,7 +494,7 @@ namespace GrandLarceny
 				if (m_gameObjectList[i].Contains(a_go))
 				{
 					addObject(a_go, a_layer);
-					removeObject(a_go, i); 
+					removeObject(a_go, i);
 					return;
 				}
 			}
