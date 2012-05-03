@@ -70,7 +70,9 @@ namespace GrandLarceny
         {
             m_isLocked = !m_isLocked;
             if (m_isLocked)
-                m_img.setSprite("");
+                m_img.setSprite("Images//Tile//Ventilation//Drum//ventil_locked_placeholder");
+            else
+                m_img.setSprite("Images//Tile//Ventilation//Drum//ventil");
         }
 	}
 }
