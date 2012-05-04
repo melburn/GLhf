@@ -40,8 +40,9 @@ namespace GrandLarceny
 		private bool m_isToggled;
 		private bool m_isVisible;
 
-		private State m_currentState = State.Normal;
+		private Keys[] m_hotkey;
 
+		private State m_currentState = State.Normal;
 		enum State
 		{
 			Normal,
@@ -166,6 +167,18 @@ namespace GrandLarceny
 						m_clickEvent(this);
 					}
 				}	
+			}
+			else if (hotkeyPressed())
+			{
+				if (m_downSound != null)
+				{
+					m_downSound.play();
+				}
+				m_isPressed = true;
+				if (m_clickEvent != null)
+				{
+					m_clickEvent(this);
+				}
 			}
 			else
 			{
@@ -324,6 +337,44 @@ namespace GrandLarceny
 					return 3;
 			}
 			return -1;
+		}
+
+		public void setHotkey(Keys[] a_key)
+		{
+			m_hotkey = a_key;
+		}
+
+		private bool hotkeyPressed()
+		{
+			if (m_hotkey == null)
+			{
+				return false;
+			}
+			Keys[] t_keys = Game.m_currentKeyInput.GetPressedKeys();
+			foreach (Keys t_key in m_hotkey)
+			{
+				if (t_keys.Contains(t_key))
+				{
+					continue;
+				}
+				return false;
+			}
+			if (!m_hotkey.Contains(Keys.LeftShift) && !m_hotkey.Contains(Keys.RightShift))
+			{
+				return !Game.isKeyPressed(Keys.LeftShift) && !Game.isKeyPressed(Keys.LeftShift);
+			}
+			else if (!m_hotkey.Contains(Keys.LeftControl) && !m_hotkey.Contains(Keys.RightControl))
+			{
+				return !Game.isKeyPressed(Keys.LeftControl) && !Game.isKeyPressed(Keys.RightControl);
+			}
+			else if (!m_hotkey.Contains(Keys.LeftAlt) && !m_hotkey.Contains(Keys.RightAlt))
+			{
+				return !Game.isKeyPressed(Keys.LeftAlt) && !Game.isKeyPressed(Keys.RightAlt);				
+			}
+			else
+			{
+				return true;
+			}
 		}
 		#endregion
 
