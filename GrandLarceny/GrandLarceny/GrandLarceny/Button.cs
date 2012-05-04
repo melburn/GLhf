@@ -339,8 +339,9 @@ namespace GrandLarceny
 			return -1;
 		}
 
-		public void setHotkey(Keys[] a_key)
+		public void setHotkey(Keys[] a_key, clickDelegate a_method)
 		{
+			m_clickEvent = new Button.clickDelegate(a_method);
 			m_hotkey = a_key;
 		}
 

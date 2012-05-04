@@ -16,15 +16,11 @@ namespace GrandLarceny
 		#region Members
 		private LinkedList<Event> m_events;
 
-		private LinkedList<Button> m_staticButton;
-		private LinkedList<Button> m_buildingButtons;
-		private LinkedList<Button> m_ventButtons;
-		private LinkedList<Button> m_guardButtons;
-		private LinkedList<Button> m_hideButtons;
-		private LinkedList<Button> m_collButtons;
 		private LinkedList<Button> m_assetButtonList;
 		private LinkedList<Button> m_layerButtonList;
 		private LinkedList<Line> m_lineList;
+
+		private Dictionary<Button, State> m_buttonDict;
 
 		private GameObject m_selectedObject;
 		private GameObject m_objectPreview;
@@ -185,13 +181,9 @@ namespace GrandLarceny
 			{
 				t_e.loadContent();
 			}
-			m_buttonList.AddLast(m_buildingButtons	= new LinkedList<Button>());
-			m_buttonList.AddLast(m_staticButton		= new LinkedList<Button>());
-			m_buttonList.AddLast(m_ventButtons		= new LinkedList<Button>());
-			m_buttonList.AddLast(m_guardButtons		= new LinkedList<Button>());
-			m_buttonList.AddLast(m_hideButtons		= new LinkedList<Button>());
-			m_buttonList.AddLast(m_assetButtonList	= new LinkedList<Button>());
-			m_buttonList.AddLast(m_collButtons		= new LinkedList<Button>());
+
+			m_buttonDict = new Dictionary<Button, State>();
+			m_assetButtonList = new LinkedList<Button>();
 
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
@@ -212,131 +204,110 @@ namespace GrandLarceny
 			Vector2 t_modV2 = new Vector2(15, 0);
 			//-----------------------------------
 			#region Buttons that are always shown
-			m_staticButton.AddLast(m_btnSelectHotkey = new Button("DevelopmentHotkeys//btn_select_hotkey", new Vector2(0, 32 * m_staticButton.Count() + 25), "S", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnDeleteHotkey = new Button("DevelopmentHotkeys//btn_delete_hotkey", new Vector2(0, 32 * m_staticButton.Count() + 25), "D", "VerdanaBold", Color.Black, t_btnTextOffset));
-
-			m_btnSelectHotkey.setHotkey(new Keys[] { Keys.S });
-			m_btnDeleteHotkey.setHotkey(new Keys[] { Keys.D });
+			m_buttonDict.Add(m_btnSelectHotkey = new Button("DevelopmentHotkeys//btn_select_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "S", "VerdanaBold", Color.Black, t_btnTextOffset), State.None);
+			m_buttonDict.Add(m_btnDeleteHotkey = new Button("DevelopmentHotkeys//btn_delete_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "D", "VerdanaBold", Color.Black, t_btnTextOffset), State.Delete);
+			
+			m_btnSelectHotkey.setHotkey(new Keys[] { Keys.S }, guiButtonClick);
+			m_btnDeleteHotkey.setHotkey(new Keys[] { Keys.D }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 			
 			//-----------------------------------
 			#region Building mode buttons
-			m_staticButton.AddLast(m_btnLadderHotkey = new Button("DevelopmentHotkeys//btn_ladder_hotkey",			new Vector2(0, 32 * m_staticButton.Count() + 25), "L", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnPlatformHotkey	= new Button("DevelopmentHotkeys//btn_platform_hotkey",		new Vector2(0, 32 * m_staticButton.Count() + 25), "P", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnBackgroundHotkey = new Button("DevelopmentHotkeys//btn_background_hotkey",	new Vector2(0, 32 * m_staticButton.Count() + 25), "B", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnHeroHotkey = new Button("DevelopmentHotkeys//btn_hero_hotkey",				new Vector2(0, 32 * m_staticButton.Count() + 25), "H", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnSpotlightHotkey = new Button("DevelopmentHotkeys//btn_spotlight_hotkey",	new Vector2(0, 32 * m_staticButton.Count() + 25), "T", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnWallHotkey = new Button("DevelopmentHotkeys//btn_wall_hotkey",				new Vector2(0, 32 * m_staticButton.Count() + 25), "W", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnLightSwitchHotkey= new Button("DevelopmentHotkeys//btn_lightswitch_hotkey", new Vector2(0, 32 * m_staticButton.Count() + 25), "s+T", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
-			m_staticButton.AddLast(m_btnVentHotkey = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",		new Vector2(0, 32 * m_staticButton.Count() + 25), "V", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnWindowHotkey = new Button("DevelopmentHotkeys//btn_window_hotkey",			new Vector2(0, 32 * m_staticButton.Count() + 25), "N", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnGuardHotkey = new Button("DevelopmentHotkeys//btn_guard_hotkey",			new Vector2(0, 32 * m_staticButton.Count() + 25), "G", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnDuckHideHotkey = new Button("DevelopmentHotkeys//btn_duckhide_hotkey",		new Vector2(0, 32 * m_staticButton.Count() + 25), "A", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnForegroundHotkey = new Button("DevelopmentHotkeys//btn_foreground_hotkey",	new Vector2(0, 32 * m_staticButton.Count() + 25), "F", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnRopeHotkey = new Button("DevelopmentHotkeys//btn_rope_hotkey",				new Vector2(0, 32 * m_staticButton.Count() + 25), "O", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnSecDoorHotkey = new Button("DevelopmentHotkeys//btn_secdoor_hotkey",		new Vector2(0, 32 * m_staticButton.Count() + 25), "E", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnCornerHangHotkey = new Button("DevelopmentHotkeys//btn_doorhang_hotkey",	new Vector2(0, 32 * m_staticButton.Count() + 25), "s+W", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
-			m_staticButton.AddLast(m_btnCheckPointHotkey = new Button("DevelopmentHotkeys//btn_checkpoint_hotkey",	new Vector2(0, 32 * m_staticButton.Count() + 25), "K", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnPropHotkey = new Button("DevelopmentHotkeys//btn_clutter_hotkey",			new Vector2(0, 32 * m_staticButton.Count() + 25), "C", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnCollHotkey = new Button("DevelopmentHotkeys//btn_key_hotkey",				new Vector2(0, 32 * m_staticButton.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_btnLadderHotkey.setHotkey(new Keys[]		{ Keys.L });
-			m_btnPlatformHotkey.setHotkey(new Keys[]	{ Keys.P });
-			m_btnBackgroundHotkey.setHotkey(new Keys[]	{ Keys.B });
-			m_btnHeroHotkey.setHotkey(new Keys[]		{ Keys.H });
-			m_btnSpotlightHotkey.setHotkey(new Keys[]	{ Keys.T });
-			m_btnWallHotkey.setHotkey(new Keys[]		{ Keys.W });
-			m_btnLightSwitchHotkey.setHotkey(new Keys[] { Keys.LeftShift, Keys.T });
-			m_btnVentHotkey.setHotkey(new Keys[]		{ Keys.V });
-			m_btnWindowHotkey.setHotkey(new Keys[]		{ Keys.N });
-			m_btnGuardHotkey.setHotkey(new Keys[]		{ Keys.G });
-			m_btnDuckHideHotkey.setHotkey(new Keys[]	{ Keys.A });
-			m_btnForegroundHotkey.setHotkey(new Keys[]	{ Keys.F });
-			m_btnRopeHotkey.setHotkey(new Keys[]		{ Keys.O });
-			m_btnSecDoorHotkey.setHotkey(new Keys[]		{ Keys.E });
-			m_btnCornerHangHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.W });
-			m_btnCheckPointHotkey.setHotkey(new Keys[]	{ Keys.K });
-			m_btnPropHotkey.setHotkey(new Keys[]		{ Keys.C });
-			m_btnCollHotkey.setHotkey(new Keys[]		{ Keys.Z });
-									
-			foreach (Button t_button in m_staticButton) {
-				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
-				t_button.setDownSound("button");
-			}
+			m_buttonDict.Add(m_btnLadderHotkey = new Button("DevelopmentHotkeys//btn_ladder_hotkey",			new Vector2(0, 32 * m_buttonDict.Count() + 25), "L", "VerdanaBold", Color.Black, t_btnTextOffset), State.Ladder);
+			m_buttonDict.Add(m_btnPlatformHotkey	= new Button("DevelopmentHotkeys//btn_platform_hotkey",		new Vector2(0, 32 * m_buttonDict.Count() + 25), "P", "VerdanaBold", Color.Black, t_btnTextOffset), State.Platform);
+			m_buttonDict.Add(m_btnBackgroundHotkey = new Button("DevelopmentHotkeys//btn_background_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "B", "VerdanaBold", Color.Black, t_btnTextOffset), State.Background);
+			m_buttonDict.Add(m_btnHeroHotkey = new Button("DevelopmentHotkeys//btn_hero_hotkey",				new Vector2(0, 32 * m_buttonDict.Count() + 25), "H", "VerdanaBold", Color.Black, t_btnTextOffset), State.Player);
+			m_buttonDict.Add(m_btnSpotlightHotkey = new Button("DevelopmentHotkeys//btn_spotlight_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "T", "VerdanaBold", Color.Black, t_btnTextOffset), State.SpotLight);
+			m_buttonDict.Add(m_btnWallHotkey = new Button("DevelopmentHotkeys//btn_wall_hotkey",				new Vector2(0, 32 * m_buttonDict.Count() + 25), "W", "VerdanaBold", Color.Black, t_btnTextOffset), State.Wall);
+			m_buttonDict.Add(m_btnLightSwitchHotkey= new Button("DevelopmentHotkeys//btn_lightswitch_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+T", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.LightSwitch);
+			m_buttonDict.Add(m_btnVentHotkey = new Button("DevelopmentHotkeys//btn_ventilation_hotkey",		new Vector2(0, 32 * m_buttonDict.Count() + 25), "V", "VerdanaBold", Color.Black, t_btnTextOffset), State.Ventilation);
+			m_buttonDict.Add(m_btnWindowHotkey = new Button("DevelopmentHotkeys//btn_window_hotkey",			new Vector2(0, 32 * m_buttonDict.Count() + 25), "N", "VerdanaBold", Color.Black, t_btnTextOffset), State.Window);
+			m_buttonDict.Add(m_btnGuardHotkey = new Button("DevelopmentHotkeys//btn_guard_hotkey",			new Vector2(0, 32 * m_buttonDict.Count() + 25), "G", "VerdanaBold", Color.Black, t_btnTextOffset), State.Guard);
+			m_buttonDict.Add(m_btnDuckHideHotkey = new Button("DevelopmentHotkeys//btn_duckhide_hotkey",		new Vector2(0, 32 * m_buttonDict.Count() + 25), "A", "VerdanaBold", Color.Black, t_btnTextOffset), State.DuckHidingObject);
+			m_buttonDict.Add(m_btnForegroundHotkey = new Button("DevelopmentHotkeys//btn_foreground_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "F", "VerdanaBold", Color.Black, t_btnTextOffset), State.Foreground);
+			m_buttonDict.Add(m_btnRopeHotkey = new Button("DevelopmentHotkeys//btn_rope_hotkey",				new Vector2(0, 32 * m_buttonDict.Count() + 25), "O", "VerdanaBold", Color.Black, t_btnTextOffset), State.Rope);
+			m_buttonDict.Add(m_btnSecDoorHotkey = new Button("DevelopmentHotkeys//btn_secdoor_hotkey",		new Vector2(0, 32 * m_buttonDict.Count() + 25), "E", "VerdanaBold", Color.Black, t_btnTextOffset), State.SecDoor);
+			m_buttonDict.Add(m_btnCornerHangHotkey = new Button("DevelopmentHotkeys//btn_doorhang_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+W", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.CornerHang);
+			m_buttonDict.Add(m_btnCheckPointHotkey = new Button("DevelopmentHotkeys//btn_checkpoint_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "K", "VerdanaBold", Color.Black, t_btnTextOffset), State.Checkpoint);
+			m_buttonDict.Add(m_btnPropHotkey = new Button("DevelopmentHotkeys//btn_clutter_hotkey",			new Vector2(0, 32 * m_buttonDict.Count() + 25), "C", "VerdanaBold", Color.Black, t_btnTextOffset), State.Prop);
+			m_buttonDict.Add(m_btnCollHotkey = new Button("DevelopmentHotkeys//btn_key_hotkey",				new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
+			m_btnLadderHotkey.setHotkey(new Keys[]		{ Keys.L }, guiButtonClick);
+			m_btnPlatformHotkey.setHotkey(new Keys[]	{ Keys.P }, guiButtonClick);
+			m_btnBackgroundHotkey.setHotkey(new Keys[]	{ Keys.B }, guiButtonClick);
+			m_btnHeroHotkey.setHotkey(new Keys[]		{ Keys.H }, guiButtonClick);
+			m_btnSpotlightHotkey.setHotkey(new Keys[]	{ Keys.T }, guiButtonClick);
+			m_btnWallHotkey.setHotkey(new Keys[]		{ Keys.W }, guiButtonClick);
+			m_btnLightSwitchHotkey.setHotkey(new Keys[] { Keys.LeftShift, Keys.T }, guiButtonClick);
+			m_btnVentHotkey.setHotkey(new Keys[]		{ Keys.V }, guiButtonClick);
+			m_btnWindowHotkey.setHotkey(new Keys[]		{ Keys.N }, guiButtonClick);
+			m_btnGuardHotkey.setHotkey(new Keys[]		{ Keys.G }, guiButtonClick);
+			m_btnDuckHideHotkey.setHotkey(new Keys[]	{ Keys.A }, guiButtonClick);
+			m_btnForegroundHotkey.setHotkey(new Keys[]	{ Keys.F }, guiButtonClick);
+			m_btnRopeHotkey.setHotkey(new Keys[]		{ Keys.O }, guiButtonClick);
+			m_btnSecDoorHotkey.setHotkey(new Keys[]		{ Keys.E }, guiButtonClick);
+			m_btnCornerHangHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.W }, guiButtonClick);
+			m_btnCheckPointHotkey.setHotkey(new Keys[]	{ Keys.K }, guiButtonClick);
+			m_btnPropHotkey.setHotkey(new Keys[]		{ Keys.C }, guiButtonClick);
+			m_btnCollHotkey.setHotkey(new Keys[]		{ Keys.Z }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
 			//-----------------------------------
 			#region Ventilation buttons
 			Vector2 t_ventMenu = new Vector2(m_btnVentHotkey.getBox().X + 32, m_btnVentHotkey.getBox().Y);
-			m_ventButtons.AddLast(m_btnTVentHotkey		= new Button("DevelopmentHotkeys//btn_tvent_hotkey",
-				t_ventMenu + new Vector2(m_ventButtons.Count * 32, 0), "s+V", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
-			m_ventButtons.AddLast(m_btnStraVentHotkey	= new Button("DevelopmentHotkeys//btn_svent_hotkey",
-				t_ventMenu + new Vector2(m_ventButtons.Count * 32, 0), "s+A", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
-			m_ventButtons.AddLast(m_btnCrossVentHotkey	= new Button("DevelopmentHotkeys//btn_cvent_hotkey",
-				t_ventMenu + new Vector2(m_ventButtons.Count * 32, 0), "s+C", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
-			m_ventButtons.AddLast(m_btnCornerVentHotkey = new Button("DevelopmentHotkeys//btn_ovent_hotkey",
-				t_ventMenu + new Vector2(m_ventButtons.Count * 32, 0), "s+R", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
-			m_ventButtons.AddLast(m_btnEndVentHotkey	= new Button(null,
-				t_ventMenu + new Vector2(m_ventButtons.Count * 32, 0), "s+E", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
+			int t_buttonNumber = 0;
+			m_buttonDict.Add(m_btnTVentHotkey		= new Button("DevelopmentHotkeys//btn_tvent_hotkey",
+				t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+V", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.TVent);
+			m_buttonDict.Add(m_btnStraVentHotkey	= new Button("DevelopmentHotkeys//btn_svent_hotkey",
+				t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+A", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.StraVent);
+			m_buttonDict.Add(m_btnCrossVentHotkey	= new Button("DevelopmentHotkeys//btn_cvent_hotkey",
+				t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+C", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.CrossVent);
+			m_buttonDict.Add(m_btnCornerVentHotkey = new Button("DevelopmentHotkeys//btn_ovent_hotkey",
+				t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+R", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.CornerVent);
+			m_buttonDict.Add(m_btnEndVentHotkey	= new Button(null,
+				t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+E", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.EndVent);
 
-			m_btnTVentHotkey.setHotkey(new Keys[]		{ Keys.LeftShift, Keys.V });
-			m_btnStraVentHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.S });
-			m_btnCrossVentHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.C });
-			m_btnCornerVentHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.R });
-			m_btnEndVentHotkey.setHotkey(new Keys[]		{ Keys.LeftShift, Keys.E });
-
-			foreach (Button t_button in m_ventButtons) {
-				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
-				t_button.setDownSound("button");
-			}
+			m_btnTVentHotkey.setHotkey(new Keys[]		{ Keys.LeftShift, Keys.V }, guiButtonClick);
+			m_btnStraVentHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.S }, guiButtonClick);
+			m_btnCrossVentHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.C }, guiButtonClick);
+			m_btnCornerVentHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.R }, guiButtonClick);
+			m_btnEndVentHotkey.setHotkey(new Keys[]		{ Keys.LeftShift, Keys.E }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 			
 			//-----------------------------------
 			#region Hiding object buttons
+			t_buttonNumber = 0;
 			Vector2 t_hideMenu = new Vector2(m_btnDuckHideHotkey.getBox().X + 32, m_btnDuckHideHotkey.getBox().Y);
-			m_hideButtons.AddLast(m_btnStandHideHotkey	= new Button("DevelopmentHotkeys//btn_standhide_hotkey",
-				t_hideMenu + new Vector2(m_hideButtons.Count * 32, 0), "F", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_buttonDict.Add(m_btnStandHideHotkey	= new Button("DevelopmentHotkeys//btn_standhide_hotkey",
+				t_hideMenu + new Vector2(t_buttonNumber++ * 32, 0), "F", "VerdanaBold", Color.Black, t_btnTextOffset), State.StandHidingObject);
 
-			m_btnStandHideHotkey.setHotkey(new Keys[] { Keys.F });
-
-			foreach (Button t_button in m_hideButtons) {
-				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
-				t_button.setDownSound("button");
-			}
+			m_btnStandHideHotkey.setHotkey(new Keys[] { Keys.F }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
 			//-----------------------------------
 			#region Guard object buttons
+			t_buttonNumber = 0;
 			Vector2 t_guardMenu = new Vector2(m_btnGuardHotkey.getBox().X + 32, m_btnGuardHotkey.getBox().Y);
-			m_guardButtons.AddLast(m_btnDogHotkey			= new Button("DevelopmentHotkeys//btn_dog_hotkey",
-				t_guardMenu + new Vector2(m_guardButtons.Count * 32, 0), "s+G", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
-			m_guardButtons.AddLast(m_btnCameraHotkey		= new Button("DevelopmentHotkeys//btn_camera_hotkey",
-				t_guardMenu + new Vector2(m_guardButtons.Count * 32, 0), "s+C", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
+			m_buttonDict.Add(m_btnDogHotkey			= new Button("DevelopmentHotkeys//btn_dog_hotkey",
+				t_guardMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+G", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.GuardDog);
+			m_buttonDict.Add(m_btnCameraHotkey		= new Button("DevelopmentHotkeys//btn_camera_hotkey",
+				t_guardMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+C", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Camera);
 
-			m_btnDogHotkey.setHotkey(new Keys[]		{ Keys.LeftShift, Keys.G });
-			m_btnCameraHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.C });
-
-			foreach (Button t_button in m_guardButtons) {
-				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
-				t_button.setDownSound("button");
-			}
+			m_btnDogHotkey.setHotkey(new Keys[]		{ Keys.LeftShift, Keys.G }, guiButtonClick);
+			m_btnCameraHotkey.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.C }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
 			//-----------------------------------
 			#region Collectible object buttons
+			t_buttonNumber = 0;
 			Vector2 t_collMenu = new Vector2(m_btnCollHotkey.getBox().X + 32, m_btnCollHotkey.getBox().Y);
-			m_collButtons.AddLast(m_btnHeartHotkey = new Button("DevelopmentHotkeys//btn_heart_hotkey", t_collMenu + new Vector2(m_collButtons.Count * 32, 0), "s+H", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2));
+			m_buttonDict.Add(m_btnHeartHotkey = new Button("DevelopmentHotkeys//btn_heart_hotkey", t_collMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+H", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Heart);
 
-			m_btnHeartHotkey.setHotkey(new Keys[] { Keys.LeftShift, Keys.H });
-
-			foreach (Button t_button in m_collButtons) {
-				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
-				t_button.setDownSound("button");
-			}
+			m_btnHeartHotkey.setHotkey(new Keys[] { Keys.LeftShift, Keys.H }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
@@ -350,8 +321,7 @@ namespace GrandLarceny
 			int k = 1;
 			foreach (Button t_button in m_layerButtonList)
 			{
-				t_button.setHotkey(new Keys[] { (Keys)Enum.Parse(typeof(Keys), "D" + k++) });
-				t_button.m_clickEvent += new Button.clickDelegate(setLayer);
+				t_button.setHotkey(new Keys[] { (Keys)Enum.Parse(typeof(Keys), "D" + k++) }, setLayer);
 			}
 			#endregion
 			//-----------------------------------
@@ -425,34 +395,7 @@ namespace GrandLarceny
 			foreach (Button t_button in m_assetButtonList) {
 				t_button.update();
 			}
-			switch (m_menuState) {
-				case MenuState.Guard:
-					foreach (Button t_button in m_guardButtons) {
-						t_button.update();
-					}
-					break;
-				case MenuState.Hide:
-					foreach (Button t_button in m_hideButtons) {
-						t_button.update();
-					}
-					break;
-				case MenuState.Ventilation:
-					foreach (Button t_button in m_ventButtons) {
-						t_button.update();
-					}
-					break;
-				case MenuState.Collectible:
-					foreach (Button t_button in m_collButtons) {
-						t_button.update();
-					}
-					break;
-				default:
-					foreach (Button t_button in m_buildingButtons) {
-						t_button.update();
-					}
-					break;
-			}
-			foreach (Button t_button in m_staticButton) {
+			foreach (Button t_button in m_buttonDict.Keys) {
 				t_button.update();
 			}
 			foreach (Button t_button in m_layerButtonList) {
@@ -478,162 +421,7 @@ namespace GrandLarceny
 			if (!a_button.isButtonPressed()) {
 				a_button.playDownSound();
 			}
-			switch (m_menuState) {
-				case MenuState.Normal:
-					if (a_button == m_btnSelectHotkey) {
-						setBuildingState(State.None);
-						return;
-					}
-					if (a_button == m_btnDeleteHotkey) {
-						setBuildingState(State.Delete);
-						return;
-					}
-					if (a_button == m_btnLadderHotkey) {
-						setBuildingState(State.Ladder);
-						return;
-					}
-					if (a_button == m_btnPlatformHotkey) {
-						setBuildingState(State.Platform);
-						return;
-					}
-					if (a_button == m_btnBackgroundHotkey) {
-						setBuildingState(State.Background);
-						return;
-					}
-					if (a_button == m_btnHeroHotkey) {
-						setBuildingState(State.Player);
-						return;
-					}
-					if (a_button == m_btnSpotlightHotkey) {
-						setBuildingState(State.SpotLight);
-						return;
-					}
-					if (a_button == m_btnWallHotkey) {
-						setBuildingState(State.Wall);
-						return;
-					}
-					if (a_button == m_btnLightSwitchHotkey) {
-						setBuildingState(State.LightSwitch);
-						return;
-					}
-					if (a_button == m_btnWindowHotkey) {
-						setBuildingState(State.Window);
-						return;
-					}
-					if (a_button == m_btnForegroundHotkey) {
-						setBuildingState(State.Foreground);
-						return;
-					}
-					if (a_button == m_btnRopeHotkey) {
-						setBuildingState(State.Rope);
-						return;
-					}
-					if (a_button == m_btnSecDoorHotkey) {
-						setBuildingState(State.SecDoor);
-						return;
-					}
-					if (a_button == m_btnCornerHangHotkey) {
-						setBuildingState(State.CornerHang);
-						return;
-					}
-					if (a_button == m_btnCheckPointHotkey) {
-						setBuildingState(State.Checkpoint);
-						return;
-					}
-					if (a_button == m_btnPropHotkey) {
-						setBuildingState(State.Prop);
-						return;
-					}
-					if (a_button == m_btnCollHotkey) {
-						m_menuState = MenuState.Collectible;
-						setBuildingState(State.None);
-						return;
-					}
-					if (a_button == m_btnVentHotkey) {
-						m_menuState = MenuState.Ventilation;
-						setBuildingState(State.None);
-						return;
-					}
-					if (a_button == m_btnDuckHideHotkey) {
-						m_menuState = MenuState.Hide;
-						setBuildingState(State.None);
-						return;
-					}
-					if (a_button == m_btnGuardHotkey) {
-						m_menuState = MenuState.Guard;
-						setBuildingState(State.None);
-						return;
-					}
-					break;
-				case MenuState.Hide:
-					if (a_button == m_btnStandHideHotkey) {
-						setBuildingState(State.StandHidingObject);
-						return;
-					}
-					if (a_button == m_btnDuckHideHotkey) {
-						setBuildingState(State.DuckHidingObject);
-						return;
-					}
-					m_menuState = MenuState.Normal;
-					guiButtonClick(a_button);
-					break;
-				case MenuState.Guard:
-					if (a_button == m_btnGuardHotkey) {
-						setBuildingState(State.Guard);
-						return;
-					}
-					if (a_button == m_btnDogHotkey) {
-						setBuildingState(State.GuardDog);
-						return;
-					}
-					if (a_button == m_btnCameraHotkey) {
-						setBuildingState(State.Camera);
-						return;
-					}
-					m_menuState = MenuState.Normal;
-					guiButtonClick(a_button);
-					break;
-				case MenuState.Ventilation:
-					if (a_button == m_btnVentHotkey) {
-						setBuildingState(State.Ventrance);					
-						return;
-					}
-					if (a_button == m_btnCrossVentHotkey) {
-						setBuildingState(State.CrossVent);
-						return;
-					}
-					if (a_button == m_btnCornerVentHotkey) {
-						setBuildingState(State.CornerVent);
-						return;
-					}
-					if (a_button == m_btnTVentHotkey) {
-						setBuildingState(State.TVent);
-						return;
-					}
-					if (a_button == m_btnStraVentHotkey) {
-						setBuildingState(State.StraVent);
-						return;
-					}
-					if (a_button == m_btnEndVentHotkey) {
-						setBuildingState(State.EndVent);
-						return;
-					}
-					m_menuState = MenuState.Normal;
-					guiButtonClick(a_button);
-					break;
-				case MenuState.Collectible:
-					if (a_button == m_btnCollHotkey) {
-						setBuildingState(State.Key);
-						return;
-					}
-					if (a_button == m_btnHeartHotkey) {
-						setBuildingState(State.Heart);
-						return;
-					}
-					m_menuState = MenuState.Normal;
-					guiButtonClick(a_button);
-					break;
-			}
+			setBuildingState(m_buttonDict[a_button]);
 		}
 
 		private void createAssetList(string a_assetDirectory)
@@ -1482,11 +1270,9 @@ namespace GrandLarceny
 				foreach (GuiObject t_guiObject in m_guiList) {
 					t_guiObject.draw(a_gameTime);
 				}
-				foreach (Button t_button in m_staticButton) {
-					t_button.draw(a_gameTime, a_spriteBatch);
-				}
-			
+
 				m_statusBar.draw(a_gameTime);
+
 				if (m_selectedObject != null) {
 					m_layerTextField.draw(a_gameTime);
 					if (m_selectedObject is Environment) {
@@ -1494,30 +1280,8 @@ namespace GrandLarceny
 						m_parallaxScrollTF.draw(a_gameTime);
 					}
 				}
-				switch (m_menuState) {
-					case MenuState.Guard:
-						foreach (Button t_button in m_guardButtons) {
-							t_button.draw(a_gameTime, a_spriteBatch);
-						}
-						break;
-					case MenuState.Hide:
-						foreach (Button t_button in m_hideButtons) {
-							t_button.draw(a_gameTime, a_spriteBatch);
-						}
-						break;
-					case MenuState.Ventilation:
-						foreach (Button t_button in m_ventButtons) {
-							t_button.draw(a_gameTime, a_spriteBatch);
-						}
-						break;
-					case MenuState.Collectible:
-						foreach (Button t_button in m_collButtons) {
-							t_button.draw(a_gameTime, a_spriteBatch);
-						}
-						break;
-				}
 
-				foreach (Button t_button in m_assetButtonList) {
+				foreach (Button t_button in m_buttonDict.Keys) {
 					t_button.draw(a_gameTime, a_spriteBatch);
 				}
 				foreach (Button t_button in m_layerButtonList) {
