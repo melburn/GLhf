@@ -832,23 +832,19 @@ namespace GrandLarceny
 					}
 				}
 			}
-			if (KeyboardHandler.shiftMod()) {
-				
-			}
-			if (KeyboardHandler.altMod()) {
-
-			}
 
 			if (KeyboardHandler.keyClicked(Keys.R)) {
 				if (m_selectedObject != null) {
 					m_selectedObject.addRotation((float)(Math.PI) / 2.0f);
 				}
 			}
+
 			if (KeyboardHandler.keyClicked(Keys.Y)) {
 				if (m_selectedObject != null) {
 					m_selectedObject.flip();
 				}
 			}
+
 			if (KeyboardHandler.keyClicked(Keys.M)) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is LampSwitch) {
@@ -858,11 +854,6 @@ namespace GrandLarceny
 				}
 			}
 
-			/*
-			-----------------------------------
-			Reset Camera to 0, 0 
-			-----------------------------------
-			*/
 			if (KeyboardHandler.keyClicked(Keys.Space)) {
 				if (m_gameObjectList != null) {
 					Game.getInstance().m_camera.setPosition(Vector2.Zero);
@@ -873,33 +864,28 @@ namespace GrandLarceny
 
 		#region Update Mouse
 		private void updateMouse() {
-			m_worldMouse = calculateWorldMouse();
+			m_worldMouse = MouseHandler.worldMouse();
+
 			if (m_menuState == MenuState.Inactive) {
 				return;
 			}
-			/*
-			-----------------------------------
-			Middle-mouse drag
-			-----------------------------------
-			*/
+
+			//-----------------------------------
+			#region Middle-mouse drag
 			if (MouseHandler.mmbPressed()) {
 				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
 				t_difference.X = (Mouse.GetState().X - Game.getInstance().getResolution().X / 2) / 20 / Game.getInstance().m_camera.getZoom();
 				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().getResolution().Y / 2) / 20 / Game.getInstance().m_camera.getZoom();
 				Game.getInstance().m_camera.getPosition().plusWith(t_difference);
 			}
+			#endregion
+			//-----------------------------------
 
-			/*
-			-----------------------------------
-			Left Mouse Button Click Down
-			-----------------------------------
-			*/
+			//-----------------------------------
+			#region Left Mouse Button Down
 			if (MouseHandler.lmbDown()) {
-				/*
-				-----------------------------------
-				Building
-				-----------------------------------
-				*/
+				//-----------------------------------
+				#region Building
 				if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && (!collidedWithObject(m_worldMouse) || m_itemToCreate == State.Background)) {
 					if (m_itemToCreate != State.None && m_itemToCreate != State.Delete) {
 						switch (m_itemToCreate) {
@@ -988,12 +974,11 @@ namespace GrandLarceny
 						return;
 					}
 				}
-				/*
-				-----------------------------------
-				Selecting
-				----------------------------------- 
-				*/
+				#endregion
+				//-----------------------------------
 				
+				//-----------------------------------
+				#region Selecting
 				if (!m_building && !collidedWithGui(MouseHandler.getMouseCoords())) {
 					if (m_selectedObject != null) {
 						clearSelectedObject();
@@ -1037,13 +1022,14 @@ namespace GrandLarceny
 						m_dragFrom = m_selectedObject.getPosition().getGlobalCartesian();
 					}
 				}
+				#endregion
+				//----------------------------------- 
 			}
-
-			/*
-			-----------------------------------
-			Left Mouse Button Release
-			-----------------------------------
-			*/
+			#endregion
+			//-----------------------------------
+			
+			//-----------------------------------
+			#region Left Mouse Button Release
 			if (MouseHandler.lmbUp()) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is Guard && m_selectedObject.getPosition().getGlobalCartesian() != m_dragFrom) {
@@ -1055,12 +1041,11 @@ namespace GrandLarceny
 				m_dragFrom = Vector2.Zero;
 				m_firstDrag = true;
 			}
+			#endregion
+			//-----------------------------------
 
-			/*
-			-----------------------------------
-			Left Mouse Button Drag
-			-----------------------------------
-			*/
+			//-----------------------------------
+			#region Left Mouse Button Drag
 			if (MouseHandler.lmbPressed()) {
 				if (m_selectedObject != null && m_menuState != MenuState.Inactive && !collidedWithGui(MouseHandler.getCurPos())) {
 					if (m_firstDrag) {
@@ -1087,18 +1072,11 @@ namespace GrandLarceny
 					}
 				}
 			}
-			
-			/*
-			-----------------------------------
-			Right Mouse Button Down 
-			-----------------------------------
-			*/
+			#endregion
+			//-----------------------------------
 
-			/*
-			-----------------------------------
-			Right Mouse Button Release
-			-----------------------------------
-			*/
+			//-----------------------------------
+			#region Right Mouse Button Release
 			if (MouseHandler.rmbUp()) {
 				if (m_selectedObject != null && m_selectedObject is Rope) {
 					((Rope)m_selectedObject).setEndPoint(new Vector2(m_selectedObject.getPosition().getLocalX(), getTileCoordinates(m_worldMouse).Y + 72));
@@ -1126,12 +1104,11 @@ namespace GrandLarceny
 				}
 				m_dragLine = null;
 			}
+			#endregion
+			//-----------------------------------
 
-			/*
-			-----------------------------------
-			Right Mouse Button Drag
-			-----------------------------------
-			*/
+			//-----------------------------------
+			#region Right Mouse Button Drag
 			if (MouseHandler.rmbPressed()) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is LampSwitch) {
@@ -1160,6 +1137,8 @@ namespace GrandLarceny
 					}
 				}
 			}
+			#endregion
+			//-----------------------------------
 		}
 		#endregion
 

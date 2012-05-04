@@ -114,15 +114,6 @@ namespace GrandLarceny
 			return null;
 		}
 
-		public Vector2 calculateWorldMouse()
-		{
-			Camera t_camera = Game.getInstance().m_camera;
-			return new Vector2(
-				Mouse.GetState().X / t_camera.getZoom() + (int)t_camera.getPosition().getGlobalCartesian().X - ((Game.getInstance().getResolution().X / 2) / t_camera.getZoom()) ,
-				Mouse.GetState().Y / t_camera.getZoom() + (int)t_camera.getPosition().getGlobalCartesian().Y - ((Game.getInstance().getResolution().Y / 2) / t_camera.getZoom())
-			);
-		}
-
 		public virtual bool collidedWithGui(Vector2 a_coordinate)
 		{
 			foreach (GuiObject t_guiObject in m_guiList) {

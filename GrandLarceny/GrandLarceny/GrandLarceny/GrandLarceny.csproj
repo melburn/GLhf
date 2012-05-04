@@ -157,7 +157,7 @@
     <Compile Include="LoadAndSaveMenu.cs" />
     <Compile Include="LockedDoor.cs" />
     <Compile Include="MapState.cs" />
-    <Compile Include="MouseHandler.cs" />
+    <Compile Include="Handlers\MouseHandler.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />

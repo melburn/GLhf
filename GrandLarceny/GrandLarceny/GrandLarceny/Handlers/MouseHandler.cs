@@ -11,10 +11,17 @@ namespace GrandLarceny
 	{
 		private static MouseState m_currentMouse;
 		private static MouseState m_previousMouse;
+		private static Vector2 m_worldMouse;
 
 		public static void setCurrentMouse(MouseState a_mouseState)
 		{
 			m_currentMouse = a_mouseState;
+			Camera t_camera = Game.getInstance().m_camera;
+			float t_zoom = t_camera.getZoom();
+			m_worldMouse = new Vector2(
+				m_currentMouse.X / t_zoom + (int)t_camera.getPosition().getGlobalCartesian().X - ((Game.getInstance().getResolution().X / 2) / t_zoom) ,
+				m_currentMouse.Y / t_zoom + (int)t_camera.getPosition().getGlobalCartesian().Y - ((Game.getInstance().getResolution().Y / 2) / t_zoom)
+			);
 		}
 
 		public static void setPreviousMouse()
@@ -94,11 +101,7 @@ namespace GrandLarceny
 
 		public static Vector2 worldMouse()
 		{
-			Camera t_camera = Game.getInstance().m_camera;
-			return new Vector2(
-				Mouse.GetState().X / t_camera.getZoom() + (int)t_camera.getPosition().getGlobalCartesian().X - ((Game.getInstance().getResolution().X / 2) / t_camera.getZoom()) ,
-				Mouse.GetState().Y / t_camera.getZoom() + (int)t_camera.getPosition().getGlobalCartesian().Y - ((Game.getInstance().getResolution().Y / 2) / t_camera.getZoom())
-			);
+			return m_worldMouse;
 		}
 
 		public static Vector2 getMouseCoords()

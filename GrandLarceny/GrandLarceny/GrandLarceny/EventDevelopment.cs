@@ -370,7 +370,7 @@ namespace GrandLarceny
 
 		private void updateMouse()
 		{
-			Vector2 t_mouse = calculateWorldMouse();
+			Vector2 t_mouse = MouseHandler.worldMouse();
 			/*
 			-----------------------------------
 			Middle-mouse drag
@@ -393,7 +393,7 @@ namespace GrandLarceny
 			{
 				if (m_state == State.firRectanglePoint)
 				{
-					m_recPoint = calculateWorldMouse();
+					m_recPoint = MouseHandler.worldMouse();
 					m_state = State.drawingRectangle;
 
 					m_recLines = new Line[4];
@@ -406,7 +406,7 @@ namespace GrandLarceny
 				}
 				if (m_state == State.newDoorEffect)
 				{
-					Vector2 t_mousePoint = calculateWorldMouse();
+					Vector2 t_mousePoint = MouseHandler.worldMouse();
 					foreach (GameObject t_go in m_backState.getCurrentList())
 					{
 						if (t_go is SecurityDoor && t_go.getBox().Contains((int)t_mousePoint.X, (int)t_mousePoint.Y))
