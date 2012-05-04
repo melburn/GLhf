@@ -39,6 +39,7 @@ namespace GrandLarceny
 		private Button m_deleteEvent;
 		private Button m_deleteTriggerEffect;
 		private Button m_switchTriggerType;
+		private Button m_exitEvent;
 
 		private Box m_background;
 
@@ -114,6 +115,9 @@ namespace GrandLarceny
 
 			m_deleteEvent = new Button("DevelopmentHotkeys//btn_delete_hotkey", new Vector2(250, 0));
 			m_deleteEvent.m_clickEvent += new Button.clickDelegate(deleteEvent);
+
+			m_exitEvent = new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 50));
+			m_exitEvent.m_clickEvent += new Button.clickDelegate(exitState);
 
 			m_deleteTriggerEffect = new Button("btn_small_delete", Vector2.Zero);
 			m_deleteTriggerEffect.m_clickEvent += new Button.clickDelegate(deleteTriggerEffect);
@@ -197,17 +201,6 @@ namespace GrandLarceny
 				t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
 				m_eventButtons.AddFirst(t_button);
 			}
-		}
-
-		public void exitState(Button a_care)
-		{
-			LinkedList<Event> t_events = new LinkedList<Event>();
-			foreach (Event t_e in m_events.Values)
-			{
-				t_events.AddLast(t_e);
-			}
-			m_backState.setEvents(t_events);
-			Game.getInstance().setState(m_backState);
 		}
 
 		private void deselectEvent()
@@ -353,6 +346,17 @@ namespace GrandLarceny
 			}
 			m_switchTriggerType = a_button;
 			m_switchTriggerType.setState(3);
+		}
+
+		public void exitState(Button a_care)
+		{
+			LinkedList<Event> t_events = new LinkedList<Event>();
+			foreach (Event t_e in m_events.Values)
+			{
+				t_events.AddLast(t_e);
+			}
+			m_backState.setEvents(t_events);
+			Game.getInstance().setState(m_backState);
 		}
 		#endregion
 		
@@ -539,6 +543,7 @@ namespace GrandLarceny
 			{
 				m_textField.update(a_gameTime);
 			}
+			m_exitEvent.update();
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
@@ -610,6 +615,7 @@ namespace GrandLarceny
 				m_textFieldInfo.draw(a_gameTime);
 				m_textField.draw(a_gameTime);
 			}
+			m_exitEvent.draw(a_gameTime, a_spriteBatch);
 		}
 		#endregion
 	}
