@@ -250,11 +250,11 @@ namespace GrandLarceny
 			m_staticButton.AddLast(m_btnDuckHideHotkey = new Button("DevelopmentHotkeys//btn_duckhide_hotkey",		new Vector2(0, 32 * m_staticButton.Count() + 25), "A", "VerdanaBold", Color.Black, t_btnTextOffset));
 			m_staticButton.AddLast(m_btnForegroundHotkey = new Button("DevelopmentHotkeys//btn_foreground_hotkey",	new Vector2(0, 32 * m_staticButton.Count() + 25), "F", "VerdanaBold", Color.Black, t_btnTextOffset));
 			m_staticButton.AddLast(m_btnRopeHotkey = new Button("DevelopmentHotkeys//btn_rope_hotkey",				new Vector2(0, 32 * m_staticButton.Count() + 25), "O", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnSecDoorHotkey		= new Button(null,										new Vector2(0, 32 * m_staticButton.Count() + 25), "E", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnCornerHangHotkey	= new Button(null,										new Vector2(0, 32 * m_staticButton.Count() + 25), "Shift+W", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnCheckPointHotkey	= new Button(null,										new Vector2(0, 32 * m_staticButton.Count() + 25), "K", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnPropHotkey			= new Button(null,										new Vector2(0, 32 * m_staticButton.Count() + 25), "C", "VerdanaBold", Color.Black, t_btnTextOffset));
-			m_staticButton.AddLast(m_btnCollHotkey			= new Button(null,										new Vector2(0, 32 * m_staticButton.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_staticButton.AddLast(m_btnSecDoorHotkey = new Button("DevelopmentHotkeys//btn_secdoor_hotkey",		new Vector2(0, 32 * m_staticButton.Count() + 25), "E", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_staticButton.AddLast(m_btnCornerHangHotkey = new Button("DevelopmentHotkeys//btn_doorhang_hotkey",	new Vector2(0, 32 * m_staticButton.Count() + 25), "Shift+W", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_staticButton.AddLast(m_btnCheckPointHotkey = new Button("DevelopmentHotkeys//btn_checkpoint_hotkey",	new Vector2(0, 32 * m_staticButton.Count() + 25), "K", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_staticButton.AddLast(m_btnPropHotkey = new Button("DevelopmentHotkeys//btn_clutter_hotkey",			new Vector2(0, 32 * m_staticButton.Count() + 25), "C", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_staticButton.AddLast(m_btnCollHotkey = new Button("DevelopmentHotkeys//btn_key_hotkey",				new Vector2(0, 32 * m_staticButton.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset));
 
 			foreach (Button t_button in m_staticButton) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -323,7 +323,7 @@ namespace GrandLarceny
 			*/
 
 			Vector2 t_collMenu = new Vector2(m_btnCollHotkey.getBox().X + 32, m_btnCollHotkey.getBox().Y);
-			m_collButtons.AddLast(m_btnHeartHotkey = new Button(null, t_collMenu + new Vector2(m_collButtons.Count * 32, 0), "H", "VerdanaBold", Color.Black, t_btnTextOffset));
+			m_collButtons.AddLast(m_btnHeartHotkey = new Button("DevelopmentHotkeys//btn_heart_hotkey", t_collMenu + new Vector2(m_collButtons.Count * 32, 0), "H", "VerdanaBold", Color.Black, t_btnTextOffset));
 
 			foreach (Button t_button in m_collButtons) {
 				t_button.m_clickEvent += new Button.clickDelegate(guiButtonClick);
@@ -939,6 +939,9 @@ namespace GrandLarceny
 						}
 						break;
 					case MenuState.Collectible:
+						if (Game.keyClicked(Keys.Z)) {
+							guiButtonClick(m_btnCollHotkey);
+						}
 						if (Game.keyClicked(Keys.H)) {
 							guiButtonClick(m_btnHeartHotkey);
 						}
