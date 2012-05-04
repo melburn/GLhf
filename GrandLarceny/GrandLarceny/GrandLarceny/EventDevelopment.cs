@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using GrandLarceny.Events;
 using GrandLarceny.Events.Effects;
 using GrandLarceny.Events.Triggers;
+using System.IO;
 
 namespace GrandLarceny
 {
@@ -40,6 +41,7 @@ namespace GrandLarceny
 
 		private LinkedList<Button> m_triggerMenu;
 		private LinkedList<Button> m_effectMenu;
+		private LinkedList<Event> m_eventList;
 
 		private Button m_btnAddEvent;
 		private Button m_btnAddTrigger;
@@ -48,6 +50,9 @@ namespace GrandLarceny
 		private Button m_selectedEvent;
 		private Button m_selectedEffect;
 		private Button m_selectedTrigger;
+
+		private Text m_textFieldInfo;
+		private TextField m_textField;
 		//private Button m_selectedEffTri;
 		//private Button m_btnAddEvent;
 
@@ -67,18 +72,8 @@ namespace GrandLarceny
 			newDoorEffect,	newChase,			drawingRectangle
 		}
 
-		private MenuState m_menuState;
-		private enum MenuState
-		{
-			AddEvent,		AddTrigger,			AddEffect
-		}
-
 		public EventDevelopment(DevelopmentState a_backState, LinkedList<Event> a_events)
 		{
-			if (a_events == null)
-			{
-				throw new ArgumentNullException();
-			}
 			m_numOfAddedEvents = 0;
 			m_state = State.neutral;
 			m_backState = a_backState;
@@ -89,52 +84,50 @@ namespace GrandLarceny
 			m_eventsToRemove = new Stack<Button>();
 			m_eventsToAdd = new Stack<Event>();
 			m_events = new Dictionary<Button, Event>();
-			//m_effects = new Dictionary<Button, EventEffect>();
-			//m_triggers = new Dictionary<Button, EventTrigger>();
 			m_stateButtons = new Stack<LinkedList<Button>>();
 
-			foreach (Event t_e in a_events)
-			{
-				addEvent(t_e);
-			}
+			m_eventList = a_events;
+			buildEventList();
 		}
 
 		public override void load()
 		{
 			Vector2 t_textOffset = new Vector2(5, 2);
-			m_menuState = MenuState.AddEvent;
 			m_eventButtons = new LinkedList<Button>();
+			m_triggerButtons = new LinkedList<Button>();
+			m_effectButtons = new LinkedList<Button>();
 			m_triggerMenu = new LinkedList<Button>();
 			m_effectMenu = new LinkedList<Button>();
+			m_textField = null;
 
-			m_btnAddEvent = new Button("btn_asset_list", new Vector2(0, 100 + (m_eventsToAdd.Count * 25)), "Add Event", "VerdanaBold", Color.Black, t_textOffset);
+			m_btnAddEvent = new Button("btn_asset_list", new Vector2(0, 100 + (m_eventButtons.Count * 25)), "Add Event", "VerdanaBold", Color.Black, t_textOffset);
 			m_btnAddEvent.m_clickEvent += new Button.clickDelegate(newEvent);
 
-			m_btnAddTrigger = new Button("btn_asset_list", new Vector2(250, 100 + (m_eventsToAdd.Count * 25)), "Add Trigger", "VerdanaBold", Color.Black, t_textOffset);
+			m_btnAddTrigger = new Button("btn_asset_list", new Vector2(0, 40 + (m_triggerButtons.Count * 25)), "Add Trigger", "VerdanaBold", Color.Black, t_textOffset);
 			m_btnAddTrigger.m_clickEvent += new Button.clickDelegate(newTrigger);
 
-			m_btnAddEffect = new Button("btn_asset_list", new Vector2(500, 100 + (m_eventsToAdd.Count * 25)), "Add Effect", "VerdanaBold", Color.Black, t_textOffset);
-			m_btnAddEffect.m_clickEvent += new Button.clickDelegate(addEffect);
+			m_btnAddEffect = new Button("btn_asset_list", new Vector2(m_btnAddTrigger.getBox().Width, 40 + (m_effectButtons.Count * 25)), "Add Effect", "VerdanaBold", Color.Black, t_textOffset);
+			m_btnAddEffect.m_clickEvent += new Button.clickDelegate(newEffect);
 
-			m_triggerMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(800, 600), "Rectangle", null, Color.Black, t_textOffset));
+			m_triggerMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(800, 600), "Rectangle", "VerdanaBold", Color.Black, t_textOffset));
 			m_triggerMenu.Last().m_clickEvent += new Button.clickDelegate(addRectangle);
 
-			m_triggerMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(700, 600), "not done", null, Color.Black, t_textOffset));
+			m_triggerMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(700, 600), "not done", "VerdanaBold", Color.Black, t_textOffset));
 			m_triggerMenu.Last().m_clickEvent += new Button.clickDelegate(addCircle);
 
-			m_triggerMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(600, 600), "Switch/Button", null, Color.Black, t_textOffset));
+			m_triggerMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(600, 600), "Switch/Button", "VerdanaBold", Color.Black, t_textOffset));
 			m_triggerMenu.Last().m_clickEvent += new Button.clickDelegate(addSwitch);
 
-			m_triggerMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(500, 600), "Chase check", null, Color.Black, t_textOffset));
+			m_triggerMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(500, 600), "Chase check", "VerdanaBold", Color.Black, t_textOffset));
 			m_triggerMenu.Last().m_clickEvent += new Button.clickDelegate(addChase);
 
-			m_effectMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(800, 600), "Cutscene", null, Color.Black, t_textOffset));
+			m_effectMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(800, 600), "Cutscene", "VerdanaBold", Color.Black, t_textOffset));
 			m_effectMenu.Last().m_clickEvent += new Button.clickDelegate(addCutscene);
 
-			m_effectMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(700, 600), "Equip", null, Color.Black, t_textOffset));
+			m_effectMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(700, 600), "Equip", "VerdanaBold", Color.Black, t_textOffset));
 			m_effectMenu.Last().m_clickEvent += new Button.clickDelegate(addEquip);
 
-			m_effectMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(600, 600), "Door", null, Color.Black, t_textOffset));
+			m_effectMenu.AddLast(new Button("DevelopmentHotkeys//btn_layer_chooser", new Vector2(600, 600), "Door", "VerdanaBold", Color.Black, t_textOffset));
 			m_effectMenu.Last().m_clickEvent += new Button.clickDelegate(addDoorEffect);
 
 			base.load();
@@ -146,6 +139,27 @@ namespace GrandLarceny
 		}
 
 		#region List Adders
+		private void buildEventList() {
+			foreach (Event t_e in m_eventList)
+			{
+				while (m_eventsToAdd.Count > 0)
+				{
+					int i = 0;
+					KeyValuePair<Button, Event>[] t_array = m_events.ToArray();
+					for (int j = 0; j < t_array.Length; ) {
+						if (i == int.Parse(t_array[j++].Key.getText())) {
+							j = 0;
+							i++;
+						}
+					}
+					Button t_button = new Button("btn_asset_list", new Vector2(0, 100 + ((m_numOfAddedEvents++) * 25)), "" + i, null, Color.Yellow, new Vector2(10, 2));
+					t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
+					m_events.Add(t_button, m_eventsToAdd.Pop());
+					m_eventButtons.AddFirst(t_button);
+				}
+			}
+		}
+
 		public void newEvent(Button a_button)
 		{
 			a_button.move(new Vector2(0, 25));
@@ -167,96 +181,16 @@ namespace GrandLarceny
 
 		public void newTrigger(Button a_button)
 		{
-			m_menuState = MenuState.AddTrigger;
 			a_button.setState(3);
-			/*
-			a_button.move(new Vector2(0, 25));
-
-			Button t_button = new Button("btn_asset_list", new Vector2(250, 100 + (m_triggerButtons.Count() * 25)), "", "VerdanaBold", Color.Yellow, new Vector2(10, 2));
-			t_button.m_clickEvent += new Button.clickDelegate(selectTrigger);
-			m_triggerButtons.AddLast(t_button);
-			*/
 		}
 
 		private void newEffect(Button a_button)
 		{
-			a_button.move(new Vector2(0, 25));
-
-			Button t_button = new Button("btn_asset_list", new Vector2(250, 100 + (m_effectButtons.Count() * 25)), "", "VerdanaBold", Color.Yellow, new Vector2(10, 2));
-			t_button.m_clickEvent += new Button.clickDelegate(selectEffect);
-			m_effectButtons.AddLast(t_button);
+			a_button.setState(3);
 		}
-		/*
-		private void addEffect(EventEffect a_eveEffect)
-		{
-			if (m_selectedEvent != null)
-			{
-				m_events[m_selectedEvent].add(a_eveEffect);
+		#endregion
 
-				Button t_buttonToAdd = new Button("btn_asset_list", new Vector2(800, 100 + ((m_effects.Count) * 30)), a_eveEffect.ToString(), "VerdanaBold", Color.Yellow, new Vector2(10, 2));
-				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectTrigger);
-				m_buttonsToAdd.Push(t_buttonToAdd);
-
-				m_effects.Add(t_buttonToAdd, a_eveEffect);
-			}
-		}
-
-		private void addTrigger(EventTrigger a_eveTrigger)
-		{
-			if (m_selectedEvent != null)
-			{
-				m_events[m_selectedEvent].add(a_eveTrigger);
-
-				Button t_buttonToAdd = new Button("btn_asset_list", new Vector2(700, 100 + ((m_effects.Count) * 30)), a_eveTrigger.ToString(), "VerdanaBold", Color.Yellow, new Vector2(10, 2));
-				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectTrigger);
-				m_buttonsToAdd.Push(t_buttonToAdd);
-
-				m_triggers.Add(t_buttonToAdd, a_eveTrigger);
-			}
-		}
-		*/
-		public void addEffect(Button a_care)
-		{
-			if (m_state == State.newTrigger)
-			{
-				goUpOneState();
-			}
-			if (m_selectedEvent != null && m_state == State.neutral)
-			{
-				m_state = State.newEffect;
-			}
-		}
-
-		public void addCutscene(Button a_care)
-		{
-			if (m_selectedEvent != null && m_state == State.newEffect)
-			{
-				m_state = State.newCutscene;
-
-				TextField t_textField = new TextField(new Vector2(300, 200), 200, 100, true, true, true, 0);
-
-				t_textField.setWrite(true);
-				t_textField.setText("write the filename of the cutscene");
-
-				m_guiList.AddFirst(t_textField);
-			}
-		}
-
-		public void addEquip(Button a_care)
-		{
-			if (m_selectedEvent != null && m_state == State.newEffect)
-			{
-				m_state = State.newEquip;
-
-				TextField t_textField = new TextField(new Vector2(300, 200), 200, 100, true, true, true, 0);
-
-				t_textField.setWrite(true);
-				t_textField.setText("write name(string):equip(bool)");
-
-				m_guiList.AddFirst(t_textField);
-			}
-		}
-
+		#region Add Trigger
 		public void addRectangle(Button a_care)
 		{
 			m_state = State.firRectanglePoint;
@@ -266,36 +200,34 @@ namespace GrandLarceny
 		{
 			//You wish
 		}
+
 		private void addSwitch(Button a_care)
 		{
-			if (m_state == State.newTrigger)
+			m_state = State.newSwitch;
+
+			Button t_buttonToAdd;
+			LinkedList<Button> t_submenu = new LinkedList<Button>();
+			int i = 800;
+			if (m_switchTriggerButtons == null)
 			{
-				m_state = State.newSwitch;
-
-				Button t_buttonToAdd;
-				LinkedList<Button> t_submenu = new LinkedList<Button>();
-				int i = 800;
-				if (m_switchTriggerButtons == null)
-				{
-					m_switchTriggerButtons = new Dictionary<Button, SwitchTrigger.TriggerType>();
-				}
-				else
-				{
-					m_switchTriggerButtons.Clear();
-				}
-				foreach (SwitchTrigger.TriggerType t_sttt in System.Enum.GetValues(typeof(SwitchTrigger.TriggerType)))
-				{
-					t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser", 
-						new Vector2(i, 550), t_sttt.ToString(), null, Color.Black, new Vector2(5, 5));
-					t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectSwitchTrigger);
-					m_buttonsToAdd.Push(t_buttonToAdd);
-					t_submenu.AddLast(t_buttonToAdd);
-					m_switchTriggerButtons.Add(t_buttonToAdd, t_sttt);
-					i -= 100;
-				}
-
-				m_stateButtons.Push(t_submenu);
+				m_switchTriggerButtons = new Dictionary<Button, SwitchTrigger.TriggerType>();
 			}
+			else
+			{
+				m_switchTriggerButtons.Clear();
+			}
+			foreach (SwitchTrigger.TriggerType t_sttt in System.Enum.GetValues(typeof(SwitchTrigger.TriggerType)))
+			{
+				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser", 
+					new Vector2(i, 550), t_sttt.ToString(), null, Color.Black, new Vector2(5, 5));
+				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectSwitchTrigger);
+				m_buttonsToAdd.Push(t_buttonToAdd);
+				t_submenu.AddLast(t_buttonToAdd);
+				m_switchTriggerButtons.Add(t_buttonToAdd, t_sttt);
+				i -= 100;
+			}
+
+			m_stateButtons.Push(t_submenu);
 		}
 
 		private void addChase(Button a_button)
@@ -304,73 +236,28 @@ namespace GrandLarceny
 		}
 		#endregion
 
-		public void goUpOneState()
+		#region Add Effect
+		public void addCutscene(Button a_care)
 		{
-			if (m_menuState == MenuState.AddEffect)
-			{
-				m_selectedEffect = null;
-				m_btnAddEffect.setState(0);
-				m_menuState = MenuState.AddTrigger;
-			}
-			else if (m_menuState == MenuState.AddTrigger)
-			{
-				m_selectedTrigger = null;
-				m_btnAddTrigger.setState(0);
-				m_menuState = MenuState.AddEvent;
-			}
-			/*
-			bool t_goingToPop = false;
-			if (m_state == State.newCutscene || m_state == State.newEquip)
-			{
-				m_state = State.newEffect;
-				m_guiList.RemoveFirst();
-			}
-			else if (m_state == State.newChase)
-			{
-				m_state = State.newChase;
-				m_guiList.RemoveFirst();
-			}
-			else if (m_state == State.newEffect)
-			{
-				t_goingToPop = true;
-				m_state = State.neutral;
-			}
-			else if (m_state == State.newTrigger)
-			{
-				t_goingToPop = true;
-				m_state = State.neutral;
-			}
-			else if (m_state == State.neutral)
-			{
-				selectEvent(null);
-			}
-			else if (m_state == State.newSwitch)
-			{
-				t_goingToPop = true;
-				m_state = State.newTrigger;
-			}
-			else if (m_state == State.selectSwitch)
-			{
-				m_state = State.newSwitch;
-				m_switchTriggerType.setState(0);
-				m_switchTriggerType = null;
-			}
-			else if (m_state == State.newDoorEffect)
-			{
-				t_goingToPop = true;
-				m_state = State.newEffect;
-			}
-
-			if (t_goingToPop)
-			{
-				LinkedList<Button> t_pop = m_stateButtons.Pop();
-				foreach (Button t_b in t_pop)
-				{
-					m_buttonsToRemove.Push(t_b);
-				}
-			}
-			*/
+			m_state = State.newCutscene;
+			m_textField = new TextField(new Vector2(Game.getInstance().getResolution().X / 2 - 100, 200), 200, 25, true, true, true, 0);
+			m_textFieldInfo = new Text(new Vector2(Game.getInstance().getResolution().X / 2 - m_textField.getSize().X / 2, 175), "Filename of the Cutscene", "VerdanaBold", Color.White, false);
+			m_textField.setWrite(true);
 		}
+
+		public void addEquip(Button a_care)
+		{
+			m_state = State.newEquip;
+			m_textField = new TextField(new Vector2(Game.getInstance().getResolution().X / 2 - 100, 200), 200, 25, true, true, true, 0);
+			m_textFieldInfo = new Text(new Vector2(Game.getInstance().getResolution().X / 2 - m_textField.getSize().X / 2, 175), "name:equip", "VerdanaBold", Color.White, false);
+			m_textField.setWrite(true);
+		}
+
+		public void addDoorEffect(Button a_care)
+		{
+			m_state = State.newDoorEffect;
+		}
+		#endregion
 
 		public void exitState(Button a_care)
 		{
@@ -387,42 +274,43 @@ namespace GrandLarceny
 		public void selectEvent(Button a_button)
 		{
 			GuiListFactory.setSelection(m_eventButtons, 0);
-			Vector2 t_listPosition = new Vector2(m_eventButtons.First().getBox().X + m_eventButtons.First().getBox().Width, m_eventButtons.First().getBox().Y);
 
 			a_button.setState(3);
-			m_menuState = MenuState.AddTrigger;
 			m_triggerButtons = new LinkedList<Button>();
+			m_effectButtons = new LinkedList<Button>();
 			m_selectedEvent = a_button;
+			m_selectedEvent.setPosition(Vector2.Zero);
 
 			foreach (EventTrigger t_trigger in m_events[a_button].getTriggers())
 			{
-				m_triggerButtons.AddLast(new Button("btn_asset_list", new Vector2(t_listPosition.X, t_listPosition.Y + ((m_events[a_button].getTriggers().Count) * 30)), 
+				m_triggerButtons.AddLast(new Button("btn_asset_list", new Vector2(m_btnAddTrigger.getBox().X, 40 + (m_triggerButtons.Count * 25)), 
 					t_trigger.ToString(), "VerdanaBold", Color.Yellow, new Vector2(10, 2)));
 				m_triggerButtons.Last().m_clickEvent += new Button.clickDelegate(selectTrigger);
+			}
+
+			foreach (EventEffect t_effect in m_events[m_selectedEvent].getEffects())
+			{
+				m_effectButtons.AddLast(new Button("btn_asset_list", new Vector2(m_btnAddEffect.getBox().X, 40 + (m_effectButtons.Count * 25)), 
+					t_effect.ToString(), "VerdanaBold", Color.Yellow, new Vector2(10, 2)));
+				m_effectButtons.Last().m_clickEvent += new Button.clickDelegate(selectEffect);
+			}
+
+			if (m_triggerButtons.Count() > 0) {
+				m_btnAddTrigger.setPosition(new Vector2(m_triggerButtons.Last().getBox().X, m_triggerButtons.Last().getBox().Y + 25));
+			}
+			if (m_effectButtons.Count() > 0) {
+				m_btnAddEffect.setPosition(new Vector2(m_effectButtons.Last().getBox().X, m_effectButtons.Last().getBox().Y + 25));	
 			}
 		}
 
 		public void selectTrigger(Button a_button)
 		{
-			GuiListFactory.setSelection(m_triggerButtons, 0);
-			Vector2 t_listPosition = new Vector2(m_triggerButtons.First().getBox().X + m_triggerButtons.First().getBox().Width, m_triggerButtons.First().getBox().Y);
-
 			a_button.setState(3);
-			m_menuState = MenuState.AddEffect;
-			m_effectButtons = new LinkedList<Button>();
-			m_selectedTrigger = a_button;
-
-			foreach (EventEffect t_effect in m_events[m_selectedEvent].getEffects())
-			{
-				m_effectButtons.AddLast(new Button("btn_asset_list", new Vector2(t_listPosition.X, t_listPosition.Y + ((m_events[m_selectedEvent].getEffects().Count) * 30)), 
-					t_effect.ToString(), "VerdanaBold", Color.Yellow, new Vector2(10, 2)));
-				m_effectButtons.Last().m_clickEvent += new Button.clickDelegate(selectEffect);
-			}
 		}
 
 		private void selectEffect(Button a_button)
 		{
-
+			a_button.setState(3);
 		}
 		#endregion
 
@@ -478,13 +366,7 @@ namespace GrandLarceny
 				m_switchTriggerType.setState(3);
 			}
 		}
-		public void addDoorEffect(Button a_care)
-		{
-			if (m_state == State.newEffect)
-			{
-				m_state = State.newDoorEffect;
-			}
-		}
+		
 		public void addChaseTrigger(Button a_care)
 		{
 			if (m_state == State.newTrigger)
@@ -504,7 +386,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			updateMouse();
-			updateGUI();
+			updateGUI(a_gameTime);
 			m_backState.updateCamera();
 		}
 
@@ -516,7 +398,7 @@ namespace GrandLarceny
 			Middle-mouse drag
 			-----------------------------------
 			*/
-			if (Game.m_currentMouse.MiddleButton == ButtonState.Pressed && Game.m_previousMouse.MiddleButton == ButtonState.Pressed)
+			if (Game.mmbPressed())
 			{
 				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
 				t_difference.X = (Mouse.GetState().X - Game.getInstance().getResolution().X / 2) / 20 / Game.getInstance().m_camera.getZoom();
@@ -529,7 +411,7 @@ namespace GrandLarceny
 			Left Mouse Button Click Down
 			-----------------------------------
 			*/
-			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released)
+			if (Game.lmbDown())
 			{
 				if (m_state == State.firRectanglePoint)
 				{
@@ -544,6 +426,20 @@ namespace GrandLarceny
 						m_recLines[i] = new Line(t_stopidPoint, t_stopidPoint, Vector2.Zero, Vector2.Zero, Color.Yellow, 2, true);
 					}
 				}
+				if (m_state == State.newDoorEffect)
+				{
+					Vector2 t_mousePoint = calculateWorldMouse();
+					foreach (GameObject t_go in m_backState.getCurrentList())
+					{
+						if (t_go is SecurityDoor && t_go.getBox().Contains((int)t_mousePoint.X, (int)t_mousePoint.Y))
+						{
+							m_events[m_selectedEvent].add(new DoorOpenEffect((SecurityDoor)t_go, 1, 1));
+							selectEvent(m_selectedEvent);
+							m_btnAddEffect.setState(0);
+							break;
+						}
+					}
+				}
 			}
 
 			/*
@@ -551,7 +447,7 @@ namespace GrandLarceny
 			Left Mouse Button Drag
 			-----------------------------------
 			*/
-			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Pressed)
+			if (Game.lmbPressed())
 			{
 				if (m_state == State.drawingRectangle)
 				{			
@@ -569,13 +465,12 @@ namespace GrandLarceny
 			Left Mouse Button Release
 			-----------------------------------
 			*/
-			if (Game.m_currentMouse.LeftButton == ButtonState.Released && Game.m_previousMouse.LeftButton == ButtonState.Pressed)
+			if (Game.lmbUp())
 			{
 				if (m_state == State.drawingRectangle)
 				{
 					m_events[m_selectedEvent].add(new PlayerIsWithinRectangle(m_recPoint.X, m_recPoint.Y, t_mouse.X, t_mouse.Y, Game.getInstance().m_camera.getLayer()));
 					m_btnAddTrigger.setState(0);
-					m_btnAddTrigger.move(new Vector2(0, 25));
 					selectEvent(m_selectedEvent);
 					m_state = State.newTrigger;
 					m_recLines = new Line[0];
@@ -584,112 +479,112 @@ namespace GrandLarceny
 
 			if (Game.rmbDown())
 			{
-				goUpOneState();
+				m_selectedEvent = null;
+				buildEventList();
+				GuiListFactory.setListPosition(m_eventButtons, new Vector2(0, 100));
+				m_btnAddEvent.setPosition(new Vector2(m_eventButtons.Last().getBox().X, m_eventButtons.Last().getBox().Y) + new Vector2(0, 25));
+				m_textField = null;
+				m_textFieldInfo = null;
+				m_selectedEffect = null;
+				m_selectedTrigger = null;
+				m_btnAddEffect.setState(0);
+				m_btnAddTrigger.setState(0);
+			}
+
+			if (Game.keyClicked(Keys.Enter))
+			{
+				if (m_textField != null && m_textField.isWriting())
+				{
+					switch (m_state)
+					{
+						case State.newEquip:
+							m_events[m_selectedEvent].add(new EquipEffect(m_textField.getText(), true));					
+							break;
+						case State.newCutscene:
+							if (File.Exists(Game.CUTSCENE_FOLDER + m_textField.getText() + ".csn")) {
+								m_events[m_selectedEvent].add(new CutsceneEffect(m_textField.getText() + ".csn"));
+							} else {
+								m_textFieldInfo.setText("File doesn't exist!");
+								m_textFieldInfo.setColor(Color.Red);
+								return;
+							}
+							break;
+						case State.newDoorEffect:
+							m_events[m_selectedEvent].add(new DoorOpenEffect(null, 1.0f, 1.0f));
+							break;
+					}
+					m_btnAddEffect.setState(0);
+					selectEvent(m_selectedEvent);
+					m_textField = null;
+					m_textFieldInfo = null;
+				}
 			}
 		}
 
-		private void updateGUI()
+		private void updateGUI(GameTime a_gameTime)
 		{
-			if (m_menuState == MenuState.AddEffect)
-			{
-				foreach (Button t_button in m_effectButtons)
-				{
-					t_button.update();
-				}
-				m_btnAddEffect.update();
-			}
-
-			if (m_menuState == MenuState.AddTrigger)
-			{
+			if (m_selectedEvent != null) {
 				foreach (Button t_button in m_triggerButtons)
-				{
 					t_button.update();
-				}
+				foreach (Button t_button in m_effectButtons)
+					t_button.update();
+				m_btnAddEffect.update();
 				m_btnAddTrigger.update();
-			}
-
-			if (m_menuState == MenuState.AddEvent)
-			{
+			} else {
 				foreach (Button t_button in m_eventButtons)
-				{
 					t_button.update();
-				}
 				m_btnAddEvent.update();
 			}
 
 			if (m_btnAddEffect.getState() == 3)
 			{
 				foreach (Button t_button in m_effectMenu)
-				{
 					t_button.update();
-				}
 			}
 			else if (m_btnAddTrigger.getState() == 3)
 			{
 				foreach (Button t_button in m_triggerMenu)
-				{
 					t_button.update();
-				}
 			}
+
+			if (m_textField != null)
+				m_textField.update(a_gameTime);
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			m_backState.draw(a_gameTime, a_spriteBatch);
 
-			if (m_menuState == MenuState.AddEffect)
-			{
-				foreach (Button t_button in m_effectButtons)
-				{
-					t_button.draw(a_gameTime, a_spriteBatch);
-				}
-				m_btnAddEffect.draw(a_gameTime, a_spriteBatch);
-			}
-
-			if (m_menuState == MenuState.AddTrigger || m_menuState == MenuState.AddEffect)
-			{
+			if (m_selectedEvent != null) {
 				foreach (Button t_button in m_triggerButtons)
-				{
 					t_button.draw(a_gameTime, a_spriteBatch);
-				}
+				foreach (Button t_button in m_effectButtons)
+					t_button.draw(a_gameTime, a_spriteBatch);
+				m_btnAddEffect.draw(a_gameTime, a_spriteBatch);
 				m_btnAddTrigger.draw(a_gameTime, a_spriteBatch);
-			}
-
-			if (m_menuState == MenuState.AddTrigger || m_menuState == MenuState.AddEvent || m_menuState == MenuState.AddEffect)
-			{
+				m_selectedEvent.draw(a_gameTime, a_spriteBatch);
+			} else {
 				foreach (Button t_button in m_eventButtons)
-				{
 					t_button.draw(a_gameTime, a_spriteBatch);
-				}
 				m_btnAddEvent.draw(a_gameTime, a_spriteBatch);
 			}
 
 			if (m_btnAddEffect.getState() == 3)
-			{
 				foreach (Button t_button in m_effectMenu)
-				{
 					t_button.draw(a_gameTime, a_spriteBatch);
-				}
-			}
 			else if (m_btnAddTrigger.getState() == 3)
-			{
 				foreach (Button t_button in m_triggerMenu)
-				{
 					t_button.draw(a_gameTime, a_spriteBatch);
-				}
-			}
 
 			foreach (GuiObject t_go in m_guiList)
-			{
 				t_go.draw(a_gameTime);
-			}
 
 			if (m_state == State.drawingRectangle)
-			{
 				foreach (Line t_lineList in m_recLines)
-				{
 					t_lineList.draw();
-				}
+			if (m_textField != null) {
+				m_textFieldInfo.draw(a_gameTime);
+				m_textField.draw(a_gameTime);
 			}
 		}
 		#endregion

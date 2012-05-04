@@ -15,6 +15,7 @@ namespace GrandLarceny
 	public class Game : Microsoft.Xna.Framework.Game
 	{
 		private static Game m_myGame;
+		public const string CUTSCENE_FOLDER = "Content//wtf//Cutscenes//";
 
 		internal GraphicsDeviceManager m_graphics;
 		private SpriteBatch m_spriteBatch;
@@ -163,7 +164,7 @@ namespace GrandLarceny
 
 		public void setCutscene(String a_fileName)
 		{
-			if (File.Exists(a_fileName))
+			if (File.Exists(CUTSCENE_FOLDER + a_fileName))
 			{
 				m_nextState = new Cutscene(m_currentState, a_fileName);
 			}
