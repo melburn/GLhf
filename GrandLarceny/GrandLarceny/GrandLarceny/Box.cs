@@ -11,8 +11,8 @@ namespace GrandLarceny
 	{
 		#region Members
 		private Texture2D			m_boxTexture;
-		private int					m_width;
-		private int					m_height;
+		private float				m_width;
+		private float				m_height;
 		private LinkedList<Line>	m_lineList;
 		private Color				m_boxColor;
 		private bool				m_worldBox;
@@ -24,7 +24,7 @@ namespace GrandLarceny
 		#endregion
 
 		#region Constructor & Load
-		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, bool a_worldBox)
+		public Box(Vector2 a_position, float a_width, float a_height, Color a_color, bool a_worldBox)
 			: base(a_position, "", 0.110f)
 		{
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -44,7 +44,7 @@ namespace GrandLarceny
 			m_boxTexture.SetData(new[] { a_color });
 		}
 
-		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, Color a_lineColor, int a_lineWidth, bool a_worldBox)
+		public Box(Vector2 a_position, float a_width, float a_height, Color a_color, Color a_lineColor, int a_lineWidth, bool a_worldBox)
 			: base(a_position, "", 0.110f)
 		{
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -161,12 +161,12 @@ namespace GrandLarceny
 			}
 		}
 
-		public int getHeight()
+		public float getHeight()
 		{
 			return m_height;
 		}
 
-		public int getWidth()
+		public float getWidth()
 		{
 			return m_width;
 		}
