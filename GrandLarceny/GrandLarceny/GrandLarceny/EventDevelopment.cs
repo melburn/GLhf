@@ -98,9 +98,10 @@ namespace GrandLarceny
 			m_effectButtons = new LinkedList<Button>();
 			m_triggerMenu = new LinkedList<Button>();
 			m_effectMenu = new LinkedList<Button>();
+			m_recLines = new Line[4];
 			m_textField = null;
 
-			m_btnAddEvent = new Button("btn_asset_list", new Vector2(0, 100 + (m_eventButtons.Count * 25)), "Add Event", "VerdanaBold", Color.Black, t_textOffset);
+			m_btnAddEvent = new Button("btn_asset_list", new Vector2(0, (m_eventButtons.Count * 25)), "Add Event", "VerdanaBold", Color.Black, t_textOffset);
 			m_btnAddEvent.m_clickEvent += new Button.clickDelegate(newEvent);
 
 			m_btnAddTrigger = new Button("btn_asset_list", new Vector2(0, 40 + (m_triggerButtons.Count * 25)), "Add Trigger", "VerdanaBold", Color.Black, t_textOffset);
@@ -152,7 +153,7 @@ namespace GrandLarceny
 							i++;
 						}
 					}
-					Button t_button = new Button("btn_asset_list", new Vector2(0, 100 + ((m_numOfAddedEvents++) * 25)), "" + i, null, Color.Yellow, new Vector2(10, 2));
+					Button t_button = new Button("btn_asset_list", new Vector2(0, (m_numOfAddedEvents++) * 25), "" + i, null, Color.Yellow, new Vector2(10, 2));
 					t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
 					m_events.Add(t_button, m_eventsToAdd.Pop());
 					m_eventButtons.AddFirst(t_button);
@@ -173,7 +174,7 @@ namespace GrandLarceny
 					i++;
 				}
 			}
-			Button t_button = new Button("btn_asset_list", new Vector2(0, 100 + ((m_numOfAddedEvents++) * 25)), "" + i, "VerdanaBold", Color.Yellow, new Vector2(10, 2));
+			Button t_button = new Button("btn_asset_list", new Vector2(0, (m_numOfAddedEvents++) * 25), "Event: " + i, "VerdanaBold", Color.Yellow, new Vector2(10, 2));
 			t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
 			m_events.Add(t_button, new Event(new LinkedList<EventTrigger>(), new LinkedList<EventEffect>(), true));
 			m_eventButtons.AddLast(t_button);
@@ -286,6 +287,9 @@ namespace GrandLarceny
 				m_triggerButtons.AddLast(new Button("btn_asset_list", new Vector2(m_btnAddTrigger.getBox().X, 40 + (m_triggerButtons.Count * 25)), 
 					t_trigger.ToString(), "VerdanaBold", Color.Yellow, new Vector2(10, 2)));
 				m_triggerButtons.Last().m_clickEvent += new Button.clickDelegate(selectTrigger);
+				if (t_trigger is PlayerIsWithinRectangle) {
+					m_recLines = ((PlayerIsWithinRectangle)t_trigger).getRectangle();
+				}
 			}
 
 			foreach (EventEffect t_effect in m_events[m_selectedEvent].getEffects())
@@ -297,9 +301,13 @@ namespace GrandLarceny
 
 			if (m_triggerButtons.Count() > 0) {
 				m_btnAddTrigger.setPosition(new Vector2(m_triggerButtons.Last().getBox().X, m_triggerButtons.Last().getBox().Y + 25));
+			} else {
+				m_btnAddTrigger.setPosition(new Vector2(0, 40));
 			}
 			if (m_effectButtons.Count() > 0) {
 				m_btnAddEffect.setPosition(new Vector2(m_effectButtons.Last().getBox().X, m_effectButtons.Last().getBox().Y + 25));	
+			} else {
+				m_btnAddEffect.setPosition(new Vector2(m_btnAddTrigger.getBox().Width, 40));
 			}
 		}
 
@@ -471,17 +479,17 @@ namespace GrandLarceny
 				{
 					m_events[m_selectedEvent].add(new PlayerIsWithinRectangle(m_recPoint.X, m_recPoint.Y, t_mouse.X, t_mouse.Y, Game.getInstance().m_camera.getLayer()));
 					m_btnAddTrigger.setState(0);
-					selectEvent(m_selectedEvent);
 					m_state = State.newTrigger;
 					m_recLines = new Line[0];
+					selectEvent(m_selectedEvent);
 				}
 			}
 
 			if (Game.rmbDown())
 			{
 				m_selectedEvent = null;
-				buildEventList();
-				GuiListFactory.setListPosition(m_eventButtons, new Vector2(0, 100));
+				GuiListFactory.setListPosition(m_eventButtons, new Vector2(0, 0));
+				GuiListFactory.setButtonDistance(m_eventButtons, new Vector2(0, 25));
 				m_btnAddEvent.setPosition(new Vector2(m_eventButtons.Last().getBox().X, m_eventButtons.Last().getBox().Y) + new Vector2(0, 25));
 				m_textField = null;
 				m_textFieldInfo = null;
@@ -489,6 +497,7 @@ namespace GrandLarceny
 				m_selectedTrigger = null;
 				m_btnAddEffect.setState(0);
 				m_btnAddTrigger.setState(0);
+				m_recLines = new Line[4];
 			}
 
 			if (Game.keyClicked(Keys.Enter))
@@ -579,9 +588,9 @@ namespace GrandLarceny
 			foreach (GuiObject t_go in m_guiList)
 				t_go.draw(a_gameTime);
 
-			if (m_state == State.drawingRectangle)
-				foreach (Line t_lineList in m_recLines)
-					t_lineList.draw();
+			foreach (Line t_line in m_recLines)
+				if (t_line != null)
+					t_line.draw();
 			if (m_textField != null) {
 				m_textFieldInfo.draw(a_gameTime);
 				m_textField.draw(a_gameTime);
