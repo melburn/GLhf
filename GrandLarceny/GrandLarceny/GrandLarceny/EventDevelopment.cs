@@ -14,20 +14,10 @@ namespace GrandLarceny
 {
 	class EventDevelopment : States
 	{
+		#region Members
 		private DevelopmentState m_backState;
-
 		private Dictionary<Button, Event> m_events;
-		private Dictionary<Button, EventEffect> m_effects;
-		private Dictionary<Button, EventTrigger> m_triggers;
-
-		//private LinkedList<Button> m_eventButtons;
-		private Stack<Button> m_buttonsToAdd;
-		private Stack<Button> m_buttonsToRemove;
-		private Stack<Event> m_eventsToAdd;
-		private Stack<Button> m_eventsToRemove;
-		private Stack<LinkedList<Button>> m_stateButtons;
-
-		private State m_state;
+		private Dictionary<Button, SwitchTrigger.TriggerType> m_switchTriggerButtons;
 
 		/*
 		-----------------------------------
@@ -48,22 +38,18 @@ namespace GrandLarceny
 		private Button m_selectedTriggerEffect;
 		private Button m_deleteEvent;
 		private Button m_deleteTriggerEffect;
+		private Button m_switchTriggerType;
 
 		private Box m_background;
 
 		private Text m_textFieldInfo;
 		private TextField m_textField;
-		//private Button m_selectedEffTri;
-		//private Button m_btnAddEvent;
 
 		//rectangle stuff
 		private Vector2 m_recPoint;
 		private Line[] m_recLines;
 
-		//switchtrigger stuff
-		private Button m_switchTriggerType;
-		private Dictionary<Button, SwitchTrigger.TriggerType> m_switchTriggerButtons;
-
+		private State m_state;
 		private enum State
 		{
 			neutral,		newEffect,			newTrigger,
@@ -71,19 +57,15 @@ namespace GrandLarceny
 			newEquip,		newSwitch,			selectSwitch,
 			newDoorEffect,	newChase,			drawingRectangle
 		}
+		#endregion
 
+		#region Constructor and Load
 		public EventDevelopment(DevelopmentState a_backState, LinkedList<Event> a_events)
 		{
 			m_state = State.neutral;
 			m_backState = a_backState;
 			m_buttonList.AddLast(m_eventButtons = new LinkedList<Button>());
-			m_buttonsToAdd = new Stack<Button>();
-			m_buttonsToRemove = new Stack<Button>();
-
-			m_eventsToRemove = new Stack<Button>();
-			m_eventsToAdd = new Stack<Event>();
 			m_events = new Dictionary<Button, Event>();
-			m_stateButtons = new Stack<LinkedList<Button>>();
 
 			buildEventList(a_events);
 		}
@@ -96,8 +78,6 @@ namespace GrandLarceny
 			m_effectButtons = new LinkedList<Button>();
 			m_triggerMenu = new LinkedList<Button>();
 			m_effectMenu = new LinkedList<Button>();
-			m_effects = new Dictionary<Button,EventEffect>();
-			m_triggers = new Dictionary<Button,EventTrigger>();
 			m_recLines = new Line[4];
 			m_textField = null;
 			m_background = new Box(Vector2.Zero, 400, Game.getInstance().getResolution().Y, Color.Gray, false);
@@ -139,54 +119,6 @@ namespace GrandLarceny
 			m_deleteTriggerEffect.m_clickEvent += new Button.clickDelegate(deleteTriggerEffect);
 			base.load();
 		}
-
-		#region List Adders
-		private void buildEventList(LinkedList<Event> a_eventList) {
-			foreach (Event t_e in a_eventList)
-			{
-				int i = 0;
-				KeyValuePair<Button, Event>[] t_array = m_events.ToArray();
-				for (int j = 0; j < t_array.Length; ) {
-					if (i == int.Parse(t_array[j++].Key.getText())) {
-						j = 0;
-						i++;
-					}
-				}
-				Button t_button = new Button("btn_asset_list", new Vector2(0, m_eventButtons.Count * 25), "" + i, null, Color.Yellow, new Vector2(10, 2));
-				t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
-				m_events.Add(t_button, m_eventsToAdd.Pop());
-				m_eventButtons.AddFirst(t_button);
-			}
-		}
-
-		public void newEvent(Button a_button)
-		{
-			a_button.move(new Vector2(0, 25));
-			int i = 0;
-			KeyValuePair<Button, Event>[] t_array = m_events.ToArray();
-			for (int j = 0; j < t_array.Length; )
-			{
-				if (i == int.Parse(t_array[j++].Key.getText()))
-				{
-					j = 0;
-					i++;
-				}
-			}
-			Button t_button = new Button("btn_asset_list", new Vector2(0, m_eventButtons.Count * 25), "" + i, "VerdanaBold", Color.Yellow, new Vector2(10, 2));
-			t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
-			m_events.Add(t_button, new Event(new LinkedList<EventTrigger>(), new LinkedList<EventEffect>(), true));
-			m_eventButtons.AddLast(t_button);
-		}
-
-		public void newTrigger(Button a_button)
-		{
-			a_button.setState(3);
-		}
-
-		private void newEffect(Button a_button)
-		{
-			a_button.setState(3);
-		}
 		#endregion
 
 		#region Add Trigger
@@ -205,7 +137,6 @@ namespace GrandLarceny
 			m_state = State.newSwitch;
 
 			Button t_buttonToAdd;
-			LinkedList<Button> t_submenu = new LinkedList<Button>();
 			int i = 800;
 			if (m_switchTriggerButtons == null)
 			{
@@ -220,18 +151,14 @@ namespace GrandLarceny
 				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser", 
 					new Vector2(i, 550), t_sttt.ToString(), null, Color.Black, new Vector2(5, 5));
 				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectSwitchTrigger);
-				m_buttonsToAdd.Push(t_buttonToAdd);
-				t_submenu.AddLast(t_buttonToAdd);
 				m_switchTriggerButtons.Add(t_buttonToAdd, t_sttt);
 				i -= 100;
 			}
-
-			m_stateButtons.Push(t_submenu);
 		}
 
 		private void addChase(Button a_button)
 		{
-
+			toggleTextField("Chase Trigger?");
 		}
 		#endregion
 
@@ -253,6 +180,24 @@ namespace GrandLarceny
 			m_state = State.newDoorEffect;
 		}
 		#endregion
+
+		#region EventState Methods
+		private void buildEventList(LinkedList<Event> a_eventList) {
+			foreach (Event t_e in a_eventList)
+			{
+				int i = 0;
+				KeyValuePair<Button, Event>[] t_array = m_events.ToArray();
+				for (int j = 0; j < t_array.Length; ) {
+					if (i == int.Parse(t_array[j++].Key.getText())) {
+						j = 0;
+						i++;
+					}
+				}
+				Button t_button = new Button("btn_asset_list", new Vector2(0, m_eventButtons.Count * 25), "" + i, null, Color.Yellow, new Vector2(10, 2));
+				t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
+				m_eventButtons.AddFirst(t_button);
+			}
+		}
 
 		public void exitState(Button a_care)
 		{
@@ -286,7 +231,51 @@ namespace GrandLarceny
 			m_recLines = new Line[4];
 		}
 
+		private void toggleTextField(string a_titleText)
+		{
+			if (m_textField == null)
+			{
+				m_textField = new TextField(new Vector2(Game.getInstance().getResolution().X / 2 - 100, 200), 200, 25, true, true, true, 0);
+				m_textFieldInfo = new Text(new Vector2(Game.getInstance().getResolution().X / 2 - m_textField.getSize().X / 2, 175), a_titleText, "VerdanaBold", Color.White, false);
+			}
+			else
+			{
+				m_textField = null;
+				m_textFieldInfo = null;
+			}
+		}
+		#endregion
+
 		#region Button Events
+		public void newEvent(Button a_button)
+		{
+			a_button.move(new Vector2(0, 25));
+			int i = 0;
+			KeyValuePair<Button, Event>[] t_array = m_events.ToArray();
+			for (int j = 0; j < t_array.Length; )
+			{
+				if (i == int.Parse(t_array[j++].Key.getText()))
+				{
+					j = 0;
+					i++;
+				}
+			}
+			Button t_button = new Button("btn_asset_list", new Vector2(0, m_eventButtons.Count * 25), "" + i, "VerdanaBold", Color.Yellow, new Vector2(10, 2));
+			t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
+			m_events.Add(t_button, new Event(new LinkedList<EventTrigger>(), new LinkedList<EventEffect>(), true));
+			m_eventButtons.AddLast(t_button);
+		}
+
+		public void newTrigger(Button a_button)
+		{
+			a_button.setState(3);
+		}
+
+		private void newEffect(Button a_button)
+		{
+			a_button.setState(3);
+		}
+
 		public void selectEvent(Button a_button)
 		{
 			GuiListFactory.setSelection(m_eventButtons, 0);
@@ -354,22 +343,7 @@ namespace GrandLarceny
 			*/
 			//TODO
 		}
-		#endregion
 
-		private void toggleTextField(string a_titleText)
-		{
-			if (m_textField == null)
-			{
-				m_textField = new TextField(new Vector2(Game.getInstance().getResolution().X / 2 - 100, 200), 200, 25, true, true, true, 0);
-				m_textFieldInfo = new Text(new Vector2(Game.getInstance().getResolution().X / 2 - m_textField.getSize().X / 2, 175), a_titleText, "VerdanaBold", Color.White, false);
-			}
-			else
-			{
-				m_textField = null;
-				m_textFieldInfo = null;
-			}
-		}
-		 
 		public void selectSwitchTrigger(Button a_button)
 		{
 			m_state = State.selectSwitch;
@@ -380,12 +354,8 @@ namespace GrandLarceny
 			m_switchTriggerType = a_button;
 			m_switchTriggerType.setState(3);
 		}
+		#endregion
 		
-		public void addChaseTrigger(Button a_care)
-		{
-			toggleTextField("Chase Trigger?");
-		}
-
 		#region Update & Draw
 		public override void update(GameTime a_gameTime)
 		{
@@ -478,7 +448,6 @@ namespace GrandLarceny
 					m_state = State.newTrigger;
 					m_recLines = new Line[0];
 					selectEvent(m_selectedEvent);
-					m_triggers = m_events[m_selectedEvent].getTriggers();
 				}
 			}
 
