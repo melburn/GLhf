@@ -15,7 +15,7 @@ namespace GrandLarceny
 
 		protected override bool collect()
 		{
-			if (Game.keyClicked(GameState.getActionKey()))
+			if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 			{
 				return true;
 			}

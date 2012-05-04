@@ -376,7 +376,7 @@ namespace GrandLarceny
 			Middle-mouse drag
 			-----------------------------------
 			*/
-			if (Game.mmbPressed())
+			if (MouseHandler.mmbPressed())
 			{
 				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
 				t_difference.X = (Mouse.GetState().X - Game.getInstance().getResolution().X / 2) / 20 / Game.getInstance().m_camera.getZoom();
@@ -389,7 +389,7 @@ namespace GrandLarceny
 			Left Mouse Button Click Down
 			-----------------------------------
 			*/
-			if (Game.lmbDown())
+			if (MouseHandler.lmbDown())
 			{
 				if (m_state == State.firRectanglePoint)
 				{
@@ -425,7 +425,7 @@ namespace GrandLarceny
 			Left Mouse Button Drag
 			-----------------------------------
 			*/
-			if (Game.lmbPressed())
+			if (MouseHandler.lmbPressed())
 			{
 				if (m_state == State.drawingRectangle)
 				{			
@@ -443,7 +443,7 @@ namespace GrandLarceny
 			Left Mouse Button Release
 			-----------------------------------
 			*/
-			if (Game.lmbUp())
+			if (MouseHandler.lmbUp())
 			{
 				if (m_state == State.drawingRectangle)
 				{
@@ -455,12 +455,12 @@ namespace GrandLarceny
 				}
 			}
 
-			if (Game.rmbDown())
+			if (MouseHandler.rmbDown())
 			{
 				deselectEvent();
 			}
 
-			if (Game.keyClicked(Keys.Enter))
+			if (KeyboardHandler.keyClicked(Keys.Enter))
 			{
 				if (m_textField != null && m_textField.isWriting())
 				{

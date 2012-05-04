@@ -203,7 +203,7 @@ namespace GrandLarceny
 			{
 				changeAnimation();
 
-				if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
+				if (!m_chase && !KeyboardHandler.isKeyPressed(GameState.getSprintKey()) && m_runMode)
 				{
 					toggleRunMode();
 				}
@@ -375,16 +375,16 @@ namespace GrandLarceny
 				m_currentState = State.Jumping;
 				return;
 			}
-			if (Game.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
+			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
 				return;
 			}
-			if ((Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey())) || (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey())))
+			if ((KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey())) || (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey())))
 			{
 				m_currentState = State.Walking;
 
-				if (Game.isKeyPressed(GameState.getLeftKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 				{
 					m_facingRight = false;
 				}
@@ -393,7 +393,7 @@ namespace GrandLarceny
 					m_facingRight = true;
 				}
 			}
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -402,18 +402,18 @@ namespace GrandLarceny
 
 		private void updateWalking(float a_deltaTime)
 		{
-			if (Game.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
+			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
 				return;
 			}
 
-			if (!m_chase && Game.isKeyPressed(GameState.getSprintKey()) && !m_runMode)
+			if (!m_chase && KeyboardHandler.isKeyPressed(GameState.getSprintKey()) && !m_runMode)
 			{
 				toggleRunMode();
 			}
 
-			if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
+			if (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_speed.X > m_playerCurrentSpeed)
 				{
@@ -424,7 +424,7 @@ namespace GrandLarceny
 					m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), m_playerCurrentSpeed);
 				}
 			}
-			else if (Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
+			else if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_speed.X < -m_playerCurrentSpeed)
 				{
@@ -451,7 +451,7 @@ namespace GrandLarceny
 				m_currentState = State.Stop;
 
 			}
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -475,7 +475,7 @@ namespace GrandLarceny
 		private void updateJumping(float a_deltaTime)
 		{
 
-			if (Game.keyClicked(GameState.getRollKey()))
+			if (KeyboardHandler.keyClicked(GameState.getRollKey()))
 			{
 				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesian(), null, 0.100f);
 				if (m_facingRight)
@@ -489,14 +489,14 @@ namespace GrandLarceny
 				Game.getInstance().getState().addObject(t_hs);
 
 			}
-			if (!Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
+			if (!KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_speed.X > 0)
 					m_speed.X = Math.Max(m_speed.X - (AIRDEACCELERATION * a_deltaTime), 0);
 				else if (m_speed.X < 0)
 					m_speed.X = Math.Min(m_speed.X + (AIRDEACCELERATION * a_deltaTime), 0);
 			}
-			else if (Game.isKeyPressed(GameState.getLeftKey()))
+			else if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_speed.X < -m_playerCurrentSpeed)
 				{
@@ -507,7 +507,7 @@ namespace GrandLarceny
 					m_speed.X = Math.Max(-m_playerCurrentSpeed, m_speed.X - AIRDEACCELERATION * a_deltaTime);
 				}
 			}
-			else if (Game.isKeyPressed(GameState.getRightKey()))
+			else if (KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_speed.X > m_playerCurrentSpeed)
 				{
@@ -528,7 +528,7 @@ namespace GrandLarceny
 				m_facingRight = false;
 			}
 
-			if (m_speed.Y < -300 && Game.isKeyPressed(GameState.getJumpKey()))
+			if (m_speed.Y < -300 && KeyboardHandler.isKeyPressed(GameState.getJumpKey()))
 				m_speed.Y -= AIRVERTICALACCELERATION;
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
@@ -543,7 +543,7 @@ namespace GrandLarceny
 				return;
 			}
 
-			if (((!m_facingRight && Game.isKeyPressed(GameState.getRightKey())) || (m_facingRight && Game.isKeyPressed(GameState.getLeftKey())))
+			if (((!m_facingRight && KeyboardHandler.isKeyPressed(GameState.getRightKey())) || (m_facingRight && KeyboardHandler.isKeyPressed(GameState.getLeftKey())))
 				&& m_collidedWithWall)
 			{
 				m_slideTimer = 0;
@@ -553,7 +553,7 @@ namespace GrandLarceny
 				if (m_slideTimer == 0)
 					m_slideTimer = (int)a_gameTime.TotalGameTime.TotalMilliseconds + 150;
 			}
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
 				m_speed.Y = -JUMPSTRENGTH;
 				if (m_facingRight == true)
@@ -570,11 +570,11 @@ namespace GrandLarceny
 		private void updateClimbing()
 		{
 			m_gravity = 0;
-			if (Game.isKeyPressed(GameState.getUpKey()) && m_ladderDirection != Direction.None)
+			if (KeyboardHandler.isKeyPressed(GameState.getUpKey()) && m_ladderDirection != Direction.None)
 			{
 				m_speed.Y = -CLIMBINGSPEED;
 			}
-			else if (Game.isKeyPressed(GameState.getDownKey()))
+			else if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 			{
 				m_speed.Y = CLIMBINGSPEED;
 			}
@@ -582,9 +582,9 @@ namespace GrandLarceny
 			{
 				m_speed.Y = 0;
 			}
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
-				if (!Game.isKeyPressed(GameState.getDownKey()))
+				if (!KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 				{
 					m_speed.Y = -(JUMPSTRENGTH - 70);
 					if (m_facingRight)
@@ -648,9 +648,9 @@ namespace GrandLarceny
 		private void updateHanging()
 		{
 			m_gravity = 0;
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
-				if (Game.isKeyPressed(GameState.getDownKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 				{
 					m_position.plusYWith(3);
 					m_currentState = State.Jumping;
@@ -674,13 +674,13 @@ namespace GrandLarceny
 					m_currentState = State.Jumping;
 				}
 			}
-			else if (Game.isKeyPressed(GameState.getDownKey()) && m_ladderDirection != Direction.None)
+			else if (KeyboardHandler.isKeyPressed(GameState.getDownKey()) && m_ladderDirection != Direction.None)
 			{
 				m_currentState = State.Climbing;
 				m_position.plusYWith(m_standHitBox.m_height - m_hangHitBox.m_height);
 				Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.m_height - m_hangHitBox.m_height));
 			}
-			/*else if (Game.keyClicked(GameState.getUpKey()))
+			/*else if (KeyboardHandler.keyClicked(GameState.getUpKey()))
 			{
 				hangClimbAction();
 			}*/
@@ -689,10 +689,10 @@ namespace GrandLarceny
 
 		private void updateHiding(float a_deltaTime)
 		{
-			if (Game.keyClicked(GameState.getUpKey())
-				|| Game.keyClicked(GameState.getDownKey())
-				|| Game.keyClicked(GameState.getJumpKey())
-				|| Game.keyClicked(GameState.getActionKey()))
+			if (KeyboardHandler.keyClicked(GameState.getUpKey())
+				|| KeyboardHandler.keyClicked(GameState.getDownKey())
+				|| KeyboardHandler.keyClicked(GameState.getJumpKey())
+				|| KeyboardHandler.keyClicked(GameState.getActionKey()))
 			{
 				m_currentState = State.Stop;
 				if (m_facingRight)
@@ -707,10 +707,10 @@ namespace GrandLarceny
 				}
 			}
 
-			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
+			if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) || KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
 				float t_cameraXPos = 0;
-				if (Game.isKeyPressed(GameState.getRightKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 				{
 					t_cameraXPos = 500;
 				}
@@ -732,7 +732,7 @@ namespace GrandLarceny
 			m_gravity = 0;
 			if (Game.getInstance().m_camera.getLayer() == 0)
 			{
-				if (Game.keyClicked(GameState.getLeftKey()) || Game.keyClicked(GameState.getRightKey()))
+				if (KeyboardHandler.keyClicked(GameState.getLeftKey()) || KeyboardHandler.keyClicked(GameState.getRightKey()))
 				{
 					Game.getInstance().m_camera.setLayer(1);
 					m_cameraPoint.X = 0;
@@ -765,7 +765,7 @@ namespace GrandLarceny
 			{
 				case Direction.Up:
 					{
-						if (Game.isKeyPressed(GameState.getUpKey()))
+						if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 						{
 							m_speed.Y = -PLAYERSPEED;
 							t_list = m_upDownList;
@@ -792,7 +792,7 @@ namespace GrandLarceny
 				case Direction.Left:
 					{
 						m_currentVentilationImage = "hero_ventilation_idle";
-						if (Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
+						if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 						{
 							m_speed.X = -PLAYERSPEED;
 							t_list = m_leftRightList;
@@ -820,7 +820,7 @@ namespace GrandLarceny
 				case Direction.Right:
 					{
 						m_currentVentilationImage = "hero_ventilation_idle";
-						if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
+						if (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 						{
 							m_speed.X = PLAYERSPEED;
 							t_list = m_leftRightList;
@@ -847,7 +847,7 @@ namespace GrandLarceny
 					}
 				case Direction.Down:
 					{
-						if (Game.isKeyPressed(GameState.getDownKey()))
+						if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 						{
 							m_speed.Y = PLAYERSPEED;
 							t_list = m_upDownList;
@@ -880,14 +880,14 @@ namespace GrandLarceny
 			m_gravity = 0;
 			if (m_position.getLength() > 0)
 			{
-				if (Game.isKeyPressed(GameState.getRightKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 				{
 					if (m_swingSpeed > -MAXSWINGSPEED && !((m_rotate > Math.PI && m_rotate != 0) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f))
 					{
 						m_swingSpeed -= (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
-				else if (Game.isKeyPressed(GameState.getLeftKey()))
+				else if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 				{
 					if (m_swingSpeed < MAXSWINGSPEED && !(m_rotate < Math.PI && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f))
 					{
@@ -895,11 +895,11 @@ namespace GrandLarceny
 					}
 				}
 			}
-			if (Game.isKeyPressed(GameState.getUpKey()))
+			if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 			{
 				m_position.setLength(Math.Max(m_position.getLength() - (200f * a_deltaTime), 50));
 			}
-			else if (Game.isKeyPressed(GameState.getDownKey()))
+			else if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 			{
 				m_position.setLength(Math.Min(m_position.getLength() + (200f * a_deltaTime), m_rope.getLength()));
 			}
@@ -922,23 +922,23 @@ namespace GrandLarceny
 			else
 				m_currentSwingingImage = "hero_swing_still";
 
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
 				float t_force = m_swingSpeed * (m_position.getLength() + (m_img.getSize().Y / 2));
 				Vector2 t_inputForce = new Vector2();
-				if (Game.isKeyPressed(GameState.getUpKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 				{
 					t_inputForce.Y -= 200;
 				}
-				if (Game.isKeyPressed(GameState.getDownKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 				{
 					t_inputForce.Y += 200;
 				}
-				if (Game.isKeyPressed(GameState.getRightKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 				{
 					t_inputForce.X += 200;
 				}
-				if (Game.isKeyPressed(GameState.getLeftKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 				{
 					t_inputForce.X -= 200;
 				}

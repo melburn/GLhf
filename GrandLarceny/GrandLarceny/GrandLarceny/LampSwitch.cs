@@ -107,7 +107,7 @@ namespace GrandLarceny
 		{
 			if (a_collid is Player && a_collid.getHitBox().collides(m_collisionShape))
 			{
-				if (Game.keyClicked(GameState.getActionKey()))
+				if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 				{
 					toggleSwitch();
 				}

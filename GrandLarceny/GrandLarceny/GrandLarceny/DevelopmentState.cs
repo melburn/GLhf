@@ -350,7 +350,7 @@ namespace GrandLarceny
 			int k = 1;
 			foreach (Button t_button in m_layerButtonList)
 			{
-				t_button.setHotkey(new Keys[] { (Keys)Enum.Parse(typeof(Keys), "D" + k) });
+				t_button.setHotkey(new Keys[] { (Keys)Enum.Parse(typeof(Keys), "D" + k++) });
 				t_button.m_clickEvent += new Button.clickDelegate(setLayer);
 			}
 			#endregion
@@ -376,32 +376,32 @@ namespace GrandLarceny
 		#region Update Camera
 		public void updateCamera()
 		{
-			if (Game.isKeyPressed(Keys.Right))
+			if (KeyboardHandler.isKeyPressed(Keys.Right))
 			{
 				Game.getInstance().m_camera.move(new Vector2(15 / Game.getInstance().m_camera.getZoom(), 0));
 			}
 
-			if (Game.isKeyPressed(Keys.Left))
+			if (KeyboardHandler.isKeyPressed(Keys.Left))
 			{
 				Game.getInstance().m_camera.move(new Vector2(-15 / Game.getInstance().m_camera.getZoom(), 0));
 			}
 
-			if (Game.isKeyPressed(Keys.Up))
+			if (KeyboardHandler.isKeyPressed(Keys.Up))
 			{
 				Game.getInstance().m_camera.move(new Vector2(0, -15 / Game.getInstance().m_camera.getZoom()));
 			}
 
-			if (Game.isKeyPressed(Keys.Down))
+			if (KeyboardHandler.isKeyPressed(Keys.Down))
 			{
 				Game.getInstance().m_camera.move(new Vector2(0, 15 / Game.getInstance().m_camera.getZoom()));
 			}
 
-			if (Game.m_currentMouse.ScrollWheelValue > Game.m_previousMouse.ScrollWheelValue)
+			if (MouseHandler.scrollUp())
 			{
 				Game.getInstance().m_camera.zoomIn(0.1f);
 			}
 
-			if (Game.m_currentMouse.ScrollWheelValue < Game.m_previousMouse.ScrollWheelValue)
+			if (MouseHandler.scrollDown())
 			{
 				Game.getInstance().m_camera.zoomOut(0.1f);
 			}
@@ -749,14 +749,14 @@ namespace GrandLarceny
 		#region Update Keyboard
 		private void updateKeyboard()
 		{
-			if (m_menuState != MenuState.Normal && Game.keyClicked(Keys.Escape)) {
+			if (m_menuState != MenuState.Normal && KeyboardHandler.keyClicked(Keys.Escape)) {
 				m_menuState = MenuState.Normal;
 				guiButtonClick(m_btnSelectHotkey);
 			}
 
 			if (m_layerTextField.isWriting())
 			{
-				if (Game.keyClicked(Keys.Enter))
+				if (KeyboardHandler.keyClicked(Keys.Enter))
 				{
 					m_selectedObject.setLayer(float.Parse(m_layerTextField.getText()) / 1000);
 					clearSelectedObject();
@@ -766,7 +766,7 @@ namespace GrandLarceny
 
 			if (m_parallaxScrollTF.isWriting())
 			{
-				if (Game.keyClicked(Keys.Enter) && m_selectedObject != null && m_selectedObject is Environment)
+				if (KeyboardHandler.keyClicked(Keys.Enter) && m_selectedObject != null && m_selectedObject is Environment)
 				{
 					((Environment)m_selectedObject).setParrScroll(int.Parse(m_parallaxScrollTF.getText()));
 					clearSelectedObject();
@@ -774,38 +774,22 @@ namespace GrandLarceny
 				return;
 			}
 
-			if (Game.keyClicked(Keys.F5)) {
+			if (KeyboardHandler.keyClicked(Keys.F5)) {
 				m_currentLayer = 0;
 				Game.getInstance().setState(new GameState(m_levelToLoad));
 			}
 			
-			if (Game.keyClicked(Keys.F6))
+			if (KeyboardHandler.keyClicked(Keys.F6))
 			{
 				m_currentLayer = 0;
 				Game.getInstance().setState(new EventDevelopment(this, m_events));
 			}
 			
-			if (Game.keyClicked(Keys.D1)) {
-				setLayer(0);
-			} else if (Game.keyClicked(Keys.D2)) {
-				setLayer(1);
-			} else if (Game.keyClicked(Keys.D3)) {
-				setLayer(2);
-			} else if (Game.keyClicked(Keys.D4)) {
-				setLayer(3);
-			} else if (Game.keyClicked(Keys.D5)) {
-				setLayer(4);
-			}
-			/*
-			-----------------------------------
-			Keybindings for hotkeys
-			-----------------------------------
-			*/
-			if (ctrlMod()) {
-				if (Game.keyClicked(Keys.H)) {
+			if (KeyboardHandler.ctrlMod()) {
+				if (KeyboardHandler.keyClicked(Keys.H)) {
 					guiButtonClick(m_btnStandHideHotkey);
 				}
-				if (Game.keyClicked(Keys.S)) {
+				if (KeyboardHandler.keyClicked(Keys.S)) {
 					if (m_selectedObject != null) {
 						m_selectedObject.setColor(Color.White);
 						m_selectedObject = null;
@@ -816,7 +800,7 @@ namespace GrandLarceny
 					Serializer.getInstance().SaveLevel(Serializer.getInstance().getFileToStream(m_levelToLoad, true), t_saveLevel);
 
 				}
-				if (Game.keyClicked(Keys.O)) {
+				if (KeyboardHandler.keyClicked(Keys.O)) {
 					Level t_newLevel = Serializer.getInstance().loadLevel(Serializer.getInstance().getFileToStream(m_levelToLoad, false));
 					m_gameObjectList = t_newLevel.getGameObjects();
 					foreach (LinkedList<GameObject> t_arr in m_gameObjectList) {
@@ -825,15 +809,15 @@ namespace GrandLarceny
 						}
 					}
 				}
-				if (Game.keyClicked(Keys.C)) {
+				if (KeyboardHandler.keyClicked(Keys.C)) {
 					m_copyTarget = m_selectedObject;
 				}
-				if (Game.keyClicked(Keys.V)) {
+				if (KeyboardHandler.keyClicked(Keys.V)) {
 					if (m_copyTarget != null) {
 						AssetFactory.copyAsset(m_copyTarget);
 					}
 				}
-				if (Game.keyClicked(Keys.N) && m_selectedObject != null) {
+				if (KeyboardHandler.keyClicked(Keys.N) && m_selectedObject != null) {
 					if (m_selectedObject is Window) {
 						((Window)m_selectedObject).toggleOpen();
 					} else if (m_selectedObject is VentilationDrum) {
@@ -841,30 +825,31 @@ namespace GrandLarceny
 					}
 					m_textObjectInfo.setText(m_selectedObject.ToString());
 				}
-				if (Game.keyClicked(Keys.F)) {
+				if (KeyboardHandler.keyClicked(Keys.F)) {
 					if (m_selectedObject != null && m_selectedObject is Guard) {
 						((Guard)m_selectedObject).toggleFlashLightAddicted();
 						m_textObjectInfo.setText(m_selectedObject.ToString());
 					}
 				}
 			}
-			if (shiftMod()) {
+			if (KeyboardHandler.shiftMod()) {
 				
 			}
-			if (altMod()) {
+			if (KeyboardHandler.altMod()) {
+
 			}
 
-			if (Game.keyClicked(Keys.R)) {
+			if (KeyboardHandler.keyClicked(Keys.R)) {
 				if (m_selectedObject != null) {
 					m_selectedObject.addRotation((float)(Math.PI) / 2.0f);
 				}
 			}
-			if (Game.keyClicked(Keys.Y)) {
+			if (KeyboardHandler.keyClicked(Keys.Y)) {
 				if (m_selectedObject != null) {
 					m_selectedObject.flip();
 				}
 			}
-			if (Game.keyClicked(Keys.M)) {
+			if (KeyboardHandler.keyClicked(Keys.M)) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is LampSwitch) {
 						((LampSwitch)m_selectedObject).toggleConnectToAll();
@@ -878,7 +863,7 @@ namespace GrandLarceny
 			Reset Camera to 0, 0 
 			-----------------------------------
 			*/
-			if (Game.keyClicked(Keys.Space)) {
+			if (KeyboardHandler.keyClicked(Keys.Space)) {
 				if (m_gameObjectList != null) {
 					Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				}
@@ -897,7 +882,7 @@ namespace GrandLarceny
 			Middle-mouse drag
 			-----------------------------------
 			*/
-			if (Game.mmbPressed()) {
+			if (MouseHandler.mmbPressed()) {
 				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
 				t_difference.X = (Mouse.GetState().X - Game.getInstance().getResolution().X / 2) / 20 / Game.getInstance().m_camera.getZoom();
 				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().getResolution().Y / 2) / 20 / Game.getInstance().m_camera.getZoom();
@@ -909,13 +894,13 @@ namespace GrandLarceny
 			Left Mouse Button Click Down
 			-----------------------------------
 			*/
-			if (Game.lmbDown()) {
+			if (MouseHandler.lmbDown()) {
 				/*
 				-----------------------------------
 				Building
 				-----------------------------------
 				*/
-				if (m_building && !collidedWithGui(Game.getMouseCoords()) && (!collidedWithObject(m_worldMouse) || m_itemToCreate == State.Background)) {
+				if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && (!collidedWithObject(m_worldMouse) || m_itemToCreate == State.Background)) {
 					if (m_itemToCreate != State.None && m_itemToCreate != State.Delete) {
 						switch (m_itemToCreate) {
 							case State.Player:
@@ -1009,7 +994,7 @@ namespace GrandLarceny
 				----------------------------------- 
 				*/
 				
-				if (!m_building && !collidedWithGui(Game.getMouseCoords())) {
+				if (!m_building && !collidedWithGui(MouseHandler.getMouseCoords())) {
 					if (m_selectedObject != null) {
 						clearSelectedObject();
 					}
@@ -1059,7 +1044,7 @@ namespace GrandLarceny
 			Left Mouse Button Release
 			-----------------------------------
 			*/
-			if (Game.lmbUp()) {
+			if (MouseHandler.lmbUp()) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is Guard && m_selectedObject.getPosition().getGlobalCartesian() != m_dragFrom) {
 						setGuardPoint((Guard)m_selectedObject, m_rightGuardPoint.getEndPoint().getGlobalCartesian(), true);
@@ -1076,8 +1061,8 @@ namespace GrandLarceny
 			Left Mouse Button Drag
 			-----------------------------------
 			*/
-			if (Game.lmbPressed()) {
-				if (m_selectedObject != null && m_menuState != MenuState.Inactive && !collidedWithGui(new Vector2(Game.m_currentMouse.X, Game.m_currentMouse.Y))) {
+			if (MouseHandler.lmbPressed()) {
+				if (m_selectedObject != null && m_menuState != MenuState.Inactive && !collidedWithGui(MouseHandler.getCurPos())) {
 					if (m_firstDrag) {
 						m_dragOffset = new Vector2(
 							(float)Math.Floor((m_worldMouse.X - m_selectedObject.getPosition().getGlobalX()) / ((float)(Game.TILE_WIDTH))) * ((float)(Game.TILE_WIDTH)),
@@ -1087,7 +1072,7 @@ namespace GrandLarceny
 					}
 
 					Vector2 t_mousePosition;
-					if (shiftMod()) {
+					if (KeyboardHandler.shiftMod()) {
 						t_mousePosition = m_worldMouse - m_dragOffset;
 					} else {
 						t_mousePosition = getTileCoordinates(m_worldMouse - m_dragOffset);
@@ -1114,7 +1099,7 @@ namespace GrandLarceny
 			Right Mouse Button Release
 			-----------------------------------
 			*/
-			if (Game.rmbUp()) {
+			if (MouseHandler.rmbUp()) {
 				if (m_selectedObject != null && m_selectedObject is Rope) {
 					((Rope)m_selectedObject).setEndPoint(new Vector2(m_selectedObject.getPosition().getLocalX(), getTileCoordinates(m_worldMouse).Y + 72));
 				}
@@ -1147,7 +1132,7 @@ namespace GrandLarceny
 			Right Mouse Button Drag
 			-----------------------------------
 			*/
-			if (Game.rmbPressed()) {
+			if (MouseHandler.rmbPressed()) {
 				if (m_selectedObject != null) {
 					if (m_selectedObject is LampSwitch) {
 						if (m_dragLine == null && ((Entity)m_selectedObject).getHitBox().contains(m_worldMouse)) {
@@ -1183,10 +1168,12 @@ namespace GrandLarceny
 		{
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
-				if (t_gameObject is Environment || t_gameObject is LightCone) {
+				if (t_gameObject is Environment || t_gameObject is LightCone)
+				{
 					continue;
 				}
-				if (((Entity)t_gameObject).getImageBox().contains(a_coordinate)) {
+				if (((Entity)t_gameObject).getImageBox().contains(a_coordinate))
+				{
 					return true;
 				}
 			}
@@ -1207,21 +1194,6 @@ namespace GrandLarceny
 			m_parallaxScrollTF.setVisible(false);
 			m_objectPreview = null;
 			m_lineList.Clear();
-		}
-
-		private bool ctrlMod()
-		{
-			return Game.isKeyPressed(Keys.LeftControl) || Game.isKeyPressed(Keys.RightControl);
-		}
-
-		private bool shiftMod()
-		{
-			return Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift);
-		}
-
-		private bool altMod()
-		{
-			return Game.isKeyPressed(Keys.LeftAlt) || Game.isKeyPressed(Keys.RightAlt);
 		}
 
 		private void setBuildingState(State a_state) {

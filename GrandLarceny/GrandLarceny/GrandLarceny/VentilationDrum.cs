@@ -43,7 +43,7 @@ namespace GrandLarceny
 				Player t_player = (Player)a_collider;
 				if (!m_isLocked)
 				{
-					if (t_player.getCurrentState() == Player.State.Ventilation && (Game.keyClicked(GameState.getUpKey()) || Game.keyClicked(GameState.getJumpKey()) || Game.keyClicked(GameState.getDownKey())))
+					if (t_player.getCurrentState() == Player.State.Ventilation && (KeyboardHandler.keyClicked(GameState.getUpKey()) || KeyboardHandler.keyClicked(GameState.getJumpKey()) || KeyboardHandler.keyClicked(GameState.getDownKey())))
 					{
 						if (Game.getInstance().m_camera.getLayer() == 0)
 						{
@@ -57,7 +57,7 @@ namespace GrandLarceny
 						}
 						return;
 					}
-					if (Game.keyClicked(GameState.getActionKey()))
+					if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 					{
 						if (Game.getInstance().m_camera.getLayer() == 0 && !t_player.isStunned())
 						{
@@ -76,7 +76,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					if (Game.keyClicked(GameState.getActionKey()) && t_player.getCurrentState() != Player.State.Jumping)
+					if (KeyboardHandler.keyClicked(GameState.getActionKey()) && t_player.getCurrentState() != Player.State.Jumping)
 					{
 						toggleLocked();
 					}

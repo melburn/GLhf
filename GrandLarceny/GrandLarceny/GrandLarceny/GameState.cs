@@ -203,27 +203,27 @@ namespace GrandLarceny
 		{
 			m_currentList = -1;
 
-			if (Game.keyClicked(Keys.I))
+			if (KeyboardHandler.keyClicked(Keys.I))
 			{
 				Game.getInstance().m_camera.printInfo();
 			}
-			else if (Game.keyClicked(Keys.W))
+			else if (KeyboardHandler.keyClicked(Keys.W))
 			{
 				if (!Game.getInstance().getProgress().hasEquipment("boots"))
 					Game.getInstance().getProgress().setEquipment("boots", true);
 				else
 					Game.getInstance().getProgress().setEquipment("boots", false);
 			}
-			else if (Game.keyClicked(Keys.Q))
+			else if (KeyboardHandler.keyClicked(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
-			else if (Game.keyClicked(Keys.F5))
+			else if (KeyboardHandler.keyClicked(Keys.F5))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
 			}
-			else if (Game.keyClicked(Keys.M))
+			else if (KeyboardHandler.keyClicked(Keys.M))
 			{
 				Game.getInstance().setState(new MapState(this));
 			}

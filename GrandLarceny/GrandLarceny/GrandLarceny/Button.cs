@@ -147,7 +147,7 @@ namespace GrandLarceny
 			if (m_bounds.Contains(Mouse.GetState().X, Mouse.GetState().Y))
 			{
 				m_isFocused = true;
-				if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released)
+				if (MouseHandler.lmbDown())
 				{
 					if (m_downSound != null)
 					{
@@ -155,7 +155,7 @@ namespace GrandLarceny
 					}
 					m_isPressed = true;
 				}
-				if (m_isPressed && (Game.m_previousMouse.LeftButton == ButtonState.Pressed && Game.m_currentMouse.LeftButton == ButtonState.Released))
+				if (m_isPressed && (MouseHandler.lmbDown()))
 				{
 					if (m_upSound != null)
 					{
@@ -350,7 +350,7 @@ namespace GrandLarceny
 			{
 				return false;
 			}
-			Keys[] t_keys = Game.m_currentKeyInput.GetPressedKeys();
+			Keys[] t_keys = KeyboardHandler.getPressedKeys();
 			foreach (Keys t_key in m_hotkey)
 			{
 				if (t_keys.Contains(t_key))
@@ -361,15 +361,15 @@ namespace GrandLarceny
 			}
 			if (!m_hotkey.Contains(Keys.LeftShift) && !m_hotkey.Contains(Keys.RightShift))
 			{
-				return !Game.isKeyPressed(Keys.LeftShift) && !Game.isKeyPressed(Keys.LeftShift);
+				return !KeyboardHandler.isKeyPressed(Keys.LeftShift) && !KeyboardHandler.isKeyPressed(Keys.LeftShift);
 			}
 			else if (!m_hotkey.Contains(Keys.LeftControl) && !m_hotkey.Contains(Keys.RightControl))
 			{
-				return !Game.isKeyPressed(Keys.LeftControl) && !Game.isKeyPressed(Keys.RightControl);
+				return !KeyboardHandler.isKeyPressed(Keys.LeftControl) && !KeyboardHandler.isKeyPressed(Keys.RightControl);
 			}
 			else if (!m_hotkey.Contains(Keys.LeftAlt) && !m_hotkey.Contains(Keys.RightAlt))
 			{
-				return !Game.isKeyPressed(Keys.LeftAlt) && !Game.isKeyPressed(Keys.RightAlt);				
+				return !KeyboardHandler.isKeyPressed(Keys.LeftAlt) && !KeyboardHandler.isKeyPressed(Keys.RightAlt);				
 			}
 			else
 			{

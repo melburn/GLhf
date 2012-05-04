@@ -112,9 +112,9 @@ namespace GrandLarceny
 		#region Update & Draw
 		public override void update(GameTime a_gameTime)
 		{
-			if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released)
+			if (MouseHandler.lmbDown())
 			{
-				if (getBox().Contains((int)Game.m_currentMouse.X, (int)Game.m_currentMouse.Y))
+				if (getBox().Contains((int)MouseHandler.getCurPos().X, (int)MouseHandler.getCurPos().Y))
 				{
 					m_writing = true;
 					m_lastPressedKeys = new Dictionary<Keys, TimeSpan>();
@@ -128,7 +128,7 @@ namespace GrandLarceny
 			{
 				foreach (KeyValuePair<Keys, TimeSpan> t_keyPair in m_lastPressedKeys)
 				{
-					if (!Game.isKeyPressed(t_keyPair.Key))
+					if (!KeyboardHandler.isKeyPressed(t_keyPair.Key))
 					{
 						m_repeatKeys.Add(t_keyPair.Key);
 					}
@@ -189,7 +189,7 @@ namespace GrandLarceny
 		#region Swedish
 		private void updateSweden(GameTime a_gameTime)
 		{
-			Keys[] t_keys = Game.m_currentKeyInput.GetPressedKeys();
+			Keys[] t_keys = KeyboardHandler.getPressedKeys();
 			foreach (Keys t_key in t_keys)
 			{
 				if (!m_lastPressedKeys.ContainsKey(t_key))
@@ -204,7 +204,7 @@ namespace GrandLarceny
 					}
 					else if (m_acceptLetters && contains(t_key, m_acptLetters))
 					{
-						if (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift))
+						if (KeyboardHandler.isKeyPressed(Keys.LeftShift) || KeyboardHandler.isKeyPressed(Keys.RightShift))
 						{
 							switch (t_key)
 							{
@@ -288,7 +288,7 @@ namespace GrandLarceny
 					}
 					else if (m_acceptSpecials || m_acceptNumbers)
 					{
-						if (m_acceptSpecials && (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift)))
+						if (m_acceptSpecials && (KeyboardHandler.isKeyPressed(Keys.LeftShift) || KeyboardHandler.isKeyPressed(Keys.RightShift)))
 						{
 							if (t_key == Keys.D0)
 							{
@@ -340,7 +340,7 @@ namespace GrandLarceny
 							}
 						}
 					}
-					if (!(Game.wasKeyPressed(t_key) && !m_lastPressedKeys.ContainsKey(t_key)))
+					if (!(KeyboardHandler.wasKeyPressed(t_key) && !m_lastPressedKeys.ContainsKey(t_key)))
 					{
 						m_lastPressedKeys.Add(t_key, a_gameTime.TotalGameTime);
 					}

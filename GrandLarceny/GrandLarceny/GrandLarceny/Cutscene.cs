@@ -83,7 +83,7 @@ namespace GrandLarceny
 						++m_comDone;
 					}
 				}
-				else if (Game.isKeyPressed(parseKey(m_currentCommand[1])))
+				else if (KeyboardHandler.isKeyPressed(parseKey(m_currentCommand[1])))
 				{
 					m_waiting = false;
 					++m_comDone;

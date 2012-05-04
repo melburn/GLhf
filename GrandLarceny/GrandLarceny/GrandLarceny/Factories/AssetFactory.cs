@@ -164,7 +164,7 @@ namespace GrandLarceny
 		public static void createProp(Vector2 a_position, string a_asset)
 		{
 			States t_state = Game.getInstance().getState();
-			if (Game.isKeyPressed(Keys.LeftShift) || Game.isKeyPressed(Keys.RightShift))
+			if (KeyboardHandler.isKeyPressed(Keys.LeftShift) || KeyboardHandler.isKeyPressed(Keys.RightShift))
 			{
 				t_state.addObject(new Environment(a_position, a_asset, 0.998f));
 			}

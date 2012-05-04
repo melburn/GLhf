@@ -21,7 +21,7 @@ namespace GrandLarceny
 				Player t_player = (Player)a_collider;
 				if(CollisionManager.Collides(this.getHitBox(), a_collider.getHitBox()))
 				{
-					if (Game.isKeyPressed(GameState.getActionKey()))
+					if (KeyboardHandler.isKeyPressed(GameState.getActionKey()))
 					{
 						Level tLevel = new Level();
 						tLevel.setLevelObjects(Game.getInstance().getState().getObjectList());
