@@ -35,8 +35,9 @@ namespace GrandLarceny
 						t_player.setState(Player.State.Hiding);
 						t_player.setHidingImage(Player.DUCKHIDINGIMAGE);
 						t_player.setSpeedX(0);
+						t_player.setInteractionVisibility(false);
 					}
-					else
+					else if (t_player.getCurrentState() != Player.State.Hiding)
 					{
 						t_player.setInteractionVisibility(true);
 					}
