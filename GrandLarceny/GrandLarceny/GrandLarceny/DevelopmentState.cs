@@ -281,9 +281,9 @@ namespace GrandLarceny
 			t_buttonNumber = 0;
 			Vector2 t_hideMenu = new Vector2(m_btnDuckHideHotkey.getBox().X + 32, m_btnDuckHideHotkey.getBox().Y);
 			m_buttonDict.Add(m_btnStandHideHotkey	= new Button("DevelopmentHotkeys//btn_standhide_hotkey",
-				t_hideMenu + new Vector2(t_buttonNumber++ * 32, 0), "F", "VerdanaBold", Color.Black, t_btnTextOffset), State.StandHidingObject);
+				t_hideMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+F", "VerdanaBold", Color.Black, t_btnTextOffset + t_modV2), State.StandHidingObject);
 
-			m_btnStandHideHotkey.setHotkey(new Keys[] { Keys.F }, guiButtonClick);
+			m_btnStandHideHotkey.setHotkey(new Keys[] { Keys.LeftShift, Keys.F }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 

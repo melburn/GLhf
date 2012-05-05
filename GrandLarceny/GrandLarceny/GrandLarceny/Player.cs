@@ -697,13 +697,17 @@ namespace GrandLarceny
 				m_currentState = State.Stop;
 				if (m_facingRight)
 				{
-					m_position.plusXWith(40);
-					Game.getInstance().m_camera.getPosition().plusXWith(-30);
+					if (getHidingImage().Equals("hero_wallhide")) {
+						m_position.plusXWith(40);
+						Game.getInstance().m_camera.getPosition().plusXWith(-30);
+					}
 				}
 				else
 				{
-					m_position.plusXWith(-40);
-					Game.getInstance().m_camera.getPosition().plusXWith(30);
+					if (getHidingImage().Equals("hero_wallhide")) {
+						m_position.plusXWith(-40);
+						Game.getInstance().m_camera.getPosition().plusXWith(30);
+					}
 				}
 			}
 
@@ -1569,6 +1573,5 @@ namespace GrandLarceny
 			m_swingHitBox.setPosition(m_position);
 		}
 		#endregion
-
 	}
 }
