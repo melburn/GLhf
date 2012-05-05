@@ -695,19 +695,15 @@ namespace GrandLarceny
 				|| KeyboardHandler.keyClicked(GameState.getActionKey()))
 			{
 				m_currentState = State.Stop;
-				if (m_facingRight)
+				if (m_facingRight && getHidingImage().Equals("hero_wallhide"))
 				{
-					if (getHidingImage().Equals("hero_wallhide")) {
-						m_position.plusXWith(40);
-						Game.getInstance().m_camera.getPosition().plusXWith(-30);
-					}
+					m_position.plusXWith(40);
+					Game.getInstance().m_camera.getPosition().plusXWith(-30);
 				}
-				else
+				else if (!m_facingRight && getHidingImage().Equals("hero_wallhide"))
 				{
-					if (getHidingImage().Equals("hero_wallhide")) {
-						m_position.plusXWith(-40);
-						Game.getInstance().m_camera.getPosition().plusXWith(30);
-					}
+					m_position.plusXWith(-40);
+					Game.getInstance().m_camera.getPosition().plusXWith(30);
 				}
 			}
 
