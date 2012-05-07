@@ -780,6 +780,11 @@ namespace GrandLarceny
 					break;
 				}
 			}
+
+			if (m_statusBar.getBox().Contains(new Point((int)a_coordinate.X, (int)a_coordinate.Y)))
+			{
+				t_baseCollide = true;
+			}
 			return t_baseCollide;
 		}
 		#endregion

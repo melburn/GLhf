@@ -19,6 +19,7 @@ namespace GrandLarceny
 
 		private Vector2 m_from;
 		private Vector2 m_to;
+		private Rectangle m_bounds;
 		private float m_timer;
 		private float m_timeStart;
 		#endregion
@@ -41,6 +42,7 @@ namespace GrandLarceny
 			m_width			= a_width;
 			m_height		= a_height;
 			m_worldBox		= a_worldBox;
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)a_width, (int)a_height);
 			m_boxTexture.SetData(new[] { a_color });
 		}
 
@@ -61,6 +63,7 @@ namespace GrandLarceny
 			m_width			= a_width;
 			m_height		= a_height;
 			m_worldBox		= a_worldBox;
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)a_width, (int)a_height);
 			
 			Vector2 topLeft = a_position;
 			Vector2 topRight = a_position;
@@ -151,6 +154,14 @@ namespace GrandLarceny
 				return true;
 			}
 			return false;
+		}
+
+		public override Rectangle getBox() {
+			if (m_bounds.Width == 0 || m_bounds.Height == 0) {
+				m_bounds.Width = (int)m_img.getSize().X;
+				m_bounds.Height = (int)m_img.getSize().Y;
+			}
+			return m_bounds;
 		}
 
 		public void setLineColor(Color a_color)
