@@ -60,5 +60,9 @@ namespace GrandLarceny
 		{
 			return m_parallaxScroll;
 		}
+		public CollisionShape getImageBox()
+		{
+			return new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
+		}
 	}
 }

@@ -156,8 +156,10 @@ namespace GrandLarceny
 			return false;
 		}
 
-		public override Rectangle getBox() {
-			if (m_bounds.Width == 0 || m_bounds.Height == 0) {
+		public override Rectangle getBox()
+		{
+			if (m_bounds.Width == 0 || m_bounds.Height == 0)
+			{
 				m_bounds.Width = (int)m_img.getSize().X;
 				m_bounds.Height = (int)m_img.getSize().Y;
 			}

@@ -811,12 +811,11 @@ namespace GrandLarceny
 				if (t_gameObject is LightCone || t_gameObject is FlashCone) {
 					continue;
 				} else if (t_gameObject is Environment) {
-					if (t_gameObject.getBox().Contains((int)a_point.X, (int)a_point.Y)) {
+					if (((Environment)t_gameObject).getImageBox().contains(a_point)) {
 						if (t_return == null || t_return.getLayer() > t_gameObject.getLayer()) {
-							m_selectedObject = t_gameObject;
+							t_return = t_gameObject;
 						}
 					}
-					continue;
 				} else if (((Entity)t_gameObject).getImageBox().contains(a_point)) {
 					if (t_return == null || t_return.getLayer() > t_gameObject.getLayer()) {
 						t_return = t_gameObject;
