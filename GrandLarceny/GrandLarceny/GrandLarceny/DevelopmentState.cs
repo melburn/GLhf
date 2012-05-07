@@ -371,6 +371,7 @@ namespace GrandLarceny
 		private void selectAsset(Button a_button)
 		{
 			string t_newAsset = "";
+			Vector2 t_assetPosition = m_worldMouse + new Vector2(-36, -36);
 
 			if (a_button != null){
 				t_newAsset = a_button.getText();
@@ -383,82 +384,82 @@ namespace GrandLarceny
 
 			switch (m_itemToCreate) {
 				case State.Platform:
-					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//Floor//" + t_newAsset, 0.000f);
+					m_objectPreview = new Platform(t_assetPosition, "Images//Tile//Floor//" + t_newAsset, 0.000f);
 					break;
 				case State.Wall:
-					m_objectPreview = new Wall(m_worldMouse, "Images//Tile//Wall//" + t_newAsset, 0.000f);
+					m_objectPreview = new Wall(t_assetPosition, "Images//Tile//Wall//" + t_newAsset, 0.000f);
 					break;
 				case State.Delete:
 					m_objectPreview = null;
 					break;
 				case State.Guard:
-					m_objectPreview = new Guard(m_worldMouse, "Images//Sprite//Guard//guard_idle", m_worldMouse.X, true, 0.000f);
+					m_objectPreview = new Guard(t_assetPosition, "Images//Sprite//Guard//guard_idle", m_worldMouse.X, true, 0.000f);
 					break;
 				case State.Ladder:
-					m_objectPreview = new Ladder(m_worldMouse, "Images//Tile//Ladder//" + t_newAsset, 0.000f);
+					m_objectPreview = new Ladder(t_assetPosition, "Images//Tile//Ladder//" + t_newAsset, 0.000f);
 					break;
 				case State.None:
 					m_objectPreview = null;
 					break;
 				case State.Player:
-					m_objectPreview = new Player(m_worldMouse, "Images//Sprite//Hero//hero_stand", 0.000f);
+					m_objectPreview = new Player(t_assetPosition, "Images//Sprite//Hero//hero_stand", 0.000f);
 					break;
 				case State.SpotLight:
-					m_objectPreview = new SpotLight(m_worldMouse, "Images//LightCone//" + t_newAsset, 0.000f, 0.0f, false);
+					m_objectPreview = new SpotLight(t_assetPosition, "Images//LightCone//" + t_newAsset, 0.000f, 0.0f, false);
 					break;
 				case State.Background:
-					m_objectPreview = new Environment(m_worldMouse, "Images//Background//" + t_newAsset, 0.000f);
+					m_objectPreview = new Environment(t_assetPosition, "Images//Background//" + t_newAsset, 0.000f);
 					break;
 				case State.DuckHidingObject:
-					m_objectPreview = new DuckHideObject(m_worldMouse, "Images//Prop//DuckHide//" + t_newAsset, 0.000f);
+					m_objectPreview = new DuckHideObject(t_assetPosition, "Images//Prop//DuckHide//" + t_newAsset, 0.000f);
 					break;
 				case State.StandHidingObject:
-					m_objectPreview = new StandHideObject(m_worldMouse, "Images//Prop//StandHide//" + t_newAsset, 0.000f);
+					m_objectPreview = new StandHideObject(t_assetPosition, "Images//Prop//StandHide//" + t_newAsset, 0.000f);
 					break;
 				case State.GuardDog:
-					m_objectPreview = new GuardDog(m_worldMouse, "Images//Sprite//GuardDog//" + t_newAsset, m_worldMouse.X, m_worldMouse.X,0.000f);
+					m_objectPreview = new GuardDog(t_assetPosition, "Images//Sprite//GuardDog//" + t_newAsset, m_worldMouse.X, m_worldMouse.X,0.000f);
 					break;
 				case State.LightSwitch:
-					m_objectPreview = new LampSwitch(m_worldMouse, "Images//Prop//Button//" + t_newAsset, 0.000f);
+					m_objectPreview = new LampSwitch(t_assetPosition, "Images//Prop//Button//" + t_newAsset, 0.000f);
 					break;
 				case State.CrossVent:
-					m_objectPreview = new CrossVentilation(m_worldMouse, "Images//Tile//Ventilation//Cross//" + t_newAsset, 0.000f);
+					m_objectPreview = new CrossVentilation(t_assetPosition, "Images//Tile//Ventilation//Cross//" + t_newAsset, 0.000f);
 					break;
 				case State.CornerVent:
-					m_objectPreview = new CornerVentilation(m_worldMouse, "Images//Tile//Ventilation//Corner//" + t_newAsset, 0.000f);
+					m_objectPreview = new CornerVentilation(t_assetPosition, "Images//Tile//Ventilation//Corner//" + t_newAsset, 0.000f);
 					break;
 				case State.StraVent:
-					m_objectPreview = new StraightVentilation(m_worldMouse, "Images//Tile//Ventilation//Straight//" + t_newAsset, 0.000f);
+					m_objectPreview = new StraightVentilation(t_assetPosition, "Images//Tile//Ventilation//Straight//" + t_newAsset, 0.000f);
 					break;
 				case State.TVent:
-					m_objectPreview = new TVentilation(m_worldMouse, "Images//Tile//Ventilation//TVent//" + t_newAsset, 0.000f);
+					m_objectPreview = new TVentilation(t_assetPosition, "Images//Tile//Ventilation//TVent//" + t_newAsset, 0.000f);
 					break;
 				case State.Ventrance:
-					m_objectPreview = new VentilationDrum(m_worldMouse, "Images//Tile//Ventilation//Drum//" + t_newAsset, 0.000f);
+					m_objectPreview = new VentilationDrum(t_assetPosition, "Images//Tile//Ventilation//Drum//" + t_newAsset, 0.000f);
 					break;
 				case State.Window:
-					m_objectPreview = new Window(m_worldMouse, "Images//Tile//Window//" + t_newAsset, 0.000f);
+					m_objectPreview = new Window(t_assetPosition, "Images//Tile//Window//" + t_newAsset, 0.000f);
 					break;
 				case State.Foreground:
-					m_objectPreview = new Foreground(m_worldMouse, "Images//Foregrounds//" + t_newAsset, 0.000f);
+					m_objectPreview = new Foreground(t_assetPosition, "Images//Foregrounds//" + t_newAsset, 0.000f);
 					break;
 				case State.CornerHang:
-					m_objectPreview = new CornerHang(m_worldMouse, "Images//Foregrounds//" + t_newAsset, 0.000f);
+					m_objectPreview = new CornerHang(t_assetPosition, "Images//Foregrounds//" + t_newAsset, 0.000f);
 					break;
 				case State.Checkpoint:
-					m_objectPreview = new CheckPoint(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
+					m_objectPreview = new CheckPoint(t_assetPosition, "Images//Tile//1x1_tile_ph", 0.000f);
 					break;
 				case State.SecDoor:
-					m_objectPreview = new SecurityDoor(m_worldMouse, "Images//Prop//SecurityDoor//" + t_newAsset, 0.000f);
+					m_objectPreview = new SecurityDoor(t_assetPosition, "Images//Prop//SecurityDoor//" + t_newAsset, 0.000f);
 					break;
 				case State.Camera:
-					m_objectPreview = new GuardCamera(m_worldMouse, "Images//Sprite//Camera//camera", 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25), false);
+					m_objectPreview = new GuardCamera(t_assetPosition, "Images//Sprite//Camera//camera", 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25), false);
 					break;
 				case State.Prop:
-					m_objectPreview = new Environment(m_worldMouse, "Images//Prop//Clutter//" + t_newAsset, 0.000f);
+					m_objectPreview = new Environment(t_assetPosition, "Images//Prop//Clutter//" + t_newAsset, 0.000f);
 					break;
 				case State.Rope:
-					m_objectPreview = new Rope(m_worldMouse, "", 0.000f);
+					m_objectPreview = new Rope(t_assetPosition, "", 0.000f);
 					break;
 			}
 		}
