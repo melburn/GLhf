@@ -71,7 +71,7 @@ namespace GrandLarceny
 		}
 		public override CollisionShape getImageBox()
 		{
-			return new CollisionRectangle(0, 0, 72, 72, m_startPosition);
+			return new CollisionRectangle(0, 0, 72, Math.Max(72, m_lenght), m_startPosition);
 		}
 
 		public void setLength(float a_length)
