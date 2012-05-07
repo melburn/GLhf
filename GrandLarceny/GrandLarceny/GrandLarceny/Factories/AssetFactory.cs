@@ -11,10 +11,12 @@ namespace GrandLarceny
 	{
 		public static void createPlayer(Vector2 a_position)
 		{
-			States t_state = Game.getInstance().getState();
-			Player t_player = new Player(t_state.getTileCoordinates(a_position), "Images//Sprite//Hero//hero_stand", 0.300f);
-			t_state.setPlayer(t_player);
-			t_state.addObject(t_player);
+			if (Game.getInstance().getState().getPlayer() == null) {
+				States t_state = Game.getInstance().getState();
+				Player t_player = new Player(t_state.getTileCoordinates(a_position), "Images//Sprite//Hero//hero_stand", 0.300f);
+				t_state.setPlayer(t_player);
+				t_state.addObject(t_player);
+			}
 		}
 
 		public static void createPlatform(Vector2 a_position, string a_asset)
@@ -134,7 +136,7 @@ namespace GrandLarceny
 		public static void createCamera(Vector2 a_position, string a_asset)
 		{
 			States t_state = Game.getInstance().getState();
-			t_state.addObject(new GuardCamera(t_state.getTileCoordinates(a_position), a_asset, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25)));
+			t_state.addObject(new GuardCamera(t_state.getTileCoordinates(a_position), a_asset, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25), true));
 		}
 
 		public static void createWindow(Vector2 a_position, string a_asset)
@@ -186,10 +188,15 @@ namespace GrandLarceny
 			t_state.addObject(new ConsumableHeart(t_state.getTileCoordinates(a_position), a_asset, 0.250f));
 		}
 
-		public static void copyAsset(GameObject a_asset)
+		public static void copyAsset(Vector2 a_position, GameObject a_asset)
 		{
 			States t_state = Game.getInstance().getState();
-			Vector2 t_position = a_asset.getPosition().getGlobalCartesian();
+			Vector2 t_position;
+			if (a_position == null) {
+				t_position = a_asset.getPosition().getGlobalCartesian();
+			} else {
+				t_position = a_position;
+			}
 			string t_imagePath = a_asset.getImg().getImagePath();
 
 			if (a_asset is Player) {

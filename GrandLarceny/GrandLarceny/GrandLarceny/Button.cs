@@ -360,22 +360,21 @@ namespace GrandLarceny
 				}
 				return false;
 			}
+
+			bool t_returnValue = true;
 			if (!m_hotkey.Contains(Keys.LeftShift) && !m_hotkey.Contains(Keys.RightShift))
 			{
-				return !KeyboardHandler.isKeyPressed(Keys.LeftShift) && !KeyboardHandler.isKeyPressed(Keys.LeftShift);
+				t_returnValue = !KeyboardHandler.isKeyPressed(Keys.LeftShift) && !KeyboardHandler.isKeyPressed(Keys.LeftShift);
 			}
-			else if (!m_hotkey.Contains(Keys.LeftControl) && !m_hotkey.Contains(Keys.RightControl))
+			if (!m_hotkey.Contains(Keys.LeftControl) && !m_hotkey.Contains(Keys.RightControl) && t_returnValue)
 			{
-				return !KeyboardHandler.isKeyPressed(Keys.LeftControl) && !KeyboardHandler.isKeyPressed(Keys.RightControl);
+				t_returnValue = !KeyboardHandler.isKeyPressed(Keys.LeftControl) && !KeyboardHandler.isKeyPressed(Keys.RightControl);
 			}
-			else if (!m_hotkey.Contains(Keys.LeftAlt) && !m_hotkey.Contains(Keys.RightAlt))
+			if (!m_hotkey.Contains(Keys.LeftAlt) && !m_hotkey.Contains(Keys.RightAlt) && t_returnValue)
 			{
-				return !KeyboardHandler.isKeyPressed(Keys.LeftAlt) && !KeyboardHandler.isKeyPressed(Keys.RightAlt);				
+				t_returnValue = !KeyboardHandler.isKeyPressed(Keys.LeftAlt) && !KeyboardHandler.isKeyPressed(Keys.RightAlt);
 			}
-			else
-			{
-				return true;
-			}
+			return t_returnValue;
 		}
 		#endregion
 
