@@ -195,7 +195,7 @@ namespace GrandLarceny
 			m_buttonDict.Add(t_button		= new Button("DevelopmentHotkeys//btn_tvent_hotkey", t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+V", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.TVent);
 			t_button.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.V }, guiButtonClick);
 			m_buttonDict.Add(t_button	= new Button("DevelopmentHotkeys//btn_svent_hotkey", t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+A", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.StraVent);
-			t_button.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.S }, guiButtonClick);
+			t_button.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.A }, guiButtonClick);
 			m_buttonDict.Add(t_button	= new Button("DevelopmentHotkeys//btn_cvent_hotkey", t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+C", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.CrossVent);
 			t_button.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.C }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_ovent_hotkey", t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+R", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.CornerVent);
@@ -209,7 +209,7 @@ namespace GrandLarceny
 			#region Hiding object buttons
 			t_buttonNumber = 0;
 			Vector2 t_hideMenu = new Vector2(m_btnDuckHideHotkey.getBox().X + 32, m_btnDuckHideHotkey.getBox().Y);
-			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_standhide_hotkey", t_hideMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+F", "VerdanaBold", Color.Black, t_btnTextOffset + t_modV2), State.StandHidingObject);
+			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_standhide_hotkey", t_hideMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+F", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.StandHidingObject);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.F }, guiButtonClick);
 			#endregion
 			//-----------------------------------
@@ -222,8 +222,8 @@ namespace GrandLarceny
 				t_guardMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+G", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.GuardDog);
 			t_button.setHotkey(new Keys[]		{ Keys.LeftShift, Keys.G }, guiButtonClick);
 			m_buttonDict.Add(t_button		= new Button("DevelopmentHotkeys//btn_camera_hotkey",
-				t_guardMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+C", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Camera);
-			t_button.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.C }, guiButtonClick);
+				t_guardMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+Q", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Camera);
+			t_button.setHotkey(new Keys[]	{ Keys.LeftShift, Keys.Q }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
@@ -457,6 +457,9 @@ namespace GrandLarceny
 				case State.Prop:
 					m_objectPreview = new Environment(m_worldMouse, "Images//Prop//Clutter//" + t_newAsset, 0.000f);
 					break;
+				case State.Rope:
+					m_objectPreview = new Rope(m_worldMouse, "", 0.000f);
+					break;
 			}
 		}
 		#endregion
@@ -596,92 +599,6 @@ namespace GrandLarceny
 				if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && (!collidedWithObject(m_worldMouse) || m_itemToCreate == State.Background)) {
 					if (m_itemToCreate != State.None && m_itemToCreate != State.Delete) {
 						AssetFactory.copyAsset(m_worldMouse, m_objectPreview);
-						/*
-						switch (m_itemToCreate) {
-							case State.Player:
-								AssetFactory.createPlayer(m_worldMouse);
-								break;
-							case State.Background:
-								AssetFactory.createBackground(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Ladder:
-								AssetFactory.createLadder(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Platform:
-								AssetFactory.createPlatform(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.SpotLight:
-								AssetFactory.createSpotLight(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Guard:
-								AssetFactory.createGuard(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Wall:
-								AssetFactory.createWall(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.DuckHidingObject:
-								AssetFactory.createDuckHideObject(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.StandHidingObject:
-								AssetFactory.createStandHideObject(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.GuardDog:
-								AssetFactory.createGuardDog(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.LightSwitch:
-								AssetFactory.createLightSwitch(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.CrossVent:
-								AssetFactory.createCrossVent(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.CornerVent:
-								AssetFactory.createCornerVent(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.StraVent:
-								AssetFactory.createStraightVent(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.TVent:
-								AssetFactory.createTVent(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Ventrance:
-								AssetFactory.createVentrance(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Camera:
-								AssetFactory.createCamera(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Window:
-								AssetFactory.createWindow(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Foreground:
-								AssetFactory.createForeground(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.SecDoor:
-								AssetFactory.createSecDoor(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.CornerHang:
-								AssetFactory.createCornerHang(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Prop:
-								AssetFactory.createProp(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Rope:
-								AssetFactory.createRope(m_worldMouse);
-								break;
-							case State.Checkpoint:
-								AssetFactory.createCheckPoint(m_worldMouse);
-								break;
-							case State.Key:
-								AssetFactory.createKey(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.Heart:
-								AssetFactory.createHeart(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-							case State.EndVent:
-								AssetFactory.createVentEnd(m_worldMouse, m_objectPreview.getImg().getImagePath());
-								break;
-						}
-						return;
-						*/
 					}
 				}
 				#endregion
@@ -851,6 +768,18 @@ namespace GrandLarceny
 				}
 			}
 			return false;
+		}
+
+		public override bool collidedWithGui(Vector2 a_coordinate) {
+			bool t_baseCollide = base.collidedWithGui(a_coordinate);
+
+			foreach (Button t_button in m_buttonDict.Keys) {
+				if (t_button.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
+					t_baseCollide = true;
+					break;
+				}
+			}
+			return t_baseCollide;
 		}
 		#endregion
 		
