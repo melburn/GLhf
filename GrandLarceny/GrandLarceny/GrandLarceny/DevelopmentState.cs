@@ -50,7 +50,6 @@ namespace GrandLarceny
 		private Button m_btnVentHotkey;
 		private Button m_btnDuckHideHotkey;
 		private Button m_btnGuardHotkey;
-		private Button m_btnCollHotkey;
 
 		private Line m_dragLine = null;
 
@@ -184,8 +183,8 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.K }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_clutter_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "C", "VerdanaBold", Color.Black, t_btnTextOffset), State.Prop);
 			t_button.setHotkey(new Keys[] { Keys.C }, guiButtonClick);
-			m_buttonDict.Add(m_btnCollHotkey = new Button("DevelopmentHotkeys//btn_key_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
-			m_btnCollHotkey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
+			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_heart_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+H", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Heart);
+			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.H }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
@@ -226,16 +225,6 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.G }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_camera_hotkey", t_guardMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+Q", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Camera);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.Q }, guiButtonClick);
-			#endregion
-			//-----------------------------------
-
-			//-----------------------------------
-			#region Collectible object buttons
-			t_buttonNumber = 0;
-			Vector2 t_collMenu = new Vector2(m_btnCollHotkey.getBox().X + 32, m_btnCollHotkey.getBox().Y);
-
-			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_heart_hotkey", t_collMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+H", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Heart);
-			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.H }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
@@ -464,7 +453,7 @@ namespace GrandLarceny
 					m_objectPreview = new Foreground(t_assetPosition, "Images//Foregrounds//" + t_newAsset, 0.000f);
 					break;
 				case State.CornerHang:
-					m_objectPreview = new CornerHang(t_assetPosition, "Images//Foregrounds//" + t_newAsset, 0.000f);
+					m_objectPreview = new CornerHang(t_assetPosition, "Images//Automagi//cornerthingy", 0.000f);
 					break;
 				case State.Checkpoint:
 					m_objectPreview = new CheckPoint(t_assetPosition, "Images//Tile//1x1_tile_ph", 0.000f);
@@ -480,6 +469,9 @@ namespace GrandLarceny
 					break;
 				case State.Rope:
 					m_objectPreview = new Rope(t_assetPosition, "", 0.000f);
+					break;
+				case State.Heart:
+					m_objectPreview = new ConsumableHeart(t_assetPosition, "Images//Sprite//Consumables//shinyheart", 0.000f);
 					break;
 			}
 		}
@@ -1043,26 +1035,21 @@ namespace GrandLarceny
 					break;
 				case State.CornerHang:
 					createAssetList(null);
-					m_objectPreview = new Platform(m_worldMouse, "Images//Automagi//CornerThingy", 0.000f);
 					break;
 				case State.Checkpoint:
 					createAssetList(null);
-					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
 					break;
 				case State.Prop:
 					createAssetList("Content//Images//Prop//Clutter//");
 					break;
 				case State.Key:
 					createAssetList(null);
-					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//1x1_tile_ph", 0.000f);
 					break;
 				case State.Heart:
 					createAssetList(null);
-					m_objectPreview = new Platform(m_worldMouse, "Images//Sprite//Consumables//shinyheart", 0.000f);
 					break;
 				case State.EndVent:
 					createAssetList(null);
-					m_objectPreview = new Platform(m_worldMouse, "Images//Tile//Ventilation//EndVent//endventilation", 0.000f);
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)
