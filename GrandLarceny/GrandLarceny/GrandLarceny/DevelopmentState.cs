@@ -592,6 +592,9 @@ namespace GrandLarceny
 					else if (m_selectedObject is VentilationDrum)
 					{
 						((VentilationDrum)m_selectedObject).toggleLocked();
+					} else if (m_selectedObject is Guard)
+					{
+						((Guard)m_selectedObject).toggleFlashLightAddicted();
 					}
 					m_textObjectInfo.setText(m_selectedObject.ToString());
 				}
