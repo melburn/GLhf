@@ -154,7 +154,7 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime)
 		{
-			if (m_text == null)
+			if (m_text == null || !m_visible)
 			{
 				return;
 			}
@@ -163,7 +163,7 @@ namespace GrandLarceny
 
 			if (m_worldFont)
 			{
-				t_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesianCoordinates(), m_color);
+				t_spriteBatch.DrawString(m_spriteFont, m_text, m_position.getGlobalCartesian(), m_color);
 			}
 			else
 			{	

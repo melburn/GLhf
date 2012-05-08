@@ -69,7 +69,7 @@ namespace GrandLarceny
 				m_levelText.setText("New Level:");
 				m_levelText.setColor(Color.White);
 			}
-			if (Game.keyClicked(Keys.Enter) && m_newLevelName.isWriting())
+			if (KeyboardHandler.keyClicked(Keys.Enter) && m_newLevelName.isWriting())
 			{
 				createNewLevel(m_btnTFAccept);
 			}

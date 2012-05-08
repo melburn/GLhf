@@ -33,7 +33,8 @@ namespace GrandLarceny
 
 		public override void loadContent()
 		{
-			if (m_guiSprite != null) {
+			if (m_guiSprite != null)
+			{
 				setSprite("Images//GUI//" + m_guiSprite);			
 			}
 			base.loadContent();
@@ -42,23 +43,26 @@ namespace GrandLarceny
 		public override void draw(GameTime a_gameTime)
 		{
 			float t_zoom = Game.getInstance().m_camera.getZoom();
-			Vector2 t_cartCoord;
-			t_cartCoord.X = m_position.getLocalX() / t_zoom + m_position.getParentPosition().getGlobalX();
-			t_cartCoord.Y = m_position.getLocalY() / t_zoom + m_position.getParentPosition().getGlobalY();
+			Vector2 t_cartCoord = Position.floor(m_position.getLocalCartesian() / t_zoom) + m_position.getParentPosition().getFlooredGlobalCartesian();
 
 			m_img.draw(t_cartCoord, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, 1.0f / t_zoom, 1.0f / t_zoom);
 		}
 
 		public override Rectangle getBox() {
-			if (m_bounds.Width == 0 || m_bounds.Height == 0) {
+			if (m_bounds.Width == 0 || m_bounds.Height == 0)
+			{
 				m_bounds.Width = (int)m_img.getSize().X;
 				m_bounds.Height = (int)m_img.getSize().Y;
 			}
 			return m_bounds;
 		}
 
-		public override void update(GameTime a_gameTime) {
-
+		public override void update(GameTime a_gameTime)
+		{
+			if (m_img == null)
+			{
+				return;
+			}
 		}
 
 		public void setSprite(string a_path)

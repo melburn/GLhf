@@ -14,6 +14,7 @@ namespace GrandLarceny.Events.Triggers
 		{
 			m_condition = a_condition;
 		}
+
 		public override bool isTrue()
 		{
 			return Game.getInstance().getState().getPlayer().isChase() == m_condition;

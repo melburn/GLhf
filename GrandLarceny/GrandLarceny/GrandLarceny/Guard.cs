@@ -441,7 +441,7 @@ namespace GrandLarceny
 				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
 				t_player.getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
 				t_player.getPosition().getGlobalY() >= m_position.getGlobalY() - 200 &&
-				canSeePoint(t_player.getPosition().getGlobalCartesianCoordinates() + (t_player.getImg().getSize() / new Vector2(2, 4)));
+				canSeePoint(t_player.getPosition().getGlobalCartesian() + (t_player.getImg().getSize() / new Vector2(2, 4)));
 		}
 
 		public bool isFacingRight()
@@ -746,7 +746,15 @@ namespace GrandLarceny
 
 		public bool canSeePoint(Vector2 a_point)
 		{
-			return CollisionManager.possibleLineOfSight(m_position.getGlobalCartesianCoordinates() + new Vector2(0, 10), a_point);
+			return CollisionManager.possibleLineOfSight(m_position.getGlobalCartesian() + new Vector2(0, 10), a_point);
+		}
+
+		public override string ToString() {
+			if (m_FlashLightAddicted) {
+				return base.ToString() + ":Has Flashlight";
+			} else {
+				return base.ToString() + ":No Flashlight";
+			}
 		}
 	}
 }

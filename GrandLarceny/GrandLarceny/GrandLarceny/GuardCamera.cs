@@ -20,8 +20,9 @@ namespace GrandLarceny
 		private float m_rotationSpeed;
 		private Entity m_chaseTarget;
 		private const float ROTATIONSPEED = 0.7f;
+		private bool m_lit;
 
-		public GuardCamera(Vector2 a_position, String a_sprite, float a_layer, float a_rotation, float a_leftRotation, float a_rightRotation)
+		public GuardCamera(Vector2 a_position, String a_sprite, float a_layer, float a_rotation, float a_leftRotation, float a_rightRotation, bool a_lit)
 			: base(a_position,a_sprite,a_layer)
 		{
 			if (a_rotation < 0 || a_rotation > 2 * Math.PI ||
@@ -36,6 +37,13 @@ namespace GrandLarceny
 				m_rotate = a_rotation;
 				m_leftRotation = a_leftRotation;
 				m_rightRotation = a_rightRotation;
+			}
+			m_lit = a_lit;
+			if (a_lit)
+			{
+				m_light = new LightCone(this, "Images//LightCone//Ljus", m_img.getSize().X, m_layer + 0.001f, 400f, 100f, m_layer - 0.01f, "Images//LightCone//ljusboll");
+				m_lightLink = m_light.getId();
+				(Game.getInstance().getState()).addObject(m_light);
 			}
 		}
 		public override void linkObject()
@@ -54,15 +62,12 @@ namespace GrandLarceny
 			if (m_lightLink > 0)
 			{
 				m_light = (LightCone)Game.getInstance().getState().getObjectById(m_lightLink);
-				m_light.getPosition().setParentPosition(m_position);
 			}
-			else
+			if (m_light != null)
 			{
-				m_light = new LightCone(this, "Images//LightCone//Ljus", m_img.getSize().X, m_layer + 0.001f, 400f, 100f, m_layer - 0.01f, "Images//LightCone//ljusboll");
-				m_lightLink = m_light.getId();
-				(Game.getInstance().getState()).addObject(m_light);
+				m_light.getPosition().setParentPosition(m_position);
+				m_light.setRotation(m_rotate);
 			}
-			m_light.setRotation(m_rotate);
 		}
 		public bool canSeePlayer()
 		{

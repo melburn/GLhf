@@ -15,16 +15,13 @@ namespace GrandLarceny
 	public class Game : Microsoft.Xna.Framework.Game
 	{
 		private static Game m_myGame;
+		public const string CUTSCENE_FOLDER = "Content//wtf//Cutscenes//";
 
 		internal GraphicsDeviceManager m_graphics;
 		private SpriteBatch m_spriteBatch;
 		
 		private States m_nextState;
 		private States m_currentState;
-		public static MouseState m_previousMouse;
-		public static MouseState m_currentMouse;
-		public static KeyboardState m_previousKeyInput;
-		public static KeyboardState m_currentKeyInput;
 		public const int TILE_WIDTH = 72;
 		public const int TILE_HEIGHT = 72;
 
@@ -98,8 +95,8 @@ namespace GrandLarceny
 		{
 			if (!IsActive)
 				return;
-			m_currentKeyInput = Keyboard.GetState();
-			m_currentMouse = Mouse.GetState();
+			KeyboardHandler.setCurrentKeyboard(Keyboard.GetState());
+			MouseHandler.setCurrentMouse(Mouse.GetState());
 			m_currentGameTime = a_gameTime;
 
 			if (m_nextState != null)
@@ -136,13 +133,13 @@ namespace GrandLarceny
 				//}
 			}
 
-			if (keyClicked(Keys.F7)) //Asså det här är ju inte ok
+			if (KeyboardHandler.keyClicked(Keys.F7)) //Asså det här är ju inte ok
 			{
 				m_nextState = new HubMenu();
 			}
 
-			m_previousMouse = m_currentMouse;
-			m_previousKeyInput = m_currentKeyInput;
+			MouseHandler.setPreviousMouse();
+			KeyboardHandler.setPreviousKeyboard();
 			base.Update(a_gameTime);
 		}
 
@@ -163,7 +160,7 @@ namespace GrandLarceny
 
 		public void setCutscene(String a_fileName)
 		{
-			if (File.Exists(a_fileName))
+			if (File.Exists(CUTSCENE_FOLDER + a_fileName))
 			{
 				m_nextState = new Cutscene(m_currentState, a_fileName);
 			}
@@ -183,73 +180,6 @@ namespace GrandLarceny
 			return new Vector2(m_graphics.PreferredBackBufferWidth, m_graphics.PreferredBackBufferHeight);
 		}
 
-		public static Vector2 getMouseCoords()
-		{
-			return new Vector2(m_currentMouse.X, m_currentMouse.Y);
-		}
-
-		public static bool isKeyPressed(Keys key)
-		{
-			return m_currentKeyInput.IsKeyDown(key);
-		}
-
-		public static bool wasKeyPressed(Keys key)
-		{
-			return m_previousKeyInput.IsKeyDown(key);
-		}
-
-		public static bool keyClicked(Keys a_key)
-		{
-			return m_currentKeyInput.IsKeyDown(a_key) && m_previousKeyInput.IsKeyUp(a_key);
-		}
-
-		#region Game Mouse
-		public static bool lmbPressed()
-		{
-			return m_currentMouse.LeftButton == ButtonState.Pressed;
-		}
-
-		public static bool lmbDown()
-		{
-			return m_currentMouse.LeftButton == ButtonState.Pressed && m_previousMouse.LeftButton == ButtonState.Released;
-		}
-
-		public static bool lmbUp()
-		{
-			return m_currentMouse.LeftButton == ButtonState.Released && m_previousMouse.LeftButton == ButtonState.Pressed;
-		}
-
-		public static bool rmbPressed()
-		{
-			return m_currentMouse.RightButton == ButtonState.Pressed;
-		}
-
-		public static bool rmbDown()
-		{
-			return m_currentMouse.RightButton == ButtonState.Pressed && m_previousMouse.RightButton == ButtonState.Released;
-		}
-
-		public static bool rmbUp()
-		{
-			return m_currentMouse.RightButton == ButtonState.Released && m_previousMouse.RightButton == ButtonState.Pressed;
-		}
-
-		public static bool mmbPressed()
-		{
-			return m_currentMouse.MiddleButton == ButtonState.Pressed;
-		}
-
-		public static bool mmbDown()
-		{
-			return m_currentMouse.MiddleButton == ButtonState.Pressed && m_previousMouse.MiddleButton == ButtonState.Released;
-		}
-
-		public static bool mmbUp()
-		{
-			return m_currentMouse.MiddleButton == ButtonState.Released && m_previousMouse.MiddleButton == ButtonState.Pressed;
-		}
-		#endregion
-
 		public Progress getProgress()
 		{
 			return m_progress;
@@ -267,10 +197,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public static bool isKeyReleased(Keys a_key)
-		{
-			return m_currentKeyInput.IsKeyUp(a_key) && m_previousKeyInput.IsKeyDown(a_key);
-		}
+		
 		public TimeSpan getGameTime() 
 		{
 			return m_currentGameTime.TotalGameTime;

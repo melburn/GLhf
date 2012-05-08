@@ -24,11 +24,11 @@ namespace GrandLarceny
 					&& t_player.getLastState() != Player.State.Hiding && t_player.getCurrentState() != Player.State.Jumping
 					&& t_player.getCurrentState() != Player.State.Slide && t_player.getCurrentState() != Player.State.Climbing)
 				{
-					if (Game.keyClicked(GameState.getActionKey()))
+					if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 					{
 
-						Vector2 t_playerGlobal = a_collider.getPosition().getGlobalCartesianCoordinates();
-						float t_myPositionX = m_position.getGlobalCartesianCoordinates().X;
+						Vector2 t_playerGlobal = a_collider.getPosition().getGlobalCartesian();
+						float t_myPositionX = m_position.getGlobalCartesian().X;
 
 						if (t_playerGlobal.X < t_myPositionX)
 						{
@@ -46,9 +46,9 @@ namespace GrandLarceny
 						t_player.setHidingImage(Player.STANDHIDINGIMAGE);
 						t_player.setSpeedX(0);
 					}
-					else
+					else if (t_player.getCurrentState() != Player.State.Hiding)
 					{
-						t_player.setInteractionVisibillity(true);
+						t_player.setInteractionVisibility(true);
 					}
 				}
 			}

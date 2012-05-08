@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
-{	
+{
 	[Serializable()]
 	public class GameObject
 	{
@@ -28,7 +28,7 @@ namespace GrandLarceny
 		protected float m_imgOffsetY = 0;
 		protected Vector2 m_rotationPoint = Vector2.Zero;
 		protected Vector2 m_changePositionAfterDraw = Vector2.Zero;
-		protected Boolean m_visible;
+		protected Boolean m_visible = true;
 
 		private string m_spritePath;
 
@@ -58,9 +58,7 @@ namespace GrandLarceny
 		}
 
 		public virtual void linkObject()
-		{
-
-		}
+		{ }
 
 		public virtual void flip()
 		{
@@ -77,7 +75,7 @@ namespace GrandLarceny
 			m_rotationPoint = m_img.getSize() / 2;
 			m_visible = true;
 		}
-		
+
 		public Position getPosition()
 		{
 			return m_position;
@@ -97,9 +95,9 @@ namespace GrandLarceny
 		{
 			if (m_visible)
 			{
-				Vector2 t_imgPosition;
-				t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
-				t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
+				Vector2 t_imgPosition = m_position.getFlooredGlobalCartesian() + new Vector2(m_imgOffsetX, m_imgOffsetY);
+				///*t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
+				//t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
 
 				m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
 
@@ -116,14 +114,15 @@ namespace GrandLarceny
 		{
 			return m_dead;
 		}
-		public virtual void kill() {
+		public virtual void kill()
+		{
 			m_dead = true;
 		}
 		public void setLayer(float a_layer)
 		{
 			m_layer = a_layer;
 		}
-		
+
 		public virtual void setColor(Color a_color)
 		{
 			m_color = a_color;
@@ -145,7 +144,8 @@ namespace GrandLarceny
 			m_rotate = (m_rotate + a_rotation) % ((float)Math.PI * 2);
 		}
 
-		public float getLayer() {
+		public float getLayer()
+		{
 			return m_layer;
 		}
 
@@ -171,9 +171,9 @@ namespace GrandLarceny
 		public virtual void changePositionType()
 		{
 			if (m_position is CartesianCoordinate)
-				m_position = new PolarCoordinate(m_position.getLocalPolarCoordinates(), m_position.getParentPosition());
+				m_position = new PolarCoordinate(m_position.getLocalPolar(), m_position.getParentPosition());
 			else
-				m_position = new CartesianCoordinate(m_position.getLocalCartesianCoordinates(), m_position.getParentPosition());
+				m_position = new CartesianCoordinate(m_position.getLocalCartesian(), m_position.getParentPosition());
 		}
 		public void setImageOffset(Vector2 a_offset)
 		{
@@ -188,6 +188,10 @@ namespace GrandLarceny
 		public void setVisible(bool a_visible)
 		{
 			m_visible = a_visible;
+		}
+
+		public override string ToString() {
+			return m_objectId + ": " + m_position.getGlobalCartesian().ToString() + ":" + m_layer;
 		}
 	}
 }

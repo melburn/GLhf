@@ -15,6 +15,8 @@ namespace GrandLarceny
 		protected LinkedList<GameObject>[]			m_gameObjectList;
 		protected LinkedList<GuiObject>				m_guiList;
 		protected LinkedList<LinkedList<Button>>	m_buttonList;
+		protected Stack<GameObject>[] m_removeList;
+
 
 		public States()
 		{
@@ -27,9 +29,24 @@ namespace GrandLarceny
 		public virtual void load()
 		{
 			m_loaded = true;
+			m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
+			for (int i = 0; i < m_gameObjectList.Length; ++i)
+			{
+				m_removeList[i] = new Stack<GameObject>();
+			}
 		}
 
-		public abstract void update(GameTime a_gameTime);
+		public virtual void update(GameTime a_gameTime) {
+			int t_currentList = -1;
+			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
+			{
+				++t_currentList;
+				while (m_removeList[t_currentList].Count > 0)
+				{
+					t_list.Remove(m_removeList[t_currentList].Pop());
+				}
+			}
+		}
 		public abstract void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch);
 
 		public virtual void setPlayer(Player a_player)
@@ -95,15 +112,6 @@ namespace GrandLarceny
 				}
 			}
 			return null;
-		}
-
-		public Vector2 calculateWorldMouse()
-		{
-			Camera t_camera = Game.getInstance().m_camera;
-			return new Vector2(
-				Mouse.GetState().X / t_camera.getZoom() + (int)t_camera.getPosition().getGlobalCartesianCoordinates().X - ((Game.getInstance().getResolution().X / 2) / t_camera.getZoom()) ,
-				Mouse.GetState().Y / t_camera.getZoom() + (int)t_camera.getPosition().getGlobalCartesianCoordinates().Y - ((Game.getInstance().getResolution().Y / 2) / t_camera.getZoom())
-			);
 		}
 
 		public virtual bool collidedWithGui(Vector2 a_coordinate)

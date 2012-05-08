@@ -26,12 +26,12 @@ namespace GrandLarceny
 		{
 			if (a_collid is Player)
 			{
-				Vector2 t_playerGlobalCoordinate = a_collid.getPosition().getGlobalCartesianCoordinates();
+				Vector2 t_playerGlobalCoordinate = a_collid.getPosition().getGlobalCartesian();
 				if (CollisionManager.Contains(this.getHitBox(), t_playerGlobalCoordinate))
 				{
 					Player t_player = (Player)a_collid;
 					if (
-						(Game.keyClicked(GameState.getUpKey()) && (t_player.getCurrentState() == Player.State.Walking || t_player.getCurrentState() == Player.State.Stop))
+						(KeyboardHandler.keyClicked(GameState.getUpKey()) && (t_player.getCurrentState() == Player.State.Walking || t_player.getCurrentState() == Player.State.Stop))
 						|| (t_player.getCurrentState() != Player.State.Walking && t_player.getCurrentState() != Player.State.Stop)
 					)
 					{

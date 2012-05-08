@@ -37,7 +37,7 @@ namespace GrandLarceny
 							t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
 							if (t_player.getCurrentState() == Player.State.Jumping
 								&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
-								&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right))
+								&& (KeyboardHandler.isKeyPressed(Keys.Left) || KeyboardHandler.isKeyPressed(Keys.Right))
 								&& Game.getInstance().getProgress().hasEquipment("boots"))
 							{
 								t_player.setState(Player.State.Slide);
@@ -59,7 +59,7 @@ namespace GrandLarceny
 							t_player.setNextPositionX(getPosition().getGlobalX() - t_playerOutBox.Width);
 							if (t_player.getCurrentState() == Player.State.Jumping
 								&& CollisionManager.Collides(getHitBox(), t_player.getSlideBox())
-								&& (Game.isKeyPressed(Keys.Left) || Game.isKeyPressed(Keys.Right))
+								&& (KeyboardHandler.isKeyPressed(Keys.Left) || KeyboardHandler.isKeyPressed(Keys.Right))
 								&& Game.getInstance().getProgress().hasEquipment("boots"))
 							{
 								t_player.setState(Player.State.Slide);

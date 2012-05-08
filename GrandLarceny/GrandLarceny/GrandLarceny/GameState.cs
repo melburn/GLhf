@@ -15,7 +15,6 @@ namespace GrandLarceny
 	{
 		private LinkedList<Environment> m_unexplored;
 
-		private Stack<GameObject>[] m_removeList;
 		private Stack<GameObject>[] m_addList;
 		private LinkedList<Event> m_events;
 		private string m_currentLevel;
@@ -30,10 +29,13 @@ namespace GrandLarceny
 		private static Keys m_actionKey;
 		private static Keys m_sprintKey;
 
+		private Texture2D m_background;
+
 		private Player player;
 
 		private ParseState m_currentParse;
-		private enum ParseState {
+		private enum ParseState
+		{
 			Settings,
 			Input
 		}
@@ -75,7 +77,7 @@ namespace GrandLarceny
 					m_gameObjectList[i] = new LinkedList<GameObject>();
 				}
 			}
-			m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
+			//m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
 			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
 
 			string[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//settings.ini");
@@ -119,16 +121,25 @@ namespace GrandLarceny
 						break;
 					case ParseState.Settings:
 						string[] t_setting = t_currentLine.Split('=');
-						if (t_setting[0].Equals("ScreenWidth")) {
+						if (t_setting[0].Equals("ScreenWidth"))
+						{
 							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
-						} else if (t_setting[0].Equals("ScreenHeight")) {
+						}
+						else if (t_setting[0].Equals("ScreenHeight"))
+						{
 							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
 							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
-						} else if (t_setting[0].Equals("Fullscreen")) {
+						}
+						else if (t_setting[0].Equals("Fullscreen"))
+						{
 							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
-						} else if (t_setting[0].StartsWith("[")) {
+						}
+						else if (t_setting[0].StartsWith("["))
+						{
 							break;
-						} else {
+						}
+						else
+						{
 							ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
 						}
 						break;
@@ -138,10 +149,10 @@ namespace GrandLarceny
 
 			for (int i = 0; i < m_gameObjectList.Length; ++i)
 			{
-				m_removeList[i] = new Stack<GameObject>();
+				//m_removeList[i] = new Stack<GameObject>();
 				m_addList[i] = new Stack<GameObject>();
 			}
-
+			
 			m_unexplored = new LinkedList<Environment>();
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
@@ -154,7 +165,7 @@ namespace GrandLarceny
 					{
 						Game.getInstance().getState().setPlayer((Player)t_go);
 					}
-					else if(t_go is Environment && !((Environment)t_go).isExplored() )
+					else if (t_go is Environment && !((Environment)t_go).isExplored())
 					{
 						m_unexplored.AddLast((Environment)t_go);
 					}
@@ -171,7 +182,9 @@ namespace GrandLarceny
 				Game.getInstance().m_camera.setPosition(Vector2.Zero);
 				Game.getInstance().m_camera.setParentPosition(player.getPosition());
 			}
-			
+
+			m_background = Game.getInstance().Content.Load<Texture2D>("Images//Background//starry_sky_01");
+
 			base.load();
 		}
 
@@ -190,23 +203,27 @@ namespace GrandLarceny
 		{
 			m_currentList = -1;
 
-			if (Game.keyClicked(Keys.I)) {
+			if (KeyboardHandler.keyClicked(Keys.I))
+			{
 				Game.getInstance().m_camera.printInfo();
 			}
-			else if (Game.keyClicked(Keys.W))
+			else if (KeyboardHandler.keyClicked(Keys.W))
 			{
-				Game.getInstance().getProgress().setEquipment("boots", true);
+				if (!Game.getInstance().getProgress().hasEquipment("boots"))
+					Game.getInstance().getProgress().setEquipment("boots", true);
+				else
+					Game.getInstance().getProgress().setEquipment("boots", false);
 			}
-			else if (Game.keyClicked(Keys.Q))
+			else if (KeyboardHandler.keyClicked(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}
-			else if (Game.keyClicked(Keys.F5))
+			else if (KeyboardHandler.keyClicked(Keys.F5))
 			{
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
 			}
-			else if (Game.keyClicked(Keys.M))
+			else if (KeyboardHandler.keyClicked(Keys.M))
 			{
 				Game.getInstance().setState(new MapState(this));
 			}
@@ -216,7 +233,6 @@ namespace GrandLarceny
 				++m_currentList;
 				foreach (GameObject t_gameObject in t_list)
 				{
-					
 					try
 					{
 						t_gameObject.update(a_gameTime);
@@ -249,9 +265,11 @@ namespace GrandLarceny
 						}
 						((MovingObject)t_firstGameObject).collisionCheck(t_collided);
 						((Entity)t_firstGameObject).updatePosition();
-					} else if (t_firstGameObject is Entity) {
-							((Entity)t_firstGameObject).setGravity(0.0f);
-							((Entity)t_firstGameObject).setSpeedY(0.0f);
+					}
+					else if (t_firstGameObject is Entity)
+					{
+						((Entity)t_firstGameObject).setGravity(0.0f);
+						((Entity)t_firstGameObject).setSpeedY(0.0f);
 					}
 
 					if (t_firstGameObject.isDead() && !m_removeList[m_currentList].Contains(t_firstGameObject))
@@ -262,17 +280,19 @@ namespace GrandLarceny
 				while (m_addList[m_currentList].Count > 0)
 				{
 					GameObject t_goToAdd = m_addList[m_currentList].Pop();
-					if(! t_list.Contains(t_goToAdd))
+					if (!t_list.Contains(t_goToAdd))
 					{
 						t_list.AddLast(t_goToAdd);
 					}
 				}
+				/*
 				while (m_removeList[m_currentList].Count > 0)
 				{
 					t_list.Remove(m_removeList[m_currentList].Pop());
 				}
+				*/
 				LinkedListNode<Event> t_eventNode = m_events.First;
-				while(t_eventNode != null)
+				while (t_eventNode != null)
 				{
 					LinkedListNode<Event> t_next = t_eventNode.Next;
 					try
@@ -335,6 +355,10 @@ namespace GrandLarceny
 					}
 				}
 			}
+			if (m_background != null)
+			{
+				a_spriteBatch.Draw(m_background, Game.getInstance().m_camera.getRectangle(), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
+			}
 		}
 
 		public static bool checkBigBoxCollision(Rectangle a_first, Rectangle a_second)
@@ -369,7 +393,8 @@ namespace GrandLarceny
 		{
 			return m_gameObjectList;
 		}
-		public override LinkedList<GameObject> getCurrentList() {
+		public override LinkedList<GameObject> getCurrentList()
+		{
 			return m_gameObjectList[m_currentList];
 		}
 		public override void changeLayer(int a_newLayer)
@@ -470,7 +495,7 @@ namespace GrandLarceny
 				if (m_gameObjectList[i].Contains(a_go))
 				{
 					addObject(a_go, a_layer);
-					removeObject(a_go, i); 
+					removeObject(a_go, i);
 					return;
 				}
 			}

@@ -34,7 +34,7 @@ namespace GrandLarceny
 		{
 			if (!m_stopped)
 			{
-				m_subImageNumber += m_animationSpeed * a_gameTime.ElapsedGameTime.Milliseconds/1000;
+				m_subImageNumber += m_animationSpeed * a_gameTime.ElapsedGameTime.Milliseconds / 1000;
 				if (m_subImageNumber >= m_animationFrames || m_subImageNumber < 0)
 				{
 					if (m_looping)
@@ -76,7 +76,7 @@ namespace GrandLarceny
 
 				Game.getInstance().getSpriteBatch().Draw(
 					m_image,
-					new Rectangle((int)(Math.Round(a_imgPosition.X) + (a_origin.X * a_xScale)), (int)(Math.Round(a_imgPosition.Y) + (a_origin.Y * a_yScale)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
+					new Rectangle((int)(a_imgPosition.X + (a_origin.X * a_xScale)), (int)(a_imgPosition.Y + (a_origin.Y * a_yScale)), (int)(m_animationWidth * a_xScale), (int)(m_image.Height * a_yScale)),
 					new Rectangle(m_animationWidth * ((int)(m_subImageNumber)), 0, m_animationWidth, m_image.Height),
 					a_color,
 					a_rotation,
@@ -92,7 +92,7 @@ namespace GrandLarceny
 		{
 			m_stopped = true;
 		}
-	
+
 		public void run()
 		{
 			m_stopped = (m_image == null);
@@ -169,7 +169,8 @@ namespace GrandLarceny
 			return m_animationSpeed;
 		}
 
-		public Texture2D getImage() {
+		public Texture2D getImage()
+		{
 			return m_image;
 		}
 
@@ -230,7 +231,7 @@ namespace GrandLarceny
 					m_imagePath = a_sprite;
 					if (m_subImageNumber >= m_animationFrames)
 					{
-						ErrorLogger.getInstance().writeString("While setting sprite silently, current subimage is higher then new animationsize. new sprite is: "+a_sprite);
+						ErrorLogger.getInstance().writeString("While setting sprite silently, current subimage is higher then new animationsize. new sprite is: " + a_sprite);
 						m_subImageNumber = 0;
 					}
 					return true;

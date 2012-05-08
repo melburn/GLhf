@@ -5,6 +5,9 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GrandLarceny.AI;
+using Microsoft.Xna.Framework.Audio;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace GrandLarceny
 {
@@ -20,10 +23,13 @@ namespace GrandLarceny
 		private Boolean m_facingRight;
 		private Boolean m_barking = false;
 		private float m_sightRange = 576f;
-		private float m_senceRange = 144f;
+		private float m_senseRange = 144f;
 		private float m_chargeEndPoint;
 		private float m_barkTimer = 0f;
 		private Entity m_chaseTarget = null;
+
+		[NonSerialized()]
+		private Sound m_dogBark;
 
 		public GuardDog(Vector2 a_posV2, String a_sprite, float a_leftPatrolPoint, float a_rightPatrolPoint, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
@@ -38,17 +44,27 @@ namespace GrandLarceny
 			m_aiState = AIStatepatroling.getInstance();
 			m_gravity = 1000;
 		}
+
 		public override void loadContent()
 		{
 			base.loadContent();
 			m_collisionShape = new CollisionRectangle(15, 30, m_img.getSize().X - 30, m_img.getSize().Y - 30, m_position);
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//GuardDog//dog_walk");
+			string[] t_heroSprites = Directory.GetFiles("Content//Images//Sprite//GuardDog//");
+			foreach (string t_file in t_heroSprites) {
+				string[] t_splitFile = Regex.Split(t_file, "//");
+				string[] t_extless = t_splitFile[t_splitFile.Length - 1].Split('.');
+				if (t_extless[1].Equals("xnb")) {
+					Game.getInstance().Content.Load<Texture2D>("Images//Sprite//GuardDog//" + t_extless[0]);
+				}
+			}
+			(m_dogBark = new Sound("//SoundEffects//Game//dog_bark")).loadContent();
 		}
+
 		internal bool canSensePlayer()
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			return t_player != null &&
-				((t_player.getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() < m_senceRange ||
+				((t_player.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() < m_senseRange ||
 				(t_player.isInLight() &&
 				isFacingTowards(t_player.getPosition().getGlobalX()) &&
 				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
@@ -113,7 +129,7 @@ namespace GrandLarceny
 					//play sound
 					foreach (GameObject go in Game.getInstance().getState().getCurrentList())
 					{
-						if (go is Guard && (go.getPosition().getGlobalCartesianCoordinates() - m_position.getGlobalCartesianCoordinates()).Length() <= AIStateBark.BARKRADIUS && ((NPE)go).getAIState() != AIStateChasing.getInstance())
+						if (go is Guard && (go.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() <= AIStateBark.BARKRADIUS && ((NPE)go).getAIState() != AIStateChasing.getInstance())
 						{
 							((Guard)go).setChaseTarget(m_chaseTarget);
 							((NPE)go).setAIState(AIStateChasing.getInstance());
@@ -314,6 +330,7 @@ namespace GrandLarceny
 
 		internal void startBarking()
 		{
+			m_dogBark.play();
 			m_chargeing = false;
 			m_speed.X = 0;
 			m_barkTimer = BARKCOOLDOWN;

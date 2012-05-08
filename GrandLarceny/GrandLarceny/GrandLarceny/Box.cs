@@ -11,20 +11,21 @@ namespace GrandLarceny
 	{
 		#region Members
 		private Texture2D			m_boxTexture;
-		private int					m_width;
-		private int					m_height;
+		private float				m_width;
+		private float				m_height;
 		private LinkedList<Line>	m_lineList;
 		private Color				m_boxColor;
 		private bool				m_worldBox;
 
 		private Vector2 m_from;
 		private Vector2 m_to;
+		private Rectangle m_bounds;
 		private float m_timer;
 		private float m_timeStart;
 		#endregion
 
 		#region Constructor & Load
-		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, bool a_worldBox)
+		public Box(Vector2 a_position, float a_width, float a_height, Color a_color, bool a_worldBox)
 			: base(a_position, "", 0.110f)
 		{
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -41,10 +42,11 @@ namespace GrandLarceny
 			m_width			= a_width;
 			m_height		= a_height;
 			m_worldBox		= a_worldBox;
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)a_width, (int)a_height);
 			m_boxTexture.SetData(new[] { a_color });
 		}
 
-		public Box(Vector2 a_position, int a_width, int a_height, Color a_color, Color a_lineColor, int a_lineWidth, bool a_worldBox)
+		public Box(Vector2 a_position, float a_width, float a_height, Color a_color, Color a_lineColor, int a_lineWidth, bool a_worldBox)
 			: base(a_position, "", 0.110f)
 		{
 			m_boxTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -61,6 +63,7 @@ namespace GrandLarceny
 			m_width			= a_width;
 			m_height		= a_height;
 			m_worldBox		= a_worldBox;
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)a_width, (int)a_height);
 			
 			Vector2 topLeft = a_position;
 			Vector2 topRight = a_position;
@@ -100,11 +103,11 @@ namespace GrandLarceny
 				m_to.Y += m_position.getGlobalY();*/
 				float t_moveDelta = ((float)a_gameTime.TotalGameTime.TotalMilliseconds - m_timeStart) / (m_timer - m_timeStart);
 				Vector2 tLerp = Vector2.Lerp(m_from, m_to, t_moveDelta);
-				m_position.setLocalCartesianCoordinates(tLerp);
+				m_position.setLocalCartesian(tLerp);
 			}
 			else if (m_timer > 0)
 			{
-				m_position.setLocalCartesianCoordinates(m_to);
+				m_position.setLocalCartesian(m_to);
 				m_timer = 0;
 			}
 		}
@@ -113,7 +116,7 @@ namespace GrandLarceny
 		{
 			if (m_worldBox)
 			{
-				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, m_position.getGlobalCartesianCoordinates(), null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, m_layer);
+				Game.getInstance().getSpriteBatch().Draw(m_boxTexture, m_position.getGlobalCartesian(), null, m_boxColor, 0.0f, Vector2.Zero, new Vector2(m_width, m_height), SpriteEffects.None, m_layer);
 				
 				if (m_lineList != null && m_lineList.Count > 0)
 				{
@@ -153,6 +156,16 @@ namespace GrandLarceny
 			return false;
 		}
 
+		public override Rectangle getBox()
+		{
+			if (m_bounds.Width == 0 || m_bounds.Height == 0)
+			{
+				m_bounds.Width = (int)m_img.getSize().X;
+				m_bounds.Height = (int)m_img.getSize().Y;
+			}
+			return m_bounds;
+		}
+
 		public void setLineColor(Color a_color)
 		{
 			foreach (Line t_line in m_lineList)
@@ -161,12 +174,12 @@ namespace GrandLarceny
 			}
 		}
 
-		public int getHeight()
+		public float getHeight()
 		{
 			return m_height;
 		}
 
-		public int getWidth()
+		public float getWidth()
 		{
 			return m_width;
 		}

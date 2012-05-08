@@ -45,23 +45,16 @@ namespace GrandLarceny.Events.Triggers
 			return "Player within Rectangle";
 		}
 
-		public Line[] getRectangle(Line[] a_lines)
+		public Line[] getRectangle()
 		{
 			if (Game.getInstance().m_camera.getLayer() == m_layer)
 			{
-				if (a_lines == null)
-				{
-					a_lines = new Line[4];
-				}
-				else if (a_lines.Length != 4)
-				{
-					throw new ArgumentException();
-				}
-				setLineElement(a_lines, 0, new Vector2(m_x1, m_y1), new Vector2(m_x2, m_y1));
-				setLineElement(a_lines, 1, new Vector2(m_x1, m_y1), new Vector2(m_x1, m_y2));
-				setLineElement(a_lines, 2, new Vector2(m_x2, m_y1), new Vector2(m_x2, m_y2));
-				setLineElement(a_lines, 3, new Vector2(m_x1, m_y2), new Vector2(m_x2, m_y2));
-				return a_lines;
+				Line[] t_lines = new Line[4];
+				t_lines[0] = new Line(new CartesianCoordinate(new Vector2(m_x1, m_y1)), new CartesianCoordinate(new Vector2(m_x2, m_y1)), Vector2.Zero, Vector2.Zero, Color.MintCream, 2, true);
+				t_lines[1] = new Line(new CartesianCoordinate(new Vector2(m_x1, m_y1)), new CartesianCoordinate(new Vector2(m_x1, m_y2)), Vector2.Zero, Vector2.Zero, Color.MintCream, 2, true);
+				t_lines[2] = new Line(new CartesianCoordinate(new Vector2(m_x2, m_y1)), new CartesianCoordinate(new Vector2(m_x2, m_y2)), Vector2.Zero, Vector2.Zero, Color.MintCream, 2, true);
+				t_lines[3] = new Line(new CartesianCoordinate(new Vector2(m_x1, m_y2)), new CartesianCoordinate(new Vector2(m_x2, m_y2)), Vector2.Zero, Vector2.Zero, Color.MintCream, 2, true);
+				return t_lines;
 			}
 			else
 			{
