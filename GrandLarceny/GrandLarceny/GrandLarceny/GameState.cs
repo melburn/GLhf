@@ -92,6 +92,7 @@ namespace GrandLarceny
 					if (t_currentLine.Equals("[Input]"))
 					{
 						m_currentParse = ParseState.Input;
+						continue;
 					}
 				}
 

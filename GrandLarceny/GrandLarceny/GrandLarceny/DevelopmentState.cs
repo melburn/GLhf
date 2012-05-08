@@ -237,8 +237,8 @@ namespace GrandLarceny
 
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_heart_hotkey", t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+H", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Heart);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.H }, guiButtonClick);
-			m_buttonDict.Add(t_button = new Button(null, t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "T", "VerdanaBold", Color.Black, t_btnTextOffset), State.Objective);
-			t_button.setHotkey(new Keys[] { Keys.T }, guiButtonClick);
+			m_buttonDict.Add(t_button = new Button(null, t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+B", "VerdanaBold", Color.Black, t_btnTextOffset), State.Objective);
+			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.B }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
