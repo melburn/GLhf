@@ -475,7 +475,7 @@ namespace GrandLarceny
 		private void updateJumping(float a_deltaTime)
 		{
 
-			if (KeyboardHandler.keyClicked(GameState.getRollKey()))
+			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && Game.getInstance().getProgress().hasEquipment("hookshot"))
 			{
 				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesian(), null, 0.100f);
 				if (m_facingRight)
