@@ -295,7 +295,17 @@ namespace GrandLarceny
 
 				while (m_removeList[m_currentList].Count > 0)
 				{
-					t_list.Remove(m_removeList[m_currentList].Pop());
+					GameObject t_objectToRemove = m_removeList[m_currentList].Pop();
+					if (t_objectToRemove is ConsumableGoal)
+					{
+						m_finishCond.Remove((ConsumableGoal)t_objectToRemove);
+						if (m_finishCond.Count == 0)
+						{
+							finishLevel();
+							return;
+						}
+					}
+					t_list.Remove(t_objectToRemove);
 				}
 
 				LinkedListNode<Event> t_eventNode = m_events.First;
@@ -331,6 +341,12 @@ namespace GrandLarceny
 					}
 				}
 			}
+		}
+
+		private void finishLevel()
+		{
+			Game.getInstance().getProgress().setLevelCleared(m_currentLevel);
+			Game.getInstance().setState(new HubMenu());
 		}
 		/*
 		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 
