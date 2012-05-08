@@ -324,17 +324,19 @@ namespace GrandLarceny
 				m_parallaxLabel.update(a_gameTime);
 			}
 
-			foreach (LinkedList<Button> t_buttonList in m_buttonList)
+			if (!m_layerTextField.isWriting() && !m_parallaxScrollTF.isWriting())
 			{
-				foreach (Button t_button in t_buttonList)
+				foreach (LinkedList<Button> t_buttonList in m_buttonList)
+				{
+					foreach (Button t_button in t_buttonList)
+					{
+						t_button.update();
+					}
+				}
+				foreach (Button t_button in m_buttonDict.Keys)
 				{
 					t_button.update();
 				}
-			}
-
-			foreach (Button t_button in m_buttonDict.Keys)
-			{
-				t_button.update();
 			}
 
 			foreach (GuiObject t_gui in m_guiList)
@@ -500,7 +502,8 @@ namespace GrandLarceny
 		#region Update Keyboard
 		private void updateKeyboard()
 		{
-			if (KeyboardHandler.keyClicked(Keys.Escape)) {
+			if (KeyboardHandler.keyClicked(Keys.Escape))
+			{
 				guiButtonClick(m_btnSelectHotkey);
 			}
 
@@ -510,6 +513,7 @@ namespace GrandLarceny
 				{
 					m_selectedObject.setLayer(float.Parse(m_layerTextField.getText()) / 1000);
 					clearSelectedObject();
+					m_layerTextField.setWrite(false);
 				}
 				return;
 			}
@@ -520,6 +524,7 @@ namespace GrandLarceny
 				{
 					((Environment)m_selectedObject).setParrScroll(- int.Parse(m_parallaxScrollTF.getText()));
 					clearSelectedObject();
+					m_parallaxScrollTF.setWrite(false);
 				}
 				return;
 			}
