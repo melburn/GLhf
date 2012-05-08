@@ -614,7 +614,7 @@ namespace GrandLarceny
 			}
 			if (m_ladderDirection == Direction.None)
 			{
-				if (m_speed.Y <= 0)
+				if (m_speed.Y <= 0 && m_currentState == State.Climbing)
 				{
 					m_speed.Y = 0;
 				}
