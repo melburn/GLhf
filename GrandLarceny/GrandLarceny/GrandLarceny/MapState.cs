@@ -26,7 +26,7 @@ namespace GrandLarceny
 		public MapState(States a_backState)
 		{
 			m_backState = a_backState;
-			m_colors = new Color[] { Color.Black, Color.Yellow, new Color(130, 130, 250) };
+			m_colors = new Color[] { Color.White, new Color(122, 129, 211), new Color(37,45,128)};
 			m_goals = new LinkedList<Vector2>();
 		}
 
@@ -41,9 +41,11 @@ namespace GrandLarceny
 			int t_width = ((int)(Game.getInstance().getResolution().X)) - 40;
 			m_map = new Texture2D(Game.getInstance().GraphicsDevice, t_width, ((int)(Game.getInstance().getResolution().Y)) - 40, false, SurfaceFormat.Color);
 			Color[] t_colors = new Color[m_map.Width * m_map.Height];
+			Color t_lerp1 = new Color(0.001f, 0.001f, 0.001f, 0.3f);
+			Color t_lerp2 = new Color(0.004f, 0.004f, 0.004f, 0.3f);
 			for (int i = 0; i < t_colors.Length; ++i)
 			{
-				t_colors[i] = Color.Lerp(Color.LightBlue, Color.Teal, ((float)i) / ((float)t_colors.Length));
+				t_colors[i] = Color.Lerp(t_lerp1, t_lerp2 , ((float)i) / ((float)t_colors.Length));
 			}
 
 			m_centerPoint = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
@@ -138,6 +140,9 @@ namespace GrandLarceny
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			Vector2 t_mapPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - (((Game.getInstance().getResolution() / 2f) - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
+
+			a_spriteBatch.Draw(m_map, t_mapPos, Color.White);
+
 			if (m_mapPoint != null)
 			{
 				Vector2 t_worldPos = m_backState.getPlayer().getPosition().getGlobalCartesian() + (m_backState.getPlayer().getImg().getSize() / 2f);
@@ -149,7 +154,7 @@ namespace GrandLarceny
 			{
 				a_spriteBatch.Draw(m_mapPoint, f_v, Color.Turquoise);
 			}
-			a_spriteBatch.Draw(m_map, t_mapPos, Color.White);
+			m_backState.draw(a_gameTime, a_spriteBatch);
 		}
 	}
 }
