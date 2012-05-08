@@ -357,7 +357,12 @@ namespace GrandLarceny
 			}
 			if (m_background != null)
 			{
-				a_spriteBatch.Draw(m_background, Game.getInstance().m_camera.getRectangle(), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
+				Rectangle m_dest = Game.getInstance().m_camera.getRectangle();
+				m_dest.Width /= 2;
+				m_dest.X += m_dest.Width / 2;
+				m_dest.Height /= 2;
+				m_dest.Y += m_dest.Height / 2;
+				a_spriteBatch.Draw(m_background, m_dest, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
 			}
 		}
 
