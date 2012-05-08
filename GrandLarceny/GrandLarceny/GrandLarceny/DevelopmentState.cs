@@ -498,7 +498,7 @@ namespace GrandLarceny
 			{
 				if (KeyboardHandler.keyClicked(Keys.Enter) && m_selectedObject != null && m_selectedObject is Environment)
 				{
-					((Environment)m_selectedObject).setParrScroll(int.Parse(m_parallaxScrollTF.getText()));
+					((Environment)m_selectedObject).setParrScroll(- int.Parse(m_parallaxScrollTF.getText()));
 					clearSelectedObject();
 				}
 				return;
