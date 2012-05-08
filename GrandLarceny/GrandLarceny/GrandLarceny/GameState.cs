@@ -214,12 +214,22 @@ namespace GrandLarceny
 			{
 				Game.getInstance().m_camera.printInfo();
 			}
-			else if (KeyboardHandler.keyClicked(Keys.W))
+			else if (KeyboardHandler.isKeyPressed(Keys.LeftControl))
 			{
-				if (!Game.getInstance().getProgress().hasEquipment("boots"))
-					Game.getInstance().getProgress().setEquipment("boots", true);
-				else
-					Game.getInstance().getProgress().setEquipment("boots", false);
+				if (KeyboardHandler.keyClicked(Keys.E))
+				{
+					if (!Game.getInstance().getProgress().hasEquipment("hookshot"))
+						Game.getInstance().getProgress().setEquipment("hookshot", true);
+					else
+						Game.getInstance().getProgress().setEquipment("hookshot", false);
+				}
+				else if (KeyboardHandler.keyClicked(Keys.W))
+				{
+					if (!Game.getInstance().getProgress().hasEquipment("boots"))
+						Game.getInstance().getProgress().setEquipment("boots", true);
+					else
+						Game.getInstance().getProgress().setEquipment("boots", false);
+				}
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Q))
 			{
