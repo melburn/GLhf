@@ -675,7 +675,7 @@ namespace GrandLarceny
 						}
 						else if (m_selectedObject is Environment)
 						{
-							m_parallaxScrollTF.setText(((Environment)m_selectedObject).getParrScroll().ToString());
+							m_parallaxScrollTF.setText((-((Environment)m_selectedObject).getParrScroll()).ToString());
 							m_parallaxScrollTF.setVisible(true);
 							m_parallaxLabel.setVisible(true);
 						}

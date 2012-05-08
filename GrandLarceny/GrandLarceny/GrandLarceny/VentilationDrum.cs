@@ -114,6 +114,10 @@ namespace GrandLarceny
 			else
 				m_pairedVentilationId = 0;
 		}
+		public VentilationDrum getPairedVentilation()
+		{
+			return m_pairedVentilation;
+		}
 		public override void kill()
 		{
 			if (m_pairedVentilation != null)

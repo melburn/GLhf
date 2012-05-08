@@ -703,16 +703,6 @@ namespace GrandLarceny
 				|| KeyboardHandler.keyClicked(GameState.getActionKey()))
 			{
 				m_currentState = State.Stop;
-				if (m_facingRight && getHidingImage().Equals("hero_wallhide"))
-				{
-					m_position.plusXWith(40);
-					Game.getInstance().m_camera.getPosition().plusXWith(-30);
-				}
-				else if (!m_facingRight && getHidingImage().Equals("hero_wallhide"))
-				{
-					m_position.plusXWith(-40);
-					Game.getInstance().m_camera.getPosition().plusXWith(30);
-				}
 			}
 
 			if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) || KeyboardHandler.isKeyPressed(GameState.getRightKey()))
@@ -1051,7 +1041,7 @@ namespace GrandLarceny
 					toggleRunMode();
 				}
 
-				if ((m_lastState == State.Rolling || (m_lastState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE) || m_lastState == State.Hanging)
+				if ((m_lastState == State.Rolling || m_lastState == State.Hiding || m_lastState == State.Hanging)
 					&& m_currentState != State.Rolling && m_currentState != State.Hanging)
 				{
 					if (m_currentState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE)
@@ -1059,6 +1049,20 @@ namespace GrandLarceny
 						m_imgOffsetY = -(m_img.getSize().Y - m_rollHitBox.getOutBox().Height);
 						m_imgOffsetX = 0;
 						setLayer(0.725f);
+
+					} 
+					else if(m_lastState == State.Hiding && m_currentHidingImage == STANDHIDINGIMAGE)
+					{
+						if (m_facingRight)
+						{
+							m_position.plusXWith(40);
+							Game.getInstance().m_camera.getPosition().plusXWith(-40);
+						}
+						else
+						{
+							m_position.plusXWith(-40);
+							Game.getInstance().m_camera.getPosition().plusXWith(40);
+						}
 					}
 					else
 					{
