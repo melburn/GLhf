@@ -558,7 +558,7 @@ namespace GrandLarceny
 				if (m_slideTimer == 0)
 					m_slideTimer = (int)a_gameTime.TotalGameTime.TotalMilliseconds + 150;
 			}
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (Game.keyClicked(GameState.getJumpKey()) && m_speed.Y != 0)
 			{
 				m_speed.Y = -JUMPSTRENGTH;
 				if (m_facingRight == true)
@@ -657,7 +657,8 @@ namespace GrandLarceny
 			{
 				if (Game.isKeyPressed(GameState.getDownKey()))
 				{
-					m_position.plusYWith(3);
+					m_position.plusYWith(m_collisionShape.getOutBox().Height);
+					Game.getInstance().m_camera.getPosition().plusYWith(-m_collisionShape.getOutBox().Height);
 					m_currentState = State.Jumping;
 					m_speed.Y = 0;
 					if (m_facingRight)

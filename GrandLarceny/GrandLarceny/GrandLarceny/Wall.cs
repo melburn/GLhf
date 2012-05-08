@@ -76,7 +76,7 @@ namespace GrandLarceny
 							t_player.setNextPosition(t_player.getLastPosition());
 							t_player.setSwingSpeed(0);
 						}
-						else if (t_player.getCurrentState() == Player.State.Stop)
+						else if (t_player.getCurrentState() == Player.State.Stop || t_player.getCurrentState() == Player.State.Walking)
 						{
 							if (t_player.getPosition().getGlobalX() > m_position.getGlobalX() + (m_collisionShape.getOutBox().Width / 2))
 							{
