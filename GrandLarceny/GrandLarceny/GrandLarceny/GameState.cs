@@ -31,6 +31,8 @@ namespace GrandLarceny
 
 		private Texture2D m_background;
 
+		private LinkedList<ConsumableGoal> m_finishCond;
+
 		private Player player;
 
 		private ParseState m_currentParse;
@@ -154,6 +156,7 @@ namespace GrandLarceny
 			}
 			
 			m_unexplored = new LinkedList<Environment>();
+			m_finishCond = new LinkedList<ConsumableGoal>();
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
@@ -164,6 +167,10 @@ namespace GrandLarceny
 					if (t_go is Player)
 					{
 						setPlayer((Player)t_go);
+					}
+					else if (t_go is ConsumableGoal)
+					{
+						m_finishCond.AddLast((ConsumableGoal)t_go);
 					}
 					else if (t_go is Environment && !((Environment)t_go).isExplored())
 					{
@@ -285,12 +292,22 @@ namespace GrandLarceny
 						t_list.AddLast(t_goToAdd);
 					}
 				}
-				/*
+
 				while (m_removeList[m_currentList].Count > 0)
 				{
-					t_list.Remove(m_removeList[m_currentList].Pop());
+					GameObject t_objectToRemove = m_removeList[m_currentList].Pop();
+					if (t_objectToRemove is ConsumableGoal)
+					{
+						m_finishCond.Remove((ConsumableGoal)t_objectToRemove);
+						if (m_finishCond.Count == 0)
+						{
+							finishLevel();
+							return;
+						}
+					}
+					t_list.Remove(t_objectToRemove);
 				}
-				*/
+
 				LinkedListNode<Event> t_eventNode = m_events.First;
 				while (t_eventNode != null)
 				{
@@ -324,6 +341,12 @@ namespace GrandLarceny
 					}
 				}
 			}
+		}
+
+		private void finishLevel()
+		{
+			Game.getInstance().getProgress().setLevelCleared(m_currentLevel);
+			Game.getInstance().setState(new HubMenu());
 		}
 		/*
 		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 

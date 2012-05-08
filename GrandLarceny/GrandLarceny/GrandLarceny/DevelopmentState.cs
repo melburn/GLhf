@@ -518,7 +518,7 @@ namespace GrandLarceny
 			{
 				if (KeyboardHandler.keyClicked(Keys.Enter) && m_selectedObject != null && m_selectedObject is Environment)
 				{
-					((Environment)m_selectedObject).setParrScroll(int.Parse(m_parallaxScrollTF.getText()));
+					((Environment)m_selectedObject).setParrScroll(- int.Parse(m_parallaxScrollTF.getText()));
 					clearSelectedObject();
 				}
 				return;
@@ -695,7 +695,7 @@ namespace GrandLarceny
 						}
 						else if (m_selectedObject is Environment)
 						{
-							m_parallaxScrollTF.setText(((Environment)m_selectedObject).getParrScroll().ToString());
+							m_parallaxScrollTF.setText((-((Environment)m_selectedObject).getParrScroll()).ToString());
 							m_parallaxScrollTF.setVisible(true);
 							m_parallaxLabel.setVisible(true);
 						}

@@ -31,9 +31,10 @@ namespace GrandLarceny
 				m_pairedVentilation = (VentilationDrum)Game.getInstance().getState().getObjectById(m_pairedVentilationId);
 			}
 		}
-		public override void saveObject()
+		public override void linkObject()
 		{
-			base.saveObject();
+			base.linkObject();
+
 			m_pairedVentilation.setPairedVentilation(this);
 		}
 		internal override void updateCollisionWith(Entity a_collider)
