@@ -194,6 +194,12 @@ namespace GrandLarceny
 			t_state.addObject(new ConsumableGoal(t_state.getTileCoordinates(a_position), a_asset, 0.250f));
 		}
 
+		public static void createClosedDoor(Vector2 a_position, string a_asset)
+		{
+			States t_state = Game.getInstance().getState();
+			t_state.addObject(new LockedDoor(t_state.getTileCoordinates(a_position), a_asset, 0.400f));
+		}
+
 		public static void copyAsset(Vector2 a_position, GameObject a_asset)
 		{
 			States t_state = Game.getInstance().getState();
@@ -282,6 +288,9 @@ namespace GrandLarceny
 			}
 			if (a_asset is ConsumableHeart) {
 				createHeart(t_position, t_imagePath);
+			}
+			if (a_asset is LockedDoor) {
+				createClosedDoor(t_position, t_imagePath);
 			}
 		}
 	}
