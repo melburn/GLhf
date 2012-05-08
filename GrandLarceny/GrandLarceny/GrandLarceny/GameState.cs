@@ -165,7 +165,7 @@ namespace GrandLarceny
 
 					if (t_go is Player)
 					{
-						Game.getInstance().getState().setPlayer((Player)t_go);
+						setPlayer((Player)t_go);
 					}
 					else if (t_go is Environment && !((Environment)t_go).isExplored())
 					{
