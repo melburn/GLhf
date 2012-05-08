@@ -880,27 +880,28 @@ namespace GrandLarceny
 			{
 				if (KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 				{
-					if (m_swingSpeed > -MAXSWINGSPEED && !((m_rotate > Math.PI && m_rotate != 0) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f))
+					if ((m_swingSpeed > -MAXSWINGSPEED && !((m_rotate > Math.PI && m_rotate != 0) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f)) || (m_swingSpeed == 0 && m_rotate == Math.PI))
 					{
 						m_swingSpeed -= (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
 				else if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 				{
-					if (m_swingSpeed < MAXSWINGSPEED && !(m_rotate < Math.PI && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f))
+					if ((m_swingSpeed < MAXSWINGSPEED && !(m_rotate < Math.PI && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f)) || (m_swingSpeed == 0 && m_rotate == Math.PI))
 					{
 						m_swingSpeed += (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
+				else if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
+				{
+					m_position.setLength(Math.Max(m_position.getLength() - (200f * a_deltaTime), 50));
+				}
+				else if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
+				{
+					m_position.setLength(Math.Min(m_position.getLength() + (200f * a_deltaTime), m_rope.getLength()));
+				}
 			}
-			if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
-			{
-				m_position.setLength(Math.Max(m_position.getLength() - (200f * a_deltaTime), 50));
-			}
-			else if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
-			{
-				m_position.setLength(Math.Min(m_position.getLength() + (200f * a_deltaTime), m_rope.getLength()));
-			}
+			
 
 			m_swingSpeed += (float)((Math.Cos(m_rope.getRotation()) * 3000 * a_deltaTime) / m_position.getLength());
 			m_swingSpeed *= 0.99f;
