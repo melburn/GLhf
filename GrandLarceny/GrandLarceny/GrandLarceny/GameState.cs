@@ -549,5 +549,10 @@ namespace GrandLarceny
 		{
 			return m_currentLevel;
 		}
+
+		public Texture2D getBackground()
+		{
+			return m_background;
+		}
 	}
 }

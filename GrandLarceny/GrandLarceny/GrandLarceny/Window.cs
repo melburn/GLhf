@@ -118,10 +118,6 @@ namespace GrandLarceny
 						{
 							t_player.windowAction();
 						}
-						else
-						{
-							t_player.setInteractionVisibility(true);
-						}
 					}
 					else if (t_player.getPosition().getGlobalY() < m_position.getGlobalY() && t_player.getCurrentState() == Player.State.Walking
 						&& ((t_player.getPosition().getGlobalX() < m_position.getGlobalX() && t_player.isFacingRight()) || (t_player.getPosition().getGlobalX() > m_position.getGlobalX() && !t_player.isFacingRight())))
