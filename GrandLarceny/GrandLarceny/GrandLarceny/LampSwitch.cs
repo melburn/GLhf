@@ -46,7 +46,7 @@ namespace GrandLarceny
 			{
 				m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(t_ids));
 			}
-
+			m_collisionShape = new CollisionRectangle(28, 25, 45 - 28, 30, m_position);
 		}
 		public void connectSpotLight(SpotLight a_spotlight)
 		{
@@ -88,7 +88,7 @@ namespace GrandLarceny
 					{
 						foreach (GameObject t_guard in Game.getInstance().getState().getCurrentList())
 						{
-							if (t_guard is Guard && ((Guard)t_guard).canSeePoint(m_position.getGlobalCartesian()))
+							if (t_guard is Guard && ((Guard)t_guard).canSeePoint(getCenterPoint()))
 							{
 								((Guard)t_guard).addLampSwitchTarget(this);
 							}

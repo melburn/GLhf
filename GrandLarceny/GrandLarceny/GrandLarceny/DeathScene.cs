@@ -17,9 +17,11 @@ namespace GrandLarceny
 		private int m_currentList;
 		private Player m_player;
 
-		public DeathScene(LinkedList<GameObject>[] a_gameObjects)
+		private Texture2D m_background;
+
+		public DeathScene(LinkedList<GameObject>[] a_gameObjects, Texture2D a_background)
 		{
-			
+			m_background = a_background;
 			if (Game.getInstance().getState() is GameState)
 			{
 				m_levelName = ((GameState)Game.getInstance().getState()).getLevelName();
@@ -109,6 +111,15 @@ namespace GrandLarceny
 				{
 					ErrorLogger.getInstance().writeString("While drawing " + t_gameObject + " from DeathScene got exception: " + e);
 				}
+			}
+			if (m_background != null)
+			{
+				Rectangle m_dest = Game.getInstance().m_camera.getRectangle();
+				m_dest.Width /= 2;
+				m_dest.X += m_dest.Width / 2;
+				m_dest.Height /= 2;
+				m_dest.Y += m_dest.Height / 2;
+				a_spriteBatch.Draw(m_background, m_dest, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
 			}
 		}
 

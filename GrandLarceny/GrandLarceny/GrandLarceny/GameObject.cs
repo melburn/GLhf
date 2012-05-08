@@ -193,5 +193,10 @@ namespace GrandLarceny
 		public override string ToString() {
 			return m_objectId + ": " + m_position.getGlobalCartesian().ToString() + ":" + m_layer;
 		}
+
+		public virtual Vector2 getCenterPoint()
+		{
+			return m_position.getGlobalCartesian() + (m_img.getSize() / 2);
+		}
 	}
 }

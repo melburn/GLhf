@@ -734,7 +734,7 @@ namespace GrandLarceny
 
 		public bool canSeePoint(Vector2 a_point)
 		{
-			return CollisionManager.possibleLineOfSight(m_position.getGlobalCartesian() + new Vector2(0, 10), a_point);
+			return CollisionManager.possibleLineOfSight(m_position.getGlobalCartesian() + new Vector2(40, 10), a_point);
 		}
 
 		public override string ToString() {

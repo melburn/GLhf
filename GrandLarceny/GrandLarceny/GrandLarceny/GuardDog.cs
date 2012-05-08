@@ -22,7 +22,7 @@ namespace GrandLarceny
 		private Boolean m_chargeing = false;
 		private Boolean m_facingRight;
 		private Boolean m_barking = false;
-		private float m_sightRange = 576f;
+		private float m_sightRange = 300f;
 		private float m_senseRange = 144f;
 		private float m_chargeEndPoint;
 		private float m_barkTimer = 0f;
@@ -65,7 +65,7 @@ namespace GrandLarceny
 			Player t_player = Game.getInstance().getState().getPlayer();
 			return t_player != null &&
 				((t_player.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() < m_senseRange ||
-				(t_player.isInLight() &&
+				(t_player.getCurrentState() != Player.State.Hiding &&
 				isFacingTowards(t_player.getPosition().getGlobalX()) &&
 				Math.Abs(t_player.getPosition().getGlobalX() - m_position.getGlobalX()) < m_sightRange &&
 				t_player.getPosition().getGlobalY() <= m_position.getGlobalY() + 100 &&
@@ -127,10 +127,15 @@ namespace GrandLarceny
 				if (m_barkTimer <= 0)
 				{
 					//play sound
+					Player t_player = Game.getInstance().getState().getPlayer();
 					foreach (GameObject go in Game.getInstance().getState().getCurrentList())
 					{
 						if (go is Guard && (go.getPosition().getGlobalCartesian() - m_position.getGlobalCartesian()).Length() <= AIStateBark.BARKRADIUS && ((NPE)go).getAIState() != AIStateChasing.getInstance())
 						{
+							if (!t_player.isChase())
+							{
+								t_player.activateChaseMode((NPE)go);
+							}
 							((Guard)go).setChaseTarget(m_chaseTarget);
 							((NPE)go).setAIState(AIStateChasing.getInstance());
 						}
