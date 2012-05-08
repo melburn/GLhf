@@ -114,7 +114,7 @@ namespace GrandLarceny
 				{
 					if (t_player.getCurrentState() == Player.State.Hanging && t_player.getLastState() == Player.State.Hanging)
 					{
-						if (KeyboardHandler.isKeyPressed(GameState.getActionKey()))
+						if (KeyboardHandler.isKeyPressed(GameState.getActionKey()) || (KeyboardHandler.keyClicked(GameState.getLeftKey()) && !t_player.isFacingRight()) || (KeyboardHandler.keyClicked(GameState.getRightKey()) && t_player.isFacingRight()))
 						{
 							t_player.windowAction();
 						}
