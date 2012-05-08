@@ -80,6 +80,11 @@ namespace GrandLarceny
 			if(a_collid is Player && m_isReady && !m_moveToStart)
 				base.updateCollisionWith(a_collid);
 		}
+		public override void draw(GameTime a_gameTime)
+		{
+			if(!m_moveToStart)
+				base.draw(a_gameTime);
+		}
 		public void setDirection(Vector2 a_direction)
 		{
 			m_direction = Vector2.Normalize(a_direction);

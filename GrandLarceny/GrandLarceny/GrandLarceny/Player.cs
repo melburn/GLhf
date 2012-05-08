@@ -471,7 +471,7 @@ namespace GrandLarceny
 
 		private void updateJumping(float a_deltaTime)
 		{
-			if (KeyboardHandler.keyClicked(GameState.getRollKey()))
+			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && Game.getInstance().getProgress().hasEquipment("hookshot"))
 			{
 				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesian(), null, 0.100f);
 				if (m_facingRight)
@@ -1265,7 +1265,7 @@ namespace GrandLarceny
 					&& t_colliderBox.Contains((int)m_position.getGlobalX() + t_playerBox.Width + 4, (int)m_position.getGlobalY())
 					&& m_lastPosition.Y < t_colliderBox.Y
 					&& m_speed.Y >= 0
-					&& m_currentState == State.Jumping)
+					&& (m_currentState == State.Jumping || m_currentState == State.Climbing))
 				{
 					m_position.setLocalY(a_collider.getPosition().getGlobalY());
 					m_nextPosition.Y = m_position.getGlobalY();
@@ -1278,7 +1278,7 @@ namespace GrandLarceny
 					&& t_colliderBox.Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
 					&& m_lastPosition.Y < t_colliderBox.Y
 					&& m_speed.Y >= 0
-					&& m_currentState == State.Jumping)
+					&& (m_currentState == State.Jumping || m_currentState == State.Climbing))
 				{
 					m_position.setLocalY(a_collider.getPosition().getGlobalY());
 					m_nextPosition.Y = m_position.getGlobalY();
