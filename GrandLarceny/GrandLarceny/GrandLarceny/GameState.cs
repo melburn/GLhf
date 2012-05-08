@@ -82,6 +82,8 @@ namespace GrandLarceny
 			//m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
 			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
 
+			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
+
 			string[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//settings.ini");
 			foreach (string t_currentLine in t_loadedFile)
 			{
@@ -90,61 +92,53 @@ namespace GrandLarceny
 					if (t_currentLine.Equals("[Input]"))
 					{
 						m_currentParse = ParseState.Input;
-					}
-					else if (t_currentLine.Equals("[Graphics]"))
-					{
-						m_currentParse = ParseState.Settings;
+						continue;
 					}
 				}
-				switch (m_currentParse)
+
+				if (m_currentParse == ParseState.Input)
 				{
-					case ParseState.Input:
-						string[] t_input = t_currentLine.Split('=');
-						if (t_input[0].Equals("Up"))
-							m_upKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else if (t_input[0].Equals("Down"))
-							m_downKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else if (t_input[0].Equals("Left"))
-							m_leftKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else if (t_input[0].Equals("Right"))
-							m_rightKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else if (t_input[0].Equals("Jump"))
-							m_jumpKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else if (t_input[0].Equals("Roll"))
-							m_rollKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else if (t_input[0].Equals("Action"))
-							m_actionKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else if (t_input[0].Equals("Sprint"))
-							m_sprintKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
-						else if (t_input[0].StartsWith("["))
-							break;
-						else
-							ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState" + t_input[0]);
+					string[] t_input = t_currentLine.Split('=');
+					if (t_input[0].Equals("Up"))
+					{
+						m_upKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+					}
+					else if (t_input[0].Equals("Down"))
+					{
+						m_downKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+					}
+					else if (t_input[0].Equals("Left"))
+					{
+						m_leftKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+					}
+					else if (t_input[0].Equals("Right"))
+					{
+						m_rightKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+					}
+					else if (t_input[0].Equals("Jump"))
+					{
+						m_jumpKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+					}
+					else if (t_input[0].Equals("Roll"))
+					{
+						m_rollKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+					}
+					else if (t_input[0].Equals("Action"))
+					{
+						m_actionKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+					}
+					else if (t_input[0].Equals("Sprint"))
+					{
+						m_sprintKey = (Keys)Enum.Parse(typeof(Keys), t_input[1]);
+					}
+					else if (t_input[0].StartsWith("["))
+					{
 						break;
-					case ParseState.Settings:
-						string[] t_setting = t_currentLine.Split('=');
-						if (t_setting[0].Equals("ScreenWidth"))
-						{
-							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
-						}
-						else if (t_setting[0].Equals("ScreenHeight"))
-						{
-							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
-							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
-						}
-						else if (t_setting[0].Equals("Fullscreen"))
-						{
-							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
-						}
-						else if (t_setting[0].StartsWith("["))
-						{
-							break;
-						}
-						else
-						{
-							ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
-						}
-						break;
+					}
+					else
+					{
+						ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState" + t_input[0]);
+					}
 				}
 			}
 			Game.getInstance().m_graphics.ApplyChanges();

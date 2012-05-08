@@ -40,7 +40,7 @@ namespace GrandLarceny
 		public static void createBackground(Vector2 a_position, string a_asset)
 		{
 			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.999f));
+			t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.950f));
 		}
 
 		public static void createGuard(Vector2 a_position, string a_asset)
@@ -188,6 +188,12 @@ namespace GrandLarceny
 			t_state.addObject(new ConsumableHeart(t_state.getTileCoordinates(a_position), a_asset, 0.250f));
 		}
 
+		public static void createObjective(Vector2 a_position, string a_asset)
+		{
+			States t_state = Game.getInstance().getState();
+			t_state.addObject(new ConsumableGoal(t_state.getTileCoordinates(a_position), a_asset, 0.250f));
+		}
+
 		public static void copyAsset(Vector2 a_position, GameObject a_asset)
 		{
 			States t_state = Game.getInstance().getState();
@@ -267,6 +273,15 @@ namespace GrandLarceny
 			}
 			if (a_asset is CheckPoint) {
 				createCheckPoint(t_position);
+			}
+			if (a_asset is ConsumableGoal) {
+				createObjective(t_position, t_imagePath);
+			}
+			if (a_asset is ConsumableKey) {
+				createKey(t_position, t_imagePath);
+			}
+			if (a_asset is ConsumableHeart) {
+				createHeart(t_position, t_imagePath);
 			}
 		}
 	}

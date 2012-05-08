@@ -25,38 +25,7 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
-
-			string[] t_loadedFile = File.ReadAllLines("Content//wtf//settings.ini");
-			foreach (string t_currentLine in t_loadedFile)
-			{
-				if (t_currentLine.Length > 2 && t_currentLine.First() == '[' && t_currentLine.Last() == ']')
-				{
-					if (t_currentLine.Equals("[Graphics]"))
-					{
-						m_currentParse = ParseState.Settings;
-					}
-				}
-				switch (m_currentParse)
-				{
-					case ParseState.Settings:
-						string[] t_setting = t_currentLine.Split('=');
-						if (t_setting[0].Equals("ScreenWidth"))
-						{
-							Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
-						}
-						else if (t_setting[0].Equals("ScreenHeight"))
-						{
-							Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
-							Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
-						}
-						else if (t_setting[0].Equals("Fullscreen"))
-						{
-							Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
-						}
-						break;
-				}
-				Game.getInstance().m_graphics.ApplyChanges();
-			}
+			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
 			Button t_newGame = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", Vector2.Zero, "New Game", "VerdanaBold", Color.White, Vector2.Zero);
 			t_newGame.m_clickEvent += new Button.clickDelegate(newGameClick);
 			m_buttons.AddLast(t_newGame);

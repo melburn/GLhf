@@ -1336,7 +1336,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Consumables\shinyheart.png">
+    <Compile Include="Images\Prop\Consumables\shinyheart.png">
       <Name>shinyheart</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1523,14 +1523,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Prop\Clutter\vas.png">
+    <Compile Include="Images\Prop\Consumables\Objective\vas.png">
       <Name>vas</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Prop\Clutter\tavla.png">
+    <Compile Include="Images\Prop\Consumables\Objective\tavla.png">
       <Name>tavla</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1544,7 +1544,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Consumables\Sparkle.png">
+    <Compile Include="Images\Prop\Consumables\Sparkle.png">
       <Name>Sparkle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
