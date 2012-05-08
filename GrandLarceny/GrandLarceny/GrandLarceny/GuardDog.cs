@@ -254,7 +254,7 @@ namespace GrandLarceny
 						}
 						else if (m_speed.X > 0)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - ((CollisionRectangle)m_collisionShape).getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
 						}
 						stop();
 					}
