@@ -107,13 +107,13 @@ namespace GrandLarceny
 		{
 			if (a_collid is Player && a_collid.getHitBox().collides(m_collisionShape))
 			{
-				if (Game.keyClicked(GameState.getActionKey()))
+				if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 				{
 					toggleSwitch();
 				}
 				else
 				{
-					((Player)(a_collid)).setInteractionVisibillity(true);
+					((Player)(a_collid)).setInteractionVisibility(true);
 				}
 			}
 		}

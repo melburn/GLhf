@@ -12,7 +12,7 @@ namespace GrandLarceny.Events.Effects
 
 		public CutsceneEffect(String a_cutsceneName)
 		{
-			if(a_cutsceneName == null)
+			if (a_cutsceneName == null)
 			{
 				throw new ArgumentNullException();
 			}

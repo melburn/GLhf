@@ -748,5 +748,13 @@ namespace GrandLarceny
 		{
 			return CollisionManager.possibleLineOfSight(m_position.getGlobalCartesian() + new Vector2(0, 10), a_point);
 		}
+
+		public override string ToString() {
+			if (m_FlashLightAddicted) {
+				return base.ToString() + ":Has Flashlight";
+			} else {
+				return base.ToString() + ":No Flashlight";
+			}
+		}
 	}
 }

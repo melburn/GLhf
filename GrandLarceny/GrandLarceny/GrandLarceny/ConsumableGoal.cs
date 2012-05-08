@@ -15,13 +15,13 @@ namespace GrandLarceny
 
 		protected override bool collect()
 		{
-			if (Game.keyClicked(GameState.getActionKey()))
+			if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 			{
 				return true;
 			}
 			else
 			{
-				Game.getInstance().getState().getPlayer().setInteractionVisibillity(true);
+				Game.getInstance().getState().getPlayer().setInteractionVisibility(true);
 				return false;
 			}
 		}

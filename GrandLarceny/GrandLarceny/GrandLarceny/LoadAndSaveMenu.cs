@@ -90,7 +90,7 @@ namespace GrandLarceny
 			if (m_newSaveName.isVisible())
 			{
 				m_newSaveName.update(a_gameTime);
-				if (m_newSaveName.isWriting() && Game.keyClicked(Keys.Enter))
+				if (m_newSaveName.isWriting() && KeyboardHandler.keyClicked(Keys.Enter))
 				{
 					Game.getInstance().getProgress().setUserName(m_newSaveName.getText());
 					Serializer.getInstance().saveGame(Serializer.getInstance().getFileToStream(m_saveTo, true), Game.getInstance().getProgress());

@@ -61,10 +61,6 @@ namespace GrandLarceny
 			return m_collisionShape;
 		}
 		
-		public override void draw(GameTime a_gameTime)
-		{
-			base.draw(a_gameTime);
-		}
 		internal Vector2 getLastPosition()
 		{
 			return m_lastPosition;

@@ -31,7 +31,7 @@ namespace GrandLarceny
 				{
 					Player t_player = (Player)a_collid;
 					if (
-						(Game.keyClicked(GameState.getUpKey()) && (t_player.getCurrentState() == Player.State.Walking || t_player.getCurrentState() == Player.State.Stop))
+						(KeyboardHandler.keyClicked(GameState.getUpKey()) && (t_player.getCurrentState() == Player.State.Walking || t_player.getCurrentState() == Player.State.Stop))
 						|| (t_player.getCurrentState() != Player.State.Walking && t_player.getCurrentState() != Player.State.Stop)
 					)
 					{
