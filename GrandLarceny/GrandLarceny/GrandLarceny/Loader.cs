@@ -76,5 +76,50 @@ namespace GrandLarceny
 		{
 			return System.IO.File.ReadAllLines(a_filePath);
 		}
+
+		public void loadGraphicSettings(string a_file)
+		{
+			string[] t_loadedFile = System.IO.File.ReadAllLines(a_file);
+			bool t_startParse = false;
+
+			foreach (string t_currentLine in t_loadedFile)
+			{
+				if (t_currentLine.Length > 2 && t_currentLine.First() == '[' && t_currentLine.Last() == ']')
+				{
+					if (t_currentLine.Equals("[Graphics]"))
+					{
+						t_startParse = true;
+						continue;
+					}
+				}
+				if (!t_startParse)
+				{
+					continue;
+				}
+				string[] t_setting = t_currentLine.Split('=');
+				if (t_setting[0].Equals("ScreenWidth"))
+				{
+					Game.getInstance().m_graphics.PreferredBackBufferWidth = int.Parse(t_setting[1]);
+				}
+				else if (t_setting[0].Equals("ScreenHeight"))
+				{
+					Game.getInstance().m_graphics.PreferredBackBufferHeight = int.Parse(t_setting[1]);
+					Game.getInstance().m_camera.setZoom(Game.getInstance().getResolution().Y / 720);
+				}
+				else if (t_setting[0].Equals("Fullscreen"))
+				{
+					Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
+				}
+				else if (t_setting[0].StartsWith("["))
+				{
+					break;
+				}
+				else
+				{
+					ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
+				}
+			}
+			Game.getInstance().m_graphics.ApplyChanges();
+		}
 	}
 }
