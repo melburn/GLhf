@@ -40,7 +40,7 @@ namespace GrandLarceny
 		public static void createBackground(Vector2 a_position, string a_asset)
 		{
 			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.999f));
+			t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.950f));
 		}
 
 		public static void createGuard(Vector2 a_position, string a_asset)
