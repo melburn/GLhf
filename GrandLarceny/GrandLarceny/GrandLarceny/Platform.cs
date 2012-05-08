@@ -122,7 +122,7 @@ namespace GrandLarceny
 					{
 						t_player.hang(this);
 					}
-					else if (t_player.getPosition().getGlobalY() + 10 > m_position.getGlobalY() && t_player.getCurrentState() == Player.State.Hanging && KeyboardHandler.isKeyPressed(GameState.getUpKey()))
+					else if (t_player.getPosition().getGlobalY() + 10 > m_position.getGlobalY() && t_player.getCurrentState() == Player.State.Hanging && (KeyboardHandler.isKeyPressed(GameState.getUpKey()) || (KeyboardHandler.keyClicked(GameState.getLeftKey()) && !t_player.isFacingRight()) || (KeyboardHandler.keyClicked(GameState.getRightKey()) && t_player.isFacingRight())))
 					{
 						t_player.hangClimbAction();
 					}
