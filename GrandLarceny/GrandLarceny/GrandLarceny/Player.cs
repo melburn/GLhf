@@ -542,7 +542,7 @@ namespace GrandLarceny
 				m_slideTimer = 0;
 				return;
 			}
-
+			m_imgOffsetX = 0;
 			if (((!m_facingRight && KeyboardHandler.isKeyPressed(GameState.getRightKey())) || (m_facingRight && KeyboardHandler.isKeyPressed(GameState.getLeftKey())))
 				&& m_collidedWithWall)
 			{
