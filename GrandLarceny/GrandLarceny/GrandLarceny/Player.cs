@@ -542,7 +542,7 @@ namespace GrandLarceny
 				m_slideTimer = 0;
 				return;
 			}
-
+			m_imgOffsetX = 0;
 			if (((!m_facingRight && KeyboardHandler.isKeyPressed(GameState.getRightKey())) || (m_facingRight && KeyboardHandler.isKeyPressed(GameState.getLeftKey())))
 				&& m_collidedWithWall)
 			{
@@ -1373,7 +1373,7 @@ namespace GrandLarceny
 					m_stunnedTimer = 5f;
 					m_invulnerableTimer = 5f;
 
-					Game.getInstance().setState(new DeathScene(Game.getInstance().getState().getObjectList()));
+					Game.getInstance().setState(new DeathScene(Game.getInstance().getState().getObjectList(), ((GameState)Game.getInstance().getState()).getBackground()));
 				}
 				else
 				{
