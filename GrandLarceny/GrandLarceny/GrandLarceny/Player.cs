@@ -570,7 +570,7 @@ namespace GrandLarceny
 		private void updateClimbing()
 		{
 			m_gravity = 0;
-			if (KeyboardHandler.isKeyPressed(GameState.getUpKey()) && m_ladderDirection != Direction.None)
+			if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 			{
 				m_speed.Y = -CLIMBINGSPEED;
 			}
@@ -614,8 +614,15 @@ namespace GrandLarceny
 			}
 			if (m_ladderDirection == Direction.None)
 			{
-				m_currentState = State.Jumping;
-				m_nextPosition.Y = m_position.getGlobalY() + 1;
+				if (m_speed.Y <= 0 && m_currentState == State.Climbing)
+				{
+					m_speed.Y = 0;
+				}
+				else
+				{
+					m_currentState = State.Jumping;
+					m_nextPosition.Y = m_position.getGlobalY() + 1;
+				}
 			}
 		}
 
