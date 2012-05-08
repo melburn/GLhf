@@ -31,6 +31,8 @@ namespace GrandLarceny
 
 		private Texture2D m_background;
 
+		private LinkedList<ConsumableGoal> t_finishCond;
+
 		private Player player;
 
 		private ParseState m_currentParse;
