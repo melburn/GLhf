@@ -20,6 +20,12 @@ namespace GrandLarceny
 			m_parallaxScroll = 0;
 		}
 
+		public override void loadContent()
+		{
+			base.loadContent();
+			m_layer = 0.950f;
+		}
+
 		public bool isExplored()
 		{
 			return m_explored;
@@ -37,7 +43,8 @@ namespace GrandLarceny
 			if (m_visible)
 			{
 				float t_scroll = ((((float)m_parallaxScroll) / 1000f) * (m_position.getGlobalX() + (m_img.getSize().X / 2) - Game.getInstance().m_camera.getPosition().getGlobalX()));
-				Vector2 t_imgPosition = new Vector2(m_position.getGlobalX() + m_imgOffsetX + t_scroll, m_position.getGlobalY() + m_imgOffsetY);
+				float t_yscroll = ((((float)m_parallaxScroll) / 1000f) * (m_position.getGlobalY() + (m_img.getSize().Y / 2) - Game.getInstance().m_camera.getPosition().getGlobalY()));
+				Vector2 t_imgPosition = new Vector2(m_position.getGlobalX() + m_imgOffsetX + t_scroll, m_position.getGlobalY() + m_imgOffsetY + t_yscroll);
 
 				m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer - m_parallaxScroll / 100000f, m_XScale, m_YScale);
 
