@@ -1920,6 +1920,34 @@
   <ItemGroup>
     <Folder Include="levels\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_parking.png">
+      <Name>backdrop_parking</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_parking_prop_car_01.png">
+      <Name>backdrop_parking_prop_car_01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_parking_prop_car_02.png">
+      <Name>backdrop_parking_prop_car_02</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_parking_prop_car_03.png">
+      <Name>backdrop_parking_prop_car_03</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
