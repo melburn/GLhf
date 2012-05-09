@@ -1270,7 +1270,7 @@ namespace GrandLarceny
 					&& t_colliderBox.Contains((int)m_position.getGlobalX() + t_playerBox.Width + 4, (int)m_position.getGlobalY())
 					&& m_lastPosition.Y < t_colliderBox.Y
 					&& m_speed.Y >= 0
-					&& (m_currentState == State.Jumping || m_currentState == State.Climbing || m_currentState == State.Slide))
+					&& (m_currentState == State.Jumping || m_currentState == State.Slide))
 				{
 					m_position.setLocalY(a_collider.getPosition().getGlobalY());
 					m_nextPosition.Y = m_position.getGlobalY();
@@ -1283,7 +1283,7 @@ namespace GrandLarceny
 					&& t_colliderBox.Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
 					&& m_lastPosition.Y < t_colliderBox.Y
 					&& m_speed.Y >= 0
-					&& (m_currentState == State.Jumping || m_currentState == State.Climbing || m_currentState == State.Slide))
+					&& (m_currentState == State.Jumping || m_currentState == State.Slide))
 				{
 					m_position.setLocalY(a_collider.getPosition().getGlobalY());
 					m_nextPosition.Y = m_position.getGlobalY();
