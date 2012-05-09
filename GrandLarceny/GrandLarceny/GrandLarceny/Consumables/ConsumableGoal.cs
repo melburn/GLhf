@@ -20,7 +20,15 @@ namespace GrandLarceny
 		{
 			base.loadContent();
 			m_bling = new ImageManager("Images//Prop//Consumables//Sparkle");
+			m_bling.setAnimationSpeed(20);
 		}
+
+		public override void update(GameTime a_gameTime)
+		{
+			base.update(a_gameTime);
+			m_bling.update(a_gameTime);
+		}
+
 		protected override bool collect()
 		{
 			if (KeyboardHandler.keyClicked(GameState.getActionKey()))
