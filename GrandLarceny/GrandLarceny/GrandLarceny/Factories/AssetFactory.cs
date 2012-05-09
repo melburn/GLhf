@@ -168,11 +168,11 @@ namespace GrandLarceny
 			States t_state = Game.getInstance().getState();
 			if (KeyboardHandler.isKeyPressed(Keys.LeftShift) || KeyboardHandler.isKeyPressed(Keys.RightShift))
 			{
-				t_state.addObject(new Environment(a_position, a_asset, 0.998f));
+				t_state.addObject(new Environment(a_position, a_asset, 0.949f));
 			}
 			else
 			{
-				t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.998f));
+				t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.949f));
 			}
 		}
 
