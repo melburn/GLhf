@@ -130,6 +130,7 @@
     <Compile Include="AI\AIStateChargeing.cs" />
     <Compile Include="AI\AIStateChasing.cs" />
     <Compile Include="AI\AIStateGoingToTheSwitch.cs" />
+    <Compile Include="AI\AIStateObserving.cs" />
     <Compile Include="AI\AIStatePatrolling.cs" />
     <Compile Include="Consumables\Consumable.cs" />
     <Compile Include="CollisionLine.cs" />

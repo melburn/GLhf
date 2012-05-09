@@ -23,7 +23,7 @@ namespace GrandLarceny.AI
 			}
 			return instance;
 		}
-		public override AIState execute(NPE a_agent)
+		public override AIState execute(NPE a_agent, GameTime a_gameTime)
 		{
 			if (a_agent == null)
 			{

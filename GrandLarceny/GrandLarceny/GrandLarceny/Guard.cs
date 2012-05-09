@@ -744,5 +744,26 @@ namespace GrandLarceny
 				return base.ToString() + ":No Flashlight";
 			}
 		}
+
+		internal bool faceTowards(float a_x)
+		{
+			if (a_x >= m_position.getGlobalX())
+			{
+				if (m_facingRight)
+				{
+					goRight();
+					return true;
+				}
+			}
+			else
+			{
+				if (!m_facingRight)
+				{
+					goLeft();
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 }
