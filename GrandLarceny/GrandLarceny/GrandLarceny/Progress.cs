@@ -80,7 +80,10 @@ namespace GrandLarceny
 
 		public void setLevelCleared(string a_level)
 		{
-			m_levelCleared.AddLast(a_level);
+			if (!hasClearedLevel(a_level))
+			{
+				m_levelCleared.AddLast(a_level);
+			}
 		}
 
 		public void setUserName(string a_userName)

@@ -60,6 +60,14 @@
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
+    <Content Include="Levels\hejlol.lvl">
+      <Name>hejlol</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Levels\LevelRequirement.txt">
+      <Name>LevelRequirement</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Levels\TestLevels\asdf.lvl">
       <Name>asdf</Name>
     </None>
