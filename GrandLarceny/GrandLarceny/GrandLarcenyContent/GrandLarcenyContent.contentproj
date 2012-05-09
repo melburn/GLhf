@@ -1920,7 +1920,33 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Images\GUI\GameGUI\boots get.png">
+      <Name>boots get</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\GameGUI\stage clear.png">
+      <Name>stage clear</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\GameGUI\stolen1of3.png">
+      <Name>stolen1of3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\GameGUI\stolen2of3.png">
+      <Name>stolen2of3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\GameGUI\stolen3of3.png">
+      <Name>stolen3of3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Images\Background\backdrop_parking.png">
       <Name>backdrop_parking</Name>
@@ -1945,6 +1971,13 @@
   <ItemGroup>
     <Compile Include="Images\Background\backdrop_parking_prop_car_03.png">
       <Name>backdrop_parking_prop_car_03</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\LightCone\ventilljus.png">
+      <Name>ventilljus</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
