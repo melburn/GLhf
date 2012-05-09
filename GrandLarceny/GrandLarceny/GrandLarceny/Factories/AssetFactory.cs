@@ -198,7 +198,7 @@ namespace GrandLarceny
 		public static void createObjective(Vector2 a_position, string a_asset)
 		{
 			m_state = Game.getInstance().getState();
-			m_state.addObject(new ConsumableGoal(m_state.getTileCoordinates(a_position), a_asset, 0.250f));
+			m_state.addObject(new ConsumableGoal(m_state.getTileCoordinates(a_position), a_asset, 0.350f));
 		}
 
 		public static void createClosedDoor(Vector2 a_position, string a_asset)
