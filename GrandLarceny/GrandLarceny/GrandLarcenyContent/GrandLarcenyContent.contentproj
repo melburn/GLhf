@@ -68,6 +68,14 @@
       <Name>LevelRequirement</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Levels\Level 1.lvl">
+      <Name>Level 1</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Levels\Level 2.lvl">
+      <Name>Level 2</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Levels\TestLevels\asdf.lvl">
       <Name>asdf</Name>
     </None>
@@ -550,13 +558,6 @@
   <ItemGroup>
     <Compile Include="Images\Sprite\Hero\hero_walk.png">
       <Name>hero_walk</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\bg_window_dark.png">
-      <Name>bg_window_dark</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1385,13 +1386,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\LightCone\lamp.png">
-      <Name>lamp</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Background\1x_office_space_backdrop.png">
       <Name>1x_office_space_backdrop</Name>
       <Importer>TextureImporter</Importer>
@@ -1928,31 +1922,75 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Compile Include="Images\Background\backdrop_parking.png">
-      <Name>backdrop_parking</Name>
+    <Compile Include="Images\GUI\GameGUI\boots get.png">
+      <Name>boots get</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\GameGUI\stage clear.png">
+      <Name>stage clear</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\GameGUI\stolen1of3.png">
+      <Name>stolen1of3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\GameGUI\stolen2of3.png">
+      <Name>stolen2of3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\GameGUI\stolen3of3.png">
+      <Name>stolen3of3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\backdrop_parking_prop_car_01.png">
-      <Name>backdrop_parking_prop_car_01</Name>
+    <Compile Include="Images\LightCone\ventilljus.png">
+      <Name>ventilljus</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\backdrop_parking_prop_car_02.png">
-      <Name>backdrop_parking_prop_car_02</Name>
+    <Compile Include="Images\Background\backdrop_parking_compile.png">
+      <Name>backdrop_parking_compile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_storage_w_floor_10x4.png">
+      <Name>backdrop_storage_w_floor_10x4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_storage_w_floor_2x4.png">
+      <Name>backdrop_storage_w_floor_2x4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_storage_w_wall_10x4.png">
+      <Name>backdrop_storage_w_wall_10x4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_storage_w_wall_2x4.png">
+      <Name>backdrop_storage_w_wall_2x4</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\backdrop_parking_prop_car_03.png">
-      <Name>backdrop_parking_prop_car_03</Name>
+    <Compile Include="Images\Prop\Clutter\backdrop_storage_prop_crate_big.png">
+      <Name>backdrop_storage_prop_crate_big</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\backdrop_storage_prop_crate_thin.png">
+      <Name>backdrop_storage_prop_crate_thin</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
