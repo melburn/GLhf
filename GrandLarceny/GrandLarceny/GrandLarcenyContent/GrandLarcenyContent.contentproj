@@ -322,20 +322,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\bg_wc.jpg">
-      <Name>bg_wc</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\bg_window.png">
-      <Name>bg_window</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Sprite\Hero\hero_hang.png">
       <Name>hero_hang</Name>
       <Importer>TextureImporter</Importer>
@@ -345,23 +331,6 @@
   <ItemGroup>
     <Compile Include="Images\Sprite\Guard\guard_walk.png">
       <Name>guard_walk</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Background\vbg_proto_1.png">
-      <Name>vbg_proto_1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Background\vbg_proto_2.png">
-      <Name>vbg_proto_2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Background\tbg_bg_1.png">
-      <Name>tbg_bg_1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -379,33 +348,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Wall\1x1_wall_tile.png">
-      <Name>1x1_wall_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Tile\Window\1x1_window_tile.png">
       <Name>1x1_window_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Wall\1x2_wall_tile.png">
-      <Name>1x2_wall_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Floor\2x1_floor_tile.jpg">
-      <Name>2x1_floor_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Floor\5x1_floor_tile.png">
-      <Name>5x1_floor_tile</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\Tile\Floor\5x1_floor_tile_broken.png">
-      <Name>5x1_floor_tile_broken</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1392,7 +1336,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Consumables\shinyheart.png">
+    <Compile Include="Images\Prop\Consumables\shinyheart.png">
       <Name>shinyheart</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1579,14 +1523,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Prop\Clutter\vas.png">
+    <Compile Include="Images\Prop\Consumables\Objective\vas.png">
       <Name>vas</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Prop\Clutter\tavla.png">
+    <Compile Include="Images\Prop\Consumables\Objective\tavla.png">
       <Name>tavla</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1600,7 +1544,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Sprite\Consumables\Sparkle.png">
+    <Compile Include="Images\Prop\Consumables\Sparkle.png">
       <Name>Sparkle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1640,6 +1584,341 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\bg_casino_sp_hotfix.png">
+      <Name>bg_casino_sp_hotfix</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\clouds_01.png">
+      <Name>clouds_01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\32584__redjim__fabric-rustling.wav">
+      <Name>32584__redjim__fabric-rustling</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\54779__bevangoldswain__running-hard-surface.wav">
+      <Name>54779__bevangoldswain__running-hard-surface</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\Being punched 1, punching.wav">
+      <Name>Being punched 1, punching</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\dog_bark.wav">
+      <Name>dog_bark</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Wall\crate_2.png">
+      <Name>crate_2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Floor\crate_2_144_72.png">
+      <Name>crate_2_144_72</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Floor\open_bar_sign_left.png">
+      <Name>open_bar_sign_left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\open_bar_sign_right.png">
+      <Name>open_bar_sign_right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Ventilation\Drum\ventil_locked_placeholder.png">
+      <Name>ventil_locked_placeholder</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\house_02_bl.png">
+      <Name>house_02_bl</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Floor\container.png">
+      <Name>container</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Floor\balc2_end_part_walk.png">
+      <Name>balc2_end_part_walk</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Floor\balc2_middle_tile.png">
+      <Name>balc2_middle_tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\balc2_tile.png">
+      <Name>balc2_tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Hero\ladderclimb.png">
+      <Name>ladderclimb</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Hero\ladderclimb_light.png">
+      <Name>ladderclimb_light</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Hero\ladderclimbdown.png">
+      <Name>ladderclimbdown</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Hero\ladderclimbdown_light.png">
+      <Name>ladderclimbdown_light</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Hero\ladderstill.png">
+      <Name>ladderstill</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Sprite\Hero\ladderstill_light.png">
+      <Name>ladderstill_light</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Prop\Clutter\shoe.png">
+      <Name>shoe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\btn_small_delete_hover.png">
+      <Name>btn_small_delete_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_small_delete_normal.png">
+      <Name>btn_small_delete_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_small_delete_pressed.png">
+      <Name>btn_small_delete_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_small_delete_toggle.png">
+      <Name>btn_small_delete_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\btn_event_exit_hover.png">
+      <Name>btn_event_exit_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_event_exit_normal.png">
+      <Name>btn_event_exit_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_event_exit_pressed.png">
+      <Name>btn_event_exit_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_event_exit_toggle.png">
+      <Name>btn_event_exit_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_checkpoint_hotkey_hover.png">
+      <Name>btn_checkpoint_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_checkpoint_hotkey_normal.png">
+      <Name>btn_checkpoint_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_checkpoint_hotkey_pressed.png">
+      <Name>btn_checkpoint_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_checkpoint_hotkey_toggle.png">
+      <Name>btn_checkpoint_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_clutter_hotkey_hover.png">
+      <Name>btn_clutter_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_clutter_hotkey_normal.png">
+      <Name>btn_clutter_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_clutter_hotkey_pressed.png">
+      <Name>btn_clutter_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_clutter_hotkey_toggle.png">
+      <Name>btn_clutter_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_doorhang_hotkey_hover.png">
+      <Name>btn_doorhang_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_doorhang_hotkey_normal.png">
+      <Name>btn_doorhang_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_doorhang_hotkey_pressed.png">
+      <Name>btn_doorhang_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_doorhang_hotkey_toggle.png">
+      <Name>btn_doorhang_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_heart_hotkey_hover.png">
+      <Name>btn_heart_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_heart_hotkey_normal.png">
+      <Name>btn_heart_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_heart_hotkey_pressed.png">
+      <Name>btn_heart_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_heart_hotkey_toggle.png">
+      <Name>btn_heart_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_key_hotkey_hover.png">
+      <Name>btn_key_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_key_hotkey_normal.png">
+      <Name>btn_key_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_key_hotkey_pressed.png">
+      <Name>btn_key_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_key_hotkey_toggle.png">
+      <Name>btn_key_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_secdoor_hotkey_hover.png">
+      <Name>btn_secdoor_hotkey_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_secdoor_hotkey_normal.png">
+      <Name>btn_secdoor_hotkey_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_secdoor_hotkey_pressed.png">
+      <Name>btn_secdoor_hotkey_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\DevelopmentHotkeys\btn_secdoor_hotkey_toggle.png">
+      <Name>btn_secdoor_hotkey_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Tile\Wall\1x1_inner_wall.png">
+      <Name>1x1_inner_wall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="levels\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

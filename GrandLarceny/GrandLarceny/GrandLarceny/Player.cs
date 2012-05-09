@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -75,22 +77,21 @@ namespace GrandLarceny
 		private float m_originalLayer;
 		private float m_swingSpeed;
 
-
 		private List<Direction> m_ventilationDirection;
 		private List<Direction> m_leftRightList;
 		private List<Direction> m_upDownList;
 
 		private Entity m_currentVentilation = null;
 
-		private bool m_facingRight = false;
-		private bool m_collidedWithWall = false;
-		private bool m_stunned = false;
-		private bool m_stunnedDeacceleration = true;
-		private bool m_stunnedGravity = true;
-		private bool m_stunnedFlipSprite = false;
-		private bool m_chase = false;
-		private bool m_deactivateChase = false;
-		private bool m_runMode = false;
+		private bool m_facingRight				= false;
+		private bool m_collidedWithWall			= false;
+		private bool m_stunned					= false;
+		private bool m_stunnedDeacceleration	= true;
+		private bool m_stunnedGravity			= true;
+		private bool m_stunnedFlipSprite		= false;
+		private bool m_chase					= false;
+		private bool m_deactivateChase			= false;
+		private bool m_runMode					= false;
 
 		private Rope m_rope = null;
 
@@ -127,24 +128,18 @@ namespace GrandLarceny
 			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
 			m_healthHearts[2] = new GuiObject(new Vector2(260, 50), "GameGUI//health");
 			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_stand");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_walk");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_jump");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_fall");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_slide");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_hang");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_roll");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_climb_ledge");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_window_heave");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_idle");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_vertical");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_ventilation_horizontal");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_back");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_still");
-			Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//hero_swing_forth");
+
+			string[] t_heroSprites = Directory.GetFiles("Content//Images//Sprite//Hero//");
+			foreach (string t_file in t_heroSprites) {
+				string[] t_splitFile = Regex.Split(t_file, "//");
+				string[] t_extless = t_splitFile[t_splitFile.Length - 1].Split('.');
+				if (t_extless[1].Equals("xnb")) {
+					Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//" + t_extless[0]);
+				}
+			}
+
 			m_interactionArrow = new GameObject(new CartesianCoordinate(new Vector2(15, -70), m_position), "Images//GUI//GameGUI//interaction", m_layer - 0.1f);
-			setInteractionVisibillity(false);
+			setInteractionVisibility(false);
 			m_interactionArrow.getImg().setAnimationSpeed(20f);
 			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
 			m_rollHitBox = new CollisionRectangle(0, 0, 70, 72, m_position); // 67
@@ -173,26 +168,20 @@ namespace GrandLarceny
 		{
 			m_interactionArrow.update(a_gameTime);
 			m_lastPosition = m_position.getGlobalCartesian();
-
-			if (!m_stunned)
-			{
-				changeAnimation();
-			}
-
+			
 			float t_deltaTime = ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 1000f;
 			m_invulnerableTimer = Math.Max(m_invulnerableTimer - t_deltaTime, 0);
-
+			
 			if (!m_stunned)
 			{
 				changeAnimation();
 			}
-
+			
 			if (m_deactivateChase)
 			{
 				activateNormalMode();
 				m_deactivateChase = false;
 			}
-
 
 			updateState();
 			m_lastState = m_currentState;
@@ -206,9 +195,7 @@ namespace GrandLarceny
 
 			if (!m_stunned)
 			{
-				changeAnimation();
-				
-				if (!m_chase && !Game.isKeyPressed(GameState.getSprintKey()) && m_runMode)
+				if (!m_chase && !KeyboardHandler.isKeyPressed(GameState.getSprintKey()) && m_runMode)
 				{
 					toggleRunMode();
 				}
@@ -216,55 +203,55 @@ namespace GrandLarceny
 				switch (m_currentState)
 				{
 					case State.Stop:
-						{
-							updateStop(t_deltaTime);
-							break;
-						}
+					{
+						updateStop(t_deltaTime);
+						break;
+					}
 					case State.Walking:
-						{
-							updateWalking(t_deltaTime);
-							break;
-						}
+					{
+						updateWalking(t_deltaTime);
+						break;
+					}
 					case State.Jumping:
-						{
-							updateJumping(t_deltaTime);
-							break;
-						}
+					{
+						updateJumping(t_deltaTime);
+						break;
+					}
 					case State.Slide:
-						{
-							updateSliding(a_gameTime);
-							break;
-						}
+					{
+						updateSliding(a_gameTime);
+						break;
+					}
 					case State.Climbing:
-						{
-							updateClimbing();
-							break;
-						}
+					{
+						updateClimbing();
+						break;
+					}
 					case State.Rolling:
-						{
-							updateRolling(t_deltaTime);
-							break;
-						}
+					{
+						updateRolling(t_deltaTime);
+						break;
+					}
 					case State.Hanging:
-						{
-							updateHanging();
-							break;
-						}
+					{
+						updateHanging();
+						break;
+					}
 					case State.Hiding:
-						{
-							updateHiding(t_deltaTime);
-							break;
-						}
+					{
+						updateHiding(t_deltaTime);
+						break;
+					}
 					case State.Ventilation:
-						{
-							updateVentilation(t_deltaTime);
-							break;
-						}
+					{
+						updateVentilation(t_deltaTime);
+						break;
+					}
 					case State.Swinging:
-						{
-							updateSwinging(t_deltaTime);
-							break;
-						}
+					{
+						updateSwinging(t_deltaTime);
+						break;
+					}
 				}
 			}
 			else
@@ -299,6 +286,7 @@ namespace GrandLarceny
 			{
 				m_gravity = 0;
 			}
+
 			if (m_stunnedDeacceleration)
 			{
 				if (m_speed.X > 0)
@@ -310,6 +298,7 @@ namespace GrandLarceny
 					m_speed.X = Math.Min(m_speed.X + (DEACCELERATION * a_deltaTime), 0);
 				}
 			}
+
 			if (m_stunnedTimer <= 0)
 			{
 				m_stunnedTimer = 0;
@@ -380,16 +369,18 @@ namespace GrandLarceny
 				m_currentState = State.Jumping;
 				return;
 			}
-			if (Game.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
+
+			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
 				return;
 			}
-			if ((Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey())) || (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey())))
+
+			if ((KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey())) || (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey())))
 			{
 				m_currentState = State.Walking;
 
-				if (Game.isKeyPressed(GameState.getLeftKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 				{
 					m_facingRight = false;
 				}
@@ -398,7 +389,8 @@ namespace GrandLarceny
 					m_facingRight = true;
 				}
 			}
-			if (Game.keyClicked(GameState.getJumpKey()))
+
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -407,18 +399,18 @@ namespace GrandLarceny
 
 		private void updateWalking(float a_deltaTime)
 		{
-			if (Game.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
+			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
 				return;
 			}
 
-			if (!m_chase && Game.isKeyPressed(GameState.getSprintKey()) && !m_runMode)
+			if (!m_chase && KeyboardHandler.isKeyPressed(GameState.getSprintKey()) && !m_runMode)
 			{
 				toggleRunMode();
 			}
 
-			if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
+			if (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_speed.X > m_playerCurrentSpeed)
 				{
@@ -429,7 +421,7 @@ namespace GrandLarceny
 					m_speed.X = Math.Min(m_speed.X + (ACCELERATION * a_deltaTime), m_playerCurrentSpeed);
 				}
 			}
-			else if (Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
+			else if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_speed.X < -m_playerCurrentSpeed)
 				{
@@ -456,7 +448,7 @@ namespace GrandLarceny
 				m_currentState = State.Stop;
 
 			}
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
@@ -479,8 +471,7 @@ namespace GrandLarceny
 
 		private void updateJumping(float a_deltaTime)
 		{
-			
-			if (Game.keyClicked(GameState.getRollKey()))
+			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && Game.getInstance().getProgress().hasEquipment("hookshot"))
 			{
 				Hookshot t_hs = new Hookshot(m_position.getGlobalCartesian(), null, 0.100f);
 				if (m_facingRight)
@@ -494,14 +485,18 @@ namespace GrandLarceny
 				Game.getInstance().getState().addObject(t_hs);
 
 			}
-			if (!Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
+			if (!KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_speed.X > 0)
+				{
 					m_speed.X = Math.Max(m_speed.X - (AIRDEACCELERATION * a_deltaTime), 0);
+				}
 				else if (m_speed.X < 0)
+				{
 					m_speed.X = Math.Min(m_speed.X + (AIRDEACCELERATION * a_deltaTime), 0);
+				}
 			}
-			else if (Game.isKeyPressed(GameState.getLeftKey()))
+			else if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 			{
 				if (m_speed.X < -m_playerCurrentSpeed)
 				{
@@ -512,7 +507,7 @@ namespace GrandLarceny
 					m_speed.X = Math.Max(-m_playerCurrentSpeed, m_speed.X - AIRDEACCELERATION * a_deltaTime);
 				}
 			}
-			else if (Game.isKeyPressed(GameState.getRightKey()))
+			else if (KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
 				if (m_speed.X > m_playerCurrentSpeed)
 				{
@@ -533,7 +528,7 @@ namespace GrandLarceny
 				m_facingRight = false;
 			}
 
-			if (m_speed.Y < -300 && Game.isKeyPressed(GameState.getJumpKey()))
+			if (m_speed.Y < -300 && KeyboardHandler.isKeyPressed(GameState.getJumpKey()))
 				m_speed.Y -= AIRVERTICALACCELERATION;
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
@@ -541,14 +536,14 @@ namespace GrandLarceny
 
 		private void updateSliding(GameTime a_gameTime)
 		{
-			if(m_slideTimer < a_gameTime.TotalGameTime.TotalMilliseconds && m_slideTimer != 0)
+			if (m_slideTimer < a_gameTime.TotalGameTime.TotalMilliseconds && m_slideTimer != 0)
 			{
 				m_currentState = State.Jumping;
 				m_slideTimer = 0;
 				return;
 			}
-
-			if (((!m_facingRight && Game.isKeyPressed(GameState.getRightKey())) || (m_facingRight && Game.isKeyPressed(GameState.getLeftKey())))
+			m_imgOffsetX = 0;
+			if (((!m_facingRight && KeyboardHandler.isKeyPressed(GameState.getRightKey())) || (m_facingRight && KeyboardHandler.isKeyPressed(GameState.getLeftKey())))
 				&& m_collidedWithWall)
 			{
 				m_slideTimer = 0;
@@ -558,7 +553,7 @@ namespace GrandLarceny
 				if (m_slideTimer == 0)
 					m_slideTimer = (int)a_gameTime.TotalGameTime.TotalMilliseconds + 150;
 			}
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()) && m_speed.Y != 0)
 			{
 				m_speed.Y = -JUMPSTRENGTH;
 				if (m_facingRight == true)
@@ -575,11 +570,11 @@ namespace GrandLarceny
 		private void updateClimbing()
 		{
 			m_gravity = 0;
-			if (Game.isKeyPressed(GameState.getUpKey()) && m_ladderDirection != Direction.None)
+			if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 			{
 				m_speed.Y = -CLIMBINGSPEED;
 			}
-			else if (Game.isKeyPressed(GameState.getDownKey()))
+			else if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 			{
 				m_speed.Y = CLIMBINGSPEED;
 			}
@@ -587,9 +582,9 @@ namespace GrandLarceny
 			{
 				m_speed.Y = 0;
 			}
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
-				if (!Game.isKeyPressed(GameState.getDownKey()))
+				if (!KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 				{
 					m_speed.Y = -(JUMPSTRENGTH - 70);
 					if (m_facingRight)
@@ -619,8 +614,15 @@ namespace GrandLarceny
 			}
 			if (m_ladderDirection == Direction.None)
 			{
-				m_currentState = State.Jumping;
-				m_nextPosition.Y = m_position.getGlobalY() + 1;
+				if (m_speed.Y <= 0 && m_currentState == State.Climbing)
+				{
+					m_speed.Y = 0;
+				}
+				else
+				{
+					m_currentState = State.Jumping;
+					m_nextPosition.Y = m_position.getGlobalY() + 1;
+				}
 			}
 		}
 
@@ -653,11 +655,12 @@ namespace GrandLarceny
 		private void updateHanging()
 		{
 			m_gravity = 0;
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
-				if (Game.isKeyPressed(GameState.getDownKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 				{
-					m_position.plusYWith(3);
+					m_position.plusYWith(m_collisionShape.getOutBox().Height);
+					Game.getInstance().m_camera.getPosition().plusYWith(-m_collisionShape.getOutBox().Height);
 					m_currentState = State.Jumping;
 					m_speed.Y = 0;
 					if (m_facingRight)
@@ -671,51 +674,40 @@ namespace GrandLarceny
 				}
 				else
 				{
-					m_speed.Y = -(JUMPSTRENGTH-70);
+					m_speed.Y = -(JUMPSTRENGTH - 70);
 					if (!m_facingRight)
+					{
 						m_speed.X += PLAYERSPEEDCHASEMODE * 1.5f;
+					}
 					else
+					{
 						m_speed.X -= PLAYERSPEEDCHASEMODE * 1.5f;
+					}
 					m_currentState = State.Jumping;
 				}
 			}
-			else if (Game.isKeyPressed(GameState.getDownKey()) && m_ladderDirection != Direction.None)
+			else if (KeyboardHandler.isKeyPressed(GameState.getDownKey()) && m_ladderDirection != Direction.None)
 			{
 				m_currentState = State.Climbing;
 				m_position.plusYWith(m_standHitBox.m_height - m_hangHitBox.m_height);
 				Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.m_height - m_hangHitBox.m_height));
 			}
-			/*else if (Game.keyClicked(GameState.getUpKey()))
-			{
-				hangClimbAction();
-			}*/
-
 		}
 
 		private void updateHiding(float a_deltaTime)
 		{
-			if (Game.keyClicked(GameState.getUpKey())
-				|| Game.keyClicked(GameState.getDownKey())
-				|| Game.keyClicked(GameState.getJumpKey())
-				|| Game.keyClicked(GameState.getActionKey()))
+			if (KeyboardHandler.keyClicked(GameState.getUpKey())
+				|| KeyboardHandler.keyClicked(GameState.getDownKey())
+				|| KeyboardHandler.keyClicked(GameState.getJumpKey())
+				|| KeyboardHandler.keyClicked(GameState.getActionKey()))
 			{
 				m_currentState = State.Stop;
-				if (m_facingRight)
-				{
-					m_position.plusXWith(40);
-					Game.getInstance().m_camera.getPosition().plusXWith(-30);
-				}
-				else
-				{
-					m_position.plusXWith(-40);
-					Game.getInstance().m_camera.getPosition().plusXWith(30);
-				}
 			}
 
-			if (Game.isKeyPressed(GameState.getLeftKey()) || Game.isKeyPressed(GameState.getRightKey()))
+			if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) || KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
 				float t_cameraXPos = 0;
-				if (Game.isKeyPressed(GameState.getRightKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 				{
 					t_cameraXPos = 500;
 				}
@@ -737,7 +729,7 @@ namespace GrandLarceny
 			m_gravity = 0;
 			if (Game.getInstance().m_camera.getLayer() == 0)
 			{
-				if (Game.keyClicked(GameState.getLeftKey()) || Game.keyClicked(GameState.getRightKey()))
+				if (KeyboardHandler.keyClicked(GameState.getLeftKey()) || KeyboardHandler.keyClicked(GameState.getRightKey()))
 				{
 					Game.getInstance().m_camera.setLayer(1);
 					m_cameraPoint.X = 0;
@@ -769,113 +761,113 @@ namespace GrandLarceny
 			switch (a_direction)
 			{
 				case Direction.Up:
+				{
+					if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 					{
-						if (Game.isKeyPressed(GameState.getUpKey()))
+						m_speed.Y = -PLAYERSPEED;
+						t_list = m_upDownList;
+						if (m_currentVentilation != null)
 						{
-							m_speed.Y = -PLAYERSPEED;
-							t_list = m_upDownList;
-							if (m_currentVentilation != null)
+							if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() > 3)
 							{
-								if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() > 3)
-								{
-									m_position.plusXWith(-3);
-								}
-								else if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() < -3)
-								{
-									m_position.plusXWith(3);
-								}
-								else
-								{
-									m_position.setGlobalX(m_currentVentilation.getPosition().getGlobalX());
-									m_currentVentilation = null;
-								}
+								m_position.plusXWith(-3);
 							}
-							m_currentVentilationImage = "hero_ventilation_vertical";
+							else if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() < -3)
+							{
+								m_position.plusXWith(3);
+							}
+							else
+							{
+								m_position.setGlobalX(m_currentVentilation.getPosition().getGlobalX());
+								m_currentVentilation = null;
+							}
 						}
-						break;
+						m_currentVentilationImage = "hero_ventilation_vertical";
 					}
+					break;
+				}
 				case Direction.Left:
+				{
+					m_currentVentilationImage = "hero_ventilation_idle";
+					if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 					{
-						m_currentVentilationImage = "hero_ventilation_idle";
-						if (Game.isKeyPressed(GameState.getLeftKey()) && !Game.isKeyPressed(GameState.getRightKey()))
+						m_speed.X = -PLAYERSPEED;
+						t_list = m_leftRightList;
+						if (m_currentVentilation != null)
 						{
-							m_speed.X = -PLAYERSPEED;
-							t_list = m_leftRightList;
-							if (m_currentVentilation != null)
+							if (m_position.getGlobalY() - m_currentVentilation.getPosition().getGlobalY() > 3)
 							{
-								if (m_position.getGlobalY() - m_currentVentilation.getPosition().getGlobalY() > 3)
-								{
-									m_position.plusYWith(-3);
-								}
-								else if (m_position.getGlobalY() - m_currentVentilation.getPosition().getGlobalY() < -3)
-								{
-									m_position.plusYWith(3);
-								}
-								else
-								{
-									m_position.setGlobalY(m_currentVentilation.getPosition().getGlobalY());
-									m_currentVentilation = null;
-								}
+								m_position.plusYWith(-3);
 							}
-							m_currentVentilationImage = "hero_ventilation_horizontal";
-							m_facingRight = false;
+							else if (m_position.getGlobalY() - m_currentVentilation.getPosition().getGlobalY() < -3)
+							{
+								m_position.plusYWith(3);
+							}
+							else
+							{
+								m_position.setGlobalY(m_currentVentilation.getPosition().getGlobalY());
+								m_currentVentilation = null;
+							}
 						}
-						break;
+						m_currentVentilationImage = "hero_ventilation_horizontal";
+						m_facingRight = false;
 					}
+					break;
+				}
 				case Direction.Right:
+				{
+					m_currentVentilationImage = "hero_ventilation_idle";
+					if (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 					{
-						m_currentVentilationImage = "hero_ventilation_idle";
-						if (Game.isKeyPressed(GameState.getRightKey()) && !Game.isKeyPressed(GameState.getLeftKey()))
+						m_speed.X = PLAYERSPEED;
+						t_list = m_leftRightList;
+						if (m_currentVentilation != null)
 						{
-							m_speed.X = PLAYERSPEED;
-							t_list = m_leftRightList;
-							if (m_currentVentilation != null)
+							if (m_position.getGlobalY() - m_currentVentilation.getPosition().getGlobalY() > 3)
 							{
-								if (m_position.getGlobalY() - m_currentVentilation.getPosition().getGlobalY() > 3)
-								{
-									m_position.plusYWith(-3);
-								}
-								else if (m_position.getGlobalY() - m_currentVentilation.getPosition().getGlobalY() < -3)
-								{
-									m_position.plusYWith(3);
-								}
-								else
-								{
-									m_position.setGlobalY(m_currentVentilation.getPosition().getGlobalY());
-									m_currentVentilation = null;
-								}
+								m_position.plusYWith(-3);
 							}
-							m_currentVentilationImage = "hero_ventilation_horizontal";
-							m_facingRight = true;
+							else if (m_position.getGlobalY() - m_currentVentilation.getPosition().getGlobalY() < -3)
+							{
+								m_position.plusYWith(3);
+							}
+							else
+							{
+								m_position.setGlobalY(m_currentVentilation.getPosition().getGlobalY());
+								m_currentVentilation = null;
+							}
 						}
-						break;
+						m_currentVentilationImage = "hero_ventilation_horizontal";
+						m_facingRight = true;
 					}
+					break;
+				}
 				case Direction.Down:
+				{
+					if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 					{
-						if (Game.isKeyPressed(GameState.getDownKey()))
+						m_speed.Y = PLAYERSPEED;
+						t_list = m_upDownList;
+						if (m_currentVentilation != null)
 						{
-							m_speed.Y = PLAYERSPEED;
-							t_list = m_upDownList;
-							if (m_currentVentilation != null)
+							if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() > 3)
 							{
-								if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() > 3)
-								{
-									m_position.plusXWith(-3);
-								}
-								else if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() < -3)
-								{
-									m_position.plusXWith(3);
-								}
-								else
-								{
-									m_position.setGlobalX(m_currentVentilation.getPosition().getGlobalX());
-									m_currentVentilation = null;
-								}
+								m_position.plusXWith(-3);
 							}
-							m_currentVentilationImage = "hero_ventilation_vertical";
+							else if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() < -3)
+							{
+								m_position.plusXWith(3);
+							}
+							else
+							{
+								m_position.setGlobalX(m_currentVentilation.getPosition().getGlobalX());
+								m_currentVentilation = null;
+							}
 						}
-						break;
+						m_currentVentilationImage = "hero_ventilation_vertical";
 					}
+					break;
+				}
 			}
 			return t_list;
 		}
@@ -885,29 +877,30 @@ namespace GrandLarceny
 			m_gravity = 0;
 			if (m_position.getLength() > 0)
 			{
-				if (Game.isKeyPressed(GameState.getRightKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 				{
-					if (m_swingSpeed > -MAXSWINGSPEED && !((m_rotate > Math.PI && m_rotate != 0) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f))
+					if ((m_swingSpeed > -MAXSWINGSPEED && !((m_rotate > Math.PI && m_rotate != 0) && m_swingSpeed <= 0 && m_swingSpeed >= -0.01f)) || (m_swingSpeed == 0 && m_rotate == Math.PI))
 					{
 						m_swingSpeed -= (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
-				else if (Game.isKeyPressed(GameState.getLeftKey()))
+				else if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 				{
-					if (m_swingSpeed < MAXSWINGSPEED && !(m_rotate < Math.PI && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f))
+					if ((m_swingSpeed < MAXSWINGSPEED && !(m_rotate < Math.PI && m_swingSpeed >= 0 && m_swingSpeed <= 0.01f)) || (m_swingSpeed == 0 && m_rotate == Math.PI))
 					{
 						m_swingSpeed += (500 * a_deltaTime) / m_position.getLength();
 					}
 				}
+				else if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
+				{
+					m_position.setLength(Math.Max(m_position.getLength() - (200f * a_deltaTime), 50));
+				}
+				else if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
+				{
+					m_position.setLength(Math.Min(m_position.getLength() + (200f * a_deltaTime), m_rope.getLength()));
+				}
 			}
-			if (Game.isKeyPressed(GameState.getUpKey()))
-			{
-				m_position.setLength(Math.Max(m_position.getLength() - (200f * a_deltaTime), 50));
-			}
-			else if (Game.isKeyPressed(GameState.getDownKey()))
-			{
-				m_position.setLength(Math.Min(m_position.getLength() + (200f * a_deltaTime), m_rope.getLength()));
-			}
+			
 
 			m_swingSpeed += (float)((Math.Cos(m_rope.getRotation()) * 3000 * a_deltaTime) / m_position.getLength());
 			m_swingSpeed *= 0.99f;
@@ -915,35 +908,49 @@ namespace GrandLarceny
 			m_rotate = (m_rope.getRotation() - ((float)(Math.PI / 2.0))) % ((float)(Math.PI * 2.0));
 			m_position.setSlope(m_rope.getRotation());
 			if (m_swingSpeed > 1f)
+			{
 				if (!m_facingRight)
+				{
 					m_currentSwingingImage = "hero_swing_back";
+				}
 				else
+				{
 					m_currentSwingingImage = "hero_swing_forth";
+				}
+			}
 			else if (m_swingSpeed < -1f)
+			{
 				if (m_facingRight)
+				{
 					m_currentSwingingImage = "hero_swing_back";
+				}
 				else
+				{
 					m_currentSwingingImage = "hero_swing_forth";
+				}
+			}
 			else
+			{
 				m_currentSwingingImage = "hero_swing_still";
+			}
 
-			if (Game.keyClicked(GameState.getJumpKey()))
+			if (KeyboardHandler.keyClicked(GameState.getJumpKey()))
 			{
 				float t_force = m_swingSpeed * (m_position.getLength() + (m_img.getSize().Y / 2));
 				Vector2 t_inputForce = new Vector2();
-				if (Game.isKeyPressed(GameState.getUpKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 				{
 					t_inputForce.Y -= 200;
 				}
-				if (Game.isKeyPressed(GameState.getDownKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 				{
 					t_inputForce.Y += 200;
 				}
-				if (Game.isKeyPressed(GameState.getRightKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 				{
 					t_inputForce.X += 200;
 				}
-				if (Game.isKeyPressed(GameState.getLeftKey()))
+				if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 				{
 					t_inputForce.X -= 200;
 				}
@@ -956,9 +963,13 @@ namespace GrandLarceny
 		#region change animation and state
 		private void setSprite(string a_sprite)
 		{
-			if (m_isInLight)
+			if (m_runMode)
 			{
-				m_img.setSprite("Images//Sprite//Hero//" + a_sprite+"_light");
+				m_img.setSpriteSilently("Images//Sprite//Hero//" + a_sprite);
+			}
+			else if (m_isInLight)
+			{
+				m_img.setSprite("Images//Sprite//Hero//" + a_sprite + "_light");
 			}
 			else
 			{
@@ -971,66 +982,85 @@ namespace GrandLarceny
 			switch (m_currentState)
 			{
 				case State.Stop:
-					{
-						setSprite("hero_stand");
-						break;
-					}
+				{
+					setSprite("hero_stand");
+					break;
+				}
 				case State.Walking:
+				{
+					if (m_chase || m_runMode)
 					{
-						if (m_chase || m_runMode)
-							setSprite("hero_run");
-						else
-							setSprite("hero_walk");
-						break;
+						setSprite("hero_run");
 					}
+					else
+					{
+						setSprite("hero_walk");
+					}
+					break;
+				}
 				case State.Jumping:
+				{
+					if (m_speed.Y < 0)
 					{
-						if (m_speed.Y < 0)
-							setSprite("hero_jump");
-						else
-							setSprite("hero_fall");
-						break;
+						setSprite("hero_jump");
 					}
+					else
+					{
+						setSprite("hero_fall");
+					}
+					break;
+				}
 				case State.Rolling:
-					{
-						setSprite("hero_roll");
-						break;
-					}
+				{
+					setSprite("hero_roll");
+					break;
+				}
 				case State.Slide:
-					{
-						setSprite("hero_slide");
-						break;
-					}
+				{
+					setSprite("hero_slide");
+					break;
+				}
 				case State.Hanging:
-					{
-						setSprite("hero_hang");
-						break;
-					}
+				{
+					setSprite("hero_hang");
+					break;
+				}
 				case State.Climbing:
+				{
+					if (m_speed.Y < 0)
+					{
+						setSprite("ladderclimb");
+					}
+					else if (m_speed.Y > 0)
+					{
+						setSprite("ladderclimbdown");
+					}
+					else
 					{
 						setSprite("hero_climb");
-						break;
 					}
+					break;
+				}
 				case State.Hiding:
-					{
-						setSprite(m_currentHidingImage);
-						break;
-					}
+				{
+					setSprite(m_currentHidingImage);
+					break;
+				}
 				case State.Ventilation:
+				{
+					setSprite(m_currentVentilationImage);
+					if (m_currentVentilation != null)
 					{
-						setSprite(m_currentVentilationImage);
-						if (m_currentVentilation != null)
-						{
-							m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
-							m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
-						}
-						break;
+						m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
+						m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
 					}
+					break;
+				}
 				case State.Swinging:
-					{
-						setSprite(m_currentSwingingImage);
-						break;
-					}
+				{
+					setSprite(m_currentSwingingImage);
+					break;
+				}
 			}
 		}
 
@@ -1038,12 +1068,12 @@ namespace GrandLarceny
 		{
 			if (m_currentState != m_lastState)
 			{
-				if (m_runMode == true && (m_currentState != State.Walking && m_currentState != State.Jumping))
+				if (!m_chase && m_runMode && (m_currentState != State.Walking && m_currentState != State.Jumping))
 				{
 					toggleRunMode();
 				}
 
-				if ((m_lastState == State.Rolling || (m_lastState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE) || m_lastState == State.Hanging)
+				if ((m_lastState == State.Rolling || m_lastState == State.Hiding || m_lastState == State.Hanging)
 					&& m_currentState != State.Rolling && m_currentState != State.Hanging)
 				{
 					if (m_currentState == State.Hiding && m_currentHidingImage == DUCKHIDINGIMAGE)
@@ -1051,6 +1081,20 @@ namespace GrandLarceny
 						m_imgOffsetY = -(m_img.getSize().Y - m_rollHitBox.getOutBox().Height);
 						m_imgOffsetX = 0;
 						setLayer(0.725f);
+
+					} 
+					else if(m_lastState == State.Hiding && m_currentHidingImage == STANDHIDINGIMAGE)
+					{
+						if (m_facingRight)
+						{
+							m_position.plusXWith(40);
+							Game.getInstance().m_camera.getPosition().plusXWith(-40);
+						}
+						else
+						{
+							m_position.plusXWith(-40);
+							Game.getInstance().m_camera.getPosition().plusXWith(40);
+						}
 					}
 					else
 					{
@@ -1115,9 +1159,13 @@ namespace GrandLarceny
 						m_collisionShape = m_rollHitBox;
 					}
 				}
+				else if (m_currentState == State.Climbing)
+				{
+					m_img.setAnimationSpeed(15);
+				}
 				if (m_lastState != State.Swinging && m_currentState != State.Swinging)
 				{
-					if(m_rope != null && !m_rope.getHitBox().collides(m_collisionShape))
+					if (m_rope != null && !m_rope.getHitBox().collides(m_collisionShape))
 						m_rope = null;
 				}
 				if (m_currentState == State.Swinging)
@@ -1149,6 +1197,10 @@ namespace GrandLarceny
 					m_imgOffsetX = 0;
 					m_imgOffsetY = 0;
 				}
+				else if (m_currentState == State.Ventilation)
+				{
+					m_img.setAnimationSpeed(15);
+				}
 			}
 		}
 		#endregion
@@ -1160,10 +1212,10 @@ namespace GrandLarceny
 			m_ladderDirection = 0;
 			if (!m_chase && !m_runMode)
 			{
-				setIsInLight(false);
+				setIsInLight(false, false);
 			}
-			setInteractionVisibillity(false);
-			if(a_collisionList.Count != 0)
+			setInteractionVisibility(false);
+			if (a_collisionList.Count != 0)
 			{
 				base.collisionCheck(a_collisionList);
 			}
@@ -1175,20 +1227,23 @@ namespace GrandLarceny
 					m_position.plusYWith(-1);
 				}
 				m_currentState = State.Climbing;
+				
 				if (m_speed.Y < -Player.CLIMBINGSPEED || m_speed.Y > Player.CLIMBINGSPEED)
 					m_speed.Y = 0;
 				if (m_ladderDirection == Direction.Left)
 				{
 					m_facingRight = false;
+					m_imgOffsetX = 7;
 				}
 				else
 				{
 					m_facingRight = true;
+					m_imgOffsetX = -7;
 				}
 			}
 		}
 
-		public void setInteractionVisibillity(bool a_show)
+		public void setInteractionVisibility(bool a_show)
 		{
 			m_interactionArrow.setVisible(a_show);
 		}
@@ -1215,7 +1270,7 @@ namespace GrandLarceny
 					&& t_colliderBox.Contains((int)m_position.getGlobalX() + t_playerBox.Width + 4, (int)m_position.getGlobalY())
 					&& m_lastPosition.Y < t_colliderBox.Y
 					&& m_speed.Y >= 0
-					&& m_currentState == State.Jumping)
+					&& (m_currentState == State.Jumping || m_currentState == State.Climbing))
 				{
 					m_position.setLocalY(a_collider.getPosition().getGlobalY());
 					m_nextPosition.Y = m_position.getGlobalY();
@@ -1228,7 +1283,7 @@ namespace GrandLarceny
 					&& t_colliderBox.Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
 					&& m_lastPosition.Y < t_colliderBox.Y
 					&& m_speed.Y >= 0
-					&& m_currentState == State.Jumping)
+					&& (m_currentState == State.Jumping || m_currentState == State.Climbing))
 				{
 					m_position.setLocalY(a_collider.getPosition().getGlobalY());
 					m_nextPosition.Y = m_position.getGlobalY();
@@ -1243,16 +1298,24 @@ namespace GrandLarceny
 
 		#region get/set and other methods
 
-		public void setIsInLight(bool a_isInLight)
+		public void setIsInLight(bool a_isInLight, bool a_fromLight)
 		{
-			if (m_isInLight && !a_isInLight)
+			if(!m_runMode)
 			{
-				String t_oldName = m_img.getImagePath();
-				m_img.setSpriteSilently(t_oldName.Remove(t_oldName.Length - 6));
+				if (m_isInLight && !a_isInLight && m_img.getImagePath().EndsWith("_light"))
+				{
+					String t_oldName = m_img.getImagePath();
+					m_img.setSpriteSilently(t_oldName.Remove(t_oldName.Length - 6));
+				}
+				else if (!m_isInLight && a_isInLight)
+				{
+					m_img.setSpriteSilently(m_img.getImagePath() + "_light");
+				}
+				
 			}
-			else if(!m_isInLight && a_isInLight)
+			else if (a_fromLight && !m_img.getImagePath().EndsWith("_light"))
 			{
-				m_img.setSpriteSilently(m_img.getImagePath()+"_light");
+				m_img.setSpriteSilently(m_img.getImagePath() + "_light");
 			}
 			m_isInLight = a_isInLight;
 		}
@@ -1310,7 +1373,7 @@ namespace GrandLarceny
 					m_stunnedTimer = 5f;
 					m_invulnerableTimer = 5f;
 
-					Game.getInstance().setState(new DeathScene(Game.getInstance().getState().getObjectList()));
+					Game.getInstance().setState(new DeathScene(Game.getInstance().getState().getObjectList(), ((GameState)Game.getInstance().getState()).getBackground()));
 				}
 				else
 				{
@@ -1393,11 +1456,7 @@ namespace GrandLarceny
 
 				m_img.setAnimationSpeed(10);
 
-
-
 				deactivateChaseMode();
-
-
 			}
 		}
 
@@ -1491,38 +1550,39 @@ namespace GrandLarceny
 			float t_eneY = a_enemy.getPosition().getGlobalY();
 			float t_diffX = (m_position.getGlobalX() + t_eneX) / 2;
 			float t_diffY = (m_position.getGlobalY() + t_eneY) / 2;
-			float t_enemyAtentionMarkX = 0;
+			float t_enemyAttentionMarkX = 0;
 			if (a_enemy is Guard)
 			{
 				if (((Guard)a_enemy).isFacingRight())
 				{
-					t_enemyAtentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
+					t_enemyAttentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
 				}
 				else
 				{
-					t_enemyAtentionMarkX = t_eneX - 10;
+					t_enemyAttentionMarkX = t_eneX - 10;
 				}
 			}
-			float t_myAtentionMarkX = 0;
+			float t_myAttentionMarkX = 0;
 			if (m_facingRight)
 			{
-				t_myAtentionMarkX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
+				t_myAttentionMarkX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
 			}
 			else
 			{
-				t_myAtentionMarkX = m_position.getGlobalX() - 10;
+				t_myAttentionMarkX = m_position.getGlobalX() - 10;
 			}
-			string[] t_commands = {"addCinematic"
-									,"addParticle:"+t_myAtentionMarkX+":"+(m_position.getGlobalY()-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
-									  ,"addParticle:"+t_enemyAtentionMarkX+":"+(t_eneY-20)+":"+"Images//Sprite//Guard//Exclmarks"+":"+10f+":"+a_enemy.getLayer()
-									  ,  "setCamera:"+ t_diffX+":"+ t_diffY+":"+1000};
+			string[] t_commands = { "addCinematic"
+									, "addParticle:" + t_myAttentionMarkX + ":" + (m_position.getGlobalY() - 20) + ":" + "Images//Sprite//Guard//Exclmarks" + ":" + 10f + ":" + a_enemy.getLayer()
+									, "addParticle:" + t_enemyAttentionMarkX + ":" + (t_eneY - 20) + ":" + "Images//Sprite//Guard//Exclmarks" + ":" + 10f + ":" + a_enemy.getLayer()
+									, "setCamera:" + t_diffX+":" + t_diffY + ":" + 1000 };
 			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
 			Game.getInstance().setState(t_cutScene);
 			m_chase = true;
+			m_runMode = false;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
-			setIsInLight(true);
-
+			setIsInLight(true, false);
 		}
+
 		public void deactivateChaseMode()
 		{
 			m_deactivateChase = true;
@@ -1533,7 +1593,7 @@ namespace GrandLarceny
 			m_chase = false;
 			m_runMode = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
-			setIsInLight(false);
+			setIsInLight(false, false);
 			((GameState)Game.getInstance().getState()).clearAggro();
 		}
 		private void toggleRunMode()
@@ -1543,7 +1603,7 @@ namespace GrandLarceny
 				m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			else
 				m_playerCurrentSpeed = PLAYERSPEED;
-			setIsInLight(m_runMode);
+			setIsInLight(m_runMode, false);
 		}
 
 		public void setSwingSpeed(float a_speed)
@@ -1562,6 +1622,5 @@ namespace GrandLarceny
 			m_swingHitBox.setPosition(m_position);
 		}
 		#endregion
-
 	}
 }

@@ -37,11 +37,9 @@ namespace GrandLarceny
 			if (m_visible)
 			{
 				float t_scroll = ((((float)m_parallaxScroll) / 1000f) * (m_position.getGlobalX() + (m_img.getSize().X / 2) - Game.getInstance().m_camera.getPosition().getGlobalX()));
-				Vector2 t_imgPosition = new Vector2(
-				m_position.getGlobalX() + m_imgOffsetX + t_scroll,
-				m_position.getGlobalY() + m_imgOffsetY);
+				Vector2 t_imgPosition = new Vector2(m_position.getGlobalX() + m_imgOffsetX + t_scroll, m_position.getGlobalY() + m_imgOffsetY);
 
-				m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
+				m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer - m_parallaxScroll / 100000f, m_XScale, m_YScale);
 
 				if (m_changePositionAfterDraw != Vector2.Zero)
 				{
@@ -59,6 +57,10 @@ namespace GrandLarceny
 		public int getParrScroll()
 		{
 			return m_parallaxScroll;
+		}
+		public CollisionShape getImageBox()
+		{
+			return new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
 		}
 	}
 }

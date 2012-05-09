@@ -34,7 +34,6 @@ namespace GrandLarceny
 
 			m_levelText = new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
 			m_newLevelName = new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
-
 			string[] t_ext = { ".lvl" };
 			if (!Directory.Exists("Content//levels//"))
 			{
@@ -69,7 +68,7 @@ namespace GrandLarceny
 				m_levelText.setText("New Level:");
 				m_levelText.setColor(Color.White);
 			}
-			if (Game.keyClicked(Keys.Enter) && m_newLevelName.isWriting())
+			if (KeyboardHandler.keyClicked(Keys.Enter) && m_newLevelName.isWriting())
 			{
 				createNewLevel(m_btnTFAccept);
 			}

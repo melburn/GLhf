@@ -80,12 +80,6 @@ namespace GrandLarceny
 			m_hasFlashLight = a_hasFlashLight;
 			m_FlashLightAddicted = a_sprite == "Images//Sprite//Guard//guard_flash_idle";
 			m_aiState = AIStatepatroling.getInstance();
-			if (m_hasFlashLight && m_FlashLightAddicted)
-			{
-				m_flashLight = new FlashCone(this, new Vector2(0,-7), "Images//LightCone//light_guard_idle",m_facingRight, 0.249f);
-				Game.getInstance().getState().addObject(m_flashLight);
-				m_flashLightId = m_flashLight.getId();
-			}
 			m_gravity = 1000;
 			m_guardFaceRight = m_facingRight;
 		}
@@ -98,12 +92,6 @@ namespace GrandLarceny
             m_rightPatrolPoint = a_patrolPoint;
 			m_aiState = AIStatepatroling.getInstance();
 			m_FlashLightAddicted = m_img.isTexture(t2d_flashIdle);
-			if (m_hasFlashLight && m_FlashLightAddicted)
-			{
-				m_flashLight = new FlashCone(this, new Vector2(0, -7), "Images//LightCone//light_guard_idle", m_facingRight, 0.249f);
-				Game.getInstance().getState().addObject(m_flashLight);
-				m_flashLightId = m_flashLight.getId();
-			}
 			m_gravity = 1000;
 			m_guardFaceRight = m_facingRight;
 		}
@@ -746,7 +734,15 @@ namespace GrandLarceny
 
 		public bool canSeePoint(Vector2 a_point)
 		{
-			return CollisionManager.possibleLineOfSight(m_position.getGlobalCartesian() + new Vector2(0, 10), a_point);
+			return CollisionManager.possibleLineOfSight(m_position.getGlobalCartesian() + new Vector2(40, 10), a_point);
+		}
+
+		public override string ToString() {
+			if (m_FlashLightAddicted) {
+				return base.ToString() + ":Has Flashlight";
+			} else {
+				return base.ToString() + ":No Flashlight";
+			}
 		}
 	}
 }

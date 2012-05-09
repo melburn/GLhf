@@ -29,16 +29,17 @@ namespace GrandLarceny
 			if (a_collid is Player)
 			{
 				Player t_player = (Player)a_collid;
-				if (t_player.getCurrentState() == Player.State.Slide || m_playerOn)
+				if ((t_player.getCurrentState() == Player.State.Slide || m_playerOn) && !t_player.isChase())
 				{
 					m_playerOn = true;
 					t_player.setState(Player.State.Slide);
 					t_player.setNextPositionY(m_position.getGlobalY());
 					t_player.setSpeedY(0);
-					if (Game.isKeyPressed(GameState.getDownKey())
-						|| Game.keyClicked(GameState.getJumpKey())
-						|| (t_player.isFacingRight() && Game.isKeyPressed(GameState.getRightKey()))
-						|| (!t_player.isFacingRight() && Game.isKeyPressed(GameState.getLeftKey())))
+					if ((KeyboardHandler.isKeyPressed(GameState.getDownKey())
+						|| KeyboardHandler.keyClicked(GameState.getJumpKey())
+						|| (t_player.isFacingRight() && KeyboardHandler.isKeyPressed(GameState.getRightKey()))
+						|| (!t_player.isFacingRight() && KeyboardHandler.isKeyPressed(GameState.getLeftKey())))
+						&& ((!t_player.isFacingRight() && !KeyboardHandler.isKeyPressed(GameState.getRightKey())) || (t_player.isFacingRight() && !KeyboardHandler.isKeyPressed(GameState.getLeftKey()))))
 					{
 						m_playerOn = false;
 						t_player.setState(Player.State.Jumping);

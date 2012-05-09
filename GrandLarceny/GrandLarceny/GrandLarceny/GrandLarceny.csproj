@@ -18,20 +18,23 @@
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
-    <PublishUrl>publish\</PublishUrl>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>\\Goofy2\HT09\osca-bri\Desktop\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <InstallUrl>\\Goofy2\HT09\osca-bri\Desktop\</InstallUrl>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -58,6 +61,18 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>DD71CA3494B1A4AF9D29BECE9789D94F5154783C</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>GrandLarceny_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
@@ -116,11 +131,11 @@
     <Compile Include="AI\AIStateChasing.cs" />
     <Compile Include="AI\AIStateGoingToTheSwitch.cs" />
     <Compile Include="AI\AIStatePatrolling.cs" />
-    <Compile Include="Consumable.cs" />
+    <Compile Include="Consumables\Consumable.cs" />
     <Compile Include="CollisionLine.cs" />
-    <Compile Include="ConsumableGoal.cs" />
-    <Compile Include="ConsumableHeart.cs" />
-    <Compile Include="ConsumableKey.cs" />
+    <Compile Include="Consumables\ConsumableGoal.cs" />
+    <Compile Include="Consumables\ConsumableHeart.cs" />
+    <Compile Include="Consumables\ConsumableKey.cs" />
     <Compile Include="Events\Effects\FinnishLevelEffect.cs" />
     <Compile Include="Events\Triggers\IsDeadTrigger.cs" />
     <Compile Include="Factories\AssetFactory.cs" />
@@ -153,9 +168,11 @@
     <Compile Include="Hookshot.cs" />
     <Compile Include="GuardEntity.cs" />
     <Compile Include="HubMenu.cs" />
+    <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="LoadAndSaveMenu.cs" />
     <Compile Include="LockedDoor.cs" />
     <Compile Include="MapState.cs" />
+    <Compile Include="Handlers\MouseHandler.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />

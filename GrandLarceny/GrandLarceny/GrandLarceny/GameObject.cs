@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
-{	
+{
 	[Serializable()]
 	public class GameObject
 	{
@@ -28,7 +28,7 @@ namespace GrandLarceny
 		protected float m_imgOffsetY = 0;
 		protected Vector2 m_rotationPoint = Vector2.Zero;
 		protected Vector2 m_changePositionAfterDraw = Vector2.Zero;
-		protected Boolean m_visible;
+		protected Boolean m_visible = true;
 
 		private string m_spritePath;
 
@@ -58,7 +58,7 @@ namespace GrandLarceny
 		}
 
 		public virtual void linkObject()
-		{}
+		{ }
 
 		public virtual void flip()
 		{
@@ -75,7 +75,7 @@ namespace GrandLarceny
 			m_rotationPoint = m_img.getSize() / 2;
 			m_visible = true;
 		}
-		
+
 		public Position getPosition()
 		{
 			return m_position;
@@ -95,7 +95,7 @@ namespace GrandLarceny
 		{
 			if (m_visible)
 			{
-				Vector2 t_imgPosition = m_position.getFlooredGlobalCartesian() + new Vector2(m_imgOffsetX,m_imgOffsetY);
+				Vector2 t_imgPosition = m_position.getFlooredGlobalCartesian() + new Vector2(m_imgOffsetX, m_imgOffsetY);
 				///*t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
 				//t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
 
@@ -114,14 +114,15 @@ namespace GrandLarceny
 		{
 			return m_dead;
 		}
-		public virtual void kill() {
+		public virtual void kill()
+		{
 			m_dead = true;
 		}
 		public void setLayer(float a_layer)
 		{
 			m_layer = a_layer;
 		}
-		
+
 		public virtual void setColor(Color a_color)
 		{
 			m_color = a_color;
@@ -143,7 +144,8 @@ namespace GrandLarceny
 			m_rotate = (m_rotate + a_rotation) % ((float)Math.PI * 2);
 		}
 
-		public float getLayer() {
+		public float getLayer()
+		{
 			return m_layer;
 		}
 
@@ -186,6 +188,15 @@ namespace GrandLarceny
 		public void setVisible(bool a_visible)
 		{
 			m_visible = a_visible;
+		}
+
+		public override string ToString() {
+			return m_objectId + ": " + m_position.getGlobalCartesian().ToString() + ":" + m_layer;
+		}
+
+		public virtual Vector2 getCenterPoint()
+		{
+			return m_position.getGlobalCartesian() + (m_img.getSize() / 2);
 		}
 	}
 }

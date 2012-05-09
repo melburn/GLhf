@@ -40,8 +40,9 @@ namespace GrandLarceny
 		private bool m_isToggled;
 		private bool m_isVisible;
 
-		private State m_currentState = State.Normal;
+		private Keys[] m_hotkey;
 
+		private State m_currentState = State.Normal;
 		enum State
 		{
 			Normal,
@@ -146,7 +147,7 @@ namespace GrandLarceny
 			if (m_bounds.Contains(Mouse.GetState().X, Mouse.GetState().Y))
 			{
 				m_isFocused = true;
-				if (Game.m_currentMouse.LeftButton == ButtonState.Pressed && Game.m_previousMouse.LeftButton == ButtonState.Released)
+				if (MouseHandler.lmbDown())
 				{
 					if (m_downSound != null)
 					{
@@ -154,7 +155,7 @@ namespace GrandLarceny
 					}
 					m_isPressed = true;
 				}
-				if (m_isPressed && (Game.m_previousMouse.LeftButton == ButtonState.Pressed && Game.m_currentMouse.LeftButton == ButtonState.Released))
+				if (m_isPressed && (MouseHandler.lmbDown()))
 				{
 					if (m_upSound != null)
 					{
@@ -166,6 +167,18 @@ namespace GrandLarceny
 						m_clickEvent(this);
 					}
 				}	
+			}
+			else if (hotkeyPressed())
+			{
+				if (m_downSound != null)
+				{
+					m_downSound.play();
+				}
+				m_isPressed = true;
+				if (m_clickEvent != null)
+				{
+					m_clickEvent(this);
+				}
 			}
 			else
 			{
@@ -308,6 +321,60 @@ namespace GrandLarceny
 		public void setVisible(bool a_visible)
 		{
 			m_isVisible = a_visible;
+		}
+
+		public int getState()
+		{
+			switch (m_currentState)
+			{
+				case State.Normal:
+					return 0;
+				case State.Hover:
+					return 1;
+				case State.Pressed:
+					return 2;
+				case State.Toggled:
+					return 3;
+			}
+			return -1;
+		}
+
+		public void setHotkey(Keys[] a_key, clickDelegate a_method)
+		{
+			m_clickEvent = new Button.clickDelegate(a_method);
+			m_hotkey = a_key;
+		}
+
+		private bool hotkeyPressed()
+		{
+			if (m_hotkey == null)
+			{
+				return false;
+			}
+			Keys[] t_keys = KeyboardHandler.getPressedKeys();
+			foreach (Keys t_key in m_hotkey)
+			{
+				if (t_keys.Contains(t_key))
+				{
+					continue;
+				}
+				return false;
+			}
+
+			bool t_returnValue = true;
+			if (!m_hotkey.Contains(Keys.LeftShift) && !m_hotkey.Contains(Keys.RightShift))
+			{
+				t_returnValue = !KeyboardHandler.isKeyPressed(Keys.LeftShift) && !KeyboardHandler.isKeyPressed(Keys.LeftShift);
+			}
+			if (!m_hotkey.Contains(Keys.LeftControl) && !m_hotkey.Contains(Keys.RightControl) && t_returnValue)
+			{
+				t_returnValue = !KeyboardHandler.isKeyPressed(Keys.LeftControl) && !KeyboardHandler.isKeyPressed(Keys.RightControl);
+			}
+			if (!m_hotkey.Contains(Keys.LeftAlt) && !m_hotkey.Contains(Keys.RightAlt) && t_returnValue)
+			{
+				t_returnValue = !KeyboardHandler.isKeyPressed(Keys.LeftAlt) && !KeyboardHandler.isKeyPressed(Keys.RightAlt);
+			}
+			return t_returnValue;
 		}
 		#endregion
 

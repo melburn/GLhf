@@ -31,7 +31,7 @@ namespace GrandLarceny
 			m_startPosition = m_position;
 			m_endPosition = new CartesianCoordinate(m_position.getGlobalCartesian() + new Vector2(0, (float)Math.Max(m_lenght, 72)));
 			m_endPosition.setParentPositionWithoutMoving(m_startPosition);
-			m_line = new Line(m_startPosition, m_endPosition, new Vector2(36, 0), new Vector2(36, 0), Color.Black, 5, true);
+			m_line = new Line(m_startPosition, m_endPosition, new Vector2(36, 0), new Vector2(36, 0), Color.Beige, 5, true);
 			m_collisionShape = new CollisionLine(m_startPosition.getGlobalCartesian(), m_endPosition.getGlobalCartesian());
 			m_rotationPoint.Y = 0;
 			m_rotate = (float)Math.PI / 2;
@@ -71,7 +71,7 @@ namespace GrandLarceny
 		}
 		public override CollisionShape getImageBox()
 		{
-			return new CollisionRectangle(0, 0, 72, 72, m_startPosition);
+			return new CollisionRectangle(0, 0, 72, Math.Max(72, m_lenght), m_startPosition);
 		}
 
 		public void setLength(float a_length)
@@ -154,7 +154,6 @@ namespace GrandLarceny
 				Player t_player = (Player)a_collid;
 				if (t_player.getRope() != this && t_player.getHitBox().collides(m_collisionShape) && !(t_player.getPosition() is PolarCoordinate))
 				{
-					t_player.setState(Player.State.Swinging);
 					if (!(Vector2.Distance(t_player.getPosition().getGlobalCartesian(), m_line.getStartPoint().getGlobalCartesian())
 						< Math.Min(Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesian().X + t_player.getHitBox().getOutBox().Width, t_player.getPosition().getGlobalCartesian().Y), m_line.getStartPoint().getGlobalCartesian()),
 						Vector2.Distance(new Vector2(t_player.getPosition().getGlobalCartesian().X + t_player.getHitBox().getOutBox().Width / 2, t_player.getPosition().getGlobalCartesian().Y), m_line.getStartPoint().getGlobalCartesian()))))
