@@ -20,12 +20,6 @@ namespace GrandLarceny
 			m_parallaxScroll = 0;
 		}
 
-		public override void loadContent()
-		{
-			base.loadContent();
-			m_layer = 0.950f;
-		}
-
 		public bool isExplored()
 		{
 			return m_explored;
