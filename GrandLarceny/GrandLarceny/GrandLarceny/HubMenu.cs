@@ -34,7 +34,7 @@ namespace GrandLarceny
 
 			m_levelText = new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
 			m_newLevelName = new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
-
+			Game.getInstance().Content.Load
 			string[] t_ext = { ".lvl" };
 			if (!Directory.Exists("Content//levels//"))
 			{
