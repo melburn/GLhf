@@ -60,6 +60,14 @@
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
+    <Content Include="Levels\Level 1.lvl">
+      <Name>Level 1</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Levels\Level 2.lvl">
+      <Name>Level 2</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Levels\TestLevels\asdf.lvl">
       <Name>asdf</Name>
     </None>
