@@ -19,19 +19,19 @@
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>\\Goofy2\HT09\osca-bri\Desktop\</PublishUrl>
+    <PublishUrl>C:\Users\Joxe\Desktop\Grand Larceny\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Unc</InstallFrom>
-    <UpdateEnabled>true</UpdateEnabled>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\Goofy2\HT09\osca-bri\Desktop\</InstallUrl>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>2</ApplicationRevision>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -163,6 +163,7 @@
     <Compile Include="Events\Effects\EventEffect.cs" />
     <Compile Include="Events\Triggers\ChaseTrigger.cs" />
     <Compile Include="Events\Triggers\SwitchTrigger.cs" />
+    <Compile Include="CoveringShadow.cs" />
     <Compile Include="Factories\GuiListFactory.cs" />
     <Compile Include="Foreground.cs" />
     <Compile Include="Hookshot.cs" />

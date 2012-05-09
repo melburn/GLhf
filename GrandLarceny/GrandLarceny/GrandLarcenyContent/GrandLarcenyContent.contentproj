@@ -60,6 +60,9 @@
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
+    <None Include="Levels\TestLevels\asdf.lvl">
+      <Name>asdf</Name>
+    </None>
     <None Include="wtf\settings.ini">
       <Name>settings</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1350,17 +1353,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\Dark1.png">
+    <Compile Include="Images\Foregrounds\Shadow\Dark1.png">
       <Name>Dark1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\Dark2.png">
+    <Compile Include="Images\Foregrounds\Shadow\Dark2.png">
       <Name>Dark2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\Dark3.png">
+    <Compile Include="Images\Foregrounds\Shadow\Dark3.png">
       <Name>Dark3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1917,8 +1920,34 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="levels\" />
+    <Compile Include="Images\Background\backdrop_parking.png">
+      <Name>backdrop_parking</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_parking_prop_car_01.png">
+      <Name>backdrop_parking_prop_car_01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_parking_prop_car_02.png">
+      <Name>backdrop_parking_prop_car_02</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Background\backdrop_parking_prop_car_03.png">
+      <Name>backdrop_parking_prop_car_03</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
