@@ -1595,6 +1595,10 @@ namespace GrandLarceny
 			else
 				m_playerCurrentSpeed = PLAYERSPEED;
 		}
+		public bool isRunMode()
+		{
+			return m_runMode;
+		}
 
 		public void setSwingSpeed(float a_speed)
 		{
