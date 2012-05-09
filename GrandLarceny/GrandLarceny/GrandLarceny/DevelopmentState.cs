@@ -71,7 +71,8 @@ namespace GrandLarceny
 			StraVent,		CornerVent, Ventrance,		Window,
 			DuckHidingObject,		StandHidingObject,	Rope,
 			SecDoor,		CornerHang,	Checkpoint,		Prop,
-			Heart,			Key,		EndVent,		Objective
+			Heart,			Key,		EndVent,		Objective,
+			Shadow
 		}
 		#endregion
 
@@ -186,6 +187,8 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.C }, guiButtonClick);
 			m_buttonDict.Add(m_btnConsKeyHotkey = new Button("DevelopmentHotkeys//btn_key_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
 			m_btnConsKeyHotkey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
+			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+X", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Shadow);
+			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.X }, guiButtonClick);
 			
 			#endregion
 			//-----------------------------------
@@ -495,6 +498,9 @@ namespace GrandLarceny
 				case State.Objective:
 					m_objectPreview = new ConsumableGoal(t_assetPosition, "Images//Prop//Consumables//Objective//" + t_newAsset, 0.000f);
 					break;
+				case State.Shadow:
+					m_objectPreview = new CoveringShadow(t_assetPosition, "Images//Foregrounds//Shadow//" + t_newAsset, 0.0f);
+					break;
 			}
 		}
 		#endregion
@@ -592,9 +598,14 @@ namespace GrandLarceny
 					else if (m_selectedObject is VentilationDrum)
 					{
 						((VentilationDrum)m_selectedObject).toggleLocked();
-					} else if (m_selectedObject is Guard)
+					}
+					else if (m_selectedObject is Guard)
 					{
 						((Guard)m_selectedObject).toggleFlashLightAddicted();
+					}
+					else if (m_selectedObject is ConsumableGoal)
+					{
+						((ConsumableGoal)m_selectedObject).toggleBling();
 					}
 					m_textObjectInfo.setText(m_selectedObject.ToString());
 				}
@@ -1081,6 +1092,9 @@ namespace GrandLarceny
 					break;
 				case State.Objective:
 					createAssetList("Content//Images//Prop//Consumables//Objective//");
+					break;
+				case State.Shadow:
+					createAssetList("Content//Images//Foregrounds//Shadow//");
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)

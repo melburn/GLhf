@@ -107,7 +107,7 @@ namespace GrandLarceny
 				Player t_player = (Player)a_collid;
 				if (t_player.getCurrentState() != Player.State.Hiding)
 				{
-					t_player.setIsInLight(true, true);
+					t_player.setIsInLight(true);
 				}
 				else
 				{
@@ -115,11 +115,11 @@ namespace GrandLarceny
 					{
 						if (t_player.isFacingRight() && t_player.getPosition().getGlobalX() + t_player.getHitBox().getOutBox().Width+72 > m_position.getGlobalX())
 						{
-							t_player.setIsInLight(true, true);
+							t_player.setIsInLight(true);
 						}
 						else if (!t_player.isFacingRight() && t_player.getPosition().getGlobalX() - 72 < m_position.getGlobalX())
 						{
-							t_player.setIsInLight(true, true);
+							t_player.setIsInLight(true);
 						}
 					}
 				}

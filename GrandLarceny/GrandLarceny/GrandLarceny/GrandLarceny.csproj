@@ -164,6 +164,7 @@
     <Compile Include="Events\Effects\EventEffect.cs" />
     <Compile Include="Events\Triggers\ChaseTrigger.cs" />
     <Compile Include="Events\Triggers\SwitchTrigger.cs" />
+    <Compile Include="CoveringShadow.cs" />
     <Compile Include="Factories\GuiListFactory.cs" />
     <Compile Include="Foreground.cs" />
     <Compile Include="Hookshot.cs" />

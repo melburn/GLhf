@@ -9,200 +9,213 @@ namespace GrandLarceny
 {
 	public class AssetFactory
 	{
+		private static States m_state;
+
+		public static void updateState(States a_currentState)
+		{
+			m_state = a_currentState;
+		}
+
 		public static void createPlayer(Vector2 a_position)
 		{
 			if (Game.getInstance().getState().getPlayer() == null) {
-				States t_state = Game.getInstance().getState();
-				Player t_player = new Player(t_state.getTileCoordinates(a_position), "Images//Sprite//Hero//hero_stand", 0.300f);
-				t_state.setPlayer(t_player);
-				t_state.addObject(t_player);
+				m_state = Game.getInstance().getState();
+				Player t_player = new Player(m_state.getTileCoordinates(a_position), "Images//Sprite//Hero//hero_stand", 0.300f);
+				m_state.setPlayer(t_player);
+				m_state.addObject(t_player);
 			}
 		}
 
 		public static void createPlatform(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Platform(t_state.getTileCoordinates(a_position), a_asset, 0.350f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new Platform(m_state.getTileCoordinates(a_position), a_asset, 0.350f));
 		}
 
 		public static void createLadder(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Ladder(t_state.getTileCoordinates(a_position), a_asset, 0.350f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new Ladder(m_state.getTileCoordinates(a_position), a_asset, 0.350f));
 		}
 
 		public static void createSpotLight(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new SpotLight(t_state.getTileCoordinates(a_position), a_asset, 0.200f, (float)(Math.PI * 0.5f), true));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new SpotLight(m_state.getTileCoordinates(a_position), a_asset, 0.200f, (float)(Math.PI * 0.5f), true));
 		}
 
 		public static void createBackground(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.950f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new Environment(m_state.getTileCoordinates(a_position), a_asset, 0.950f));
 		}
 
 		public static void createGuard(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Guard(t_state.getTileCoordinates(a_position), a_asset, t_state.getTileCoordinates(a_position).X, true, 0.250f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new Guard(m_state.getTileCoordinates(a_position), a_asset, m_state.getTileCoordinates(a_position).X, true, 0.250f));
 		}
 
 		public static void createWall(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Wall(t_state.getTileCoordinates(a_position), a_asset, 0.350f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new Wall(m_state.getTileCoordinates(a_position), a_asset, 0.350f));
 		}
 
 		public static void createDuckHideObject(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new DuckHideObject(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new DuckHideObject(m_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
 		public static void createStandHideObject(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new StandHideObject(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new StandHideObject(m_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
 		public static void createGuardDog(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
+			m_state = Game.getInstance().getState();
 			Vector2 t_worldMouse = a_position;
-			t_state.addObject(new GuardDog(t_state.getTileCoordinates(t_worldMouse), a_asset, t_state.getTileCoordinates(t_worldMouse).X, t_state.getTileCoordinates(t_worldMouse).X, 0.299f));
+			m_state.addObject(new GuardDog(m_state.getTileCoordinates(t_worldMouse), a_asset, m_state.getTileCoordinates(t_worldMouse).X, m_state.getTileCoordinates(t_worldMouse).X, 0.299f));
 		}
 
 		public static void createLightSwitch(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new LampSwitch(t_state.getTileCoordinates(a_position), a_asset, 0.750f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new LampSwitch(m_state.getTileCoordinates(a_position), a_asset, 0.750f));
 		}
 
 		public static void createCrossVent(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new CrossVentilation(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new CrossVentilation(m_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
 		public static void createTVent(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new TVentilation(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new TVentilation(m_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
 		public static void createStraightVent(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new StraightVentilation(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new StraightVentilation(m_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
 		public static void createCornerVent(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new CornerVentilation(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new CornerVentilation(m_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
 		public static void createVentrance(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			VentilationDrum t_outsideVentrance = new VentilationDrum(t_state.getTileCoordinates(a_position), a_asset, 0.699f);
-			VentilationDrum t_insideVentrance = new VentilationDrum(t_state.getTileCoordinates(a_position), a_asset, 0.699f);
+			m_state = Game.getInstance().getState();
+			VentilationDrum t_outsideVentrance = new VentilationDrum(m_state.getTileCoordinates(a_position), a_asset, 0.699f);
+			VentilationDrum t_insideVentrance = new VentilationDrum(m_state.getTileCoordinates(a_position), a_asset, 0.699f);
 			t_outsideVentrance.setPairedVentilation(t_insideVentrance);
 			t_insideVentrance.setPairedVentilation(t_outsideVentrance);
-			t_state.addObject(t_outsideVentrance, 0);
-			t_state.addObject(t_insideVentrance, 1);
+			m_state.addObject(t_outsideVentrance, 0);
+			m_state.addObject(t_insideVentrance, 1);
 		}
 
 		public static void createVentEnd(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new VentilationEnd(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new VentilationEnd(m_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
 		public static void createForeground(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Foreground(t_state.getTileCoordinates(a_position), a_asset, 0.100f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new Foreground(m_state.getTileCoordinates(a_position), a_asset, 0.100f));
 		}
 
 		public static void createRope(Vector2 a_position)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Rope(t_state.getTileCoordinates(a_position) + new Vector2(36, 0), null, 0.100f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new Rope(m_state.getTileCoordinates(a_position) + new Vector2(36, 0), null, 0.150f));
 		}
 
 		public static void createCamera(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new GuardCamera(t_state.getTileCoordinates(a_position), a_asset, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25), true));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new GuardCamera(m_state.getTileCoordinates(a_position), a_asset, 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25), true));
 		}
 
 		public static void createWindow(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new Window(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new Window(m_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
 		public static void createSecDoor(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new SecurityDoor(t_state.getTileCoordinates(a_position), a_asset, 0.700f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new SecurityDoor(m_state.getTileCoordinates(a_position), a_asset, 0.700f));
 		}
 
 		public static void createCornerHang(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new CornerHang(t_state.getTileCoordinates(a_position), a_asset, 0.400f, 0.0f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new CornerHang(m_state.getTileCoordinates(a_position), a_asset, 0.400f, 0.0f));
 		}
 
 		public static void createCheckPoint(Vector2 a_position)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new CheckPoint(t_state.getTileCoordinates(a_position), "Images//Tile//1x1_tile_ph", 0.200f, 0.0f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new CheckPoint(m_state.getTileCoordinates(a_position), "Images//Tile//1x1_tile_ph", 0.200f, 0.0f));
 		}
 
 		public static void createProp(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
+			m_state = Game.getInstance().getState();
 			if (KeyboardHandler.isKeyPressed(Keys.LeftShift) || KeyboardHandler.isKeyPressed(Keys.RightShift))
 			{
-				t_state.addObject(new Environment(a_position, a_asset, 0.949f));
+				m_state.addObject(new Environment(a_position, a_asset, 0.949f));
 			}
 			else
 			{
-				t_state.addObject(new Environment(t_state.getTileCoordinates(a_position), a_asset, 0.949f));
+				m_state.addObject(new Environment(m_state.getTileCoordinates(a_position), a_asset, 0.949f));
 			}
 		}
 
 		public static void createKey(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new ConsumableKey(t_state.getTileCoordinates(a_position), a_asset, 0.250f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new ConsumableKey(m_state.getTileCoordinates(a_position), a_asset, 0.250f));
 		}
 
 		public static void createHeart(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new ConsumableHeart(t_state.getTileCoordinates(a_position), a_asset, 0.250f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new ConsumableHeart(m_state.getTileCoordinates(a_position), a_asset, 0.250f));
 		}
 
 		public static void createObjective(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new ConsumableGoal(t_state.getTileCoordinates(a_position), a_asset, 0.250f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new ConsumableGoal(m_state.getTileCoordinates(a_position), a_asset, 0.350f));
 		}
 
 		public static void createClosedDoor(Vector2 a_position, string a_asset)
 		{
-			States t_state = Game.getInstance().getState();
-			t_state.addObject(new LockedDoor(t_state.getTileCoordinates(a_position), a_asset, 0.400f));
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new LockedDoor(m_state.getTileCoordinates(a_position), a_asset, 0.400f));
+		}
+
+		public static void createCoveringShadow(Vector2 a_position, string a_asset)
+		{
+			m_state = Game.getInstance().getState();
+			m_state.addObject(new CoveringShadow(m_state.getTileCoordinates(a_position), a_asset, 0.101f));
 		}
 
 		public static void copyAsset(Vector2 a_position, GameObject a_asset)
 		{
-			States t_state = Game.getInstance().getState();
+			m_state = Game.getInstance().getState();
 			Vector2 t_position;
 			if (a_position == null) {
 				t_position = a_asset.getPosition().getGlobalCartesian();
@@ -291,6 +304,9 @@ namespace GrandLarceny
 			}
 			if (a_asset is LockedDoor) {
 				createClosedDoor(t_position, t_imagePath);
+			}
+			if (a_asset is CoveringShadow) {
+				createCoveringShadow(t_position, t_imagePath);
 			}
 		}
 	}
