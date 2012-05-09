@@ -102,6 +102,7 @@ namespace GrandLarceny
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;
+				AssetFactory.updateState(m_currentState);
 				if (!m_currentState.isLoaded())
 				{
 					//try

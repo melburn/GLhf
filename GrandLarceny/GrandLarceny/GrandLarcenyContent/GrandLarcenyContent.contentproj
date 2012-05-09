@@ -1353,17 +1353,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\Dark1.png">
+    <Compile Include="Images\Foregrounds\Shadow\Dark1.png">
       <Name>Dark1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\Dark2.png">
+    <Compile Include="Images\Foregrounds\Shadow\Dark2.png">
       <Name>Dark2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\Dark3.png">
+    <Compile Include="Images\Foregrounds\Shadow\Dark3.png">
       <Name>Dark3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1920,9 +1920,7 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="levels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Images\Background\backdrop_parking.png">
       <Name>backdrop_parking</Name>

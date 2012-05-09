@@ -963,11 +963,8 @@ namespace GrandLarceny
 		#region change animation and state
 		private void setSprite(string a_sprite)
 		{
-			if (m_runMode)
-			{
-				m_img.setSpriteSilently("Images//Sprite//Hero//" + a_sprite);
-			}
-			else if (m_isInLight)
+			
+			if (m_isInLight)
 			{
 				m_img.setSprite("Images//Sprite//Hero//" + a_sprite + "_light");
 			}
@@ -1210,9 +1207,9 @@ namespace GrandLarceny
 		{
 			m_collidedWithWall = false;
 			m_ladderDirection = 0;
-			if (!m_chase && !m_runMode)
+			if (!m_chase)
 			{
-				setIsInLight(false, false);
+				setIsInLight(false);
 			}
 			setInteractionVisibility(false);
 			if (a_collisionList.Count != 0)
@@ -1298,25 +1295,19 @@ namespace GrandLarceny
 
 		#region get/set and other methods
 
-		public void setIsInLight(bool a_isInLight, bool a_fromLight)
+		public void setIsInLight(bool a_isInLight)
 		{
-			if(!m_runMode)
+			
+			if (m_isInLight && !a_isInLight && m_img.getImagePath().EndsWith("_light"))
 			{
-				if (m_isInLight && !a_isInLight && m_img.getImagePath().EndsWith("_light"))
-				{
-					String t_oldName = m_img.getImagePath();
-					m_img.setSpriteSilently(t_oldName.Remove(t_oldName.Length - 6));
-				}
-				else if (!m_isInLight && a_isInLight)
-				{
-					m_img.setSpriteSilently(m_img.getImagePath() + "_light");
-				}
-				
+				String t_oldName = m_img.getImagePath();
+				m_img.setSpriteSilently(t_oldName.Remove(t_oldName.Length - 6));
 			}
-			else if (a_fromLight && !m_img.getImagePath().EndsWith("_light"))
+			else if (!m_isInLight && a_isInLight)
 			{
 				m_img.setSpriteSilently(m_img.getImagePath() + "_light");
 			}
+				
 			m_isInLight = a_isInLight;
 		}
 
@@ -1580,7 +1571,7 @@ namespace GrandLarceny
 			m_chase = true;
 			m_runMode = false;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
-			setIsInLight(true, false);
+			setIsInLight(true);
 		}
 
 		public void deactivateChaseMode()
@@ -1593,7 +1584,7 @@ namespace GrandLarceny
 			m_chase = false;
 			m_runMode = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
-			setIsInLight(false, false);
+			setIsInLight(false);
 			((GameState)Game.getInstance().getState()).clearAggro();
 		}
 		private void toggleRunMode()
@@ -1603,7 +1594,10 @@ namespace GrandLarceny
 				m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			else
 				m_playerCurrentSpeed = PLAYERSPEED;
-			setIsInLight(m_runMode, false);
+		}
+		public bool isRunMode()
+		{
+			return m_runMode;
 		}
 
 		public void setSwingSpeed(float a_speed)
