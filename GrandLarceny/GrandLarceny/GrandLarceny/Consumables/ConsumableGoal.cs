@@ -42,12 +42,16 @@ namespace GrandLarceny
 				///*t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
 				//t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
 
-				m_bling.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer-1, m_XScale, m_YScale);
+				m_bling.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer - 0.001f, m_XScale, m_YScale);
 			}
 		}
 		public void toggleBling()
 		{
 			m_isBlinging = !m_isBlinging;
+		}
+
+		public override string ToString() {
+			return base.ToString() + m_isBlinging;
 		}
 	}
 }
