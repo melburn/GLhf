@@ -9,6 +9,7 @@ namespace GrandLarceny
 	[Serializable()]
 	public class ConsumableGoal : Consumable
 	{
+		[NonSerialized]
 		ImageManager m_bling;
 		bool m_isBlinging = false;
 		public ConsumableGoal(Vector2 a_position, String a_sprite, float a_layer)
@@ -41,7 +42,7 @@ namespace GrandLarceny
 				///*t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
 				//t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
 
-				m_bling.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
+				m_bling.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer-1, m_XScale, m_YScale);
 			}
 		}
 		public void toggleBling()
