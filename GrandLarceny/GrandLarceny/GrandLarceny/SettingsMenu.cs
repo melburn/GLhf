@@ -20,13 +20,16 @@ namespace GrandLarceny
 		private Button m_btnFullscreen;
 		private Button m_btnExit;
 		private Button m_btnApply;
+		private Button m_btnSave;
 
 		private LinkedList<Button> m_keyList;
 
 		private Text m_resolutionText;
 		private Text m_inputFeedback;
 
-		private string m_settingsFile;
+		private Dictionary<string, string> m_settingsFile = new Dictionary<string, string>();
+
+		private string m_settingsPath;
 		#endregion
 
 		#region Constructor & Load
@@ -39,7 +42,20 @@ namespace GrandLarceny
 				"1366x768"	, "1440x900", "1600x1200"	, "1680x1050"	, "1920x1080"	, "1920x1200" 
 			};
 
-			string t_resolutionToFind = getValueFromString("ScreenWidth") + "x" + getValueFromString("ScreenHeight");
+			foreach (string t_string in File.ReadAllLines("Content//wtf//settings.ini"))
+			{
+				string[] t_stringToAdd = t_string.Split('=');
+				if (t_stringToAdd.Length > 1)
+				{
+					m_settingsFile.Add(t_stringToAdd[0], t_stringToAdd[1]);
+				}
+				else
+				{
+					m_settingsFile.Add(t_stringToAdd[0], null);
+				}
+			}
+
+			string t_resolutionToFind = m_settingsFile["ScreenWidth"] + "x" + m_settingsFile["ScreenHeight"];
 
 			for (int i = 0; i < m_resolutions.Length; i++)
 			{
@@ -62,12 +78,12 @@ namespace GrandLarceny
 		private void createButtons()
 		{
 			int i = 0;
-			m_settingsFile = "Content//wtf//settings.ini";
+			m_settingsPath = "Content//wtf//settings.ini";
 			m_guiList = new LinkedList<GuiObject>();
 			m_keyList = new LinkedList<Button>();
 			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.Black, false));
 			Vector2 t_textOffset = new Vector2(40, 10);
-			string[] t_currentBindings = Loader.getInstance().getSettingsBlock("Input", m_settingsFile);
+			string[] t_currentBindings = Loader.getInstance().getSettingsBlock("Input", m_settingsPath);
 
 			foreach (string t_string in t_currentBindings)
 			{
@@ -85,12 +101,14 @@ namespace GrandLarceny
 			m_keyList.AddLast(m_btnFullscreen		= new Button(null, new Vector2(100, 200)));
 			m_keyList.AddLast(m_btnExit				= new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 50)));
 			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(140, 200), "Apply", "VerdanaBold", Color.Black, new Vector2(5, 3)));
+			m_keyList.AddLast(m_btnSave				= new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 150)));
 
 			m_btnNextResolution.m_clickEvent	+= new Button.clickDelegate(nextResolution);
 			m_btnPrevResolution.m_clickEvent	+= new Button.clickDelegate(prevResolution);
 			m_btnFullscreen.m_clickEvent		+= new Button.clickDelegate(fullscreenToggle);
 			m_btnExit.m_clickEvent				+= new Button.clickDelegate(exitSettings);
 			m_btnApply.m_clickEvent				+= new Button.clickDelegate(applyGraphics);
+			m_btnSave.m_clickEvent				+= new Button.clickDelegate(saveSettings);
 
 			if (Game.getInstance().m_graphics.IsFullScreen)
 			{
@@ -98,53 +116,15 @@ namespace GrandLarceny
 			}
 		}
 
-		private string getValueFromString(string a_setting)
+		private void saveSettings(Button a_button)
 		{
-			string[] t_settingsFile;
-			t_settingsFile = File.ReadAllLines("Content//wtf//settings.ini");
-			foreach (string t_string in t_settingsFile)
+			StreamWriter t_file = new StreamWriter(m_settingsPath);
+			t_file.Flush();
+			foreach (KeyValuePair<string, string> t_kvPair in m_settingsFile)
 			{
-				if (t_string.StartsWith(a_setting))
-				{
-					string[] t_splitString = t_string.Split('=');
-					return t_splitString[1];
-				}
+				t_file.WriteLine(t_kvPair.Key + "=" + t_kvPair.Value);
 			}
-			return null;
-		}
-
-		private void setValueFromString(string a_setting, string a_value)
-		{
-			string[] t_settingsFile = File.ReadAllLines("Content//wtf//settings.ini");
-			
-			StreamWriter t_fileToWrite = new StreamWriter("Content//wtf//settings.ini");
-			t_fileToWrite.Flush();
-
-			foreach (string t_string in t_settingsFile)
-			{
-				if (t_string.StartsWith("["))
-				{
-					t_fileToWrite.WriteLine(t_string);
-					continue;
-				}
-				string t_settingToFind = t_string.Split('=')[0];
-				string t_editedString = "";
-				if (t_string.Split('=')[0].Equals(t_settingToFind))
-				{
-					string[] t_splitString = t_string.Split('=');
-					t_splitString[1] = a_value;
-					t_editedString = t_splitString[0] + "=" + t_splitString[1];
-				}
-				if (!t_editedString.Equals(""))
-				{
-					t_fileToWrite.WriteLine(t_editedString);
-				}
-				else
-				{
-					t_fileToWrite.WriteLine(t_string);
-				}
-			}
-			t_fileToWrite.Close();
+			t_file.Close();
 		}
 
 		private void awaitInput(Button a_button)
@@ -159,7 +139,7 @@ namespace GrandLarceny
 			{
 				if (t_button.getState() == Button.State.Toggled)
 				{
-					setValueFromString(t_button.getText(), k.ToString());
+					m_settingsFile[t_button.getText()] = k.ToString();
 					m_inputFeedback = null;
 					t_button.setText(k.ToString());
 					unlockButtons();
@@ -225,19 +205,48 @@ namespace GrandLarceny
 
 		private void applyGraphics(Button a_button)
 		{
-			setValueFromString("ScreenWidth", m_resolutionText.getText().Split('x')[0]);
-			setValueFromString("ScreenHeight", m_resolutionText.getText().Split('x')[1]);
+			m_settingsFile["ScreenWidth"] = m_resolutionText.getText().Split('x')[0];
+			m_settingsFile["ScreenHeight"] = m_resolutionText.getText().Split('x')[1];
 			if (m_btnFullscreen.getState() == Button.State.Toggled)
 			{
-				setValueFromString("Fullscreen", "true");
+				m_settingsFile["Fullscreen"] = "true";
 			}
 			else
 			{
-				setValueFromString("Fullscreen", "false");
+				m_settingsFile["Fullscreen"] = "false";
 			}
 			m_keyList = null;
-			Loader.getInstance().loadGraphicSettings(m_settingsFile);
+			applySettingsBlock("Graphics", new string[] 
+			{ 
+				"ScreenWidth=" + m_settingsFile["ScreenWidth"], "ScreenHeight=" + m_settingsFile["ScreenHeight"], "Fullscreen=" + m_settingsFile["Fullscreen"] 
+			});
+			Loader.getInstance().loadGraphicSettings(m_settingsPath);
 			createButtons();
+		}
+
+		private void applySettingsBlock(string a_block, string[] a_stringArray)
+		{
+			string[] t_file = File.ReadAllLines(m_settingsPath);
+			int i = 0;
+
+			while (true)
+			{
+				if (t_file[i++].Equals("[" + a_block + "]"))
+				{
+					break;
+				}
+			}
+			for (int j = 0; j < a_stringArray.Length; i++, j++)
+			{
+				t_file[i] = a_stringArray[j];
+			}
+			StreamWriter t_writeFile = new StreamWriter(m_settingsPath);
+			t_writeFile.Flush();
+			for (int j = 0; j < t_file.Length; j++)
+			{
+				t_writeFile.WriteLine(t_file[j]);
+			}
+			t_writeFile.Close();
 		}
 		#endregion
 
