@@ -39,14 +39,25 @@ namespace GrandLarceny
 			{
 				System.IO.Directory.CreateDirectory("Content//levels//");
 			}
-			m_buttons = GuiListFactory.createListFromDirectory("Content//levels//", t_ext, "btn_test_empty");
+			string[] t_fileList = Directory.GetFiles("Content//levels//");
+			
+			m_buttons = GuiListFactory.createListFromStringArray(t_fileList, t_ext, "btn_test_empty");
 			GuiListFactory.setListPosition(m_buttons, new Vector2(25, 25));
 			GuiListFactory.setTextOffset(m_buttons, new Vector2(10, 10));
 			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, 60));
-			
+
+			LinkedList<string> t_levelLocked = getLockedLevels();
+
 			foreach (Button t_button in m_buttons)
 			{
-				t_button.m_clickEvent += new Button.clickDelegate(startLevelClick);
+				if (t_levelLocked.Contains(t_button.getText()))
+				{
+					//något event ska addas här det är inte tomt jävla skit ungar
+				}
+				else
+				{
+					t_button.m_clickEvent += new Button.clickDelegate(startLevelClick);
+				}
 			}
 
 			m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
@@ -121,6 +132,30 @@ namespace GrandLarceny
 		{
 			Game.getInstance().setState(new LoadAndSaveMenu(true, this));
 
+		}
+
+		private LinkedList<string> getLockedLevels()
+		{
+			LinkedList<string> t_LockedLevel = new LinkedList<string>();
+			string[] t_rawLevelLine = System.IO.File.ReadAllLines("Content\\levels\\LevelRequirement.txt");
+			char[] t_splitter = { ':' };
+			foreach (string t_level in t_rawLevelLine)
+			{
+				string[] t_levelAndReq = t_level.Split(t_splitter);
+				int t_levelLocked = 1;
+				for (int i = 1; i < t_levelAndReq.Length; ++i)
+				{
+					if (Game.getInstance().getProgress().hasClearedLevel(t_levelAndReq[i]))
+					{
+						t_levelLocked++;
+					}
+				}
+				if (t_levelAndReq.Length > t_levelLocked)
+				{
+					t_LockedLevel.AddLast(t_levelAndReq[0]);
+				}
+			}
+			return t_LockedLevel;
 		}
 		#endregion
 	}

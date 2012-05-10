@@ -350,7 +350,7 @@ namespace GrandLarceny
 
 		private void finishLevel()
 		{
-			Game.getInstance().getProgress().setLevelCleared(m_currentLevel);
+			Game.getInstance().getProgress().setLevelCleared(m_currentLevel.Remove(m_currentLevel.Length - 4));
 			Game.getInstance().setState(new HubMenu());
 		}
 		/*
