@@ -167,7 +167,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				ErrorLogger.getInstance().writeString("While setting cutscene, could not find " + a_fileName);
+				ErrorLogger.getInstance().writeString("While setting cutscene, could not find " + CUTSCENE_FOLDER + a_fileName);
 			}
 		}
 
