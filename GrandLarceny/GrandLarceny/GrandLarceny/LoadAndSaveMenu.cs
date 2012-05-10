@@ -98,10 +98,7 @@ namespace GrandLarceny
 					m_newSaveName.setVisible(false);
 					updateSaveText();
 				}
-				else if(!m_newSaveName.isWriting())
-				{
-					m_newSaveName.setVisible(false);
-				}
+				
 			}
 		}
 
@@ -146,7 +143,7 @@ namespace GrandLarceny
 				m_newSaveName.setVisible(true);
 				m_newSaveName.setText("Enter the name");
 				m_newSaveName.setWrite(true);
-				m_saveTo = "Slot "+(t_index+1)+".prog";
+				m_saveTo = "Slot "+(t_index)+".prog";
 			}
 			else
 			{

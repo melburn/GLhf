@@ -315,6 +315,9 @@ namespace GrandLarceny
 			if (a_asset is CoveringShadow) {
 				createCoveringShadow(t_position, t_imagePath);
 			}
+			if (a_asset is VentilationEnd) {
+				createVentEnd(t_position, t_imagePath);
+			}
 		}
 	}
 }

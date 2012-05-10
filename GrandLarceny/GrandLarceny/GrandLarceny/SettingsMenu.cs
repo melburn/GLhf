@@ -14,36 +14,49 @@ namespace GrandLarceny
 		#region Members
 		private string[] m_resolutions;
 		private int m_resolutionIndex;
-		private string m_valueToChange;
 
-		private Button m_btnSetUp;
-		private Button m_btnSetDown;
-		private Button m_btnSetLeft;
-		private Button m_btnSetRight;
-		private Button m_btnSetJump;
-		private Button m_btnSetAction;
-		private Button m_btnSetRoll;
-		private Button m_btnSetSprint;
+		private Button m_btnNextResolution;
+		private Button m_btnPrevResolution;
+		private Button m_btnFullscreen;
+		private Button m_btnExit;
+		private Button m_btnApply;
+		private Button m_btnSave;
 
 		private LinkedList<Button> m_keyList;
 
 		private Text m_resolutionText;
 		private Text m_inputFeedback;
 
-		private string m_settingsFile;
+		private Dictionary<string, string> m_settingsFile = new Dictionary<string, string>();
+
+		private string m_settingsPath;
 		#endregion
 
 		#region Constructor & Load
 		public SettingsMenu() : base()
 		{
+			m_settingsPath = "Content//wtf//settings.ini";
 			m_buttonList.AddLast(m_keyList = new LinkedList<Button>());
 			m_resolutions = new string[] 
-			{ 
+			{
 				"640x480"	, "800x600"	, "1024x768"	, "1152x864"	, "1280x720"	, "1280x768"	, "1360x768",
 				"1366x768"	, "1440x900", "1600x1200"	, "1680x1050"	, "1920x1080"	, "1920x1200" 
 			};
 
-			string t_resolutionToFind = getValueFromString("ScreenWidth") + "x" + getValueFromString("ScreenHeight");
+			foreach (string t_string in File.ReadAllLines("Content//wtf//settings.ini"))
+			{
+				string[] t_stringToAdd = t_string.Split('=');
+				if (t_stringToAdd.Length > 1)
+				{
+					m_settingsFile.Add(t_stringToAdd[0], t_stringToAdd[1]);
+				}
+				else
+				{
+					m_settingsFile.Add(t_stringToAdd[0], null);
+				}
+			}
+
+			string t_resolutionToFind = m_settingsFile["ScreenWidth"] + "x" + m_settingsFile["ScreenHeight"];
 
 			for (int i = 0; i < m_resolutions.Length; i++)
 			{
@@ -53,17 +66,24 @@ namespace GrandLarceny
 					break;
 				}
 			}
-
-			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(500, 150), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.Black, false));
 		}
 
 		public override void load()
 		{
 			base.load();
+			createButtons();
+		}
+		#endregion
+
+		#region Setting Methods
+		private void createButtons()
+		{
 			int i = 0;
-			m_settingsFile = "Content//wtf//settings.ini";
+			m_guiList = new LinkedList<GuiObject>();
+			m_keyList = new LinkedList<Button>();
+			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.Black, false));
 			Vector2 t_textOffset = new Vector2(40, 10);
-			string[] t_currentBindings = Loader.getInstance().getSettingsBlock("Input", m_settingsFile);
+			string[] t_currentBindings = Loader.getInstance().getSettingsBlock("Input", m_settingsPath);
 
 			foreach (string t_string in t_currentBindings)
 			{
@@ -71,69 +91,40 @@ namespace GrandLarceny
 				m_guiList.AddLast(new Text(new Vector2(400, 300 + (40 * i)), t_settingString[0], "VerdanaBold", Color.Black, false));
 				m_keyList.AddLast(new Button(null, new Vector2(450, 300 + (40 * i++)), t_settingString[1], "VerdanaBold", Color.Black, t_textOffset));
 			}
-			/*
-			m_keyList.AddLast(m_btnSetUp		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Move Up", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetDown		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Move Down", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetLeft		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Move Left", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetRight		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Move Right", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetJump		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Jump", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetAction	= new Button(null, new Vector2(400, 300 + (40 * i++)), "Action Button", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetRoll		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Roll", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetSprint	= new Button(null, new Vector2(400, 300 + (40 * i++)), "Sprint", "VerdanaBold", Color.Black, t_textOffset));
-			*/
 			foreach (Button t_button in m_keyList)
 			{
 				t_button.m_clickEvent += new Button.clickDelegate(awaitInput);
 			}
-		}
-		#endregion
 
-		#region Setting Methods
-		private string getValueFromString(string a_setting)
-		{
-			string[] t_settingsFile;
-			t_settingsFile = File.ReadAllLines("Content//wtf//settings.ini");
-			foreach (string t_string in t_settingsFile)
+			m_keyList.AddLast(m_btnNextResolution	= new Button(null, new Vector2(250, 150)));
+			m_keyList.AddLast(m_btnPrevResolution	= new Button(null, new Vector2(100, 150)));
+			m_keyList.AddLast(m_btnFullscreen		= new Button(null, new Vector2(100, 200)));
+			m_keyList.AddLast(m_btnExit				= new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 50)));
+			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(140, 200), "Apply", "VerdanaBold", Color.Black, new Vector2(5, 3)));
+			m_keyList.AddLast(m_btnSave				= new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 150)));
+
+			m_btnNextResolution.m_clickEvent	+= new Button.clickDelegate(nextResolution);
+			m_btnPrevResolution.m_clickEvent	+= new Button.clickDelegate(prevResolution);
+			m_btnFullscreen.m_clickEvent		+= new Button.clickDelegate(fullscreenToggle);
+			m_btnExit.m_clickEvent				+= new Button.clickDelegate(exitSettings);
+			m_btnApply.m_clickEvent				+= new Button.clickDelegate(applyGraphics);
+			m_btnSave.m_clickEvent				+= new Button.clickDelegate(saveSettings);
+
+			if (Game.getInstance().m_graphics.IsFullScreen)
 			{
-				if (t_string.StartsWith(a_setting))
-				{
-					string[] t_splitString = t_string.Split('=');
-					return t_splitString[1];
-				}
+				m_btnFullscreen.setState(3);
 			}
-			return null;
 		}
 
-		private void setValueFromString(string a_setting, string a_value)
+		private void saveSettings(Button a_button)
 		{
-			string[] t_settingsFile;
-			StreamReader t_file = new StreamReader("Content//wtf//settings.ini");
-
-			t_settingsFile = t_file.ReadToEnd().Split('\n');
+			StreamWriter t_file = new StreamWriter(m_settingsPath);
+			t_file.Flush();
+			foreach (KeyValuePair<string, string> t_kvPair in m_settingsFile)
+			{
+				t_file.WriteLine(t_kvPair.Key + "=" + t_kvPair.Value);
+			}
 			t_file.Close();
-			
-			StreamWriter t_fileToWrite = new StreamWriter("Content//wtf//settings.ini");
-			t_fileToWrite.Flush();
-
-			foreach (string t_string in t_settingsFile)
-			{
-				string t_editedString = "";
-				if (t_string.StartsWith(a_setting))
-				{
-					string[] t_splitString = t_string.Split('=');
-					t_splitString[1] = a_value;
-					t_editedString = t_splitString[0] + "=" + t_splitString[1];
-				}
-				if (!t_editedString.Equals(""))
-				{
-					t_fileToWrite.WriteLine(t_editedString);
-				}
-				else
-				{
-					t_fileToWrite.WriteLine(t_string);
-				}
-			}
-			t_fileToWrite.Close();
 		}
 
 		private void awaitInput(Button a_button)
@@ -146,9 +137,9 @@ namespace GrandLarceny
 		{
 			foreach (Button t_button in m_keyList)
 			{
-				if (t_button.getState() == 2)
+				if (t_button.getState() == Button.State.Toggled)
 				{
-					setValueFromString(t_button.getText(), k.ToString());
+					m_settingsFile[t_button.getText()] = k.ToString();
 					m_inputFeedback = null;
 					t_button.setText(k.ToString());
 					unlockButtons();
@@ -159,16 +150,103 @@ namespace GrandLarceny
 
 		private void lockButtons(Button a_button)
 		{
-			GuiListFactory.setSelection(m_keyList, 3);
+			GuiListFactory.setSelection(m_keyList, 2);
 			if (a_button != null)
 			{
-				a_button.setState(2);
+				a_button.setState(3);
 			}
 		}
 
 		private void unlockButtons()
 		{
 			GuiListFactory.setSelection(m_keyList, 0);
+		}
+
+		private void nextResolution(Button a_button)
+		{
+			try
+			{
+				m_resolutionText.setText(m_resolutions[++m_resolutionIndex]);
+			}
+			catch (IndexOutOfRangeException)
+			{
+				m_resolutionText.setText(m_resolutions[m_resolutionIndex = 0]);
+			}
+		}
+
+		private void prevResolution(Button a_button)
+		{
+			try
+			{
+				m_resolutionText.setText(m_resolutions[--m_resolutionIndex]);
+			}
+			catch (IndexOutOfRangeException)
+			{
+				m_resolutionText.setText(m_resolutions[m_resolutionIndex = m_resolutions.Length - 1]);
+			}
+		}
+
+		private void fullscreenToggle(Button a_button)
+		{
+			if (m_btnFullscreen.getState() == Button.State.Toggled)
+			{
+				m_btnFullscreen.setState(Button.State.Normal);
+			}
+			else
+			{
+				m_btnFullscreen.setState(Button.State.Toggled);				
+			}
+		}
+
+		private void exitSettings(Button a_button)
+		{
+			Game.getInstance().setState(new MainMenu());
+		}
+
+		private void applyGraphics(Button a_button)
+		{
+			m_settingsFile["ScreenWidth"] = m_resolutionText.getText().Split('x')[0];
+			m_settingsFile["ScreenHeight"] = m_resolutionText.getText().Split('x')[1];
+			if (m_btnFullscreen.getState() == Button.State.Toggled)
+			{
+				m_settingsFile["Fullscreen"] = "true";
+			}
+			else
+			{
+				m_settingsFile["Fullscreen"] = "false";
+			}
+			m_keyList = null;
+			applySettingsBlock("Graphics", new string[] 
+			{ 
+				"ScreenWidth=" + m_settingsFile["ScreenWidth"], "ScreenHeight=" + m_settingsFile["ScreenHeight"], "Fullscreen=" + m_settingsFile["Fullscreen"] 
+			});
+			Loader.getInstance().loadGraphicSettings(m_settingsPath);
+			createButtons();
+		}
+
+		private void applySettingsBlock(string a_block, string[] a_stringArray)
+		{
+			string[] t_file = File.ReadAllLines(m_settingsPath);
+			int i = 0;
+
+			while (true)
+			{
+				if (t_file[i++].Equals("[" + a_block + "]"))
+				{
+					break;
+				}
+			}
+			for (int j = 0; j < a_stringArray.Length; i++, j++)
+			{
+				t_file[i] = a_stringArray[j];
+			}
+			StreamWriter t_writeFile = new StreamWriter(m_settingsPath);
+			t_writeFile.Flush();
+			for (int j = 0; j < t_file.Length; j++)
+			{
+				t_writeFile.WriteLine(t_file[j]);
+			}
+			t_writeFile.Close();
 		}
 		#endregion
 

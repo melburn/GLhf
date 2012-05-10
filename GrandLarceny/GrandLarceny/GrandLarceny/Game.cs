@@ -146,7 +146,7 @@ namespace GrandLarceny
 
 		protected override void Draw(GameTime a_gameTime)
 		{
-			GraphicsDevice.Clear(new Color(46, 46, 73));
+			GraphicsDevice.Clear(Color.Black);
 			m_spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, m_camera.getTransformation(m_graphics.GraphicsDevice));
 			m_currentState.draw(a_gameTime, m_spriteBatch);
 			m_spriteBatch.End();
@@ -167,7 +167,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				ErrorLogger.getInstance().writeString("While setting cutscene, could not find " + a_fileName);
+				ErrorLogger.getInstance().writeString("While setting cutscene, could not find " + CUTSCENE_FOLDER + a_fileName);
 			}
 		}
 
