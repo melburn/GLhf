@@ -510,6 +510,9 @@ namespace GrandLarceny
 				case State.Shadow:
 					m_objectPreview = new CoveringShadow(t_assetPosition, "Images//Foregrounds//Shadow//" + t_newAsset, 0.0f);
 					break;
+				case State.EndVent:
+					m_objectPreview = new VentilationEnd(t_assetPosition, "Images//Tile//Ventilation//EndVent//" + t_newAsset, 0.000f);
+					break;
 			}
 		}
 		#endregion
@@ -1071,6 +1074,9 @@ namespace GrandLarceny
 				case State.Ventrance:
 					createAssetList("Content//Images//Tile//Ventilation//Drum//");
 					break;
+				case State.EndVent:
+					createAssetList("Content//Images//Tile//Ventilation//EndVent//");
+					break;
 				case State.Camera:
 					createAssetList("Content//Images//Sprite//Camera//");
 					break;
@@ -1099,9 +1105,6 @@ namespace GrandLarceny
 					createAssetList(null);
 					break;
 				case State.Heart:
-					createAssetList(null);
-					break;
-				case State.EndVent:
 					createAssetList(null);
 					break;
 				case State.Objective:

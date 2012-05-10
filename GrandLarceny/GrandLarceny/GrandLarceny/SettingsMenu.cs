@@ -35,6 +35,7 @@ namespace GrandLarceny
 		#region Constructor & Load
 		public SettingsMenu() : base()
 		{
+			m_settingsPath = "Content//wtf//settings.ini";
 			m_buttonList.AddLast(m_keyList = new LinkedList<Button>());
 			m_resolutions = new string[] 
 			{
@@ -78,7 +79,6 @@ namespace GrandLarceny
 		private void createButtons()
 		{
 			int i = 0;
-			m_settingsPath = "Content//wtf//settings.ini";
 			m_guiList = new LinkedList<GuiObject>();
 			m_keyList = new LinkedList<Button>();
 			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.Black, false));
