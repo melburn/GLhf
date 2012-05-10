@@ -46,11 +46,12 @@ namespace GrandLarceny
 		private TextField m_layerTextField;
 		private TextField m_parallaxScrollTF;
 
-		private Button m_btnSelectHotkey;
-		private Button m_btnVentHotkey;
-		private Button m_btnDuckHideHotkey;
-		private Button m_btnGuardHotkey;
-		private Button m_btnConsKeyHotkey;
+		private Button m_btnSelect;
+		private Button m_btnVent;
+		private Button m_btnDuckHide;
+		private Button m_btnGuard;
+		private Button m_btnConsKey;
+		private Button m_btnBackground;
 
 		private Line m_dragLine = null;
 
@@ -142,8 +143,8 @@ namespace GrandLarceny
 			Button t_button;
 			//-----------------------------------
 			#region Buttons that are always shown
-			m_buttonDict.Add(m_btnSelectHotkey = new Button("DevelopmentHotkeys//btn_select_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "S", "VerdanaBold", Color.Black, t_btnTextOffset), State.None);
-			m_btnSelectHotkey.setHotkey(new Keys[] { Keys.S }, guiButtonClick);
+			m_buttonDict.Add(m_btnSelect = new Button("DevelopmentHotkeys//btn_select_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "S", "VerdanaBold", Color.Black, t_btnTextOffset), State.None);
+			m_btnSelect.setHotkey(new Keys[] { Keys.S }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_delete_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "D", "VerdanaBold", Color.Black, t_btnTextOffset), State.Delete);
 			t_button.setHotkey(new Keys[] { Keys.D }, guiButtonClick);
 			#endregion
@@ -155,8 +156,8 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.L }, guiButtonClick);
 			m_buttonDict.Add(t_button	= new Button("DevelopmentHotkeys//btn_platform_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "P", "VerdanaBold", Color.Black, t_btnTextOffset), State.Platform);
 			t_button.setHotkey(new Keys[] { Keys.P }, guiButtonClick);
-			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_background_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "B", "VerdanaBold", Color.Black, t_btnTextOffset), State.Background);
-			t_button.setHotkey(new Keys[] { Keys.B }, guiButtonClick);
+			m_buttonDict.Add(m_btnBackground = new Button("DevelopmentHotkeys//btn_background_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "B", "VerdanaBold", Color.Black, t_btnTextOffset), State.Background);
+			m_btnBackground.setHotkey(new Keys[] { Keys.B }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_hero_hotkey",		new Vector2(0, 32 * m_buttonDict.Count() + 25), "H", "VerdanaBold", Color.Black, t_btnTextOffset), State.Player);
 			t_button.setHotkey(new Keys[] { Keys.H }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_spotlight_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "T", "VerdanaBold", Color.Black, t_btnTextOffset), State.SpotLight);
@@ -165,14 +166,14 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.W }, guiButtonClick);
 			m_buttonDict.Add(t_button= new Button("DevelopmentHotkeys//btn_lightswitch_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+T", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.LightSwitch);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.T }, guiButtonClick);
-			m_buttonDict.Add(m_btnVentHotkey = new Button("DevelopmentHotkeys//btn_ventilation_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "V", "VerdanaBold", Color.Black, t_btnTextOffset), State.Ventrance);
-			m_btnVentHotkey.setHotkey(new Keys[] { Keys.V }, guiButtonClick);
+			m_buttonDict.Add(m_btnVent = new Button("DevelopmentHotkeys//btn_ventilation_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "V", "VerdanaBold", Color.Black, t_btnTextOffset), State.Ventrance);
+			m_btnVent.setHotkey(new Keys[] { Keys.V }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_window_hotkey",		new Vector2(0, 32 * m_buttonDict.Count() + 25), "N", "VerdanaBold", Color.Black, t_btnTextOffset), State.Window);
 			t_button.setHotkey(new Keys[] { Keys.N }, guiButtonClick);
-			m_buttonDict.Add(m_btnGuardHotkey = new Button("DevelopmentHotkeys//btn_guard_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "G", "VerdanaBold", Color.Black, t_btnTextOffset), State.Guard);
-			m_btnGuardHotkey.setHotkey(new Keys[] { Keys.G }, guiButtonClick);
-			m_buttonDict.Add(m_btnDuckHideHotkey = new Button("DevelopmentHotkeys//btn_duckhide_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "A", "VerdanaBold", Color.Black, t_btnTextOffset), State.DuckHidingObject);
-			m_btnDuckHideHotkey.setHotkey(new Keys[] { Keys.A }, guiButtonClick);
+			m_buttonDict.Add(m_btnGuard = new Button("DevelopmentHotkeys//btn_guard_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "G", "VerdanaBold", Color.Black, t_btnTextOffset), State.Guard);
+			m_btnGuard.setHotkey(new Keys[] { Keys.G }, guiButtonClick);
+			m_buttonDict.Add(m_btnDuckHide = new Button("DevelopmentHotkeys//btn_duckhide_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "A", "VerdanaBold", Color.Black, t_btnTextOffset), State.DuckHidingObject);
+			m_btnDuckHide.setHotkey(new Keys[] { Keys.A }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_foreground_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "F", "VerdanaBold", Color.Black, t_btnTextOffset), State.Foreground);
 			t_button.setHotkey(new Keys[] { Keys.F }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_rope_hotkey",		new Vector2(0, 32 * m_buttonDict.Count() + 25), "O", "VerdanaBold", Color.Black, t_btnTextOffset), State.Rope);
@@ -185,17 +186,15 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.K }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_clutter_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "C", "VerdanaBold", Color.Black, t_btnTextOffset), State.Prop);
 			t_button.setHotkey(new Keys[] { Keys.C }, guiButtonClick);
-			m_buttonDict.Add(m_btnConsKeyHotkey = new Button("DevelopmentHotkeys//btn_key_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
-			m_btnConsKeyHotkey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
-			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+X", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Shadow);
-			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.X }, guiButtonClick);
+			m_buttonDict.Add(m_btnConsKey = new Button("DevelopmentHotkeys//btn_key_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
+			m_btnConsKey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
 			
 			#endregion
 			//-----------------------------------
 
 			//-----------------------------------
 			#region Ventilation buttons
-			Vector2 t_ventMenu = new Vector2(m_btnVentHotkey.getBox().X + 32, m_btnVentHotkey.getBox().Y);
+			Vector2 t_ventMenu = new Vector2(m_btnVent.getBox().X + 32, m_btnVent.getBox().Y);
 			int t_buttonNumber = 0;
 
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_tvent_hotkey", t_ventMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+V", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.TVent);
@@ -214,7 +213,7 @@ namespace GrandLarceny
 			//-----------------------------------
 			#region Hiding object buttons
 			t_buttonNumber = 0;
-			Vector2 t_hideMenu = new Vector2(m_btnDuckHideHotkey.getBox().X + 32, m_btnDuckHideHotkey.getBox().Y);
+			Vector2 t_hideMenu = new Vector2(m_btnDuckHide.getBox().X + 32, m_btnDuckHide.getBox().Y);
 
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_standhide_hotkey", t_hideMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+F", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.StandHidingObject);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.F }, guiButtonClick);
@@ -224,7 +223,7 @@ namespace GrandLarceny
 			//-----------------------------------
 			#region Guard object buttons
 			t_buttonNumber = 0;
-			Vector2 t_guardMenu = new Vector2(m_btnGuardHotkey.getBox().X + 32, m_btnGuardHotkey.getBox().Y);
+			Vector2 t_guardMenu = new Vector2(m_btnGuard.getBox().X + 32, m_btnGuard.getBox().Y);
 
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_dog_hotkey", t_guardMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+G", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.GuardDog);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.G }, guiButtonClick);
@@ -236,12 +235,22 @@ namespace GrandLarceny
 			//-----------------------------------
 			#region Consumable Buttons
 			t_buttonNumber = 0;
-			Vector2 t_consMenu = new Vector2(m_btnConsKeyHotkey.getBox().X + 32, m_btnConsKeyHotkey.getBox().Y);
+			Vector2 t_consMenu = new Vector2(m_btnConsKey.getBox().X + 32, m_btnConsKey.getBox().Y);
 
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_heart_hotkey", t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+H", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Heart);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.H }, guiButtonClick);
-			m_buttonDict.Add(t_button = new Button(null, t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+B", "VerdanaBold", Color.Black, t_btnTextOffset), State.Objective);
+			m_buttonDict.Add(t_button = new Button(null, t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+B", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Objective);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.B }, guiButtonClick);
+			#endregion
+			//-----------------------------------
+
+			//-----------------------------------
+			#region Background Buttons
+			t_buttonNumber = 0;
+			Vector2 t_bgMenu = new Vector2(m_btnBackground.getBox().X + 32, m_btnBackground.getBox().Y);
+
+			m_buttonDict.Add(t_button = new Button(null, t_bgMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+X", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Shadow);
+			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.X }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
@@ -260,7 +269,7 @@ namespace GrandLarceny
 			#endregion
 			//-----------------------------------
 
-			setBuildingState(m_btnSelectHotkey, State.None);
+			setBuildingState(m_btnSelect, State.None);
 
 			base.load();
 		}
@@ -510,7 +519,7 @@ namespace GrandLarceny
 		{
 			if (KeyboardHandler.keyClicked(Keys.Escape))
 			{
-				guiButtonClick(m_btnSelectHotkey);
+				guiButtonClick(m_btnSelect);
 			}
 
 			if (m_layerTextField.isWriting())
@@ -603,9 +612,9 @@ namespace GrandLarceny
 					{
 						((Guard)m_selectedObject).toggleFlashLightAddicted();
 					}
-					else if (m_selectedObject is ConsumableGoal)
+					else if (m_selectedObject is Consumable)
 					{
-						((ConsumableGoal)m_selectedObject).toggleBling();
+						((Consumable)m_selectedObject).toggleBling();
 					}
 					m_textObjectInfo.setText(m_selectedObject.ToString());
 				}
@@ -784,6 +793,11 @@ namespace GrandLarceny
 					{
 						((Rope)m_selectedObject).moveRope(new Vector2(getTileCoordinates(m_worldMouse).X - 36, getTileCoordinates(m_worldMouse).Y));
 					}
+					else if (m_selectedObject is VentilationDrum)
+					{
+						m_selectedObject.getPosition().setGlobalCartesian(t_mousePosition);
+						((VentilationDrum)m_selectedObject).getPairedVentilation().getPosition().setGlobalCartesian(t_mousePosition);
+					}
 					else
 					{
 						m_selectedObject.getPosition().setGlobalCartesian(t_mousePosition);
@@ -834,7 +848,7 @@ namespace GrandLarceny
 					{
 						t_button.setState(0);
 					}
-					setBuildingState(m_btnSelectHotkey, State.None);
+					setBuildingState(m_btnSelect, State.None);
 				}
 				m_dragLine = null;
 			}

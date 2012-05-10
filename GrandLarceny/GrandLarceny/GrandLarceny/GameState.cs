@@ -187,6 +187,7 @@ namespace GrandLarceny
 			m_background = Game.getInstance().Content.Load<Texture2D>("Images//Background//starry_sky_01");
 
 			base.load();
+			addObject(new Darkness(Vector2.Zero, "Images//LightCone//ventilljus", 0.003f), 1);
 		}
 
 		public override void setPlayer(Player a_player)
@@ -349,7 +350,7 @@ namespace GrandLarceny
 
 		private void finishLevel()
 		{
-			Game.getInstance().getProgress().setLevelCleared(m_currentLevel);
+			Game.getInstance().getProgress().setLevelCleared(m_currentLevel.Remove(m_currentLevel.Length - 4));
 			Game.getInstance().setState(new HubMenu());
 		}
 		/*

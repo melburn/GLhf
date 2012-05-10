@@ -137,6 +137,7 @@
     <Compile Include="Consumables\ConsumableGoal.cs" />
     <Compile Include="Consumables\ConsumableHeart.cs" />
     <Compile Include="Consumables\ConsumableKey.cs" />
+    <Compile Include="Darkness.cs" />
     <Compile Include="Events\Effects\FinnishLevelEffect.cs" />
     <Compile Include="Events\Triggers\IsDeadTrigger.cs" />
     <Compile Include="Factories\AssetFactory.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Particle.cs" />
     <Compile Include="SecurityDoor.cs" />
     <Compile Include="Rope.cs" />
+    <Compile Include="SettingsMenu.cs" />
     <Compile Include="TextField.cs" />
     <Compile Include="GuardCamera.cs" />
     <Compile Include="TVentilation.cs" />
