@@ -19,7 +19,7 @@ namespace GrandLarceny
 		protected Vector2 m_nextPosition;
 		[NonSerialized]
 		protected CollisionShape m_collisionShape;
-		
+
 		public Entity(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{

@@ -12,8 +12,9 @@ namespace GrandLarceny
 		protected float m_leftPatrolPoint;
 		protected float m_rightPatrolPoint;
 		protected Boolean m_hasPatrol;
-		
-		public GuardEntity(Vector2 a_posV2, string a_sprite, float a_layer) :  base(a_posV2, a_sprite, a_layer)
+
+		public GuardEntity(Vector2 a_posV2, string a_sprite, float a_layer)
+			: base(a_posV2, a_sprite, a_layer)
 		{
 
 		}

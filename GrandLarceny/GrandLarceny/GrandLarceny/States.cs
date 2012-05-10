@@ -46,6 +46,10 @@ namespace GrandLarceny
 					t_list.Remove(m_removeList[t_currentList].Pop());
 				}
 			}
+			foreach (GuiObject t_guiObject in m_guiList)
+			{
+				t_guiObject.update(a_gameTime);
+			}
 		}
 		public abstract void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch);
 

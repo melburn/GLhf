@@ -18,7 +18,10 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-
+			foreach (GuiObject t_guiObject in m_guiList)
+			{
+				t_guiObject.draw(a_gameTime);
+			}
 		}
 
 		public override void addObject(GameObject a_object)

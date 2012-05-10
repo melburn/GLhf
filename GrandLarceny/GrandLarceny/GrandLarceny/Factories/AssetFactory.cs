@@ -237,7 +237,14 @@ namespace GrandLarceny
 				createSpotLight(t_position, t_imagePath);
 			}
 			if (a_asset is Environment) {
-				createBackground(t_position, t_imagePath);
+				if (a_asset.getImg().getImagePath().StartsWith("Content//Images//Prop//"))
+				{
+					createProp(t_position, t_imagePath);
+				}
+				else
+				{
+					createBackground(t_position, t_imagePath);
+				}
 			}
 			if (a_asset is Guard) {
 				createGuard(t_position, t_imagePath);

@@ -25,7 +25,7 @@ namespace GrandLarceny
 			m_lastPosition = m_position.getGlobalCartesian();
 			if (m_aiState != null && m_aiActive)
 			{
-				m_aiState = m_aiState.execute(this);
+				m_aiState = m_aiState.execute(this, a_gameTime);
 			}
 			base.update(a_gameTime);
 		}
