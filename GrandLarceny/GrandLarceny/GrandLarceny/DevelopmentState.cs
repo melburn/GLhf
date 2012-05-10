@@ -329,7 +329,6 @@ namespace GrandLarceny
 				m_objectPreview.getPosition().setLocalY(m_worldMouse.Y - 36);
 			}
 
-			m_statusBar.update(a_gameTime);
 			if (m_selectedObject != null && m_selectedObject is Environment)
 			{
 				m_parallaxScrollTF.update(a_gameTime);
@@ -351,11 +350,8 @@ namespace GrandLarceny
 				}
 			}
 
-			foreach (GuiObject t_gui in m_guiList)
-			{
-				t_gui.update(a_gameTime);
-			}
 			m_layerTextField.update(a_gameTime);
+			m_statusBar.update(a_gameTime);
 
 			if (m_selectedObject != null)
 			{
