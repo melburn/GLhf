@@ -524,14 +524,14 @@ namespace GrandLarceny
 			}
 			*/ //TODO
 
-			if (m_btnAddEffect.getState() == 3)
+			if (m_btnAddEffect.getIntState() == 3)
 			{
 				foreach (Button t_button in m_effectMenu)
 				{
 					t_button.update();
 				}
 			}
-			else if (m_btnAddTrigger.getState() == 3)
+			else if (m_btnAddTrigger.getIntState() == 3)
 			{
 				foreach (Button t_button in m_triggerMenu)
 				{
@@ -582,14 +582,14 @@ namespace GrandLarceny
 			}
 			*/ //TODO
 
-			if (m_btnAddEffect.getState() == 3)
+			if (m_btnAddEffect.getIntState() == 3)
 			{
 				foreach (Button t_button in m_effectMenu)
 				{
 					t_button.draw(a_gameTime, a_spriteBatch);
 				}
 			}
-			else if (m_btnAddTrigger.getState() == 3)
+			else if (m_btnAddTrigger.getIntState() == 3)
 			{
 				foreach (Button t_button in m_triggerMenu)
 				{

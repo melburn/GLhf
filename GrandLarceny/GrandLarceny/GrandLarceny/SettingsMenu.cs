@@ -14,16 +14,12 @@ namespace GrandLarceny
 		#region Members
 		private string[] m_resolutions;
 		private int m_resolutionIndex;
-		private string m_valueToChange;
 
-		private Button m_btnSetUp;
-		private Button m_btnSetDown;
-		private Button m_btnSetLeft;
-		private Button m_btnSetRight;
-		private Button m_btnSetJump;
-		private Button m_btnSetAction;
-		private Button m_btnSetRoll;
-		private Button m_btnSetSprint;
+		private Button m_btnNextResolution;
+		private Button m_btnPrevResolution;
+		private Button m_btnFullscreen;
+		private Button m_btnExit;
+		private Button m_btnApply;
 
 		private LinkedList<Button> m_keyList;
 
@@ -38,7 +34,7 @@ namespace GrandLarceny
 		{
 			m_buttonList.AddLast(m_keyList = new LinkedList<Button>());
 			m_resolutions = new string[] 
-			{ 
+			{
 				"640x480"	, "800x600"	, "1024x768"	, "1152x864"	, "1280x720"	, "1280x768"	, "1360x768",
 				"1366x768"	, "1440x900", "1600x1200"	, "1680x1050"	, "1920x1080"	, "1920x1200" 
 			};
@@ -53,15 +49,23 @@ namespace GrandLarceny
 					break;
 				}
 			}
-
-			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(500, 150), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.Black, false));
 		}
 
 		public override void load()
 		{
 			base.load();
+			createButtons();
+		}
+		#endregion
+
+		#region Setting Methods
+		private void createButtons()
+		{
 			int i = 0;
 			m_settingsFile = "Content//wtf//settings.ini";
+			m_guiList = new LinkedList<GuiObject>();
+			m_keyList = new LinkedList<Button>();
+			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.Black, false));
 			Vector2 t_textOffset = new Vector2(40, 10);
 			string[] t_currentBindings = Loader.getInstance().getSettingsBlock("Input", m_settingsFile);
 
@@ -71,24 +75,29 @@ namespace GrandLarceny
 				m_guiList.AddLast(new Text(new Vector2(400, 300 + (40 * i)), t_settingString[0], "VerdanaBold", Color.Black, false));
 				m_keyList.AddLast(new Button(null, new Vector2(450, 300 + (40 * i++)), t_settingString[1], "VerdanaBold", Color.Black, t_textOffset));
 			}
-			/*
-			m_keyList.AddLast(m_btnSetUp		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Move Up", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetDown		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Move Down", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetLeft		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Move Left", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetRight		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Move Right", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetJump		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Jump", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetAction	= new Button(null, new Vector2(400, 300 + (40 * i++)), "Action Button", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetRoll		= new Button(null, new Vector2(400, 300 + (40 * i++)), "Roll", "VerdanaBold", Color.Black, t_textOffset));
-			m_keyList.AddLast(m_btnSetSprint	= new Button(null, new Vector2(400, 300 + (40 * i++)), "Sprint", "VerdanaBold", Color.Black, t_textOffset));
-			*/
 			foreach (Button t_button in m_keyList)
 			{
 				t_button.m_clickEvent += new Button.clickDelegate(awaitInput);
 			}
-		}
-		#endregion
 
-		#region Setting Methods
+			m_keyList.AddLast(m_btnNextResolution	= new Button(null, new Vector2(250, 150)));
+			m_keyList.AddLast(m_btnPrevResolution	= new Button(null, new Vector2(100, 150)));
+			m_keyList.AddLast(m_btnFullscreen		= new Button(null, new Vector2(100, 200)));
+			m_keyList.AddLast(m_btnExit				= new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 50)));
+			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(140, 200), "Apply", "VerdanaBold", Color.Black, new Vector2(5, 3)));
+
+			m_btnNextResolution.m_clickEvent	+= new Button.clickDelegate(nextResolution);
+			m_btnPrevResolution.m_clickEvent	+= new Button.clickDelegate(prevResolution);
+			m_btnFullscreen.m_clickEvent		+= new Button.clickDelegate(fullscreenToggle);
+			m_btnExit.m_clickEvent				+= new Button.clickDelegate(exitSettings);
+			m_btnApply.m_clickEvent				+= new Button.clickDelegate(applyGraphics);
+
+			if (Game.getInstance().m_graphics.IsFullScreen)
+			{
+				m_btnFullscreen.setState(3);
+			}
+		}
+
 		private string getValueFromString(string a_setting)
 		{
 			string[] t_settingsFile;
@@ -106,19 +115,21 @@ namespace GrandLarceny
 
 		private void setValueFromString(string a_setting, string a_value)
 		{
-			string[] t_settingsFile;
-			StreamReader t_file = new StreamReader("Content//wtf//settings.ini");
-
-			t_settingsFile = t_file.ReadToEnd().Split('\n');
-			t_file.Close();
+			string[] t_settingsFile = File.ReadAllLines("Content//wtf//settings.ini");
 			
 			StreamWriter t_fileToWrite = new StreamWriter("Content//wtf//settings.ini");
 			t_fileToWrite.Flush();
 
 			foreach (string t_string in t_settingsFile)
 			{
+				if (t_string.StartsWith("["))
+				{
+					t_fileToWrite.WriteLine(t_string);
+					continue;
+				}
+				string t_settingToFind = t_string.Split('=')[0];
 				string t_editedString = "";
-				if (t_string.StartsWith(a_setting))
+				if (t_string.Split('=')[0].Equals(t_settingToFind))
 				{
 					string[] t_splitString = t_string.Split('=');
 					t_splitString[1] = a_value;
@@ -146,7 +157,7 @@ namespace GrandLarceny
 		{
 			foreach (Button t_button in m_keyList)
 			{
-				if (t_button.getState() == 2)
+				if (t_button.getState() == Button.State.Toggled)
 				{
 					setValueFromString(t_button.getText(), k.ToString());
 					m_inputFeedback = null;
@@ -159,16 +170,74 @@ namespace GrandLarceny
 
 		private void lockButtons(Button a_button)
 		{
-			GuiListFactory.setSelection(m_keyList, 3);
+			GuiListFactory.setSelection(m_keyList, 2);
 			if (a_button != null)
 			{
-				a_button.setState(2);
+				a_button.setState(3);
 			}
 		}
 
 		private void unlockButtons()
 		{
 			GuiListFactory.setSelection(m_keyList, 0);
+		}
+
+		private void nextResolution(Button a_button)
+		{
+			try
+			{
+				m_resolutionText.setText(m_resolutions[++m_resolutionIndex]);
+			}
+			catch (IndexOutOfRangeException)
+			{
+				m_resolutionText.setText(m_resolutions[m_resolutionIndex = 0]);
+			}
+		}
+
+		private void prevResolution(Button a_button)
+		{
+			try
+			{
+				m_resolutionText.setText(m_resolutions[--m_resolutionIndex]);
+			}
+			catch (IndexOutOfRangeException)
+			{
+				m_resolutionText.setText(m_resolutions[m_resolutionIndex = m_resolutions.Length - 1]);
+			}
+		}
+
+		private void fullscreenToggle(Button a_button)
+		{
+			if (m_btnFullscreen.getState() == Button.State.Toggled)
+			{
+				m_btnFullscreen.setState(Button.State.Normal);
+			}
+			else
+			{
+				m_btnFullscreen.setState(Button.State.Toggled);				
+			}
+		}
+
+		private void exitSettings(Button a_button)
+		{
+			Game.getInstance().setState(new MainMenu());
+		}
+
+		private void applyGraphics(Button a_button)
+		{
+			setValueFromString("ScreenWidth", m_resolutionText.getText().Split('x')[0]);
+			setValueFromString("ScreenHeight", m_resolutionText.getText().Split('x')[1]);
+			if (m_btnFullscreen.getState() == Button.State.Toggled)
+			{
+				setValueFromString("Fullscreen", "true");
+			}
+			else
+			{
+				setValueFromString("Fullscreen", "false");
+			}
+			m_keyList = null;
+			Loader.getInstance().loadGraphicSettings(m_settingsFile);
+			createButtons();
 		}
 		#endregion
 
