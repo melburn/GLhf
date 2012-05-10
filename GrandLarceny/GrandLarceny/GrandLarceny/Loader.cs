@@ -117,7 +117,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
+					//ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
 				}
 			}
 			Game.getInstance().m_graphics.ApplyChanges();
