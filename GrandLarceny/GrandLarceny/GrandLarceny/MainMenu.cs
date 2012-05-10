@@ -13,14 +13,7 @@ namespace GrandLarceny
 {
 	class MainMenu : MenuState
 	{
-		#region Members
 		private Button m_btnSettings;
-
-		private ParseState m_currentParse;
-		private enum ParseState {
-			Settings
-		}
-		#endregion
 
 		#region Constructor & Load
 		public override void load()
@@ -38,7 +31,7 @@ namespace GrandLarceny
 			GuiListFactory.setListPosition(m_buttons, new Vector2(Game.getInstance().getResolution().X / 2 - 80, Game.getInstance().getResolution().Y / 2));
 			GuiListFactory.setTextOffset(m_buttons, new Vector2(20, 0));
 			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, 60));
-			m_buttons.AddLast(m_btnSettings = new Button("btn_settings", new Vector2(100, 500)));
+			m_buttons.AddLast(m_btnSettings = new Button("btn_settings", new Vector2(100, 100)));
 			m_btnSettings.m_clickEvent += new Button.clickDelegate(settingsClick);
 		}
 		#endregion
