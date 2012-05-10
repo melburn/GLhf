@@ -768,6 +768,7 @@ namespace GrandLarceny
 					{
 						m_speed.Y = -PLAYERSPEED;
 						t_list = m_upDownList;
+						m_facingRight = false;
 						if (m_currentVentilation != null)
 						{
 							if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() > 3)
@@ -850,6 +851,7 @@ namespace GrandLarceny
 					{
 						m_speed.Y = PLAYERSPEED;
 						t_list = m_upDownList;
+						m_facingRight = false;
 						if (m_currentVentilation != null)
 						{
 							if (m_position.getGlobalX() - m_currentVentilation.getPosition().getGlobalX() > 3)
@@ -1050,8 +1052,8 @@ namespace GrandLarceny
 					setSprite(m_currentVentilationImage);
 					if (m_currentVentilation != null)
 					{
-						m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
-						m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
+		//				m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
+		//				m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
 					}
 					break;
 				}
