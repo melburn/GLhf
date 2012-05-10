@@ -32,6 +32,8 @@ namespace GrandLarceny
 
 		private string m_spritePath;
 
+		protected int m_listLayer;
+
 		public GameObject(Vector2 a_posV2, string a_sprite, float a_layer)
 		{
 			m_objectId = ++s_lastId;
@@ -197,6 +199,16 @@ namespace GrandLarceny
 		public virtual Vector2 getCenterPoint()
 		{
 			return m_position.getGlobalCartesian() + (m_img.getSize() / 2);
+		}
+
+		public void setListLayer(int a_layer)
+		{
+			m_listLayer = a_layer;
+		}
+
+		public int getListLayer()
+		{
+			return m_listLayer;
 		}
 	}
 }

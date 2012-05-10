@@ -16,7 +16,7 @@ namespace GrandLarceny
 		int m_pairedVentilationId = 0;
 
 		bool m_isLocked = false;
-		
+
 		public VentilationDrum(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{

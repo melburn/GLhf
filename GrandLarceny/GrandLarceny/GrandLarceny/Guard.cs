@@ -30,7 +30,8 @@ namespace GrandLarceny
 		private Boolean m_running = false;
 		private Boolean m_facingRight;
 
-		private float m_sightRange = 670f;
+		private const float m_sightRange = 670f;
+		private const float m_hearRange = 530;
 
 		[NonSerialized]
 		private FlashCone m_flashLight;
@@ -432,6 +433,17 @@ namespace GrandLarceny
 				canSeePoint(t_player.getPosition().getGlobalCartesian() + (t_player.getImg().getSize() / new Vector2(2, 4)));
 		}
 
+		public bool canHearPlayer()
+		{
+			Player t_player = Game.getInstance().getState().getPlayer();
+
+			return t_player != null &&
+				t_player.isRunMode() &&
+				t_player.getListLayer() == m_listLayer &&
+				(t_player.getCenterPoint() - getCenterPoint()).Length() < m_hearRange &&
+				canSeePoint(t_player.getCenterPoint());
+		}
+
 		public bool isFacingRight()
 		{
 			return m_facingRight ^
@@ -490,7 +502,7 @@ namespace GrandLarceny
 						}
 						else
 						{
-							m_flashLight.getPosition().setLocalX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+							m_flashLight.getPosition().setLocalX(-178);
 						}
 
 					}
@@ -749,7 +761,7 @@ namespace GrandLarceny
 		{
 			if (a_x >= m_position.getGlobalX())
 			{
-				if (m_facingRight)
+				if (!m_facingRight)
 				{
 					goRight();
 					return true;
@@ -757,7 +769,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				if (!m_facingRight)
+				if (m_facingRight)
 				{
 					goLeft();
 					return true;
