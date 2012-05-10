@@ -161,6 +161,7 @@ namespace GrandLarceny
 			m_currentVentilationImage = VENTIDLEIMAGE;
 			m_currentSwingingImage = "hero_swing_still";
 			m_position.plusYWith(-1);
+			m_facingRight = true;
 		}
 		#endregion
 
