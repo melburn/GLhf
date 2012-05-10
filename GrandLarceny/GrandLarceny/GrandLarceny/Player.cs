@@ -735,11 +735,11 @@ namespace GrandLarceny
 				if (!m_collidedWithVent)
 				{
 					Game.getInstance().m_camera.setLayer(1);
-					m_layer = 0.250f;
+					m_layer = 0.6995f;
 				}
 				else
 				{
-					m_layer = 0.9999999f;
+					m_layer = 0.900f;
 				}
 				m_cameraPoint.X = 0;
 			}
@@ -1199,6 +1199,7 @@ namespace GrandLarceny
 				else if (m_currentState == State.Ventilation)
 				{
 					m_img.setAnimationSpeed(15);
+					m_layer = 0.6995f;
 				}
 			}
 		}

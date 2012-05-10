@@ -32,7 +32,7 @@ namespace GrandLarceny
 			{
 				m_pairedVentilation = (VentilationDrum)Game.getInstance().getState().getObjectById(m_pairedVentilationId);
 			}
-			m_backImg = new ImageManager("Images//Tile//Ventilation//Drum//ventil");
+			m_backImg = new ImageManager("Images//Tile//Ventilation//Straight//aventil_short_tile_w_floor");
 			m_collisionShape = new CollisionRectangle(30, 30, 12, 12, m_position);
 		}
 		public override void linkObject()
@@ -104,7 +104,7 @@ namespace GrandLarceny
 			}
 			m_isLocked = !m_isLocked;
 			if (m_isLocked)
-				m_img.setSprite("Images//Tile//Ventilation//Drum//ventil_locked_placeholder");
+				m_img.setSprite("Images//Tile//Ventilation//Drum//ventil_locked");
 			else
 				m_img.setSprite("Images//Tile//Ventilation//Drum//ventil");
 		}
@@ -145,7 +145,7 @@ namespace GrandLarceny
 			base.draw(a_gameTime);
 
 			Vector2 t_imgPosition = m_position.getFlooredGlobalCartesian() + new Vector2(m_imgOffsetX, m_imgOffsetY);
-			m_backImg.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, 1f, m_XScale, m_YScale);
+			m_backImg.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, 0.930f, m_XScale, m_YScale);
 		}
 	}
 }
