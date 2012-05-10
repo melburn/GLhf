@@ -105,6 +105,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\LightCone\lamp.png">
+      <Name>lamp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Levels\hejlol.lvl">
       <Name>hejlol</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
