@@ -729,15 +729,16 @@ namespace GrandLarceny
 			m_gravity = 0;
 			if (Game.getInstance().m_camera.getLayer() == 0)
 			{
-				if (KeyboardHandler.keyClicked(GameState.getLeftKey()) || KeyboardHandler.keyClicked(GameState.getRightKey()))
-				{
-					Game.getInstance().m_camera.setLayer(1);
-					m_cameraPoint.X = 0;
-				}
-				else
-				{
-					m_cameraPoint.X = 0;
-				}
+				
+		//		if (KeyboardHandler.keyClicked(GameState.getLeftKey()) || KeyboardHandler.keyClicked(GameState.getRightKey()))
+		//		{
+		//			Game.getInstance().m_camera.setLayer(1);
+		//			m_cameraPoint.X = 0;
+		//		}
+		//		else
+		//		{
+		//			m_cameraPoint.X = 0;
+		//		}
 			}
 			else
 			{
