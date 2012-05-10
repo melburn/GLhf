@@ -260,6 +260,11 @@ namespace GrandLarceny
 			}
 		}
 
+		public void setState(State a_state)
+		{
+			m_currentState = a_state;
+		}
+
 		public bool isButtonPressed()
 		{
 			return m_isPressed;
