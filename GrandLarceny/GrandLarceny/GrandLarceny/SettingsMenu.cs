@@ -81,15 +81,15 @@ namespace GrandLarceny
 			int i = 0;
 			m_guiList = new LinkedList<GuiObject>();
 			m_keyList = new LinkedList<Button>();
-			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.Black, false));
+			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.White, false));
 			Vector2 t_textOffset = new Vector2(40, 10);
 			string[] t_currentBindings = Loader.getInstance().getSettingsBlock("Input", m_settingsPath);
 
 			foreach (string t_string in t_currentBindings)
 			{
 				string[] t_settingString = t_string.Split('=');
-				m_guiList.AddLast(new Text(new Vector2(400, 300 + (40 * i)), t_settingString[0], "VerdanaBold", Color.Black, false));
-				m_keyList.AddLast(new Button(null, new Vector2(450, 300 + (40 * i++)), t_settingString[1], "VerdanaBold", Color.Black, t_textOffset));
+				m_guiList.AddLast(new Text(new Vector2(400, 300 + (40 * i)), t_settingString[0], "VerdanaBold", Color.White, false));
+				m_keyList.AddLast(new Button(null, new Vector2(450, 300 + (40 * i++)), t_settingString[1], "VerdanaBold", Color.White, t_textOffset));
 			}
 			foreach (Button t_button in m_keyList)
 			{
@@ -100,7 +100,7 @@ namespace GrandLarceny
 			m_keyList.AddLast(m_btnPrevResolution	= new Button(null, new Vector2(100, 150)));
 			m_keyList.AddLast(m_btnFullscreen		= new Button(null, new Vector2(100, 200)));
 			m_keyList.AddLast(m_btnExit				= new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 50)));
-			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(140, 200), "Apply", "VerdanaBold", Color.Black, new Vector2(5, 3)));
+			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(140, 200), "Apply", "VerdanaBold", Color.White, new Vector2(5, 3)));
 			m_keyList.AddLast(m_btnSave				= new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 150)));
 
 			m_btnNextResolution.m_clickEvent	+= new Button.clickDelegate(nextResolution);
@@ -129,7 +129,7 @@ namespace GrandLarceny
 
 		private void awaitInput(Button a_button)
 		{
-			m_inputFeedback = new Text(new Vector2(300, 300), "Select input for: " + a_button.getText(), "VerdanaBold", Color.Black, false);
+			m_inputFeedback = new Text(new Vector2(300, 300), "Select input for: " + a_button.getText(), "VerdanaBold", Color.White, false);
 			lockButtons(a_button);
 		}
 

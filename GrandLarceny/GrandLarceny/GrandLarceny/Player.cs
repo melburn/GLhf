@@ -121,20 +121,18 @@ namespace GrandLarceny
 		public override void loadContent()
 		{
 			base.loadContent();
-			m_health = 3;
-			m_healthHearts = new GuiObject[3];
-			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "GameGUI//health");
-			Game.getInstance().getState().addGuiObject(m_healthHearts[0]);
-			m_healthHearts[1] = new GuiObject(new Vector2(180, 50), "GameGUI//health");
-			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
-			m_healthHearts[2] = new GuiObject(new Vector2(260, 50), "GameGUI//health");
-			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
-
+			if (!(Game.getInstance().getState() is DevelopmentState))
+			{
+				addHearts();
+			}
+			
 			string[] t_heroSprites = Directory.GetFiles("Content//Images//Sprite//Hero//");
-			foreach (string t_file in t_heroSprites) {
+			foreach (string t_file in t_heroSprites)
+			{
 				string[] t_splitFile = Regex.Split(t_file, "//");
 				string[] t_extless = t_splitFile[t_splitFile.Length - 1].Split('.');
-				if (t_extless[1].Equals("xnb")) {
+				if (t_extless[1].Equals("xnb"))
+				{
 					Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Hero//" + t_extless[0]);
 				}
 			}
@@ -142,17 +140,17 @@ namespace GrandLarceny
 			m_interactionArrow = new GameObject(new CartesianCoordinate(new Vector2(15, -70), m_position), "Images//GUI//GameGUI//interaction", m_layer - 0.1f, m_listLayer);
 			setInteractionVisibility(false);
 			m_interactionArrow.getImg().setAnimationSpeed(20f);
-			m_standHitBox = new CollisionRectangle(0, 0, 70, 127, m_position);
-			m_rollHitBox = new CollisionRectangle(0, 0, 70, 72, m_position); // 67
-			m_slideBox = new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
-			m_hangHitBox = new CollisionRectangle(0, 0, 70, 80, m_position);
-			m_swingHitBox = new CollisionRectangle(-36, 0, 70, 127, m_position);
+			m_standHitBox	= new CollisionRectangle(0, 0, 70, 127, m_position);
+			m_rollHitBox	= new CollisionRectangle(0, 0, 70, 72, m_position); // 67
+			m_slideBox		= new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
+			m_hangHitBox	= new CollisionRectangle(0, 0, 70, 80, m_position);
+			m_swingHitBox	= new CollisionRectangle(-36, 0, 70, 127, m_position);
 			m_collisionShape = m_standHitBox;
-			m_ventilationDirection = new List<Direction>();
-			m_upDownList = new List<Direction>();
+			m_ventilationDirection	= new List<Direction>();
+			m_upDownList			= new List<Direction>();
 			m_upDownList.Add(Direction.Up);
 			m_upDownList.Add(Direction.Down);
-			m_leftRightList = new List<Direction>();
+			m_leftRightList			= new List<Direction>();
 			m_leftRightList.Add(Direction.Left);
 			m_leftRightList.Add(Direction.Right);
 			m_playerCurrentSpeed = PLAYERSPEED;
@@ -378,7 +376,8 @@ namespace GrandLarceny
 				return;
 			}
 
-			if ((KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey())) || (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey())))
+			if ((	KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey())) 
+				|| (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey())))
 			{
 				m_currentState = State.Walking;
 
@@ -434,6 +433,7 @@ namespace GrandLarceny
 					m_speed.X = Math.Max(m_speed.X - (ACCELERATION * a_deltaTime), -m_playerCurrentSpeed);
 				}
 			}
+
 			if (m_speed.X > 0)
 			{
 				m_speed.X = Math.Max(m_speed.X - (DEACCELERATION * a_deltaTime), 0);
@@ -457,6 +457,7 @@ namespace GrandLarceny
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
+
 			if (m_chase || m_runMode)
 			{
 				m_img.setAnimationSpeed(Math.Abs(m_speed.X / 22f));
@@ -465,6 +466,7 @@ namespace GrandLarceny
 			{
 				m_img.setAnimationSpeed(Math.Abs(m_speed.X / 10f));
 			}
+
 			if (m_speed.Y != 0)
 			{
 				m_currentState = State.Jumping;
@@ -531,7 +533,9 @@ namespace GrandLarceny
 			}
 
 			if (m_speed.Y < -300 && KeyboardHandler.isKeyPressed(GameState.getJumpKey()))
+			{
 				m_speed.Y -= AIRVERTICALACCELERATION;
+			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
 		}
@@ -1282,7 +1286,17 @@ namespace GrandLarceny
 		#endregion
 
 		#region get/set and other methods
-
+		private void addHearts()
+		{
+			m_health = 3;
+			m_healthHearts = new GuiObject[3];
+			m_healthHearts[0] = new GuiObject(new Vector2(100, 50), "GameGUI//health");
+			Game.getInstance().getState().addGuiObject(m_healthHearts[0]);
+			m_healthHearts[1] = new GuiObject(new Vector2(180, 50), "GameGUI//health");
+			Game.getInstance().getState().addGuiObject(m_healthHearts[1]);
+			m_healthHearts[2] = new GuiObject(new Vector2(260, 50), "GameGUI//health");
+			Game.getInstance().getState().addGuiObject(m_healthHearts[2]);
+		}
 		public void setInteractionVisibility(bool a_show)
 		{
 			m_interactionArrow.setVisible(a_show);
