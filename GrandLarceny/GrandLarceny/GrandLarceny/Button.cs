@@ -394,6 +394,11 @@ namespace GrandLarceny
 		{
 			m_bounds = new Rectangle((int)m_posV2.X, (int)m_posV2.Y, (int)m_size.X, (int)m_size.Y);
 		}
+
+		public void invokeClickEvent()
+		{
+			m_clickEvent(this);
+		}
 		#endregion
 
 		#region Position Methods
