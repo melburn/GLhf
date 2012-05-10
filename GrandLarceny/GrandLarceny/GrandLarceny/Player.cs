@@ -85,6 +85,7 @@ namespace GrandLarceny
 
 		private bool m_facingRight				= false;
 		private bool m_collidedWithWall			= false;
+		private bool m_collidedWithVent			= false;
 		private bool m_stunned					= false;
 		private bool m_stunnedDeacceleration	= true;
 		private bool m_stunnedGravity			= true;
@@ -724,35 +725,34 @@ namespace GrandLarceny
 		}
 
 		private void updateVentilation(float a_deltaTime)
+
 		{
 			m_speed = Vector2.Zero;
 			m_gravity = 0;
 			if (Game.getInstance().m_camera.getLayer() == 0)
 			{
-				
-		//		if (KeyboardHandler.keyClicked(GameState.getLeftKey()) || KeyboardHandler.keyClicked(GameState.getRightKey()))
-		//		{
-		//			Game.getInstance().m_camera.setLayer(1);
-		//			m_cameraPoint.X = 0;
-		//		}
-		//		else
-		//		{
-		//			m_cameraPoint.X = 0;
-		//		}
+
+				if (!m_collidedWithVent)
+				{
+					Game.getInstance().m_camera.setLayer(1);
+					m_layer = 0.250f;
+				}
+				else
+				{
+					m_layer = 0.9999999f;
+				}
+				m_cameraPoint.X = 0;
 			}
-			else
+			List<Direction> t_list = null;
+			foreach (Direction t_direction in m_ventilationDirection)
 			{
-				List<Direction> t_list = null;
-				foreach (Direction t_direction in m_ventilationDirection)
-				{
-					t_list = moveDirectionInVentilation(t_direction);
-					if (t_list != null)
-						break;
-				}
+				t_list = moveDirectionInVentilation(t_direction);
 				if (t_list != null)
-				{
-					m_ventilationDirection = t_list;
-				}
+					break;
+			}
+			if (t_list != null)
+			{
+				m_ventilationDirection = t_list;
 			}
 		}
 
@@ -1194,6 +1194,7 @@ namespace GrandLarceny
 				{
 					m_imgOffsetX = 0;
 					m_imgOffsetY = 0;
+					m_layer = 0.250f;
 				}
 				else if (m_currentState == State.Ventilation)
 				{
@@ -1206,6 +1207,7 @@ namespace GrandLarceny
 		#region collision/hang check
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
+			m_collidedWithVent = false;
 			m_collidedWithWall = false;
 			m_ladderDirection = 0;
 			if (!m_chase)
@@ -1239,23 +1241,6 @@ namespace GrandLarceny
 					m_imgOffsetX = -7;
 				}
 			}
-		}
-
-		public void setInteractionVisibility(bool a_show)
-		{
-			m_interactionArrow.setVisible(a_show);
-		}
-		public bool isInLight()
-		{
-			return m_isInLight;
-		}
-		public bool isFacingRight()
-		{
-			return m_facingRight;
-		}
-		public void setFacingRight(bool a_facingRight)
-		{
-			m_facingRight = a_facingRight;
 		}
 
 		public void hang(Entity a_collider)
@@ -1296,6 +1281,23 @@ namespace GrandLarceny
 
 		#region get/set and other methods
 
+		public void setInteractionVisibility(bool a_show)
+		{
+			m_interactionArrow.setVisible(a_show);
+		}
+		public bool isInLight()
+		{
+			return m_isInLight;
+		}
+		public bool isFacingRight()
+		{
+			return m_facingRight;
+		}
+		public void setFacingRight(bool a_facingRight)
+		{
+			m_facingRight = a_facingRight;
+		}
+
 		public void setIsInLight(bool a_isInLight)
 		{
 			
@@ -1315,6 +1317,10 @@ namespace GrandLarceny
 		public void setCollidedWithWall(bool a_collided)
 		{
 			m_collidedWithWall = a_collided;
+		}
+		public void setCollidedWithVent(bool a_collided)
+		{
+			m_collidedWithVent = a_collided;
 		}
 
 		public void setIsOnLadderWithDirection(Direction a_ladderDirection)
