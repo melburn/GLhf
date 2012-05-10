@@ -13,25 +13,34 @@ namespace GrandLarceny
 	{
 		public static LinkedList<Button> createListFromDirectory(string a_path, string[] a_extension, string a_buttonGraphic)
 		{
-			LinkedList<Button> t_guiList = new LinkedList<Button>();
 			string[] t_fileList = Directory.GetFiles(a_path);
 
-			for (int i = 0, j = 0; i < t_fileList.Length; i++)
+			return createListFromStringArray(t_fileList, a_extension, a_buttonGraphic);
+		}
+
+		public static LinkedList<Button> createListFromStringArray(string[] a_fileList, string[] a_extension, string a_buttonGraphic)
+		{
+			LinkedList<Button> t_guiList = new LinkedList<Button>();
+
+			for (int i = 0, j = 0; i < a_fileList.Length; i++)
 			{
 				bool t_accepted = false;
 
-				foreach (string t_ext in a_extension) {
-					if (t_fileList[i].EndsWith(t_ext)) {
+				foreach (string t_ext in a_extension)
+				{
+					if (a_fileList[i].EndsWith(t_ext))
+					{
 						t_accepted = true;
 						continue;
 					}
 				}
 
-				if (!t_accepted) {
+				if (!t_accepted)
+				{
 					continue;
 				}
 
-				string[] t_splitPath = Regex.Split(t_fileList[i], "//");
+				string[] t_splitPath = Regex.Split(a_fileList[i], "//");
 				string[] t_extless = t_splitPath[t_splitPath.Length - 1].Split('.');
 				t_guiList.AddLast(new Button(a_buttonGraphic, new Vector2(0, 0), t_extless[0], "VerdanaBold", Color.Black, new Vector2(0, 0)));
 				j++;
