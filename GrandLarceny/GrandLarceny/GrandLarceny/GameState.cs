@@ -145,18 +145,18 @@ namespace GrandLarceny
 
 			for (int i = 0; i < m_gameObjectList.Length; ++i)
 			{
-				//m_removeList[i] = new Stack<GameObject>();
 				m_addList[i] = new Stack<GameObject>();
 			}
 			
 			m_unexplored = new LinkedList<Environment>();
 			m_finishCond = new LinkedList<ConsumableGoal>();
 
-			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
+			for (int i = 0; i < m_gameObjectList.Count(); ++i)
 			{
-				foreach (GameObject t_go in t_ll)
+				foreach (GameObject t_go in m_gameObjectList[i])
 				{
 					t_go.loadContent();
+					t_go.setListLayer(i);
 
 					if (t_go is Player)
 					{
@@ -294,6 +294,7 @@ namespace GrandLarceny
 					GameObject t_goToAdd = m_addList[m_currentList].Pop();
 					if (!t_list.Contains(t_goToAdd))
 					{
+						t_goToAdd.setListLayer(m_currentList);
 						t_list.AddLast(t_goToAdd);
 					}
 				}
@@ -384,7 +385,7 @@ namespace GrandLarceny
 					}
 				}
 			}
-			if (m_background != null)
+			if (m_background != null && Game.getInstance().m_camera.getLayer() == 0)
 			{
 				Rectangle m_dest = Game.getInstance().m_camera.getRectangle();
 				m_dest.Width /= 2;
@@ -433,18 +434,9 @@ namespace GrandLarceny
 		}
 		public override void changeLayer(int a_newLayer)
 		{
-			Player t_player = null;
-			foreach (GameObject t_go in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
+			if (player != null)
 			{
-				if (t_go is Player)
-				{
-					t_player = (Player)t_go;
-				}
-			}
-			if (t_player != null)
-			{
-				addObject(t_player, a_newLayer);
-				removeObject(t_player, Game.getInstance().m_camera.getLayer());
+				moveObjectToLayer(player, a_newLayer);
 			}
 			Game.getInstance().m_camera.setLayer(a_newLayer);
 		}
@@ -524,17 +516,25 @@ namespace GrandLarceny
 
 		public override void moveObjectToLayer(GameObject a_go, int a_layer)
 		{
-			for (int i = 0; i < 5; ++i)
+			if (m_gameObjectList[a_go.getListLayer()].Contains(a_go))
 			{
-				if (m_gameObjectList[i].Contains(a_go))
-				{
-					addObject(a_go, a_layer);
-					removeObject(a_go, i);
-					a_go.setListLayer(a_layer);
-					return;
-				}
+				removeObject(a_go, a_go.getListLayer());
+				addObject(a_go, a_layer);
 			}
-			throw new ArgumentException(a_go + " was not found");
+			else
+			{
+				ErrorLogger.getInstance().writeString("could not find " + a_go + " while changeing its layer. searches for it in other layers");
+				for (int i = 0; i < 5; ++i)
+				{
+					if (m_gameObjectList[i].Contains(a_go))
+					{
+						addObject(a_go, a_layer);
+						removeObject(a_go, i);
+						return;
+					}
+				}
+				throw new ArgumentException(a_go + " was not found");
+			}
 		}
 
 		public override bool objectIsOnLayer(GameObject a_obj, int a_layer)

@@ -27,10 +27,11 @@ namespace GrandLarceny
 				Vector2 t_playerGlobalPosition = a_collider.getPosition().getGlobalCartesian();
 				Rectangle t_playerOutBox = a_collider.getHitBox().getOutBox();
 				if (CollisionManager.Contains(this.getHitBox(), 
-					new Vector2(t_playerGlobalPosition.X + t_playerOutBox.Width/2, t_playerGlobalPosition.Y + t_playerOutBox.Height/2)))
+					new Vector2(t_playerGlobalPosition.X + t_playerOutBox.Width/2, t_playerGlobalPosition.Y + t_playerOutBox.Height/2))
+					&& !t_player.isChase()
+					&& t_player.getLastState() != Player.State.Hiding)
 				{
-					if (KeyboardHandler.keyClicked(GameState.getActionKey()) && !t_player.isChase()
-						&& t_player.getLastState() != Player.State.Hiding)
+					if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 					{
 						t_player.setState(Player.State.Hiding);
 						t_player.setHidingImage(Player.DUCKHIDINGIMAGE);
