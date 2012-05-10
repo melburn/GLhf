@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
@@ -32,7 +33,7 @@ namespace GrandLarceny
 
 			m_animationFrames = new Dictionary<string, int>();
 
-			String[] t_loadedFile = System.IO.File.ReadAllLines("Content//wtf//loadImages.txt");
+			String[] t_loadedFile = File.ReadAllLines("Content//wtf//loadImages.txt");
 
 			foreach (String f_currentLine in t_loadedFile)
 			{
@@ -41,7 +42,7 @@ namespace GrandLarceny
 				{
 					m_animationFrames.Add(t_info[0], int.Parse(t_info[1]));
 				}
-				catch(System.FormatException)
+				catch (System.FormatException)
 				{
 					ErrorLogger.getInstance().writeString("Parse fail in loading of animationSizes at line : " + f_currentLine);
 				}
@@ -79,7 +80,7 @@ namespace GrandLarceny
 
 		public void loadGraphicSettings(string a_file)
 		{
-			string[] t_loadedFile = System.IO.File.ReadAllLines(a_file);
+			string[] t_loadedFile = File.ReadAllLines(a_file);
 			bool t_startParse = false;
 
 			foreach (string t_currentLine in t_loadedFile)
@@ -120,6 +121,34 @@ namespace GrandLarceny
 				}
 			}
 			Game.getInstance().m_graphics.ApplyChanges();
+		}
+
+		public string[] getSettingsBlock(string a_block, string a_file)
+		{
+			LinkedList<string> t_returnValue = new LinkedList<string>();
+			bool t_startParse = false;
+
+			foreach (string t_setting in File.ReadAllLines(a_file))
+			{
+				if (!t_startParse && t_setting.Equals("[" + a_block + "]"))
+				{
+					t_startParse = true;
+					continue;
+				}
+				if (!t_setting.StartsWith("["))
+				{
+					if (!t_setting.Equals(""))
+					{
+						t_returnValue.AddLast(t_setting);
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			return t_returnValue.ToArray();
 		}
 	}
 }

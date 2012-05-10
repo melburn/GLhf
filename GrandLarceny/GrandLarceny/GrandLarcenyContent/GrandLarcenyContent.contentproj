@@ -1928,6 +1928,28 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Images\GUI\btn_settings_hover.png">
+      <Name>btn_settings_hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_settings_normal.png">
+      <Name>btn_settings_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_settings_pressed.png">
+      <Name>btn_settings_pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GUI\btn_settings_toggle.png">
+      <Name>btn_settings_toggle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Images\GUI\GameGUI\boots get.png">
       <Name>boots get</Name>
       <Importer>TextureImporter</Importer>
