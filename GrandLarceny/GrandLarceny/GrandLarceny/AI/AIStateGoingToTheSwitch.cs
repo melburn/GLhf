@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace GrandLarceny.AI
 {
@@ -21,7 +22,7 @@ namespace GrandLarceny.AI
 			return instance;
 		}
 
-		public override AIState execute(NPE a_agent)
+		public override AIState execute(NPE a_agent, GameTime a_gameTime)
 		{
 			if(a_agent==null)
             {
@@ -30,6 +31,27 @@ namespace GrandLarceny.AI
 			if (a_agent is Guard)
 			{
 				Guard t_guard = (Guard)a_agent;
+				if (t_guard.canHearPlayer())
+				{
+					t_guard.setChaseTarget(Game.getInstance().getState().getPlayer());
+					if (t_guard.isFacingRight())
+					{
+						Game.getInstance().getState().addObject(new Particle(
+							t_guard.getPosition().getGlobalCartesian() + new Vector2(60, -20),
+							"Images//Sprite//Guard//qmark",
+							20f,
+							t_guard.getLayer()));
+					}
+					else
+					{
+						Game.getInstance().getState().addObject(new Particle(
+							t_guard.getPosition().getGlobalCartesian() + new Vector2(-20, -10),
+							"Images//Sprite//Guard//qmark",
+							20f,
+							t_guard.getLayer()));
+					}
+					return new AIStateObserving(((float)a_gameTime.TotalGameTime.TotalMilliseconds) + 2000f);
+				}
 				if (t_guard.hasNoLampSwitchTargets())
 				{
 					return AIStatepatroling.getInstance();

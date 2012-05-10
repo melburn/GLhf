@@ -337,7 +337,7 @@ namespace GrandLarceny
 					while (t_enviroNode != null)
 					{
 						LinkedListNode<Environment> t_next = t_enviroNode.Next;
-						if (t_enviroNode.Value.collidesWith(player))
+						if (t_enviroNode.Value.collidesWith(player) && player.getListLayer() == t_enviroNode.Value.getListLayer())
 						{
 							t_enviroNode.Value.setExplored(true);
 							m_unexplored.Remove(t_enviroNode);
@@ -358,6 +358,7 @@ namespace GrandLarceny
 		*/
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
+			getPlayer().draw(a_gameTime);
 			foreach (GameObject t_gameObject in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
 			{
 				try
@@ -529,6 +530,7 @@ namespace GrandLarceny
 				{
 					addObject(a_go, a_layer);
 					removeObject(a_go, i);
+					a_go.setListLayer(a_layer);
 					return;
 				}
 			}

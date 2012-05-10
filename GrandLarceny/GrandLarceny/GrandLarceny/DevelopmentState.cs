@@ -454,7 +454,7 @@ namespace GrandLarceny
 					m_objectPreview = new StandHideObject(t_assetPosition, "Images//Prop//StandHide//" + t_newAsset, 0.000f);
 					break;
 				case State.GuardDog:
-					m_objectPreview = new GuardDog(t_assetPosition, "Images//Sprite//GuardDog//" + t_newAsset, m_worldMouse.X, m_worldMouse.X,0.000f);
+					m_objectPreview = new GuardDog(t_assetPosition, "Images//Sprite//GuardDog//" + t_newAsset, m_worldMouse.X, m_worldMouse.X, 0.000f);
 					break;
 				case State.LightSwitch:
 					m_objectPreview = new LampSwitch(t_assetPosition, "Images//Prop//Button//" + t_newAsset, 0.000f);
