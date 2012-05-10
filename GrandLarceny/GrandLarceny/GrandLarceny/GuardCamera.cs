@@ -23,7 +23,7 @@ namespace GrandLarceny
 		private bool m_lit;
 
 		public GuardCamera(Vector2 a_position, String a_sprite, float a_layer, float a_rotation, float a_leftRotation, float a_rightRotation, bool a_lit)
-			: base(a_position,a_sprite,a_layer)
+			: base(a_position, a_sprite, a_layer)
 		{
 			if (a_rotation < 0 || a_rotation > 2 * Math.PI ||
 				a_leftRotation < 0 || a_leftRotation > 2 * Math.PI ||

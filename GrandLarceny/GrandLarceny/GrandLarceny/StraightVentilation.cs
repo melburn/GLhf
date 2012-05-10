@@ -10,7 +10,8 @@ namespace GrandLarceny
 	[Serializable()]
 	class StraightVentilation : Ventilation
 	{
-		public StraightVentilation(Vector2 a_posV2, String a_sprite, float a_layer) : base(a_posV2, a_sprite, a_layer)
+		public StraightVentilation(Vector2 a_posV2, String a_sprite, float a_layer)
+			: base(a_posV2, a_sprite, a_layer)
 		{
 			
 		}
