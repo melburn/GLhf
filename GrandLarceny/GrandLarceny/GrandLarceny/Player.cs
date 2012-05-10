@@ -740,7 +740,7 @@ namespace GrandLarceny
 				}
 				else
 				{
-					m_layer = 0.900f;
+					m_layer = 0.901f;
 				}
 				m_cameraPoint.X = 0;
 			}
