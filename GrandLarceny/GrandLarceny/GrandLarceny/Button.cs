@@ -25,6 +25,7 @@ namespace GrandLarceny
 
 		private Position m_position;
 		private Vector2 m_size;
+		private Vector2 m_posV2;
 
 		private Texture2D m_normalTexture;
 		private Texture2D m_hoverTexture;
@@ -43,7 +44,7 @@ namespace GrandLarceny
 		private Keys[] m_hotkey;
 
 		private State m_currentState = State.Normal;
-		enum State
+		public enum State
 		{
 			Normal,
 			Hover,
@@ -63,6 +64,7 @@ namespace GrandLarceny
 			{
 				a_font = "Courier New";
 			}
+			m_posV2 = a_position;
 			m_text = new Text(a_position, a_offset, a_buttonText, a_font, a_color, false);
 			m_position = new CartesianCoordinate(a_position);
 			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
@@ -80,6 +82,7 @@ namespace GrandLarceny
 			{
 				a_font = "Courier New";
 			}
+			m_posV2 = a_position;
 			m_text = new Text(a_position, a_offset, a_buttonText, a_font, a_color, false);
 			m_position = new CartesianCoordinate(a_position, Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
@@ -328,7 +331,7 @@ namespace GrandLarceny
 			m_isVisible = a_visible;
 		}
 
-		public int getState()
+		public int getIntState()
 		{
 			switch (m_currentState)
 			{
@@ -342,6 +345,11 @@ namespace GrandLarceny
 					return 3;
 			}
 			return -1;
+		}
+
+		public State getState()
+		{
+			return m_currentState;
 		}
 
 		public void setHotkey(Keys[] a_key, clickDelegate a_method)
@@ -380,6 +388,11 @@ namespace GrandLarceny
 				t_returnValue = !KeyboardHandler.isKeyPressed(Keys.LeftAlt) && !KeyboardHandler.isKeyPressed(Keys.RightAlt);
 			}
 			return t_returnValue;
+		}
+
+		public void updateHitbox()
+		{
+			m_bounds = new Rectangle((int)m_posV2.X, (int)m_posV2.Y, (int)m_size.X, (int)m_size.Y);
 		}
 		#endregion
 
