@@ -25,11 +25,7 @@ namespace GrandLarceny.AI
 				if (t_guard.getChaseTarget() is Player)
 				{
 					Player t_chaseTarget = (Player)t_guard.getChaseTarget();
-					if (t_guard.canSeePlayer())
-					{
-						return AIStateChasing.getInstance();
-					}
-					else if ((t_chaseTarget.getCenterPoint() - t_guard.getCenterPoint()).Length() <= s_minimumRange)
+					if ((t_chaseTarget.getCenterPoint() - t_guard.getCenterPoint()).Length() <= s_minimumRange)
 					{
 						t_guard.chasePlayer();
 						return AIStateChasing.getInstance();
@@ -56,19 +52,12 @@ namespace GrandLarceny.AI
 					{
 						t_guard.faceTowards(t_chaseTarget.getCenterPoint().X);
 					}
-					return this;
 				}
-				else
+				else if (timeOver(a_gameTime))
 				{
-					if (timeOver(a_gameTime))
-					{
-						return AIStateGoingToTheSwitch.getInstance();
-					}
-					else
-					{
-						return this;
-					}
+					return AIStateGoingToTheSwitch.getInstance();
 				}
+				return this;
 			}
 			else
 			{

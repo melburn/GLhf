@@ -14,7 +14,6 @@ namespace GrandLarceny
 		public static LinkedList<Button> createListFromDirectory(string a_path, string[] a_extension, string a_buttonGraphic)
 		{
 			string[] t_fileList = Directory.GetFiles(a_path);
-
 			return createListFromStringArray(t_fileList, a_extension, a_buttonGraphic);
 		}
 
