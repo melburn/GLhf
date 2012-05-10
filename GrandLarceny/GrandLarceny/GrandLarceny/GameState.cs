@@ -358,6 +358,7 @@ namespace GrandLarceny
 		*/
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
+			getPlayer().draw(a_gameTime);
 			foreach (GameObject t_gameObject in m_gameObjectList[Game.getInstance().m_camera.getLayer()])
 			{
 				try
