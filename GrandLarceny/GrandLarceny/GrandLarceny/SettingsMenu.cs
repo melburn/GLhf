@@ -101,9 +101,9 @@ namespace GrandLarceny
 
 			m_keyList.AddLast(m_btnNextResolution	= new Button(null, new Vector2(250, 150)));
 			m_keyList.AddLast(m_btnPrevResolution	= new Button(null, new Vector2(100, 150)));
-			m_keyList.AddLast(m_btnFullscreen		= new Button(null, new Vector2(100, 200)));
-			m_keyList.AddLast(m_btnAntialias		= new Button(null, new Vector2(100, 250)));
-			m_keyList.AddLast(m_btnVSync			= new Button(null, new Vector2(100, 300)));
+			m_keyList.AddLast(m_btnFullscreen		= new Button(null, new Vector2(100, 200), "Full Screen", "VerdanaBold", Color.White, new Vector2(50, 5)));
+			m_keyList.AddLast(m_btnAntialias		= new Button(null, new Vector2(100, 250), "Anti-Alias", "VerdanaBold", Color.White, new Vector2(50, 5)));
+			m_keyList.AddLast(m_btnVSync			= new Button(null, new Vector2(100, 300), "Vertical Sync", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnExit				= new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 50)));
 			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(100, 350), "Apply", "VerdanaBold", Color.White, new Vector2(5, 3)));
 			m_keyList.AddLast(m_btnSave				= new Button("btn_event_exit", new Vector2(0, Game.getInstance().getResolution().Y - 150)));
@@ -151,12 +151,18 @@ namespace GrandLarceny
 
 		private void awaitInput(Button a_button)
 		{
-			m_inputFeedback = new Text(new Vector2(300, 300), "Select input for: " + a_button.getText(), "VerdanaBold", Color.White, false);
+			m_inputFeedback = new Text(new Vector2(Game.getInstance().getResolution().X / 2, 300), "Select input for: " + a_button.getText(), "VerdanaBold", Color.White, false);
 			lockButtons(a_button);
 		}
 
 		private void setKeybinding(Keys k)
 		{
+			if (k == Keys.Escape)
+			{
+				m_inputFeedback = null;
+				unlockButtons();
+				return;
+			}
 			foreach (Button t_button in m_keyList)
 			{
 				if (t_button.getState() == Button.State.Toggled)
