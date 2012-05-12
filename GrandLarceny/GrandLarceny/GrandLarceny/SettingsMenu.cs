@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GrandLarceny
 {
-	class SettingsMenu : MenuState
+	public class SettingsMenu : MenuState
 	{
 		#region Members
 		private string[] m_resolutions;
@@ -39,13 +39,15 @@ namespace GrandLarceny
 			m_buttonList.AddLast(m_keyList = new LinkedList<Button>());
 			m_resolutions = new string[] 
 			{
-				"640x480"	, "800x600"	, "1024x768"	, "1152x864"	, "1280x720"	, "1280x768"	, "1360x768",
-				"1366x768"	, "1440x900", "1600x1200"	, "1680x1050"	, "1920x1080"	, "1920x1200" 
+				"640x480"  , "800x600"	, "1024x768" , "1152x864" , "1280x720", "1280x768", "1280x800" ,
+				"1280x960" , "1280x1024", "1360x768" , "1366x768" , "1440x900", "1600x900", "1600x1024",
+				"1600x1200", "1680x1050", "1920x1080", "1920x1200" 
 			};
 
 			foreach (string t_string in File.ReadAllLines("Content//wtf//settings.ini"))
 			{
 				string[] t_stringToAdd = t_string.Split('=');
+
 				if (t_stringToAdd.Length > 1)
 				{
 					m_settingsFile.Add(t_stringToAdd[0], t_stringToAdd[1]);
