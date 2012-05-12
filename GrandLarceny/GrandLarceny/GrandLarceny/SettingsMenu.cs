@@ -137,7 +137,14 @@ namespace GrandLarceny
 			t_file.Flush();
 			foreach (KeyValuePair<string, string> t_kvPair in m_settingsFile)
 			{
-				t_file.WriteLine(t_kvPair.Key + "=" + t_kvPair.Value);
+				if (t_kvPair.Key.StartsWith("["))
+				{
+					t_file.WriteLine(t_kvPair.Key);				
+				}
+				else
+				{
+					t_file.WriteLine(t_kvPair.Key + "=" + t_kvPair.Value);
+				}
 			}
 			t_file.Close();
 		}
@@ -251,12 +258,14 @@ namespace GrandLarceny
 			m_settingsFile["VSync"]			= (m_btnVSync.getState()		== Button.State.Toggled).ToString().ToLower();
 
 			m_keyList = null;
-			applySettingsBlock("Graphics", new string[] 
-			{ 
-				"ScreenWidth=" + m_settingsFile["ScreenWidth"]	, "ScreenHeight=" + m_settingsFile["ScreenHeight"], "Fullscreen=" + m_settingsFile["Fullscreen"],
-				"Antialias=" + m_settingsFile["Antialias"]		, "VSync=" + m_settingsFile["VSync"]
-			});
-			Loader.getInstance().loadGraphicSettings(m_settingsPath);
+
+			Game.getInstance().m_graphics.PreferredBackBufferWidth			= int.Parse(m_settingsFile["ScreenWidth"]);
+			Game.getInstance().m_graphics.PreferredBackBufferHeight			= int.Parse(m_settingsFile["ScreenHeight"]);
+			Game.getInstance().m_graphics.IsFullScreen						= bool.Parse(m_settingsFile["Fullscreen"]);
+			Game.getInstance().m_graphics.PreferMultiSampling				= bool.Parse(m_settingsFile["Antialias"]);
+			Game.getInstance().m_graphics.SynchronizeWithVerticalRetrace	= bool.Parse(m_settingsFile["VSync"]);
+			Game.getInstance().m_graphics.ApplyChanges();
+
 			createButtons();
 		}
 
