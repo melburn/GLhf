@@ -89,5 +89,13 @@ namespace GrandLarceny
 				t_button.setState(a_selection);
 			}
 		}
+
+		public static void setSelection(LinkedList<Button> a_list, Button.State a_selection)
+		{
+			foreach (Button t_button in a_list)
+			{
+				t_button.setState(a_selection);
+			}
+		}
 	}
 }
