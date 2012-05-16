@@ -136,7 +136,7 @@ namespace GrandLarceny
 
 			if (KeyboardHandler.keyClicked(Keys.F7)) //Asså det här är ju inte ok
 			{
-				m_nextState = new HubMenu();
+				m_nextState = new MainMenu();
 			}
 
 			MouseHandler.setPreviousMouse();
