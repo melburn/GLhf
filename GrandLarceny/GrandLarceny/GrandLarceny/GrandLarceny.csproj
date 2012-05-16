@@ -177,6 +177,7 @@
     <Compile Include="MapState.cs" />
     <Compile Include="Handlers\MouseHandler.cs" />
     <Compile Include="Music.cs" />
+    <Compile Include="ParallaxEnvironment.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />
     <Compile Include="Events\Triggers\EventTrigger.cs" />

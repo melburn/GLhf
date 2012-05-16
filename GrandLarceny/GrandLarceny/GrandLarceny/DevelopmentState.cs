@@ -71,7 +71,7 @@ namespace GrandLarceny
 			DuckHidingObject,		StandHidingObject,	Rope,
 			SecDoor,		CornerHang,	Checkpoint,		Prop,
 			Heart,			Key,		EndVent,		Objective,
-			Shadow
+			Shadow,			Parallax
 		}
 		#endregion
 
@@ -331,7 +331,7 @@ namespace GrandLarceny
 			{
 				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());
 
-				if (m_selectedObject is Environment)
+				if (m_selectedObject is ParallaxEnvironment)
 				{
 					m_parallaxScrollTF.update(a_gameTime);
 					m_parallaxLabel.update(a_gameTime);
@@ -534,9 +534,9 @@ namespace GrandLarceny
 
 			if (m_parallaxScrollTF.isWriting())
 			{
-				if (KeyboardHandler.keyClicked(Keys.Enter) && m_selectedObject != null && m_selectedObject is Environment)
+				if (KeyboardHandler.keyClicked(Keys.Enter) && m_selectedObject != null && m_selectedObject is ParallaxEnvironment)
 				{
-					((Environment)m_selectedObject).setParrScroll(Math.Max(- int.Parse(m_parallaxScrollTF.getText()), -100000));
+					((ParallaxEnvironment)m_selectedObject).setParrScroll(Math.Max(- int.Parse(m_parallaxScrollTF.getText()), -100000));
 					clearSelectedObject();
 					m_parallaxScrollTF.setWrite(false);
 				}
@@ -692,7 +692,7 @@ namespace GrandLarceny
 			{
 				//-----------------------------------
 				#region Building
-				if (m_itemToCreate == State.Background)
+				if (m_itemToCreate == State.Background || m_itemToCreate == State.Parallax)
 				{
 					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
 					{
@@ -1124,6 +1124,9 @@ namespace GrandLarceny
 					break;
 				case State.Shadow:
 					createAssetList("Content//Images//Foregrounds//Shadow//");
+					break;
+				case State.Parallax:
+					createAssetList("Content//Images//Backgrounds//Parallax//");
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)
