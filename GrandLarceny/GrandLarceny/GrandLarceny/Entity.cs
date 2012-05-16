@@ -38,7 +38,7 @@ namespace GrandLarceny
 
 		public virtual CollisionShape getImageBox()
 		{
-			return new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
+			return new CollisionRectangle(0, 0, m_img.getSize().X + (m_img.getSize().X % 72), m_img.getSize().Y + (m_img.getSize().Y % 72), m_position);
 		}
 
 		public override void update(GameTime a_gameTime)
