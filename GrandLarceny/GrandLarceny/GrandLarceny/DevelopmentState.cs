@@ -325,7 +325,6 @@ namespace GrandLarceny
 			{
 				m_objectPreview.getPosition().setLocalX(m_worldMouse.X - 36);
 				m_objectPreview.getPosition().setLocalY(m_worldMouse.Y - 36);
-				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());
 				
 				if (m_selectedObject is Environment)
 				{
@@ -341,6 +340,11 @@ namespace GrandLarceny
 				{
 					m_textGuardInfo.setText("");
 				}
+			}
+
+			if (m_selectedObject != null)
+			{
+				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());				
 			}
 
 			if (!m_layerTextField.isWriting() && !m_parallaxScrollTF.isWriting())
