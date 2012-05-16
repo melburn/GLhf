@@ -186,6 +186,10 @@ namespace GrandLarceny
 		{
 			m_changePositionAfterDraw.X = a_addX;
 		}
+		public void addPositionYAfterDraw(float a_addY)
+		{
+			m_changePositionAfterDraw.Y = a_addY;
+		}
 
 		public void setVisible(bool a_visible)
 		{

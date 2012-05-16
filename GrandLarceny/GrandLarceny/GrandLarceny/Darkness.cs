@@ -17,12 +17,12 @@ namespace GrandLarceny
 			base.loadContent();
 			m_imgOffsetX = 36 -m_img.getSize().X / 2;
 			m_imgOffsetY = 36 -m_img.getSize().Y / 2;
-			m_position.setParentPosition(Game.getInstance().getState().getPlayer().getPosition());
+			m_position = new CartesianCoordinate(Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesian());
 		}
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
-			m_position.setParentPosition(Game.getInstance().getState().getPlayer().getPosition());
+			m_position.setGlobalCartesian(Vector2.Lerp(m_position.getGlobalCartesian(),Game.getInstance().getState().getPlayer().getPosition().getGlobalCartesian(), ((float)a_gameTime.ElapsedGameTime.Milliseconds) / 100f));
 		}
 
 	}
