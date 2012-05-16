@@ -130,6 +130,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Prop\SecurityDoor\door.png">
+      <Name>door</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Wall\1x1_walldoor_tile_top.png">
+      <Name>1x1_walldoor_tile_top</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Levels\hejlol.lvl">
       <Name>hejlol</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
