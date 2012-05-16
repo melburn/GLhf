@@ -40,9 +40,9 @@ namespace GrandLarceny
 		{
 			if (m_timer == TimeSpan.Zero)
 			{
-				m_timer = Game.getInstance().getGameTime() + new TimeSpan(0, 0, 4);
+				m_timer = Game.getInstance().getTotalGameTime() + new TimeSpan(0, 0, 4);
 			}
-			else if (m_timer <= Game.getInstance().getGameTime())
+			else if (m_timer <= Game.getInstance().getTotalGameTime())
 			{
 				if (Game.getInstance().hasCheckPoint())
 				{

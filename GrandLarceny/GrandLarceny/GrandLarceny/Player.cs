@@ -1224,8 +1224,16 @@ namespace GrandLarceny
 				{
 					m_img.setAnimationSpeed(15);
 					m_layer = 0.6995f;
-					m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
-					m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
+					if (m_currentVentilation != null)
+					{
+						m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
+						m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
+					}
+					else
+					{
+						m_imgOffsetX = -((m_img.getSize().X / 2) - 36);
+						m_imgOffsetY = -((m_img.getSize().Y / 2) - 36);
+					}
 				}
 			}
 		}

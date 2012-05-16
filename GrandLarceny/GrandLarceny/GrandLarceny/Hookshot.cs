@@ -29,7 +29,7 @@ namespace GrandLarceny
 			m_line.setEndPoint(m_line.getStartPoint());
 			m_position.setGlobalCartesian(m_player.getPosition().getGlobalCartesian());
 			m_moveToStart = false;
-			timeToLive = (float)Game.getInstance().getGameTime().TotalMilliseconds + 200;
+			timeToLive = (float)Game.getInstance().getTotalGameTime().TotalMilliseconds + 200;
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -48,7 +48,7 @@ namespace GrandLarceny
 			{
 				m_rotate -= 0.04f;
 			}*/
-			if (timeToLive <= (float)Game.getInstance().getGameTime().TotalMilliseconds && !m_isReady)
+			if (timeToLive <= (float)Game.getInstance().getTotalGameTime().TotalMilliseconds && !m_isReady)
 				m_moveToStart = true;
 
 			if (m_moveToStart)
