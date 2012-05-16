@@ -34,7 +34,8 @@ namespace GrandLarceny
 		{
 			if (m_visible)
 			{
-				m_img.draw(m_position.getGlobalCartesian(), m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
+				Vector2 t_imgPosition = new Vector2(m_position.getGlobalX() + m_imgOffsetX, m_position.getGlobalY() + m_imgOffsetY);
+				m_img.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
 
 				if (m_changePositionAfterDraw != Vector2.Zero)
 				{
