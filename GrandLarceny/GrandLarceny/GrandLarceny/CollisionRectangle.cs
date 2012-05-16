@@ -160,5 +160,13 @@ namespace GrandLarceny
 		{
 			return "{ " + m_xOffset + ", " + m_yOffset + " : " + m_width + ", " + m_height + " : " + m_position.getGlobalX() + ", " + m_position.getGlobalY() + " }";
 		}
+		public void setOffsetX(float a_x)
+		{
+			m_xOffset = a_x;
+		}
+		public void setOffsetY(float a_y)
+		{
+			m_yOffset = a_y;
+		}
 	}
 }
