@@ -512,7 +512,7 @@ namespace GrandLarceny
 					m_objectPreview = new VentilationEnd(t_assetPosition, "Images//Tile//Ventilation//EndVent//" + t_newAsset, 0.000f);
 					break;
 				case State.Parallax:
-					m_objectPreview = new ParallaxEnvironment(t_assetPosition, "Images//Backgrounds//Parallax//" + t_newAsset, 0.000f);
+					m_objectPreview = new ParallaxEnvironment(t_assetPosition, "Images//Background//Parallax//" + t_newAsset, 0.000f);
 					break;
 			}
 		}
@@ -1129,7 +1129,7 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Foregrounds//Shadow//");
 					break;
 				case State.Parallax:
-					createAssetList("Content//Images//Backgrounds//Parallax//");
+					createAssetList("Content//Images//Background//Parallax//");
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)
