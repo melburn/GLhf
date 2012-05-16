@@ -692,11 +692,14 @@ namespace GrandLarceny
 			{
 				//-----------------------------------
 				#region Building
-				if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && (!collidedWithObject(m_worldMouse) || m_itemToCreate == State.Background))
+				if (m_itemToCreate == State.Background)
 				{
-					if (m_itemToCreate != State.None && m_itemToCreate != State.Delete)
+					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
 					{
-						AssetFactory.copyAsset(m_worldMouse, m_objectPreview);
+						if (m_itemToCreate != State.None && m_itemToCreate != State.Delete)
+						{
+							AssetFactory.copyAsset(m_worldMouse, m_objectPreview);
+						}
 					}
 				}
 				#endregion
@@ -803,6 +806,16 @@ namespace GrandLarceny
 					else
 					{
 						m_selectedObject.getPosition().setGlobalCartesian(t_mousePosition);
+					}
+				}
+				if (m_itemToCreate != State.Background)
+				{
+					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
+					{
+						if (m_itemToCreate != State.None && m_itemToCreate != State.Delete)
+						{
+							AssetFactory.copyAsset(m_worldMouse, m_objectPreview);
+						}
 					}
 				}
 			}
