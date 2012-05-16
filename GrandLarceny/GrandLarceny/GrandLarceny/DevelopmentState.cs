@@ -697,7 +697,7 @@ namespace GrandLarceny
 			{
 				//-----------------------------------
 				#region Building
-				if (m_itemToCreate == State.Background || m_itemToCreate == State.Parallax)
+				if (m_itemToCreate == State.Background || m_itemToCreate == State.Parallax || m_itemToCreate == State.Prop)
 				{
 					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
 					{
@@ -814,14 +814,11 @@ namespace GrandLarceny
 					}
 				}
 
-				if (m_itemToCreate != State.Background)
+				if (m_itemToCreate != State.Background && m_itemToCreate != State.Parallax && m_itemToCreate != State.Prop)
 				{
 					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
 					{
-						if (m_itemToCreate != State.None && m_itemToCreate != State.Delete)
-						{
-							AssetFactory.copyAsset(m_worldMouse, m_objectPreview);
-						}
+						AssetFactory.copyAsset(m_worldMouse, m_objectPreview);
 					}
 				}
 			}
