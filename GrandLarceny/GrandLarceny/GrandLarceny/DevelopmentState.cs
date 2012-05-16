@@ -33,15 +33,13 @@ namespace GrandLarceny
 		private Vector2 m_dragFrom;
 		private bool m_firstDrag = true;
 
-		private Text m_textObjectInfo;
-		private Text m_textGuardInfo;
-
 		private Line m_leftGuardPoint;
 		private Line m_rightGuardPoint;
 
 		private Box m_statusBar;
 
-		private Text m_layerLabel;
+		private Text m_textObjectInfo;
+		private Text m_textGuardInfo;
 		private Text m_parallaxLabel;
 		private TextField m_layerTextField;
 		private TextField m_parallaxScrollTF;
@@ -129,7 +127,7 @@ namespace GrandLarceny
 			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
 			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
 
-			m_guiList.AddLast(m_layerLabel			= new Text(new Vector2(350, 3)	, "Layer:", "VerdanaBold", Color.Black, false));
+			m_guiList.AddLast(new Text(new Vector2(350, 3)	, "Layer:", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_parallaxLabel		= new Text(new Vector2(460, 3)	, "Parallax Value:", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_textObjectInfo		= new Text(new Vector2(10, 3)	, "", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_textGuardInfo		= new Text(new Vector2(480, 3)	, "", "VerdanaBold", Color.Black, false));
@@ -327,13 +325,22 @@ namespace GrandLarceny
 			{
 				m_objectPreview.getPosition().setLocalX(m_worldMouse.X - 36);
 				m_objectPreview.getPosition().setLocalY(m_worldMouse.Y - 36);
-			}
-
-			m_statusBar.update(a_gameTime);
-			if (m_selectedObject != null && m_selectedObject is Environment)
-			{
-				m_parallaxScrollTF.update(a_gameTime);
-				m_parallaxLabel.update(a_gameTime);
+				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());
+				
+				if (m_selectedObject is Environment)
+				{
+					m_parallaxScrollTF.update(a_gameTime);
+					m_parallaxLabel.update(a_gameTime);
+				}
+				else if (m_selectedObject is Guard)
+				{
+					Guard t_guard = (Guard)m_selectedObject;
+					m_textGuardInfo.setText("R: " + t_guard.getRightPatrolPoint() / 72 + " L: " + t_guard.getLeftPatrolPoint() / 72);
+				}
+				else
+				{
+					m_textGuardInfo.setText("");
+				}
 			}
 
 			if (!m_layerTextField.isWriting() && !m_parallaxScrollTF.isWriting())
@@ -351,27 +358,12 @@ namespace GrandLarceny
 				}
 			}
 
-			foreach (GuiObject t_gui in m_guiList)
-			{
-				t_gui.update(a_gameTime);
-			}
 			m_layerTextField.update(a_gameTime);
-
-			if (m_selectedObject != null)
-			{
-				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());
-				if (m_selectedObject is Guard)
-				{
-					Guard t_guard = (Guard)m_selectedObject;
-					m_textGuardInfo.setText("R: " + t_guard.getRightPatrolPoint() / 72 + " L: " + t_guard.getLeftPatrolPoint() / 72);
-				}
-				else
-				{
-					m_textGuardInfo.setText("");
-				}
-			}
+			m_statusBar.update(a_gameTime);
 		}
+		#endregion
 
+		#region Button Handlers
 		public void guiButtonClick(Button a_button)
 		{
 			if (!a_button.isButtonPressed())
@@ -1174,11 +1166,11 @@ namespace GrandLarceny
 		{
 			foreach (Button t_button in m_layerButtonList)
 			{
-				t_button.setState(0);
+				t_button.setState(Button.State.Normal);
 			}
 
 			m_currentLayer = int.Parse(a_button.getText()) - 1;
-			a_button.setState(3);
+			a_button.setState(Button.State.Toggled);
 		}
 
 		private void setLayer(int a_layer)
@@ -1188,11 +1180,11 @@ namespace GrandLarceny
 			{
 				if (int.Parse(t_button.getText()) == m_currentLayer + 1)
 				{
-					t_button.setState(3);
+					t_button.setState(Button.State.Toggled);
 				}
 				else
 				{
-					t_button.setState(0);
+					t_button.setState(Button.State.Normal);
 				}
 			}
 		}

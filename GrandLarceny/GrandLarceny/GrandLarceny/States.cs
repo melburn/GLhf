@@ -120,15 +120,20 @@ namespace GrandLarceny
 
 		public virtual bool collidedWithGui(Vector2 a_coordinate)
 		{
-			foreach (GuiObject t_guiObject in m_guiList) {
-				if (t_guiObject.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
+			foreach (GuiObject t_guiObject in m_guiList)
+			{
+				if (t_guiObject.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y))
+				{
 					return true;
 				}
 			}
 
-			foreach (LinkedList<Button> t_buttonList in m_buttonList) {
-				foreach (Button t_button in t_buttonList) {
-					if (t_button.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y)) {
+			foreach (LinkedList<Button> t_buttonList in m_buttonList)
+			{
+				foreach (Button t_button in t_buttonList)
+				{
+					if (t_button.getBox().Contains((int)a_coordinate.X, (int)a_coordinate.Y))
+					{
 						return true;
 					}
 				}
