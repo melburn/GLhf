@@ -184,6 +184,11 @@ namespace GrandLarceny
 			m_state.addObject(new CoveringShadow(m_state.getTileCoordinates(a_position), a_asset, 0.199f));
 		}
 
+		public static void createParallax(Vector2 a_position, string a_asset)
+		{
+			m_state.addObject(new ParallaxEnvironment(m_state.getTileCoordinates(a_position), a_asset, 0.950f));
+		}
+
 		public static void copyAsset(Vector2 a_position, GameObject a_asset)
 		{
 			Vector2 t_position;
@@ -218,6 +223,10 @@ namespace GrandLarceny
 				if (a_asset.getImg().getImagePath().StartsWith("Content//Images//Prop//"))
 				{
 					createProp(t_position, t_imagePath);
+				}
+				else if (a_asset is ParallaxEnvironment)
+				{
+					createParallax(t_position, t_imagePath);
 				}
 				else
 				{

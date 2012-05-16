@@ -130,6 +130,66 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Background\bg_house_03_tile.png">
+      <Name>bg_house_03_tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\bg_house_04_tile.png">
+      <Name>bg_house_04_tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\bg_house_05_tile.png">
+      <Name>bg_house_05_tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\bg_house_06_tile.png">
+      <Name>bg_house_06_tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\bg_house_07_tile.png">
+      <Name>bg_house_07_tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\forklifttruck_02-03.png">
+      <Name>forklifttruck_02-03</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\forklifttruck_05-09-13.png">
+      <Name>forklifttruck_05-09-13</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\forklifttruck_08.png">
+      <Name>forklifttruck_08</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\forklifttruck_12-16.png">
+      <Name>forklifttruck_12-16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\forklifttruck_01.png">
+      <Name>forklifttruck_01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\forklifttruck_06-07.png">
+      <Name>forklifttruck_06-07</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Wall\forklifttruck_10-11-14-15.png">
+      <Name>forklifttruck_10-11-14-15</Name>
+      <Importer>TextureImport</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Images\Prop\SecurityDoor\door.png">
       <Name>door</Name>
       <Importer>TextureImporter</Importer>
