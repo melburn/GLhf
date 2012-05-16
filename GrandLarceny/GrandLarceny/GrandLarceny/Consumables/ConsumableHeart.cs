@@ -14,6 +14,7 @@ namespace GrandLarceny
 		{
 
 		}
+
 		protected override Boolean collect()
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
