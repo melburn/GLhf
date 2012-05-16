@@ -12,6 +12,7 @@ namespace GrandLarceny
 		public ConsumableKey(Vector2 a_position, String a_sprite, float a_layer)
 			: base(a_position, a_sprite, a_layer)
 		{
+
 		}
 
 		protected override Boolean collect()

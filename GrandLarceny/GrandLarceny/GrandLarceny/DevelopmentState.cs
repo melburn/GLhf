@@ -325,7 +325,12 @@ namespace GrandLarceny
 			{
 				m_objectPreview.getPosition().setLocalX(m_worldMouse.X - 36);
 				m_objectPreview.getPosition().setLocalY(m_worldMouse.Y - 36);
-				
+			}
+
+			if (m_selectedObject != null)
+			{
+				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());
+
 				if (m_selectedObject is Environment)
 				{
 					m_parallaxScrollTF.update(a_gameTime);
@@ -340,11 +345,6 @@ namespace GrandLarceny
 				{
 					m_textGuardInfo.setText("");
 				}
-			}
-
-			if (m_selectedObject != null)
-			{
-				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());				
 			}
 
 			if (!m_layerTextField.isWriting() && !m_parallaxScrollTF.isWriting())
@@ -692,11 +692,14 @@ namespace GrandLarceny
 			{
 				//-----------------------------------
 				#region Building
-				if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && (!collidedWithObject(m_worldMouse) || m_itemToCreate == State.Background))
+				if (m_itemToCreate == State.Background)
 				{
-					if (m_itemToCreate != State.None && m_itemToCreate != State.Delete)
+					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
 					{
-						AssetFactory.copyAsset(m_worldMouse, m_objectPreview);
+						if (m_itemToCreate != State.None && m_itemToCreate != State.Delete)
+						{
+							AssetFactory.copyAsset(m_worldMouse, m_objectPreview);
+						}
 					}
 				}
 				#endregion
@@ -803,6 +806,16 @@ namespace GrandLarceny
 					else
 					{
 						m_selectedObject.getPosition().setGlobalCartesian(t_mousePosition);
+					}
+				}
+				if (m_itemToCreate != State.Background)
+				{
+					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
+					{
+						if (m_itemToCreate != State.None && m_itemToCreate != State.Delete)
+						{
+							AssetFactory.copyAsset(m_worldMouse, m_objectPreview);
+						}
 					}
 				}
 			}

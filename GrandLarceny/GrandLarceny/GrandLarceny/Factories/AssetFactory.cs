@@ -181,7 +181,7 @@ namespace GrandLarceny
 
 		public static void createCoveringShadow(Vector2 a_position, string a_asset)
 		{
-			m_state.addObject(new CoveringShadow(m_state.getTileCoordinates(a_position), a_asset, 0.101f));
+			m_state.addObject(new CoveringShadow(m_state.getTileCoordinates(a_position), a_asset, 0.199f));
 		}
 
 		public static void copyAsset(Vector2 a_position, GameObject a_asset)

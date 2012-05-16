@@ -105,14 +105,14 @@ namespace GrandLarceny
 				AssetFactory.updateState(m_currentState);
 				if (!m_currentState.isLoaded())
 				{
-					//try
-					//{
+					try
+					{
 						m_currentState.load();
-					//}
-					//catch (Exception e)
-					//{
-						//ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
-					//}
+					}
+					catch (Exception e)
+					{
+						ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
+					}
 				}
 				m_nextState = null;
 			}
@@ -121,22 +121,28 @@ namespace GrandLarceny
 				m_progress = m_nextProgress;
 				m_nextProgress = null;
 			}
-
+			#if DEBUG
 			if (m_currentState != null)
 			{
-				//try
-				//{
-					m_currentState.update(a_gameTime);
-				//}
-				//catch (Exception e)
-				//{
-					//ErrorLogger.getInstance().writeString("While updating " + m_currentState + " got exception: " + e);
-				//}
+				m_currentState.update(a_gameTime);
 			}
-
-			if (KeyboardHandler.keyClicked(Keys.F7)) //Asså det här är ju inte ok
+			#else
+			if (m_currentState != null)
 			{
-				m_nextState = new HubMenu();
+				try
+				{
+					m_currentState.update(a_gameTime);
+				}
+				catch (Exception e)
+				{
+					//ErrorLogger.getInstance().writeString("While updating " + m_currentState + " got exception: " + e);
+				}
+			}
+			#endif
+
+			if (KeyboardHandler.keyClicked(Keys.F7)) //TODO Alfa/Beta-grej
+			{
+				m_nextState = new MainMenu();
 			}
 
 			MouseHandler.setPreviousMouse();

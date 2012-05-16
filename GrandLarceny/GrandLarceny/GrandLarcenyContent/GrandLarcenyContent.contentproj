@@ -187,6 +187,16 @@
     </Compile>
     <Compile Include="Images\Tile\Wall\forklifttruck_10-11-14-15.png">
       <Name>forklifttruck_10-11-14-15</Name>
+      <Importer>TextureImport</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\SecurityDoor\door.png">
+      <Name>door</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Wall\1x1_walldoor_tile_top.png">
+      <Name>1x1_walldoor_tile_top</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
