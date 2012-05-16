@@ -325,8 +325,12 @@ namespace GrandLarceny
 			{
 				m_objectPreview.getPosition().setLocalX(m_worldMouse.X - 36);
 				m_objectPreview.getPosition().setLocalY(m_worldMouse.Y - 36);
+			}
+
+			if (m_selectedObject != null)
+			{
 				m_selectedInfoV2 = getTileCoordinates(m_selectedObject.getPosition().getGlobalCartesian());
-				
+
 				if (m_selectedObject is Environment)
 				{
 					m_parallaxScrollTF.update(a_gameTime);
@@ -582,7 +586,10 @@ namespace GrandLarceny
 
 				if (KeyboardHandler.keyClicked(Keys.C))
 				{
-					m_copyTarget = m_selectedObject;
+					if (m_selectedObject != null)
+					{
+						m_copyTarget = m_selectedObject;					
+					}
 				}
 
 				if (KeyboardHandler.keyClicked(Keys.V))
