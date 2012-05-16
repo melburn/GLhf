@@ -14,7 +14,6 @@ namespace GrandLarceny
 		public static LinkedList<Button> createListFromDirectory(string a_path, string[] a_extension, string a_buttonGraphic)
 		{
 			string[] t_fileList = Directory.GetFiles(a_path);
-
 			return createListFromStringArray(t_fileList, a_extension, a_buttonGraphic);
 		}
 
@@ -84,6 +83,14 @@ namespace GrandLarceny
 		}
 
 		public static void setSelection(LinkedList<Button> a_list, int a_selection)
+		{
+			foreach (Button t_button in a_list)
+			{
+				t_button.setState(a_selection);
+			}
+		}
+
+		public static void setSelection(LinkedList<Button> a_list, Button.State a_selection)
 		{
 			foreach (Button t_button in a_list)
 			{

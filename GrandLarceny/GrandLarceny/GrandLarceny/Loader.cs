@@ -111,6 +111,14 @@ namespace GrandLarceny
 				{
 					Game.getInstance().m_graphics.IsFullScreen = bool.Parse(t_setting[1]);
 				}
+				else if (t_setting[0].Equals("Antialias"))
+				{
+					Game.getInstance().m_graphics.PreferMultiSampling = bool.Parse(t_setting[1]);
+				}
+				else if (t_setting[0].Equals("VSync"))
+				{
+					Game.getInstance().m_graphics.SynchronizeWithVerticalRetrace = bool.Parse(t_setting[1]);
+				}
 				else if (t_setting[0].StartsWith("["))
 				{
 					break;

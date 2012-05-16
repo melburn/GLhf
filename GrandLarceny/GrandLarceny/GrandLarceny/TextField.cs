@@ -124,6 +124,7 @@ namespace GrandLarceny
 					m_writing = false;
 				}
 			}
+
 			if (m_writing)
 			{
 				foreach (KeyValuePair<Keys, TimeSpan> t_keyPair in m_lastPressedKeys)
