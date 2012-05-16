@@ -11,10 +11,12 @@ namespace GrandLarceny.AI
 	{
 		private const int s_minimumRange = 200;
 		private float m_endTime;
+		private bool m_prevFacingRight;
 
-		public AIStateObserving(float a_endTime)
+		public AIStateObserving(float a_endTime, bool a_prevFacingRight)
 		{
 			m_endTime = a_endTime;
+			m_prevFacingRight = a_prevFacingRight;
 		}
 
 		public override AIState execute(NPE a_agent, GameTime a_gameTime)
@@ -41,6 +43,17 @@ namespace GrandLarceny.AI
 						else
 						{
 							t_guard.setChaseTarget(null);
+							if (m_prevFacingRight)
+							{
+								if (!t_guard.isFacingRight())
+								{
+									t_guard.goRight();
+								}
+							}
+							else if (t_guard.isFacingRight())
+							{
+								t_guard.goLeft();
+							}
 							return AIStateGoingToTheSwitch.getInstance();
 						}
 					}
@@ -55,6 +68,17 @@ namespace GrandLarceny.AI
 				}
 				else if (timeOver(a_gameTime))
 				{
+					if (m_prevFacingRight)
+					{
+						if (!t_guard.isFacingRight())
+						{
+							t_guard.goRight();
+						}
+					}
+					else if (t_guard.isFacingRight())
+					{
+						t_guard.goLeft();
+					}
 					return AIStateGoingToTheSwitch.getInstance();
 				}
 				return this;

@@ -17,7 +17,7 @@ namespace GrandLarceny
 
 		protected override bool collect()
 		{
-			if (KeyboardHandler.keyClicked(GameState.getActionKey()))
+			/*if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 			{
 				return true;
 			}
@@ -25,7 +25,8 @@ namespace GrandLarceny
 			{
 				Game.getInstance().getState().getPlayer().setInteractionVisibility(true);
 				return false;
-			}
+			}*/
+			return true;
 		}
 	}
 }
