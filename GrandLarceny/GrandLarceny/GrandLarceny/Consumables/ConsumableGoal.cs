@@ -15,15 +15,6 @@ namespace GrandLarceny
 
 		}
 
-		public override void loadContent()
-		{
-			base.loadContent();
-			if (m_img.getImagePath() == null)
-			{
-				m_img = new ImageManager("Images//Props//Consumables//Objective//vas");
-			}
-		}
-
 		protected override bool collect()
 		{
 			if (KeyboardHandler.keyClicked(GameState.getActionKey()))
