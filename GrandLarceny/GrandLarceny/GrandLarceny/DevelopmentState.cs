@@ -726,9 +726,9 @@ namespace GrandLarceny
 						{
 							showLightSwitchInfo((LampSwitch)m_selectedObject);
 						}
-						else if (m_selectedObject is Environment)
+						else if (m_selectedObject is ParallaxEnvironment)
 						{
-							m_parallaxScrollTF.setText((-((Environment)m_selectedObject).getParrScroll()).ToString());
+							m_parallaxScrollTF.setText((-((ParallaxEnvironment)m_selectedObject).getParrScroll()).ToString());
 							m_parallaxScrollTF.setVisible(true);
 							m_parallaxLabel.setVisible(true);
 						}
