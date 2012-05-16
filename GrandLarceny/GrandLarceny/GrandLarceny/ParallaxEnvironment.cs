@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	public class ParallaxEnvironment : Environment
 	{
 		private int m_parallaxScroll;

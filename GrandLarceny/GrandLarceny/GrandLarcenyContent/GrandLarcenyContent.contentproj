@@ -130,27 +130,27 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\bg_house_03_tile.png">
+    <Compile Include="Images\Background\Parallax\bg_house_03_tile.png">
       <Name>bg_house_03_tile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\bg_house_04_tile.png">
+    <Compile Include="Images\Background\Parallax\bg_house_04_tile.png">
       <Name>bg_house_04_tile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\bg_house_05_tile.png">
+    <Compile Include="Images\Background\Parallax\bg_house_05_tile.png">
       <Name>bg_house_05_tile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\bg_house_06_tile.png">
+    <Compile Include="Images\Background\Parallax\bg_house_06_tile.png">
       <Name>bg_house_06_tile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\bg_house_07_tile.png">
+    <Compile Include="Images\Background\Parallax\bg_house_07_tile.png">
       <Name>bg_house_07_tile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -197,6 +197,21 @@
     </Compile>
     <Compile Include="Images\Tile\Wall\1x1_walldoor_tile_top.png">
       <Name>1x1_walldoor_tile_top</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\Parallax\clouds_02.png">
+      <Name>clouds_02</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\Parallax\clouds_03.png">
+      <Name>clouds_03</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\Parallax\clouds_04.png">
+      <Name>clouds_04</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1689,14 +1704,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\bg_house_01.png">
+    <Compile Include="Images\Background\Parallax\bg_house_01.png">
       <Name>bg_house_01</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\bg_house_02.png">
+    <Compile Include="Images\Background\Parallax\bg_house_02.png">
       <Name>bg_house_02</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1731,35 +1746,35 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\bg_house_03.png">
+    <Compile Include="Images\Background\Parallax\bg_house_03.png">
       <Name>bg_house_03</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\bg_house_04.png">
+    <Compile Include="Images\Background\Parallax\bg_house_04.png">
       <Name>bg_house_04</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\bg_house_05.png">
+    <Compile Include="Images\Background\Parallax\bg_house_05.png">
       <Name>bg_house_05</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\bg_house_06.png">
+    <Compile Include="Images\Background\Parallax\bg_house_06.png">
       <Name>bg_house_06</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Background\bg_house_07.png">
+    <Compile Include="Images\Background\Parallax\bg_house_07.png">
       <Name>bg_house_07</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1771,7 +1786,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Background\clouds_01.png">
+    <Compile Include="Images\Background\Parallax\clouds_01.png">
       <Name>clouds_01</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
