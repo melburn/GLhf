@@ -13,5 +13,14 @@ namespace GrandLarceny
 		{
 			
 		}
+
+		public override void loadContent()
+		{
+			base.loadContent();
+			if (m_layer == 0.101f)
+			{
+				m_layer = 0.199f;
+			}
+		}
 	}
 }
