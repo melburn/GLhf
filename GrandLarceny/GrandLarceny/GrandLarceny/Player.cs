@@ -732,6 +732,7 @@ namespace GrandLarceny
 		private void updateVentilation(float a_deltaTime)
 
 		{
+			m_img.setAnimationSpeed(15);
 			m_speed = Vector2.Zero;
 			m_gravity = 0;
 			if (Game.getInstance().m_camera.getLayer() == 0)
@@ -770,6 +771,8 @@ namespace GrandLarceny
 				{
 					if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 					{
+						((CollisionRectangle)m_collisionShape).setOffsetY(0);
+						((CollisionRectangle)m_collisionShape).setOffsetX(0);
 						m_speed.Y = -PLAYERSPEED;
 						t_list = m_upDownList;
 						m_facingRight = false;
@@ -786,11 +789,14 @@ namespace GrandLarceny
 							else
 							{
 								m_position.setGlobalX(m_currentVentilation.getPosition().getGlobalX());
+			//					m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
 								m_currentVentilation = null;
 							}
 						}
 						m_currentVentilationImage = "hero_ventilation_vertical";
 					}
+					else if (!KeyboardHandler.isKeyPressed(GameState.getDownKey()))
+						m_img.setAnimationSpeed(0);
 					break;
 				}
 				case Direction.Left:
@@ -798,6 +804,8 @@ namespace GrandLarceny
 					m_currentVentilationImage = "hero_ventilation_idle";
 					if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 					{
+						((CollisionRectangle)m_collisionShape).setOffsetX(0);
+						((CollisionRectangle)m_collisionShape).setOffsetY(0);
 						m_speed.X = -PLAYERSPEED;
 						t_list = m_leftRightList;
 						if (m_currentVentilation != null)
@@ -813,6 +821,7 @@ namespace GrandLarceny
 							else
 							{
 								m_position.setGlobalY(m_currentVentilation.getPosition().getGlobalY());
+			//					m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
 								m_currentVentilation = null;
 							}
 						}
@@ -826,6 +835,8 @@ namespace GrandLarceny
 					m_currentVentilationImage = "hero_ventilation_idle";
 					if (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 					{
+						((CollisionRectangle)m_collisionShape).setOffsetX(36);
+						((CollisionRectangle)m_collisionShape).setOffsetY(0);
 						m_speed.X = PLAYERSPEED;
 						t_list = m_leftRightList;
 						if (m_currentVentilation != null)
@@ -841,6 +852,7 @@ namespace GrandLarceny
 							else
 							{
 								m_position.setGlobalY(m_currentVentilation.getPosition().getGlobalY());
+				//				m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
 								m_currentVentilation = null;
 							}
 						}
@@ -853,6 +865,8 @@ namespace GrandLarceny
 				{
 					if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 					{
+						((CollisionRectangle)m_collisionShape).setOffsetY(36);
+						((CollisionRectangle)m_collisionShape).setOffsetX(0);
 						m_speed.Y = PLAYERSPEED;
 						t_list = m_upDownList;
 						m_facingRight = false;
@@ -869,11 +883,14 @@ namespace GrandLarceny
 							else
 							{
 								m_position.setGlobalX(m_currentVentilation.getPosition().getGlobalX());
+				//				m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
 								m_currentVentilation = null;
 							}
 						}
 						m_currentVentilationImage = "hero_ventilation_vertical";
 					}
+					else if (!KeyboardHandler.isKeyPressed(GameState.getUpKey()))
+						m_img.setAnimationSpeed(0);
 					break;
 				}
 			}
@@ -1207,6 +1224,8 @@ namespace GrandLarceny
 				{
 					m_img.setAnimationSpeed(15);
 					m_layer = 0.6995f;
+					m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
+					m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
 				}
 			}
 		}

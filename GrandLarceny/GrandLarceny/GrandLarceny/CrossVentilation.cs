@@ -20,8 +20,8 @@ namespace GrandLarceny
 			if (a_collider is Player)
 			{
 				Player t_player = (Player)a_collider;
-				if ((CollisionManager.Contains(getHitBox(), t_player.getPosition().getGlobalCartesian()) && !t_player.isFacingRight())
-					|| (CollisionManager.Contains(getHitBox(), new Vector2(t_player.getPosition().getGlobalCartesian().X + 72, t_player.getPosition().getGlobalCartesian().Y)) && t_player.isFacingRight()))
+				if ((CollisionManager.Contains(getHitBox(), t_player.getPosition().getGlobalCartesian())))
+				//	&& !t_player.isFacingRight()) || (CollisionManager.Contains(getHitBox(), new Vector2(t_player.getPosition().getGlobalCartesian().X + 72, t_player.getPosition().getGlobalCartesian().Y)) && t_player.isFacingRight()))
 				{
 					t_player.setVentilationDirection(m_upleftRightDownList);
 					t_player.setVentilationObject(this);
