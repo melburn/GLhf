@@ -215,6 +215,41 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Tile\Floor\roof_top_02_end.png">
+      <Name>roof_top_02_end</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\floor_storage_girder_03.png">
+      <Name>floor_storage_girder_03</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\floor_storage_girder_02.png">
+      <Name>floor_storage_girder_02</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\floor_storage_girder.png">
+      <Name>floor_storage_girder</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\floor_storage_girder_end.png">
+      <Name>floor_storage_girder_end</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\roof_top_02_middle.png">
+      <Name>roof_top_02_middle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\roof_top_02_middle_1tile.png">
+      <Name>roof_top_02_middle_1tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Levels\hejlol.lvl">
       <Name>hejlol</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -223,16 +258,16 @@
       <Name>LevelRequirement</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Levels\Level1.lvl">
-      <Name>Level1</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Levels\Level2.lvl">
-      <Name>Level2</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Levels\TestLevels\asdf.lvl">
       <Name>asdf</Name>
+    </None>
+    <None Include="Levels\Level1.lvl">
+      <Name>Level1</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Levels\Level2.lvl">
+      <Name>Level2</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="wtf\settings.ini">
       <Name>settings</Name>
