@@ -15,15 +15,6 @@ namespace GrandLarceny
 
 		}
 
-		public override void loadContent()
-		{
-			base.loadContent();
-			if (m_img.getImagePath() == null)
-			{
-				m_img = new ImageManager("Images//Tile//1x1_tile_ph");
-			}
-		}
-
 		protected override Boolean collect()
 		{
 			Game.getInstance().getProgress().increaseConsumable("key");

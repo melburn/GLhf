@@ -15,18 +15,6 @@ namespace GrandLarceny
 
 		}
 
-<<<<<<< HEAD
-=======
-		public override void loadContent()
-		{
-			base.loadContent();
-			if (m_img.getImagePath() == null)
-			{
-				m_img = new ImageManager("Images//Props//Consumables//shinyheart");
-			}
-		}
-
->>>>>>> 6315d21bce0a9229d9b0eaca8164e2ab536cb8ca
 		protected override Boolean collect()
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
