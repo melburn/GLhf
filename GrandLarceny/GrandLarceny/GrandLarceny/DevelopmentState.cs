@@ -249,6 +249,8 @@ namespace GrandLarceny
 
 			m_buttonDict.Add(t_button = new Button(null, t_bgMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+X", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Shadow);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.X }, guiButtonClick);
+			m_buttonDict.Add(t_button = new Button(null, t_bgMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+Z", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Parallax);
+			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.Z }, guiButtonClick);
 			#endregion
 			//-----------------------------------
 
@@ -504,10 +506,13 @@ namespace GrandLarceny
 					m_objectPreview = new ConsumableGoal(t_assetPosition, "Images//Prop//Consumables//Objective//" + t_newAsset, 0.000f);
 					break;
 				case State.Shadow:
-					m_objectPreview = new CoveringShadow(t_assetPosition, "Images//Foregrounds//Shadow//" + t_newAsset, 0.0f);
+					m_objectPreview = new CoveringShadow(t_assetPosition, "Images//Foregrounds//Shadow//" + t_newAsset, 0.000f);
 					break;
 				case State.EndVent:
 					m_objectPreview = new VentilationEnd(t_assetPosition, "Images//Tile//Ventilation//EndVent//" + t_newAsset, 0.000f);
+					break;
+				case State.Parallax:
+					m_objectPreview = new ParallaxEnvironment(t_assetPosition, "Images//Backgrounds//Parallax//" + t_newAsset, 0.000f);
 					break;
 			}
 		}
@@ -808,6 +813,7 @@ namespace GrandLarceny
 						m_selectedObject.getPosition().setGlobalCartesian(t_mousePosition);
 					}
 				}
+
 				if (m_itemToCreate != State.Background)
 				{
 					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
