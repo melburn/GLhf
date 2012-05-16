@@ -582,7 +582,10 @@ namespace GrandLarceny
 
 				if (KeyboardHandler.keyClicked(Keys.C))
 				{
-					m_copyTarget = m_selectedObject;
+					if (m_selectedObject != null)
+					{
+						m_copyTarget = m_selectedObject;					
+					}
 				}
 
 				if (KeyboardHandler.keyClicked(Keys.V))
