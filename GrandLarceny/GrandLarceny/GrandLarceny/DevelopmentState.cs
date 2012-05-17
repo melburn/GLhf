@@ -71,7 +71,7 @@ namespace GrandLarceny
 			DuckHidingObject,		StandHidingObject,	Rope,
 			SecDoor,		CornerHang,	Checkpoint,		Prop,
 			Heart,			Key,		EndVent,		Objective,
-			Shadow,			Parallax
+			Shadow,			Parallax,	LockedDoor
 		}
 		#endregion
 
@@ -102,12 +102,12 @@ namespace GrandLarceny
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
-				foreach (GameObject t_go in t_ll)
+				for (int i = 0; i < t_ll.Count(); i++)
 				{
-					t_go.loadContent();
-					if (t_go is Player)
+					t_ll.ElementAt(i).loadContent();
+					if (t_ll.ElementAt(i) is Player)
 					{
-						m_player = t_go;
+						m_player = t_ll.ElementAt(i);
 						Game.getInstance().m_camera.setPosition(m_player.getPosition().getGlobalCartesian());
 					}
 				}
@@ -186,6 +186,8 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.C }, guiButtonClick);
 			m_buttonDict.Add(m_btnConsKey = new Button("DevelopmentHotkeys//btn_key_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
 			m_btnConsKey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
+			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+D", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.LockedDoor);
+			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.D }, guiButtonClick);
 			
 			#endregion
 			//-----------------------------------
@@ -257,7 +259,7 @@ namespace GrandLarceny
 			//-----------------------------------
 			#region Layer buttons
 			m_buttonList.AddLast(m_layerButtonList = GuiListFactory.createNumeratedList(5, "DevelopmentHotkeys//btn_layer_chooser"));
-			GuiListFactory.setListPosition(m_layerButtonList, new Vector2(0, Game.getInstance().getResolution().Y - (m_layerButtonList.First().getBox().Height)));
+			GuiListFactory.setListPosition(m_layerButtonList, new Vector2(40, Game.getInstance().getResolution().Y - (m_layerButtonList.First().getBox().Height)));
 			GuiListFactory.setButtonDistance(m_layerButtonList, new Vector2(73, 0));
 			GuiListFactory.setTextOffset(m_layerButtonList, new Vector2(34, 8));
 
@@ -513,6 +515,9 @@ namespace GrandLarceny
 					break;
 				case State.Parallax:
 					m_objectPreview = new ParallaxEnvironment(t_assetPosition, "Images//Background//Parallax//" + t_newAsset, 0.000f);
+					break;
+				case State.LockedDoor:
+					m_objectPreview = new LockedDoor(t_assetPosition, "Images//Prop//SecurityDoor//door", 0.000f);
 					break;
 			}
 		}
@@ -988,12 +993,11 @@ namespace GrandLarceny
 
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
-				/*
 				if (t_gameObject is LightCone || t_gameObject is FlashCone)
 				{
 					continue;
 				}
-				else */if (t_gameObject is Environment)
+				else if (t_gameObject is Environment)
 				{
 					if (((Environment)t_gameObject).getImageBox().contains(a_point))
 					{
@@ -1105,7 +1109,7 @@ namespace GrandLarceny
 					createAssetList(null);
 					break;
 				case State.SecDoor:
-					createAssetList("Content//Images//Prop//SecurityDoor//");
+					createAssetList(null);
 					break;
 				case State.CornerHang:
 					createAssetList(null);
@@ -1130,6 +1134,9 @@ namespace GrandLarceny
 					break;
 				case State.Parallax:
 					createAssetList("Content//Images//Background//Parallax//");
+					break;
+				case State.LockedDoor:
+					createAssetList(null);
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)
@@ -1311,21 +1318,10 @@ namespace GrandLarceny
 		#region Draw
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			GameObject t_bugg = null;
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
-				if (t_gameObject is LightCone || t_gameObject is LampSwitch)
-				{
-					t_bugg = t_gameObject;
-					continue;
-				}
 				t_gameObject.draw(a_gameTime);
 			}
-			if (t_bugg != null)
-			{
-				removeObject(t_bugg);
-			}
-
 			if (Game.getInstance().getState() == this)
 			{
 				foreach (GuiObject t_guiObject in m_guiList)

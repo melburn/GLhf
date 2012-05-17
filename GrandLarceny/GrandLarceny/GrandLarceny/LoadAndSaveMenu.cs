@@ -16,10 +16,13 @@ namespace GrandLarceny
 		private TextField m_newSaveName;
 		private string m_saveTo;
 
-		public LoadAndSaveMenu(bool a_willSave, States a_backState)
+		private Music m_menuSong;
+
+		public LoadAndSaveMenu(bool a_willSave, States a_backState, Music a_menuSong)
 		{
 			m_willSave = a_willSave;
 			m_backState = a_backState;
+			m_menuSong = a_menuSong;
 			m_newSaveName = new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
 			m_newSaveName.setVisible(false);
 
@@ -115,7 +118,6 @@ namespace GrandLarceny
 
 		public void loadProgressClick(Button a_b)
 		{
-			
 			for (int i = 0; i < 3; ++i)
 			{
 				if (m_buttons.ElementAt(i) == a_b)
@@ -132,7 +134,7 @@ namespace GrandLarceny
 					else
 					{
 						Game.getInstance().setProgress("Slot "+(i+1)+".prog", false);
-						Game.getInstance().setState(new HubMenu());
+						Game.getInstance().setState(new HubMenu(m_menuSong));
 					}
 				}
 			}
