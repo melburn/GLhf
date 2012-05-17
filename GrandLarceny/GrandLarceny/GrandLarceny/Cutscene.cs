@@ -162,7 +162,7 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_timeForNextCommand = (float)a_gameTime.TotalGameTime.TotalMilliseconds + float.Parse(m_commands[1]);
+				m_timeForNextCommand = (float)a_gameTime.TotalGameTime.TotalMilliseconds + ((float)int.Parse(m_commands[1]));
 				return false;
 			}
 			else if (m_currentCommand[0].Equals("addGUI", StringComparison.OrdinalIgnoreCase))
@@ -171,7 +171,7 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_guis.Add(int.Parse(m_currentCommand[1]), new GuiObject(new Vector2(float.Parse(m_currentCommand[2]), float.Parse(m_currentCommand[3])), m_currentCommand[4]));
+				m_guis.Add(int.Parse(m_currentCommand[1]), new GuiObject(new Vector2(int.Parse(m_currentCommand[2]), int.Parse(m_currentCommand[3])), m_currentCommand[4]));
 			}
 			else if (m_currentCommand[0].Equals("removeGui", StringComparison.OrdinalIgnoreCase))
 			{
@@ -187,7 +187,7 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_guis[int.Parse(m_currentCommand[1])].setLayer(float.Parse(m_currentCommand[2]));
+				m_guis[int.Parse(m_currentCommand[1])].setLayer(((float)int.Parse(m_currentCommand[2]) / 1000f));
 			}
 			else if (m_currentCommand[0].Equals("addText", StringComparison.OrdinalIgnoreCase))
 			{
@@ -195,8 +195,8 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_guis.Add(int.Parse(m_currentCommand[1]), new Text(new Vector2(float.Parse(m_currentCommand[2]), float.Parse(m_currentCommand[3])), m_currentCommand[4],
-					m_currentCommand[5], new Color(float.Parse(m_currentCommand[6]),float.Parse(m_currentCommand[7]),float.Parse(m_currentCommand[8]),float.Parse(m_currentCommand[8])),false)); 
+				m_guis.Add(int.Parse(m_currentCommand[1]), new Text(new Vector2(int.Parse(m_currentCommand[2]), int.Parse(m_currentCommand[3])), m_currentCommand[4],
+					m_currentCommand[5], new Color(int.Parse(m_currentCommand[6]),int.Parse(m_currentCommand[7]),int.Parse(m_currentCommand[8]),int.Parse(m_currentCommand[8])),false)); 
 			}
 			else if (m_currentCommand[0].Equals("removeText", StringComparison.OrdinalIgnoreCase))
 			{
