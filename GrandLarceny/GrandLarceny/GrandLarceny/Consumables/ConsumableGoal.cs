@@ -25,7 +25,7 @@ namespace GrandLarceny
 			{
 				String t_textureName = "Images//GUI//GameGUI//stolen"+t_num+"of3";
 				m_feedback = new Particle(new CartesianCoordinate(Vector2.Zero, Game.getInstance().m_camera.getPosition()), t_textureName, 33, 0.0015f);
-				m_feedback.getPosition().setLocalCartesian(-m_feedback.getImg().getSize() / 2);
+				m_feedback.getPosition().setLocalCartesian(new Vector2(0,-200)-m_feedback.getImg().getSize() / 2);
 				m_feedback.setTimer(((float)Game.getInstance().getTotalGameTime().TotalMilliseconds) + 3000f);
 				Game.getInstance().getState().addObject(m_feedback);
 			}

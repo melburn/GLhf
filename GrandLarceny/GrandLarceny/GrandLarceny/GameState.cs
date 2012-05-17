@@ -250,23 +250,22 @@ namespace GrandLarceny
 				foreach (GameObject t_gameObject in t_list)
 				{
 					#if DEBUG
-					t_gameObject.update(a_gameTime);
-					#elif RELEASE
-					try
-					{
 						t_gameObject.update(a_gameTime);
-
-						if (t_gameObject == m_finishFeedback && m_finishFeedback.isDead())
+					#elif RELEASE
+						try
 						{
-							finishLevel();
-							return;
+							t_gameObject.update(a_gameTime);
 						}
-					}
-					catch (Exception e)
-					{
-						ErrorLogger.getInstance().writeString("While updating " + t_gameObject + " got exception: " + e);
-					}
+						catch (Exception e)
+						{
+							ErrorLogger.getInstance().writeString("While updating " + t_gameObject + " got exception: " + e);
+						}
 					#endif
+					if (t_gameObject == m_finishFeedback && m_finishFeedback.isDead())
+					{
+						finishLevel();
+						return;
+					}
 				}
 			}
 
