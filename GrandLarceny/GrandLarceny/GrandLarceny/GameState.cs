@@ -169,7 +169,7 @@ namespace GrandLarceny
 					{
 						m_finishCond.AddLast((ConsumableGoal)t_go);
 					}
-					else if (t_go is Environment && !((Environment)t_go).isVisibleOnMap() && !((Environment)t_go).isExplored())
+					else if (t_go is Environment && ((Environment)t_go).isVisibleOnMap() && !((Environment)t_go).isExplored())
 					{
 						m_unexplored.AddLast((Environment)t_go);
 					}
