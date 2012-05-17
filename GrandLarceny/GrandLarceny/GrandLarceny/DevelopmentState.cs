@@ -186,6 +186,8 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.C }, guiButtonClick);
 			m_buttonDict.Add(m_btnConsKey = new Button("DevelopmentHotkeys//btn_key_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
 			m_btnConsKey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
+			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.LockedDoor);
+			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.D }, guiButtonClick);
 			
 			#endregion
 			//-----------------------------------
@@ -513,6 +515,9 @@ namespace GrandLarceny
 					break;
 				case State.Parallax:
 					m_objectPreview = new ParallaxEnvironment(t_assetPosition, "Images//Background//Parallax//" + t_newAsset, 0.000f);
+					break;
+				case State.LockedDoor:
+					m_objectPreview = new LockedDoor(t_assetPosition, "Images//Prop//SecurityDoor//door", 0.000f);
 					break;
 			}
 		}
@@ -988,12 +993,11 @@ namespace GrandLarceny
 
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
-				/*
 				if (t_gameObject is LightCone || t_gameObject is FlashCone)
 				{
 					continue;
 				}
-				else */if (t_gameObject is Environment)
+				else if (t_gameObject is Environment)
 				{
 					if (((Environment)t_gameObject).getImageBox().contains(a_point))
 					{
@@ -1105,7 +1109,7 @@ namespace GrandLarceny
 					createAssetList(null);
 					break;
 				case State.SecDoor:
-					createAssetList("Content//Images//Prop//SecurityDoor//");
+					createAssetList(null);
 					break;
 				case State.CornerHang:
 					createAssetList(null);
@@ -1130,6 +1134,9 @@ namespace GrandLarceny
 					break;
 				case State.Parallax:
 					createAssetList("Content//Images//Background//Parallax//");
+					break;
+				case State.LockedDoor:
+					createAssetList(null);
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)
