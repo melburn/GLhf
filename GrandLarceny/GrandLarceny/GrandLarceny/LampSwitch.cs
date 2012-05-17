@@ -42,9 +42,16 @@ namespace GrandLarceny
 			{
 				m_connectedSpotLightsId = new LinkedList<int>();
 			}
-			foreach (int t_ids in m_connectedSpotLightsId)
+			for (int i = 0; i < m_connectedSpotLightsId.Count(); i++)
 			{
-				m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(t_ids));
+				try //TODO debug
+				{
+					m_connectedSpotLights.AddLast((SpotLight)Game.getInstance().getState().getObjectById(m_connectedSpotLightsId.ElementAt(i)));				
+				}
+				catch (InvalidCastException)
+				{
+					m_connectedSpotLightsId.Remove(m_connectedSpotLightsId.ElementAt(i));
+				}
 			}
 			m_collisionShape = new CollisionRectangle(28, 25, 45 - 28, 30, m_position);
 		}

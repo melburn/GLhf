@@ -53,7 +53,7 @@ namespace GrandLarceny
 
 		public override void loadContent()
 		{
-			base.loadContent();
+			//base.loadContent();
 			m_repeatKeys = new List<Keys>();
 			m_repeatTime = new TimeSpan(0, 0, 0, 0, 500);
 			m_lastPressedKeys = new Dictionary<Keys, TimeSpan>();
