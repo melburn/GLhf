@@ -52,6 +52,11 @@ namespace GrandLarceny
 			return new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
 		}
 
+		public Boolean isVisibleOnMap()
+		{
+			return m_mapVisible;
+		}
+
 		public Boolean toggleMapVisible()
 		{
 			m_mapVisible = !m_mapVisible;
