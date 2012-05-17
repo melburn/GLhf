@@ -36,6 +36,11 @@ namespace GrandLarceny
 		private Player player;
 
 		private ParseState m_currentParse;
+
+
+		//När denna gameobject inte är null samt är död så är leveln över. Den ska peka på objektet som säger "item stolen 3/3"
+		private GameObject m_finishFeedback;
+
 		private enum ParseState
 		{
 			Settings,
@@ -79,7 +84,6 @@ namespace GrandLarceny
 					m_gameObjectList[i] = new LinkedList<GameObject>();
 				}
 			}
-			//m_removeList = new Stack<GameObject>[m_gameObjectList.Length];
 			m_addList = new Stack<GameObject>[m_gameObjectList.Length];
 
 			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
@@ -248,6 +252,12 @@ namespace GrandLarceny
 					try
 					{
 						t_gameObject.update(a_gameTime);
+
+						if (t_gameObject == m_finishFeedback && m_finishFeedback.isDead())
+						{
+							finishLevel();
+							return;
+						}
 					}
 					catch (Exception e)
 					{
@@ -307,8 +317,7 @@ namespace GrandLarceny
 						m_finishCond.Remove((ConsumableGoal)t_objectToRemove);
 						if (m_finishCond.Count == 0)
 						{
-							finishLevel();
-							return;
+							m_finishFeedback = ((ConsumableGoal)t_objectToRemove).getFeedback();
 						}
 					}
 					t_list.Remove(t_objectToRemove);
