@@ -29,16 +29,16 @@ namespace GrandLarceny
 				Directory.CreateDirectory("Content//levels//");
 			}
 			string[] t_saveFiles = Directory.GetFiles("Content//levels//", t_ext);
-			if (t_saveFiles.Length > 0)
+			/*if (t_saveFiles.Length > 0)
 			{
 				//load game
 				Button t_loadGame = new Button("continue", "continue_selected", "continue_selected", "continue_selected", Vector2.Zero, "", "VerdanaBold", Color.White, Vector2.Zero);
 				t_loadGame.m_clickEvent += new Button.clickDelegate(loadGameClick);
 				m_buttons.AddLast(t_loadGame);
-			}
+			}*/
 			//new Game
 			Button t_newGame = new Button("newgame", "newgame_selected", "newgame_selected", "newgame_selected", Vector2.Zero, "", "VerdanaBold", Color.White, Vector2.Zero);
-			t_newGame.m_clickEvent += new Button.clickDelegate(newGameClick);
+			t_newGame.m_clickEvent += new Button.clickDelegate(loadGameClick);
 			m_buttons.AddLast(t_newGame);
 
 			//new Game

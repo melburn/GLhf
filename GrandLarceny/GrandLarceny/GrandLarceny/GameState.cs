@@ -365,6 +365,7 @@ namespace GrandLarceny
 		{
 			Game.getInstance().getProgress().setLevelCleared(m_currentLevel.Remove(m_currentLevel.Length - 4));
 			Game.getInstance().setState(new HubMenu());
+			Serializer.getInstance().saveGame(Serializer.getInstance().getFileToStream(Game.getInstance().getProgress().getName(), true), Game.getInstance().getProgress());
 		}
 		/*
 		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 
