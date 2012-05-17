@@ -42,7 +42,7 @@ namespace GrandLarceny
 				try {
 					m_light = (LightCone)Game.getInstance().getState().getObjectById(m_lightLink);
 				}
-				catch (InvalidCastException ice)
+				catch (InvalidCastException)
 				{
 					
 				}

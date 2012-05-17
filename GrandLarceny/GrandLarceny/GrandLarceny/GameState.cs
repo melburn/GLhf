@@ -364,7 +364,7 @@ namespace GrandLarceny
 		private void finishLevel()
 		{
 			Game.getInstance().getProgress().setLevelCleared(m_currentLevel.Remove(m_currentLevel.Length - 4));
-			Game.getInstance().setState(new HubMenu());
+			Game.getInstance().setState(new HubMenu(new Music("MenuSong")));
 		}
 		/*
 		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 

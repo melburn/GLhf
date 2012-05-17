@@ -15,6 +15,7 @@ namespace GrandLarceny
 	{
 		private Button m_btnSettings;
 		private int m_currentButton = 0;
+		private Music m_menuSong;
 
 		#region Constructor & Load
 		public override void load()
@@ -58,6 +59,9 @@ namespace GrandLarceny
 			m_btnSettings.m_clickEvent += new Button.clickDelegate(settingsClick);
 
 			m_buttons.ElementAt(0).setState(Button.State.Hover);
+
+			m_menuSong = new Music("MenuSong");
+			m_menuSong.play();
 		}
 		#endregion
 
@@ -107,22 +111,26 @@ namespace GrandLarceny
 
 		public void exitClick(Button a_b)
 		{
+			Music.stop();
+			m_menuSong.dispose();
 			Game.getInstance().Exit();
 		}
 
 		public void newGameClick(Button a_b)
 		{
-			Game.getInstance().setState(new HubMenu());
+			Game.getInstance().setState(new HubMenu(m_menuSong));
 			Game.getInstance().setProgress("temp.prog", false);
 		}
 
 		public void loadGameClick(Button a_b)
 		{
-			Game.getInstance().setState(new LoadAndSaveMenu(false, this));
+			Game.getInstance().setState(new LoadAndSaveMenu(false, this, m_menuSong));
 		}
 
 		public void settingsClick(Button a_button)
 		{
+			Music.stop();
+			m_menuSong.dispose();
 			Game.getInstance().setState(new SettingsMenu());
 		}
 		#endregion
