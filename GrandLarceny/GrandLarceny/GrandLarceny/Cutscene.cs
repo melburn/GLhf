@@ -105,7 +105,42 @@ namespace GrandLarceny
 
 		private Keys parseKey(string a_keyname)
 		{
-			return (Keys)Enum.Parse(typeof(Keys), a_keyname, false);
+			if(a_keyname.Equals("bindedUp"))
+			{
+				return GameState.getUpKey();
+			}
+			else if (a_keyname.Equals("bindedLeft"))
+			{
+				return GameState.getLeftKey();
+			}
+			else if (a_keyname.Equals("bindedRight"))
+			{
+				return GameState.getRightKey();
+			}
+			else if (a_keyname.Equals("bindedDown"))
+			{
+				return GameState.getDownKey();
+			}
+			else if (a_keyname.Equals("jump"))
+			{
+				return GameState.getJumpKey();
+			}
+			else if (a_keyname.Equals("roll"))
+			{
+				return GameState.getRollKey();
+			}
+			else if (a_keyname.Equals("action"))
+			{
+				return GameState.getActionKey();
+			}
+			else if (a_keyname.Equals("sprint"))
+			{
+				return GameState.getSprintKey();
+			}
+			else
+			{
+				return (Keys)Enum.Parse(typeof(Keys), a_keyname, false);
+			}
 		}
 
 		private bool parseAndExecute(GameTime a_gameTime)
@@ -145,6 +180,14 @@ namespace GrandLarceny
 					throw new ParseException();
 				}
 				m_guis.Remove(int.Parse(m_commands[1]));
+			}
+			else if (m_currentCommand[0].Equals("setLayer", StringComparison.OrdinalIgnoreCase))
+			{
+				if (m_currentCommand.Length < 2)
+				{
+					throw new ParseException();
+				}
+				m_guis[int.Parse(m_currentCommand[1])].setLayer(float.Parse(m_currentCommand[2]));
 			}
 			else if (m_currentCommand[0].Equals("addText", StringComparison.OrdinalIgnoreCase))
 			{
