@@ -162,7 +162,7 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_timeForNextCommand = (float)a_gameTime.TotalGameTime.TotalMilliseconds + ((float)int.Parse(m_commands[1]));
+				m_timeForNextCommand = (float)a_gameTime.TotalGameTime.TotalMilliseconds + ((float)int.Parse(m_currentCommand[1]));
 				return false;
 			}
 			else if (m_currentCommand[0].Equals("addGUI", StringComparison.OrdinalIgnoreCase))
