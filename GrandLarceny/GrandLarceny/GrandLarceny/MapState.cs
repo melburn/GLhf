@@ -57,7 +57,7 @@ namespace GrandLarceny
 				{
 					addRectangle(((Entity)f_go).getHitBox().getOutBox(), 0, t_colors, t_width);
 				}
-				else if(f_go is Environment)
+				else if (f_go is Environment && ((Environment)f_go).isVisibleOnMap())
 				{
 					if (((Environment)f_go).isExplored())
 					{
