@@ -124,9 +124,6 @@ namespace GrandLarceny
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
 
-			m_sndKeyclick		= new Sound("GUI//button");
-			m_sndSave			= new Sound("GUI//ZMuFir00");
-
 			m_guiList.AddLast(new Text(new Vector2(350, 3)	, "Layer:", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_parallaxLabel		= new Text(new Vector2(460, 3)	, "Parallax Value:", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_textObjectInfo		= new Text(new Vector2(10, 3)	, "", "VerdanaBold", Color.Black, false));

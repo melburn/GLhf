@@ -170,12 +170,13 @@
     <Compile Include="Foreground.cs" />
     <Compile Include="Hookshot.cs" />
     <Compile Include="GuardEntity.cs" />
-    <Compile Include="HubMenu.cs" />
+    <Compile Include="MenuStates\HubMenu.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="LoadAndSaveMenu.cs" />
     <Compile Include="LockedDoor.cs" />
     <Compile Include="MapState.cs" />
     <Compile Include="Handlers\MouseHandler.cs" />
+    <Compile Include="MenuStates\LevelMenu.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="ParallaxEnvironment.cs" />
     <Compile Include="ParseException.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="SecurityDoor.cs" />
     <Compile Include="Rope.cs" />
     <Compile Include="SettingsMenu.cs" />
+    <Compile Include="TextButton.cs" />
     <Compile Include="TextField.cs" />
     <Compile Include="GuardCamera.cs" />
     <Compile Include="TVentilation.cs" />
@@ -208,8 +210,8 @@
     <Compile Include="Level.cs" />
     <Compile Include="LightCone.cs" />
     <Compile Include="Loader.cs" />
-    <Compile Include="MainMenu.cs" />
-    <Compile Include="MenuState.cs" />
+    <Compile Include="MenuStates\MainMenu.cs" />
+    <Compile Include="MenuStates\MenuState.cs" />
     <Compile Include="NonMovingObject.cs" />
     <Compile Include="NPE.cs" />
     <Compile Include="PauseState.cs" />
