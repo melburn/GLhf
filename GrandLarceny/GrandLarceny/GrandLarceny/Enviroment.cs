@@ -62,5 +62,10 @@ namespace GrandLarceny
 			m_mapVisible = !m_mapVisible;
 			return m_mapVisible;
 		}
+
+		public override string ToString()
+		{
+			return base.ToString() + ":" + m_mapVisible;
+		}
 	}
 }

@@ -628,6 +628,10 @@ namespace GrandLarceny
 					{
 						((Consumable)m_selectedObject).toggleBling();
 					}
+					else if (m_selectedObject is Environment)
+					{
+						((Environment)m_selectedObject).toggleMapVisible();
+					}
 					m_textObjectInfo.setText(m_selectedObject.ToString());
 				}
 
