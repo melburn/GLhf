@@ -22,8 +22,7 @@ namespace GrandLarceny
 			m_lit = a_lit;
 			if (a_lit)
 			{
-				m_light = new LightCone(this, "Images//LightCone//Ljus", m_img.getSize().X, a_layer + 0.001f, 246f, 245f, a_layer - 0.01f, "Images//LightCone//ljusboll");
-				(Game.getInstance().getState()).addObject(m_light);
+				(Game.getInstance().getState()).addObject(m_light = new LightCone(this, "Images//LightCone//Ljus", m_img.getSize().X, a_layer + 0.001f, 246f, 245f, a_layer - 0.01f, "Images//LightCone//ljusboll"));
 				m_lightLink = m_light.getId();
 			}
 		}
@@ -39,12 +38,14 @@ namespace GrandLarceny
 			base.loadContent();
 			if (m_lightLink > 0)
 			{
-				try {
-					m_light = (LightCone)Game.getInstance().getState().getObjectById(m_lightLink);
-				}
-				catch (InvalidCastException ice)
+				try
 				{
-					
+					m_light = (LightCone)Game.getInstance().getState().getObjectById(m_lightLink);				
+				}
+				catch (InvalidCastException)
+				{
+					(Game.getInstance().getState()).addObject(m_light = new LightCone(this, "Images//LightCone//Ljus", m_img.getSize().X, m_layer + 0.001f, 246f, 245f, m_layer - 0.01f, "Images//LightCone//ljusboll"));
+					m_lightLink = m_light.getId();
 				}
 			}
 			if (m_light != null)
@@ -159,6 +160,11 @@ namespace GrandLarceny
 				toggleLight();
 			}
 			m_turnedOffForEver = true;
+		}
+
+		public override string ToString()
+		{
+			return "TAPOADIHNSDOHSDOHPSJHISDNJIEUTJBPSEM";
 		}
 	}
 }

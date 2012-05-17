@@ -71,7 +71,7 @@ namespace GrandLarceny
 			DuckHidingObject,		StandHidingObject,	Rope,
 			SecDoor,		CornerHang,	Checkpoint,		Prop,
 			Heart,			Key,		EndVent,		Objective,
-			Shadow,			Parallax
+			Shadow,			Parallax,	LockedDoor
 		}
 		#endregion
 
@@ -102,12 +102,12 @@ namespace GrandLarceny
 
 			foreach (LinkedList<GameObject> t_ll in m_gameObjectList)
 			{
-				foreach (GameObject t_go in t_ll)
+				for (int i = 0; i < t_ll.Count(); i++)
 				{
-					t_go.loadContent();
-					if (t_go is Player)
+					t_ll.ElementAt(i).loadContent();
+					if (t_ll.ElementAt(i) is Player)
 					{
-						m_player = t_go;
+						m_player = t_ll.ElementAt(i);
 						Game.getInstance().m_camera.setPosition(m_player.getPosition().getGlobalCartesian());
 					}
 				}
@@ -1311,21 +1311,10 @@ namespace GrandLarceny
 		#region Draw
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			GameObject t_bugg = null;
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
-				if (t_gameObject is LightCone || t_gameObject is LampSwitch)
-				{
-					t_bugg = t_gameObject;
-					continue;
-				}
 				t_gameObject.draw(a_gameTime);
 			}
-			if (t_bugg != null)
-			{
-				removeObject(t_bugg);
-			}
-
 			if (Game.getInstance().getState() == this)
 			{
 				foreach (GuiObject t_guiObject in m_guiList)

@@ -189,6 +189,11 @@ namespace GrandLarceny
 			m_state.addObject(new ParallaxEnvironment(m_state.getTileCoordinates(a_position), a_asset, 0.950f));
 		}
 
+		public static void createDoor(Vector2 a_position, string a_asset)
+		{
+			m_state.addObject(new LockedDoor(m_state.getTileCoordinates(a_position), a_asset, 0.350f));
+		}
+
 		public static void copyAsset(Vector2 a_position, GameObject a_asset)
 		{
 			Vector2 t_position;
@@ -328,6 +333,10 @@ namespace GrandLarceny
 			if (a_asset is VentilationEnd)
 			{
 				createVentEnd(t_position, t_imagePath);
+			}
+			if (a_asset is LockedDoor)
+			{
+				createDoor(t_position, t_imagePath);
 			}
 		}
 	}

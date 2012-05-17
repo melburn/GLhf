@@ -124,11 +124,6 @@ namespace GrandLarceny
 			{
 				m_lampSwitchTargets.AddLast((LampSwitch)Game.getInstance().getState().getObjectById(t_lsti));
 			}
-			if (m_flashLightId > 0)
-			{
-				m_flashLight = (FlashCone)Game.getInstance().getState().getObjectById(m_flashLightId);
-				m_flashLight.getPosition().setParentPosition(m_position);
-			}
 			m_facingRight = m_spriteEffects == SpriteEffects.None;
 
 			#region Texture Loading
