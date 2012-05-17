@@ -9,23 +9,24 @@ namespace GrandLarceny
 {
 	public class Music
 	{
-		private string m_filepath;
-		private Song m_music;
+		private static Dictionary<string, Song> m_loadedMusic = new Dictionary<string, Song>();
 
-		public Music(string a_filepath)
+		public static void loadSong(string a_path)
 		{
-			m_filepath = a_filepath;
-			loadContent();
+			if (!m_loadedMusic.ContainsKey(a_path))
+			{
+				m_loadedMusic.Add(a_path, Game.getInstance().Content.Load<Song>("Sounds//Music//" + a_path));
+			}
 		}
 
-		public void loadContent()
+		public static void unloadSong(string a_path)
 		{
-			m_music = Game.getInstance().Content.Load<Song>("Sounds//Music//" + m_filepath);
+			m_loadedMusic.Remove(a_path);
 		}
 
-		public void play()
+		public static void play(string a_music)
 		{
-			MediaPlayer.Play(m_music);
+			MediaPlayer.Play(m_loadedMusic[a_music]);
 			MediaPlayer.IsRepeating = true;
 		}
 
@@ -44,10 +45,6 @@ namespace GrandLarceny
 			{
 				MediaPlayer.Pause();
 			}
-		}
-		public void dispose()
-		{
-			m_music.Dispose();
 		}
 
 		public static bool musicIsPlaying()

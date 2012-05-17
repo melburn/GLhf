@@ -29,7 +29,7 @@ namespace GrandLarceny
 		{
 			m_backState = a_backState;
 			m_comDone = 0;
-			m_filePath = a_sceneToLoad;
+			m_filePath = Game.CUTSCENE_FOLDER + a_sceneToLoad;
 			m_waiting = false;
 			m_guis = new Dictionary<int, GuiObject>();
 			m_objects = new LinkedList<GameObject>();
@@ -105,7 +105,42 @@ namespace GrandLarceny
 
 		private Keys parseKey(string a_keyname)
 		{
-			return (Keys)Enum.Parse(typeof(Keys), a_keyname, false);
+			if(a_keyname.Equals("bindedUp"))
+			{
+				return GameState.getUpKey();
+			}
+			else if (a_keyname.Equals("bindedLeft"))
+			{
+				return GameState.getLeftKey();
+			}
+			else if (a_keyname.Equals("bindedRight"))
+			{
+				return GameState.getRightKey();
+			}
+			else if (a_keyname.Equals("bindedDown"))
+			{
+				return GameState.getDownKey();
+			}
+			else if (a_keyname.Equals("jump"))
+			{
+				return GameState.getJumpKey();
+			}
+			else if (a_keyname.Equals("roll"))
+			{
+				return GameState.getRollKey();
+			}
+			else if (a_keyname.Equals("action"))
+			{
+				return GameState.getActionKey();
+			}
+			else if (a_keyname.Equals("sprint"))
+			{
+				return GameState.getSprintKey();
+			}
+			else
+			{
+				return (Keys)Enum.Parse(typeof(Keys), a_keyname, false);
+			}
 		}
 
 		private bool parseAndExecute(GameTime a_gameTime)
@@ -127,7 +162,7 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_timeForNextCommand = (float)a_gameTime.TotalGameTime.TotalMilliseconds + float.Parse(m_commands[1]);
+				m_timeForNextCommand = (float)a_gameTime.TotalGameTime.TotalMilliseconds + ((float)int.Parse(m_currentCommand[1]));
 				return false;
 			}
 			else if (m_currentCommand[0].Equals("addGUI", StringComparison.OrdinalIgnoreCase))
@@ -136,7 +171,7 @@ namespace GrandLarceny
 				{
 					throw new ParseException();
 				}
-				m_guis.Add(int.Parse(m_currentCommand[1]), new GuiObject(new Vector2(float.Parse(m_currentCommand[2]), float.Parse(m_currentCommand[3])), m_currentCommand[4]));
+				m_guis.Add(int.Parse(m_currentCommand[1]), new GuiObject(new Vector2(int.Parse(m_currentCommand[2]), int.Parse(m_currentCommand[3])), m_currentCommand[4]));
 			}
 			else if (m_currentCommand[0].Equals("removeGui", StringComparison.OrdinalIgnoreCase))
 			{
@@ -146,14 +181,22 @@ namespace GrandLarceny
 				}
 				m_guis.Remove(int.Parse(m_commands[1]));
 			}
+			else if (m_currentCommand[0].Equals("setLayer", StringComparison.OrdinalIgnoreCase))
+			{
+				if (m_currentCommand.Length < 2)
+				{
+					throw new ParseException();
+				}
+				m_guis[int.Parse(m_currentCommand[1])].setLayer(((float)int.Parse(m_currentCommand[2]) / 1000f));
+			}
 			else if (m_currentCommand[0].Equals("addText", StringComparison.OrdinalIgnoreCase))
 			{
 				if (m_currentCommand.Length < 10)
 				{
 					throw new ParseException();
 				}
-				m_guis.Add(int.Parse(m_currentCommand[1]), new Text(new Vector2(float.Parse(m_currentCommand[2]), float.Parse(m_currentCommand[3])), m_currentCommand[4],
-					m_currentCommand[5], new Color(float.Parse(m_currentCommand[6]),float.Parse(m_currentCommand[7]),float.Parse(m_currentCommand[8]),float.Parse(m_currentCommand[8])),false)); 
+				m_guis.Add(int.Parse(m_currentCommand[1]), new Text(new Vector2(int.Parse(m_currentCommand[2]), int.Parse(m_currentCommand[3])), m_currentCommand[4],
+					m_currentCommand[5], new Color(int.Parse(m_currentCommand[6]),int.Parse(m_currentCommand[7]),int.Parse(m_currentCommand[8]),int.Parse(m_currentCommand[8])),false)); 
 			}
 			else if (m_currentCommand[0].Equals("removeText", StringComparison.OrdinalIgnoreCase))
 			{

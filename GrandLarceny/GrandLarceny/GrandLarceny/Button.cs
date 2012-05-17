@@ -311,14 +311,14 @@ namespace GrandLarceny
 			return m_text.getText();
 		}
 
-		public void setUpSound(string a_path)
+		public void setUpSound(string a_name)
 		{
-			m_upSound = new Sound("GUI//" + a_path);
+			m_upSound = new Sound(a_name);
 		}
 
-		public void setDownSound(string a_path)
+		public void setDownSound(string a_name)
 		{
-			m_downSound = new Sound("GUI//" + a_path);
+			m_downSound = new Sound(a_name);
 		}
 
 		public bool isVisible()

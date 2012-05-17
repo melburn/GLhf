@@ -15,6 +15,7 @@ namespace GrandLarceny
 			: base(a_posV2, a_sprite, a_layer)
 		{
 			m_parallaxScroll = 0;
+			m_mapVisible = false;
 		}
 
 		public override void draw(GameTime a_gameTime)

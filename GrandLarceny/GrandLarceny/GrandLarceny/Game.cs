@@ -24,7 +24,7 @@ namespace GrandLarceny
 		private States m_currentState;
 		public const int TILE_WIDTH = 72;
 		public const int TILE_HEIGHT = 72;
-
+		
 		internal Camera m_camera;
 
 		public Progress m_progress;
@@ -66,10 +66,10 @@ namespace GrandLarceny
 			ErrorLogger.getInstance().clearFile();
 			ErrorLogger.getInstance().writeString("GrandLarceny initiated at "+System.DateTime.Now);
 			#if DEBUG
-				m_camera = new Camera();
-				m_currentState = new MainMenu();
-				m_currentState.load();
-				base.Initialize();
+			m_camera = new Camera();
+			m_currentState = new MainMenu();
+			m_currentState.load();
+			base.Initialize();
 			#elif RELEASE
 			try
 			{

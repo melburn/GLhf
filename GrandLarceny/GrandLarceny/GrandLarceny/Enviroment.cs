@@ -11,11 +11,13 @@ namespace GrandLarceny
 	public class Environment : GameObject
 	{
 		protected Boolean m_explored;
+		protected Boolean m_mapVisible;
 
 		public Environment(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
 			m_explored = false;
+			m_mapVisible = true;
 		}
 
 		public bool isExplored()
@@ -48,6 +50,22 @@ namespace GrandLarceny
 		public CollisionShape getImageBox()
 		{
 			return new CollisionRectangle(0, 0, m_img.getSize().X, m_img.getSize().Y, m_position);
+		}
+
+		public Boolean isVisibleOnMap()
+		{
+			return m_mapVisible;
+		}
+
+		public Boolean toggleMapVisible()
+		{
+			m_mapVisible = !m_mapVisible;
+			return m_mapVisible;
+		}
+
+		public override string ToString()
+		{
+			return base.ToString() + ":" + m_mapVisible;
 		}
 	}
 }

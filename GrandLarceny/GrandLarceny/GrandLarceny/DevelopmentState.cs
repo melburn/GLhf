@@ -124,8 +124,8 @@ namespace GrandLarceny
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
 
-			m_sndKeyclick		= new Sound("SoundEffects//GUI//button");
-			m_sndSave			= new Sound("SoundEffects//GUI//ZMuFir00");
+			m_sndKeyclick		= new Sound("GUI//button");
+			m_sndSave			= new Sound("GUI//ZMuFir00");
 
 			m_guiList.AddLast(new Text(new Vector2(350, 3)	, "Layer:", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_parallaxLabel		= new Text(new Vector2(460, 3)	, "Parallax Value:", "VerdanaBold", Color.Black, false));
@@ -627,6 +627,10 @@ namespace GrandLarceny
 					else if (m_selectedObject is Consumable)
 					{
 						((Consumable)m_selectedObject).toggleBling();
+					}
+					else if (m_selectedObject is Environment)
+					{
+						((Environment)m_selectedObject).toggleMapVisible();
 					}
 					m_textObjectInfo.setText(m_selectedObject.ToString());
 				}
