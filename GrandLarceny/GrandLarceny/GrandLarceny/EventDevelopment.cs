@@ -24,7 +24,6 @@ namespace GrandLarceny
 		Button Collections 
 		-----------------------------------
 		*/
-		private LinkedList<Button> m_eventButtons;
 		private LinkedList<Button> m_triggerButtons;
 		private LinkedList<Button> m_effectButtons;
 
@@ -65,7 +64,6 @@ namespace GrandLarceny
 		{
 			m_state = State.neutral;
 			m_backState = a_backState;
-			m_buttonList.AddLast(m_eventButtons = new LinkedList<Button>());
 			m_events = new Dictionary<Button, Event>();
 
 			buildEventList(a_events);
@@ -74,7 +72,6 @@ namespace GrandLarceny
 		public override void load()
 		{
 			Vector2 t_textOffset = new Vector2(5, 2);
-			m_eventButtons = new LinkedList<Button>();
 			m_triggerButtons = new LinkedList<Button>();
 			m_effectButtons = new LinkedList<Button>();
 			m_triggerMenu = new LinkedList<Button>();
@@ -83,7 +80,7 @@ namespace GrandLarceny
 			m_textField = null;
 			m_background = new Box(Vector2.Zero, 400, Game.getInstance().getResolution().Y, Color.Gray, false);
 
-			m_btnAddEvent = new Button("btn_asset_list", new Vector2(0, (m_eventButtons.Count * 25)), "Add Event", "VerdanaBold", Color.Black, t_textOffset);
+			m_btnAddEvent = new Button("btn_asset_list", new Vector2(0, (m_events.Keys.Count * 25)), "Add Event", "VerdanaBold", Color.Black, t_textOffset);
 			m_btnAddEvent.m_clickEvent += new Button.clickDelegate(newEvent);
 
 			m_btnAddTrigger = new Button("btn_asset_list", Vector2.Zero, "Add Trigger", "VerdanaBold", Color.Black, t_textOffset);
@@ -186,31 +183,24 @@ namespace GrandLarceny
 		#endregion
 
 		#region EventState Methods
-		private void buildEventList(LinkedList<Event> a_eventList) {
+		private void buildEventList(LinkedList<Event> a_eventList)
+		{
+			int i = 0;
 			foreach (Event t_e in a_eventList)
 			{
-				int i = 0;
-				KeyValuePair<Button, Event>[] t_array = m_events.ToArray();
-				for (int j = 0; j < t_array.Length; ) {
-					if (i == int.Parse(t_array[j++].Key.getText())) {
-						j = 0;
-						i++;
-					}
-				}
-				Button t_button = new Button("btn_asset_list", new Vector2(0, m_eventButtons.Count * 25), "" + i, null, Color.Yellow, new Vector2(10, 2));
+				Button t_button;
+				m_events.Add(t_button = new Button("btn_asset_list", new Vector2(0, m_events.Keys.Count * 25), "" + i, null, Color.Yellow, new Vector2(10, 2)), t_e);;
 				t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
-				m_eventButtons.AddFirst(t_button);
 			}
 		}
 
 		private void deselectEvent()
 		{
 			m_selectedEvent = null;
-			GuiListFactory.setListPosition(m_eventButtons, new Vector2(0, 0));
-			GuiListFactory.setButtonDistance(m_eventButtons, new Vector2(0, 25));
-			if (m_eventButtons.Count > 0)
+
+			if (m_events.Keys.Count > 0)
 			{
-				m_btnAddEvent.setPosition(new Vector2(m_eventButtons.Last().getBox().X, m_eventButtons.Last().getBox().Y) + new Vector2(0, 25));
+				m_btnAddEvent.setPosition(new Vector2(m_events.Keys.Last().getBox().X, m_events.Keys.Last().getBox().Y) + new Vector2(0, 25));
 			}
 			else
 			{
@@ -253,10 +243,9 @@ namespace GrandLarceny
 					i++;
 				}
 			}
-			Button t_button = new Button("btn_asset_list", new Vector2(0, m_eventButtons.Count * 25), "" + i, "VerdanaBold", Color.Yellow, new Vector2(10, 2));
+			Button t_button;
+			m_events.Add(t_button = new Button("btn_asset_list", new Vector2(0, m_events.Count * 25), "" + i, "VerdanaBold", Color.Yellow, new Vector2(10, 2)), new Event(new LinkedList<EventTrigger>(), new LinkedList<EventEffect>(), true));
 			t_button.m_clickEvent += new Button.clickDelegate(selectEvent);
-			m_events.Add(t_button, new Event(new LinkedList<EventTrigger>(), new LinkedList<EventEffect>(), true));
-			m_eventButtons.AddLast(t_button);
 		}
 
 		public void newTrigger(Button a_button)
@@ -271,7 +260,10 @@ namespace GrandLarceny
 
 		public void selectEvent(Button a_button)
 		{
-			GuiListFactory.setSelection(m_eventButtons, 0);
+			foreach (Button t_button in m_events.Keys)
+			{
+				t_button.setState(Button.State.Normal);
+			}
 
 			a_button.setState(3);
 			m_triggerButtons = new LinkedList<Button>();
@@ -284,33 +276,42 @@ namespace GrandLarceny
 				m_triggerButtons.AddLast(new Button("btn_asset_list", new Vector2(m_btnAddTrigger.getBox().X, 40 + (m_triggerButtons.Count * 25)), 
 					t_trigger.ToString(), "VerdanaBold", Color.Yellow, new Vector2(10, 2)));
 				m_triggerButtons.Last().m_clickEvent += new Button.clickDelegate(selectEffectTrigger);
-				if (t_trigger is PlayerIsWithinRectangle) {
+				if (t_trigger is PlayerIsWithinRectangle)
+				{
 					m_recLines = ((PlayerIsWithinRectangle)t_trigger).getRectangle();
 				}
 			}
 
 			foreach (EventEffect t_effect in m_events[a_button].getEffects())
 			{
-				m_effectButtons.AddLast(new Button("btn_asset_list", new Vector2(m_btnAddEffect.getBox().X, 40 + (m_effectButtons.Count * 25)), 
+				m_effectButtons.AddLast(new Button("btn_asset_list", new Vector2(m_btnAddTrigger.getBox().X + m_btnAddEffect.getBox().Width + 40, 40 + (m_effectButtons.Count * 25)), 
 					t_effect.ToString(), "VerdanaBold", Color.Yellow, new Vector2(10, 2)));
 				m_effectButtons.Last().m_clickEvent += new Button.clickDelegate(selectEffectTrigger);
 			}
 
-			if (m_triggerButtons.Count() > 0) {
+			if (m_triggerButtons.Count() > 0)
+			{
 				m_btnAddTrigger.setPosition(new Vector2(m_triggerButtons.Last().getBox().X, m_triggerButtons.Last().getBox().Y + 25));
-			} else {
+			}
+			else
+			{
 				m_btnAddTrigger.setPosition(new Vector2(0, 40));
 			}
-			if (m_effectButtons.Count() > 0) {
+
+			if (m_effectButtons.Count() > 0)
+			{
 				m_btnAddEffect.setPosition(new Vector2(m_effectButtons.Last().getBox().X, m_effectButtons.Last().getBox().Y + 25));	
-			} else {
+			}
+			else
+			{
 				m_btnAddEffect.setPosition(new Vector2(m_btnAddTrigger.getBox().Width + 25, 40));
 			}
 		}
 
 		private void selectEffectTrigger(Button a_button)
 		{
-			if (m_selectedTriggerEffect != null) {
+			if (m_selectedTriggerEffect != null)
+			{
 				m_selectedTriggerEffect.setState(0);
 			}
 			m_selectedTriggerEffect = a_button;
@@ -320,7 +321,6 @@ namespace GrandLarceny
 		private void deleteEvent(Button a_button)
 		{
 			m_events.Remove(m_selectedEvent);
-			m_eventButtons.Remove(m_selectedEvent);
 			deselectEvent();
 		}
 
@@ -364,6 +364,7 @@ namespace GrandLarceny
 		public override void update(GameTime a_gameTime)
 		{
 			updateMouse();
+			updateKeyboard();
 			updateGUI(a_gameTime);
 			m_backState.updateCamera();
 		}
@@ -371,11 +372,8 @@ namespace GrandLarceny
 		private void updateMouse()
 		{
 			Vector2 t_mouse = MouseHandler.worldMouse();
-			/*
-			-----------------------------------
-			Middle-mouse drag
-			-----------------------------------
-			*/
+			//-----------------------------------
+			#region Middle-mouse drag
 			if (MouseHandler.mmbPressed())
 			{
 				Vector2 t_difference = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
@@ -383,12 +381,11 @@ namespace GrandLarceny
 				t_difference.Y = (Mouse.GetState().Y - Game.getInstance().getResolution().Y / 2) / 20 / Game.getInstance().m_camera.getZoom();
 				Game.getInstance().m_camera.getPosition().plusWith(t_difference);
 			}
-
-			/*
-			-----------------------------------
-			Left Mouse Button Click Down
-			-----------------------------------
-			*/
+			#endregion
+			//-----------------------------------
+			
+			//-----------------------------------
+			#region Left Mouse Button Click Down
 			if (MouseHandler.lmbDown())
 			{
 				if (m_state == State.firRectanglePoint)
@@ -419,12 +416,11 @@ namespace GrandLarceny
 					}
 				}
 			}
-
-			/*
-			-----------------------------------
-			Left Mouse Button Drag
-			-----------------------------------
-			*/
+			#endregion
+			//-----------------------------------
+			
+			//-----------------------------------
+			#region Left Mouse Button Drag
 			if (MouseHandler.lmbPressed())
 			{
 				if (m_state == State.drawingRectangle)
@@ -437,12 +433,11 @@ namespace GrandLarceny
 					m_recLines[3].setStartPoint(new Vector2(m_recPoint.X, t_mouse.Y));
 				}
 			}
-
-			/*
-			-----------------------------------
-			Left Mouse Button Release
-			-----------------------------------
-			*/
+			#endregion
+			//-----------------------------------
+			
+			//-----------------------------------
+			#region Left Mouse Button Release
 			if (MouseHandler.lmbUp())
 			{
 				if (m_state == State.drawingRectangle)
@@ -454,12 +449,18 @@ namespace GrandLarceny
 					selectEvent(m_selectedEvent);
 				}
 			}
+			#endregion
+			//-----------------------------------
+			
 
 			if (MouseHandler.rmbDown())
 			{
 				deselectEvent();
 			}
+		}
 
+		private void updateKeyboard()
+		{
 			if (KeyboardHandler.keyClicked(Keys.Enter))
 			{
 				if (m_textField != null && m_textField.isWriting())
@@ -470,9 +471,12 @@ namespace GrandLarceny
 							m_events[m_selectedEvent].add(new EquipEffect(m_textField.getText(), true));					
 							break;
 						case State.newCutscene:
-							if (File.Exists(Game.CUTSCENE_FOLDER + m_textField.getText() + ".csn")) {
+							if (File.Exists(Game.CUTSCENE_FOLDER + m_textField.getText() + ".csn"))
+							{
 								m_events[m_selectedEvent].add(new CutsceneEffect(m_textField.getText() + ".csn"));
-							} else {
+							}
+							else
+							{
 								m_textFieldInfo.setText("File doesn't exist!");
 								m_textFieldInfo.setColor(Color.Red);
 								return;
@@ -509,7 +513,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				foreach (Button t_button in m_eventButtons)
+				foreach (Button t_button in m_events.Keys)
 				{
 					t_button.update();
 				}
@@ -568,7 +572,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				foreach (Button t_button in m_eventButtons)
+				foreach (Button t_button in m_events.Keys)
 				{
 					t_button.draw(a_gameTime, a_spriteBatch);
 				}

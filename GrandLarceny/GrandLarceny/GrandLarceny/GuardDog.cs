@@ -57,7 +57,7 @@ namespace GrandLarceny
 					Game.getInstance().Content.Load<Texture2D>("Images//Sprite//GuardDog//" + t_extless[0]);
 				}
 			}
-			(m_dogBark = new Sound("//SoundEffects//Game//dog_bark")).loadContent();
+			m_dogBark = new Sound("Game//dog_bark");
 		}
 
 		internal bool canSensePlayer()
