@@ -29,7 +29,7 @@ namespace GrandLarceny
 		{
 			m_backState = a_backState;
 			m_comDone = 0;
-			m_filePath = a_sceneToLoad;
+			m_filePath = Game.CUTSCENE_FOLDER + a_sceneToLoad;
 			m_waiting = false;
 			m_guis = new Dictionary<int, GuiObject>();
 			m_objects = new LinkedList<GameObject>();
