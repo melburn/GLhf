@@ -96,6 +96,17 @@ namespace GrandLarceny
 
 		private Rope m_rope = null;
 
+		[NonSerialized]
+		private Sound m_hitSound1;
+		[NonSerialized]
+		private Sound m_hitSound2;
+		[NonSerialized]
+		private Sound m_hitSound3;
+		[NonSerialized]
+		private Sound m_jumpSound;
+		[NonSerialized]
+		private Sound m_landSound;
+
 		public enum Direction
 		{
 			None, Left, Right,
@@ -162,6 +173,12 @@ namespace GrandLarceny
 			m_currentSwingingImage = "hero_swing_still";
 			m_position.plusYWith(-1);
 			m_facingRight = true;
+
+			m_hitSound1 = new Sound("Game//FirstHit");
+			m_hitSound2 = new Sound("Game//SecHit");
+			m_hitSound3 = new Sound("Game//LethalHit");
+			m_jumpSound = new Sound("Game//hopp");
+			m_landSound = new Sound("Game//landa2");
 		}
 		#endregion
 
@@ -456,6 +473,7 @@ namespace GrandLarceny
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
+				m_jumpSound.play();
 			}
 
 			m_cameraPoint.X = Math.Max(Math.Min(m_cameraPoint.X + (m_speed.X * 1.5f * a_deltaTime), CAMERAMAXDISTANCE), -CAMERAMAXDISTANCE);
@@ -1452,8 +1470,27 @@ namespace GrandLarceny
 			if (m_invulnerableTimer == 0)
 			{
 				setSprite("hero_damage");
-				//deals 1 damage
 				m_currentState = State.Jumping;
+
+				switch (m_health)
+					{
+						case 3:
+							{
+								m_hitSound1.play();
+								break;
+							}
+						case 2:
+							{
+								m_hitSound2.play();
+								break;
+							}
+						case 1:
+							{
+								m_hitSound3.play();
+								break;
+							}
+					}
+
 				m_health = Math.Max(m_health - 1, 0);
 				updateHealthGUI();
 				m_stunned = true;

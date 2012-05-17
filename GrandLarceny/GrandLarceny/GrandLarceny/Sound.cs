@@ -20,7 +20,7 @@ namespace GrandLarceny
 
 		public void loadContent()
 		{
-			m_sound = Game.getInstance().Content.Load<SoundEffect>("Sounds//" + m_filepath);
+			m_sound = Game.getInstance().Content.Load<SoundEffect>("Sounds//SoundEffects//" + m_filepath);
 		}
 
 		public void play()
