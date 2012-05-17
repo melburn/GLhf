@@ -1548,7 +1548,10 @@ namespace GrandLarceny
 
 				m_img.setAnimationSpeed(10);
 
-				deactivateChaseMode();
+				if (m_chase)
+				{
+					deactivateChaseMode();
+				}
 			}
 		}
 
@@ -1670,6 +1673,7 @@ namespace GrandLarceny
 			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
 			Game.getInstance().setState(t_cutScene);
 			m_chase = true;
+			Music.play("ChaseSong");
 			m_runMode = false;
 			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 			setIsInLight(true);
@@ -1678,6 +1682,7 @@ namespace GrandLarceny
 		public void deactivateChaseMode()
 		{
 			m_deactivateChase = true;
+			Music.play("StageSong");
 		}
 
 		private void activateNormalMode()

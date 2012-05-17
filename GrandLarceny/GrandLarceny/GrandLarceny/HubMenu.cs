@@ -20,7 +20,7 @@ namespace GrandLarceny
 		private Button m_btnTFAccept;
 		private TimeSpan m_textTimeOut;
 
-		private Music m_menuSong;
+		private string m_menuSong;
 
 		private ParseState m_currentParse;
 		private enum ParseState
@@ -31,9 +31,9 @@ namespace GrandLarceny
 
 		#region Constructor & Load
 
-		public HubMenu(Music a_menuSong)
+		public HubMenu()
 		{
-			m_menuSong = a_menuSong;
+			
 		}
 
 		public override void load()
@@ -76,7 +76,7 @@ namespace GrandLarceny
 
 			if (m_menuSong != null && !Music.musicIsPlaying())
 			{
-				m_menuSong.play();
+				Music.play(m_menuSong);
 			}
 		}
 		#endregion
@@ -111,21 +111,18 @@ namespace GrandLarceny
 		public void playClick(Button a_b)
 		{
 			Music.stop();
-			m_menuSong.dispose();
 			Game.getInstance().setState(new GameState("Level3.txt"));
 		}
 
 		public void exitClick(Button a_b)
 		{
 			Music.stop();
-			m_menuSong.dispose();
 			Game.getInstance().Exit();
 		}
 
 		public void startLevelClick(Button a_b)
 		{
 			Music.stop();
-			m_menuSong.dispose();
 			Game.getInstance().setState(new GameState(a_b.getText() + ".lvl"));
 		}
 
@@ -149,7 +146,7 @@ namespace GrandLarceny
 
 		public void saveProgressClick(Button a_b)
 		{
-			Game.getInstance().setState(new LoadAndSaveMenu(true, this, m_menuSong));
+			Game.getInstance().setState(new LoadAndSaveMenu(true, this));
 
 		}
 
