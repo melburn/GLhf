@@ -117,6 +117,7 @@ namespace GrandLarceny
 			{
 				m_aiState = AIStatepatroling.getInstance();
 			}
+			m_img.setAnimationSpeed(0);
 		}
 		public override void update(GameTime a_gameTime)
 		{
@@ -126,7 +127,7 @@ namespace GrandLarceny
 				m_barkTimer -= a_gameTime.ElapsedGameTime.Milliseconds / 1000f;
 				if (m_barkTimer <= 0)
 				{
-					//play sound
+					m_dogBark.play();
 					Player t_player = Game.getInstance().getState().getPlayer();
 					foreach (GameObject go in Game.getInstance().getState().getCurrentList())
 					{
@@ -169,7 +170,7 @@ namespace GrandLarceny
 					{
 						m_speed.X = MOVEMENTSPEED;
 					}
-					else if (m_speed.X< 0)
+					else if (m_speed.X < 0)
 					{
 						m_speed.X = -MOVEMENTSPEED;
 					}
@@ -230,33 +231,37 @@ namespace GrandLarceny
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
 			Platform t_supportingPlatform = null;
+			Rectangle t_outBox = getHitBox().getOutBox();
 			foreach (Entity t_collision in a_collisionList)
 			{
+				Rectangle t_collisionRectangle = t_collision.getHitBox().getOutBox();
 				if (t_collision is Wall || t_collision is Window)
 				{
-					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
+					if (m_speed.X < 0 && getCenterPoint().X > t_collision.getCenterPoint().X)
 					{
-						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+						m_nextPosition.X = (t_collisionRectangle.X + t_collisionRectangle.Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+						stop();
 					}
-					else if (m_speed.X > 0 && m_position.getGlobalX() < t_collision.getPosition().getGlobalX())
+					else if (m_speed.X > 0 && getCenterPoint().X < t_collision.getCenterPoint().X)
 					{
-						m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+						m_nextPosition.X = (t_collisionRectangle.X - ((CollisionRectangle)m_collisionShape).getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+						stop();
 					}
-					stop();
 				}
 				else if (t_collision is Platform)
 				{
 					if (t_collision.getPosition().getGlobalY() < m_position.getGlobalY() + m_img.getSize().Y - 50)
 					{
-						if (m_speed.X < 0)
+						if (m_speed.X < 0 && t_outBox.X < t_collisionRectangle.X + t_collisionRectangle.Width)
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X + t_collision.getHitBox().getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+							m_nextPosition.X = (t_collisionRectangle.X + t_collisionRectangle.Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+							stop();
 						}
-						else if (m_speed.X > 0)
+						else if (m_speed.X > 0 && t_outBox.X + t_outBox.Width > t_collision.getPosition().getGlobalX())
 						{
-							m_nextPosition.X = (t_collision.getHitBox().getOutBox().X - ((CollisionRectangle)m_collisionShape).getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+							m_nextPosition.X = (t_collisionRectangle.X - ((CollisionRectangle)m_collisionShape).getOutBox().Width - ((CollisionRectangle)m_collisionShape).m_xOffset);
+							stop();
 						}
-						stop();
 					}
 					else
 					{

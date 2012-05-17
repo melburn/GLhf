@@ -46,7 +46,7 @@ namespace GrandLarceny.AI
 							20f,
 							t_guard.getLayer()));
 					}
-					return new AIStateObserving(((float)a_gameTime.TotalGameTime.TotalMilliseconds) + 2000f);
+					return new AIStateObserving(((float)a_gameTime.TotalGameTime.TotalMilliseconds) + 2000f, t_guard.isFacingRight());
 				}
 				else if (!t_guard.hasNoLampSwitchTargets())
 				{

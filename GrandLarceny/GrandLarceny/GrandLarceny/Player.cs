@@ -766,11 +766,21 @@ namespace GrandLarceny
 
 		private List<Direction> moveDirectionInVentilation(Direction a_direction)
 		{
+			bool t_idle = true;
 			List<Direction> t_list = null;
 			switch (a_direction)
 			{
 				case Direction.Up:
 				{
+					t_idle = false;
+					m_currentVentilationImage = "hero_ventilation_vertical";
+					if (((CollisionRectangle)m_collisionShape).m_xOffset != 0)
+					{
+						setSprite(m_currentVentilationImage);
+						m_position.plusXWith(((CollisionRectangle)m_collisionShape).m_xOffset);
+						Game.getInstance().m_camera.getPosition().plusXWith(-((CollisionRectangle)m_collisionShape).m_xOffset);
+						((CollisionRectangle)m_collisionShape).setOffsetX(0);
+					}
 					if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 					{
 						((CollisionRectangle)m_collisionShape).setOffsetY(0);
@@ -795,7 +805,15 @@ namespace GrandLarceny
 								m_currentVentilation = null;
 							}
 						}
-						m_currentVentilationImage = "hero_ventilation_vertical";
+						foreach (Direction t_d in m_ventilationDirection)
+						{
+							if (t_d == Direction.Left || t_d == Direction.Right)
+							{
+								m_position.plusYWith(-36);
+								Game.getInstance().m_camera.getPosition().plusYWith(36);
+								break;
+							}
+						}
 					}
 					else if (!KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 						m_img.setAnimationSpeed(0);
@@ -803,7 +821,7 @@ namespace GrandLarceny
 				}
 				case Direction.Left:
 				{
-					m_currentVentilationImage = "hero_ventilation_idle";
+					t_idle = true;
 					if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 					{
 						((CollisionRectangle)m_collisionShape).setOffsetX(0);
@@ -828,13 +846,22 @@ namespace GrandLarceny
 							}
 						}
 						m_currentVentilationImage = "hero_ventilation_horizontal";
+						t_idle = false;
 						m_facingRight = false;
+						foreach (Direction t_d in m_ventilationDirection)
+						{
+							if (t_d == Direction.Down || t_d == Direction.Up)
+							{
+								m_position.plusXWith(-36);
+								Game.getInstance().m_camera.getPosition().plusXWith(36);
+								break;
+							}
+						}
 					}
 					break;
 				}
 				case Direction.Right:
 				{
-					m_currentVentilationImage = "hero_ventilation_idle";
 					if (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 					{
 						((CollisionRectangle)m_collisionShape).setOffsetX(36);
@@ -859,12 +886,22 @@ namespace GrandLarceny
 							}
 						}
 						m_currentVentilationImage = "hero_ventilation_horizontal";
+						t_idle = false;
 						m_facingRight = true;
 					}
 					break;
 				}
 				case Direction.Down:
 				{
+					t_idle = false;
+					m_currentVentilationImage = "hero_ventilation_vertical";
+					if (((CollisionRectangle)m_collisionShape).m_xOffset != 0)
+					{
+						setSprite(m_currentVentilationImage);
+						m_position.plusXWith(((CollisionRectangle)m_collisionShape).m_xOffset);
+						Game.getInstance().m_camera.getPosition().plusXWith(-((CollisionRectangle)m_collisionShape).m_xOffset);
+						((CollisionRectangle)m_collisionShape).setOffsetX(0);
+					}
 					if (KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 					{
 						((CollisionRectangle)m_collisionShape).setOffsetY(36);
@@ -889,11 +926,21 @@ namespace GrandLarceny
 								m_currentVentilation = null;
 							}
 						}
-						m_currentVentilationImage = "hero_ventilation_vertical";
 					}
 					else if (!KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 						m_img.setAnimationSpeed(0);
 					break;
+				}
+			}
+			if (t_idle)
+			{
+				m_currentVentilationImage = "hero_ventilation_idle";
+				if (((CollisionRectangle)m_collisionShape).m_yOffset != 0)
+				{
+					setSprite(m_currentVentilationImage);
+					m_position.plusYWith(((CollisionRectangle)m_collisionShape).m_yOffset);
+					Game.getInstance().m_camera.getPosition().plusYWith(-((CollisionRectangle)m_collisionShape).m_yOffset);
+					((CollisionRectangle)m_collisionShape).setOffsetY(0);
 				}
 			}
 			return t_list;
@@ -1226,8 +1273,16 @@ namespace GrandLarceny
 				{
 					m_img.setAnimationSpeed(15);
 					m_layer = 0.6995f;
-					m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
-					m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
+					if (m_currentVentilation != null)
+					{
+						m_imgOffsetX = -((m_img.getSize().X / 2) - (m_currentVentilation.getImg().getSize().X / 2));
+						m_imgOffsetY = -((m_img.getSize().Y / 2) - (m_currentVentilation.getImg().getSize().Y / 2));
+					}
+					else
+					{
+						m_imgOffsetX = -((m_img.getSize().X / 2) - 36);
+						m_imgOffsetY = -((m_img.getSize().Y / 2) - 36);
+					}
 				}
 			}
 		}

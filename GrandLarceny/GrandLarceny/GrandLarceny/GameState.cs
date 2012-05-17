@@ -566,5 +566,10 @@ namespace GrandLarceny
 		{
 			return m_background;
 		}
+
+		public int numberOfGoals()
+		{
+			return m_finishCond.Count;
+		}
 	}
 }

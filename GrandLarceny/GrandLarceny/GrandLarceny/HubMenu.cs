@@ -118,7 +118,7 @@ namespace GrandLarceny
 			{
 				m_levelText.setText("Level already exists!");
 				m_levelText.setColor(Color.Red);
-				m_textTimeOut = Game.getInstance().getGameTime() + new TimeSpan(0, 0, 3);
+				m_textTimeOut = Game.getInstance().getTotalGameTime() + new TimeSpan(0, 0, 3);
 			}
 			else
 			{

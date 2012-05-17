@@ -216,9 +216,14 @@ namespace GrandLarceny
 		}
 
 		
-		public TimeSpan getGameTime() 
+		public TimeSpan getTotalGameTime() 
 		{
 			return m_currentGameTime.TotalGameTime;
+		}
+
+		public GameTime getGameTime()
+		{
+			return m_currentGameTime;
 		}
 
 		public bool hasCheckPoint()
