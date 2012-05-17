@@ -250,6 +250,21 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Tile\Floor\hair_saloon_animation.png">
+      <Name>hair_saloon_animation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Tile\Floor\open_bar_sign_animation.png">
+      <Name>open_bar_sign_animation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\byst.png">
+      <Name>byst</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Levels\hejlol.lvl">
       <Name>hejlol</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
