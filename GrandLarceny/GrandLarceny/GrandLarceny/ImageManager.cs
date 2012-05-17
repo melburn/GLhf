@@ -198,7 +198,7 @@ namespace GrandLarceny
 				}
 				catch (ContentLoadException)
 				{
-					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
+					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");					
 				}
 				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
 				m_animationWidth = m_image.Width / m_animationFrames;
@@ -208,10 +208,6 @@ namespace GrandLarceny
 				try
 				{
 					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
-					m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
-					m_animationWidth = m_image.Width / m_animationFrames;
-					m_subImageNumber = 0;
-					m_imagePath = a_sprite;
 				}
 				catch (ContentLoadException)
 				{
@@ -219,6 +215,10 @@ namespace GrandLarceny
 					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
 					return false;
 				}
+				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
+				m_animationWidth = m_image.Width / m_animationFrames;
+				m_subImageNumber = 0;
+				m_imagePath = a_sprite;
 				#endif
 				return true;
 			}
