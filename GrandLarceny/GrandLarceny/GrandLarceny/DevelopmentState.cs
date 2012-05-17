@@ -186,7 +186,7 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.C }, guiButtonClick);
 			m_buttonDict.Add(m_btnConsKey = new Button("DevelopmentHotkeys//btn_key_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
 			m_btnConsKey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
-			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.LockedDoor);
+			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+D", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.LockedDoor);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.D }, guiButtonClick);
 			
 			#endregion
@@ -259,7 +259,7 @@ namespace GrandLarceny
 			//-----------------------------------
 			#region Layer buttons
 			m_buttonList.AddLast(m_layerButtonList = GuiListFactory.createNumeratedList(5, "DevelopmentHotkeys//btn_layer_chooser"));
-			GuiListFactory.setListPosition(m_layerButtonList, new Vector2(0, Game.getInstance().getResolution().Y - (m_layerButtonList.First().getBox().Height)));
+			GuiListFactory.setListPosition(m_layerButtonList, new Vector2(40, Game.getInstance().getResolution().Y - (m_layerButtonList.First().getBox().Height)));
 			GuiListFactory.setButtonDistance(m_layerButtonList, new Vector2(73, 0));
 			GuiListFactory.setTextOffset(m_layerButtonList, new Vector2(34, 8));
 
