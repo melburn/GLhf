@@ -38,6 +38,9 @@ namespace GrandLarceny
 		private ParseState m_currentParse;
 
 
+		private Music m_levelSong;
+		private Music m_chaseSong;
+
 		//När denna gameobject inte är null samt är död så är leveln över. Den ska peka på objektet som säger "item stolen 3/3"
 		private GameObject m_finishFeedback;
 
