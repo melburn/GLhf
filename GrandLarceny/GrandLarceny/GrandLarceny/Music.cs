@@ -13,17 +13,9 @@ namespace GrandLarceny
 
 		public static void loadSong(string a_path)
 		{
-			try
+			if (!m_loadedMusic.ContainsKey(a_path))
 			{
 				m_loadedMusic.Add(a_path, Game.getInstance().Content.Load<Song>("Sounds//Music//" + a_path));
-			}
-			catch (KeyNotFoundException)
-			{
-				
-			}
-			catch (SystemException)
-			{
-
 			}
 		}
 

@@ -24,7 +24,7 @@ namespace GrandLarceny
 		private States m_currentState;
 		public const int TILE_WIDTH = 72;
 		public const int TILE_HEIGHT = 72;
-
+		
 		internal Camera m_camera;
 
 		public Progress m_progress;
