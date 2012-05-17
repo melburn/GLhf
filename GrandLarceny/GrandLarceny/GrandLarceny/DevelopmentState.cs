@@ -988,11 +988,12 @@ namespace GrandLarceny
 
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
+				/*
 				if (t_gameObject is LightCone || t_gameObject is FlashCone)
 				{
 					continue;
 				}
-				else if (t_gameObject is Environment)
+				else */if (t_gameObject is Environment)
 				{
 					if (((Environment)t_gameObject).getImageBox().contains(a_point))
 					{
@@ -1010,7 +1011,6 @@ namespace GrandLarceny
 					}
 				}
 			}
-
 			return t_return;
 		}
 
@@ -1311,9 +1311,19 @@ namespace GrandLarceny
 		#region Draw
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
+			GameObject t_bugg = null;
 			foreach (GameObject t_gameObject in m_gameObjectList[m_currentLayer])
 			{
+				if (t_gameObject is LightCone || t_gameObject is LampSwitch)
+				{
+					t_bugg = t_gameObject;
+					continue;
+				}
 				t_gameObject.draw(a_gameTime);
+			}
+			if (t_bugg != null)
+			{
+				removeObject(t_bugg);
 			}
 
 			if (Game.getInstance().getState() == this)
