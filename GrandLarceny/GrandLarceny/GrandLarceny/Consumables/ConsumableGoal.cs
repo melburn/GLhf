@@ -10,6 +10,7 @@ namespace GrandLarceny
 	[Serializable()]
 	public class ConsumableGoal : Consumable
 	{
+		[NonSerialized]
 		private Particle m_feedback;
 
 		public ConsumableGoal(Vector2 a_position, String a_sprite, float a_layer)
