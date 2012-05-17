@@ -60,8 +60,12 @@ namespace GrandLarceny
 
 			m_buttons.ElementAt(0).setState(Button.State.Hover);
 
-			m_menuSong = new Music("MenuSong");
-			m_menuSong.play();
+			if (Music.musicIsPlaying())
+			{
+				Music.stop();
+			}
+			Music.loadSong("MenuSong");
+			Music.play("MenuSong");
 		}
 		#endregion
 
@@ -112,25 +116,23 @@ namespace GrandLarceny
 		public void exitClick(Button a_b)
 		{
 			Music.stop();
-			m_menuSong.dispose();
 			Game.getInstance().Exit();
 		}
 
 		public void newGameClick(Button a_b)
 		{
-			Game.getInstance().setState(new HubMenu(m_menuSong));
+			Game.getInstance().setState(new HubMenu());
 			Game.getInstance().setProgress("temp.prog", false);
 		}
 
 		public void loadGameClick(Button a_b)
 		{
-			Game.getInstance().setState(new LoadAndSaveMenu(false, this, m_menuSong));
+			Game.getInstance().setState(new LoadAndSaveMenu(false, this));
 		}
 
 		public void settingsClick(Button a_button)
 		{
 			Music.stop();
-			m_menuSong.dispose();
 			Game.getInstance().setState(new SettingsMenu());
 		}
 		#endregion
