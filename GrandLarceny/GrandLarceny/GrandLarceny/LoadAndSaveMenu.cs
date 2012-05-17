@@ -117,12 +117,24 @@ namespace GrandLarceny
 
 		public void loadProgressClick(Button a_b)
 		{
-			Game.getInstance().setState(new HubMenu());
 			for (int i = 0; i < 3; ++i)
 			{
 				if (m_buttons.ElementAt(i) == a_b)
 				{
-					Game.getInstance().setProgress("Slot "+(i+1)+".prog", false);
+					if (!File.Exists("Content//levels//Slot " + (i+1) + ".prog"))
+					{
+						m_newSaveName.getPosition().setGlobalX(a_b.getPosition().getGlobalX());
+						m_newSaveName.getPosition().setGlobalY(a_b.getPosition().getGlobalY());
+						m_newSaveName.setVisible(true);
+						m_newSaveName.setText("Enter the name");
+						m_newSaveName.setWrite(true);
+						m_saveTo = "Slot " + (i + 1) + ".prog";
+					}
+					else
+					{
+						Game.getInstance().setProgress("Slot "+(i+1)+".prog", false);
+						Game.getInstance().setState(new HubMenu());
+					}
 				}
 			}
 		}

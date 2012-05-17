@@ -395,6 +395,12 @@ namespace GrandLarceny
 			m_clickEvent(this);
 		}
 
+
+		public bool hasEvent()
+		{
+			return m_clickEvent != null;
+		}
+
 		public void setColor(Color a_color)
 		{
 			if (m_text != null)
