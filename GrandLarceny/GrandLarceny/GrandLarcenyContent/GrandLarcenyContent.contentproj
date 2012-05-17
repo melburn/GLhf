@@ -279,14 +279,14 @@
       <Processor>SongProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Sounds\Music\Grand LarcenyVinjett2.mp3">
-      <Name>Grand LarcenyVinjett2</Name>
+    <Compile Include="Sounds\Music\StageSong.mp3">
+      <Name>StageSong</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Sounds\Music\Grand LarcenyVinjett3.mp3">
-      <Name>Grand LarcenyVinjett3</Name>
+    <Compile Include="Sounds\Music\ChaseSong.mp3">
+      <Name>ChaseSong</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
