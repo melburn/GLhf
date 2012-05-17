@@ -313,12 +313,12 @@ namespace GrandLarceny
 
 		public void setUpSound(string a_path)
 		{
-			m_upSound = new Sound("SoundEffects//GUI//" + a_path);
+			m_upSound = new Sound("GUI//" + a_path);
 		}
 
 		public void setDownSound(string a_path)
 		{
-			m_downSound = new Sound("SoundEffects//GUI//" + a_path);
+			m_downSound = new Sound("GUI//" + a_path);
 		}
 
 		public bool isVisible()
