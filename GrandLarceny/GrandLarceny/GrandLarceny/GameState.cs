@@ -193,6 +193,8 @@ namespace GrandLarceny
 
 			m_background = Game.getInstance().Content.Load<Texture2D>("Images//Background//starry_sky_01");
 
+			
+
 			base.load();
 			addObject(new Darkness(Vector2.Zero, "Images//LightCone//ventilljus", 0.003f), 1);
 		}
