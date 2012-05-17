@@ -1,37 +1,26 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.IO;
-using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework.Input;
-using System.Threading;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GrandLarceny
 {
-	public class HubMenu : MenuState
+	public class LevelMenu : MenuState
 	{
 		#region Members
-		private string[] m_levelList;
 		private TextField m_newLevelName;
 		private Text m_levelText;
 		private Button m_btnTFAccept;
 		private TimeSpan m_textTimeOut;
-
-		private string m_menuSong;
-
-		private ParseState m_currentParse;
-		private enum ParseState
-		{
-			Settings
-		}
 		#endregion
 
 		#region Constructor & Load
 
-		public HubMenu()
+		public LevelMenu() : base()
 		{
 			
 		}
@@ -70,14 +59,9 @@ namespace GrandLarceny
 
 			m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
 			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
-			Button t_saveProgressButton = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 400), "Save Game", "VerdanaBold", Color.White, new Vector2(10, 0));
+			Button t_saveProgressButton = new Button("btn_asset_list", new Vector2(500, 400), "Save Game", "VerdanaBold", Color.White, new Vector2(10, 0));
 			t_saveProgressButton.m_clickEvent += new Button.clickDelegate(saveProgressClick);
 			m_buttons.AddLast(t_saveProgressButton);
-
-			if (m_menuSong != null && !Music.musicIsPlaying())
-			{
-				Music.play(m_menuSong);
-			}
 		}
 		#endregion
 
@@ -174,6 +158,5 @@ namespace GrandLarceny
 			return t_LockedLevel;
 		}
 		#endregion
-
 	}
 }

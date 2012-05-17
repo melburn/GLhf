@@ -148,7 +148,7 @@ namespace GrandLarceny
 
 		public override Rectangle getBox()
 		{
-			return new Rectangle(0, 0, 0, 0);
+			return new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), (int)measureString().X, (int)measureString().Y);
 		}
 		#endregion
 

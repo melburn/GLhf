@@ -11,11 +11,10 @@ using System.Threading;
 
 namespace GrandLarceny
 {
-	class MainMenu : MenuState
+	public class MainMenu : MenuState
 	{
 		private Button m_btnSettings;
 		private int m_currentButton = 0;
-		private Music m_menuSong;
 
 		#region Constructor & Load
 		public override void load()
@@ -33,26 +32,30 @@ namespace GrandLarceny
 			if (t_saveFiles.Length > 0)
 			{
 				//load game
-				Button t_loadGame = new Button("continue", "continue_selected", "continue_selected", "continue_selected", Vector2.Zero, "", "VerdanaBold", Color.White, Vector2.Zero);
+				Button t_loadGame = new Button(Vector2.Zero, "continue", "continue_selected", "continue_selected", "continue_selected");
 				t_loadGame.m_clickEvent += new Button.clickDelegate(loadGameClick);
 				m_buttons.AddLast(t_loadGame);
 			}
 			//new Game
-			Button t_newGame = new Button("newgame", "newgame_selected", "newgame_selected", "newgame_selected", Vector2.Zero, "", "VerdanaBold", Color.White, Vector2.Zero);
+			Button t_newGame = new Button(Vector2.Zero, "newgame", "newgame_selected", "newgame_selected", "newgame_selected");
 			t_newGame.m_clickEvent += new Button.clickDelegate(newGameClick);
 			m_buttons.AddLast(t_newGame);
 
+			TextButton t_levelSelect = new TextButton(Vector2.Zero, "Level Select", "Motorwerk", Color.White, Color.Yellow, Color.Blue, Color.Red);
+			//Button t_levelSelect = new Button(Vector2.Zero, "newgame", "newgame_selected", "newgame_selected", "newgame_selected");
+			t_levelSelect.m_clickEvent += new TextButton.clickDelegate(levelSelectClick);
+			m_buttons.AddLast(t_levelSelect);
+
 			//new Game
-			Button t_Credit = new Button("credits", "credits_selected", "credits_selected", "credits_selected", Vector2.Zero, "", "VerdanaBold", Color.White, Vector2.Zero);
+			Button t_credit = new Button(Vector2.Zero, "credits", "credits_selected", "credits_selected", "credits_selected");
 			//t_newGame.m_clickEvent += new Button.clickDelegate(newGameClick);
-			m_buttons.AddLast(t_Credit);
+			m_buttons.AddLast(t_credit);
 			
 			//exit game
-			Button t_exitButton = new Button("exit", "exit_selected", "exit_selected", "exit_selected", Vector2.Zero, "", "VerdanaBold", Color.White, Vector2.Zero);
+			Button t_exitButton = new Button(Vector2.Zero, "exit", "exit_selected", "exit_selected", "exit_selected");
 			t_exitButton.m_clickEvent += new Button.clickDelegate(exitClick);
 			m_buttons.AddLast(t_exitButton);
 			GuiListFactory.setListPosition(m_buttons, new Vector2(Game.getInstance().getResolution().X / 2 - (t_newGame.getSize().X/2), Game.getInstance().getResolution().Y / 2));
-			GuiListFactory.setTextOffset(m_buttons, new Vector2(20, 0));
 			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, 60));
 			//setting button
 			m_buttons.AddLast(m_btnSettings = new Button("btn_settings", new Vector2(100, 100)));
@@ -74,11 +77,11 @@ namespace GrandLarceny
 		{
 			if (KeyboardHandler.keyClicked(Keys.Up))
 			{
-				moveCurrentHower(-1);
+				moveCurrentHover(-1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Down))
 			{
-				moveCurrentHower(+1);
+				moveCurrentHover(+1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Enter))
 			{
@@ -98,7 +101,7 @@ namespace GrandLarceny
 
 		#region Main Menu Methods (MMM...Bio)
 
-		public void moveCurrentHower(int a_move)
+		public void moveCurrentHover(int a_move)
 		{
 			m_buttons.ElementAt(m_currentButton).setState(Button.State.Normal);
 			m_currentButton += a_move;
@@ -134,6 +137,12 @@ namespace GrandLarceny
 		{
 			Music.stop();
 			Game.getInstance().setState(new SettingsMenu());
+		}
+		
+		public void levelSelectClick(Button a_button)
+		{
+			Music.stop();
+			Game.getInstance().setState(new LevelMenu());
 		}
 		#endregion
 	}
