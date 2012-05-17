@@ -65,6 +65,12 @@ namespace GrandLarceny
 		{
 			ErrorLogger.getInstance().clearFile();
 			ErrorLogger.getInstance().writeString("GrandLarceny initiated at "+System.DateTime.Now);
+			#if DEBUG
+			m_camera = new Camera();
+			m_currentState = new MainMenu();
+			m_currentState.load();
+			base.Initialize();
+			#elif RELEASE
 			try
 			{
 				m_camera = new Camera();
@@ -78,6 +84,7 @@ namespace GrandLarceny
 				ErrorLogger.getInstance().writeString("Terminating");
 				Exit();
 			}
+			#endif
 		}
 
 		protected override void LoadContent()
@@ -105,6 +112,9 @@ namespace GrandLarceny
 				AssetFactory.updateState(m_currentState);
 				if (!m_currentState.isLoaded())
 				{
+					#if DEBUG
+					m_currentState.load();
+					#elif RELEASE
 					try
 					{
 						m_currentState.load();
@@ -113,6 +123,7 @@ namespace GrandLarceny
 					{
 						ErrorLogger.getInstance().writeString("While loading " + m_currentState + " got exception: " + e);
 					}
+					#endif
 				}
 				m_nextState = null;
 			}

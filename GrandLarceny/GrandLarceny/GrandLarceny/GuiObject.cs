@@ -35,7 +35,7 @@ namespace GrandLarceny
 		{
 			if (m_guiSprite != null)
 			{
-				setSprite("Images//GUI//" + m_guiSprite);			
+				setSprite(m_guiSprite);			
 			}
 			base.loadContent();
 		}
@@ -48,7 +48,8 @@ namespace GrandLarceny
 			m_img.draw(t_cartCoord, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, 1.0f / t_zoom, 1.0f / t_zoom);
 		}
 
-		public override Rectangle getBox() {
+		public override Rectangle getBox()
+		{
 			if (m_bounds.Width == 0 || m_bounds.Height == 0)
 			{
 				m_bounds.Width = (int)m_img.getSize().X;

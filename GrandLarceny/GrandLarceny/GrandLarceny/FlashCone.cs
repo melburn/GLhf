@@ -19,6 +19,7 @@ namespace GrandLarceny
 			base(new CartesianCoordinate(a_offset, a_parent.getPosition()), a_sprite, a_layer)
 		{
 			setFacingRight(a_facingRight);
+			loadContent();
 		}
 
 		public override void update(GameTime a_gameTime)

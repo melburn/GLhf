@@ -137,6 +137,8 @@ namespace GrandLarceny
 				}
 			}
 
+			m_img = new ImageManager("Images//Sprite//Hero//hero_stand");
+
 			m_interactionArrow = new GameObject(new CartesianCoordinate(new Vector2(15, -70), m_position), "Images//GUI//GameGUI//interaction", m_layer - 0.1f, m_listLayer);
 			setInteractionVisibility(false);
 			m_interactionArrow.getImg().setAnimationSpeed(20f);
