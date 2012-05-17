@@ -40,6 +40,7 @@ namespace GrandLarceny
 
 		private Music m_levelSong;
 		private Music m_chaseSong;
+		private Music m_currentSong;
 
 		//När denna gameobject inte är null samt är död så är leveln över. Den ska peka på objektet som säger "item stolen 3/3"
 		private GameObject m_finishFeedback;
@@ -193,10 +194,25 @@ namespace GrandLarceny
 
 			m_background = Game.getInstance().Content.Load<Texture2D>("Images//Background//starry_sky_01");
 
-			
+			m_levelSong = new Music("StageSong");
+			m_chaseSong = new Music("ChaseSong");
+
+			playSong(m_levelSong);
 
 			base.load();
 			addObject(new Darkness(Vector2.Zero, "Images//LightCone//ventilljus", 0.003f), 1);
+		}
+
+		private void playSong(Music a_song)
+		{
+			if (m_currentSong != a_song)
+			{
+				m_currentSong = a_song;
+				if (m_currentLevel != null)
+				{
+					a_song.play();
+				}
+			}
 		}
 
 		public override void setPlayer(Player a_player)
@@ -363,6 +379,14 @@ namespace GrandLarceny
 						t_enviroNode = t_next;
 					}
 				}
+			}
+			if (player.isChase())
+			{
+				playSong(m_chaseSong);
+			}
+			else
+			{
+				playSong(m_levelSong);
 			}
 		}
 
