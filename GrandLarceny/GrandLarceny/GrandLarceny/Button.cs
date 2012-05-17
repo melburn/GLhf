@@ -19,7 +19,7 @@ namespace GrandLarceny
 		private float m_layer;
 		private string m_buttonTexture;
 
-		private Text m_text;
+		protected Text m_text;
 		private Vector2 m_textOffset = Vector2.Zero;
 		private Color m_textColor = Color.Black;
 
@@ -34,12 +34,12 @@ namespace GrandLarceny
 		private Sound m_upSound;
 		private Sound m_downSound;
 
-		private Rectangle m_bounds;
+		protected Rectangle m_bounds;
 
-		private bool m_isFocused;
-		private bool m_isPressed;
-		private bool m_isToggled;
-		private bool m_isVisible;
+		protected bool m_isFocused;
+		protected bool m_isPressed;
+		protected bool m_isToggled;
+		protected bool m_isVisible;
 
 		private Keys[] m_hotkey;
 
@@ -54,26 +54,11 @@ namespace GrandLarceny
 		#endregion
 
 		#region Constructor & Load
-		public Button(string a_normal, string a_hover, string a_pressed, string a_toggle, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
+		public Button(Vector2 a_position)
 		{
-			setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_normal));
-			setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_hover));
-			setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_pressed));
-			setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_toggle));
-			if (a_font == null)
-			{
-				a_font = "Courier New";
-			}
-			m_posV2 = a_position;
-			m_text = new Text(a_position, a_offset, a_buttonText, a_font, a_color, false);
-			m_position = new CartesianCoordinate(a_position);
-			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
+			m_position = new CartesianCoordinate(a_position, Game.getInstance().m_camera.getPosition());
 			setPosition(a_position);
-			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
 			m_layer = 0.002f;
-			m_upSound = null;
-			m_downSound = null;
-			m_isVisible = true;
 		}
 
 		public Button(string a_buttonTexture, Vector2 a_position, string a_buttonText, string a_font, Color a_color, Vector2 a_offset)
@@ -106,6 +91,22 @@ namespace GrandLarceny
 			m_buttonTexture = a_buttonTexture;
 			m_isVisible = true;
 			loadContent();
+		}
+
+		public Button(Vector2 a_position, string a_normal, string a_hover, string a_pressed, string a_toggle)
+		{
+			setNormalTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_normal));
+			setHoverTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_hover));
+			setPressedTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_pressed));
+			setToggleTexture(Game.getInstance().Content.Load<Texture2D>("Images//GUI//" + a_toggle));
+			m_position = new CartesianCoordinate(a_position);
+			m_position.setParentPosition(Game.getInstance().m_camera.getPosition());
+			setPosition(a_position);
+			m_bounds = new Rectangle((int)a_position.X, (int)a_position.Y, (int)m_size.X, (int)m_size.Y);
+			m_layer = 0.002f;
+			m_upSound = null;
+			m_downSound = null;
+			m_isVisible = true;
 		}
 
 		public void loadContent()
@@ -142,7 +143,7 @@ namespace GrandLarceny
 		#endregion
 		
 		#region Update & Draw
-		public bool update()
+		public virtual bool update()
 		{
 			if (!m_isVisible) {
 				return false;
@@ -152,18 +153,12 @@ namespace GrandLarceny
 				m_isFocused = true;
 				if (MouseHandler.lmbDown())
 				{
-					if (m_downSound != null)
-					{
-						m_downSound.play();
-					}
+					playDownSound();
 					m_isPressed = true;
 				}
-				if (m_isPressed && (MouseHandler.lmbDown()))
+				if (m_isPressed && MouseHandler.lmbDown())
 				{
-					if (m_upSound != null)
-					{
-						m_upSound.play();
-					}
+					playUpSound();
 					m_isPressed = false;
 					if (m_clickEvent != null)
 					{
@@ -191,7 +186,7 @@ namespace GrandLarceny
 			return m_isPressed;
 		}
 
-		public void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
+		public virtual void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			if (!m_isVisible) {
 				return;
@@ -398,6 +393,14 @@ namespace GrandLarceny
 		public void invokeClickEvent()
 		{
 			m_clickEvent(this);
+		}
+
+		public void setColor(Color a_color)
+		{
+			if (m_text != null)
+			{
+				m_text.setColor(a_color);
+			}
 		}
 		#endregion
 
