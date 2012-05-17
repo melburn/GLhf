@@ -10,6 +10,7 @@ namespace GrandLarceny
 	[Serializable()]
 	public class ConsumableGoal : Consumable
 	{
+		private Particle m_feedback;
 
 		public ConsumableGoal(Vector2 a_position, String a_sprite, float a_layer)
 			:base(a_position, a_sprite, a_layer)
@@ -23,12 +24,17 @@ namespace GrandLarceny
 			if (t_num > 0 && t_num < 4)
 			{
 				String t_textureName = "Images//GUI//GameGUI//stolen"+t_num+"of3";
-				Particle t_stolenGoods = new Particle(new CartesianCoordinate(Vector2.Zero, Game.getInstance().m_camera.getPosition()), t_textureName, 33, 0.0015f);
-				t_stolenGoods.getPosition().setLocalCartesian(-t_stolenGoods.getImg().getSize() / 2);
-				t_stolenGoods.setTimer(((float)Game.getInstance().getTotalGameTime().TotalMilliseconds) + 3000f);
-				Game.getInstance().getState().addObject(t_stolenGoods);
+				m_feedback = new Particle(new CartesianCoordinate(Vector2.Zero, Game.getInstance().m_camera.getPosition()), t_textureName, 33, 0.0015f);
+				m_feedback.getPosition().setLocalCartesian(new Vector2(0,-200)-m_feedback.getImg().getSize() / 2);
+				m_feedback.setTimer(((float)Game.getInstance().getTotalGameTime().TotalMilliseconds) + 3000f);
+				Game.getInstance().getState().addObject(m_feedback);
 			}
 			return true;
+		}
+
+		public GameObject getFeedback()
+		{
+			return m_feedback;
 		}
 	}
 }

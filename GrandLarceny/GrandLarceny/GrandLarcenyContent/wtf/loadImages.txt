@@ -35,3 +35,5 @@ Images//Sprite//Hero//ladderclimbdown_light:8
 Images//Prop//Consumables//shinyheart:10
 Images//Prop//SecurityDoor//SecurityDoor:10
 Images//Prop//Consumables//Sparkle:8
+Images//Tile//Floor//hair_saloon_animation:4
+Images//Tile//Floor//open_bar_sign_animation:4
