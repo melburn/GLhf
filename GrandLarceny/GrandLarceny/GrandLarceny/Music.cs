@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace GrandLarceny
 {
-	class Music
+	public class Music
 	{
 		private string m_filepath;
 		private Song m_music;
@@ -20,12 +20,13 @@ namespace GrandLarceny
 
 		public void loadContent()
 		{
-			m_music = Game.getInstance().Content.Load<Song>("Sounds//Music//" + m_filepath);		
+			m_music = Game.getInstance().Content.Load<Song>("Sounds//Music//" + m_filepath);
 		}
 
 		public void play()
 		{
 			MediaPlayer.Play(m_music);
+			MediaPlayer.IsRepeating = true;
 		}
 
 		public static void stop()
@@ -43,6 +44,15 @@ namespace GrandLarceny
 			{
 				MediaPlayer.Pause();
 			}
+		}
+		public void dispose()
+		{
+			m_music.Dispose();
+		}
+
+		public static bool musicIsPlaying()
+		{
+			return MediaPlayer.State == MediaState.Playing;
 		}
 	}
 }

@@ -20,6 +20,8 @@ namespace GrandLarceny
 		private Button m_btnTFAccept;
 		private TimeSpan m_textTimeOut;
 
+		private Music m_menuSong;
+
 		private ParseState m_currentParse;
 		private enum ParseState
 		{
@@ -28,6 +30,12 @@ namespace GrandLarceny
 		#endregion
 
 		#region Constructor & Load
+
+		public HubMenu(Music a_menuSong)
+		{
+			m_menuSong = a_menuSong;
+		}
+
 		public override void load()
 		{
 			base.load();
@@ -65,6 +73,11 @@ namespace GrandLarceny
 			Button t_saveProgressButton = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 400), "Save Game", "VerdanaBold", Color.White, new Vector2(10, 0));
 			t_saveProgressButton.m_clickEvent += new Button.clickDelegate(saveProgressClick);
 			m_buttons.AddLast(t_saveProgressButton);
+
+			if (m_menuSong != null && !Music.musicIsPlaying())
+			{
+				m_menuSong.play();
+			}
 		}
 		#endregion
 
@@ -97,16 +110,22 @@ namespace GrandLarceny
 		#region Main Menu Methods (MMM...Bio)
 		public void playClick(Button a_b)
 		{
+			Music.stop();
+			m_menuSong.dispose();
 			Game.getInstance().setState(new GameState("Level3.txt"));
 		}
 
 		public void exitClick(Button a_b)
 		{
+			Music.stop();
+			m_menuSong.dispose();
 			Game.getInstance().Exit();
 		}
 
 		public void startLevelClick(Button a_b)
 		{
+			Music.stop();
+			m_menuSong.dispose();
 			Game.getInstance().setState(new GameState(a_b.getText() + ".lvl"));
 		}
 
@@ -130,7 +149,7 @@ namespace GrandLarceny
 
 		public void saveProgressClick(Button a_b)
 		{
-			Game.getInstance().setState(new LoadAndSaveMenu(true, this));
+			Game.getInstance().setState(new LoadAndSaveMenu(true, this, m_menuSong));
 
 		}
 
@@ -158,5 +177,6 @@ namespace GrandLarceny
 			return t_LockedLevel;
 		}
 		#endregion
+
 	}
 }
