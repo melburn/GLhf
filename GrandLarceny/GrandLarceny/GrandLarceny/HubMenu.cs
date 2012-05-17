@@ -19,10 +19,14 @@ namespace GrandLarceny
 		private Text m_levelText;
 		private Button m_btnTFAccept;
 		private TimeSpan m_textTimeOut;
+		private int m_currentButton = 0;
 
 		private Music m_menuSong;
 
 		private ParseState m_currentParse;
+
+		private Texture2D m_bakimg;
+
 		private enum ParseState
 		{
 			Settings
@@ -39,9 +43,10 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
+			m_bakimg = Game.getInstance().Content.Load<Texture2D>("Images//Automagi//karta");
 
-			m_levelText = new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
-			m_newLevelName = new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
+			//m_levelText = new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
+			//m_newLevelName = new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
 			string[] t_ext = { ".lvl" };
 			if (!Directory.Exists("Content//levels//"))
 			{
@@ -49,18 +54,19 @@ namespace GrandLarceny
 			}
 			string[] t_fileList = Directory.GetFiles("Content//levels//");
 			
-			m_buttons = GuiListFactory.createListFromStringArray(t_fileList, t_ext, "btn_test_empty");
-			GuiListFactory.setListPosition(m_buttons, new Vector2(25, 25));
-			GuiListFactory.setTextOffset(m_buttons, new Vector2(10, 10));
-			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, 60));
+			m_buttons = GuiListFactory.createListFromStringArray(t_fileList, t_ext, "pin");
+			GuiListFactory.setListPosition(m_buttons, new Vector2(55, 55));
+			GuiListFactory.setTextOffset(m_buttons, new Vector2(10, -20));
+			GuiListFactory.setButtonDistance(m_buttons, new Vector2(200, 30));
 
 			LinkedList<string> t_levelLocked = getLockedLevels();
 
 			foreach (Button t_button in m_buttons)
 			{
+
 				if (t_levelLocked.Contains(t_button.getText()))
 				{
-					//något event ska addas här det är inte tomt jävla skit ungar
+					t_button.setState(Button.State.Toggled);
 				}
 				else
 				{
@@ -68,11 +74,11 @@ namespace GrandLarceny
 				}
 			}
 
-			m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
-			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
-			Button t_saveProgressButton = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 400), "Save Game", "VerdanaBold", Color.White, new Vector2(10, 0));
+			//m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
+			//m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
+			/*Button t_saveProgressButton = new Button("btn_asset_list_normal", "btn_asset_list_hover", "btn_asset_list_pressed", "btn_asset_list_toggle", new Vector2(500, 400), "Save Game", "VerdanaBold", Color.White, new Vector2(10, 0));
 			t_saveProgressButton.m_clickEvent += new Button.clickDelegate(saveProgressClick);
-			m_buttons.AddLast(t_saveProgressButton);
+			m_buttons.AddLast(t_saveProgressButton);*/
 
 			if (m_menuSong != null && !Music.musicIsPlaying())
 			{
@@ -84,9 +90,24 @@ namespace GrandLarceny
 		#region Update & Draw
 		public override void update(GameTime a_gameTime)
 		{
+
+			if (KeyboardHandler.keyClicked(Keys.Left))
+			{
+				moveCurrentHower(-1);
+			}
+			else if (KeyboardHandler.keyClicked(Keys.Right))
+			{
+				moveCurrentHower(+1);
+			}
+			else if (KeyboardHandler.keyClicked(Keys.Enter))
+			{
+				m_buttons.ElementAt(m_currentButton).setState(Button.State.Pressed);
+				m_buttons.ElementAt(m_currentButton).invokeClickEvent();
+			}
+
 			foreach (Button t_b in m_buttons)
 				t_b.update();
-			m_newLevelName.update(a_gameTime);
+			/*m_newLevelName.update(a_gameTime);
 			if (a_gameTime.TotalGameTime > m_textTimeOut)
 			{
 				m_levelText.setText("New Level:");
@@ -96,14 +117,22 @@ namespace GrandLarceny
 			{
 				createNewLevel(m_btnTFAccept);
 			}
+			 */
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			foreach (Button t_b in m_buttons)
 				t_b.draw(a_gameTime, a_spriteBatch);
-			m_newLevelName.draw(a_gameTime);
-			m_levelText.draw(a_gameTime);
+			//m_newLevelName.draw(a_gameTime);
+			//m_levelText.draw(a_gameTime);
+
+			Rectangle t_dest = Game.getInstance().m_camera.getRectangle();
+			t_dest.Width /= 2;
+			t_dest.X += t_dest.Width / 2;
+			t_dest.Height /= 2;
+			t_dest.Y += t_dest.Height / 2;
+			a_spriteBatch.Draw(m_bakimg, t_dest, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
 		}
 		#endregion
 
@@ -175,6 +204,34 @@ namespace GrandLarceny
 				}
 			}
 			return t_LockedLevel;
+		}
+
+		public void moveCurrentHower(int a_move)
+		{
+			m_buttons.ElementAt(m_currentButton).setState(Button.State.Normal);
+			
+			m_currentButton += a_move;
+			if (m_currentButton >= m_buttons.Count)
+			{
+				m_currentButton = 0;
+			}
+			else if (m_currentButton < 0)
+			{
+				m_currentButton = m_buttons.Count - 1;
+			}
+			if (!m_buttons.ElementAt(m_currentButton).hasEvent())
+			{
+				m_currentButton += a_move;
+				if (m_currentButton >= m_buttons.Count)
+				{
+					m_currentButton = 0;
+				}
+				else if (m_currentButton < 0)
+				{
+					m_currentButton = m_buttons.Count - 1;
+				}
+			}
+			m_buttons.ElementAt(m_currentButton).setState(Button.State.Hover);
 		}
 		#endregion
 

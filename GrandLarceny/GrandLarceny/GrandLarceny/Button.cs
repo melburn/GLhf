@@ -399,6 +399,11 @@ namespace GrandLarceny
 		{
 			m_clickEvent(this);
 		}
+
+		public bool hasEvent()
+		{
+			return m_clickEvent != null;
+		}
 		#endregion
 
 		#region Position Methods
