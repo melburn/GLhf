@@ -189,7 +189,7 @@ namespace GrandLarceny
 
 			m_background = Game.getInstance().Content.Load<Texture2D>("Images//Background//starry_sky_01");
 
-			Music.loadSong("ChaseSong");
+			Music.loadSong("ChaseSongLoop");
 			Music.loadSong("StageSong");
 			Music.play("StageSong");
 

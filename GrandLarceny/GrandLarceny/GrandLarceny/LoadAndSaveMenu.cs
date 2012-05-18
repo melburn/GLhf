@@ -16,8 +16,6 @@ namespace GrandLarceny
 		private TextField m_newSaveName;
 		private string m_saveTo;
 
-		private Music m_menuSong;
-
 		public LoadAndSaveMenu(bool a_willSave, States a_backState)
 		{
 			m_willSave = a_willSave;

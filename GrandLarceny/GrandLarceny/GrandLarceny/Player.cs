@@ -154,7 +154,7 @@ namespace GrandLarceny
 			setInteractionVisibility(false);
 			m_interactionArrow.getImg().setAnimationSpeed(20f);
 			m_standHitBox	= new CollisionRectangle(0, 0, 70, 127, m_position);
-			m_rollHitBox	= new CollisionRectangle(0, 0, 70, 72, m_position); // 67
+			m_rollHitBox	= new CollisionRectangle(0, 0, 70, 72, m_position);
 			m_slideBox		= new CollisionRectangle(0, m_standHitBox.getOutBox().Height / 2, m_standHitBox.getOutBox().Width, 1, m_position);
 			m_hangHitBox	= new CollisionRectangle(0, 0, 70, 80, m_position);
 			m_swingHitBox	= new CollisionRectangle(-36, 0, 70, 127, m_position);
@@ -1678,48 +1678,54 @@ namespace GrandLarceny
 
 		public void activateChaseMode(NPE a_enemy)
 		{
-			float t_eneX = a_enemy.getPosition().getGlobalX();
-			float t_eneY = a_enemy.getPosition().getGlobalY();
-			float t_diffX = (m_position.getGlobalX() + t_eneX) / 2;
-			float t_diffY = (m_position.getGlobalY() + t_eneY) / 2;
-			float t_enemyAttentionMarkX = 0;
-			if (a_enemy is Guard)
+			if(!m_chase)
 			{
-				if (((Guard)a_enemy).isFacingRight())
+				float t_eneX = a_enemy.getPosition().getGlobalX();
+				float t_eneY = a_enemy.getPosition().getGlobalY();
+				float t_diffX = (m_position.getGlobalX() + t_eneX) / 2;
+				float t_diffY = (m_position.getGlobalY() + t_eneY) / 2;
+				float t_enemyAttentionMarkX = 0;
+				if (a_enemy is Guard)
 				{
-					t_enemyAttentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
+					if (((Guard)a_enemy).isFacingRight())
+					{
+						t_enemyAttentionMarkX = t_eneX + a_enemy.getHitBox().getOutBox().Width;
+					}
+					else
+					{
+						t_enemyAttentionMarkX = t_eneX - 10;
+					}
+				}
+				float t_myAttentionMarkX = 0;
+				if (m_facingRight)
+				{
+					t_myAttentionMarkX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
 				}
 				else
 				{
-					t_enemyAttentionMarkX = t_eneX - 10;
+					t_myAttentionMarkX = m_position.getGlobalX() - 10;
 				}
+				string[] t_commands = { "addCinematic"
+										, "addParticle:" + t_myAttentionMarkX + ":" + (m_position.getGlobalY() - 20) + ":" + "Images//Sprite//Guard//Exclmarks" + ":" + 10f + ":" + a_enemy.getLayer()
+										, "addParticle:" + t_enemyAttentionMarkX + ":" + (t_eneY - 20) + ":" + "Images//Sprite//Guard//Exclmarks" + ":" + 10f + ":" + a_enemy.getLayer()
+										, "setCamera:" + t_diffX+":" + t_diffY + ":" + 1000 };
+				Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
+				Game.getInstance().setState(t_cutScene);
+				m_chase = true;
+				Music.play("ChaseSongLoop");
+				m_runMode = false;
+				m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
+				setIsInLight(true);
 			}
-			float t_myAttentionMarkX = 0;
-			if (m_facingRight)
-			{
-				t_myAttentionMarkX = m_position.getGlobalX() + m_collisionShape.getOutBox().Width;
-			}
-			else
-			{
-				t_myAttentionMarkX = m_position.getGlobalX() - 10;
-			}
-			string[] t_commands = { "addCinematic"
-									, "addParticle:" + t_myAttentionMarkX + ":" + (m_position.getGlobalY() - 20) + ":" + "Images//Sprite//Guard//Exclmarks" + ":" + 10f + ":" + a_enemy.getLayer()
-									, "addParticle:" + t_enemyAttentionMarkX + ":" + (t_eneY - 20) + ":" + "Images//Sprite//Guard//Exclmarks" + ":" + 10f + ":" + a_enemy.getLayer()
-									, "setCamera:" + t_diffX+":" + t_diffY + ":" + 1000 };
-			Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
-			Game.getInstance().setState(t_cutScene);
-			m_chase = true;
-			Music.play("ChaseSong");
-			m_runMode = false;
-			m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
-			setIsInLight(true);
 		}
 
 		public void deactivateChaseMode()
 		{
-			m_deactivateChase = true;
-			Music.play("StageSong");
+			if(m_chase)
+			{
+				m_deactivateChase = true;
+				Music.play("StageSong");
+			}
 		}
 
 		private void activateNormalMode()
