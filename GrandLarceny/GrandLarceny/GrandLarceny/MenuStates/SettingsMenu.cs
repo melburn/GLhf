@@ -24,6 +24,8 @@ namespace GrandLarceny
 		private Button m_btnApply;
 		private TextButton m_btnExit;
 		private TextButton m_btnSave;
+		private TextButton m_btnYes;
+		private TextButton m_btnNo;
 
 		private LinkedList<Button> m_keyList;
 
@@ -33,6 +35,10 @@ namespace GrandLarceny
 		private Dictionary<string, string> m_settingsFile;
 
 		private string m_settingsPath;
+
+		Color m_normal		= new Color(187, 194, 195);
+		Color m_hover		= new Color(255, 255, 255);
+		Color m_pressed		= new Color(132, 137, 138);
 		#endregion
 
 		#region Constructor & Load
@@ -90,10 +96,6 @@ namespace GrandLarceny
 			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.White, false));
 			Vector2 t_textOffset = new Vector2(40, 10);
 
-			Color t_normal		= new Color(187, 194, 195);
-			Color t_hover		= new Color(255, 255, 255);
-			Color t_pressed		= new Color(132, 137, 138);
-
 			string[] t_currentBindings = Loader.getInstance().getSettingsBlock("Input", m_settingsPath);
 
 			foreach (string t_string in t_currentBindings)
@@ -113,8 +115,8 @@ namespace GrandLarceny
 			m_keyList.AddLast(m_btnAntialias		= new Button(null, new Vector2(100, 250), "Anti-Alias", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnVSync			= new Button(null, new Vector2(100, 300), "Vertical Sync", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(100, 350), "Apply", "VerdanaBold", Color.White, new Vector2(5, 3)));
-			m_keyList.AddLast(m_btnSave				= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 150), "Save Settings",	"MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red));
-			m_keyList.AddLast(m_btnExit				= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 90), "Exit",				"MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red));
+			m_buttons.AddLast(m_btnSave				= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 150), "Save Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
+			m_buttons.AddLast(m_btnExit				= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 90), "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
 
 			m_btnNextResolution.m_clickEvent	+= new Button.clickDelegate(nextResolution);
 			m_btnPrevResolution.m_clickEvent	+= new Button.clickDelegate(prevResolution);
@@ -164,6 +166,7 @@ namespace GrandLarceny
 				}
 			}
 			t_file.Close();
+			m_btnExit.setState(Button.State.Normal);
 		}
 
 		private void awaitInput(Button a_button)
@@ -270,7 +273,30 @@ namespace GrandLarceny
 
 		private void exitSettings(Button a_button)
 		{
-			Game.getInstance().setState(new MainMenu());
+			if (m_changedSettings)
+			{
+				createExitDialog();
+				m_btnExit.setState(Button.State.Pressed);
+			}
+			else
+			{
+				Game.getInstance().setState(new MainMenu());			
+			}
+		}
+
+		private void discardSettings(Button a_button)
+		{
+			m_changedSettings = false;
+			exitSettings(m_btnExit);
+		}
+
+		private void returnToSettings(Button a_button)
+		{
+			m_buttons.Remove(m_btnYes);
+			m_buttons.Remove(m_btnNo);
+			m_btnYes = null;
+			m_btnNo = null;
+			m_btnExit.setState(Button.State.Normal);
 		}
 
 		private void applyGraphics(Button a_button)
@@ -322,6 +348,15 @@ namespace GrandLarceny
 		{
 			m_changedSettings = true;
 			m_btnSave.setState(Button.State.Normal);
+		}
+
+		private void createExitDialog()
+		{
+			m_inputFeedback = new Text(new Vector2(400, 50), "You have unsaved changes, discard them?", "VerdanaBold", m_normal, false);
+			m_buttons.AddLast(m_btnYes = new TextButton(new Vector2(400, 100), "YES", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
+			m_buttons.AddLast(m_btnNo = new TextButton(new Vector2(600, 100), "NO", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
+			m_btnYes.m_clickEvent += new TextButton.clickDelegate(discardSettings);
+			m_btnNo.m_clickEvent += new TextButton.clickDelegate(returnToSettings);
 		}
 		#endregion
 
