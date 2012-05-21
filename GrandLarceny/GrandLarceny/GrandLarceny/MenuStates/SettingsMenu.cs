@@ -92,6 +92,7 @@ namespace GrandLarceny
 			m_guiList = new LinkedList<GuiObject>();
 			m_keyList = new LinkedList<Button>();
 			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.White, false));
+			m_resolutionText.setLayer(0.112f);
 			Vector2 t_textOffset = new Vector2(40, 10);
 
 			string[] t_currentBindings = Loader.getInstance().getSettingsBlock("Input", m_settingsPath);
@@ -113,9 +114,11 @@ namespace GrandLarceny
 			m_keyList.AddLast(m_btnAntialias		= new Button(null, new Vector2(100, 250), "Anti-Alias", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnVSync			= new Button(null, new Vector2(100, 300), "Vertical Sync", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(100, 350), "Apply", "VerdanaBold", Color.White, new Vector2(5, 3)));
-			m_btnSave								= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 150), "Save Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
-			m_btnExit								= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 90), "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
-			
+			m_btnSave								= new TextButton(Vector2.Zero, "Save Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnExit								= new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnSave.setPosition(new Vector2(15, Game.getInstance().getResolution().Y - 150));
+			m_btnExit.setPosition(new Vector2(15, Game.getInstance().getResolution().Y - 90));
+
 			m_btnNextResolution.m_clickEvent	+= new Button.clickDelegate(nextResolution);
 			m_btnPrevResolution.m_clickEvent	+= new Button.clickDelegate(prevResolution);
 			m_btnFullscreen.m_clickEvent		+= new Button.clickDelegate(toggleButton);
@@ -136,6 +139,11 @@ namespace GrandLarceny
 			if (Game.getInstance().m_graphics.SynchronizeWithVerticalRetrace)
 			{
 				m_btnVSync.setState(Button.State.Toggled);
+			}
+
+			foreach (Button t_button in m_keyList)
+			{
+				t_button.setLayer(0.112f);
 			}
 		}
 
@@ -320,7 +328,8 @@ namespace GrandLarceny
 			if (m_countDown == null)
 			{
 				createDialog("Apply Settings?");
-				m_countDown = new Text(new Vector2(200, 100), "", "MotorwerkLarge", m_normal, false);
+				m_countDown = new Text(Game.getInstance().getResolution() / 2, "", "MotorwerkLarge", m_normal, false);
+				m_countDown.move(new Vector2(-(m_countDown.getBox().Width / 2) - 20, -75));
 				m_timeOut = Game.getInstance().getTotalGameTime() + new TimeSpan(0, 0, 10);
 			}
 
@@ -375,13 +384,13 @@ namespace GrandLarceny
 		{
 			Vector2 t_halfRes = Game.getInstance().getResolution() / 2;
 
-			m_inputFeedback = new Text(Vector2.Zero, a_text, "MotorwerkLarge", m_normal, false);
-			m_inputFeedback.setPosition(new Vector2(m_inputFeedback.getBox().Width / 2 - t_halfRes.X, 150 - t_halfRes.Y));
+			m_inputFeedback = new Text(t_halfRes, a_text, "VerdanaBold", m_normal, false);
+			m_inputFeedback.move(new Vector2(-(m_inputFeedback.getBox().Width / 2), -100));
 			m_buttons.AddLast(m_btnYes = new TextButton(new Vector2(t_halfRes.X - 175, t_halfRes.Y), "YES", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
 			m_buttons.AddLast(m_btnNo = new TextButton(new Vector2(t_halfRes.X + 65, t_halfRes.Y), "NO", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
 			m_btnYes.m_clickEvent += new TextButton.clickDelegate(buttonYes);
 			m_btnNo.m_clickEvent += new TextButton.clickDelegate(buttonNo);
-			m_dialogBackground = new Box(new Vector2(100, 100), 300, 250, Color.Gray, true);
+			m_dialogBackground = new Box(new Vector2(t_halfRes.X - 200, t_halfRes.Y - 125), 400, 220, Color.Gray, true);
 		}
 
 		private void removeDialog()
@@ -395,7 +404,7 @@ namespace GrandLarceny
 			m_dialogBackground = null;
 		}
 		#endregion
-
+		
 		#region Update & Draw
 		public override void update(GameTime a_gameTime)
 		{

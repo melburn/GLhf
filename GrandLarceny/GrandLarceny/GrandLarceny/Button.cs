@@ -409,6 +409,15 @@ namespace GrandLarceny
 				m_text.setColor(a_color);
 			}
 		}
+
+		public void setLayer(float a_layer)
+		{
+			m_layer = a_layer;
+			if (m_text != null)
+			{
+				m_text.setLayer(a_layer - 0.001f);
+			}
+		}
 		#endregion
 
 		#region Position Methods
