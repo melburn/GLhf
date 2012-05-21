@@ -22,6 +22,9 @@ namespace GrandLarceny
 			base.load();
 			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
 
+			Color t_normal		= new Color(187, 194, 195);
+			Color t_hover		= new Color(255, 255, 255);
+			Color t_pressed		= new Color(132, 137, 138);
 
 			string t_ext = "Slot*";
 			if (!Directory.Exists("Content//levels//"))
@@ -29,38 +32,34 @@ namespace GrandLarceny
 				Directory.CreateDirectory("Content//levels//");
 			}
 			string[] t_saveFiles = Directory.GetFiles("Content//levels//", t_ext);
-			/*if (t_saveFiles.Length > 0)
+			if (t_saveFiles.Length > 0)
 			{
-				//load game
-				Button t_loadGame = new Button(Vector2.Zero, "continue", "continue_selected", "continue_selected", "continue_selected");
-				t_loadGame.m_clickEvent += new Button.clickDelegate(loadGameClick);
+				TextButton t_loadGame = new TextButton(Vector2.Zero, "Continue", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+				t_loadGame.m_clickEvent += new TextButton.clickDelegate(loadGameClick);
 				m_buttons.AddLast(t_loadGame);
-			}*/
-			//new Game
+			}
 
-			Button t_newGame = new Button(Vector2.Zero, "newgame", "newgame_selected", "newgame_selected", "newgame_selected");
-			t_newGame.m_clickEvent += new Button.clickDelegate(loadGameClick);
+			TextButton t_newGame = new TextButton(Vector2.Zero, "New Game", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+			t_newGame.m_clickEvent += new TextButton.clickDelegate(loadGameClick);
 			m_buttons.AddLast(t_newGame);
 
-			TextButton t_levelSelect = new TextButton(Vector2.Zero, "Level Select", "Motorwerk", Color.White, Color.Yellow, Color.Blue, Color.Red);
-			//Button t_levelSelect = new Button(Vector2.Zero, "newgame", "newgame_selected", "newgame_selected", "newgame_selected");
+			TextButton t_levelSelect = new TextButton(Vector2.Zero, "Level Select", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
 			t_levelSelect.m_clickEvent += new TextButton.clickDelegate(levelSelectClick);
 			m_buttons.AddLast(t_levelSelect);
 
-			//new Game
-			Button t_credit = new Button(Vector2.Zero, "credits", "credits_selected", "credits_selected", "credits_selected");
+			TextButton t_settings = new TextButton(Vector2.Zero, "Settings", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+			t_settings.m_clickEvent += new TextButton.clickDelegate(settingsClick);
+			m_buttons.AddLast(t_settings);
+
+			TextButton t_credit = new TextButton(Vector2.Zero, "Credits", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
 			//t_newGame.m_clickEvent += new Button.clickDelegate(newGameClick);
 			m_buttons.AddLast(t_credit);
 			
-			//exit game
-			Button t_exitButton = new Button(Vector2.Zero, "exit", "exit_selected", "exit_selected", "exit_selected");
-			t_exitButton.m_clickEvent += new Button.clickDelegate(exitClick);
+			TextButton t_exitButton = new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+			t_exitButton.m_clickEvent += new TextButton.clickDelegate(exitClick);
 			m_buttons.AddLast(t_exitButton);
-			GuiListFactory.setListPosition(m_buttons, new Vector2(Game.getInstance().getResolution().X / 2 - (t_newGame.getSize().X/2), Game.getInstance().getResolution().Y / 2));
+			GuiListFactory.setListPosition(m_buttons, new Vector2(15, Game.getInstance().getResolution().Y / 2));
 			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, 60));
-			//setting button
-			m_buttons.AddLast(m_btnSettings = new Button("btn_settings", new Vector2(100, 100)));
-			m_btnSettings.m_clickEvent += new Button.clickDelegate(settingsClick);
 
 			m_buttons.ElementAt(0).setState(Button.State.Hover);
 

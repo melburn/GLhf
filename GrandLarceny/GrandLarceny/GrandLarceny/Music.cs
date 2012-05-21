@@ -26,12 +26,14 @@ namespace GrandLarceny
 
 		public static void play(string a_music)
 		{
-			if(!m_loadedMusic.ContainsKey(a_music))
+			#if RELEASE
+			if (!m_loadedMusic.ContainsKey(a_music))
 			{
 				loadSong(a_music);
 			}
 			MediaPlayer.Play(m_loadedMusic[a_music]);
 			MediaPlayer.IsRepeating = true;
+			#endif
 		}
 
 		public static void stop()

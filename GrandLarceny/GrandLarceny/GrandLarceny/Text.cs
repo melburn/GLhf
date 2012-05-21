@@ -126,7 +126,17 @@ namespace GrandLarceny
 
 		public Vector2 measureString()
 		{
-			return m_spriteFont.MeasureString(m_text);
+			if (m_font.Equals("MotorwerkLarge"))
+			{
+				//TODO Fulhax
+				Vector2 t_return = m_spriteFont.MeasureString(m_text);
+				t_return.Y -= 37;
+				return t_return;
+			}
+			else
+			{
+				return m_spriteFont.MeasureString(m_text);
+			}
 		}
 		#endregion
 
@@ -134,6 +144,10 @@ namespace GrandLarceny
 		public void move(Vector2 a_moveLength)
 		{
 			m_position.plusWith(a_moveLength);
+			if (m_font.Equals("MotorwerkLarge"))
+			{
+				m_position.plusYWith(-5);
+			}
 		}
 
 		public void setOffset(Vector2 a_offset)
@@ -144,11 +158,25 @@ namespace GrandLarceny
 		public void setPosition(Vector2 a_position)
 		{
 			m_position = new CartesianCoordinate(a_position + m_textOffset, Game.getInstance().m_camera.getPosition());
+			if (m_font.Equals("MotorwerkLarge"))
+			{
+				m_position.plusYWith(-5);
+			}
 		}
 
 		public override Rectangle getBox()
 		{
-			return new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), (int)measureString().X, (int)measureString().Y);
+			if (m_font.Equals("MotorwerkLarge"))
+			{
+				Rectangle t_return = new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), (int)measureString().X, (int)measureString().Y);
+				t_return.Y += 30;
+				t_return.Height -= 10;
+				return t_return;
+			}
+			else
+			{
+				return new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), (int)measureString().X, (int)measureString().Y);
+			}
 		}
 		#endregion
 

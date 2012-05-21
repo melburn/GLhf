@@ -424,7 +424,13 @@ namespace GrandLarceny
 			m_bounds.Y = (int)(a_position.Y + Game.getInstance().getResolution().Y / 2);
 			if (m_text != null)
 			{
-				m_text.setPosition(a_position + m_textOffset);			
+				m_text.setPosition(a_position + m_textOffset);
+				if (this is TextButton)
+				{
+					m_bounds = m_text.getBox();
+					m_bounds.X += (int)Game.getInstance().getResolution().X / 2;
+					m_bounds.Y += (int)Game.getInstance().getResolution().Y / 2;
+				}
 			}
 		}
 
@@ -436,6 +442,12 @@ namespace GrandLarceny
 			if (m_text != null)
 			{
 				m_text.move(a_moveLength);
+				if (this is TextButton)
+				{
+					m_bounds = m_text.getBox();
+					m_bounds.X += (int)Game.getInstance().getResolution().X / 2;
+					m_bounds.Y += (int)Game.getInstance().getResolution().Y / 2;
+				}
 			}
 		}
 
@@ -443,6 +455,7 @@ namespace GrandLarceny
 		{
 			return m_size;
 		}
+
 		private void setSize(Vector2 a_size)
 		{
 			m_size = a_size;

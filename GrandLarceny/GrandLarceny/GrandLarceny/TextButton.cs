@@ -25,6 +25,7 @@ namespace GrandLarceny
 			m_toggleColor = a_toggle;
 			m_isVisible = true;
 			m_bounds = m_text.getBox();
+			setPosition(a_position);
 		}
 
 		public override bool update()

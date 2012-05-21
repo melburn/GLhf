@@ -381,8 +381,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="Fonts\Motorwerk.spritefont">
-      <Name>Motorwerk</Name>
+    <Compile Include="Fonts\MotorwerkLarge.spritefont">
+      <Name>MotorwerkLarge</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
