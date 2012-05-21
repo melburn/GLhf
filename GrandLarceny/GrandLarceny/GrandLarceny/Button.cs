@@ -151,12 +151,12 @@ namespace GrandLarceny
 			if (m_bounds.Contains(Mouse.GetState().X, Mouse.GetState().Y))
 			{
 				m_isFocused = true;
-				if (MouseHandler.lmbDown())
+				if (MouseHandler.lmbDown() && m_currentState != State.Pressed)
 				{
 					playDownSound();
 					m_isPressed = true;
 				}
-				if (m_isPressed && MouseHandler.lmbDown())
+				if (m_isPressed && MouseHandler.lmbUp())
 				{
 					playUpSound();
 					m_isPressed = false;
@@ -236,7 +236,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void setState(int a_state)
+		public virtual void setState(int a_state)
 		{
 			switch (a_state)
 			{
@@ -258,7 +258,7 @@ namespace GrandLarceny
 			}
 		}
 
-		public void setState(State a_state)
+		public virtual void setState(State a_state)
 		{
 			m_currentState = a_state;
 		}

@@ -14,6 +14,7 @@ namespace GrandLarceny
 		#region Members
 		private string[] m_resolutions;
 		private int m_resolutionIndex;
+		private bool m_changedSettings;
 
 		private Button m_btnNextResolution;
 		private Button m_btnPrevResolution;
@@ -29,7 +30,7 @@ namespace GrandLarceny
 		private Text m_resolutionText;
 		private Text m_inputFeedback;
 
-		private Dictionary<string, string> m_settingsFile = new Dictionary<string, string>();
+		private Dictionary<string, string> m_settingsFile;
 
 		private string m_settingsPath;
 		#endregion
@@ -39,6 +40,8 @@ namespace GrandLarceny
 		{
 			m_settingsPath = "Content//wtf//settings.ini";
 			m_buttonList.AddLast(m_keyList = new LinkedList<Button>());
+			m_settingsFile = new Dictionary<string, string>();
+			m_changedSettings = false;
 			m_resolutions = new string[] 
 			{
 				"640x480"  , "800x600"	, "1024x768", "1152x864", "1280x720" , "1280x768" , "1280x800" , "1280x960" , "1280x1024",
@@ -122,6 +125,15 @@ namespace GrandLarceny
 			m_btnExit.m_clickEvent				+= new TextButton.clickDelegate(exitSettings);
 			m_btnSave.m_clickEvent				+= new TextButton.clickDelegate(saveSettings);
 
+			if (m_changedSettings)
+			{
+				m_btnSave.setState(Button.State.Normal);
+			}
+			else
+			{
+				m_btnSave.setState(Button.State.Pressed);
+			}
+
 			if (Game.getInstance().m_graphics.IsFullScreen)
 			{
 				m_btnFullscreen.setState(Button.State.Toggled);
@@ -176,6 +188,7 @@ namespace GrandLarceny
 					m_inputFeedback = null;
 					t_button.setText(k.ToString());
 					unlockButtons();
+					changedSettings();
 					break;
 				}
 			}
@@ -304,13 +317,19 @@ namespace GrandLarceny
 			}
 			t_writeFile.Close();
 		}
+
+		private void changedSettings()
+		{
+			m_changedSettings = true;
+			m_btnSave.setState(Button.State.Normal);
+		}
 		#endregion
 
 		#region Update & Draw
 		public override void update(GameTime a_gameTime)
 		{
 			base.update(a_gameTime);
-			if (KeyboardHandler.keyClicked(Keys.Escape))
+			if (KeyboardHandler.keyClicked(Keys.Escape) && m_inputFeedback == null)
 			{
 				exitSettings(m_btnExit);
 			}
