@@ -34,10 +34,5 @@ namespace GrandLarceny
 				t_guiObject.draw(a_gameTime);
 			}
 		}
-
-		public override void addObject(GameObject a_object)
-		{
-			//throw new NotImplementedException();
-		}
 	}
 }

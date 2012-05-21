@@ -26,19 +26,24 @@ namespace GrandLarceny
 		private TextButton m_btnSave;
 		private TextButton m_btnYes;
 		private TextButton m_btnNo;
+		private Box m_dialogBackground;
 
 		private LinkedList<Button> m_keyList;
 
 		private Text m_resolutionText;
 		private Text m_inputFeedback;
+		private Text m_countDown;
 
 		private Dictionary<string, string> m_settingsFile;
+		private Dictionary<string, string> m_defaultFile;
 
 		private string m_settingsPath;
 
-		Color m_normal		= new Color(187, 194, 195);
-		Color m_hover		= new Color(255, 255, 255);
-		Color m_pressed		= new Color(132, 137, 138);
+		private Color m_normal	= new Color(187, 194, 195);
+		private Color m_hover	= new Color(255, 255, 255);
+		private Color m_pressed	= new Color(132, 137, 138);
+
+		private TimeSpan m_timeOut;
 		#endregion
 
 		#region Constructor & Load
@@ -47,6 +52,7 @@ namespace GrandLarceny
 			m_settingsPath = "Content//wtf//settings.ini";
 			m_buttonList.AddLast(m_keyList = new LinkedList<Button>());
 			m_settingsFile = new Dictionary<string, string>();
+			m_defaultFile = new Dictionary<string, string>();
 			m_changedSettings = false;
 			m_resolutions = new string[] 
 			{
@@ -61,23 +67,15 @@ namespace GrandLarceny
 				if (t_stringToAdd.Length > 1)
 				{
 					m_settingsFile.Add(t_stringToAdd[0], t_stringToAdd[1]);
+					m_defaultFile.Add(t_stringToAdd[0], t_stringToAdd[1]);
 				}
 				else
 				{
 					m_settingsFile.Add(t_stringToAdd[0], null);
+					m_defaultFile.Add(t_stringToAdd[0], null);
 				}
 			}
-
-			string t_resolutionToFind = m_settingsFile["ScreenWidth"] + "x" + m_settingsFile["ScreenHeight"];
-
-			for (int i = 0; i < m_resolutions.Length; i++)
-			{
-				if (m_resolutions[i].Equals(t_resolutionToFind))
-				{
-					m_resolutionIndex = i;
-					break;
-				}
-			}
+			setResolutionLabel();
 		}
 
 		public override void load()
@@ -115,26 +113,17 @@ namespace GrandLarceny
 			m_keyList.AddLast(m_btnAntialias		= new Button(null, new Vector2(100, 250), "Anti-Alias", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnVSync			= new Button(null, new Vector2(100, 300), "Vertical Sync", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(100, 350), "Apply", "VerdanaBold", Color.White, new Vector2(5, 3)));
-			m_buttons.AddLast(m_btnSave				= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 150), "Save Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
-			m_buttons.AddLast(m_btnExit				= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 90), "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
-
+			m_btnSave								= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 150), "Save Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnExit								= new TextButton(new Vector2(15, Game.getInstance().getResolution().Y - 90), "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			
 			m_btnNextResolution.m_clickEvent	+= new Button.clickDelegate(nextResolution);
 			m_btnPrevResolution.m_clickEvent	+= new Button.clickDelegate(prevResolution);
-			m_btnFullscreen.m_clickEvent		+= new Button.clickDelegate(fullscreenToggle);
-			m_btnAntialias.m_clickEvent			+= new Button.clickDelegate(antialiasToggle);
-			m_btnVSync.m_clickEvent				+= new Button.clickDelegate(vsyncToggle);
+			m_btnFullscreen.m_clickEvent		+= new Button.clickDelegate(toggleButton);
+			m_btnAntialias.m_clickEvent			+= new Button.clickDelegate(toggleButton);
+			m_btnVSync.m_clickEvent				+= new Button.clickDelegate(toggleButton);
 			m_btnApply.m_clickEvent				+= new Button.clickDelegate(applyGraphics);
+			m_btnSave.m_clickEvent				+= new TextButton.clickDelegate(saveSettings);			
 			m_btnExit.m_clickEvent				+= new TextButton.clickDelegate(exitSettings);
-			m_btnSave.m_clickEvent				+= new TextButton.clickDelegate(saveSettings);
-
-			if (m_changedSettings)
-			{
-				m_btnSave.setState(Button.State.Normal);
-			}
-			else
-			{
-				m_btnSave.setState(Button.State.Pressed);
-			}
 
 			if (Game.getInstance().m_graphics.IsFullScreen)
 			{
@@ -147,6 +136,20 @@ namespace GrandLarceny
 			if (Game.getInstance().m_graphics.SynchronizeWithVerticalRetrace)
 			{
 				m_btnVSync.setState(Button.State.Toggled);
+			}
+		}
+
+		private void setResolutionLabel()
+		{
+			string t_resolutionToFind = m_settingsFile["ScreenWidth"] + "x" + m_settingsFile["ScreenHeight"];
+
+			for (int i = 0; i < m_resolutions.Length; i++)
+			{
+				if (m_resolutions[i].Equals(t_resolutionToFind))
+				{
+					m_resolutionIndex = i;
+					break;
+				}
 			}
 		}
 
@@ -221,6 +224,8 @@ namespace GrandLarceny
 			{
 				m_resolutionText.setText(m_resolutions[m_resolutionIndex = 0]);
 			}
+			m_settingsFile["ScreenWidth"]	= m_resolutionText.getText().Split('x')[0];
+			m_settingsFile["ScreenHeight"]	= m_resolutionText.getText().Split('x')[1];
 		}
 
 		private void prevResolution(Button a_button)
@@ -233,41 +238,32 @@ namespace GrandLarceny
 			{
 				m_resolutionText.setText(m_resolutions[m_resolutionIndex = m_resolutions.Length - 1]);
 			}
+			m_settingsFile["ScreenWidth"]	= m_resolutionText.getText().Split('x')[0];
+			m_settingsFile["ScreenHeight"]	= m_resolutionText.getText().Split('x')[1];
 		}
 
-		private void fullscreenToggle(Button a_button)
+		private void toggleButton(Button a_button)
 		{
-			if (m_btnFullscreen.getState() == Button.State.Toggled)
+			if (a_button.getState() == Button.State.Toggled)
 			{
-				m_btnFullscreen.setState(Button.State.Normal);
+				a_button.setState(Button.State.Normal);
 			}
 			else
 			{
-				m_btnFullscreen.setState(Button.State.Toggled);				
+				a_button.setState(Button.State.Toggled);				
 			}
-		}
 
-		private void antialiasToggle(Button a_button)
-		{
-			if (m_btnAntialias.getState() == Button.State.Toggled)
+			if (a_button == m_btnFullscreen)
 			{
-				m_btnAntialias.setState(Button.State.Normal);
+				m_settingsFile["Fullscreen"] = (m_btnFullscreen.getState() == Button.State.Toggled).ToString().ToLower();
 			}
-			else
+			else if (a_button == m_btnAntialias)
 			{
-				m_btnAntialias.setState(Button.State.Toggled);
+				m_settingsFile["Antialias"]	= (m_btnAntialias.getState() == Button.State.Toggled).ToString().ToLower();
 			}
-		}
-
-		private void vsyncToggle(Button a_button)
-		{
-			if (m_btnVSync.getState() == Button.State.Toggled)
+			else if (a_button == m_btnVSync)
 			{
-				m_btnVSync.setState(Button.State.Normal);
-			}
-			else
-			{
-				m_btnVSync.setState(Button.State.Toggled);
+				m_settingsFile["VSync"]	= (m_btnVSync.getState() == Button.State.Toggled).ToString().ToLower();
 			}
 		}
 
@@ -275,7 +271,7 @@ namespace GrandLarceny
 		{
 			if (m_changedSettings)
 			{
-				createExitDialog();
+				createDialog("You have unsaved changes, discard them?");
 				m_btnExit.setState(Button.State.Pressed);
 			}
 			else
@@ -284,31 +280,36 @@ namespace GrandLarceny
 			}
 		}
 
-		private void discardSettings(Button a_button)
+		private void buttonYes(Button a_button)
 		{
-			m_changedSettings = false;
-			exitSettings(m_btnExit);
+			if (m_countDown != null)
+			{
+				m_countDown = null;
+				removeDialog();
+			}
+			else
+			{
+				m_changedSettings = false;
+				exitSettings(m_btnExit);
+			}
 		}
 
-		private void returnToSettings(Button a_button)
+		private void buttonNo(Button a_button)
 		{
-			m_buttons.Remove(m_btnYes);
-			m_buttons.Remove(m_btnNo);
-			m_btnYes = null;
-			m_btnNo = null;
-			m_btnExit.setState(Button.State.Normal);
+			if (m_countDown != null)
+			{
+				resetGraphics();
+				removeDialog();
+			}
+			else
+			{
+				m_btnExit.setState(Button.State.Normal);
+				removeDialog();
+			}
 		}
 
 		private void applyGraphics(Button a_button)
 		{
-			m_settingsFile["ScreenWidth"]	= m_resolutionText.getText().Split('x')[0];
-			m_settingsFile["ScreenHeight"]	= m_resolutionText.getText().Split('x')[1];
-			m_settingsFile["Fullscreen"]	= (m_btnFullscreen.getState()	== Button.State.Toggled).ToString().ToLower();
-			m_settingsFile["Antialias"]		= (m_btnAntialias.getState()	== Button.State.Toggled).ToString().ToLower();
-			m_settingsFile["VSync"]			= (m_btnVSync.getState()		== Button.State.Toggled).ToString().ToLower();
-
-			m_keyList = null;
-
 			Game.getInstance().m_graphics.PreferredBackBufferWidth			= int.Parse(m_settingsFile["ScreenWidth"]);
 			Game.getInstance().m_graphics.PreferredBackBufferHeight			= int.Parse(m_settingsFile["ScreenHeight"]);
 			Game.getInstance().m_graphics.IsFullScreen						= bool.Parse(m_settingsFile["Fullscreen"]);
@@ -316,6 +317,26 @@ namespace GrandLarceny
 			Game.getInstance().m_graphics.SynchronizeWithVerticalRetrace	= bool.Parse(m_settingsFile["VSync"]);
 			Game.getInstance().m_graphics.ApplyChanges();
 
+			if (m_countDown == null)
+			{
+				createDialog("Apply Settings?");
+				m_countDown = new Text(new Vector2(200, 100), "", "MotorwerkLarge", m_normal, false);
+				m_timeOut = Game.getInstance().getTotalGameTime() + new TimeSpan(0, 0, 10);
+			}
+
+			createButtons();
+		}
+
+		private void resetGraphics()
+		{
+			m_settingsFile["ScreenWidth"]	= m_defaultFile["ScreenWidth"];
+			m_settingsFile["ScreenHeight"]	= m_defaultFile["ScreenHeight"];
+			m_settingsFile["Fullscreen"]	= m_defaultFile["Fullscreen"];
+			m_settingsFile["Antialias"]		= m_defaultFile["Antialias"];
+			m_settingsFile["VSync"]			= m_defaultFile["VSync"];
+
+			applyGraphics(m_btnApply);
+			setResolutionLabel();
 			createButtons();
 		}
 
@@ -350,13 +371,28 @@ namespace GrandLarceny
 			m_btnSave.setState(Button.State.Normal);
 		}
 
-		private void createExitDialog()
+		private void createDialog(string a_text)
 		{
-			m_inputFeedback = new Text(new Vector2(400, 50), "You have unsaved changes, discard them?", "VerdanaBold", m_normal, false);
-			m_buttons.AddLast(m_btnYes = new TextButton(new Vector2(400, 100), "YES", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
-			m_buttons.AddLast(m_btnNo = new TextButton(new Vector2(600, 100), "NO", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
-			m_btnYes.m_clickEvent += new TextButton.clickDelegate(discardSettings);
-			m_btnNo.m_clickEvent += new TextButton.clickDelegate(returnToSettings);
+			Vector2 t_halfRes = Game.getInstance().getResolution() / 2;
+
+			m_inputFeedback = new Text(Vector2.Zero, a_text, "MotorwerkLarge", m_normal, false);
+			m_inputFeedback.setPosition(new Vector2(m_inputFeedback.getBox().Width / 2 - t_halfRes.X, 150 - t_halfRes.Y));
+			m_buttons.AddLast(m_btnYes = new TextButton(new Vector2(t_halfRes.X - 175, t_halfRes.Y), "YES", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
+			m_buttons.AddLast(m_btnNo = new TextButton(new Vector2(t_halfRes.X + 65, t_halfRes.Y), "NO", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red));
+			m_btnYes.m_clickEvent += new TextButton.clickDelegate(buttonYes);
+			m_btnNo.m_clickEvent += new TextButton.clickDelegate(buttonNo);
+			m_dialogBackground = new Box(new Vector2(100, 100), 300, 250, Color.Gray, true);
+		}
+
+		private void removeDialog()
+		{
+			m_inputFeedback = null;
+			m_countDown = null;
+			m_buttons.Remove(m_btnYes);
+			m_buttons.Remove(m_btnNo);
+			m_btnYes = null;
+			m_btnNo = null;
+			m_dialogBackground = null;
 		}
 		#endregion
 
@@ -372,6 +408,29 @@ namespace GrandLarceny
 			{
 				t_button.update();
 			}
+			m_btnSave.update();
+			m_btnExit.update();
+
+			if (m_dialogBackground != null)
+			{
+				m_dialogBackground.update(a_gameTime);
+			}
+
+			if (m_countDown != null)
+			{
+				if (Game.getInstance().getTotalGameTime() > m_timeOut)
+				{
+					resetGraphics();
+					removeDialog();
+					applyGraphics(m_btnApply);
+					m_countDown = null;
+				}
+				else
+				{
+					m_countDown.setText((m_timeOut.Seconds - Game.getInstance().getTotalGameTime().Seconds).ToString());
+				}
+			}
+
 			if (m_inputFeedback != null)
 			{
 				m_inputFeedback.update(a_gameTime);
@@ -390,9 +449,22 @@ namespace GrandLarceny
 			{
 				t_button.draw(a_gameTime, a_spriteBatch);
 			}
+			
+			m_btnSave.draw(a_gameTime, a_spriteBatch);
+			m_btnExit.draw(a_gameTime, a_spriteBatch);
+
+			if (m_dialogBackground != null)
+			{
+				m_dialogBackground.draw(a_gameTime);
+			}
+
 			if (m_inputFeedback != null)
 			{
 				m_inputFeedback.draw(a_gameTime);
+			}
+			if (m_countDown != null)
+			{
+				m_countDown.draw(a_gameTime);
 			}
 		}
 		#endregion

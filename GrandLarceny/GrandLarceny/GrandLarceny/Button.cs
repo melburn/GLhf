@@ -188,7 +188,8 @@ namespace GrandLarceny
 
 		public virtual void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			if (!m_isVisible) {
+			if (!m_isVisible)
+			{
 				return;
 			}
 			CartesianCoordinate t_cartCoord = new CartesianCoordinate(m_position.getLocalCartesian() / Game.getInstance().m_camera.getZoom(), m_position.getParentPosition());
