@@ -157,7 +157,7 @@ namespace GrandLarceny
 				}
 				else if (t_setting[0].Equals("Sound"))
 				{
-					continue;
+					Sound.setVolume(int.Parse(t_setting[1]));
 				}
 				else if (t_setting[0].StartsWith("["))
 				{
