@@ -33,6 +33,10 @@ namespace GrandLarceny
 		private Text m_resolutionText;
 		private Text m_inputFeedback;
 		private Text m_countDown;
+		private Text m_soundLabel;
+		private Text m_musicLabel;
+		private TextField m_soundTF;
+		private TextField m_musicTF;
 
 		private Dictionary<string, string> m_settingsFile;
 		private Dictionary<string, string> m_defaultFile;
@@ -91,6 +95,10 @@ namespace GrandLarceny
 			int i = 0;
 			m_guiList = new LinkedList<GuiObject>();
 			m_keyList = new LinkedList<Button>();
+			m_guiList.AddLast(m_soundLabel = new Text(new Vector2(500, 150), "Sound", "VerdanaBold", m_normal, false));
+			m_guiList.AddLast(m_musicLabel = new Text(new Vector2(500, 200), "Music", "VerdanaBold", m_normal, false));
+			m_guiList.AddLast(m_soundTF = new TextField(new Vector2(600, 150), 100, 16, false, true, false, 3));
+			m_guiList.AddLast(m_musicTF = new TextField(new Vector2(600, 200), 100, 16, false, true, false, 3));
 			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.White, false));
 			m_resolutionText.setLayer(0.112f);
 			Vector2 t_textOffset = new Vector2(40, 10);
@@ -114,8 +122,8 @@ namespace GrandLarceny
 			m_keyList.AddLast(m_btnAntialias		= new Button(null, new Vector2(100, 250), "Anti-Alias", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnVSync			= new Button(null, new Vector2(100, 300), "Vertical Sync", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(100, 350), "Apply", "VerdanaBold", Color.White, new Vector2(5, 3)));
-			m_btnSave								= new TextButton(Vector2.Zero, "Save Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
-			m_btnExit								= new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnSave								= new TextButton(Vector2.Zero, "Accept", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnExit								= new TextButton(Vector2.Zero, "Cancel", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			m_btnSave.setPosition(new Vector2(15, Game.getInstance().getResolution().Y - 150));
 			m_btnExit.setPosition(new Vector2(15, Game.getInstance().getResolution().Y - 90));
 
@@ -178,6 +186,8 @@ namespace GrandLarceny
 			}
 			t_file.Close();
 			m_btnExit.setState(Button.State.Normal);
+			applyGraphics();
+			exitSettings(m_btnExit);
 		}
 
 		private void awaitInput(Button a_button)
@@ -277,15 +287,7 @@ namespace GrandLarceny
 
 		private void exitSettings(Button a_button)
 		{
-			if (m_changedSettings)
-			{
-				createDialog("You have unsaved changes, discard them?");
-				m_btnExit.setState(Button.State.Pressed);
-			}
-			else
-			{
-				Game.getInstance().setState(new MainMenu());			
-			}
+			Game.getInstance().setState(new MainMenu());
 		}
 
 		private void buttonYes(Button a_button)
