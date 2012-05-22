@@ -94,6 +94,7 @@ namespace GrandLarceny
 		private bool m_chase					= false;
 		private bool m_deactivateChase			= false;
 		private bool m_runMode					= false;
+		private bool m_ventilationIdle			= true;
 
 		private Rope m_rope = null;
 
@@ -782,27 +783,46 @@ namespace GrandLarceny
 			{
 				m_ventilationDirection = t_list;
 			}
+			if (m_ventilationIdle)
+			{
+				m_currentVentilationImage = "hero_ventilation_idle";
+				if (m_lastVentilationDirection == Direction.Right && KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && ((CollisionRectangle)m_collisionShape).m_xOffset != 0)
+				{
+					setSprite(m_currentVentilationImage);
+					m_position.plusXWith(((CollisionRectangle)m_collisionShape).m_xOffset);
+					Game.getInstance().m_camera.getPosition().plusXWith(-((CollisionRectangle)m_collisionShape).m_xOffset);
+					((CollisionRectangle)m_collisionShape).setOffsetX(0);
+				}
+				m_lastVentilationDirection = Direction.Right;
+				if (((CollisionRectangle)m_collisionShape).m_yOffset != 0)
+				{
+					setSprite(m_currentVentilationImage);
+					m_position.plusYWith(((CollisionRectangle)m_collisionShape).m_yOffset);
+					Game.getInstance().m_camera.getPosition().plusYWith(-((CollisionRectangle)m_collisionShape).m_yOffset);
+					((CollisionRectangle)m_collisionShape).setOffsetY(0);
+				}
+			}
 		}
 
 		private List<Direction> moveDirectionInVentilation(Direction a_direction)
 		{
-			bool t_idle = true;
+			m_ventilationIdle = true;
 			List<Direction> t_list = null;
 			switch (a_direction)
 			{
 				case Direction.Up:
 				{
-					t_idle = false;
-					m_currentVentilationImage = "hero_ventilation_vertical";
-					if (((CollisionRectangle)m_collisionShape).m_xOffset != 0 && !(m_lastVentilationDirection == Direction.Right && KeyboardHandler.isKeyPressed(GameState.getRightKey())))
+					if (((CollisionRectangle)m_collisionShape).m_xOffset != 0 && (!(m_lastVentilationDirection == Direction.Right) || KeyboardHandler.isKeyPressed(GameState.getUpKey())))
 					{
 						setSprite(m_currentVentilationImage);
 						m_position.plusXWith(((CollisionRectangle)m_collisionShape).m_xOffset);
 						Game.getInstance().m_camera.getPosition().plusXWith(-((CollisionRectangle)m_collisionShape).m_xOffset);
 						((CollisionRectangle)m_collisionShape).setOffsetX(0);
 					}
-					if (KeyboardHandler.isKeyPressed(GameState.getUpKey()))
+					if (KeyboardHandler.isKeyPressed(GameState.getUpKey()) && !KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 					{
+						m_ventilationIdle = false;
+						m_currentVentilationImage = "hero_ventilation_vertical";
 						((CollisionRectangle)m_collisionShape).setOffsetY(0);
 						((CollisionRectangle)m_collisionShape).setOffsetX(0);
 						m_speed.Y = -PLAYERSPEED;
@@ -825,23 +845,23 @@ namespace GrandLarceny
 								m_currentVentilation = null;
 							}
 						}
-							if (m_lastVentilationDirection == Direction.Left || m_lastVentilationDirection == Direction.Right || m_lastVentilationDirection == Direction.None)
-							{
-								m_position.plusYWith(-36);
-								Game.getInstance().m_camera.getPosition().plusYWith(36);
-							}
-							m_lastVentilationDirection = Direction.Up;
+						if (m_lastVentilationDirection == Direction.Left || m_lastVentilationDirection == Direction.Right || m_lastVentilationDirection == Direction.None)
+						{
+							m_position.plusYWith(-36);
+							Game.getInstance().m_camera.getPosition().plusYWith(36);
+						}
+						m_lastVentilationDirection = Direction.Up;
 					}
-					else if (!KeyboardHandler.isKeyPressed(GameState.getDownKey()))
+					else if (!KeyboardHandler.isKeyPressed(GameState.getDownKey()) && m_currentVentilationImage == "hero_ventilation_vertical")
 					{
 						m_img.setAnimationSpeed(0);
-						m_lastVentilationDirection = Direction.Up;
+						m_lastVentilationDirection = Direction.Down;
 					}
 					break;
 				}
 				case Direction.Left:
 				{
-					if (((CollisionRectangle)m_collisionShape).m_yOffset != 0 && !(m_lastVentilationDirection == Direction.Down && KeyboardHandler.isKeyPressed(GameState.getDownKey())))
+					if (((CollisionRectangle)m_collisionShape).m_yOffset != 0 && (!(m_lastVentilationDirection == Direction.Down)) ||KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 					{
 						setSprite(m_currentVentilationImage);
 						m_position.plusYWith(((CollisionRectangle)m_collisionShape).m_yOffset);
@@ -850,6 +870,11 @@ namespace GrandLarceny
 					}
 					if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 					{
+						if (m_lastVentilationDirection == Direction.Right && m_ventilationDirection.Count == 1)
+						{
+							m_position.plusXWith(-36);
+							Game.getInstance().m_camera.getPosition().plusXWith(36);
+						}
 						((CollisionRectangle)m_collisionShape).setOffsetX(0);
 						((CollisionRectangle)m_collisionShape).setOffsetY(0);
 						m_speed.X = -PLAYERSPEED;
@@ -872,7 +897,7 @@ namespace GrandLarceny
 							}
 						}
 						m_currentVentilationImage = "hero_ventilation_horizontal";
-						t_idle = false;
+						m_ventilationIdle = false;
 						m_facingRight = false;
 						if (m_lastVentilationDirection == Direction.Down || m_lastVentilationDirection == Direction.Up)
 						{
@@ -885,7 +910,7 @@ namespace GrandLarceny
 				}
 				case Direction.Right:
 				{
-					if (((CollisionRectangle)m_collisionShape).m_yOffset != 0 && !(m_lastVentilationDirection == Direction.Down && KeyboardHandler.isKeyPressed(GameState.getDownKey())))
+					if (((CollisionRectangle)m_collisionShape).m_yOffset != 0 && (!(m_lastVentilationDirection == Direction.Down)) || KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 					{
 						setSprite(m_currentVentilationImage);
 						m_position.plusYWith(((CollisionRectangle)m_collisionShape).m_yOffset);
@@ -916,16 +941,17 @@ namespace GrandLarceny
 							}
 						}
 						m_currentVentilationImage = "hero_ventilation_horizontal";
-						t_idle = false;
+						m_ventilationIdle = false;
 						m_facingRight = true;
+						m_lastVentilationDirection = Direction.Right;
 					}
 					break;
 				}
 				case Direction.Down:
 				{
-					t_idle = false;
+					m_ventilationIdle = false;
 					m_currentVentilationImage = "hero_ventilation_vertical";
-					if (((CollisionRectangle)m_collisionShape).m_xOffset != 0 && !(m_lastVentilationDirection == Direction.Right && KeyboardHandler.isKeyPressed(GameState.getRightKey())))
+					if (((CollisionRectangle)m_collisionShape).m_xOffset != 0 && (!(m_lastVentilationDirection == Direction.Right)) || KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 					{
 						setSprite(m_currentVentilationImage);
 						m_position.plusXWith(((CollisionRectangle)m_collisionShape).m_xOffset);
@@ -956,6 +982,7 @@ namespace GrandLarceny
 								m_currentVentilation = null;
 							}
 						}
+						m_lastVentilationDirection = Direction.Down;
 					}
 					else if (!KeyboardHandler.isKeyPressed(GameState.getUpKey()))
 					{
@@ -965,18 +992,7 @@ namespace GrandLarceny
 					break;
 				}
 			}
-			if (t_idle)
-			{
-				m_currentVentilationImage = "hero_ventilation_idle";
-				m_lastVentilationDirection = Direction.None;
-				if (((CollisionRectangle)m_collisionShape).m_yOffset != 0)
-				{
-					setSprite(m_currentVentilationImage);
-					m_position.plusYWith(((CollisionRectangle)m_collisionShape).m_yOffset);
-					Game.getInstance().m_camera.getPosition().plusYWith(-((CollisionRectangle)m_collisionShape).m_yOffset);
-					((CollisionRectangle)m_collisionShape).setOffsetY(0);
-				}
-			}
+			
 			return t_list;
 		}
 
@@ -1301,7 +1317,7 @@ namespace GrandLarceny
 				{
 					m_imgOffsetX = 0;
 					m_imgOffsetY = 0;
-					m_layer = 0.250f;
+					m_layer = 0.300f;
 					((CollisionRectangle)m_collisionShape).m_xOffset = 0;
 					((CollisionRectangle)m_collisionShape).m_yOffset = 0;
 				}
