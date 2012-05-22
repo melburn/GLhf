@@ -167,6 +167,7 @@
     <Compile Include="Events\Triggers\SwitchTrigger.cs" />
     <Compile Include="CoveringShadow.cs" />
     <Compile Include="Factories\GuiListFactory.cs" />
+    <Compile Include="FlickeringSign.cs" />
     <Compile Include="Foreground.cs" />
     <Compile Include="Hookshot.cs" />
     <Compile Include="GuardEntity.cs" />
