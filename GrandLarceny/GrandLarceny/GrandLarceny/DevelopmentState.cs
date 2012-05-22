@@ -575,7 +575,6 @@ namespace GrandLarceny
 					t_saveLevel.setLevelObjects(m_gameObjectList);
 					t_saveLevel.setEvents(m_events);
 					Serializer.getInstance().SaveLevel(Serializer.getInstance().getFileToStream(m_levelToLoad, true), t_saveLevel);
-
 				}
 
 				if (KeyboardHandler.keyClicked(Keys.O))
