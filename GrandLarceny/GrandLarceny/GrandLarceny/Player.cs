@@ -841,7 +841,13 @@ namespace GrandLarceny
 				}
 				case Direction.Left:
 				{
-					t_idle = true;
+					if (((CollisionRectangle)m_collisionShape).m_yOffset != 0 && !(m_lastVentilationDirection == Direction.Down && KeyboardHandler.isKeyPressed(GameState.getDownKey())))
+					{
+						setSprite(m_currentVentilationImage);
+						m_position.plusYWith(((CollisionRectangle)m_collisionShape).m_yOffset);
+						Game.getInstance().m_camera.getPosition().plusYWith(-((CollisionRectangle)m_collisionShape).m_yOffset);
+						((CollisionRectangle)m_collisionShape).setOffsetY(0);
+					}
 					if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) && !KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 					{
 						((CollisionRectangle)m_collisionShape).setOffsetX(0);
@@ -879,6 +885,13 @@ namespace GrandLarceny
 				}
 				case Direction.Right:
 				{
+					if (((CollisionRectangle)m_collisionShape).m_yOffset != 0 && !(m_lastVentilationDirection == Direction.Down && KeyboardHandler.isKeyPressed(GameState.getDownKey())))
+					{
+						setSprite(m_currentVentilationImage);
+						m_position.plusYWith(((CollisionRectangle)m_collisionShape).m_yOffset);
+						Game.getInstance().m_camera.getPosition().plusYWith(-((CollisionRectangle)m_collisionShape).m_yOffset);
+						((CollisionRectangle)m_collisionShape).setOffsetY(0);
+					}
 					if (KeyboardHandler.isKeyPressed(GameState.getRightKey()) && !KeyboardHandler.isKeyPressed(GameState.getLeftKey()))
 					{
 						((CollisionRectangle)m_collisionShape).setOffsetX(36);
