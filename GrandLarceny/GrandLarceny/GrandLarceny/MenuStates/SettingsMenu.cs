@@ -41,11 +41,6 @@ namespace GrandLarceny
 		private Dictionary<string, string> m_defaultFile;
 
 		private string m_settingsPath;
-
-		private Color m_normal	= new Color(187, 194, 195);
-		private Color m_hover	= new Color(255, 255, 255);
-		private Color m_pressed	= new Color(132, 137, 138);
-
 		private TimeSpan m_timeOut;
 		#endregion
 
