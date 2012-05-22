@@ -250,12 +250,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Floor\hair_saloon_animation.png">
+    <Compile Include="Images\Tile\Sign\hair_saloon_animation.png">
       <Name>hair_saloon_animation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Floor\open_bar_sign_animation.png">
+    <Compile Include="Images\Tile\Sign\open_bar_sign_animation.png">
       <Name>open_bar_sign_animation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
