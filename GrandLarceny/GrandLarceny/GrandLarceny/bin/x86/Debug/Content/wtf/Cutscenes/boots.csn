@@ -1,5 +1,5 @@
-addGUI:1:0:0:GameGUI//getbootsimage
-setLayer:1:250
-addGUI:2:0:0:GameGUI//getbootstext
-setLayer:2:260
+addGUI:1:400:100:GameGUI//getbootsimage
+setLayer:1:50
+addGUI:2:490:20:GameGUI//getbootstext
+setLayer:2:40
 waitForKey:jump
