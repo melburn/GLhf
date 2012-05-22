@@ -108,7 +108,22 @@ namespace GrandLarceny
 		private Sound m_jumpSound;
 		[NonSerialized]
 		private Sound m_landSound;
-
+		[NonSerialized]
+		private Sound m_hangSound;
+		[NonSerialized]
+		private Sound m_stepSound;
+		[NonSerialized]
+		private Sound m_runSound;
+		[NonSerialized]
+		private Sound m_hideSound;
+		[NonSerialized]
+		private Sound m_ventilationMoveSound;
+		[NonSerialized]
+		private Sound m_ladderSound;
+		[NonSerialized]
+		private Sound m_rollSound;
+		[NonSerialized]
+		private Sound m_ledgeClimbSound;
 		public enum Direction
 		{
 			None, Left, Right,
@@ -182,10 +197,59 @@ namespace GrandLarceny
 			m_hitSound3 = new Sound("Game//LethalHit");
 			m_jumpSound = new Sound("Game//hopp");
 			m_landSound = new Sound("Game//landa2");
+			m_hangSound = new Sound("Game/ledgegrab");
+			m_stepSound = new Sound("Game//walk");
+			m_runSound = new Sound("Game//walk4");
+			m_hideSound = new Sound("Game//hopp");
+			m_ventilationMoveSound = new Sound("Game//ledgegrab");
+			m_ladderSound = new Sound("Game//ledgegrab");
+			m_rollSound = new Sound("Game//hopp");
+			m_ledgeClimbSound = new Sound("Game//ledgegrab");
+
+			m_img.m_animationEvent += new ImageManager.animationDelegate(changedSubImage);
 		}
 		#endregion
 
 		#region update
+
+		private void changedSubImage(float a_from, float a_to)
+		{
+			if (m_currentState == State.Walking)
+			{
+				if (m_runMode)
+				{
+					if ((a_from < 1 && a_to >= 1) ||
+						(a_from < 5 && a_to >= 5))
+					{
+						m_runSound.play();
+					}
+				}
+				else
+				{
+					if ((a_from < 2 && a_to >= 2) ||
+						(a_from < 6 && a_to >= 6))
+					{
+						m_stepSound.play();
+					}
+				}
+			}
+			else if(m_currentState == State.Ventilation)
+			{
+				if (a_from < 3 && a_to >= 3)
+				{
+					m_ventilationMoveSound.play();
+				}
+			}
+			else if (m_currentState == State.Climbing)
+			{
+				if ((a_from < 4 && a_to >= 4) ||
+					a_from > 4 && a_to <= 4)
+				{
+					m_ladderSound.play();
+				}
+			}
+		}
+
 		public override void update(GameTime a_gameTime)
 		{
 			m_interactionArrow.update(a_gameTime);
@@ -395,6 +459,7 @@ namespace GrandLarceny
 			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
+				m_rollSound.play();
 				return;
 			}
 
@@ -417,6 +482,7 @@ namespace GrandLarceny
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
+				m_jumpSound.play();
 			}
 		}
 
@@ -425,6 +491,7 @@ namespace GrandLarceny
 			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
+				m_rollSound.play();
 				return;
 			}
 
@@ -720,6 +787,7 @@ namespace GrandLarceny
 				m_currentState = State.Climbing;
 				m_position.plusYWith(m_standHitBox.m_height - m_hangHitBox.m_height);
 				Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.m_height - m_hangHitBox.m_height));
+				m_ledgeClimbSound.play();
 			}
 		}
 
@@ -1397,6 +1465,7 @@ namespace GrandLarceny
 					m_speed.X = 0;
 					m_currentState = State.Hanging;
 					m_facingRight = true;
+					m_hangSound.play();
 				}
 				else if (!t_colliderBox.Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y)
 					&& t_colliderBox.Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
@@ -1410,6 +1479,7 @@ namespace GrandLarceny
 					m_speed.X = 0;
 					m_currentState = State.Hanging;
 					m_facingRight = false;
+					m_hangSound.play();
 				}
 			}
 		}
@@ -1590,7 +1660,7 @@ namespace GrandLarceny
 				m_stunnedFlipSprite = true;
 				m_speed.X = 0;
 				m_speed.Y = 0;
-
+				m_ledgeClimbSound.play();
 				if (m_currentState == State.Hanging)
 				{
 					m_imgOffsetY -= m_standHitBox.m_height / 1.8f;
@@ -1797,6 +1867,10 @@ namespace GrandLarceny
 			m_slideBox.setPosition(m_position);
 			m_hangHitBox.setPosition(m_position);
 			m_swingHitBox.setPosition(m_position);
+		}
+		public Sound getHideSound()
+		{
+			return m_hideSound;
 		}
 		#endregion
 	}

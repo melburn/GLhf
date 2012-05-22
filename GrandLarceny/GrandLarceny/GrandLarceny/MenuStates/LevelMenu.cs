@@ -15,6 +15,9 @@ namespace GrandLarceny
 		private TextField m_newLevelName;
 		private Text m_levelText;
 		private Button m_btnTFAccept;
+		private TextButton m_btnPlay;
+		private TextButton m_btnDevelop;
+		private Button chosenLevel;
 		private TimeSpan m_textTimeOut;
 		#endregion
 
@@ -50,6 +53,11 @@ namespace GrandLarceny
 
 			m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
 			m_btnTFAccept.m_clickEvent += new Button.clickDelegate(createNewLevel);
+
+			m_btnPlay = new TextButton(new Vector2(500, 200), "Start Level", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnDevelop = new TextButton(new Vector2(500, 260), "Edit Level", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnPlay.m_clickEvent += new TextButton.clickDelegate(startLevelClick);
+			m_btnDevelop.m_clickEvent += new TextButton.clickDelegate(editLevelClick);
 		}
 		#endregion
 
@@ -60,6 +68,13 @@ namespace GrandLarceny
 			{
 				t_b.update();
 			}
+
+			if (chosenLevel != null)
+			{
+				m_btnPlay.update();
+				m_btnDevelop.update();
+			}
+
 			m_newLevelName.update(a_gameTime);
 			if (a_gameTime.TotalGameTime > m_textTimeOut)
 			{
@@ -78,33 +93,40 @@ namespace GrandLarceny
 			{
 				t_b.draw(a_gameTime, a_spriteBatch);
 			}
+
+			if (chosenLevel != null)
+			{
+				m_btnPlay.draw(a_gameTime, a_spriteBatch);
+				m_btnDevelop.draw(a_gameTime, a_spriteBatch);
+			}
+
 			m_newLevelName.draw(a_gameTime);
 			m_levelText.draw(a_gameTime);
 		}
 		#endregion
 
 		#region Main Menu Methods (MMM...Bio)
-		public void playClick(Button a_b)
-		{
-			Music.getInstance().stop();
-			Game.getInstance().setState(new GameState("Level3.txt"));
-		}
-
 		public void exitClick(Button a_b)
 		{
 			Music.getInstance().stop();
-			Game.getInstance().Exit();
+			Game.getInstance().setState(new MainMenu());
 		}
 
 		public void startLevelClick(Button a_b)
 		{
 			Music.getInstance().stop();
-			Game.getInstance().setState(new GameState(a_b.getText() + ".lvl"));
+			Game.getInstance().setState(new GameState("CustomLevels//" + chosenLevel.getText() + ".lvl"));
+		}
+
+		private void editLevelClick(Button a_button)
+		{
+			Music.getInstance().stop();
+			Game.getInstance().setState(new DevelopmentState("CustomLevels//" + chosenLevel.getText() + ".lvl"));
 		}
 
 		private void createNewLevel(Button a_button)
 		{
-			String t_fileName = "Content\\levels\\" + m_newLevelName.getText() + ".lvl";
+			String t_fileName = "Content\\levels\\CustomLevels\\" + m_newLevelName.getText() + ".lvl";
 
 			if (File.Exists(t_fileName))
 			{
@@ -114,7 +136,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				FileStream t_file = File.Create("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
+				FileStream t_file = File.Create("Content\\levels\\CustomLevels\\" + m_newLevelName.getText() + ".lvl");
 				t_file.Close();
 				Game.getInstance().setState(new DevelopmentState(m_newLevelName.getText() + ".lvl"));
 			}
@@ -124,9 +146,10 @@ namespace GrandLarceny
 		{
 			foreach (Button t_button in m_buttons)
 			{
-
+				t_button.setState(Button.State.Normal);
 			}
 			a_button.setState(Button.State.Toggled);
+			chosenLevel = a_button;
 		}
 		#endregion
 	}

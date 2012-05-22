@@ -10,6 +10,10 @@ namespace GrandLarceny
 	public class MenuState : States
 	{
 		internal LinkedList<Button> m_buttons = new LinkedList<Button>();
+		protected Color m_normal	= new Color(187, 194, 195);
+		protected Color m_hover		= new Color(255, 255, 255);
+		protected Color m_pressed	= new Color(132, 137, 138);
+		protected Color m_toggle	= new Color(0, 0, 255);
 
 		public override void update(GameTime a_gameTime)
 		{

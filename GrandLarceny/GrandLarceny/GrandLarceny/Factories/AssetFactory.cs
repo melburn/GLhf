@@ -144,7 +144,7 @@ namespace GrandLarceny
 
 		public static void createCheckPoint(Vector2 a_position)
 		{
-			m_state.addObject(new CheckPoint(m_state.getTileCoordinates(a_position), "Images//Tile//1x1_tile_ph", 0.200f, 0.0f));
+			m_state.addObject(new CheckPoint(m_state.getTileCoordinates(a_position), "Images//Prop//Clutter//backdrop_door", 0.200f, 0.0f));
 		}
 
 		public static void createProp(Vector2 a_position, string a_asset)
@@ -194,9 +194,9 @@ namespace GrandLarceny
 			m_state.addObject(new LockedDoor(m_state.getTileCoordinates(a_position), a_asset, 0.350f));
 		}
 
-		public static void createFlickringSign(Vector2 a_position)
+		public static void createFlickringSign(Vector2 a_position, string a_asset)
 		{
-			m_state.addObject(new FlickeringSign(m_state.getTileCoordinates(a_position), "Images//Tile//Floor//open_bar_sign_animation", 0.200f));
+			m_state.addObject(new FlickeringSign(m_state.getTileCoordinates(a_position), a_asset, 0.200f));
 		}
 
 		public static void copyAsset(Vector2 a_position, GameObject a_asset)
@@ -220,7 +220,7 @@ namespace GrandLarceny
 			{
 				if (a_asset is FlickeringSign)
 				{
-					createFlickringSign(t_position);
+					createFlickringSign(t_position, t_imagePath);
 				}
 				createPlatform(t_position, t_imagePath);
 			}

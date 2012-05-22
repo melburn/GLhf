@@ -16,6 +16,9 @@ namespace GrandLarceny
 		private bool m_switchedOn;
 		private bool m_connectedToAll;
 
+		[NonSerialized]
+		private Sound m_switchSound;
+
 		public LampSwitch(Vector2 a_position, String a_sprite, float a_layer)
 			: base(a_position, a_sprite, a_layer)
 		{
@@ -54,6 +57,7 @@ namespace GrandLarceny
 				}
 			}
 			m_collisionShape = new CollisionRectangle(28, 25, 45 - 28, 30, m_position);
+			m_switchSound = new Sound("Game//lightbutton");
 		}
 		public void connectSpotLight(SpotLight a_spotlight)
 		{
@@ -73,6 +77,7 @@ namespace GrandLarceny
 			if (m_switchedOn || (!m_connectedToAll))
 			{
 				m_switchedOn = !m_switchedOn;
+				m_switchSound.play();
 				if (m_switchedOn)
 				{
 					m_img.setSprite("Images//Prop//Button//1x1_alight_switch_on");

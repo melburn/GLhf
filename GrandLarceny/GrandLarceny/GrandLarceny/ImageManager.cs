@@ -16,6 +16,12 @@ namespace GrandLarceny
 		private bool m_looping;
 		private bool m_stopped = false;
 		private string m_imagePath;
+		
+		public delegate void animationDelegate(float a_from, float a_to);
+		public event animationDelegate m_animationEvent;
+
+		public delegate void animationOver(bool a_loop);
+		public event animationOver m_animationOverEvent;
 
 		//millisecond per frame
 		public float m_animationSpeed;
@@ -34,12 +40,17 @@ namespace GrandLarceny
 		{
 			if (!m_stopped)
 			{
+				float t_previous = m_subImageNumber;
 				m_subImageNumber += m_animationSpeed * a_gameTime.ElapsedGameTime.Milliseconds / 1000;
 				if (m_subImageNumber >= m_animationFrames || m_subImageNumber < 0)
 				{
 					if (m_looping)
 					{
 						m_subImageNumber = m_subImageNumber % m_animationFrames;
+						if (m_animationOverEvent != null)
+						{
+							m_animationOverEvent(true);
+						}
 					}
 					else
 					{
@@ -52,7 +63,15 @@ namespace GrandLarceny
 							m_subImageNumber = m_animationFrames - 0.1f;
 						}
 						m_stopped = true;
+						if (m_animationOverEvent != null)
+						{
+							m_animationOverEvent(false);
+						}
 					}
+				}
+				if (m_animationEvent != null)
+				{
+					m_animationEvent(t_previous, m_subImageNumber);
 				}
 			}
 		}
@@ -191,20 +210,6 @@ namespace GrandLarceny
 			{
 				m_stopped = false;
 				m_looping = true;
-				#if DEBUG
-				try
-				{
-					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
-				}
-				catch (ContentLoadException)
-				{
-					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");					
-				}
-				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
-				m_animationWidth = m_image.Width / m_animationFrames;
-				m_subImageNumber = 0;
-				m_imagePath = a_sprite;
-				#elif RELEASE
 				try
 				{
 					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
@@ -219,7 +224,6 @@ namespace GrandLarceny
 				m_animationWidth = m_image.Width / m_animationFrames;
 				m_subImageNumber = 0;
 				m_imagePath = a_sprite;
-				#endif
 				return true;
 			}
 			else

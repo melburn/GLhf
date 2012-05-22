@@ -46,6 +46,7 @@ namespace GrandLarceny
 						t_player.setState(Player.State.Hiding);
 						t_player.setHidingImage(Player.STANDHIDINGIMAGE);
 						t_player.setSpeedX(0);
+						t_player.getHideSound().play();
 					}
 					else if (t_player.getCurrentState() != Player.State.Hiding)
 					{

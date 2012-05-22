@@ -14,7 +14,6 @@ namespace GrandLarceny
 		#region Members
 		private string[] m_resolutions;
 		private int m_resolutionIndex;
-		private bool m_changedSettings;
 
 		private Button m_btnNextResolution;
 		private Button m_btnPrevResolution;
@@ -33,16 +32,15 @@ namespace GrandLarceny
 		private Text m_resolutionText;
 		private Text m_inputFeedback;
 		private Text m_countDown;
+		private Text m_soundLabel;
+		private Text m_musicLabel;
+		private TextField m_soundTF;
+		private TextField m_musicTF;
 
 		private Dictionary<string, string> m_settingsFile;
 		private Dictionary<string, string> m_defaultFile;
 
 		private string m_settingsPath;
-
-		private Color m_normal	= new Color(187, 194, 195);
-		private Color m_hover	= new Color(255, 255, 255);
-		private Color m_pressed	= new Color(132, 137, 138);
-
 		private TimeSpan m_timeOut;
 		#endregion
 
@@ -53,7 +51,6 @@ namespace GrandLarceny
 			m_buttonList.AddLast(m_keyList = new LinkedList<Button>());
 			m_settingsFile = new Dictionary<string, string>();
 			m_defaultFile = new Dictionary<string, string>();
-			m_changedSettings = false;
 			m_resolutions = new string[] 
 			{
 				"640x480"  , "800x600"	, "1024x768", "1152x864", "1280x720" , "1280x768" , "1280x800" , "1280x960" , "1280x1024",
@@ -91,6 +88,12 @@ namespace GrandLarceny
 			int i = 0;
 			m_guiList = new LinkedList<GuiObject>();
 			m_keyList = new LinkedList<Button>();
+			m_guiList.AddLast(m_soundLabel = new Text(new Vector2(500, 150), "Sound", "VerdanaBold", m_normal, false));
+			m_guiList.AddLast(m_musicLabel = new Text(new Vector2(500, 200), "Music", "VerdanaBold", m_normal, false));
+			m_guiList.AddLast(m_soundTF = new TextField(new Vector2(600, 150), 100, 20, false, true, false, 3));
+			m_guiList.AddLast(m_musicTF = new TextField(new Vector2(600, 200), 100, 20, false, true, false, 3));
+			m_soundTF.setText(m_settingsFile["Sound"].ToString());
+			m_musicTF.setText(m_settingsFile["Music"].ToString());
 			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.White, false));
 			m_resolutionText.setLayer(0.112f);
 			Vector2 t_textOffset = new Vector2(40, 10);
@@ -114,8 +117,8 @@ namespace GrandLarceny
 			m_keyList.AddLast(m_btnAntialias		= new Button(null, new Vector2(100, 250), "Anti-Alias", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnVSync			= new Button(null, new Vector2(100, 300), "Vertical Sync", "VerdanaBold", Color.White, new Vector2(50, 5)));
 			m_keyList.AddLast(m_btnApply			= new Button("btn_asset_list", new Vector2(100, 350), "Apply", "VerdanaBold", Color.White, new Vector2(5, 3)));
-			m_btnSave								= new TextButton(Vector2.Zero, "Save Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
-			m_btnExit								= new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnSave								= new TextButton(Vector2.Zero, "Accept", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnExit								= new TextButton(Vector2.Zero, "Cancel", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			m_btnSave.setPosition(new Vector2(15, Game.getInstance().getResolution().Y - 150));
 			m_btnExit.setPosition(new Vector2(15, Game.getInstance().getResolution().Y - 90));
 
@@ -178,6 +181,8 @@ namespace GrandLarceny
 			}
 			t_file.Close();
 			m_btnExit.setState(Button.State.Normal);
+			applyGraphics();
+			exitSettings(m_btnExit);
 		}
 
 		private void awaitInput(Button a_button)
@@ -277,15 +282,7 @@ namespace GrandLarceny
 
 		private void exitSettings(Button a_button)
 		{
-			if (m_changedSettings)
-			{
-				createDialog("You have unsaved changes, discard them?");
-				m_btnExit.setState(Button.State.Pressed);
-			}
-			else
-			{
-				Game.getInstance().setState(new MainMenu());			
-			}
+			Game.getInstance().setState(new MainMenu());
 		}
 
 		private void buttonYes(Button a_button)
@@ -297,7 +294,6 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_changedSettings = false;
 				exitSettings(m_btnExit);
 			}
 		}
@@ -328,7 +324,6 @@ namespace GrandLarceny
 				m_timeOut = Game.getInstance().getTotalGameTime() + new TimeSpan(0, 0, 10);
 			}
 
-			m_changedSettings = true;
 			createButtons();
 		}
 
@@ -382,7 +377,6 @@ namespace GrandLarceny
 
 		private void changedSettings()
 		{
-			m_changedSettings = true;
 			m_btnSave.setState(Button.State.Normal);
 		}
 
@@ -418,6 +412,19 @@ namespace GrandLarceny
 			if (KeyboardHandler.keyClicked(Keys.Escape) && m_inputFeedback == null)
 			{
 				exitSettings(m_btnExit);
+			}
+			if (KeyboardHandler.keyClicked(Keys.Enter))
+			{
+				if (m_soundTF.isWriting())
+				{
+					m_settingsFile["Sound"] = m_soundTF.getText();
+					m_soundTF.setWrite(false);
+				}
+				else if (m_musicTF.isWriting())
+				{
+					m_settingsFile["Music"] = m_musicTF.getText();
+					m_musicTF.setWrite(false);
+				}
 			}
 			foreach (Button t_button in m_keyList)
 			{
