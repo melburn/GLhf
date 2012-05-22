@@ -250,12 +250,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Floor\hair_saloon_animation.png">
+    <Compile Include="Images\Tile\Sign\hair_saloon_animation.png">
       <Name>hair_saloon_animation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Tile\Floor\open_bar_sign_animation.png">
+    <Compile Include="Images\Tile\Sign\open_bar_sign_animation.png">
       <Name>open_bar_sign_animation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -327,6 +327,56 @@
     </Compile>
     <Compile Include="Images\Background\backdrop_loft_4w2.png">
       <Name>backdrop_loft_4w2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_14_tiles.png">
+      <Name>backdrop_bar_14_tiles</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_bar_stool.png">
+      <Name>backdrop_bar_prop_bar_stool</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table.png">
+      <Name>backdrop_bar_prop_table</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table_left.png">
+      <Name>backdrop_bar_prop_table_left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table_midleft.png">
+      <Name>backdrop_bar_prop_table_midleft</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table_midright.png">
+      <Name>backdrop_bar_prop_table_midright</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_wo.png">
+      <Name>backdrop_bar_wo</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table_right.png">
+      <Name>backdrop_bar_prop_table_right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Prop\Clutter\backdrop_door.png">
+      <Name>backdrop_door</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Automagi\derp_key.png">
+      <Name>derp_key</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -434,6 +484,16 @@
     </Compile>
     <Compile Include="Sounds\SoundEffects\Game\lightbutton.wav">
       <Name>lightbutton</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\Karta.wav">
+      <Name>Karta</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\Tagrej.wav">
+      <Name>Tagrej</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
@@ -1861,7 +1921,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\EndVent\aventil_exit.png">
+    <Compile Include="Images\Tile\Ventilation\Drum\aventil_exit.png">
       <Name>aventil_exit</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

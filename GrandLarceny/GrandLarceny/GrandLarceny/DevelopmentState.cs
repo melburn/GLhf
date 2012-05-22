@@ -484,7 +484,7 @@ namespace GrandLarceny
 					m_objectPreview = new CornerHang(t_assetPosition, "Images//Automagi//cornerthingy", 0.000f);
 					break;
 				case State.Checkpoint:
-					m_objectPreview = new CheckPoint(t_assetPosition, "Images//Tile//1x1_tile_ph", 0.000f);
+					m_objectPreview = new CheckPoint(t_assetPosition, "Images//Prop//Clutter//backdrop_door", 0.000f);
 					break;
 				case State.SecDoor:
 					m_objectPreview = new LockedDoor(t_assetPosition, "Images//Prop//SecurityDoor//" + t_newAsset, 0.000f);
@@ -520,7 +520,7 @@ namespace GrandLarceny
 					m_objectPreview = new LockedDoor(t_assetPosition, "Images//Prop//SecurityDoor//door", 0.000f);
 					break;
 				case State.FlickeringSign:
-					m_objectPreview = new FlickeringSign(t_assetPosition, "Images//Tile//Floor//open_bar_sign_animation", 0.000f);
+					m_objectPreview = new FlickeringSign(t_assetPosition, "Images//Tile//Sign//" + t_newAsset, 0.000f);
 					break;
 			}
 		}
@@ -1148,7 +1148,7 @@ namespace GrandLarceny
 					createAssetList(null);
 					break;
 				case State.FlickeringSign:
-					createAssetList(null);
+					createAssetList("Content//Images//Tile//Sign//");
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)
