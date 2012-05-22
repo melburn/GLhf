@@ -375,6 +375,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Automagi\derp_key.png">
+      <Name>derp_key</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Levels\LevelRequirement.txt">
       <Name>LevelRequirement</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1916,7 +1921,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\EndVent\aventil_exit.png">
+    <Compile Include="Images\Tile\Ventilation\Drum\aventil_exit.png">
       <Name>aventil_exit</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
