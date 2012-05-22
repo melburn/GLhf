@@ -93,5 +93,10 @@ namespace GrandLarceny
 		{
 			return MediaPlayer.State == MediaState.Playing;
 		}
+
+		public void setVolume(int a_volume)
+		{
+			MediaPlayer.Volume = (float)(a_volume / 100.0f);
+		}
 	}
 }
