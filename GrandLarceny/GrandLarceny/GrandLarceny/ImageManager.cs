@@ -20,6 +20,9 @@ namespace GrandLarceny
 		public delegate void animationDelegate(float a_from, float a_to);
 		public event animationDelegate m_animationEvent;
 
+		public delegate void animationOver(bool a_loop);
+		public event animationOver m_animationOverEvent;
+
 		//millisecond per frame
 		public float m_animationSpeed;
 
@@ -37,13 +40,17 @@ namespace GrandLarceny
 		{
 			if (!m_stopped)
 			{
+				float t_previous = m_subImageNumber;
 				m_subImageNumber += m_animationSpeed * a_gameTime.ElapsedGameTime.Milliseconds / 1000;
 				if (m_subImageNumber >= m_animationFrames || m_subImageNumber < 0)
 				{
-					float t_previous = m_subImageNumber;
 					if (m_looping)
 					{
 						m_subImageNumber = m_subImageNumber % m_animationFrames;
+						if (m_animationOverEvent != null)
+						{
+							m_animationOverEvent(true);
+						}
 					}
 					else
 					{
@@ -56,11 +63,15 @@ namespace GrandLarceny
 							m_subImageNumber = m_animationFrames - 0.1f;
 						}
 						m_stopped = true;
+						if (m_animationOverEvent != null)
+						{
+							m_animationOverEvent(false);
+						}
 					}
-					if (m_animationEvent != null)
-					{
-						m_animationEvent(t_previous, m_subImageNumber);
-					}
+				}
+				if (m_animationEvent != null)
+				{
+					m_animationEvent(t_previous, m_subImageNumber);
 				}
 			}
 		}

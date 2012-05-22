@@ -464,6 +464,7 @@ namespace GrandLarceny
 			{
 				m_speed.Y -= JUMPSTRENGTH;
 				m_currentState = State.Jumping;
+				m_jumpSound.play();
 			}
 		}
 
