@@ -216,7 +216,7 @@ namespace GrandLarceny
 			{
 				Game.getInstance().m_camera.printInfo();
 			}
-			else if (KeyboardHandler.isKeyPressed(Keys.LeftControl))
+			else if (KeyboardHandler.ctrlMod())
 			{
 				if (KeyboardHandler.keyClicked(Keys.E))
 				{
@@ -232,10 +232,10 @@ namespace GrandLarceny
 					else
 						Game.getInstance().getProgress().setEquipment("boots", false);
 				}
-			}
-			else if (KeyboardHandler.ctrlMod() && KeyboardHandler.keyClicked(Keys.Q))
-			{
-				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
+				else if (KeyboardHandler.keyClicked(Keys.Q))
+				{
+					Game.getInstance().setState(new DevelopmentState(m_currentLevel));
+				}
 			}
 			else if (KeyboardHandler.keyClicked(Keys.F5))
 			{

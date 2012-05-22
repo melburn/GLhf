@@ -19,6 +19,8 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
+			Game.getInstance().m_camera = new Camera();
+
 			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
 			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
 
