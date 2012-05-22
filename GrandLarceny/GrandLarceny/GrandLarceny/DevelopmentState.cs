@@ -72,7 +72,7 @@ namespace GrandLarceny
 			DuckHidingObject,		StandHidingObject,	Rope,
 			SecDoor,		CornerHang,	Checkpoint,		Prop,
 			Heart,			Key,		EndVent,		Objective,
-			Shadow,			Parallax,	LockedDoor
+			Shadow,			Parallax,	LockedDoor,		FlickeringSign
 		}
 		#endregion
 
@@ -186,6 +186,8 @@ namespace GrandLarceny
 			m_btnConsKey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+D", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.LockedDoor);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.D }, guiButtonClick);
+			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "c+F", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.FlickeringSign);
+			t_button.setHotkey(new Keys[] { Keys.LeftControl, Keys.F }, guiButtonClick);
 			
 			#endregion
 			//-----------------------------------
@@ -516,6 +518,9 @@ namespace GrandLarceny
 					break;
 				case State.LockedDoor:
 					m_objectPreview = new LockedDoor(t_assetPosition, "Images//Prop//SecurityDoor//door", 0.000f);
+					break;
+				case State.FlickeringSign:
+					m_objectPreview = new FlickeringSign(t_assetPosition, "Images//Tile//Floor//open_bar_sign_animation", 0.000f);
 					break;
 			}
 		}
@@ -1140,6 +1145,9 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Background//Parallax//");
 					break;
 				case State.LockedDoor:
+					createAssetList(null);
+					break;
+				case State.FlickeringSign:
 					createAssetList(null);
 					break;
 			}
