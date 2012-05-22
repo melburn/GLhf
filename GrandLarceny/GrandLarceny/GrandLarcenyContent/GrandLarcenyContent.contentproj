@@ -391,10 +391,10 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
-    <Compile Include="Sounds\Music\ChaseSongIntro.wav">
+    <Compile Include="Sounds\Music\ChaseSongIntro.mp3">
       <Name>ChaseSongIntro</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
     </Compile>
     <None Include="Levels\TestLevels\asdf.lvl">
       <Name>asdf</Name>
