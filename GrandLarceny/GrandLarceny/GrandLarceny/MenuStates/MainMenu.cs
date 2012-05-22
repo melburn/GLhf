@@ -13,7 +13,6 @@ namespace GrandLarceny
 {
 	public class MainMenu : MenuState
 	{
-		private Button m_btnSettings;
 		private int m_currentButton = 0;
 
 		#region Constructor & Load
@@ -26,20 +25,12 @@ namespace GrandLarceny
 			Color t_hover		= new Color(255, 255, 255);
 			Color t_pressed		= new Color(132, 137, 138);
 
-			string t_ext = "Slot*";
 			if (!Directory.Exists("Content//levels//"))
 			{
 				Directory.CreateDirectory("Content//levels//");
 			}
-			string[] t_saveFiles = Directory.GetFiles("Content//levels//", t_ext);
-			if (t_saveFiles.Length > 0)
-			{
-				TextButton t_loadGame = new TextButton(Vector2.Zero, "Continue", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
-				t_loadGame.m_clickEvent += new TextButton.clickDelegate(loadGameClick);
-				m_buttons.AddLast(t_loadGame);
-			}
-
-			TextButton t_newGame = new TextButton(Vector2.Zero, "New Game", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+			
+			TextButton t_newGame = new TextButton(Vector2.Zero, "Start Game", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
 			t_newGame.m_clickEvent += new TextButton.clickDelegate(loadGameClick);
 			m_buttons.AddLast(t_newGame);
 
@@ -52,7 +43,7 @@ namespace GrandLarceny
 			m_buttons.AddLast(t_settings);
 
 			TextButton t_credit = new TextButton(Vector2.Zero, "Credits", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
-			//t_newGame.m_clickEvent += new Button.clickDelegate(newGameClick);
+			t_credit.m_clickEvent += new TextButton.clickDelegate(creditsClick);
 			m_buttons.AddLast(t_credit);
 			
 			TextButton t_exitButton = new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
@@ -75,6 +66,7 @@ namespace GrandLarceny
 		#region Update & Draw
 		public override void update(GameTime a_gameTime)
 		{
+			base.update(a_gameTime);
 			if (KeyboardHandler.keyClicked(Keys.Up))
 			{
 				moveCurrentHover(-1);
@@ -94,6 +86,7 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
+			base.draw(a_gameTime, a_spriteBatch);
 			foreach (Button t_b in m_buttons)
 				t_b.draw(a_gameTime, a_spriteBatch);
 		}
@@ -143,6 +136,17 @@ namespace GrandLarceny
 		{
 			Music.getInstance().stop();
 			Game.getInstance().setState(new LevelMenu());
+		}
+
+		private void creditsClick(Button a_button)
+		{
+			LinkedList<Text> t_list = GuiListFactory.createTextListFromArray(new string[] { "Joxe", "B2", "Zacko", "Lifegain", "Melburn", "Yuma", "Buddha the God", "Borre" }, "MotorwerkLarge", new Color(187, 194, 195));
+			GuiListFactory.setTextListPosition(t_list, new Vector2(-(Game.getInstance().getResolution().X / 2) + 600, -(Game.getInstance().getResolution().Y / 2) + 10));
+			GuiListFactory.setTextDistance(t_list, new Vector2(0, 60));
+			foreach (Text t_text in t_list)
+			{
+				m_guiList.AddLast(t_text);
+			}
 		}
 		#endregion
 	}

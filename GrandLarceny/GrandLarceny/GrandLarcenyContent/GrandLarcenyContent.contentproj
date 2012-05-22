@@ -260,7 +260,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Prop\Clutter\byst.png">
+    <Compile Include="Images\Prop\Consumables\Objective\byst.png">
       <Name>byst</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -1162,13 +1162,6 @@
   <ItemGroup>
     <Compile Include="Images\Background\8x8_corridor_backdrop_nospot.png">
       <Name>8x8_corridor_backdrop_nospot</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Foregrounds\casino_facade.png">
-      <Name>casino_facade</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
