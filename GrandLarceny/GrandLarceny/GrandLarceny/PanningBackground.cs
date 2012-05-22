@@ -12,6 +12,7 @@ namespace GrandLarceny
 		private LinkedList<ParallaxEnvironment> m_parallaxEnvironments;
 		private Random m_random;
 		private Texture2D m_background;
+		private Environment m_logo;
 
 		public PanningBackground()
 		{
@@ -38,6 +39,7 @@ namespace GrandLarceny
 				));
 				m_parallaxEnvironments.Last().setParrScroll(randomNumber(50, 600));
 			}
+			m_logo = new Environment(new Vector2(-400, -250), "Images//GUI//logotext", 0.800f);
 		}
 
 		private int randomNumber(int a_min, int a_max)
@@ -81,6 +83,9 @@ namespace GrandLarceny
 			{
 				m_parallaxEnvironments.ElementAt(i).draw(a_gameTime);
 			}
+
+			m_logo.draw(a_gameTime);
+
 			if (m_background != null && Game.getInstance().m_camera.getLayer() == 0)
 			{
 				Rectangle m_dest = Game.getInstance().m_camera.getRectangle();
