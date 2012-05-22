@@ -76,6 +76,14 @@ namespace GrandLarceny
 			}
 		}
 
+		public static void setTextListPosition(LinkedList<Text> a_list, Vector2 a_position)
+		{
+			foreach (Text t_text in a_list)
+			{
+				t_text.setPosition(a_position);
+			}
+		}
+
 		public static void setButtonDistance(LinkedList<Button> a_list, Vector2 a_distance)
 		{
 			int i = 0;
