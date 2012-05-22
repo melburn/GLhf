@@ -19,10 +19,6 @@ namespace GrandLarceny
 		private TextButton m_btnDevelop;
 		private Button chosenLevel;
 		private TimeSpan m_textTimeOut;
-
-		private Color m_normal	= new Color(187, 194, 195);
-		private Color m_hover	= new Color(255, 255, 255);
-		private Color m_pressed	= new Color(132, 137, 138);
 		#endregion
 
 		#region Constructor & Load

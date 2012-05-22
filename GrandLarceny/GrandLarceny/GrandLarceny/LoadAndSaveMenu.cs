@@ -23,30 +23,30 @@ namespace GrandLarceny
 			m_newSaveName = new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
 			m_newSaveName.setVisible(false);
 
-			Button t_slot1 = new Button("btn_asset_list", new Vector2(450, 350), "Slot 1", "VerdanaBold", Color.White, new Vector2(10, 0));
+			TextButton t_slot1 = new TextButton(new Vector2(450, 350), "Slot 1", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_toggle);
 			m_buttons.AddLast(t_slot1);
-			Button t_slot2 = new Button("btn_asset_list", new Vector2(500, 410), "Slot 2", "VerdanaBold", Color.White, new Vector2(10, 0));
+			TextButton t_slot2 = new TextButton(new Vector2(500, 410), "Slot 2", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_toggle);
 			m_buttons.AddLast(t_slot2);
-			Button t_slot3 = new Button("btn_asset_list", new Vector2(550, 470), "Slot 3", "VerdanaBold", Color.White, new Vector2(10, 0));
+			TextButton t_slot3 = new TextButton(new Vector2(550, 470), "Slot 3", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_toggle);
 			m_buttons.AddLast(t_slot3);
 
 			updateSaveText();
 
-			foreach(Button f_b in m_buttons)
+			foreach (TextButton f_b in m_buttons)
 			{
 				if (m_willSave)
 				{
-					f_b.m_clickEvent += new Button.clickDelegate(saveProgressClick);
+					f_b.m_clickEvent += new TextButton.clickDelegate(saveProgressClick);
 				}
 				else
 				{
-					f_b.m_clickEvent += new Button.clickDelegate(loadProgressClick);
+					f_b.m_clickEvent += new TextButton.clickDelegate(loadProgressClick);
 				}	
 			}
 
-			Button t_slot4 = new Button("btn_asset_list",new Vector2(900, 550), "Back!!", "VerdanaBold", Color.White,new Vector2(10,0));
+			TextButton t_slot4 = new TextButton(new Vector2(900, 550), "Back", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_toggle);
 			m_buttons.AddLast(t_slot4);
-			t_slot4.m_clickEvent += new Button.clickDelegate(backTo);
+			t_slot4.m_clickEvent += new TextButton.clickDelegate(backTo);
 		}
 
 		private void updateSaveText()
