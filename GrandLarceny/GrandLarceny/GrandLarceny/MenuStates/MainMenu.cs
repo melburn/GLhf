@@ -19,34 +19,33 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
-			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
+			Game.getInstance().m_camera = new Camera();
 
-			Color t_normal		= new Color(187, 194, 195);
-			Color t_hover		= new Color(255, 255, 255);
-			Color t_pressed		= new Color(132, 137, 138);
+			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
+			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
 
 			if (!Directory.Exists("Content//levels//"))
 			{
 				Directory.CreateDirectory("Content//levels//");
 			}
 			
-			TextButton t_newGame = new TextButton(Vector2.Zero, "Start Game", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+			TextButton t_newGame = new TextButton(Vector2.Zero, "Start Game", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_newGame.m_clickEvent += new TextButton.clickDelegate(loadGameClick);
 			m_buttons.AddLast(t_newGame);
 
-			TextButton t_levelSelect = new TextButton(Vector2.Zero, "Level Select", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+			TextButton t_levelSelect = new TextButton(Vector2.Zero, "User Levels", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_levelSelect.m_clickEvent += new TextButton.clickDelegate(levelSelectClick);
 			m_buttons.AddLast(t_levelSelect);
 
-			TextButton t_settings = new TextButton(Vector2.Zero, "Settings", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+			TextButton t_settings = new TextButton(Vector2.Zero, "Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_settings.m_clickEvent += new TextButton.clickDelegate(settingsClick);
 			m_buttons.AddLast(t_settings);
 
-			TextButton t_credit = new TextButton(Vector2.Zero, "Credits", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+			TextButton t_credit = new TextButton(Vector2.Zero, "Credits", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_credit.m_clickEvent += new TextButton.clickDelegate(creditsClick);
 			m_buttons.AddLast(t_credit);
 			
-			TextButton t_exitButton = new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", t_normal, t_hover, t_pressed, Color.Red);
+			TextButton t_exitButton = new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_exitButton.m_clickEvent += new TextButton.clickDelegate(exitClick);
 			m_buttons.AddLast(t_exitButton);
 			GuiListFactory.setListPosition(m_buttons, new Vector2(15, Game.getInstance().getResolution().Y / 2));

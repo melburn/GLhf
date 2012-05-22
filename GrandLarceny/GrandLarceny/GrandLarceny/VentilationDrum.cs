@@ -14,6 +14,8 @@ namespace GrandLarceny
 		VentilationDrum m_pairedVentilation = null;
 		[NonSerialized]
 		ImageManager m_backImg;
+		[NonSerialized]
+		private static Sound s_unlockSound;
 
 		int m_pairedVentilationId = 0;
 
@@ -34,6 +36,10 @@ namespace GrandLarceny
 			}
 			m_backImg = new ImageManager("Images//Tile//Ventilation//Straight//aventil_short_tile_w_floor");
 			m_collisionShape = new CollisionRectangle(30, 30, 12, 12, m_position);
+			if (s_unlockSound == null)
+			{
+				s_unlockSound = new Sound("Game//ledgegrab");
+			}
 		}
 		public override void linkObject()
 		{
@@ -84,6 +90,7 @@ namespace GrandLarceny
 				{
 					if (KeyboardHandler.keyClicked(GameState.getActionKey()) && t_player.getCurrentState() != Player.State.Jumping)
 					{
+						s_unlockSound.play();
 						toggleLocked();
 					}
 					else

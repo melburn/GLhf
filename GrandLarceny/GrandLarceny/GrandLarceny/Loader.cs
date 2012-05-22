@@ -131,6 +131,46 @@ namespace GrandLarceny
 			Game.getInstance().m_graphics.ApplyChanges();
 		}
 
+		public void loadSoundSettings(string a_file)
+		{
+			string[] t_loadedFile = File.ReadAllLines(a_file);
+			bool t_startParse = false;
+
+			foreach (string t_currentLine in t_loadedFile)
+			{
+				if (t_currentLine.Length > 2 && t_currentLine.First() == '[' && t_currentLine.Last() == ']')
+				{
+					if (t_currentLine.Equals("[Sound]"))
+					{
+						t_startParse = true;
+						continue;
+					}
+				}
+				if (!t_startParse)
+				{
+					continue;
+				}
+				string[] t_setting = t_currentLine.Split('=');
+				if (t_setting[0].Equals("Music"))
+				{
+					Music.getInstance().setVolume(int.Parse(t_setting[1]));
+				}
+				else if (t_setting[0].Equals("Sound"))
+				{
+					Sound.setVolume(int.Parse(t_setting[1]));
+				}
+				else if (t_setting[0].StartsWith("["))
+				{
+					break;
+				}
+				else
+				{
+					//ErrorLogger.getInstance().writeString("Found unknown setting while loading GameState" + t_setting[0]);
+				}
+			}
+			Game.getInstance().m_graphics.ApplyChanges();
+		}
+
 		public string[] getSettingsBlock(string a_block, string a_file)
 		{
 			LinkedList<string> t_returnValue = new LinkedList<string>();

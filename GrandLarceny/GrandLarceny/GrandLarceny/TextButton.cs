@@ -93,5 +93,10 @@ namespace GrandLarceny
 		{
 			m_text.draw(a_gameTime);
 		}
+
+		public override void invokeClickEvent()
+		{
+			m_clickEvent(this);
+		}
 	}
 }

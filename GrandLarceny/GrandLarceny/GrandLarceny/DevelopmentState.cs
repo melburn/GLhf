@@ -41,6 +41,7 @@ namespace GrandLarceny
 		private Text m_textObjectInfo;
 		private Text m_textGuardInfo;
 		private Text m_parallaxLabel;
+		private Text m_layerLabel;
 		private TextField m_layerTextField;
 		private TextField m_parallaxScrollTF;
 
@@ -71,7 +72,7 @@ namespace GrandLarceny
 			DuckHidingObject,		StandHidingObject,	Rope,
 			SecDoor,		CornerHang,	Checkpoint,		Prop,
 			Heart,			Key,		EndVent,		Objective,
-			Shadow,			Parallax,	LockedDoor
+			Shadow,			Parallax,	LockedDoor,		FlickeringSign
 		}
 		#endregion
 
@@ -124,12 +125,12 @@ namespace GrandLarceny
 			m_lineList			= new LinkedList<Line>();
 			m_objectPreview		= null;
 
-			m_guiList.AddLast(new Text(new Vector2(350, 3)	, "Layer:", "VerdanaBold", Color.Black, false));
+			m_guiList.AddLast(m_layerLabel			= new Text(new Vector2(350, 3)	, "", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_parallaxLabel		= new Text(new Vector2(460, 3)	, "Parallax Value:", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_textObjectInfo		= new Text(new Vector2(10, 3)	, "", "VerdanaBold", Color.Black, false));
 			m_guiList.AddLast(m_textGuardInfo		= new Text(new Vector2(480, 3)	, "", "VerdanaBold", Color.Black, false));
-			m_guiList.AddLast(m_layerTextField		= new TextField(new Vector2(400, 0), 50, 25, false, true, false, 3));
-			m_guiList.AddLast(m_parallaxScrollTF	= new TextField(new Vector2(580, 0), 70, 25, false, true, false, 3));
+			m_layerTextField	= new TextField(new Vector2(400, 0), 50, 25, false, true, false, 3);
+			m_parallaxScrollTF	= new TextField(new Vector2(580, 0), 70, 25, false, true, false, 3);
 			m_statusBar	= new Box(new Vector2(0, 0), (int)Game.getInstance().getResolution().X, 25, Color.LightGray, false);
 			m_statusBar.setLayer(0.111f);
 
@@ -185,6 +186,8 @@ namespace GrandLarceny
 			m_btnConsKey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+D", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.LockedDoor);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.D }, guiButtonClick);
+			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "c+F", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.FlickeringSign);
+			t_button.setHotkey(new Keys[] { Keys.LeftControl, Keys.F }, guiButtonClick);
 			
 			#endregion
 			//-----------------------------------
@@ -346,6 +349,7 @@ namespace GrandLarceny
 				{
 					m_textGuardInfo.setText("");
 				}
+				m_layerTextField.update(a_gameTime);
 			}
 
 			if (!m_layerTextField.isWriting() && !m_parallaxScrollTF.isWriting())
@@ -363,7 +367,6 @@ namespace GrandLarceny
 				}
 			}
 
-			m_layerTextField.update(a_gameTime);
 			m_statusBar.update(a_gameTime);
 		}
 		#endregion
@@ -516,6 +519,9 @@ namespace GrandLarceny
 				case State.LockedDoor:
 					m_objectPreview = new LockedDoor(t_assetPosition, "Images//Prop//SecurityDoor//door", 0.000f);
 					break;
+				case State.FlickeringSign:
+					m_objectPreview = new FlickeringSign(t_assetPosition, "Images//Tile//Floor//open_bar_sign_animation", 0.000f);
+					break;
 			}
 		}
 		#endregion
@@ -575,7 +581,6 @@ namespace GrandLarceny
 					t_saveLevel.setLevelObjects(m_gameObjectList);
 					t_saveLevel.setEvents(m_events);
 					Serializer.getInstance().SaveLevel(Serializer.getInstance().getFileToStream(m_levelToLoad, true), t_saveLevel);
-
 				}
 
 				if (KeyboardHandler.keyClicked(Keys.O))
@@ -603,7 +608,7 @@ namespace GrandLarceny
 				{
 					if (m_copyTarget != null)
 					{
-						AssetFactory.copyAsset(m_selectedObject.getPosition().getGlobalCartesian(), m_copyTarget);
+						AssetFactory.copyAsset(m_copyTarget.getPosition().getGlobalCartesian(), m_copyTarget);
 					}
 				}
 
@@ -744,6 +749,7 @@ namespace GrandLarceny
 							m_parallaxLabel.setVisible(true);
 						}
 
+						m_layerLabel.setText("Layer:");
 						m_layerTextField.setText((m_selectedObject.getLayer() * 1000).ToString());
 						m_textObjectInfo.setText(m_selectedObject.ToString());
 						
@@ -981,6 +987,8 @@ namespace GrandLarceny
 				m_selectedObject.setColor(Color.White);
 				m_selectedObject = null;
 				m_selectedInfoV2 = Vector2.Zero;
+				m_layerLabel.setText("");
+				m_textObjectInfo.setText("");
 			}
 			m_parallaxLabel.setVisible(false);
 			m_parallaxScrollTF.setVisible(false);
@@ -1137,6 +1145,9 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Background//Parallax//");
 					break;
 				case State.LockedDoor:
+					createAssetList(null);
+					break;
+				case State.FlickeringSign:
 					createAssetList(null);
 					break;
 			}

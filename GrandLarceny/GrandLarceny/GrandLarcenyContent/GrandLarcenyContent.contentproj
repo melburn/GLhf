@@ -2422,7 +2422,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Levels\TestLevels\" />
     <Folder Include="wtf\Cutscenes\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

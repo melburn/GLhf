@@ -194,6 +194,11 @@ namespace GrandLarceny
 			m_state.addObject(new LockedDoor(m_state.getTileCoordinates(a_position), a_asset, 0.350f));
 		}
 
+		public static void createFlickringSign(Vector2 a_position)
+		{
+			m_state.addObject(new FlickeringSign(m_state.getTileCoordinates(a_position), "Images//Tile//Floor//open_bar_sign_animation", 0.200f));
+		}
+
 		public static void copyAsset(Vector2 a_position, GameObject a_asset)
 		{
 			Vector2 t_position;
@@ -213,6 +218,10 @@ namespace GrandLarceny
 			}
 			if (a_asset is Platform)
 			{
+				if (a_asset is FlickeringSign)
+				{
+					createFlickringSign(t_position);
+				}
 				createPlatform(t_position, t_imagePath);
 			}
 			if (a_asset is Ladder)
