@@ -19,6 +19,7 @@ namespace GrandLarceny
 		{
 			Player t_player = Game.getInstance().getState().getPlayer();
 			t_player.heal(1);
+			new Sound("SecHit").play();
 			return true;
 		}
 	}

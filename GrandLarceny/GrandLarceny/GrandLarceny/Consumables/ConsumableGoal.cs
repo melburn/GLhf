@@ -30,6 +30,7 @@ namespace GrandLarceny
 				m_feedback.setTimer(((float)Game.getInstance().getTotalGameTime().TotalMilliseconds) + 3000f);
 				Game.getInstance().getState().addObject(m_feedback);
 			}
+			new Sound("SecHit").play();
 			return true;
 		}
 

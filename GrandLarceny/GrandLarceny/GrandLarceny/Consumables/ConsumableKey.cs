@@ -18,6 +18,7 @@ namespace GrandLarceny
 		protected override Boolean collect()
 		{
 			Game.getInstance().getProgress().increaseConsumable("key");
+			new Sound("SecHit").play();
 			return true;
 		}
 	}
