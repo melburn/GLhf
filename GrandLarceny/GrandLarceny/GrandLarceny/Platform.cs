@@ -13,7 +13,12 @@ namespace GrandLarceny
 		public Platform(Vector2 a_posV2, String a_sprite, float a_layer)
 			: base(a_posV2, a_sprite, a_layer)
 		{
-			
+		}
+
+		public override void loadContent()
+		{
+			base.loadContent();
+			m_img.setAnimationSpeed(5);
 		}
 
 		internal override void updateCollisionWith(Entity a_collider)

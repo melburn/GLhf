@@ -34,6 +34,8 @@ namespace GrandLarceny
 		private MemoryStream m_checkPointLevel;
 		private MemoryStream m_checkPointProgress;
 
+		private Random m_random;
+
 		public static Game getInstance()
 		{
 			if (m_myGame != null)
@@ -49,6 +51,7 @@ namespace GrandLarceny
 
 		private Game()
 		{
+			m_random = new Random();
 			m_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
@@ -259,6 +262,11 @@ namespace GrandLarceny
 				m_checkPointProgress.Position = 0;
 			}
 			return m_checkPointProgress;
+		}
+
+		public Random getRandom()
+		{
+			return m_random;
 		}
 	}
 }
