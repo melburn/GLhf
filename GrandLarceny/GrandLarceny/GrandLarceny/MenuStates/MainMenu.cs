@@ -14,6 +14,7 @@ namespace GrandLarceny
 	public class MainMenu : MenuState
 	{
 		private int m_currentButton = 0;
+		private PanningBackground m_panningBackground;
 
 		#region Constructor & Load
 		public override void load()
@@ -22,6 +23,7 @@ namespace GrandLarceny
 			Game.getInstance().m_camera = new Camera();
 
 			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
+			Game.getInstance().m_graphics.PreferMultiSampling = false;
 			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
 
 			if (!Directory.Exists("Content//levels//"))
@@ -29,6 +31,8 @@ namespace GrandLarceny
 				Directory.CreateDirectory("Content//levels//");
 			}
 			
+			m_panningBackground = new PanningBackground();
+
 			TextButton t_newGame = new TextButton(Vector2.Zero, "Start Game", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_newGame.m_clickEvent += new TextButton.clickDelegate(loadGameClick);
 			m_buttons.AddLast(t_newGame);
@@ -80,14 +84,20 @@ namespace GrandLarceny
 				m_buttons.ElementAt(m_currentButton).invokeClickEvent();
 			}
 			foreach (Button t_b in m_buttons)
+			{
 				t_b.update();
+			}
+			m_panningBackground.update(a_gameTime);
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			base.draw(a_gameTime, a_spriteBatch);
 			foreach (Button t_b in m_buttons)
+			{
 				t_b.draw(a_gameTime, a_spriteBatch);
+			}
+			m_panningBackground.draw(a_gameTime, a_spriteBatch);
 		}
 		#endregion
 

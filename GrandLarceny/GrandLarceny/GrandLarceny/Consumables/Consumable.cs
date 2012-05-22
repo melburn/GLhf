@@ -23,7 +23,7 @@ namespace GrandLarceny
 		{
 			base.loadContent();
 			m_bling = new ImageManager("Images//Prop//Consumables//Sparkle");
-			m_bling.setAnimationSpeed(20);
+			m_bling.setAnimationSpeed(18);
 		}
 
 		public override void update(GameTime a_gameTime)
@@ -38,10 +38,11 @@ namespace GrandLarceny
 			if (m_isBlinging)
 			{
 				Vector2 t_imgPosition = m_position.getFlooredGlobalCartesian() + new Vector2(m_imgOffsetX, m_imgOffsetY);
-				///*t_imgPosition.X = m_position.getGlobalX() + m_imgOffsetX;
-				//t_imgPosition.Y = m_position.getGlobalY() + m_imgOffsetY;
+				//Vector2 t_imgPosition = m_position.getGlobalCartesian() ;
+				float t_XScale = (m_XScale * m_img.getSize().X) / m_bling.getSize().X;
+				float t_YScale = (m_YScale * m_img.getSize().Y) / m_bling.getSize().Y;
 
-				m_bling.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer - 0.001f, m_XScale, m_YScale);
+				m_bling.draw(t_imgPosition, m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer - 0.001f, t_XScale, t_YScale);
 			}
 		}
 
