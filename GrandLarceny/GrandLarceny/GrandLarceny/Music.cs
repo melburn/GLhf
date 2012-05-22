@@ -96,7 +96,7 @@ namespace GrandLarceny
 
 		public void setVolume(int a_volume)
 		{
-			MediaPlayer.Volume = a_volume;
+			MediaPlayer.Volume = (float)(a_volume / 100.0f);
 		}
 	}
 }
