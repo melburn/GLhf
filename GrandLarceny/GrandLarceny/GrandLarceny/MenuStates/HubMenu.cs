@@ -132,19 +132,19 @@ namespace GrandLarceny
 		#region Main Menu Methods (MMM...Bio)
 		public void playClick(Button a_b)
 		{
-			Music.stop();
+			Music.getInstance().stop();
 			Game.getInstance().setState(new GameState("Level3.txt"));
 		}
 
 		public void exitClick(Button a_b)
 		{
-			Music.stop();
+			Music.getInstance().stop();
 			Game.getInstance().Exit();
 		}
 
 		public void startLevelClick(Button a_b)
 		{
-			Music.stop();
+			Music.getInstance().stop();
 			Game.getInstance().setState(new GameState(a_b.getText() + ".lvl"));
 		}
 

@@ -421,14 +421,11 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
-    <Compile Include="Sounds\Music\ChaseSongIntro.wav">
+    <Compile Include="Sounds\Music\ChaseSongIntro.mp3">
       <Name>ChaseSongIntro</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
     </Compile>
-    <None Include="Levels\TestLevels\asdf.lvl">
-      <Name>asdf</Name>
-    </None>
     <None Include="Levels\Level1.lvl">
       <Name>Level1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1192,13 +1189,6 @@
   <ItemGroup>
     <Compile Include="Images\Background\8x8_corridor_backdrop_nospot.png">
       <Name>8x8_corridor_backdrop_nospot</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Foregrounds\casino_facade.png">
-      <Name>casino_facade</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -2371,6 +2361,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Levels\TestLevels\" />
     <Folder Include="wtf\Cutscenes\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
