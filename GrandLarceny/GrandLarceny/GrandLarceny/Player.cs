@@ -113,6 +113,10 @@ namespace GrandLarceny
 		private Sound m_stepSound;
 		[NonSerialized]
 		private Sound m_runSound;
+		[NonSerialized]
+		private Sound m_hideSound;
+		[NonSerialized]
+		private Sound m_ventilationMoveSound;
 
 		public enum Direction
 		{
@@ -190,6 +194,8 @@ namespace GrandLarceny
 			m_hangSound = new Sound("Game/ledgegrab");
 			m_stepSound = new Sound("Game//walk");
 			m_runSound = new Sound("Game//walk4");
+			m_hideSound = new Sound("Game//hopp");
+			m_ventilationMoveSound = new Sound("Game//ledgegrab");
 
 			m_img.m_animationEvent += new ImageManager.animationDelegate(changedSubImage);
 		}
@@ -216,6 +222,13 @@ namespace GrandLarceny
 					{
 						m_stepSound.play();
 					}
+				}
+			}
+			else if(m_currentState == State.Ventilation)
+			{
+				if (a_from < 3 && a_to >= 3)
+				{
+					m_ventilationMoveSound.play();
 				}
 			}
 		}
@@ -1818,6 +1831,10 @@ namespace GrandLarceny
 			m_slideBox.setPosition(m_position);
 			m_hangHitBox.setPosition(m_position);
 			m_swingHitBox.setPosition(m_position);
+		}
+		public Sound getHideSound()
+		{
+			return m_hideSound;
 		}
 		#endregion
 	}
