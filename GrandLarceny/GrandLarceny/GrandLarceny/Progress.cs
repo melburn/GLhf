@@ -49,7 +49,7 @@ namespace GrandLarceny
 		{
 			if (m_consumables.ContainsKey(a_consumable))
 			{
-				m_consumables.Add(a_consumable, m_consumables[a_consumable] + 1);
+				m_consumables[a_consumable] = m_consumables[a_consumable] + 1;
 			}
 			else
 			{
@@ -61,7 +61,7 @@ namespace GrandLarceny
 		{
 			if (m_consumables.ContainsKey(a_consumable) && m_consumables[a_consumable] > 0)
 			{
-				m_consumables.Add(a_consumable, m_consumables[a_consumable] - 1);
+				m_consumables[a_consumable] = m_consumables[a_consumable] - 1;
 				return true;
 			}
 			else

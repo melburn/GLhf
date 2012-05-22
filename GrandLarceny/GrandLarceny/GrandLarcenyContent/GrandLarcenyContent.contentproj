@@ -260,7 +260,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Prop\Clutter\byst.png">
+    <Compile Include="Images\Prop\Consumables\Objective\byst.png">
       <Name>byst</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -297,6 +297,36 @@
     </Compile>
     <Compile Include="Images\GUI\GameGUI\getbootstext.png">
       <Name>getbootstext</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_wc_long.png">
+      <Name>backdrop_wc_long</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_wc_short.png">
+      <Name>backdrop_wc_short</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_wc_short_basin.png">
+      <Name>backdrop_wc_short_basin</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_loft_1w.png">
+      <Name>backdrop_loft_1w</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_loft_4w.png">
+      <Name>backdrop_loft_4w</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_loft_4w2.png">
+      <Name>backdrop_loft_4w2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -391,14 +421,26 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
-    <Compile Include="Sounds\Music\ChaseSongIntro.wav">
+    <Compile Include="Sounds\Music\ChaseSongIntro.mp3">
       <Name>ChaseSongIntro</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\heartbeat.wav">
+      <Name>heartbeat</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <None Include="Levels\TestLevels\asdf.lvl">
-      <Name>asdf</Name>
-    </None>
+    <Compile Include="Sounds\SoundEffects\Game\ledgegrab.wav">
+      <Name>ledgegrab</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\lightbutton.wav">
+      <Name>lightbutton</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <None Include="Levels\Level1.lvl">
       <Name>Level1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1162,13 +1204,6 @@
   <ItemGroup>
     <Compile Include="Images\Background\8x8_corridor_backdrop_nospot.png">
       <Name>8x8_corridor_backdrop_nospot</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Foregrounds\casino_facade.png">
-      <Name>casino_facade</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -2341,6 +2376,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Levels\TestLevels\" />
     <Folder Include="wtf\Cutscenes\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

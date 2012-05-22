@@ -124,7 +124,7 @@ namespace GrandLarceny
 			m_btnFullscreen.m_clickEvent		+= new Button.clickDelegate(toggleButton);
 			m_btnAntialias.m_clickEvent			+= new Button.clickDelegate(toggleButton);
 			m_btnVSync.m_clickEvent				+= new Button.clickDelegate(toggleButton);
-			m_btnApply.m_clickEvent				+= new Button.clickDelegate(applyGraphics);
+			m_btnApply.m_clickEvent				+= new Button.clickDelegate(testGraphics);
 			m_btnSave.m_clickEvent				+= new TextButton.clickDelegate(saveSettings);			
 			m_btnExit.m_clickEvent				+= new TextButton.clickDelegate(exitSettings);
 
@@ -316,14 +316,9 @@ namespace GrandLarceny
 			}
 		}
 
-		private void applyGraphics(Button a_button)
+		private void testGraphics(Button a_button)
 		{
-			Game.getInstance().m_graphics.PreferredBackBufferWidth			= int.Parse(m_settingsFile["ScreenWidth"]);
-			Game.getInstance().m_graphics.PreferredBackBufferHeight			= int.Parse(m_settingsFile["ScreenHeight"]);
-			Game.getInstance().m_graphics.IsFullScreen						= bool.Parse(m_settingsFile["Fullscreen"]);
-			Game.getInstance().m_graphics.PreferMultiSampling				= bool.Parse(m_settingsFile["Antialias"]);
-			Game.getInstance().m_graphics.SynchronizeWithVerticalRetrace	= bool.Parse(m_settingsFile["VSync"]);
-			Game.getInstance().m_graphics.ApplyChanges();
+			applyGraphics();
 
 			if (m_countDown == null)
 			{
@@ -333,7 +328,18 @@ namespace GrandLarceny
 				m_timeOut = Game.getInstance().getTotalGameTime() + new TimeSpan(0, 0, 10);
 			}
 
+			m_changedSettings = true;
 			createButtons();
+		}
+
+		private void applyGraphics()
+		{
+			Game.getInstance().m_graphics.PreferredBackBufferWidth			= int.Parse(m_settingsFile["ScreenWidth"]);
+			Game.getInstance().m_graphics.PreferredBackBufferHeight			= int.Parse(m_settingsFile["ScreenHeight"]);
+			Game.getInstance().m_graphics.IsFullScreen						= bool.Parse(m_settingsFile["Fullscreen"]);
+			Game.getInstance().m_graphics.PreferMultiSampling				= bool.Parse(m_settingsFile["Antialias"]);
+			Game.getInstance().m_graphics.SynchronizeWithVerticalRetrace	= bool.Parse(m_settingsFile["VSync"]);
+			Game.getInstance().m_graphics.ApplyChanges();
 		}
 
 		private void resetGraphics()
@@ -344,7 +350,7 @@ namespace GrandLarceny
 			m_settingsFile["Antialias"]		= m_defaultFile["Antialias"];
 			m_settingsFile["VSync"]			= m_defaultFile["VSync"];
 
-			applyGraphics(m_btnApply);
+			applyGraphics();
 			setResolutionLabel();
 			createButtons();
 		}
@@ -396,12 +402,12 @@ namespace GrandLarceny
 		private void removeDialog()
 		{
 			m_inputFeedback = null;
-			m_countDown = null;
 			m_buttons.Remove(m_btnYes);
 			m_buttons.Remove(m_btnNo);
 			m_btnYes = null;
 			m_btnNo = null;
 			m_dialogBackground = null;
+			m_countDown = null;
 		}
 		#endregion
 		
@@ -431,7 +437,6 @@ namespace GrandLarceny
 				{
 					resetGraphics();
 					removeDialog();
-					applyGraphics(m_btnApply);
 					m_countDown = null;
 				}
 				else

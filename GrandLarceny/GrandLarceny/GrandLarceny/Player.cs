@@ -1717,7 +1717,7 @@ namespace GrandLarceny
 				Cutscene t_cutScene = new Cutscene(Game.getInstance().getState(), t_commands);
 				Game.getInstance().setState(t_cutScene);
 				m_chase = true;
-				Music.play("ChaseSongLoop");
+				Music.getInstance().play("ChaseSongIntro","ChaseSongLoop");
 				m_runMode = false;
 				m_playerCurrentSpeed = PLAYERSPEEDCHASEMODE;
 				setIsInLight(true);
@@ -1729,7 +1729,7 @@ namespace GrandLarceny
 			if(m_chase)
 			{
 				m_deactivateChase = true;
-				Music.play("StageSong");
+				Music.getInstance().play("StageSong");
 			}
 		}
 
