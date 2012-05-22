@@ -260,7 +260,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Images\Prop\Clutter\byst.png">
+    <Compile Include="Images\Prop\Consumables\Objective\byst.png">
       <Name>byst</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
