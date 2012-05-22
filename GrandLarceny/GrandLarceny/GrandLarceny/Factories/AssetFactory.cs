@@ -144,7 +144,7 @@ namespace GrandLarceny
 
 		public static void createCheckPoint(Vector2 a_position)
 		{
-			m_state.addObject(new CheckPoint(m_state.getTileCoordinates(a_position), "Images//Tile//1x1_tile_ph", 0.200f, 0.0f));
+			m_state.addObject(new CheckPoint(m_state.getTileCoordinates(a_position), "Images//Prop//Clutter//backdrop_door", 0.200f, 0.0f));
 		}
 
 		public static void createProp(Vector2 a_position, string a_asset)

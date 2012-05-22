@@ -484,7 +484,7 @@ namespace GrandLarceny
 					m_objectPreview = new CornerHang(t_assetPosition, "Images//Automagi//cornerthingy", 0.000f);
 					break;
 				case State.Checkpoint:
-					m_objectPreview = new CheckPoint(t_assetPosition, "Images//Tile//1x1_tile_ph", 0.000f);
+					m_objectPreview = new CheckPoint(t_assetPosition, "Images//Prop//Clutter//backdrop_door", 0.000f);
 					break;
 				case State.SecDoor:
 					m_objectPreview = new LockedDoor(t_assetPosition, "Images//Prop//SecurityDoor//" + t_newAsset, 0.000f);
