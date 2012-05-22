@@ -392,6 +392,21 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\heartbeat.wav">
+      <Name>heartbeat</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\ledgegrab.wav">
+      <Name>ledgegrab</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\lightbutton.wav">
+      <Name>lightbutton</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <None Include="Levels\Level1.lvl">
       <Name>Level1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
