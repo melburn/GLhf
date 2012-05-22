@@ -1167,13 +1167,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Foregrounds\casino_facade.png">
-      <Name>casino_facade</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Tile\Ventilation\Corner\ventil_short_tile_w_floor_corner.png">
       <Name>ventil_short_tile_w_floor_corner</Name>
       <Importer>TextureImporter</Importer>

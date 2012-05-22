@@ -47,6 +47,18 @@ namespace GrandLarceny
 			return t_guiList;
 		}
 
+		public static LinkedList<Text> createTextListFromArray(string[] a_array, string a_font, Color a_color)
+		{
+			LinkedList<Text> t_guiList = new LinkedList<Text>();
+			
+			for (int i = 0; i < a_array.Length; i++)
+			{
+				t_guiList.AddLast(new Text(Vector2.Zero, a_array[i], a_font, a_color, false));
+			}
+
+			return t_guiList;
+		}
+
 		public static LinkedList<Button> createNumeratedList(int a_numberOfElements, string a_buttonGraphic)
 		{
 			LinkedList<Button> t_guiList = new LinkedList<Button>();
@@ -71,6 +83,14 @@ namespace GrandLarceny
 			{
 				t_button.move(a_distance * i);
 				i++;
+			}
+		}
+
+		public static void setTextDistance(LinkedList<Text> a_list, Vector2 a_distance)
+		{
+			for (int i = 0; i < a_list.Count(); i++)
+			{
+				a_list.ElementAt(i).move(a_distance * i);
 			}
 		}
 
