@@ -117,7 +117,12 @@ namespace GrandLarceny
 		private Sound m_hideSound;
 		[NonSerialized]
 		private Sound m_ventilationMoveSound;
-
+		[NonSerialized]
+		private Sound m_ladderSound;
+		[NonSerialized]
+		private Sound m_rollSound;
+		[NonSerialized]
+		private Sound m_ledgeClimbSound;
 		public enum Direction
 		{
 			None, Left, Right,
@@ -196,6 +201,9 @@ namespace GrandLarceny
 			m_runSound = new Sound("Game//walk4");
 			m_hideSound = new Sound("Game//hopp");
 			m_ventilationMoveSound = new Sound("Game//ledgegrab");
+			m_ladderSound = new Sound("Game//ledgegrab");
+			m_rollSound = new Sound("Game//hopp");
+			m_ledgeClimbSound = new Sound("Game//ledgegrab");
 
 			m_img.m_animationEvent += new ImageManager.animationDelegate(changedSubImage);
 		}
@@ -229,6 +237,14 @@ namespace GrandLarceny
 				if (a_from < 3 && a_to >= 3)
 				{
 					m_ventilationMoveSound.play();
+				}
+			}
+			else if (m_currentState == State.Climbing)
+			{
+				if ((a_from < 4 && a_to >= 4) ||
+					a_from > 4 && a_to <= 4)
+				{
+					m_ladderSound.play();
 				}
 			}
 		}
@@ -442,6 +458,7 @@ namespace GrandLarceny
 			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
+				m_rollSound.play();
 				return;
 			}
 
@@ -473,6 +490,7 @@ namespace GrandLarceny
 			if (KeyboardHandler.keyClicked(GameState.getRollKey()) && m_rollActionCD <= 0)
 			{
 				m_currentState = State.Rolling;
+				m_rollSound.play();
 				return;
 			}
 
@@ -768,6 +786,7 @@ namespace GrandLarceny
 				m_currentState = State.Climbing;
 				m_position.plusYWith(m_standHitBox.m_height - m_hangHitBox.m_height);
 				Game.getInstance().m_camera.getPosition().plusYWith(-(m_standHitBox.m_height - m_hangHitBox.m_height));
+				m_ledgeClimbSound.play();
 			}
 		}
 
@@ -1625,7 +1644,7 @@ namespace GrandLarceny
 				m_stunnedFlipSprite = true;
 				m_speed.X = 0;
 				m_speed.Y = 0;
-
+				m_ledgeClimbSound.play();
 				if (m_currentState == State.Hanging)
 				{
 					m_imgOffsetY -= m_standHitBox.m_height / 1.8f;

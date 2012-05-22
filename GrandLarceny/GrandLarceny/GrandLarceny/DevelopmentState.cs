@@ -608,7 +608,7 @@ namespace GrandLarceny
 				{
 					if (m_copyTarget != null)
 					{
-						AssetFactory.copyAsset(m_selectedObject.getPosition().getGlobalCartesian(), m_copyTarget);
+						AssetFactory.copyAsset(m_copyTarget.getPosition().getGlobalCartesian(), m_copyTarget);
 					}
 				}
 
