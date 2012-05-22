@@ -189,9 +189,9 @@ namespace GrandLarceny
 
 			m_background = Game.getInstance().Content.Load<Texture2D>("Images//Background//starry_sky_01");
 
-			Music.loadSong("ChaseSongLoop");
-			Music.loadSong("StageSong");
-			Music.play("StageSong");
+			Music.getInstance().loadSong("ChaseSongLoop");
+			Music.getInstance().loadSong("StageSong");
+			Music.getInstance().play("StageSong");
 
 			base.load();
 			addObject(new Darkness(Vector2.Zero, "Images//LightCone//ventilljus", 0.003f), 1);
