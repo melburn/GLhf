@@ -179,6 +179,7 @@
     <Compile Include="Handlers\MouseHandler.cs" />
     <Compile Include="MenuStates\LevelMenu.cs" />
     <Compile Include="Music.cs" />
+    <Compile Include="PanningBackground.cs" />
     <Compile Include="ParallaxEnvironment.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="Events\Triggers\PlayerIsWithinCircle.cs" />

@@ -330,8 +330,53 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Background\backdrop_bar_14_tiles.png">
+      <Name>backdrop_bar_14_tiles</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_bar_stool.png">
+      <Name>backdrop_bar_prop_bar_stool</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table.png">
+      <Name>backdrop_bar_prop_table</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table_left.png">
+      <Name>backdrop_bar_prop_table_left</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table_midleft.png">
+      <Name>backdrop_bar_prop_table_midleft</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table_midright.png">
+      <Name>backdrop_bar_prop_table_midright</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_wo.png">
+      <Name>backdrop_bar_wo</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\backdrop_bar_prop_table_right.png">
+      <Name>backdrop_bar_prop_table_right</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Images\Prop\Clutter\backdrop_door.png">
       <Name>backdrop_door</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Automagi\derp_key.png">
+      <Name>derp_key</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -442,6 +487,16 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\Karta.wav">
+      <Name>Karta</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\Tagrej.wav">
+      <Name>Tagrej</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <None Include="Levels\Level1.lvl">
       <Name>Level1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -450,6 +505,10 @@
       <Name>Level2</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="wtf\Cutscenes\pause.csn">
+      <Name>pause</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="wtf\settings.ini">
       <Name>settings</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1866,7 +1925,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Tile\Ventilation\EndVent\aventil_exit.png">
+    <Compile Include="Images\Tile\Ventilation\Drum\aventil_exit.png">
       <Name>aventil_exit</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -2376,9 +2435,7 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wtf\Cutscenes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
