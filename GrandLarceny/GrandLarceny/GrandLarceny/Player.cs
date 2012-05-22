@@ -107,6 +107,16 @@ namespace GrandLarceny
 		private Sound m_jumpSound;
 		[NonSerialized]
 		private Sound m_landSound;
+		[NonSerialized]
+		private Sound m_hangSound;
+		[NonSerialized]
+		private Sound m_stepSound;
+		[NonSerialized]
+		private Sound m_runSound;
+		[NonSerialized]
+		private Sound m_hideSound;
+		[NonSerialized]
+		private Sound m_ventilationMoveSound;
 
 		public enum Direction
 		{
@@ -181,10 +191,48 @@ namespace GrandLarceny
 			m_hitSound3 = new Sound("Game//LethalHit");
 			m_jumpSound = new Sound("Game//hopp");
 			m_landSound = new Sound("Game//landa2");
+			m_hangSound = new Sound("Game/ledgegrab");
+			m_stepSound = new Sound("Game//walk");
+			m_runSound = new Sound("Game//walk4");
+			m_hideSound = new Sound("Game//hopp");
+			m_ventilationMoveSound = new Sound("Game//ledgegrab");
+
+			m_img.m_animationEvent += new ImageManager.animationDelegate(changedSubImage);
 		}
 		#endregion
 
 		#region update
+
+		private void changedSubImage(float a_from, float a_to)
+		{
+			if (m_currentState == State.Walking)
+			{
+				if (m_runMode)
+				{
+					if ((a_from < 1 && a_to >= 1) ||
+						(a_from < 5 && a_to >= 5))
+					{
+						m_runSound.play();
+					}
+				}
+				else
+				{
+					if ((a_from < 2 && a_to >= 2) ||
+						(a_from < 6 && a_to >= 6))
+					{
+						m_stepSound.play();
+					}
+				}
+			}
+			else if(m_currentState == State.Ventilation)
+			{
+				if (a_from < 3 && a_to >= 3)
+				{
+					m_ventilationMoveSound.play();
+				}
+			}
+		}
+
 		public override void update(GameTime a_gameTime)
 		{
 			m_interactionArrow.update(a_gameTime);
@@ -1381,6 +1429,7 @@ namespace GrandLarceny
 					m_speed.X = 0;
 					m_currentState = State.Hanging;
 					m_facingRight = true;
+					m_hangSound.play();
 				}
 				else if (!t_colliderBox.Contains((int)m_lastPosition.X - 4, (int)m_lastPosition.Y)
 					&& t_colliderBox.Contains((int)m_position.getGlobalX() - 4, (int)m_position.getGlobalY())
@@ -1394,6 +1443,7 @@ namespace GrandLarceny
 					m_speed.X = 0;
 					m_currentState = State.Hanging;
 					m_facingRight = false;
+					m_hangSound.play();
 				}
 			}
 		}
@@ -1781,6 +1831,10 @@ namespace GrandLarceny
 			m_slideBox.setPosition(m_position);
 			m_hangHitBox.setPosition(m_position);
 			m_swingHitBox.setPosition(m_position);
+		}
+		public Sound getHideSound()
+		{
+			return m_hideSound;
 		}
 		#endregion
 	}

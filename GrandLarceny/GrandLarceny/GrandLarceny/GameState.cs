@@ -233,7 +233,7 @@ namespace GrandLarceny
 						Game.getInstance().getProgress().setEquipment("boots", false);
 				}
 			}
-			else if (KeyboardHandler.keyClicked(Keys.Q))
+			else if (KeyboardHandler.ctrlMod() && KeyboardHandler.keyClicked(Keys.Q))
 			{
 				Game.getInstance().setState(new DevelopmentState(m_currentLevel));
 			}

@@ -20,6 +20,7 @@ namespace GrandLarceny
 		{
 			base.load();
 			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
+			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
 
 			Color t_normal		= new Color(187, 194, 195);
 			Color t_hover		= new Color(255, 255, 255);
