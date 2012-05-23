@@ -48,7 +48,7 @@ namespace GrandLarceny
 			{
 				a_volume = 100;
 			}
-
+			
 			m_volume = (float)(a_volume / 100.0f);
 		}
 
