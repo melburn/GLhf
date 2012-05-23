@@ -31,7 +31,7 @@ namespace GrandLarceny
 			{
 				if (Game.getInstance().getState() is DevelopmentState)
 				{
-					m_img.draw(m_position.getGlobalCartesian(), m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer, m_XScale, m_YScale);
+					m_img.draw(m_position.getGlobalCartesian(), m_rotate, m_rotationPoint, m_color, m_spriteEffects, m_layer + 0.0001f, m_XScale, m_YScale);
 				}
 				else
 				{
