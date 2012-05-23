@@ -59,6 +59,7 @@ namespace GrandLarceny
 
 		public override void load()
 		{
+			base.load();
 			Game.getInstance().m_camera.setZoom(1.0f);
 			if (m_loadCheckpoint)
 			{
@@ -161,6 +162,10 @@ namespace GrandLarceny
 					t_go.loadContent();
 					t_go.setListLayer(i);
 
+					if (t_go.getImg().getImagePath() == null)
+					{
+						removeObject(t_go);
+					}
 					if (t_go is Player)
 					{
 						setPlayer((Player)t_go);
@@ -193,7 +198,6 @@ namespace GrandLarceny
 			Music.getInstance().loadSong("StageSong");
 			Music.getInstance().play("StageSong");
 
-			base.load();
 			addObject(new Darkness(Vector2.Zero, "Images//LightCone//ventilljus", 0.003f), 1);
 		}
 
