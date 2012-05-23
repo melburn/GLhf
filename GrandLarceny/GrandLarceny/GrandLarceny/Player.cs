@@ -204,7 +204,7 @@ namespace GrandLarceny
 			m_ventilationMoveSound = new Sound("Game//ledgegrab");
 			m_ladderSound = new Sound("Game//ledgegrab");
 			m_rollSound = new Sound("Game//hopp");
-			m_ledgeClimbSound = new Sound("Game//ledgegrab");
+			m_ledgeClimbSound = new Sound("Game//tygklatter");
 
 			m_img.m_animationEvent += new ImageManager.animationDelegate(changedSubImage);
 		}
@@ -840,12 +840,23 @@ namespace GrandLarceny
 				}
 				m_cameraPoint.X = 0;
 			}
+			bool t_wasGoingDown = false;
+			if(m_lastVentilationDirection == Direction.Down)
+				t_wasGoingDown = true;
+			Entity t_currentVent = m_currentVentilation;
 			List<Direction> t_list = null;
 			foreach (Direction t_direction in m_ventilationDirection)
 			{
 				t_list = moveDirectionInVentilation(t_direction);
 				if (t_list != null)
+				{
+					if (t_list.Contains(Direction.Left) && m_ventilationDirection.Contains(Direction.Down) && KeyboardHandler.isKeyPressed(GameState.getDownKey()) && !t_wasGoingDown)
+					{
+						m_currentVentilation = t_currentVent;
+						continue;
+					}
 					break;
+				}
 			}
 			if (t_list != null)
 			{
