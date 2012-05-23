@@ -38,6 +38,9 @@ namespace GrandLarceny
 			foreach (String f_currentLine in t_loadedFile)
 			{
 				String[] t_info = f_currentLine.Split(t_splitter);
+				#if DEBUG
+				m_animationFrames.Add(t_info[0], int.Parse(t_info[1]));
+				#elif RELEASE
 				try
 				{
 					m_animationFrames.Add(t_info[0], int.Parse(t_info[1]));
@@ -50,6 +53,7 @@ namespace GrandLarceny
 				{
 					ErrorLogger.getInstance().writeString("Parse fail (missing colon) in loading of animationSizes at line : " + f_currentLine);
 				}
+				#endif
 			}
 		}
 

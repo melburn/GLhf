@@ -50,7 +50,7 @@ namespace GrandLarceny
 			newCutscene,	firRectanglePoint,	secRectanglePoint,
 			newEquip,		newSwitch,			selectSwitch,
 			newDoorEffect,	newChase,			drawingRectangle,
-			selectingObject
+			slctConsumable, slctLightSwitch
 		}
 		#endregion
 
@@ -134,26 +134,7 @@ namespace GrandLarceny
 
 		private void addSwitch(Button a_care)
 		{
-			m_state = State.newSwitch;
-
-			Button t_buttonToAdd;
-			int i = 800;
-			if (m_switchTriggerButtons == null)
-			{
-				m_switchTriggerButtons = new Dictionary<Button, SwitchTrigger.TriggerType>();
-			}
-			else
-			{
-				m_switchTriggerButtons.Clear();
-			}
-			foreach (SwitchTrigger.TriggerType t_sttt in System.Enum.GetValues(typeof(SwitchTrigger.TriggerType)))
-			{
-				t_buttonToAdd = new Button("DevelopmentHotkeys//btn_layer_chooser", 
-					new Vector2(i, 550), t_sttt.ToString(), null, Color.Black, new Vector2(5, 5));
-				t_buttonToAdd.m_clickEvent += new Button.clickDelegate(selectSwitchTrigger);
-				m_switchTriggerButtons.Add(t_buttonToAdd, t_sttt);
-				i -= 100;
-			}
+			m_state = State.slctLightSwitch;
 		}
 
 		private void addChase(Button a_button)
@@ -163,7 +144,7 @@ namespace GrandLarceny
 
 		private void addIsDead(Button a_button)
 		{
-			m_state = State.selectingObject;
+			m_state = State.slctConsumable;
 		}
 		#endregion
 
@@ -365,24 +346,38 @@ namespace GrandLarceny
 			Game.getInstance().setState(m_backState);
 		}
 
-		private GameObject selectObject(Vector2 a_point)
+		private GameObject selectObject(Vector2 a_point, Type a_type)
 		{
 			GameObject t_return = null;
 
 			foreach (GameObject t_gameObject in m_backState.getObjectList()[0])
 			{
-				if (!(t_gameObject is Consumable))
+				if (!(t_gameObject.GetType().Equals(a_type)))
 				{
 					continue;
 				}
 				else
 				{
-					if (((Consumable)t_gameObject).getImageBox().contains(a_point))
+					switch (m_state)
 					{
-						if (t_return == null || t_return.getLayer() > t_gameObject.getLayer())
-						{
-							t_return = t_gameObject;
-						}
+						case State.slctConsumable:
+							if (((Consumable)t_gameObject).getImageBox().contains(a_point))
+							{
+								if (t_return == null || t_return.getLayer() > t_gameObject.getLayer())
+								{
+									t_return = t_gameObject;
+								}
+							}
+							break;
+						case State.slctLightSwitch:
+							if (((LampSwitch)t_gameObject).getImageBox().contains(a_point))
+							{
+								if (t_return == null || t_return.getLayer() > t_gameObject.getLayer())
+								{
+									t_return = t_gameObject;
+								}
+							}
+							break;
 					}
 				}
 			}
@@ -478,12 +473,23 @@ namespace GrandLarceny
 					m_recLines = new Line[0];
 					selectEvent(m_selectedEvent);
 				}
-				if (m_state == State.selectingObject)
+				if (m_state == State.slctConsumable)
 				{
 					GameObject t_object = null;
-					if ((t_object = selectObject(MouseHandler.worldMouse())) != null)
+					if ((t_object = selectObject(MouseHandler.worldMouse(), typeof(Consumable))) != null)
 					{
 						m_events[m_selectedEvent].add(new IsDeadTrigger(t_object, true));
+						m_btnAddTrigger.setState(Button.State.Normal);
+						m_state = State.newTrigger;
+						selectEvent(m_selectedEvent);
+					}
+				}
+				if (m_state == State.slctLightSwitch)
+				{
+					GameObject t_object = null;
+					if ((t_object = selectObject(MouseHandler.worldMouse(), typeof(LampSwitch))) != null)
+					{
+						m_events[m_selectedEvent].add(new SwitchTrigger((LampSwitch)t_object, SwitchTrigger.TriggerType.on));
 						m_btnAddTrigger.setState(Button.State.Normal);
 						m_state = State.newTrigger;
 						selectEvent(m_selectedEvent);
