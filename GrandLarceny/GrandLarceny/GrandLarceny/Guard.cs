@@ -119,6 +119,11 @@ namespace GrandLarceny
 			base.loadContent();
 			m_collisionShape = new CollisionRectangle(10, 10, m_img.getSize().X - 20, m_img.getSize().Y - 10, m_position);
 			m_lampSwitchTargets = new LinkedList<LampSwitch>();
+			if (m_flashLightId > 0)
+			{
+				m_flashLight = ((FlashCone)(Game.getInstance().getState().getObjectById(m_flashLightId)));
+				m_flashLight.getPosition().setParentPosition(this.getPosition());
+			}
 			if (m_lampSwitchTargetsId == null)
 			{
 				m_lampSwitchTargetsId = new LinkedList<int>();
@@ -129,6 +134,8 @@ namespace GrandLarceny
 			}
 			m_facingRight = m_spriteEffects == SpriteEffects.None;
 			m_huhSound = new Sound("Game//104696__grunz__grunz-huh");
+
+			
 
 			#region Texture Loading
 			t2d_run				= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_run");
@@ -144,6 +151,10 @@ namespace GrandLarceny
 			t2d_qmark			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//qmark");
 			t2d_emark			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//Exclmarks");
 			#endregion
+			if (m_img.isTexture(t2d_flashTurn) || m_img.isTexture(t2d_turn))
+			{
+				m_img.setLooping(false);
+			}
 		}
 
 		internal void goRight()
@@ -205,7 +216,7 @@ namespace GrandLarceny
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_turn");
 						m_flashLight.setSprite("Images//LightCone//light_guard_turn");
 						m_flashLight.getImg().setAnimationSpeed(TURNANIMATIONSPEED);
-						m_flashLight.getPosition().setLocalX(-178);
+						m_flashLight.setImageOffset(new Vector2(-4, 0));
 						if (m_running)
 						{
 							m_flashLight.getImg().setAnimationSpeed(TURNQUICKANIMATIONSPEED);
@@ -244,7 +255,7 @@ namespace GrandLarceny
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_turn");
 						m_flashLight.setSprite("Images//LightCone//light_guard_turn");
-						m_flashLight.getPosition().setLocalX(-175);
+						m_flashLight.setImageOffset(new Vector2(-175, 0));
 						if (m_running)
 						{
 							m_flashLight.getImg().setAnimationSpeed(TURNQUICKANIMATIONSPEED);
@@ -304,6 +315,7 @@ namespace GrandLarceny
 					}
 				}
 			}
+			
 		}
 		internal void stop()
 		{
@@ -494,6 +506,7 @@ namespace GrandLarceny
 						m_img.setSprite("Images//Sprite//Guard//guard_flash_idle");
 						m_facingRight = !m_facingRight;
 						m_flashLight.setSprite("Images//LightCone//light_guard_idle");
+						m_flashLight.setImageOffset(Vector2.Zero);
 						m_flashLight.setFacingRight(m_facingRight);
 						if (m_facingRight)
 						{
@@ -519,6 +532,20 @@ namespace GrandLarceny
 					else if (m_img.isTexture(t2d_putDownFlash))
 					{
 						m_img.setSprite("Images//Sprite//Guard//guard_idle");
+					}
+				}
+				else if (m_img.isTexture(t2d_flashTurn))
+				{
+					if (m_img.getSubImageIndex() > 5)
+					{
+						if (m_facingRight)
+						{
+							m_flashLight.setFacingRightCollision(false);
+						}
+						else
+						{
+							m_flashLight.setFacingRightCollision(true);
+						}
 					}
 				}
 			}

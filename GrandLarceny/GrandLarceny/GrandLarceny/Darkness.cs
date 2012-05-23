@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace GrandLarceny
 {
+	[Serializable()]
 	class Darkness : Environment
 	{
 		public Darkness(Vector2 a_posV2, String a_sprite, float a_layer)
