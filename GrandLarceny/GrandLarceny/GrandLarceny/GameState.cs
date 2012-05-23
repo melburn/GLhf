@@ -196,7 +196,18 @@ namespace GrandLarceny
 			Music.getInstance().loadSong("StageSong");
 			Music.getInstance().play("StageSong");
 
-			addObject(new Darkness(Vector2.Zero, "Images//LightCone//ventilljus", 0.003f), 1);
+			bool t_foundDarkness = false;
+			foreach (GameObject t_gb in m_gameObjectList[1])
+			{
+				if (t_gb is Darkness)
+				{
+					t_foundDarkness = true;
+				}
+			}
+			if (!t_foundDarkness)
+			{
+				addObject(new Darkness(Vector2.Zero, "Images//LightCone//ventilljus", 0.003f), 1);
+			}
 		}
 
 		public override void setPlayer(Player a_player)

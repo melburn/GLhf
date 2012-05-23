@@ -11,6 +11,7 @@ namespace GrandLarceny
 	public class FlashCone : NonMovingObject
 	{
 		Boolean m_facingRight;
+		bool m_facingRightCollision;
 
 		[NonSerialized]
 		private bool m_collisionIsUpdated;
@@ -45,7 +46,17 @@ namespace GrandLarceny
 				m_spriteEffects = SpriteEffects.FlipHorizontally;
 			}
 			m_collisionIsUpdated = false;
+			
+			m_facingRightCollision = m_facingRight;
 		}
+
+		public void setFacingRightCollision(bool a_right)
+		{
+			
+			m_facingRightCollision = a_right;
+			m_collisionIsUpdated = false;
+		}
+		
 
 		public void setSprite(string a_path)
 		{
@@ -80,7 +91,7 @@ namespace GrandLarceny
 		private Vector2[] getTrianglePointsOffset()
 		{
 			Vector2[] t_ret = new Vector2[3];
-			if (m_facingRight)
+			if (m_facingRightCollision)
 			{
 				t_ret[0] = new Vector2(60, 78);
 				t_ret[1] = new Vector2(112, 144);
