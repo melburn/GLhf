@@ -515,6 +515,16 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\Tygklatter.wav">
+      <Name>Tygklatter</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\SoundEffects\Game\Tygklatter2.wav">
+      <Name>Tygklatter2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <Content Include="wtf\Cutscenes\boots.csn">
       <Name>boots</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
