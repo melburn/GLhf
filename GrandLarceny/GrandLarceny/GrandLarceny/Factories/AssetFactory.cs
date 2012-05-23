@@ -199,6 +199,11 @@ namespace GrandLarceny
 			m_state.addObject(new FlickeringSign(m_state.getTileCoordinates(a_position), a_asset, 0.200f));
 		}
 
+		public static void createConsumable(Vector2 a_position, string a_asset)
+		{
+			m_state.addObject(new Consumable(m_state.getTileCoordinates(a_position), a_asset, 0.200f));
+		}
+
 		public static void copyAsset(Vector2 a_position, GameObject a_asset)
 		{
 			Vector2 t_position;
@@ -319,17 +324,24 @@ namespace GrandLarceny
 			{
 				createCheckPoint(t_position);
 			}
-			if (a_asset is ConsumableGoal)
+			if (a_asset is Consumable)
 			{
-				createObjective(t_position, t_imagePath);
-			}
-			if (a_asset is ConsumableKey)
-			{
-				createKey(t_position, t_imagePath);
-			}
-			if (a_asset is ConsumableHeart)
-			{
-				createHeart(t_position, t_imagePath);
+				if (a_asset is ConsumableGoal)
+				{
+					createObjective(t_position, t_imagePath);
+				}
+				else if (a_asset is ConsumableKey)
+				{
+					createKey(t_position, t_imagePath);
+				}
+				else if (a_asset is ConsumableHeart)
+				{
+					createHeart(t_position, t_imagePath);
+				}
+				else
+				{
+					createConsumable(t_position, t_imagePath);
+				}
 			}
 			if (a_asset is LockedDoor)
 			{
