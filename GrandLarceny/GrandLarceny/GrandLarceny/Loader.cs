@@ -161,7 +161,7 @@ namespace GrandLarceny
 				}
 				else if (t_setting[0].Equals("Sound"))
 				{
-					Sound.setVolume(int.Parse(t_setting[1]));
+					Sound.setMasterVolume(int.Parse(t_setting[1]));
 				}
 				else if (t_setting[0].StartsWith("["))
 				{
