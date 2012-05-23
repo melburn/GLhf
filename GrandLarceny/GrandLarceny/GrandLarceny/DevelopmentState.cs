@@ -502,7 +502,7 @@ namespace GrandLarceny
 					m_objectPreview = new ConsumableHeart(t_assetPosition, "Images//Prop//Consumables//shinyheart", 0.000f);
 					break;
 				case State.Key:
-					m_objectPreview = new ConsumableKey(t_assetPosition, "Images//Tile//1x1_tile_ph", 0.000f);
+					m_objectPreview = new ConsumableKey(t_assetPosition, "Images//Automagi//derp_key", 0.000f);
 					break;
 				case State.Objective:
 					m_objectPreview = new ConsumableGoal(t_assetPosition, "Images//Prop//Consumables//Objective//" + t_newAsset, 0.000f);
