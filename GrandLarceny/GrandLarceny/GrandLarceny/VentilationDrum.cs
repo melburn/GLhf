@@ -35,7 +35,7 @@ namespace GrandLarceny
 				m_pairedVentilation = (VentilationDrum)Game.getInstance().getState().getObjectById(m_pairedVentilationId);
 			}
 			m_backImg = new ImageManager("Images//Tile//Ventilation//Straight//aventil_short_tile_w_floor");
-			m_collisionShape = new CollisionRectangle(30, 30, 12, 12, m_position);
+			m_collisionShape = new CollisionRectangle(30, 30, 42, 12, m_position);
 			if (s_unlockSound == null)
 			{
 				s_unlockSound = new Sound("Game//ledgegrab");

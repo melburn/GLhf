@@ -33,7 +33,7 @@ namespace GrandLarceny
 			
 			m_panningBackground = new PanningBackground();
 
-			TextButton t_newGame = new TextButton(Vector2.Zero, "Start Game", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			TextButton t_newGame = new TextButton(Vector2.Zero, "Start Game", "MotorwerkLarge");
 			t_newGame.m_clickEvent += new TextButton.clickDelegate(loadGameClick);
 			m_buttons.AddLast(t_newGame);
 

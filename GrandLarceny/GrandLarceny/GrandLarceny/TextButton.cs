@@ -28,6 +28,18 @@ namespace GrandLarceny
 			setPosition(a_position);
 		}
 
+		public TextButton(Vector2 a_position, string a_text, string a_font) : base(a_position)
+		{
+			m_normalColor = new Color(187, 194, 195);
+			m_hoverColor = new Color(255, 255, 255);
+			m_pressedColor = new Color(132, 137, 138);
+			m_toggleColor = new Color(0, 0, 255);
+			m_text = new Text(a_position, a_text, a_font, m_normalColor, false);
+			m_isVisible = true;
+			m_bounds = m_text.getBox();
+			setPosition(a_position);
+		}
+
 		public override void setState(Button.State a_state)
 		{
 			base.setState(a_state);

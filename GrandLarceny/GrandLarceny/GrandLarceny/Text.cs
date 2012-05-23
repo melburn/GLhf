@@ -173,6 +173,13 @@ namespace GrandLarceny
 				t_return.Height -= 10;
 				return t_return;
 			}
+			else if (m_font.Equals("MotorwerkNormal"))
+			{
+				Rectangle t_return = new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), (int)measureString().X, (int)measureString().Y);
+				t_return.Y += 8;
+				t_return.Height -= 16;
+				return t_return;
+			}
 			else
 			{
 				return new Rectangle((int)m_position.getGlobalX(), (int)m_position.getGlobalY(), (int)measureString().X, (int)measureString().Y);
