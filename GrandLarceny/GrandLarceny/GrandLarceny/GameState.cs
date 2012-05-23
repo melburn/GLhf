@@ -141,7 +141,9 @@ namespace GrandLarceny
 					}
 					else
 					{
+						#if RELEASE
 						ErrorLogger.getInstance().writeString("Found unknown keybinding while loading GameState" + t_input[0]);
+						#endif
 					}
 				}
 			}
@@ -162,10 +164,6 @@ namespace GrandLarceny
 					t_go.loadContent();
 					t_go.setListLayer(i);
 
-					if (t_go.getImg().getImagePath() == null)
-					{
-						removeObject(t_go);
-					}
 					if (t_go is Player)
 					{
 						setPlayer((Player)t_go);
@@ -338,6 +336,12 @@ namespace GrandLarceny
 				while (t_eventNode != null)
 				{
 					LinkedListNode<Event> t_next = t_eventNode.Next;
+					#if DEBUG
+					if (t_eventNode.Value.Execute())
+					{
+						m_events.Remove(t_eventNode);
+					}
+					#elif RELEASE
 					try
 					{
 						if (t_eventNode.Value.Execute())
@@ -349,6 +353,7 @@ namespace GrandLarceny
 					{
 						ErrorLogger.getInstance().writeString("While updating " + t_eventNode.Value + " got exception: " + e);
 					}
+					#endif
 					t_eventNode = t_next;
 				}
 
@@ -558,7 +563,9 @@ namespace GrandLarceny
 			}
 			else
 			{
+				#if RELEASE
 				ErrorLogger.getInstance().writeString("could not find " + a_go + " while changeing its layer. searches for it in other layers");
+				#endif
 				for (int i = 0; i < 5; ++i)
 				{
 					if (m_gameObjectList[i].Contains(a_go))

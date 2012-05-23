@@ -54,9 +54,6 @@ namespace GrandLarceny
 
 		private Line m_dragLine = null;
 
-		private Sound m_sndKeyclick;
-		private Sound m_sndSave;
-
 		private int m_currentLayer = 0;
 		private string m_levelToLoad;
 		private bool m_building;
@@ -70,9 +67,9 @@ namespace GrandLarceny
 			Ventilation,	Camera,		CrossVent,		TVent,
 			StraVent,		CornerVent, Ventrance,		Window,
 			DuckHidingObject,		StandHidingObject,	Rope,
-			SecDoor,		CornerHang,	Checkpoint,		Prop,
-			Heart,			Key,		EndVent,		Objective,
-			Shadow,			Parallax,	LockedDoor,		FlickeringSign
+			CornerHang,	Checkpoint,		Prop,			Heart,			
+			Key,		EndVent,		Objective,		Shadow,			
+			Parallax,	LockedDoor,		FlickeringSign,	Consumable
 		}
 		#endregion
 
@@ -174,16 +171,14 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.F }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_rope_hotkey",		new Vector2(0, 32 * m_buttonDict.Count() + 25), "O", "VerdanaBold", Color.Black, t_btnTextOffset), State.Rope);
 			t_button.setHotkey(new Keys[] { Keys.O }, guiButtonClick);
-			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_secdoor_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "E", "VerdanaBold", Color.Black, t_btnTextOffset), State.SecDoor);
-			t_button.setHotkey(new Keys[] { Keys.E }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_doorhang_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+W", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.CornerHang);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.W }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_checkpoint_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "K", "VerdanaBold", Color.Black, t_btnTextOffset), State.Checkpoint);
 			t_button.setHotkey(new Keys[] { Keys.K }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_clutter_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "C", "VerdanaBold", Color.Black, t_btnTextOffset), State.Prop);
 			t_button.setHotkey(new Keys[] { Keys.C }, guiButtonClick);
-			m_buttonDict.Add(m_btnConsKey = new Button("DevelopmentHotkeys//btn_key_hotkey", new Vector2(0, 32 * m_buttonDict.Count() + 25), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
-			m_btnConsKey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
+			m_buttonDict.Add(m_btnConsKey = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "c+A", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Consumable);
+			m_btnConsKey.setHotkey(new Keys[] { Keys.LeftControl, Keys.A }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+D", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.LockedDoor);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.D }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button(null, new Vector2(0, 32 * m_buttonDict.Count() + 25), "c+F", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.FlickeringSign);
@@ -237,6 +232,8 @@ namespace GrandLarceny
 			t_buttonNumber = 0;
 			Vector2 t_consMenu = new Vector2(m_btnConsKey.getBox().X + 32, m_btnConsKey.getBox().Y);
 
+			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_key_hotkey", t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
+			m_btnConsKey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_heart_hotkey", t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+H", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Heart);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.H }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button(null, t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+B", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Objective);
@@ -486,9 +483,6 @@ namespace GrandLarceny
 				case State.Checkpoint:
 					m_objectPreview = new CheckPoint(t_assetPosition, "Images//Prop//Clutter//backdrop_door", 0.000f);
 					break;
-				case State.SecDoor:
-					m_objectPreview = new LockedDoor(t_assetPosition, "Images//Prop//SecurityDoor//" + t_newAsset, 0.000f);
-					break;
 				case State.Camera:
 					m_objectPreview = new GuardCamera(t_assetPosition, "Images//Sprite//Camera//camera", 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25), false);
 					break;
@@ -521,6 +515,9 @@ namespace GrandLarceny
 					break;
 				case State.FlickeringSign:
 					m_objectPreview = new FlickeringSign(t_assetPosition, "Images//Tile//Sign//" + t_newAsset, 0.000f);
+					break;
+				case State.Consumable:
+					m_objectPreview = new Consumable(t_assetPosition, "Images//Prop//Consumables//" + t_newAsset, 0.000f);
 					break;
 			}
 		}
@@ -1117,9 +1114,6 @@ namespace GrandLarceny
 				case State.Rope:
 					createAssetList(null);
 					break;
-				case State.SecDoor:
-					createAssetList(null);
-					break;
 				case State.CornerHang:
 					createAssetList(null);
 					break;
@@ -1149,6 +1143,9 @@ namespace GrandLarceny
 					break;
 				case State.FlickeringSign:
 					createAssetList("Content//Images//Tile//Sign//");
+					break;
+				case State.Consumable:
+					createAssetList("Content//Images//Prop//Consumables//");
 					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)

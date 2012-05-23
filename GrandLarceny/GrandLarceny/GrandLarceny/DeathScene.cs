@@ -62,6 +62,9 @@ namespace GrandLarceny
 			{
 				foreach (GameObject t_go in m_gameObjects[m_currentList])
 				{
+					#if DEBUG
+					t_go.update(t_slowTime);
+					#elif RELEASE
 					try
 					{
 						t_go.update(t_slowTime);
@@ -70,6 +73,7 @@ namespace GrandLarceny
 					{
 						ErrorLogger.getInstance().writeString("While updating " + t_go + " from DeathScene got exception: " + e);
 					}
+					#endif
 				}
 			}
 			m_currentList = -1;
@@ -103,6 +107,9 @@ namespace GrandLarceny
 		{
 			foreach (GameObject t_gameObject in m_gameObjects[Game.getInstance().m_camera.getLayer()])
 			{
+				#if DEBUG
+				t_gameObject.draw(a_gameTime);
+				#elif RELEASE
 				try
 				{
 					t_gameObject.draw(a_gameTime);
@@ -111,6 +118,7 @@ namespace GrandLarceny
 				{
 					ErrorLogger.getInstance().writeString("While drawing " + t_gameObject + " from DeathScene got exception: " + e);
 				}
+				#endif
 			}
 			if (m_background != null)
 			{
