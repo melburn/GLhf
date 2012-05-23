@@ -242,6 +242,18 @@ namespace GrandLarceny
 			}
 			else
 			{
+				#if DEBUG
+				m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
+				m_animationFrames = Loader.getInstance().getAnimationFrames(a_sprite);
+				m_animationWidth = m_image.Width / m_animationFrames;
+				m_imagePath = a_sprite;
+				if (m_subImageNumber >= m_animationFrames)
+				{
+					ErrorLogger.getInstance().writeString("While setting sprite silently, current subimage is higher then new animationsize. new sprite is: " + a_sprite);
+					m_subImageNumber = 0;
+				}
+				return true;
+				#elif RELEASE
 				try
 				{
 					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
@@ -261,6 +273,7 @@ namespace GrandLarceny
 					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
 					return false;
 				}
+				#endif
 			}
 		}
 	}

@@ -29,7 +29,9 @@ namespace GrandLarceny.Events.Effects
 		{
 			if (m_doorToOpen == null)
 			{
+				#if RELEASE
 				ErrorLogger.getInstance().writeString("DoorOpenEffect can't find door " + m_doorLink);
+				#endif
 			}
 			else
 			{

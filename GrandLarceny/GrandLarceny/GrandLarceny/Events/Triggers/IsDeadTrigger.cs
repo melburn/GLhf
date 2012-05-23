@@ -16,10 +16,6 @@ namespace GrandLarceny.Events.Triggers
 
 		public IsDeadTrigger(GameObject a_object, bool a_condition)
 		{
-			if (m_object == null)
-			{
-				throw new ArgumentNullException();
-			}
 			m_condition = a_condition;
 			m_object = a_object;
 		}
