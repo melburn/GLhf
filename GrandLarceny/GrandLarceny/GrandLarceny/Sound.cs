@@ -38,7 +38,7 @@ namespace GrandLarceny
 			m_soundInstance.Stop();
 		}
 
-		public static void setVolume(int a_volume)
+		public void setVolume(int a_volume)
 		{
 			if (a_volume < 0)
 			{
@@ -63,7 +63,7 @@ namespace GrandLarceny
 				a_volume = 100;
 			}
 
-			SoundEffect.MasterVolume = a_volume;
+			SoundEffect.MasterVolume = (float)(a_volume / 100.0f);
 		}
 
 		public void setLooping(bool a_looping)
