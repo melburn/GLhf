@@ -1878,7 +1878,10 @@ namespace GrandLarceny
 			m_runMode = false;
 			m_playerCurrentSpeed = PLAYERSPEED;
 			setIsInLight(false);
-			((GameState)Game.getInstance().getState()).clearAggro();
+			if (Game.getInstance().getState() is GameState)
+			{
+				((GameState)Game.getInstance().getState()).clearAggro();
+			}
 		}
 		private void toggleRunMode()
 		{
