@@ -1153,6 +1153,9 @@ namespace GrandLarceny
 				case State.FlickeringSign:
 					createAssetList("Content//Images//Tile//Sign//");
 					break;
+				case State.Consumable:
+					createAssetList("Content//Images//Prop//Consumables//");
+					break;
 			}
 			if (m_assetButtonList != null && m_assetButtonList.Count > 0)
 			{
