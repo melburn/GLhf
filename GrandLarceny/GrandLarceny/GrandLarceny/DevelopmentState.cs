@@ -67,10 +67,9 @@ namespace GrandLarceny
 			Ventilation,	Camera,		CrossVent,		TVent,
 			StraVent,		CornerVent, Ventrance,		Window,
 			DuckHidingObject,		StandHidingObject,	Rope,
-			SecDoor,		CornerHang,	Checkpoint,		Prop,
-			Heart,			Key,		EndVent,		Objective,
-			Shadow,			Parallax,	LockedDoor,		FlickeringSign,
-			Consumable
+			CornerHang,	Checkpoint,		Prop,			Heart,			
+			Key,		EndVent,		Objective,		Shadow,			
+			Parallax,	LockedDoor,		FlickeringSign,	Consumable
 		}
 		#endregion
 
@@ -172,8 +171,6 @@ namespace GrandLarceny
 			t_button.setHotkey(new Keys[] { Keys.F }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_rope_hotkey",		new Vector2(0, 32 * m_buttonDict.Count() + 25), "O", "VerdanaBold", Color.Black, t_btnTextOffset), State.Rope);
 			t_button.setHotkey(new Keys[] { Keys.O }, guiButtonClick);
-			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_secdoor_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "E", "VerdanaBold", Color.Black, t_btnTextOffset), State.SecDoor);
-			t_button.setHotkey(new Keys[] { Keys.E }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_doorhang_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "s+W", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.CornerHang);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.W }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_checkpoint_hotkey",	new Vector2(0, 32 * m_buttonDict.Count() + 25), "K", "VerdanaBold", Color.Black, t_btnTextOffset), State.Checkpoint);
@@ -485,9 +482,6 @@ namespace GrandLarceny
 					break;
 				case State.Checkpoint:
 					m_objectPreview = new CheckPoint(t_assetPosition, "Images//Prop//Clutter//backdrop_door", 0.000f);
-					break;
-				case State.SecDoor:
-					m_objectPreview = new LockedDoor(t_assetPosition, "Images//Prop//SecurityDoor//" + t_newAsset, 0.000f);
 					break;
 				case State.Camera:
 					m_objectPreview = new GuardCamera(t_assetPosition, "Images//Sprite//Camera//camera", 0.200f, (float)(Math.PI * 0.5), (float)(Math.PI * 0.75), (float)(Math.PI * 0.25), false);
@@ -1118,9 +1112,6 @@ namespace GrandLarceny
 					createAssetList("Content//Images//Foregrounds//");
 					break;
 				case State.Rope:
-					createAssetList(null);
-					break;
-				case State.SecDoor:
 					createAssetList(null);
 					break;
 				case State.CornerHang:
