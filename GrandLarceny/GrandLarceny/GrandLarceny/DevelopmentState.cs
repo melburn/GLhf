@@ -233,7 +233,7 @@ namespace GrandLarceny
 			Vector2 t_consMenu = new Vector2(m_btnConsKey.getBox().X + 32, m_btnConsKey.getBox().Y);
 
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_key_hotkey", t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "Z", "VerdanaBold", Color.Black, t_btnTextOffset), State.Key);
-			m_btnConsKey.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
+			t_button.setHotkey(new Keys[] { Keys.Z }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button("DevelopmentHotkeys//btn_heart_hotkey", t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+H", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Heart);
 			t_button.setHotkey(new Keys[] { Keys.LeftShift, Keys.H }, guiButtonClick);
 			m_buttonDict.Add(t_button = new Button(null, t_consMenu + new Vector2(t_buttonNumber++ * 32, 0), "s+B", "VerdanaBold", Color.Black, t_btnTextOffset - t_modV2), State.Objective);

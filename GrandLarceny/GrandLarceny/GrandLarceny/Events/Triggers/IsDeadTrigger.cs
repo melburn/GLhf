@@ -49,7 +49,7 @@ namespace GrandLarceny.Events.Triggers
 		{
 			if (m_objectLink > 0)
 			{
-				m_object = (LampSwitch)Game.getInstance().getState().getObjectById(m_objectLink);
+				m_object = Game.getInstance().getState().getObjectById(m_objectLink);
 				if (m_object == null)
 				{
 					throw new ArgumentNullException("SwitchTrigger could not find switch " + m_objectLink);

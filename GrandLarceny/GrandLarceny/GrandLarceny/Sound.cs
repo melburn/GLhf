@@ -63,7 +63,7 @@ namespace GrandLarceny
 				a_volume = 100;
 			}
 
-			SoundEffect.MasterVolume = a_volume;
+			SoundEffect.MasterVolume = (float)(a_volume / 100.0f);
 		}
 
 		public void setLooping(bool a_looping)
