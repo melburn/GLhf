@@ -42,5 +42,19 @@ namespace GrandLarceny
 
 			m_volume = (float)(a_volume / 100.0f);
 		}
+
+		public static void setMasterVolume(int a_volume)
+		{
+			if (a_volume < 0)
+			{
+				a_volume = 0;
+			}
+			if (a_volume > 100)
+			{
+				a_volume = 100;
+			}
+
+			SoundEffect.MasterVolume = a_volume;
+		}
 	}
 }
