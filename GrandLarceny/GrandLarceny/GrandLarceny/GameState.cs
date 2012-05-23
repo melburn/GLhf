@@ -162,10 +162,6 @@ namespace GrandLarceny
 					t_go.loadContent();
 					t_go.setListLayer(i);
 
-					if (t_go.getImg().getImagePath() == null)
-					{
-						removeObject(t_go);
-					}
 					if (t_go is Player)
 					{
 						setPlayer((Player)t_go);

@@ -124,6 +124,9 @@ namespace GrandLarceny
 		private Sound m_rollSound;
 		[NonSerialized]
 		private Sound m_ledgeClimbSound;
+		[NonSerialized]
+		private Sound m_windowActionSound;
+
 		public enum Direction
 		{
 			None, Left, Right,
@@ -205,6 +208,7 @@ namespace GrandLarceny
 			m_ladderSound = new Sound("Game//ledgegrab");
 			m_rollSound = new Sound("Game//hopp");
 			m_ledgeClimbSound = new Sound("Game//tygklatter");
+			m_windowActionSound = new Sound("Game//tygklatter2");
 
 			m_img.m_animationEvent += new ImageManager.animationDelegate(changedSubImage);
 		}
@@ -1672,7 +1676,7 @@ namespace GrandLarceny
 				m_stunnedFlipSprite = true;
 				m_speed.X = 0;
 				m_speed.Y = 0;
-				m_ledgeClimbSound.play();
+				m_windowActionSound.play();
 				if (m_currentState == State.Hanging)
 				{
 					m_imgOffsetY -= m_standHitBox.m_height / 1.8f;
