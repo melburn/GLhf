@@ -204,7 +204,7 @@ namespace GrandLarceny
 			m_ventilationMoveSound = new Sound("Game//ledgegrab");
 			m_ladderSound = new Sound("Game//ledgegrab");
 			m_rollSound = new Sound("Game//hopp");
-			m_ledgeClimbSound = new Sound("Game//ledgegrab");
+			m_ledgeClimbSound = new Sound("Game//tygklatter");
 
 			m_img.m_animationEvent += new ImageManager.animationDelegate(changedSubImage);
 		}
