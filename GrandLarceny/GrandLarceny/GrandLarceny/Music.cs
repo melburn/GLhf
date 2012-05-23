@@ -25,6 +25,7 @@ namespace GrandLarceny
 			{
 				MediaPlayer.Play(s_next);
 				s_next = null;
+				MediaPlayer.IsRepeating = true;
 			}
 		}
 		public static Music getInstance()

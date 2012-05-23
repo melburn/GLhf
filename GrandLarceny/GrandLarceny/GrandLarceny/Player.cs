@@ -1097,6 +1097,7 @@ namespace GrandLarceny
 			m_swingSpeed += (float)((Math.Cos(m_rope.getRotation()) * 3000 * a_deltaTime) / m_position.getLength());
 			m_swingSpeed *= 0.99f;
 			m_rope.addRotation(m_swingSpeed * a_deltaTime);
+			m_rope.update(Game.getInstance().getGameTime());
 			m_rotate = (m_rope.getRotation() - ((float)(Math.PI / 2.0))) % ((float)(Math.PI * 2.0));
 			m_position.setSlope(m_rope.getRotation());
 			if (m_swingSpeed > 1f)
