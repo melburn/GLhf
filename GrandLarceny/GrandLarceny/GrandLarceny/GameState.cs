@@ -245,6 +245,7 @@ namespace GrandLarceny
 			else if (KeyboardHandler.keyClicked(Keys.M))
 			{
 				Game.getInstance().setState(new MapState(this));
+				new Sound("Game//Karta").play();
 			}
 
 			foreach (LinkedList<GameObject> t_list in m_gameObjectList)
