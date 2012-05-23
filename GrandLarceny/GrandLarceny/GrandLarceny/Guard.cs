@@ -42,6 +42,9 @@ namespace GrandLarceny
 		[NonSerialized]
 		private bool m_striking;
 
+		[NonSerialized]
+		private Sound m_huhSound;
+
 		#region Guard Textures
 		[NonSerialized]
 		private Texture2D t2d_run;
@@ -125,6 +128,7 @@ namespace GrandLarceny
 				m_lampSwitchTargets.AddLast((LampSwitch)Game.getInstance().getState().getObjectById(t_lsti));
 			}
 			m_facingRight = m_spriteEffects == SpriteEffects.None;
+			m_huhSound = new Sound("Game//104696__grunz__grunz-huh");
 
 			#region Texture Loading
 			t2d_run				= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//guard_run");
@@ -771,6 +775,11 @@ namespace GrandLarceny
 				}
 			}
 			return false;
+		}
+
+		public Sound getHuhSound()
+		{
+			return m_huhSound;
 		}
 	}
 }
