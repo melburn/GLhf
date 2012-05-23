@@ -1728,6 +1728,11 @@ namespace GrandLarceny
 				{
 					deactivateChaseMode();
 				}
+
+				if (m_runMode)
+				{
+					activateNormalMode();
+				}
 			}
 		}
 
