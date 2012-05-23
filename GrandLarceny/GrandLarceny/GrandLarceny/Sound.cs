@@ -38,7 +38,7 @@ namespace GrandLarceny
 			m_soundInstance.Stop();
 		}
 
-		public static void setVolume(int a_volume)
+		public void setVolume(int a_volume)
 		{
 			if (a_volume < 0)
 			{
