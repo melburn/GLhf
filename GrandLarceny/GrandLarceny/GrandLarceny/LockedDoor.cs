@@ -27,21 +27,31 @@ namespace GrandLarceny
 					Player t_player = (Player)a_collid;
 					Rectangle t_playerOutBox = t_player.getHitBox().getOutBox();
 
-					//Colliding with ze left Wall wall
-					if ((int)t_player.getLastPosition().X + 1 >= (int)getLastPosition().X + getHitBox().getOutBox().Width)
+					float t_playerPoint = t_player.getPosition().getGlobalX();
+					float t_rightPoint = m_position.getGlobalX() + ((float)getHitBox().getOutBox().Width);
+					float t_centerPoint = m_position.getGlobalX() + ((float)getHitBox().getOutBox().Width / 2);
+
+					if (t_playerPoint > t_centerPoint &&
+						t_playerPoint < t_rightPoint)
 					{
-						t_player.setNextPositionX(getPosition().getGlobalX() + getHitBox().getOutBox().Width);
+						t_player.setNextPositionX(t_rightPoint);
 						t_player.setSpeedX(0);
 
 					}
-					//Colliding with ze right Wall wall
-					else if ((int)t_player.getLastPosition().X + t_playerOutBox.Width - 1 <= (int)getLastPosition().X)
+
+					else if (t_playerPoint + t_playerOutBox.Width < t_centerPoint &&
+						t_playerPoint + t_playerOutBox.Width > m_position.getGlobalX())
 					{
 						t_player.setNextPositionX(getPosition().getGlobalX() - t_playerOutBox.Width);
 						t_player.setSpeedX(0);
 					}
 				}
 			}
+		}
+
+		public override bool isTransparent()
+		{
+			return false;
 		}
 	}
 }

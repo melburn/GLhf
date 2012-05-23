@@ -168,5 +168,10 @@ namespace GrandLarceny
 		{
 			m_yOffset = a_y;
 		}
+
+		public Vector2 getOffset()
+		{
+			return new Vector2(m_xOffset, m_yOffset);
+		}
 	}
 }

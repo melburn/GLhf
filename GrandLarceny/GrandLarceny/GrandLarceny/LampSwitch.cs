@@ -103,6 +103,7 @@ namespace GrandLarceny
 							if (t_guard is Guard && ((Guard)t_guard).canSeePoint(getCenterPoint()))
 							{
 								((Guard)t_guard).addLampSwitchTarget(this);
+								((Guard)t_guard).getHuhSound().play();
 							}
 						}
 					}
