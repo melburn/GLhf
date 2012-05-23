@@ -510,6 +510,11 @@
       <Name>Level2</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="Sounds\SoundEffects\Game\104696__grunz__grunz-huh.wav">
+      <Name>104696__grunz__grunz-huh</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <Content Include="wtf\Cutscenes\boots.csn">
       <Name>boots</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
