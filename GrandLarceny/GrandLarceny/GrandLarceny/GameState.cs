@@ -255,7 +255,9 @@ namespace GrandLarceny
 				Game.getInstance().setState(new GameState(m_currentLevel));
 				Game.getInstance().m_camera.setLayer(0);
 			}
-			else if (KeyboardHandler.keyClicked(Keys.M))
+			else if (KeyboardHandler.keyClicked(Keys.M) ||
+				KeyboardHandler.keyClicked(Keys.Space) ||
+				KeyboardHandler.keyClicked(Keys.Escape))
 			{
 				Game.getInstance().setState(new MapState(this));
 				new Sound("Game//Karta").play();

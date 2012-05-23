@@ -134,6 +134,7 @@ namespace GrandLarceny
 			}
 			m_facingRight = m_spriteEffects == SpriteEffects.None;
 			m_huhSound = new Sound("Game//104696__grunz__grunz-huh");
+			m_huhSound.setVolume(25);
 
 			
 
@@ -588,7 +589,7 @@ namespace GrandLarceny
 			Platform t_supportingPlatform = null;
 			foreach (Entity t_collision in a_collisionList)
 			{
-				if (t_collision is Wall || t_collision is Window)
+				if (t_collision is Wall || t_collision is Window ||t_collision is LockedDoor)
 				{
 					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
 					{

@@ -16,10 +16,6 @@ namespace GrandLarceny.Events.Triggers
 
 		public IsDeadTrigger(GameObject a_object, bool a_condition)
 		{
-			if (m_object == null)
-			{
-				throw new ArgumentNullException();
-			}
 			m_condition = a_condition;
 			m_object = a_object;
 		}
@@ -53,7 +49,7 @@ namespace GrandLarceny.Events.Triggers
 		{
 			if (m_objectLink > 0)
 			{
-				m_object = (LampSwitch)Game.getInstance().getState().getObjectById(m_objectLink);
+				m_object = Game.getInstance().getState().getObjectById(m_objectLink);
 				if (m_object == null)
 				{
 					throw new ArgumentNullException("SwitchTrigger could not find switch " + m_objectLink);

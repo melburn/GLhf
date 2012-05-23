@@ -109,6 +109,8 @@ namespace GrandLarceny
 		[NonSerialized]
 		private Sound m_landSound;
 		[NonSerialized]
+		private Sound m_slideSound;
+		[NonSerialized]
 		private Sound m_hangSound;
 		[NonSerialized]
 		private Sound m_stepSound;
@@ -200,6 +202,9 @@ namespace GrandLarceny
 			m_hitSound3 = new Sound("Game//LethalHit");
 			m_jumpSound = new Sound("Game//hopp");
 			m_landSound = new Sound("Game//landa2");
+			m_landSound.setVolume(10);
+			m_slideSound = new Sound("Game//32584__redjim__fabric-rustling");
+			m_slideSound.setLooping(true);
 			m_hangSound = new Sound("Game/ledgegrab");
 			m_stepSound = new Sound("Game//walk");
 			m_runSound = new Sound("Game//walk4");
@@ -686,6 +691,7 @@ namespace GrandLarceny
 			{
 				if (!KeyboardHandler.isKeyPressed(GameState.getDownKey()))
 				{
+					m_jumpSound.play();
 					m_speed.Y = -(JUMPSTRENGTH - 70);
 					if (m_facingRight)
 					{
@@ -1419,6 +1425,19 @@ namespace GrandLarceny
 						m_imgOffsetX = -((m_img.getSize().X / 2) - 36);
 						m_imgOffsetY = -((m_img.getSize().Y / 2) - 36);
 					}
+				}
+				if (m_lastState == State.Slide)
+				{
+					m_slideSound.stop();
+					m_jumpSound.play();
+				}
+				else if (m_currentState == State.Slide)
+				{
+					m_slideSound.play();
+				}
+				if (m_lastState == State.Jumping && (m_currentState == State.Walking || m_currentState == State.Stop))
+				{
+					m_landSound.play();
 				}
 			}
 		}
