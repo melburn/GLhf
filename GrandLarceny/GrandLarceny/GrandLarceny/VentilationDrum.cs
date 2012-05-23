@@ -69,33 +69,40 @@ namespace GrandLarceny
 						t_player.setCollidedWithVent(true);
 						return;
 					}
-					if (KeyboardHandler.keyClicked(GameState.getActionKey()))
+
+					if (!t_player.isStunned())
 					{
-						if (Game.getInstance().m_camera.getLayer() == 0 && !t_player.isStunned())
+						if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 						{
-							Game.getInstance().getState().changeLayer(1);
-							t_player.setState(Player.State.Ventilation);
-							t_player.setNextPosition(m_position.getGlobalCartesian());
-							t_player.deactivateChaseMode();
-							t_player.setSpeedX(0);
-							t_player.setSpeedY(0);
+							if (Game.getInstance().m_camera.getLayer() == 0)
+							{
+								Game.getInstance().getState().changeLayer(1);
+								t_player.setState(Player.State.Ventilation);
+								t_player.setNextPosition(m_position.getGlobalCartesian());
+								t_player.deactivateChaseMode();
+								t_player.setSpeedX(0);
+								t_player.setSpeedY(0);
+							}
 						}
-					}
-					else
-					{
-						t_player.setInteractionVisibility(true);
+						else
+						{
+							t_player.setInteractionVisibility(true);
+						}
 					}
 				}
 				else
 				{
-					if (KeyboardHandler.keyClicked(GameState.getActionKey()) && t_player.getCurrentState() != Player.State.Jumping)
+					if(t_player.getCurrentState() != Player.State.Jumping)
 					{
-						s_unlockSound.play();
-						toggleLocked();
-					}
-					else
-					{
-						t_player.setInteractionVisibility(true);
+						if (KeyboardHandler.keyClicked(GameState.getActionKey()))
+						{
+							s_unlockSound.play();
+							toggleLocked();
+						}
+						else
+						{
+							t_player.setInteractionVisibility(true);
+						}
 					}
 				}
 				t_player.setCollidedWithVent(true);
