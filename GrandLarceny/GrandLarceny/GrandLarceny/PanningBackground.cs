@@ -17,7 +17,7 @@ namespace GrandLarceny
 		public PanningBackground()
 		{
 			m_parallaxEnvironments = new LinkedList<ParallaxEnvironment>();
-			m_random = new Random(1337);
+			m_random = new Random(DateTime.Now.Millisecond);
 			float t_houseDistance = Game.getInstance().getResolution().X / 10;
 			m_background = Game.getInstance().Content.Load<Texture2D>("Images//Background//starry_sky_01");
 
