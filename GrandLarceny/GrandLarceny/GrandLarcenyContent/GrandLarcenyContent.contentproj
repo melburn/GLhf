@@ -400,6 +400,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Prop\Consumables\shoe.png">
+      <Name>shoe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Background\8x8_corridor_BLACK.png">
+      <Name>8x8_corridor_BLACK</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Levels\LevelRequirement.txt">
       <Name>LevelRequirement</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
