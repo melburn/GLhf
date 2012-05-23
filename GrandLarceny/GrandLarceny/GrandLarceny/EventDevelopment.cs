@@ -49,7 +49,8 @@ namespace GrandLarceny
 			neutral,		newEffect,			newTrigger,
 			newCutscene,	firRectanglePoint,	secRectanglePoint,
 			newEquip,		newSwitch,			selectSwitch,
-			newDoorEffect,	newChase,			drawingRectangle
+			newDoorEffect,	newChase,			drawingRectangle,
+			selectingObject
 		}
 		#endregion
 
@@ -85,17 +86,20 @@ namespace GrandLarceny
 			m_btnAddEffect = new Button("btn_asset_list", Vector2.Zero, "Add Effect", "VerdanaBold", Color.Black, t_textOffset);
 			m_btnAddEffect.m_clickEvent += new Button.clickDelegate(newEffect);
 
-			m_triggerMenu.AddLast(new TextButton(new Vector2(400, 580), "Rectangle", "MotorwerkNormal"));
+			m_triggerMenu.AddLast(new TextButton(new Vector2(400, 555), "Rectangle", "MotorwerkNormal"));
 			m_triggerMenu.Last().m_clickEvent += new TextButton.clickDelegate(addRectangle);
 
-			m_triggerMenu.AddLast(new TextButton(new Vector2(400, 605), "Circle (NYI)", "MotorwerkNormal"));
+			m_triggerMenu.AddLast(new TextButton(new Vector2(400, 580), "Circle (NYI)", "MotorwerkNormal"));
 			m_triggerMenu.Last().m_clickEvent += new TextButton.clickDelegate(addCircle);
 
-			m_triggerMenu.AddLast(new TextButton(new Vector2(400, 630), "Switch/Button", "MotorwerkNormal"));
+			m_triggerMenu.AddLast(new TextButton(new Vector2(400, 605), "Switch/Button", "MotorwerkNormal"));
 			m_triggerMenu.Last().m_clickEvent += new TextButton.clickDelegate(addSwitch);
 
-			m_triggerMenu.AddLast(new TextButton(new Vector2(400, 655), "Chase check", "MotorwerkNormal"));
+			m_triggerMenu.AddLast(new TextButton(new Vector2(400, 630), "Chase check", "MotorwerkNormal"));
 			m_triggerMenu.Last().m_clickEvent += new TextButton.clickDelegate(addChase);
+
+			m_triggerMenu.AddLast(new TextButton(new Vector2(400, 655), "IsDeadTrigger", "MotorwerkNormal"));
+			m_triggerMenu.Last().m_clickEvent += new TextButton.clickDelegate(addIsDead);
 
 			m_effectMenu.AddLast(new TextButton(new Vector2(400, 580), "Cutscene", "MotorwerkNormal"));
 			m_effectMenu.Last().m_clickEvent += new TextButton.clickDelegate(addCutscene);
@@ -155,6 +159,11 @@ namespace GrandLarceny
 		private void addChase(Button a_button)
 		{
 			toggleTextField("Chase Trigger?");
+		}
+
+		private void addIsDead(Button a_button)
+		{
+			m_state = State.selectingObject;
 		}
 		#endregion
 
@@ -355,6 +364,30 @@ namespace GrandLarceny
 			m_backState.setEvents(t_events);
 			Game.getInstance().setState(m_backState);
 		}
+
+		private GameObject selectObject(Vector2 a_point)
+		{
+			GameObject t_return = null;
+
+			foreach (GameObject t_gameObject in m_backState.getObjectList()[0])
+			{
+				if (!(t_gameObject is Consumable))
+				{
+					continue;
+				}
+				else
+				{
+					if (((Consumable)t_gameObject).getImageBox().contains(a_point))
+					{
+						if (t_return == null || t_return.getLayer() > t_gameObject.getLayer())
+						{
+							t_return = t_gameObject;
+						}
+					}
+				}
+			}
+			return t_return;
+		}
 		#endregion
 		
 		#region Update & Draw
@@ -444,6 +477,17 @@ namespace GrandLarceny
 					m_state = State.newTrigger;
 					m_recLines = new Line[0];
 					selectEvent(m_selectedEvent);
+				}
+				if (m_state == State.selectingObject)
+				{
+					GameObject t_object = null;
+					if ((t_object = selectObject(MouseHandler.worldMouse())) != null)
+					{
+						m_events[m_selectedEvent].add(new IsDeadTrigger(t_object, true));
+						m_btnAddTrigger.setState(Button.State.Normal);
+						m_state = State.newTrigger;
+						selectEvent(m_selectedEvent);
+					}
 				}
 			}
 			#endregion
