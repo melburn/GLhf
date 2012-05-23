@@ -138,7 +138,7 @@ namespace GrandLarceny
 			{
 				FileStream t_file = File.Create("Content\\levels\\CustomLevels\\" + m_newLevelName.getText() + ".lvl");
 				t_file.Close();
-				Game.getInstance().setState(new DevelopmentState(m_newLevelName.getText() + ".lvl"));
+				Game.getInstance().setState(new DevelopmentState("\\CustomLevels\\" + m_newLevelName.getText() + ".lvl"));
 			}
 		}
 
