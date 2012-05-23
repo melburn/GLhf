@@ -88,14 +88,6 @@ namespace GrandLarceny
 			int i = 0;
 			m_guiList = new LinkedList<GuiObject>();
 			m_keyList = new LinkedList<Button>();
-			m_guiList.AddLast(m_soundLabel = new Text(new Vector2(500, 150), "Sound", "VerdanaBold", m_normal, false));
-			m_guiList.AddLast(m_musicLabel = new Text(new Vector2(500, 200), "Music", "VerdanaBold", m_normal, false));
-			m_guiList.AddLast(m_soundTF = new TextField(new Vector2(600, 150), 100, 20, false, true, false, 3));
-			m_guiList.AddLast(m_musicTF = new TextField(new Vector2(600, 200), 100, 20, false, true, false, 3));
-			m_soundTF.setText(m_settingsFile["Sound"].ToString());
-			m_musicTF.setText(m_settingsFile["Music"].ToString());
-			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.White, false));
-			m_resolutionText.setLayer(0.112f);
 			Vector2 t_textOffset = new Vector2(40, 10);
 
 			string[] t_currentBindings = Loader.getInstance().getSettingsBlock("Input", m_settingsPath);
@@ -106,10 +98,20 @@ namespace GrandLarceny
 				m_guiList.AddLast(new Text(new Vector2(400, 300 + (40 * i)), t_settingString[0], "VerdanaBold", Color.White, false));
 				m_keyList.AddLast(new Button(null, new Vector2(450, 300 + (40 * i++)), t_settingString[1], "VerdanaBold", Color.White, t_textOffset));
 			}
+
 			foreach (Button t_button in m_keyList)
 			{
 				t_button.m_clickEvent += new Button.clickDelegate(awaitInput);
 			}
+
+			m_guiList.AddLast(m_soundLabel = new Text(new Vector2(500, 150), "Sound", "VerdanaBold", m_normal, false));
+			m_guiList.AddLast(m_musicLabel = new Text(new Vector2(500, 200), "Music", "VerdanaBold", m_normal, false));
+			m_guiList.AddLast(m_soundTF = new TextField(new Vector2(600, 150), 100, 20, false, true, false, 3));
+			m_guiList.AddLast(m_musicTF = new TextField(new Vector2(600, 200), 100, 20, false, true, false, 3));
+			m_soundTF.setText(m_settingsFile["Sound"].ToString());
+			m_musicTF.setText(m_settingsFile["Music"].ToString());
+			m_guiList.AddLast(m_resolutionText = new Text(new Vector2(155, 160), m_resolutions[m_resolutionIndex], "VerdanaBold", Color.White, false));
+			m_resolutionText.setLayer(0.112f);
 
 			m_keyList.AddLast(m_btnNextResolution	= new Button(null, new Vector2(250, 150)));
 			m_keyList.AddLast(m_btnPrevResolution	= new Button(null, new Vector2(100, 150)));
@@ -199,6 +201,19 @@ namespace GrandLarceny
 				unlockButtons();
 				return;
 			}
+			for (int i = 0; i < m_keyList.Count(); i++)
+			{
+				if (m_keyList.ElementAt(i).getState() == Button.State.Toggled)
+				{
+					m_settingsFile[((Text)m_guiList.ElementAt(i)).getText()] = k.ToString();
+					m_inputFeedback = null;
+					m_keyList.ElementAt(i).setText(k.ToString());
+					unlockButtons();
+					changedSettings();
+					break;
+				}
+			}
+			/*
 			foreach (Button t_button in m_keyList)
 			{
 				if (t_button.getState() == Button.State.Toggled)
@@ -211,6 +226,7 @@ namespace GrandLarceny
 					break;
 				}
 			}
+			*/
 		}
 
 		private void lockButtons(Button a_button)
