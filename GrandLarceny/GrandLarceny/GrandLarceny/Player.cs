@@ -840,12 +840,23 @@ namespace GrandLarceny
 				}
 				m_cameraPoint.X = 0;
 			}
+			bool t_wasGoingDown = false;
+			if(m_lastVentilationDirection == Direction.Down)
+				t_wasGoingDown = true;
+			Entity t_currentVent = m_currentVentilation;
 			List<Direction> t_list = null;
 			foreach (Direction t_direction in m_ventilationDirection)
 			{
 				t_list = moveDirectionInVentilation(t_direction);
 				if (t_list != null)
+				{
+					if (t_list.Contains(Direction.Left) && m_ventilationDirection.Contains(Direction.Down) && KeyboardHandler.isKeyPressed(GameState.getDownKey()) && !t_wasGoingDown)
+					{
+						m_currentVentilation = t_currentVent;
+						continue;
+					}
 					break;
+				}
 			}
 			if (t_list != null)
 			{

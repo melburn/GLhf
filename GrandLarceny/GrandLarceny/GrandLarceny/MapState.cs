@@ -33,6 +33,7 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
+			setCoordiantes();
 			setMapTexture();
 		}
 
@@ -47,9 +48,6 @@ namespace GrandLarceny
 			{
 				t_colors[i] = Color.Lerp(t_lerp1, t_lerp2 , ((float)i) / ((float)t_colors.Length));
 			}
-
-			m_centerPoint = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
-			m_topLeftPoint = m_centerPoint - ((Game.getInstance().getResolution() / 2f) * m_zoom);
 
 			foreach(GameObject f_go in m_backState.getObjectList()[0])
 			{
@@ -71,12 +69,50 @@ namespace GrandLarceny
 				else if (f_go is ConsumableGoal)
 				{
 					Vector2 t_worldPos = f_go.getPosition().getGlobalCartesian() + (f_go.getImg().getSize() / 2f);
-					Vector2 t_screenPos = (Game.getInstance().m_camera.getPosition().getGlobalCartesian() - t_worldPos) / m_zoom + new Vector2(15f);
+					Vector2 t_screenPos = (m_centerPoint - t_worldPos) / m_zoom + new Vector2(15f);
 					Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - ((t_screenPos - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
 					m_goals.AddLast(t_renderPos);
 				}
 			}
 			m_map.SetData(t_colors);
+		}
+
+		private void setCoordiantes()
+		{
+			//m_centerPoint = Game.getInstance().m_camera.getPosition().getGlobalCartesian();
+			//m_topLeftPoint = m_centerPoint - ((Game.getInstance().getResolution() / 2f) * m_zoom);
+			Vector2 t_bottomRight = Vector2.Zero;
+			bool t_first = true;
+			foreach (GameObject f_go in m_backState.getObjectList()[0])
+			{
+				if (t_first)
+				{
+					t_bottomRight = f_go.getPosition().getGlobalCartesian();
+					m_topLeftPoint = f_go.getPosition().getGlobalCartesian();
+					t_first = false;
+				}
+				else
+				{
+					if (f_go.getPosition().getGlobalX() < m_topLeftPoint.X)
+					{
+						m_topLeftPoint.X = f_go.getPosition().getGlobalX();
+					}
+					if (f_go.getPosition().getGlobalY() < m_topLeftPoint.Y)
+					{
+						m_topLeftPoint.Y = f_go.getPosition().getGlobalY();
+					}
+					if (f_go.getPosition().getGlobalX() > t_bottomRight.X)
+					{
+						t_bottomRight.X = f_go.getPosition().getGlobalX();
+					}
+					if (f_go.getPosition().getGlobalY() > t_bottomRight.Y)
+					{
+						t_bottomRight.Y = f_go.getPosition().getGlobalY();
+					}
+				}
+			}
+			m_centerPoint = (m_topLeftPoint + t_bottomRight) / 2;
+			m_topLeftPoint = m_centerPoint - ((Game.getInstance().getResolution() / 2f) * m_zoom);
 		}
 
 		private void addRectangle(Rectangle a_rectangle, int a_color, Color[] a_oldArray, int a_width)
@@ -146,7 +182,7 @@ namespace GrandLarceny
 			if (m_mapPoint != null)
 			{
 				Vector2 t_worldPos = m_backState.getPlayer().getPosition().getGlobalCartesian() + (m_backState.getPlayer().getImg().getSize() / 2f);
-				Vector2 t_screenPos = (Game.getInstance().m_camera.getPosition().getGlobalCartesian() - t_worldPos) / m_zoom + new Vector2(15f);
+				Vector2 t_screenPos = (m_centerPoint - t_worldPos) / m_zoom + new Vector2(15f);
 				Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - ((t_screenPos - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
 				a_spriteBatch.Draw(m_mapPoint, t_renderPos, Color.Red);
 			}
