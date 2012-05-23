@@ -183,13 +183,13 @@ namespace GrandLarceny
 							}
 							else
 							{
+								m_flashLight.getPosition().setLocalX(0);
+								m_flashLight.setSprite("Images//LightCone//light_guard_walk");
+								m_flashLight.setFacingRight(true);
 								m_speed.X = MOVEMENTSPEED;
 								m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 								m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
 							}
-							m_flashLight.getPosition().setLocalX(0);
-							m_flashLight.setSprite("Images//LightCone//light_guard_walk");
-							m_flashLight.setFacingRight(true);
 						}
 					}
 				}
@@ -295,13 +295,13 @@ namespace GrandLarceny
 						}
 						else
 						{
+							m_flashLight.getPosition().setLocalX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
+							m_flashLight.setSprite("Images//LightCone//light_guard_walk");
+							m_flashLight.setFacingRight(false);
 							m_speed.X = -MOVEMENTSPEED;
 							m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 							m_img.setSprite("Images//Sprite//Guard//guard_flash_walk");
 						}
-						m_flashLight.getPosition().setLocalX(m_img.getSize().X - m_flashLight.getImg().getSize().X);
-						m_flashLight.setSprite("Images//LightCone//light_guard_walk");
-						m_flashLight.setFacingRight(false);
 					}
 				}
 			}
@@ -556,6 +556,12 @@ namespace GrandLarceny
 			{
 				t_player.activateChaseMode(this);
 			}
+			if (m_flashLight != null)
+			{
+				m_flashLight.kill();
+				m_flashLightId = 0;
+				m_flashLight = null;
+			}
 		}
 		internal override void collisionCheck(List<Entity> a_collisionList)
 		{
@@ -694,6 +700,12 @@ namespace GrandLarceny
 		{
 			if (canStrike())
 			{
+				if (m_flashLight != null)
+				{
+					m_flashLight.kill();
+					m_flashLightId = 0;
+					m_flashLight = null;
+				}
 				m_striking = true;
 				m_strikeReloadTime = 1f;
 				m_aiActive = false;
