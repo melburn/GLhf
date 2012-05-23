@@ -149,7 +149,7 @@ namespace GrandLarceny
 
 		private void creditsClick(Button a_button)
 		{
-			LinkedList<Text> t_list = GuiListFactory.createTextListFromArray(new string[] { "Joxe", "B2", "Zacko", "Lifegain", "Melburn", "Yuma", "Buddha the God", "Borre" }, "MotorwerkLarge", new Color(187, 194, 195));
+			LinkedList<Text> t_list = GuiListFactory.createTextListFromArray(new string[] { "Joxe", "Gittan", "Zacko", "Lifegain", "Melburn", "Yuma", "Buddha the God", "Borre" }, "MotorwerkLarge", new Color(187, 194, 195));
 			GuiListFactory.setTextListPosition(t_list, new Vector2(-(Game.getInstance().getResolution().X / 2) + 600, -(Game.getInstance().getResolution().Y / 2) + 10));
 			GuiListFactory.setTextDistance(t_list, new Vector2(0, 60));
 			foreach (Text t_text in t_list)
