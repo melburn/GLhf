@@ -224,5 +224,10 @@ namespace GrandLarceny
 			m_buttons.ElementAt(m_currentButton).setState(Button.State.Hover);
 		}
 		#endregion
+
+		public void playMusic()
+		{
+			Music.getInstance().play("MenuSong");
+		}
 	}
 }
