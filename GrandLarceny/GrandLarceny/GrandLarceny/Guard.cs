@@ -134,7 +134,7 @@ namespace GrandLarceny
 			}
 			m_facingRight = m_spriteEffects == SpriteEffects.None;
 			m_huhSound = new Sound("Game//104696__grunz__grunz-huh");
-			m_huhSound.setVolume(25);
+			m_huhSound.setVolume(7);
 
 			
 
