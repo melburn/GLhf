@@ -25,32 +25,35 @@ namespace GrandLarceny
 					&& t_player.getLastState() != Player.State.Hiding && t_player.getCurrentState() != Player.State.Jumping
 					&& t_player.getCurrentState() != Player.State.Slide && t_player.getCurrentState() != Player.State.Climbing)
 				{
-					if (KeyboardHandler.keyClicked(GameState.getActionKey()))
+					if (!t_player.isStunned())
 					{
-
-						Vector2 t_playerGlobal = a_collider.getPosition().getGlobalCartesian();
-						float t_myPositionX = m_position.getGlobalCartesian().X;
-
-						if (t_playerGlobal.X < t_myPositionX)
+						if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 						{
 
-							t_player.setNextPositionX(t_myPositionX - a_collider.getHitBox().getOutBox().Width);
-							t_player.setFacingRight(true);
-						}
-						else
-						{
-							t_player.setNextPositionX(t_myPositionX + m_img.getSize().X);
-							t_player.setFacingRight(false);
-						}
+							Vector2 t_playerGlobal = a_collider.getPosition().getGlobalCartesian();
+							float t_myPositionX = m_position.getGlobalCartesian().X;
 
-						t_player.setState(Player.State.Hiding);
-						t_player.setHidingImage(Player.STANDHIDINGIMAGE);
-						t_player.setSpeedX(0);
-						t_player.getHideSound().play();
-					}
-					else if (t_player.getCurrentState() != Player.State.Hiding)
-					{
-						t_player.setInteractionVisibility(true);
+							if (t_playerGlobal.X < t_myPositionX)
+							{
+
+								t_player.setNextPositionX(t_myPositionX - a_collider.getHitBox().getOutBox().Width);
+								t_player.setFacingRight(true);
+							}
+							else
+							{
+								t_player.setNextPositionX(t_myPositionX + m_img.getSize().X);
+								t_player.setFacingRight(false);
+							}
+
+							t_player.setState(Player.State.Hiding);
+							t_player.setHidingImage(Player.STANDHIDINGIMAGE);
+							t_player.setSpeedX(0);
+							t_player.getHideSound().play();
+						}
+						else if (t_player.getCurrentState() != Player.State.Hiding)
+						{
+							t_player.setInteractionVisibility(true);
+						}
 					}
 				}
 			}
