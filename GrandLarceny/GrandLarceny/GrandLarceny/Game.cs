@@ -56,7 +56,7 @@ namespace GrandLarceny
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
 
-			m_progress = new Progress("temp.prog");
+			//m_progress = new Progress("temp.prog");
 		}
 
 		public SpriteBatch getSpriteBatch()
@@ -110,7 +110,11 @@ namespace GrandLarceny
 			KeyboardHandler.setCurrentKeyboard(Keyboard.GetState());
 			MouseHandler.setCurrentMouse(Mouse.GetState());
 			m_currentGameTime = a_gameTime;
-
+			if (m_nextProgress != null)
+			{
+				m_progress = m_nextProgress;
+				m_nextProgress = null;
+			}
 			if (m_nextState != null)
 			{
 				m_currentState = m_nextState;
@@ -132,11 +136,7 @@ namespace GrandLarceny
 				}
 				m_nextState = null;
 			}
-			if (m_nextProgress != null)
-			{
-				m_progress = m_nextProgress;
-				m_nextProgress = null;
-			}
+			
 			#if DEBUG
 			if (m_currentState != null)
 			{
@@ -220,6 +220,7 @@ namespace GrandLarceny
 			{
 				m_nextProgress = Serializer.getInstance().loadProgress(Serializer.getInstance().getFileToStream(a_progressName,false));
 			}
+			m_nextProgress.setName(a_progressName);
 		}
 
 		
