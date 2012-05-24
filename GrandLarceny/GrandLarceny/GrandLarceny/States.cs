@@ -55,7 +55,6 @@ namespace GrandLarceny
 
 		public virtual void setPlayer(Player a_player)
 		{
-			throw new NotImplementedException();
 		}
 
 		public virtual Player getPlayer()
@@ -65,37 +64,32 @@ namespace GrandLarceny
 
 		public virtual void addObject(GameObject a_object)
 		{
-			throw new NotImplementedException();
 		}
 
 		public virtual void removeObject(GameObject a_object)
 		{
-			throw new NotImplementedException();
 		}
 
 		public virtual void addObject(GameObject a_object, int a_layer)
 		{
-			throw new NotImplementedException();
 		}
 
 		public virtual void removeObject(GameObject a_object, int a_layer)
 		{
-			throw new NotImplementedException();
 		}
 
 		public virtual LinkedList<GameObject>[] getObjectList()
 		{
-			return new LinkedList<GameObject>[0];
+			return null;
 		}
 
 		public virtual LinkedList<GameObject> getCurrentList()
 		{
-			return new LinkedList<GameObject>();
+			return null;
 		}
 
 		public virtual void changeLayer(int a_newLayer)
 		{
-			throw new NotImplementedException();
 		}
 
 		public virtual void addGuiObject(GuiObject a_go)

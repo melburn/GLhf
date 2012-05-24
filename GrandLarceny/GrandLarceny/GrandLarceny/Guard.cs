@@ -385,6 +385,19 @@ namespace GrandLarceny
 		public void setChaseTarget(Entity a_target)
 		{
 			m_chaseTarget = a_target;
+			if (m_img.isTexture(t2d_flashTurn))
+			{
+				m_img.setSpriteSilently("Images//Sprite//Guard//guard_turn");
+				m_img.setLooping(false);
+			}
+			else if (m_img.isTexture(t2d_flashIdle))
+			{
+				m_img.setSpriteSilently("Images//Sprite//Guard//guard_idle");
+			}
+			else if (m_img.isTexture(t2d_flashWalk))
+			{
+				m_img.setSpriteSilently("Images//Sprite//Guard//guard_walk");
+			}
 		}
 		internal bool isRunning()
 		{
@@ -426,6 +439,7 @@ namespace GrandLarceny
 			if (m_running && m_flashLight != null)
 			{
 				m_flashLight.kill();
+				m_img.setSprite("Images//Sprite//Guard//guard_idle");
 				m_flashLightId = 0;
 				m_flashLight = null;
 			}
@@ -537,7 +551,7 @@ namespace GrandLarceny
 				}
 				else if (m_img.isTexture(t2d_flashTurn))
 				{
-					if (m_img.getSubImageIndex() > 5)
+					if (m_img.getSubImageIndex() > 5 && m_flashLight != null)
 					{
 						if (m_facingRight)
 						{
@@ -588,6 +602,20 @@ namespace GrandLarceny
 				m_flashLight.kill();
 				m_flashLightId = 0;
 				m_flashLight = null;
+
+				if (m_img.isTexture(t2d_flashTurn))
+				{
+					m_img.setSpriteSilently("Images//Sprite//Guard//guard_turn");
+					m_img.setLooping(false);
+				}
+				else if (m_img.isTexture(t2d_flashIdle))
+				{
+					m_img.setSpriteSilently("Images//Sprite//Guard//guard_idle");
+				}
+				else if (m_img.isTexture(t2d_flashWalk))
+				{
+					m_img.setSpriteSilently("Images//Sprite//Guard//guard_walk");
+				}
 			}
 		}
 		internal override void collisionCheck(List<Entity> a_collisionList)
