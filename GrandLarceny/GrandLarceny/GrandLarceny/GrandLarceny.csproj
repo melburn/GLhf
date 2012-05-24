@@ -174,7 +174,7 @@
     <Compile Include="GuardEntity.cs" />
     <Compile Include="MenuStates\HubMenu.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />
-    <Compile Include="LoadAndSaveMenu.cs" />
+    <Compile Include="MenuStates\LoadAndSaveMenu.cs" />
     <Compile Include="LockedDoor.cs" />
     <Compile Include="MapState.cs" />
     <Compile Include="Handlers\MouseHandler.cs" />

@@ -71,6 +71,8 @@ namespace GrandLarceny
 			#if DEBUG
 			m_camera = new Camera();
 			m_currentState = new MainMenu();
+			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
+			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
 			m_currentState.load();
 			base.Initialize();
 			#elif RELEASE
