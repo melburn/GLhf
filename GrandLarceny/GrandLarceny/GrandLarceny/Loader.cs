@@ -40,7 +40,7 @@ namespace GrandLarceny
 				String[] t_info = f_currentLine.Split(t_splitter);
 				#if DEBUG
 				m_animationFrames.Add(t_info[0], int.Parse(t_info[1]));
-				#elif RELEASE
+				#else
 				try
 				{
 					m_animationFrames.Add(t_info[0], int.Parse(t_info[1]));

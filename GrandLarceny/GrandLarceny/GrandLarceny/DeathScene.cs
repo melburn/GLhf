@@ -64,7 +64,7 @@ namespace GrandLarceny
 				{
 					#if DEBUG
 					t_go.update(t_slowTime);
-					#elif RELEASE
+					#else
 					try
 					{
 						t_go.update(t_slowTime);
@@ -109,7 +109,7 @@ namespace GrandLarceny
 			{
 				#if DEBUG
 				t_gameObject.draw(a_gameTime);
-				#elif RELEASE
+				#else
 				try
 				{
 					t_gameObject.draw(a_gameTime);

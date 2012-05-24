@@ -253,7 +253,7 @@ namespace GrandLarceny
 					m_subImageNumber = 0;
 				}
 				return true;
-				#elif RELEASE
+				#else
 				try
 				{
 					m_image = Game.getInstance().Content.Load<Texture2D>(a_sprite);
