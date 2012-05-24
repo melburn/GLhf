@@ -14,6 +14,15 @@ namespace GrandLarceny
 		protected Color m_hover		= new Color(255, 255, 255);
 		protected Color m_pressed	= new Color(132, 137, 138);
 		protected Color m_toggle	= new Color(0, 0, 255);
+		protected static PanningBackground m_panningBackground;
+
+		public MenuState()
+		{
+			if (m_panningBackground == null)
+			{
+				m_panningBackground = new PanningBackground();
+			}
+		}
 
 		public override void update(GameTime a_gameTime)
 		{
@@ -25,6 +34,7 @@ namespace GrandLarceny
 			{
 				t_guiObject.update(a_gameTime);
 			}
+			m_panningBackground.update(a_gameTime);
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
@@ -37,6 +47,7 @@ namespace GrandLarceny
 			{
 				t_guiObject.draw(a_gameTime);
 			}
+			m_panningBackground.draw(a_gameTime, a_spriteBatch);
 		}
 	}
 }

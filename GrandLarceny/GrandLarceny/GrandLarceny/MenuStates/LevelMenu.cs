@@ -17,6 +17,7 @@ namespace GrandLarceny
 		private Button m_btnTFAccept;
 		private TextButton m_btnPlay;
 		private TextButton m_btnDevelop;
+		private TextButton m_btnExit;
 		private Button chosenLevel;
 		private TimeSpan m_textTimeOut;
 		#endregion
@@ -56,19 +57,16 @@ namespace GrandLarceny
 
 			m_btnPlay = new TextButton(new Vector2(500, 200), "Start Level", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			m_btnDevelop = new TextButton(new Vector2(500, 260), "Edit Level", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			m_btnExit = new TextButton(new Vector2(20, Game.getInstance().getResolution().Y - 120), "Exit", "MotorwerkLarge");
 			m_btnPlay.m_clickEvent += new TextButton.clickDelegate(startLevelClick);
 			m_btnDevelop.m_clickEvent += new TextButton.clickDelegate(editLevelClick);
+			m_btnExit.m_clickEvent += new TextButton.clickDelegate(exitClick);
 		}
 		#endregion
 
 		#region Update & Draw
 		public override void update(GameTime a_gameTime)
 		{
-			foreach (Button t_b in m_buttons)
-			{
-				t_b.update();
-			}
-
 			if (chosenLevel != null)
 			{
 				m_btnPlay.update();
@@ -85,15 +83,12 @@ namespace GrandLarceny
 			{
 				createNewLevel(m_btnTFAccept);
 			}
+			m_btnExit.update();
+			base.update(a_gameTime);
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			foreach (Button t_b in m_buttons)
-			{
-				t_b.draw(a_gameTime, a_spriteBatch);
-			}
-
 			if (chosenLevel != null)
 			{
 				m_btnPlay.draw(a_gameTime, a_spriteBatch);
@@ -102,6 +97,8 @@ namespace GrandLarceny
 
 			m_newLevelName.draw(a_gameTime);
 			m_levelText.draw(a_gameTime);
+			m_btnExit.draw(a_gameTime, a_spriteBatch);
+			base.draw(a_gameTime, a_spriteBatch);
 		}
 		#endregion
 

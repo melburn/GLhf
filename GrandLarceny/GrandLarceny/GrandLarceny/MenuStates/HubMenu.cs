@@ -32,7 +32,7 @@ namespace GrandLarceny
 
 		#region Constructor & Load
 
-		public HubMenu()
+		public HubMenu() : base()
 		{
 			
 		}

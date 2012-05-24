@@ -352,6 +352,7 @@ namespace GrandLarceny
 
 			foreach (GameObject t_gameObject in m_backState.getObjectList()[0])
 			{
+				System.Console.WriteLine(t_gameObject.GetType());
 				if (!(t_gameObject.GetType().Equals(a_type)))
 				{
 					continue;

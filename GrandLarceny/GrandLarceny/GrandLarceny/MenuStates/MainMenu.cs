@@ -14,48 +14,41 @@ namespace GrandLarceny
 	public class MainMenu : MenuState
 	{
 		private int m_currentButton = 0;
-		private PanningBackground m_panningBackground;
 
 		#region Constructor & Load
 		public override void load()
 		{
 			base.load();
-			Game.getInstance().m_camera = new Camera();
-
-			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
-			Game.getInstance().m_graphics.PreferMultiSampling = false;
-			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
+			Game.getInstance().m_camera.setPosition(Vector2.Zero);
 
 			if (!Directory.Exists("Content//levels//"))
 			{
 				Directory.CreateDirectory("Content//levels//");
 			}
-			
-			m_panningBackground = new PanningBackground();
 
 			TextButton t_newGame = new TextButton(Vector2.Zero, "Start Game", "MotorwerkLarge");
 			t_newGame.m_clickEvent += new TextButton.clickDelegate(loadGameClick);
-			m_buttons.AddLast(t_newGame);
+			m_buttons.AddFirst(t_newGame);
 
 			TextButton t_levelSelect = new TextButton(Vector2.Zero, "User Levels", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_levelSelect.m_clickEvent += new TextButton.clickDelegate(levelSelectClick);
-			m_buttons.AddLast(t_levelSelect);
+			m_buttons.AddFirst(t_levelSelect);
 
 			TextButton t_settings = new TextButton(Vector2.Zero, "Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_settings.m_clickEvent += new TextButton.clickDelegate(settingsClick);
-			m_buttons.AddLast(t_settings);
+			m_buttons.AddFirst(t_settings);
 
 			TextButton t_credit = new TextButton(Vector2.Zero, "Credits", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_credit.m_clickEvent += new TextButton.clickDelegate(creditsClick);
-			m_buttons.AddLast(t_credit);
+			m_buttons.AddFirst(t_credit);
 			
 			TextButton t_exitButton = new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_exitButton.m_clickEvent += new TextButton.clickDelegate(exitClick);
-			m_buttons.AddLast(t_exitButton);
-			GuiListFactory.setListPosition(m_buttons, new Vector2(15, Game.getInstance().getResolution().Y / 2));
-			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, 60));
+			m_buttons.AddFirst(t_exitButton);
+			GuiListFactory.setListPosition(m_buttons, new Vector2(20, Game.getInstance().getResolution().Y - 120));
+			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, -60));
 
-			m_buttons.ElementAt(0).setState(Button.State.Hover);
+			m_buttons.Last().setState(Button.State.Hover);
 
 			if (Music.getInstance().musicIsPlaying())
 			{
@@ -83,26 +76,10 @@ namespace GrandLarceny
 				m_buttons.ElementAt(m_currentButton).setState(Button.State.Pressed);
 				m_buttons.ElementAt(m_currentButton).invokeClickEvent();
 			}
-			foreach (Button t_b in m_buttons)
-			{
-				t_b.update();
-			}
-			m_panningBackground.update(a_gameTime);
-		}
-
-		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
-		{
-			base.draw(a_gameTime, a_spriteBatch);
-			foreach (Button t_b in m_buttons)
-			{
-				t_b.draw(a_gameTime, a_spriteBatch);
-			}
-			m_panningBackground.draw(a_gameTime, a_spriteBatch);
 		}
 		#endregion
 
 		#region Main Menu Methods (MMM...Bio)
-
 		public void moveCurrentHover(int a_move)
 		{
 			m_buttons.ElementAt(m_currentButton).setState(Button.State.Normal);
