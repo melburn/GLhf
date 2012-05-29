@@ -819,6 +819,7 @@ namespace GrandLarceny
 					m_position.plusXWith(-40);
 					Game.getInstance().m_camera.getPosition().plusXWith(40);
 				}
+				m_img.setSprite("Images//Sprite//Hero//hero_stand");
 			}
 			else if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) || KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
