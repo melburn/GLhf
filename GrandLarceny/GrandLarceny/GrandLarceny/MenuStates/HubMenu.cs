@@ -63,10 +63,9 @@ namespace GrandLarceny
 					t_cricle.getPosition().plusXWith(-t_cricle.getBox().Width/3);
 					m_objects.AddLast(t_cricle);
 				}
-				else
-				{
+				
 					t_button.m_clickEvent += new Button.clickDelegate(startLevelClick);
-				}
+				
 			}
 
 			//m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
