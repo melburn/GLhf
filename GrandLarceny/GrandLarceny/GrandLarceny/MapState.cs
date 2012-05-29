@@ -144,7 +144,9 @@ namespace GrandLarceny
 		}
 		public override void update(GameTime a_gameTime)
 		{
-			if (KeyboardHandler.keyClicked(Microsoft.Xna.Framework.Input.Keys.Escape) || KeyboardHandler.keyClicked(Microsoft.Xna.Framework.Input.Keys.Space))
+			if (KeyboardHandler.keyClicked(Microsoft.Xna.Framework.Input.Keys.Escape) ||
+				KeyboardHandler.keyClicked(Microsoft.Xna.Framework.Input.Keys.Space) ||
+				KeyboardHandler.keyClicked(Microsoft.Xna.Framework.Input.Keys.M))
 			{
 				Game.getInstance().setState(m_backState);
 			}
