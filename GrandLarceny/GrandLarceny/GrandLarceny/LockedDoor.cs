@@ -9,20 +9,20 @@ namespace GrandLarceny
 	[Serializable()]
 	public class LockedDoor : NonMovingObject
 	{
-		private bool m_locked;
+		private bool m_unlocked;
 		public LockedDoor(Vector2 a_position, String a_sprite, float a_layer)
 			:base (a_position, a_sprite, a_layer)
 		{
-			m_locked = true;
+			m_unlocked = false;
 		}
 
 		internal override void updateCollisionWith(Entity a_collid)
 		{
-			if (m_locked && a_collid is Player && !m_dead)
+			if (!m_unlocked && a_collid is Player && !m_dead)
 			{
 				if (Game.getInstance().getProgress().decreaseConsumable("key"))
 				{
-					m_locked = false;
+					m_unlocked = true;
 					m_img.setSprite("Images//Prop//SecurityDoor//door_open");
 				}
 				else
