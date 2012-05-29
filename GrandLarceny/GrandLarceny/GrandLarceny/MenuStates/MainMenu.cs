@@ -123,7 +123,7 @@ namespace GrandLarceny
 		{
 			Music.getInstance().stop();
 			Game.getInstance().setState(new LevelMenu());
-			Game.getInstance().setProgress("LevelSelectClick.prog", false);
+			Game.getInstance().m_progress = new Progress("LevelSelectClick.prog");
 		}
 
 		private void creditsClick(Button a_button)
