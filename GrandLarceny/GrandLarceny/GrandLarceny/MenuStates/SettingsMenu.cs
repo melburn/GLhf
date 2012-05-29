@@ -336,7 +336,7 @@ namespace GrandLarceny
 			{
 				createDialog("Apply Settings?");
 				m_countDown = new Text(Game.getInstance().getResolution() / 2, "", "MotorwerkLarge", m_normal, false);
-				m_countDown.move(new Vector2(-(m_countDown.getBox().Width / 2) - 20, -75));
+				m_countDown.move(new Vector2(-(m_countDown.getBox().Width / 2) - 30, -75));
 				m_timeOut = Game.getInstance().getTotalGameTime() + new TimeSpan(0, 0, 10);
 			}
 
@@ -464,7 +464,8 @@ namespace GrandLarceny
 				}
 				else
 				{
-					m_countDown.setText((m_timeOut.Seconds - Game.getInstance().getTotalGameTime().Seconds).ToString());
+					string[] t_showString = (m_timeOut - Game.getInstance().getTotalGameTime()).ToString().Split(':');
+					m_countDown.setText(t_showString[2].Split('.')[0]);
 				}
 			}
 
