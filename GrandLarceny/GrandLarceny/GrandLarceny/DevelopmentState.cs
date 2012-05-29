@@ -705,7 +705,7 @@ namespace GrandLarceny
 			{
 				//-----------------------------------
 				#region Building
-				if (m_itemToCreate == State.Background || m_itemToCreate == State.Parallax || m_itemToCreate == State.Prop)
+				if (m_itemToCreate == State.Background || m_itemToCreate == State.Parallax || m_itemToCreate == State.Prop || m_itemToCreate == State.Rope)
 				{
 					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
 					{
@@ -823,7 +823,7 @@ namespace GrandLarceny
 					}
 				}
 
-				if (m_itemToCreate != State.Background && m_itemToCreate != State.Parallax && m_itemToCreate != State.Prop)
+				if (m_itemToCreate != State.Background && m_itemToCreate != State.Parallax && m_itemToCreate != State.Prop && m_itemToCreate != State.Rope)
 				{
 					if (m_building && !collidedWithGui(MouseHandler.getMouseCoords()) && !collidedWithObject(m_worldMouse))
 					{
@@ -1177,13 +1177,27 @@ namespace GrandLarceny
 
 		private void setGuardPoint(GuardEntity a_guard, Vector2 a_position, bool a_right)
 		{
-			if (a_right)
+			if (KeyboardHandler.shiftMod())
 			{
-				a_guard.setRightGuardPoint(getTileCoordinates(a_position).X);
+				if (a_right)
+				{
+					a_guard.setRightGuardPoint(a_position.X);
+				}
+				else
+				{
+					a_guard.setLeftGuardPoint(a_position.X);
+				}
 			}
 			else
 			{
-				a_guard.setLeftGuardPoint(getTileCoordinates(a_position).X);
+				if (a_right)
+				{
+					a_guard.setRightGuardPoint(getTileCoordinates(a_position).X);
+				}
+				else
+				{
+					a_guard.setLeftGuardPoint(getTileCoordinates(a_position).X);
+				}
 			}
 		}
 

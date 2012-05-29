@@ -151,11 +151,11 @@ namespace GrandLarceny
 		{
 			if (KeyboardHandler.isKeyPressed(Keys.LeftShift) || KeyboardHandler.isKeyPressed(Keys.RightShift))
 			{
-				m_state.addObject(new Environment(a_position, a_asset, 0.949f));
+				m_state.addObject(new Environment(a_position, a_asset, 0.800f));
 			}
 			else
 			{
-				m_state.addObject(new Environment(m_state.getTileCoordinates(a_position), a_asset, 0.949f));
+				m_state.addObject(new Environment(m_state.getTileCoordinates(a_position), a_asset, 0.800f));
 			}
 		}
 
@@ -239,7 +239,7 @@ namespace GrandLarceny
 			}
 			if (a_asset is Environment)
 			{
-				if (a_asset.getImg().getImagePath().StartsWith("Content//Images//Prop//"))
+				if (a_asset.getImg().getImagePath().StartsWith("Images//Prop//Clutter//"))
 				{
 					createProp(t_position, t_imagePath);
 				}

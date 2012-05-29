@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using GrandLarceny.Events;
 using GrandLarceny.Events.Effects;
 using GrandLarceny.Events.Triggers;
-using System.IO;
 
 namespace GrandLarceny
 {
@@ -17,7 +17,6 @@ namespace GrandLarceny
 		#region Members
 		private DevelopmentState m_backState;
 		private Dictionary<Button, Event> m_events;
-		private Dictionary<Button, SwitchTrigger.TriggerType> m_switchTriggerButtons;
 
 		private LinkedList<Button> m_triggerButtons;
 		private LinkedList<Button> m_effectButtons;
