@@ -17,7 +17,6 @@ namespace GrandLarceny
 		#region Members
 		private DevelopmentState m_backState;
 		private Dictionary<Button, Event> m_events;
-		private Dictionary<Button, SwitchTrigger.TriggerType> m_switchTriggerButtons;
 
 		private LinkedList<Button> m_triggerButtons;
 		private LinkedList<Button> m_effectButtons;

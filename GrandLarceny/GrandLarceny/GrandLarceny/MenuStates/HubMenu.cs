@@ -14,21 +14,9 @@ namespace GrandLarceny
 	public class HubMenu : MenuState
 	{
 		#region Members
-		private TextField m_newLevelName;
-		private Text m_levelText;
-		private Button m_btnTFAccept;
 		private TimeSpan m_textTimeOut;
-		private int m_currentButton = 0;
 		private LinkedList<GameObject> m_objects;
-
-		private ParseState m_currentParse;
-
 		private Texture2D m_bakimg;
-
-		private enum ParseState
-		{
-			Settings
-		}
 		#endregion
 
 		#region Constructor & Load
@@ -163,24 +151,6 @@ namespace GrandLarceny
 		{
 			Music.getInstance().stop();
 			Game.getInstance().setState(new GameState(a_b.getText() + ".lvl"));
-		}
-
-		private void createNewLevel(Button a_button)
-		{
-			String t_fileName = "Content\\levels\\" + m_newLevelName.getText() + ".lvl";
-
-			if (File.Exists(t_fileName))
-			{
-				m_levelText.setText("Level already exists!");
-				m_levelText.setColor(Color.Red);
-				m_textTimeOut = Game.getInstance().getTotalGameTime() + new TimeSpan(0, 0, 3);
-			}
-			else
-			{
-				FileStream t_file = File.Create("Content\\levels\\" + m_newLevelName.getText() + ".lvl");
-				t_file.Close();
-				Game.getInstance().setState(new DevelopmentState(m_newLevelName.getText() + ".lvl"));
-			}
 		}
 
 		public void saveProgressClick(Button a_b)

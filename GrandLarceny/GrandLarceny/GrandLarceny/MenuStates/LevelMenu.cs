@@ -57,7 +57,7 @@ namespace GrandLarceny
 
 			m_btnPlay = new TextButton(new Vector2(500, 200), "Start Level", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			m_btnDevelop = new TextButton(new Vector2(500, 260), "Edit Level", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
-			m_btnExit = new TextButton(new Vector2(20, Game.getInstance().getResolution().Y - 120), "Exit", "MotorwerkLarge");
+			m_btnExit = new TextButton(new Vector2(20, Game.getInstance().getResolution().Y - 120), "Back", "MotorwerkLarge");
 			m_btnPlay.m_clickEvent += new TextButton.clickDelegate(startLevelClick);
 			m_btnDevelop.m_clickEvent += new TextButton.clickDelegate(editLevelClick);
 			m_btnExit.m_clickEvent += new TextButton.clickDelegate(exitClick);
