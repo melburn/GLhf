@@ -30,8 +30,10 @@ namespace GrandLarceny
 			m_width			= a_width;
 			m_worldLine		= a_worldLine;
 			m_layer			= 0.010f;
-			m_lineTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+			m_lineTexture = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			m_lineTexture.SetData(new[] { a_color });
+			Color[] t_lol = new Color[1];
+			m_lineTexture.GetData(t_lol);
 
 			if (a_worldLine)
 			{
@@ -47,6 +49,29 @@ namespace GrandLarceny
 		#endregion
 
 		#region Start- & Endpoint Methods
+
+		public void setTexture(string a_path)
+		{
+			float t_length = Vector2.Distance(m_startPosition.getGlobalCartesian(), m_endPosition.getGlobalCartesian());
+
+			Texture2D t_texture = Game.getInstance().Content.Load<Texture2D>(a_path);
+			Color[] t_colorArray = new Color[t_texture.Width * t_texture.Height];
+			t_texture.GetData(t_colorArray);
+
+			m_lineTexture = new Texture2D(Game.getInstance().GraphicsDevice, t_texture.Width, (int)t_length, false, SurfaceFormat.Color);
+			Color[] t_lineTexture = new Color[m_lineTexture.Width * (int)t_length];
+			m_lineTexture.GetData(t_lineTexture);
+
+			for (int i = 0, j = 0; i < t_lineTexture.Length; i++, j++) {
+				if (j >= t_colorArray.Length) {
+					j = 0;
+				}
+				t_lineTexture[i] = t_colorArray[j];
+			}
+
+			m_lineTexture.SetData(t_lineTexture);
+		}
+
 		public Position getEndPoint()
 		{
 			return m_endPosition;
@@ -107,10 +132,11 @@ namespace GrandLarceny
 		{
 			float t_angle = (float)Math.Atan2(m_endPosition.getGlobalY() - m_startPosition.getGlobalY(), m_endPosition.getGlobalX() - m_startPosition.getGlobalX());
 			float t_length = Vector2.Distance(m_startPosition.getGlobalCartesian(), m_endPosition.getGlobalCartesian());
+			Rectangle drawRect = new Rectangle((int)(m_startPosition.getGlobalX() + m_startOffset.X), (int)(m_startPosition.getGlobalY() + m_startOffset.Y), m_width, (int)t_length);
 
 			if (m_worldLine)
 			{
-				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width), SpriteEffects.None, m_layer);
+				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle - (float)(Math.PI /2), Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, m_layer);
 			}
 			else
 			{

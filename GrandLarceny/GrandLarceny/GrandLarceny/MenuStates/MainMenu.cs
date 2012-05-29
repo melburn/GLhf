@@ -13,6 +13,8 @@ namespace GrandLarceny
 {
 	public class MainMenu : MenuState
 	{
+		private LinkedList<Text> m_credits;
+
 		#region Constructor & Load
 		public override void load()
 		{
@@ -79,6 +81,18 @@ namespace GrandLarceny
 				m_buttons.ElementAt(m_currentButton).invokeClickEvent();
 			}
 		}
+
+		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
+		{
+			base.draw(a_gameTime, a_spriteBatch);
+			if (m_credits != null)
+			{
+				foreach (Text t_text in m_credits)
+				{
+					t_text.draw(a_gameTime);
+				}
+			}
+		}
 		#endregion
 
 		#region Main Menu Methods (MMM...Bio)
@@ -109,17 +123,20 @@ namespace GrandLarceny
 		{
 			Music.getInstance().stop();
 			Game.getInstance().setState(new LevelMenu());
+			Game.getInstance().m_progress = new Progress("LevelSelectClick.prog");
 		}
 
 		private void creditsClick(Button a_button)
 		{
-			LinkedList<Text> t_list = GuiListFactory.createTextListFromArray(new string[] { "Joxe", "Gittan", "Zacko", "Lifegain", "Melburn", "Yuma", "Buddha the God", "Borre" }, "MotorwerkLarge", new Color(187, 194, 195));
-			GuiListFactory.setTextListPosition(t_list, new Vector2(-(Game.getInstance().getResolution().X / 2) + 600, -(Game.getInstance().getResolution().Y / 2) + 10));
-			GuiListFactory.setTextDistance(t_list, new Vector2(0, 60));
-			foreach (Text t_text in t_list)
-			{
-				m_guiList.AddLast(t_text);
-			}
+			m_credits = GuiListFactory.createTextListFromArray(new string[] { 
+				"Designers:", "  Linda Ruhmén", "  Otto Elggren", 
+				"Programmers:", "  Joakim Clysén", "  Anton Lindén", "  Oscar Bringsäter", "  Yuma Shimizu", 
+				"Artfags:", "  Buddha Babulanam", "  Sebastian Alonzo",
+				"Sound:", "  Jonatan Firouzfar",
+				"Music:", "  Albin Fröjd"
+			}, "VerdanaBold", new Color(187, 194, 195));
+			GuiListFactory.setTextListPosition(m_credits, new Vector2(Game.getInstance().getResolution().X / 2 - 250, Game.getInstance().getResolution().Y / 2 - 300));
+			GuiListFactory.setTextDistance(m_credits, new Vector2(0, 17));
 		}
 		#endregion
 	}

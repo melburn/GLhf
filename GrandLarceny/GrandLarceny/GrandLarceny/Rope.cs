@@ -32,6 +32,7 @@ namespace GrandLarceny
 			m_endPosition = new CartesianCoordinate(m_position.getGlobalCartesian() + new Vector2(0, (float)Math.Max(m_lenght, 72)));
 			m_endPosition.setParentPositionWithoutMoving(m_startPosition);
 			m_line = new Line(m_startPosition, m_endPosition, new Vector2(36, 0), new Vector2(36, 0), Color.Beige, 5, true);
+			m_line.setTexture("Images/Automagi/wtfrope");
 			m_line.setLayer(m_layer);
 			m_collisionShape = new CollisionLine(m_startPosition.getGlobalCartesian(), m_endPosition.getGlobalCartesian());
 			m_rotationPoint.Y = 0;
