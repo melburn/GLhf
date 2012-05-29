@@ -62,8 +62,32 @@ namespace GrandLarceny
 			Color[] t_lineTexture = new Color[m_lineTexture.Width * (int)t_length];
 			m_lineTexture.GetData(t_lineTexture);
 
-			for (int i = 0, j = 0; i < t_lineTexture.Length; i++, j++) {
-				if (j >= t_colorArray.Length) {
+			for (int i = 0, j = 0; i < t_lineTexture.Length; i++, j++)
+			{
+				if (j >= t_colorArray.Length)
+				{
+					j = 0;
+				}
+				t_lineTexture[i] = t_colorArray[j];
+			}
+
+			m_lineTexture.SetData(t_lineTexture);
+		}
+
+		public void updateTexture()
+		{
+			float t_length = Vector2.Distance(m_startPosition.getGlobalCartesian(), m_endPosition.getGlobalCartesian());			
+			Color[] t_colorArray = new Color[m_lineTexture.Width * m_lineTexture.Height];
+			m_lineTexture.GetData(t_colorArray);
+
+			m_lineTexture = new Texture2D(Game.getInstance().GraphicsDevice, m_lineTexture.Width, (int)t_length, false, SurfaceFormat.Color);
+			Color[] t_lineTexture = new Color[m_lineTexture.Width * (int)t_length];
+			m_lineTexture.GetData(t_lineTexture);
+
+			for (int i = 0, j = 0; i < t_lineTexture.Length; i++, j++)
+			{
+				if (j >= t_colorArray.Length)
+				{
 					j = 0;
 				}
 				t_lineTexture[i] = t_colorArray[j];
