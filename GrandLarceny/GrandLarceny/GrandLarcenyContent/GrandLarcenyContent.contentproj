@@ -450,6 +450,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Prop\SecurityDoor\door_open.png">
+      <Name>door_open</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Levels\LevelRequirement.txt">
       <Name>LevelRequirement</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
