@@ -1410,6 +1410,7 @@ namespace GrandLarceny
 					m_layer = 0.300f;
 					((CollisionRectangle)m_collisionShape).m_xOffset = 0;
 					((CollisionRectangle)m_collisionShape).m_yOffset = 0;
+					m_currentVentilation = null;
 				}
 				else if (m_currentState == State.Ventilation)
 				{

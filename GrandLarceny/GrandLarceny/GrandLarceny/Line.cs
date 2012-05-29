@@ -119,7 +119,10 @@ namespace GrandLarceny
 
 			if (m_worldLine)
 			{
-				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width), SpriteEffects.None, m_layer);
+				if(m_hasTexture)
+					Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle - (float)(Math.PI /2), Vector2.Zero, new Vector2(1, t_length/m_lineTexture.Bounds.Height), SpriteEffects.None, m_layer);
+				else
+					Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width), SpriteEffects.None, m_layer);
 			}
 			else
 			{
