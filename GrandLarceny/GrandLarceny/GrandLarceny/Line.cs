@@ -19,6 +19,7 @@ namespace GrandLarceny
 		private int m_width;
 		private bool m_worldLine;
 		private float m_layer;
+		private bool m_hasTexture = false;
 		#endregion
 		
 		#region Constructor & Load
@@ -30,7 +31,7 @@ namespace GrandLarceny
 			m_width			= a_width;
 			m_worldLine		= a_worldLine;
 			m_layer			= 0.010f;
-			m_lineTexture	= new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+			m_lineTexture = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			m_lineTexture.SetData(new[] { a_color });
 
 			if (a_worldLine)
@@ -47,6 +48,13 @@ namespace GrandLarceny
 		#endregion
 
 		#region Start- & Endpoint Methods
+
+		public void setTexture(string a_path)
+		{
+			m_lineTexture = Game.getInstance().Content.Load<Texture2D>(a_path);
+			m_hasTexture = true;
+		}
+
 		public Position getEndPoint()
 		{
 			return m_endPosition;
@@ -107,10 +115,14 @@ namespace GrandLarceny
 		{
 			float t_angle = (float)Math.Atan2(m_endPosition.getGlobalY() - m_startPosition.getGlobalY(), m_endPosition.getGlobalX() - m_startPosition.getGlobalX());
 			float t_length = Vector2.Distance(m_startPosition.getGlobalCartesian(), m_endPosition.getGlobalCartesian());
+			Rectangle drawRect = new Rectangle((int)(m_startPosition.getGlobalX() + m_startOffset.X), (int)(m_startPosition.getGlobalY() + m_startOffset.Y), m_width, (int)t_length);
 
 			if (m_worldLine)
 			{
-				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width), SpriteEffects.None, m_layer);
+				if(m_hasTexture)
+					Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle - (float)(Math.PI /2), Vector2.Zero, new Vector2(1, t_length/m_lineTexture.Bounds.Height), SpriteEffects.None, m_layer);
+				else
+					Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width), SpriteEffects.None, m_layer);
 			}
 			else
 			{

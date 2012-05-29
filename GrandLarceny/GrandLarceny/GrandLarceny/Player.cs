@@ -81,6 +81,7 @@ namespace GrandLarceny
 		private Direction m_lastVentilationDirection;
 		private List<Direction> m_leftRightList;
 		private List<Direction> m_upDownList;
+		private List<Direction> m_noneList;
 
 		private Entity m_currentVentilation = null;
 
@@ -183,12 +184,14 @@ namespace GrandLarceny
 			m_collisionShape = m_standHitBox;
 			m_ventilationDirection	= new List<Direction>();
 			m_upDownList			= new List<Direction>();
+			m_leftRightList			= new List<Direction>();
+			m_noneList				= new List<Direction>();
 			m_lastVentilationDirection = Direction.None;
 			m_upDownList.Add(Direction.Up);
 			m_upDownList.Add(Direction.Down);
-			m_leftRightList			= new List<Direction>();
 			m_leftRightList.Add(Direction.Left);
 			m_leftRightList.Add(Direction.Right);
+			m_noneList.Add(Direction.None);
 			m_playerCurrentSpeed = PLAYERSPEED;
 			m_swingSpeed = 0;
 			m_slideTimer = 0;
@@ -1405,8 +1408,11 @@ namespace GrandLarceny
 					m_imgOffsetX = 0;
 					m_imgOffsetY = 0;
 					m_layer = 0.300f;
-					((CollisionRectangle)m_collisionShape).m_xOffset = 0;
-					((CollisionRectangle)m_collisionShape).m_yOffset = 0;
+					((CollisionRectangle)m_collisionShape).setOffsetX(0);
+					((CollisionRectangle)m_collisionShape).setOffsetY(0);
+					m_currentVentilationImage = "hero_ventilation_idle";
+					m_currentVentilation = null;
+					m_ventilationDirection = m_noneList;
 				}
 				else if (m_currentState == State.Ventilation)
 				{
