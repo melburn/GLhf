@@ -83,6 +83,10 @@ namespace GrandLarceny
 			{
 				createNewLevel(m_btnTFAccept);
 			}
+			if (KeyboardHandler.keyClicked(Keys.Escape))
+			{
+				m_btnExit.invokeClickEvent();
+			}
 			m_btnExit.update();
 			base.update(a_gameTime);
 		}
