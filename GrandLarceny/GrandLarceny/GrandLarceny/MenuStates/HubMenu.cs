@@ -38,9 +38,8 @@ namespace GrandLarceny
 			{
 				System.IO.Directory.CreateDirectory("Content//levels//");
 			}
-			string[] t_fileList = Directory.GetFiles("Content//levels//");
-			
-			m_buttons = GuiListFactory.createListFromStringArray(t_fileList, t_ext, "pin");
+
+			m_buttons = GuiListFactory.createListFromStringArray(Directory.GetFiles("Content//levels//"), t_ext, "pin");
 			m_buttons.ElementAt(0).setPosition(new Vector2(Game.getInstance().getResolution().X/3, Game.getInstance().getResolution().Y/1.9f));
 			m_buttons.ElementAt(1).setPosition(new Vector2(Game.getInstance().getResolution().X / 1.8f, Game.getInstance().getResolution().Y / 2));
 			//GuiListFactory.setListPosition(m_buttons, new Vector2(55, 55));
@@ -49,22 +48,28 @@ namespace GrandLarceny
 
 			LinkedList<string> t_levelLocked = getLockedLevels();
 
-			foreach (Button t_button in m_buttons)
+			LinkedListNode<Button> t_buttonIt = m_buttons.First;
+
+			while (t_buttonIt != null)
 			{
-				if (t_levelLocked.Contains(t_button.getText()))
+				LinkedListNode<Button> t_nextIt = t_buttonIt.Next;
+
+				if (t_levelLocked.Remove(t_buttonIt.Value.getText()))
 				{
-					//t_button.setState(Button.State.Toggled);
-					t_button.setVisible(false);
+					m_buttons.Remove(t_buttonIt);
 				}
-				if (Game.getInstance().getProgress().hasClearedLevel(t_button.getText()))
+				else
 				{
-					Environment t_cricle = new Environment(t_button.getPosition().getGlobalCartesian(), "Images//GUI//cirkle", 0.5f);
-					t_cricle.getPosition().plusXWith(-t_cricle.getBox().Width/3);
-					m_objects.AddLast(t_cricle);
+					if (Game.getInstance().getProgress().hasClearedLevel(t_buttonIt.Value.getText()))
+					{
+						Environment t_cricle = new Environment(t_buttonIt.Value.getPosition().getGlobalCartesian(), "Images//GUI//cirkle", 0.5f);
+						t_cricle.getPosition().plusXWith(-t_cricle.getBox().Width / 3);
+						m_objects.AddLast(t_cricle);
+					}
+					t_buttonIt.Value.m_clickEvent += new Button.clickDelegate(startLevelClick);
 				}
-				
-					t_button.m_clickEvent += new Button.clickDelegate(startLevelClick);
-				
+
+				t_buttonIt = t_nextIt;
 			}
 
 			//m_buttons.AddLast(m_btnTFAccept = new Button("btn_textfield_accept", new Vector2(600, 100)));
@@ -86,7 +91,7 @@ namespace GrandLarceny
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Right))
 			{
-				moveCurrentHover(+1);
+				moveCurrentHover(1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Enter))
 			{
@@ -160,6 +165,7 @@ namespace GrandLarceny
 			Game.getInstance().setState(new LoadAndSaveMenu(true, this));
 
 		}
+
 
 		private LinkedList<string> getLockedLevels()
 		{
