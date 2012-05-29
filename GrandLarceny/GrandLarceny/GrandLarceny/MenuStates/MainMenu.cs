@@ -77,8 +77,13 @@ namespace GrandLarceny
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Enter))
 			{
-				m_buttons.ElementAt(m_currentButton).setState(Button.State.Pressed);
-				m_buttons.ElementAt(m_currentButton).invokeClickEvent();
+				foreach (Button t_button in m_buttons)
+				{
+					if (t_button.getState() == Button.State.Hover)
+					{
+						t_button.invokeClickEvent();
+					}
+				}
 			}
 		}
 

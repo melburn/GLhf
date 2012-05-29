@@ -117,6 +117,7 @@ namespace GrandLarceny
 					else if (KeyboardHandler.keyClicked(Keys.Right) || KeyboardHandler.keyClicked(Keys.Left))
 					{
 						m_backButton.setState(TextButton.State.Hover);
+						GuiListFactory.setSelection(m_buttons, Button.State.Normal);
 					}
 				}
 				else if (m_backButton.getState() == TextButton.State.Hover)
@@ -127,6 +128,8 @@ namespace GrandLarceny
 						|| KeyboardHandler.keyClicked(Keys.Right))
 					{
 						m_backButton.setState(TextButton.State.Normal);
+						m_buttons.First().setState(Button.State.Hover);
+						m_currentButton = 0;
 					}
 					else if (KeyboardHandler.keyClicked(Keys.Enter))
 					{

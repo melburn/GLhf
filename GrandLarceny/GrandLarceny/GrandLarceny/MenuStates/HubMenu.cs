@@ -82,11 +82,11 @@ namespace GrandLarceny
 
 			if (KeyboardHandler.keyClicked(Keys.Left))
 			{
-				moveCurrentHower(-1);
+				moveCurrentHover(-1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Right))
 			{
-				moveCurrentHower(+1);
+				moveCurrentHover(+1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Enter))
 			{
@@ -185,7 +185,7 @@ namespace GrandLarceny
 			return t_LockedLevel;
 		}
 
-		public void moveCurrentHower(int a_move)
+		public void moveCurrentHover(int a_move)
 		{
 			m_buttons.ElementAt(m_currentButton).setState(Button.State.Normal);
 			
