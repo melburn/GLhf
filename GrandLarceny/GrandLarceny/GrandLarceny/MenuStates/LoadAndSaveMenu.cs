@@ -46,6 +46,7 @@ namespace GrandLarceny
 			}
 
 			m_backButton = new TextButton(new Vector2(20, Game.getInstance().getResolution().Y - 120), "Back", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_toggle);
+			m_buttons.AddLast(m_backButton);
 			m_backButton.m_clickEvent += new TextButton.clickDelegate(backTo);
 		}
 
@@ -99,9 +100,7 @@ namespace GrandLarceny
 			}
 			else
 			{
-				if (m_backButton.getState() == TextButton.State.Normal)
-				{
-					if (KeyboardHandler.keyClicked(Keys.Up))
+				if (KeyboardHandler.keyClicked(Keys.Up))
 					{
 						moveCurrentHover(-1);
 					}
@@ -109,17 +108,19 @@ namespace GrandLarceny
 					{
 						moveCurrentHover(+1);
 					}
-					else if (KeyboardHandler.keyClicked(Keys.Enter))
+			}
+				if (m_backButton.getState() == TextButton.State.Normal)
+				{
+					if (KeyboardHandler.keyClicked(Keys.Right) 
 					{
-						m_buttons.ElementAt(m_currentButton).setState(Button.State.Pressed);
-						m_buttons.ElementAt(m_currentButton).invokeClickEvent();
+						moveCurrentHoverTo(0);
 					}
-					else if (KeyboardHandler.keyClicked(Keys.Right) || KeyboardHandler.keyClicked(Keys.Left))
+					else if (KeyboardHandler.keyClicked(Keys.Left))
 					{
-						m_backButton.setState(TextButton.State.Hover);
+						moveCurrentHover(-1);
 					}
 				}
-				else if (m_backButton.getState() == TextButton.State.Hover)
+				/*else if (m_backButton.getState() == TextButton.State.Hover)
 				{
 					if (   KeyboardHandler.keyClicked(Keys.Up)
 						|| KeyboardHandler.keyClicked(Keys.Down)
@@ -132,9 +133,8 @@ namespace GrandLarceny
 					{
 						m_backButton.invokeClickEvent();
 					}
-				}
+				}*/
 			}
-			m_backButton.update();
 			base.update(a_gameTime);
 		}
 

@@ -27,7 +27,7 @@ namespace GrandLarceny.AI
 				if (t_guard.getChaseTarget() is Player)
 				{
 					Player t_chaseTarget = (Player)t_guard.getChaseTarget();
-					if ((t_chaseTarget.getCenterPoint() - t_guard.getCenterPoint()).Length() <= s_minimumRange)
+					if (t_chaseTarget.getListLayer() == t_guard.getListLayer() && (t_chaseTarget.getCenterPoint() - t_guard.getCenterPoint()).Length() <= s_minimumRange)
 					{
 						t_guard.chasePlayer();
 						return AIStateChasing.getInstance();

@@ -29,23 +29,23 @@ namespace GrandLarceny
 				Directory.CreateDirectory("Content//levels//");
 			}
 
-			TextButton t_newGame = new TextButton(Vector2.Zero, "Start Game", "MotorwerkLarge");
+			TextButton t_newGame = new TextButton(Vector2.Zero, "Start Game", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_hover);
 			t_newGame.m_clickEvent += new TextButton.clickDelegate(loadGameClick);
 			m_buttons.AddFirst(t_newGame);
 
-			TextButton t_levelSelect = new TextButton(Vector2.Zero, "User Levels", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			TextButton t_levelSelect = new TextButton(Vector2.Zero, "User Levels", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_hover);
 			t_levelSelect.m_clickEvent += new TextButton.clickDelegate(levelSelectClick);
 			m_buttons.AddFirst(t_levelSelect);
 
-			TextButton t_settings = new TextButton(Vector2.Zero, "Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			TextButton t_settings = new TextButton(Vector2.Zero, "Settings", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_hover);
 			t_settings.m_clickEvent += new TextButton.clickDelegate(settingsClick);
 			m_buttons.AddFirst(t_settings);
 
-			TextButton t_credit = new TextButton(Vector2.Zero, "Credits", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+			TextButton t_credit = new TextButton(Vector2.Zero, "Credits", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_hover);
 			t_credit.m_clickEvent += new TextButton.clickDelegate(creditsClick);
 			m_buttons.AddFirst(t_credit);
-			
-			TextButton t_exitButton = new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
+
+			TextButton t_exitButton = new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_hover);
 			t_exitButton.m_clickEvent += new TextButton.clickDelegate(exitClick);
 			m_buttons.AddFirst(t_exitButton);
 			GuiListFactory.setListPosition(m_buttons, new Vector2(20, Game.getInstance().getResolution().Y - 115));
@@ -69,7 +69,7 @@ namespace GrandLarceny
 			base.update(a_gameTime);
 			if (KeyboardHandler.keyClicked(Keys.Up))
 			{
-				moveCurrentHover(+1);
+				moveCurrentHover(1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Down))
 			{
