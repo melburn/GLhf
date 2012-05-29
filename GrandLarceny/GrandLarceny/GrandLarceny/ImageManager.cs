@@ -216,7 +216,7 @@ namespace GrandLarceny
 				}
 				catch (ContentLoadException)
 				{
-					ErrorLogger.getInstance().writeString("' texture " + a_sprite);
+					ErrorLogger.getInstance().writeString("texture missing: " + a_sprite);
 					m_image = Game.getInstance().Content.Load<Texture2D>("Images//Tile//1x1_tile_ph");
 					return false;
 				}

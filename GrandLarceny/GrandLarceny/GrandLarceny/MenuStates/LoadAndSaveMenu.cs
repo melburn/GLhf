@@ -46,6 +46,7 @@ namespace GrandLarceny
 			}
 
 			m_backButton = new TextButton(new Vector2(20, Game.getInstance().getResolution().Y - 120), "Back", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_toggle);
+			m_buttons.AddLast(m_backButton);
 			m_backButton.m_clickEvent += new TextButton.clickDelegate(backTo);
 		}
 
@@ -99,49 +100,33 @@ namespace GrandLarceny
 			}
 			else
 			{
-				if (m_backButton.getState() == TextButton.State.Normal)
+				if (KeyboardHandler.keyClicked(Keys.Up))
 				{
-					if (KeyboardHandler.keyClicked(Keys.Up))
+					moveCurrentHover(-1);
+				}
+				else if (KeyboardHandler.keyClicked(Keys.Down))
+				{
+					moveCurrentHover(+1);
+				}
+				else if (KeyboardHandler.keyClicked(Keys.Enter))
+				{
+					foreach (Button t_button in m_buttons)
 					{
-						moveCurrentHover(-1);
-					}
-					else if (KeyboardHandler.keyClicked(Keys.Down))
-					{
-						moveCurrentHover(+1);
-					}
-					else if (KeyboardHandler.keyClicked(Keys.Enter))
-					{
-						m_buttons.ElementAt(m_currentButton).setState(Button.State.Pressed);
-						m_buttons.ElementAt(m_currentButton).invokeClickEvent();
-					}
-					else if (KeyboardHandler.keyClicked(Keys.Right) || KeyboardHandler.keyClicked(Keys.Left))
-					{
-						m_backButton.setState(TextButton.State.Hover);
-						GuiListFactory.setSelection(m_buttons, Button.State.Normal);
+						if (t_button.getState() == Button.State.Hover)
+						{
+							t_button.invokeClickEvent();			
+						}
 					}
 				}
-				else if (m_backButton.getState() == TextButton.State.Hover)
+				else if (KeyboardHandler.keyClicked(Keys.Right) || KeyboardHandler.keyClicked(Keys.Left))
 				{
-					if (   KeyboardHandler.keyClicked(Keys.Up)
-						|| KeyboardHandler.keyClicked(Keys.Down)
-						|| KeyboardHandler.keyClicked(Keys.Left)
-						|| KeyboardHandler.keyClicked(Keys.Right))
-					{
-						m_backButton.setState(TextButton.State.Normal);
-						m_buttons.First().setState(Button.State.Hover);
-						m_currentButton = 0;
-					}
-					else if (KeyboardHandler.keyClicked(Keys.Enter))
-					{
-						m_backButton.invokeClickEvent();
-					}
-				}
-				if (KeyboardHandler.isKeyPressed(Keys.Escape))
-				{
-					
+					moveCurrentHoverTo(3);
 				}
 			}
-			m_backButton.update();
+			if (KeyboardHandler.isKeyPressed(Keys.Escape))
+			{
+				m_backButton.invokeClickEvent();
+			}
 			base.update(a_gameTime);
 		}
 

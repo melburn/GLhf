@@ -25,11 +25,23 @@ namespace GrandLarceny
 			}
 		}
 
+		public override void load()
+		{
+			base.load();
+			if (m_currentButton >= 0 && m_currentButton < m_buttons.Count)
+			{
+				m_buttons.ElementAt(m_currentButton).setState(Button.State.Hover);
+			}
+		}
 		public override void update(GameTime a_gameTime)
 		{
 			for (int i = 0; i < m_buttons.Count(); i++)
 			{
 				m_buttons.ElementAt(i).update();
+				if (i != m_currentButton && m_buttons.ElementAt(i).getState() == Button.State.Hover)
+				{
+					moveCurrentHoverTo(i);
+				}
 			}
 			foreach (GuiObject t_guiObject in m_guiList)
 			{
@@ -50,10 +62,34 @@ namespace GrandLarceny
 			}
 			m_panningBackground.draw(a_gameTime, a_spriteBatch);
 		}
-
-		public void moveCurrentHover(int a_move)
+		public void moveCurrentHoverTo(int a_index)
 		{
 			m_buttons.ElementAt(m_currentButton).setState(Button.State.Normal);
+			m_currentButton = a_index;
+			if (a_index >= 0)
+			{
+				m_buttons.ElementAt(m_currentButton).setState(Button.State.Hover);
+			}
+		}
+		public void moveCurrentHover(int a_move)
+		{
+			if (m_currentButton == -1)
+			{
+				if (a_move < 0)
+				{
+					moveCurrentHoverTo(m_buttons.Count - a_move);
+				}
+				else
+				{
+					moveCurrentHoverTo(a_move % m_buttons.Count);
+				}
+			}
+			else
+			{
+				int t_newI = m_currentButton + a_move;
+				moveCurrentHoverTo((int)nfmod(t_newI,m_buttons.Count));
+			}
+			/*m_buttons.ElementAt(m_currentButton).setState(Button.State.Normal);
 			m_currentButton += a_move;
 			if (m_currentButton >= m_buttons.Count)
 			{
@@ -63,7 +99,12 @@ namespace GrandLarceny
 			{
 				m_currentButton = m_buttons.Count-1;
 			}
-			m_buttons.ElementAt(m_currentButton).setState(Button.State.Hover);
+			m_buttons.ElementAt(m_currentButton).setState(Button.State.Hover);*/
+		}
+
+		double nfmod(double a, double b)
+		{
+			return a - b * Math.Floor(a / b);
 		}
 	}
 }
