@@ -15,6 +15,7 @@ namespace GrandLarceny
 		protected Color m_pressed	= new Color(132, 137, 138);
 		protected Color m_toggle	= new Color(0, 0, 255);
 		protected static PanningBackground m_panningBackground;
+		protected int m_currentButton = 0;
 
 		public MenuState()
 		{
@@ -48,6 +49,21 @@ namespace GrandLarceny
 				t_guiObject.draw(a_gameTime);
 			}
 			m_panningBackground.draw(a_gameTime, a_spriteBatch);
+		}
+
+		public void moveCurrentHover(int a_move)
+		{
+			m_buttons.ElementAt(m_currentButton).setState(Button.State.Normal);
+			m_currentButton += a_move;
+			if (m_currentButton >= m_buttons.Count)
+			{
+				m_currentButton = 0;
+			}
+			else if (m_currentButton < 0)
+			{
+				m_currentButton = m_buttons.Count-1;
+			}
+			m_buttons.ElementAt(m_currentButton).setState(Button.State.Hover);
 		}
 	}
 }

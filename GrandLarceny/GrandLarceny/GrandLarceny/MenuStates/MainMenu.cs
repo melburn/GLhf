@@ -13,13 +13,14 @@ namespace GrandLarceny
 {
 	public class MainMenu : MenuState
 	{
-		private int m_currentButton = 0;
-
 		#region Constructor & Load
 		public override void load()
 		{
 			base.load();
 			Game.getInstance().m_camera.setPosition(Vector2.Zero);
+			Game.getInstance().m_camera.setZoom(1.0f);
+			Game.getInstance().m_camera.setLayer(0);
+			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
 
 			if (!Directory.Exists("Content//levels//"))
 			{
@@ -45,10 +46,11 @@ namespace GrandLarceny
 			TextButton t_exitButton = new TextButton(Vector2.Zero, "Exit", "MotorwerkLarge", m_normal, m_hover, m_pressed, Color.Red);
 			t_exitButton.m_clickEvent += new TextButton.clickDelegate(exitClick);
 			m_buttons.AddFirst(t_exitButton);
-			GuiListFactory.setListPosition(m_buttons, new Vector2(20, Game.getInstance().getResolution().Y - 120));
+			GuiListFactory.setListPosition(m_buttons, new Vector2(20, Game.getInstance().getResolution().Y - 115));
 			GuiListFactory.setButtonDistance(m_buttons, new Vector2(0, -60));
 
 			m_buttons.Last().setState(Button.State.Hover);
+			m_currentButton = m_buttons.Count - 1;
 
 			if (Music.getInstance().musicIsPlaying())
 			{
@@ -65,11 +67,11 @@ namespace GrandLarceny
 			base.update(a_gameTime);
 			if (KeyboardHandler.keyClicked(Keys.Up))
 			{
-				moveCurrentHover(-1);
+				moveCurrentHover(+1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Down))
 			{
-				moveCurrentHover(+1);
+				moveCurrentHover(-1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Enter))
 			{
@@ -80,21 +82,6 @@ namespace GrandLarceny
 		#endregion
 
 		#region Main Menu Methods (MMM...Bio)
-		public void moveCurrentHover(int a_move)
-		{
-			m_buttons.ElementAt(m_currentButton).setState(Button.State.Normal);
-			m_currentButton += a_move;
-			if (m_currentButton >= m_buttons.Count)
-			{
-				m_currentButton = 0;
-			}
-			else if (m_currentButton < 0)
-			{
-				m_currentButton = m_buttons.Count-1;
-			}
-			m_buttons.ElementAt(m_currentButton).setState(Button.State.Hover);
-		}
-
 		public void exitClick(Button a_b)
 		{
 			Music.getInstance().stop();
