@@ -65,11 +65,11 @@ namespace GrandLarceny
 			base.update(a_gameTime);
 			if (KeyboardHandler.keyClicked(Keys.Up))
 			{
-				moveCurrentHover(-1);
+				moveCurrentHover(+1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Down))
 			{
-				moveCurrentHover(+1);
+				moveCurrentHover(-1);
 			}
 			else if (KeyboardHandler.keyClicked(Keys.Enter))
 			{
