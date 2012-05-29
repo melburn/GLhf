@@ -95,5 +95,10 @@ namespace GrandLarceny
 		{
 			return m_userName;
 		}
+
+		internal void setName(string a_progressName)
+		{
+			m_saveName = a_progressName;
+		}
 	}
 }

@@ -80,37 +80,33 @@ namespace GrandLarceny
 					m_buttons.ElementAt(i).setText(tProgg.getUserName());
 				}
 			}
-			
 		}
 
 		public override void update(GameTime a_gameTime)
 		{
-			foreach (Button t_b in m_buttons)
-				t_b.update();
 			if (m_newSaveName.isVisible())
 			{
 				m_newSaveName.update(a_gameTime);
 				if (m_newSaveName.isWriting() && KeyboardHandler.keyClicked(Keys.Enter))
 				{
+					Game.getInstance().m_progress = new Progress(m_saveTo);
 					Game.getInstance().getProgress().setUserName(m_newSaveName.getText());
 					Serializer.getInstance().saveGame(Serializer.getInstance().getFileToStream(m_saveTo, true), Game.getInstance().getProgress());
 					m_saveTo = null;
 					m_newSaveName.setVisible(false);
 					updateSaveText();
 				}
-				
 			}
+			base.update(a_gameTime);
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			foreach (Button t_b in m_buttons)
-				t_b.draw(a_gameTime, a_spriteBatch);
-
 			if (m_newSaveName.isVisible())
 			{
 				m_newSaveName.draw(a_gameTime);
 			}
+			base.draw(a_gameTime, a_spriteBatch);
 		}
 
 		public void loadProgressClick(Button a_b)
@@ -167,6 +163,5 @@ namespace GrandLarceny
 		{
 			Game.getInstance().setState(m_backState);
 		}
-
 	}
 }

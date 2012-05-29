@@ -19,6 +19,7 @@ namespace GrandLarceny
 		private Button m_btnTFAccept;
 		private TimeSpan m_textTimeOut;
 		private int m_currentButton = 0;
+		private LinkedList<GameObject> m_objects;
 
 		private ParseState m_currentParse;
 
@@ -32,7 +33,7 @@ namespace GrandLarceny
 
 		#region Constructor & Load
 
-		public HubMenu()
+		public HubMenu() : base()
 		{
 			
 		}
@@ -41,7 +42,7 @@ namespace GrandLarceny
 		{
 			base.load();
 			m_bakimg = Game.getInstance().Content.Load<Texture2D>("Images//Automagi//karta");
-
+			m_objects = new LinkedList<GameObject>();
 			//m_levelText = new Text(new Vector2(405, 80), "New Level:", "VerdanaBold", Color.White, false);
 			//m_newLevelName = new TextField(new Vector2(400, 100), 200, 32, true, true, true, 20);
 			string[] t_ext = { ".lvl" };
@@ -52,9 +53,11 @@ namespace GrandLarceny
 			string[] t_fileList = Directory.GetFiles("Content//levels//");
 			
 			m_buttons = GuiListFactory.createListFromStringArray(t_fileList, t_ext, "pin");
-			GuiListFactory.setListPosition(m_buttons, new Vector2(55, 55));
+			m_buttons.ElementAt(0).setPosition(new Vector2(Game.getInstance().getResolution().X/3, Game.getInstance().getResolution().Y/1.9f));
+			m_buttons.ElementAt(1).setPosition(new Vector2(Game.getInstance().getResolution().X / 1.8f, Game.getInstance().getResolution().Y / 2));
+			//GuiListFactory.setListPosition(m_buttons, new Vector2(55, 55));
 			GuiListFactory.setTextOffset(m_buttons, new Vector2(10, -20));
-			GuiListFactory.setButtonDistance(m_buttons, new Vector2(200, 30));
+			//GuiListFactory.setButtonDistance(m_buttons, new Vector2(200, 30));
 
 			LinkedList<string> t_levelLocked = getLockedLevels();
 
@@ -63,7 +66,14 @@ namespace GrandLarceny
 
 				if (t_levelLocked.Contains(t_button.getText()))
 				{
-					t_button.setState(Button.State.Toggled);
+					//t_button.setState(Button.State.Toggled);
+					t_button.setVisible(false);
+				}
+				if (Game.getInstance().getProgress().hasClearedLevel(t_button.getText()))
+				{
+					Environment t_cricle = new Environment(t_button.getPosition().getGlobalCartesian(), "Images//GUI//cirkle", 0.5f);
+					t_cricle.getPosition().plusXWith(-t_cricle.getBox().Width/3);
+					m_objects.AddLast(t_cricle);
 				}
 				else
 				{
@@ -100,6 +110,9 @@ namespace GrandLarceny
 
 			foreach (Button t_b in m_buttons)
 				t_b.update();
+
+			foreach (GameObject t_gb in m_objects)
+				t_gb.update(a_gameTime);
 			/*m_newLevelName.update(a_gameTime);
 			if (a_gameTime.TotalGameTime > m_textTimeOut)
 			{
@@ -115,6 +128,10 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
+
+			foreach (GameObject t_gb in m_objects)
+				t_gb.draw(a_gameTime);
+
 			foreach (Button t_b in m_buttons)
 				t_b.draw(a_gameTime, a_spriteBatch);
 			//m_newLevelName.draw(a_gameTime);

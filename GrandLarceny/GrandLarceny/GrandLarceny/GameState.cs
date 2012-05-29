@@ -270,7 +270,7 @@ namespace GrandLarceny
 				{
 					#if DEBUG
 						t_gameObject.update(a_gameTime);
-					#elif RELEASE
+					#else
 						try
 						{
 							t_gameObject.update(a_gameTime);
@@ -354,7 +354,7 @@ namespace GrandLarceny
 					{
 						m_events.Remove(t_eventNode);
 					}
-					#elif RELEASE
+					#else
 					try
 					{
 						if (t_eventNode.Value.Execute())
@@ -409,7 +409,7 @@ namespace GrandLarceny
 			{
 				#if DEBUG
 				t_gameObject.draw(a_gameTime);
-				#elif RELEASE
+				#else
 				try
 				{
 					t_gameObject.draw(a_gameTime);
@@ -426,7 +426,7 @@ namespace GrandLarceny
 				{
 					#if DEBUG
 					t_go.draw(a_gameTime);
-					#elif RELEASE
+					#else
 					try
 					{
 						t_go.draw(a_gameTime);
