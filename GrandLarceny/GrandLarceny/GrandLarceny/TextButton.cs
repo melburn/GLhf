@@ -66,29 +66,28 @@ namespace GrandLarceny
 			{
 				return false;
 			}
-			if (m_bounds.Contains((int)MouseHandler.getMouseCoords().X, (int)MouseHandler.getMouseCoords().Y) && base.getState() != Button.State.Pressed)
+			if (m_bounds.Contains((int)MouseHandler.getCurPos().X, (int)MouseHandler.getCurPos().Y))
 			{	
 				m_currentState = State.Hover;
 				m_text.setColor(m_hoverColor);
 				if (MouseHandler.lmbPressed())
 				{
 					m_currentState = State.Pressed;
-					if (MouseHandler.lmbDown())
-					{
-						playDownSound();
-					}
+					playDownSound();
 					m_text.setColor(m_pressedColor);
 				}
-				else if (MouseHandler.lmbUp())
+				if (MouseHandler.lmbUp())
 				{
 					playUpSound();
 					if (m_clickEvent != null)
 					{
 						m_clickEvent(this);
 					}
+					m_text.setColor(m_hoverColor);
 				}
 			}
-			else
+			else if (!m_bounds.Contains((int)MouseHandler.getCurPos().X, (int)MouseHandler.getCurPos().Y)
+						&& m_bounds.Contains((int)MouseHandler.getPrePos().X, (int)MouseHandler.getPrePos().Y))
 			{
 				m_currentState = State.Normal;
 				m_text.setColor(m_normalColor);
