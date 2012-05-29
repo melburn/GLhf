@@ -49,7 +49,6 @@ namespace GrandLarceny
 
 							t_player.setNextPositionX(t_newPos);
 
-
 							t_player.setState(Player.State.Hiding);
 							t_player.setHidingImage(Player.STANDHIDINGIMAGE);
 							t_player.setSpeedX(0);

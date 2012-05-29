@@ -823,6 +823,7 @@ namespace GrandLarceny
 					Game.getInstance().m_camera.getPosition().plusXWith(40);
 				}
 				m_img.setSprite("Images//Sprite//Hero//hero_stand");
+				m_layer = 0.300f;
 			}
 			else if (KeyboardHandler.isKeyPressed(GameState.getLeftKey()) || KeyboardHandler.isKeyPressed(GameState.getRightKey()))
 			{
@@ -1305,7 +1306,6 @@ namespace GrandLarceny
 						m_imgOffsetY = -(m_img.getSize().Y - m_rollHitBox.getOutBox().Height);
 						m_imgOffsetX = 0;
 						setLayer(0.725f);
-
 					}
 					else
 					{
@@ -1339,7 +1339,9 @@ namespace GrandLarceny
 							m_img.setAnimationSpeed(15);
 							m_img.setLooping(false);
 							if (m_facingRight)
+							{
 								m_imgOffsetX = -m_rollHitBox.getOutBox().Width;
+							}
 						}
 						else if (m_currentState == State.Hiding)
 						{
