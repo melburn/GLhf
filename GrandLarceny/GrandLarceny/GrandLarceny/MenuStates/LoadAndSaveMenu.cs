@@ -14,6 +14,7 @@ namespace GrandLarceny
 		private bool m_willSave;
 		private States m_backState;
 		private TextField m_newSaveName;
+		private TextButton m_backButton;
 		private string m_saveTo;
 
 		public LoadAndSaveMenu(bool a_willSave, States a_backState)
@@ -44,9 +45,8 @@ namespace GrandLarceny
 				}	
 			}
 
-			TextButton t_slot4 = new TextButton(new Vector2(900, 550), "Back", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_toggle);
-			m_buttons.AddLast(t_slot4);
-			t_slot4.m_clickEvent += new TextButton.clickDelegate(backTo);
+			m_backButton = new TextButton(new Vector2(20, Game.getInstance().getResolution().Y - 120), "Back", "MotorwerkLarge", m_normal, m_hover, m_pressed, m_toggle);
+			m_backButton.m_clickEvent += new TextButton.clickDelegate(backTo);
 		}
 
 		private void updateSaveText()
@@ -97,6 +97,44 @@ namespace GrandLarceny
 					updateSaveText();
 				}
 			}
+			else
+			{
+				if (m_backButton.getState() == TextButton.State.Normal)
+				{
+					if (KeyboardHandler.keyClicked(Keys.Up))
+					{
+						moveCurrentHover(-1);
+					}
+					else if (KeyboardHandler.keyClicked(Keys.Down))
+					{
+						moveCurrentHover(+1);
+					}
+					else if (KeyboardHandler.keyClicked(Keys.Enter))
+					{
+						m_buttons.ElementAt(m_currentButton).setState(Button.State.Pressed);
+						m_buttons.ElementAt(m_currentButton).invokeClickEvent();
+					}
+					else if (KeyboardHandler.keyClicked(Keys.Right) || KeyboardHandler.keyClicked(Keys.Left))
+					{
+						m_backButton.setState(TextButton.State.Hover);
+					}
+				}
+				else if (m_backButton.getState() == TextButton.State.Hover)
+				{
+					if (   KeyboardHandler.keyClicked(Keys.Up)
+						|| KeyboardHandler.keyClicked(Keys.Down)
+						|| KeyboardHandler.keyClicked(Keys.Left)
+						|| KeyboardHandler.keyClicked(Keys.Right))
+					{
+						m_backButton.setState(TextButton.State.Normal);
+					}
+					else if (KeyboardHandler.keyClicked(Keys.Enter))
+					{
+						m_backButton.invokeClickEvent();
+					}
+				}
+			}
+			m_backButton.update();
 			base.update(a_gameTime);
 		}
 
@@ -106,6 +144,7 @@ namespace GrandLarceny
 			{
 				m_newSaveName.draw(a_gameTime);
 			}
+			m_backButton.draw(a_gameTime, a_spriteBatch);
 			base.draw(a_gameTime, a_spriteBatch);
 		}
 

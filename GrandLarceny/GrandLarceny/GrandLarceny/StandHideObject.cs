@@ -33,22 +33,29 @@ namespace GrandLarceny
 							Vector2 t_playerGlobal = a_collider.getPosition().getGlobalCartesian();
 							float t_myPositionX = m_position.getGlobalCartesian().X;
 
+							float t_newPos;
 							if (t_playerGlobal.X < t_myPositionX)
 							{
-
-								t_player.setNextPositionX(t_myPositionX - a_collider.getHitBox().getOutBox().Width);
+								t_newPos = t_myPositionX - a_collider.getHitBox().getOutBox().Width;
 								t_player.setFacingRight(true);
 							}
 							else
 							{
-								t_player.setNextPositionX(t_myPositionX + m_img.getSize().X);
+								t_newPos = t_myPositionX + m_img.getSize().X;
 								t_player.setFacingRight(false);
 							}
+
+							Game.getInstance().m_camera.getPosition().plusXWith(t_player.getPosition().getGlobalX() - t_newPos);
+
+							t_player.setNextPositionX(t_newPos);
+
 
 							t_player.setState(Player.State.Hiding);
 							t_player.setHidingImage(Player.STANDHIDINGIMAGE);
 							t_player.setSpeedX(0);
 							t_player.getHideSound().play();
+							t_player.getImg().setSprite("Images//Sprite//Hero//hero_wallhide");
+							t_player.updateFlip();
 						}
 						else if (t_player.getCurrentState() != Player.State.Hiding)
 						{
