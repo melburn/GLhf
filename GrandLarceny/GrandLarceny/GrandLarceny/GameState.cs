@@ -36,6 +36,7 @@ namespace GrandLarceny
 		private Player player;
 
 		private ParseState m_currentParse;
+		private TimeSpan m_startTime;
 
 		//När denna gameobject inte är null samt är död så är leveln över. Den ska peka på objektet som säger "item stolen 3/3"
 		private GameObject m_finishFeedback;
@@ -208,6 +209,7 @@ namespace GrandLarceny
 			{
 				addObject(new Darkness(Vector2.Zero, "Images//LightCone//ventilljus", 0.003f), 1);
 			}
+			m_startTime = Game.getInstance().getGameTime().TotalGameTime;
 		}
 
 		public override void setPlayer(Player a_player)
@@ -396,9 +398,7 @@ namespace GrandLarceny
 			t_menu.load();
 			t_menu.playMusic();
 		}
-		/*
-		Draw-metod, loopar igenom alla objekt och ber dem ritas ut på skärmen 
-		*/
+
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
 			if (getPlayer() != null)
