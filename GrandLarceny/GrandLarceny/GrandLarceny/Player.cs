@@ -812,15 +812,25 @@ namespace GrandLarceny
 				|| KeyboardHandler.keyClicked(GameState.getActionKey()))
 			{
 				m_currentState = State.Stop;
-				if (m_facingRight)
+				if(m_img.getImagePath().StartsWith("Images//Sprite//Hero//hero_wallhide"))
 				{
-					m_position.plusXWith(40);
-					Game.getInstance().m_camera.getPosition().plusXWith(-40);
+					if (m_facingRight)
+					{
+						m_position.plusXWith(40);
+						Game.getInstance().m_camera.getPosition().plusXWith(-40);
+					}
+					else
+					{
+						m_position.plusXWith(-40);
+						Game.getInstance().m_camera.getPosition().plusXWith(40);
+					}
+
 				}
 				else
 				{
-					m_position.plusXWith(-40);
-					Game.getInstance().m_camera.getPosition().plusXWith(40);
+					m_collisionShape = m_standHitBox;
+					m_position.plusYWith(-56f);
+					Game.getInstance().m_camera.getPosition().plusYWith(56f);
 				}
 				m_img.setSprite("Images//Sprite//Hero//hero_stand");
 				m_layer = 0.300f;
