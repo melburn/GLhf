@@ -213,20 +213,6 @@ namespace GrandLarceny
 					break;
 				}
 			}
-			/*
-			foreach (Button t_button in m_keyList)
-			{
-				if (t_button.getState() == Button.State.Toggled)
-				{
-					m_settingsFile[t_button.getText()] = k.ToString();
-					m_inputFeedback = null;
-					t_button.setText(k.ToString());
-					unlockButtons();
-					changedSettings();
-					break;
-				}
-			}
-			*/
 		}
 
 		private void lockButtons(Button a_button)
