@@ -51,7 +51,6 @@ namespace GrandLarceny
 
 			foreach (Button t_button in m_buttons)
 			{
-
 				if (t_levelLocked.Contains(t_button.getText()))
 				{
 					//t_button.setState(Button.State.Toggled);
@@ -93,6 +92,10 @@ namespace GrandLarceny
 			{
 				m_buttons.ElementAt(m_currentButton).setState(Button.State.Pressed);
 				m_buttons.ElementAt(m_currentButton).invokeClickEvent();
+			}
+			if (KeyboardHandler.keyClicked(Keys.Escape))
+			{
+				exitClick(null);
 			}
 
 			foreach (Button t_b in m_buttons)
@@ -143,7 +146,7 @@ namespace GrandLarceny
 		public void exitClick(Button a_b)
 		{
 			Music.getInstance().stop();
-			Game.getInstance().Exit();
+			Game.getInstance().setState(new MainMenu());
 		}
 
 		public void startLevelClick(Button a_b)

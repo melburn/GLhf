@@ -109,31 +109,34 @@ namespace GrandLarceny
 						moveCurrentHover(+1);
 					}
 			}
-				if (m_backButton.getState() == TextButton.State.Normal)
+			if (m_backButton.getState() == TextButton.State.Normal)
+			{
+				if (KeyboardHandler.keyClicked(Keys.Right))
 				{
-					if (KeyboardHandler.keyClicked(Keys.Right) 
-					{
-						moveCurrentHoverTo(0);
-					}
-					else if (KeyboardHandler.keyClicked(Keys.Left))
-					{
-						moveCurrentHover(-1);
-					}
+					moveCurrentHoverTo(0);
 				}
-				/*else if (m_backButton.getState() == TextButton.State.Hover)
+				else if (KeyboardHandler.keyClicked(Keys.Left))
 				{
-					if (   KeyboardHandler.keyClicked(Keys.Up)
-						|| KeyboardHandler.keyClicked(Keys.Down)
-						|| KeyboardHandler.keyClicked(Keys.Left)
-						|| KeyboardHandler.keyClicked(Keys.Right))
-					{
-						m_backButton.setState(TextButton.State.Normal);
-					}
-					else if (KeyboardHandler.keyClicked(Keys.Enter))
-					{
-						m_backButton.invokeClickEvent();
-					}
-				}*/
+					moveCurrentHover(-1);
+				}
+			}
+			/*else if (m_backButton.getState() == TextButton.State.Hover)
+			{
+				if (   KeyboardHandler.keyClicked(Keys.Up)
+					|| KeyboardHandler.keyClicked(Keys.Down)
+					|| KeyboardHandler.keyClicked(Keys.Left)
+					|| KeyboardHandler.keyClicked(Keys.Right))
+				{
+					m_backButton.setState(TextButton.State.Normal);
+				}
+				else if (KeyboardHandler.keyClicked(Keys.Enter))
+				{
+					m_backButton.invokeClickEvent();
+				}
+			}*/
+			if (KeyboardHandler.isKeyPressed(Keys.Escape))
+			{
+				m_backButton.invokeClickEvent();
 			}
 			base.update(a_gameTime);
 		}

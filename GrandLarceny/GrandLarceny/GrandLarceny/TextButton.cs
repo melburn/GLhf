@@ -68,37 +68,32 @@ namespace GrandLarceny
 			}
 			if (m_bounds.Contains((int)MouseHandler.getMouseCoords().X, (int)MouseHandler.getMouseCoords().Y) && base.getState() != Button.State.Pressed)
 			{	
-				m_isFocused = true;
+				m_currentState = State.Hover;
+				m_text.setColor(m_hoverColor);
 				if (MouseHandler.lmbPressed())
 				{
-					m_isPressed = true;
+					m_currentState = State.Pressed;
 					if (MouseHandler.lmbDown())
 					{
 						playDownSound();
 					}
 					m_text.setColor(m_pressedColor);
 				}
-				else
+				else if (MouseHandler.lmbUp())
 				{
-					if (m_isPressed && MouseHandler.lmbUp())
+					playUpSound();
+					if (m_clickEvent != null)
 					{
-						playUpSound();
-						if (m_clickEvent != null)
-						{
-							m_clickEvent(this);
-						}
+						m_clickEvent(this);
 					}
-					m_text.setColor(m_hoverColor);
 				}
 			}
 			else
 			{
-				if (base.getState() == Button.State.Normal)
-				{
-					m_text.setColor(m_normalColor);
-				}
+				m_currentState = State.Normal;
+				m_text.setColor(m_normalColor);
 			}
-			return m_isPressed;
+			return m_currentState == State.Pressed;
 		}
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)

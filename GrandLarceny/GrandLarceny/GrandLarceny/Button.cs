@@ -18,6 +18,7 @@ namespace GrandLarceny
 
 		private float m_layer;
 		private string m_buttonTexture;
+		protected bool m_isVisible;
 
 		protected Text m_text;
 		private Vector2 m_textOffset = Vector2.Zero;
@@ -36,14 +37,9 @@ namespace GrandLarceny
 
 		protected Rectangle m_bounds;
 
-		protected bool m_isFocused;
-		protected bool m_isPressed;
-		protected bool m_isToggled;
-		protected bool m_isVisible;
-
 		private Keys[] m_hotkey;
 
-		private State m_currentState = State.Normal;
+		protected State m_currentState = State.Normal;
 		public enum State
 		{
 			Normal,
@@ -150,16 +146,16 @@ namespace GrandLarceny
 			}
 			if (m_bounds.Contains(Mouse.GetState().X, Mouse.GetState().Y))
 			{
-				m_isFocused = true;
+				m_currentState = State.Hover;
 				if (MouseHandler.lmbDown() && m_currentState != State.Pressed)
 				{
 					playDownSound();
-					m_isPressed = true;
+					m_currentState = State.Pressed;
 				}
-				if (m_isPressed && MouseHandler.lmbUp())
+				if (m_currentState == State.Pressed && MouseHandler.lmbUp())
 				{
 					playUpSound();
-					m_isPressed = false;
+					m_currentState = State.Hover;
 					if (m_clickEvent != null)
 					{
 						m_clickEvent(this);
@@ -172,7 +168,7 @@ namespace GrandLarceny
 				{
 					m_downSound.play();
 				}
-				m_isPressed = true;
+				m_currentState = State.Pressed;
 				if (m_clickEvent != null)
 				{
 					m_clickEvent(this);
@@ -180,10 +176,9 @@ namespace GrandLarceny
 			}
 			else
 			{
-				m_isPressed = false;
-				m_isFocused = false;
+				m_currentState = State.Normal;
 			}
-			return m_isPressed;
+			return m_currentState == State.Pressed;
 		}
 
 		public virtual void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
@@ -193,25 +188,24 @@ namespace GrandLarceny
 				return;
 			}
 			CartesianCoordinate t_cartCoord = new CartesianCoordinate(m_position.getLocalCartesian() / Game.getInstance().m_camera.getZoom(), m_position.getParentPosition());
-			if (m_isPressed || m_currentState == State.Pressed)
+			switch (m_currentState)
 			{
-				a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
-					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
-			}
-			else if (m_isFocused || m_currentState == State.Hover)
-			{
-				a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
-					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
-			}
-			else if (m_isToggled || m_currentState == State.Toggled)
-			{
-				a_spriteBatch.Draw(m_toggleTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
-					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
-			}
-			else
-			{
-				a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
-					Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+				case State.Pressed:
+					a_spriteBatch.Draw(m_pressedTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
+						Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+					break;
+				case State.Hover:
+					a_spriteBatch.Draw(m_hoverTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
+						Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+					break;
+				case State.Toggled:
+					a_spriteBatch.Draw(m_toggleTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
+						Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+					break;
+				case State.Normal:
+					a_spriteBatch.Draw(m_normalTexture, t_cartCoord.getGlobalCartesian(), null, Color.White, 0.0f, 
+						Vector2.Zero, new Vector2(1.0f / Game.getInstance().m_camera.getZoom(), 1.0f / Game.getInstance().m_camera.getZoom()), SpriteEffects.None, m_layer);
+					break;
 			}
 			if (m_text != null)
 			{
@@ -266,7 +260,7 @@ namespace GrandLarceny
 
 		public bool isButtonPressed()
 		{
-			return m_isPressed;
+			return m_currentState == State.Pressed;
 		}
 		
 		private void setNormalTexture(Texture2D a_texture)

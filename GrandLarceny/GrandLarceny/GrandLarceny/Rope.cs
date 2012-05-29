@@ -80,6 +80,7 @@ namespace GrandLarceny
 		{
 			m_lenght = a_length;
 			m_endPosition = new CartesianCoordinate(m_position.getGlobalCartesian() + new Vector2(0, (float)Math.Max(m_lenght, 72)));
+			m_line.updateTexture();
 		}
 
 		public void setStartPoint(Vector2 a_startPoint)
@@ -98,6 +99,7 @@ namespace GrandLarceny
 			m_endPosition.plusXWith(36);
 			m_line.setEndPoint(m_endPosition);
 			m_lenght = m_line.getStartPoint().getDistanceTo(m_line.getEndPoint());
+			m_line.updateTexture();
 		}
 
 		public void setEndPoint(Position a_position)
