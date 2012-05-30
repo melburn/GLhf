@@ -20,7 +20,7 @@ namespace GrandLarceny
 			m_zoom = 1.0f;
 			m_rotation = 0.0f;
 			m_position = new CartesianCoordinate(Vector2.Zero);
-			//load();
+			load();
 		}
 
 		public void load()

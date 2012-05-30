@@ -52,7 +52,7 @@ namespace GrandLarceny
 			if (a_collider is Player)
 			{
 				Player t_player = (Player)a_collider;
-				if (!m_isLocked)
+				if (!m_isLocked || (m_isLocked && t_player.getCurrentState() != Player.State.Jumping))
 				{
 					if (t_player.getCurrentState() == Player.State.Ventilation && (KeyboardHandler.keyClicked(GameState.getUpKey()) || KeyboardHandler.keyClicked(GameState.getJumpKey()) || KeyboardHandler.keyClicked(GameState.getDownKey())))
 					{
@@ -67,6 +67,9 @@ namespace GrandLarceny
 							Game.getInstance().m_camera.setLayer(0);
 						}
 						t_player.setCollidedWithVent(true);
+						if(m_isLocked)
+						toggleLocked();
+						s_unlockSound.play();
 						return;
 					}
 
@@ -90,19 +93,16 @@ namespace GrandLarceny
 						}
 					}
 				}
-				else
+				if(t_player.getCurrentState() != Player.State.Jumping && m_isLocked)
 				{
-					if(t_player.getCurrentState() != Player.State.Jumping)
+					if (KeyboardHandler.keyClicked(GameState.getActionKey()))
 					{
-						if (KeyboardHandler.keyClicked(GameState.getActionKey()))
-						{
-							s_unlockSound.play();
-							toggleLocked();
-						}
-						else
-						{
-							t_player.setInteractionVisibility(true);
-						}
+						s_unlockSound.play();
+						toggleLocked();
+					}
+					else
+					{
+						t_player.setInteractionVisibility(true);
 					}
 				}
 				t_player.setCollidedWithVent(true);
