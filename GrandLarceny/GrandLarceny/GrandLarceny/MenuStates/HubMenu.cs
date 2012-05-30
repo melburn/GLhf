@@ -163,9 +163,7 @@ namespace GrandLarceny
 		public void saveProgressClick(Button a_b)
 		{
 			Game.getInstance().setState(new LoadAndSaveMenu(true, this));
-
 		}
-
 
 		private LinkedList<string> getLockedLevels()
 		{
@@ -190,8 +188,8 @@ namespace GrandLarceny
 			}
 			return t_LockedLevel;
 		}
-
-		public void moveCurrentHover(int a_move)
+		
+		public new void moveCurrentHover(int a_move)
 		{
 			m_buttons.ElementAt(m_currentButton).setState(Button.State.Normal);
 			

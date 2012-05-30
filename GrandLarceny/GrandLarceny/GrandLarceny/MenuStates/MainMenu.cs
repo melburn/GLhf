@@ -16,12 +16,15 @@ namespace GrandLarceny
 		private LinkedList<Text> m_credits;
 
 		#region Constructor & Load
+		public MainMenu() : base()
+		{
+			Game.getInstance().m_camera.setPosition(Vector2.Zero);
+			Game.getInstance().m_camera.setLayer(0);
+		}
+
 		public override void load()
 		{
 			base.load();
-			Game.getInstance().m_camera.setPosition(Vector2.Zero);
-			Game.getInstance().m_camera.setZoom(1.0f);
-			Game.getInstance().m_camera.setLayer(0);
 			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
 
 			if (!Directory.Exists("Content//levels//"))
