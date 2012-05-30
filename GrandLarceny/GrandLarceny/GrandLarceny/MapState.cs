@@ -39,8 +39,8 @@ namespace GrandLarceny
 
 		private void setMapTexture()
 		{
-			int t_width = ((int)(Game.getInstance().getResolution().X)) - 40;
-			m_map = new Texture2D(Game.getInstance().GraphicsDevice, t_width, ((int)(Game.getInstance().getResolution().Y)) - 40, false, SurfaceFormat.Color);
+			int t_width = ((int)(Game.getInstance().getResolution().X / Game.getInstance().m_camera.getZoom())) - 40;
+			m_map = new Texture2D(Game.getInstance().GraphicsDevice, t_width, ((int)(Game.getInstance().getResolution().Y/ Game.getInstance().m_camera.getZoom())) - 40, false, SurfaceFormat.Color);
 			Color[] t_colors = new Color[m_map.Width * m_map.Height];
 			Color t_lerp1 = new Color(0.001f, 0.001f, 0.001f, 0.3f);
 			Color t_lerp2 = new Color(0.004f, 0.004f, 0.004f, 0.3f);
@@ -69,8 +69,8 @@ namespace GrandLarceny
 				else if (f_go is ConsumableGoal)
 				{
 					Vector2 t_worldPos = f_go.getPosition().getGlobalCartesian() + (f_go.getImg().getSize() / 2f);
-					Vector2 t_screenPos = (m_centerPoint - t_worldPos) / m_zoom + new Vector2(15f);
-					Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - ((t_screenPos - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
+					Vector2 t_screenPos = (m_centerPoint - t_worldPos) / m_zoom;
+					Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - (t_screenPos);
 					m_goals.AddLast(t_renderPos);
 				}
 			}
@@ -112,7 +112,7 @@ namespace GrandLarceny
 				}
 			}
 			m_centerPoint = (m_topLeftPoint + t_bottomRight) / 2;
-			m_topLeftPoint = m_centerPoint - ((Game.getInstance().getResolution() / 2f) * m_zoom);
+			m_topLeftPoint = m_centerPoint - (((Game.getInstance().getResolution() / 2f) / Game.getInstance().m_camera.getZoom()) * m_zoom);
 		}
 
 		private void addRectangle(Rectangle a_rectangle, int a_color, Color[] a_oldArray, int a_width)
@@ -177,15 +177,16 @@ namespace GrandLarceny
 
 		public override void draw(GameTime a_gameTime, SpriteBatch a_spriteBatch)
 		{
-			Vector2 t_mapPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - (((Game.getInstance().getResolution() / 2f) - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
+			Vector2 t_mapPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - new Vector2(m_map.Bounds.Width/2, m_map.Bounds.Height/2);//- ((Game.getInstance().getResolution() / 2f) / Game.getInstance().m_camera.getZoom()) + ((Game.getInstance().getResolution() / 2f) / Game.getInstance().m_camera.getZoom())/20;
+			//Vector2 t_mapPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - (Game.getInstance().getResolution() / 2) + new Vector2(15, 20);
 
 			a_spriteBatch.Draw(m_map, t_mapPos, Color.White);
 
 			if (m_mapPoint != null)
 			{
 				Vector2 t_worldPos = m_backState.getPlayer().getPosition().getGlobalCartesian() + (m_backState.getPlayer().getImg().getSize() / 2f);
-				Vector2 t_screenPos = (m_centerPoint - t_worldPos) / m_zoom + new Vector2(15f);
-				Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - ((t_screenPos - new Vector2(20f)) * Game.getInstance().m_camera.getZoom());
+				Vector2 t_screenPos = (m_centerPoint - t_worldPos) / m_zoom;
+				Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - ((t_screenPos)) + (new Vector2(m_mapPoint.Bounds.Width/2, m_mapPoint.Bounds.Height/2)/m_zoom);// / Game.getInstance().m_camera.getZoom());
 				a_spriteBatch.Draw(m_mapPoint, t_renderPos, Color.Red);
 			}
 			foreach (Vector2 f_v in m_goals)

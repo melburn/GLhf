@@ -830,6 +830,7 @@ namespace GrandLarceny
 				{
 					m_collisionShape = m_standHitBox;
 					m_position.plusYWith(-56f);
+					m_layer = 0.300f;
 					Game.getInstance().m_camera.getPosition().plusYWith(56f);
 				}
 				m_img.setSprite("Images//Sprite//Hero//hero_stand");

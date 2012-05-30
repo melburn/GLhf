@@ -70,9 +70,10 @@ namespace GrandLarceny
 			ErrorLogger.getInstance().writeString("GrandLarceny initiated at "+System.DateTime.Now);
 			#if DEBUG
 			m_camera = new Camera();
-			m_currentState = new MainMenu();
 			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
 			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
+			m_camera.load();
+			m_currentState = new MainMenu();
 			m_currentState.load();
 			base.Initialize();
 			#else

@@ -19,9 +19,6 @@ namespace GrandLarceny
 		public override void load()
 		{
 			base.load();
-			Game.getInstance().m_camera.setPosition(Vector2.Zero);
-			Game.getInstance().m_camera.setZoom(1.0f);
-			Game.getInstance().m_camera.setLayer(0);
 			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
 
 			if (!Directory.Exists("Content//levels//"))
@@ -129,6 +126,8 @@ namespace GrandLarceny
 			Music.getInstance().stop();
 			Game.getInstance().setState(new LevelMenu());
 			Game.getInstance().m_progress = new Progress("LevelSelectClick.prog");
+			Serializer.getInstance().saveGame(Serializer.getInstance().getFileToStream("LevelSelectClick.prog", true), Game.getInstance().getProgress());
+			
 		}
 
 		private void creditsClick(Button a_button)
