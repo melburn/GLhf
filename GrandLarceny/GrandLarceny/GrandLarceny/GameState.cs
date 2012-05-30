@@ -443,11 +443,11 @@ namespace GrandLarceny
 				Game.getInstance().getSpriteBatch().Draw(
 					m_background,
 					new Rectangle(
-						(int)((Game.getInstance().m_camera.getPosition().getGlobalCartesian().X - Game.getInstance().getResolution().X / 2)/Game.getInstance().m_camera.getZoom()), 
-						(int)((Game.getInstance().m_camera.getPosition().getGlobalCartesian().Y - Game.getInstance().getResolution().Y / 2)/Game.getInstance().m_camera.getZoom()), 
-						(int)(m_background.Bounds.Width/Game.getInstance().m_camera.getZoom()), 
-						(int)(m_background.Bounds.Height/Game.getInstance().m_camera.getZoom())),
-					new Rectangle(m_background.Bounds.X, m_background.Bounds.Y, (int)(m_background.Bounds.Width/Game.getInstance().m_camera.getZoom()), (int)(m_background.Bounds.Height/Game.getInstance().m_camera.getZoom())),
+						(int)(Game.getInstance().m_camera.getPosition().getGlobalCartesian().X - (Game.getInstance().getResolution().X / 2)/Game.getInstance().m_camera.getZoom()), 
+						(int)(Game.getInstance().m_camera.getPosition().getGlobalCartesian().Y - (Game.getInstance().getResolution().Y / 2)/Game.getInstance().m_camera.getZoom()), 
+						(int)((Game.getInstance().getResolution().X)/Game.getInstance().m_camera.getZoom()), 
+						(int)((Game.getInstance().getResolution().Y)/Game.getInstance().m_camera.getZoom())),
+					new Rectangle(m_background.Bounds.X, m_background.Bounds.Y,(int)((Game.getInstance().getResolution().X)/Game.getInstance().m_camera.getZoom()), (int)((Game.getInstance().getResolution().Y)/Game.getInstance().m_camera.getZoom())),
 					Color.White,
 					0.0f,
 					Vector2.Zero,
