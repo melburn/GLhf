@@ -37,3 +37,4 @@ Images//Prop//SecurityDoor//SecurityDoor:10
 Images//Prop//Consumables//Sparkle:8
 Images//Tile//Sign//hair_saloon_animation:4
 Images//Tile//Sign//open_bar_sign_animation:4
+Images//GUI//drawcirkle:6
