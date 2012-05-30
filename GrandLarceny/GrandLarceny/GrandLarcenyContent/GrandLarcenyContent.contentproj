@@ -612,12 +612,12 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
-    <None Include="Levels\Level1.lvl">
-      <Name>Level1</Name>
+    <None Include="Levels\Downtown.lvl">
+      <Name>Downtown</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Levels\Level2.lvl">
-      <Name>Level2</Name>
+    <None Include="Levels\Office Complex.lvl">
+      <Name>Office Complex</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Sounds\SoundEffects\Game\104696__grunz__grunz-huh.wav">
