@@ -210,6 +210,12 @@ namespace GrandLarceny
 				addObject(new Darkness(Vector2.Zero, "Images//LightCone//ventilljus", 0.003f), 1);
 			}
 			m_startTime = Game.getInstance().getGameTime().TotalGameTime;
+
+			Level t_level = new Level();
+			t_level.setLevelObjects(Game.getInstance().getState().getObjectList());
+			t_level.setEvents(((GameState)Game.getInstance().getState()).getEvents());
+
+			Serializer.getInstance().SaveLevel(Game.getInstance().getCheckPointLevel(true), t_level);
 		}
 
 		public override void setPlayer(Player a_player)
