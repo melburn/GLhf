@@ -88,12 +88,31 @@ namespace GrandLarceny
 
 			if (m_background != null && Game.getInstance().m_camera.getLayer() == 0)
 			{
+				//Vector2 t_imgPosition = new Vector2(m_background.Bounds.X, m_background.Bounds.Y);
+
+				Game.getInstance().getSpriteBatch().Draw(
+					m_background,
+					new Rectangle(
+						(int)((m_background.Bounds.X - Game.getInstance().getResolution().X / 2)/Game.getInstance().m_camera.getZoom()), 
+						(int)((m_background.Bounds.Y - Game.getInstance().getResolution().Y / 2)/Game.getInstance().m_camera.getZoom()), 
+						(int)(m_background.Bounds.Width/Game.getInstance().m_camera.getZoom()), 
+						(int)(m_background.Bounds.Height/Game.getInstance().m_camera.getZoom())),
+					new Rectangle(m_background.Bounds.X, m_background.Bounds.Y, (int)(m_background.Bounds.Width/Game.getInstance().m_camera.getZoom()), (int)(m_background.Bounds.Height/Game.getInstance().m_camera.getZoom())),
+					Color.White,
+					0.0f,
+					Vector2.Zero,
+					SpriteEffects.None,
+					1.000f
+				);
+
+				/*
 				Rectangle m_dest = Game.getInstance().m_camera.getRectangle();
 				m_dest.Width /= 2;
 				m_dest.X += m_dest.Width / 2;
 				m_dest.Height /= 2;
 				m_dest.Y += m_dest.Height / 2;
 				a_spriteBatch.Draw(m_background, m_dest, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
+				*/
 			}
 		}
 	}

@@ -19,6 +19,10 @@ namespace GrandLarceny
 
 		public MenuState()
 		{
+			Game.getInstance().m_camera.setParentPosition(null);
+			Game.getInstance().m_camera.setPosition(Vector2.Zero);
+			Game.getInstance().m_camera.setLayer(0);
+			Game.getInstance().m_camera.load();
 			if (m_panningBackground == null)
 			{
 				m_panningBackground = new PanningBackground();
