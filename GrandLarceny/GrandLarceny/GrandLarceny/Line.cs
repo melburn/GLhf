@@ -19,6 +19,7 @@ namespace GrandLarceny
 		private int m_width;
 		private bool m_worldLine;
 		private float m_layer;
+		private bool m_hasTexture;
 		#endregion
 		
 		#region Constructor & Load
@@ -32,8 +33,6 @@ namespace GrandLarceny
 			m_layer			= 0.010f;
 			m_lineTexture = new Texture2D(Game.getInstance().GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			m_lineTexture.SetData(new[] { a_color });
-			Color[] t_lol = new Color[1];
-			m_lineTexture.GetData(t_lol);
 
 			if (a_worldLine)
 			{
@@ -72,6 +71,7 @@ namespace GrandLarceny
 			}
 
 			m_lineTexture.SetData(t_lineTexture);
+			m_hasTexture = true;
 		}
 
 		public void updateTexture()
@@ -94,6 +94,7 @@ namespace GrandLarceny
 			}
 
 			m_lineTexture.SetData(t_lineTexture);
+			m_hasTexture = true;
 		}
 
 		public Position getEndPoint()
@@ -160,7 +161,12 @@ namespace GrandLarceny
 
 			if (m_worldLine)
 			{
-				Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle - (float)(Math.PI /2), Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, m_layer);
+				if (m_hasTexture)
+					Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle - (float)(Math.PI / 2), Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, m_layer);
+				else
+					Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle, Vector2.Zero, new Vector2(t_length, m_width), SpriteEffects.None, m_layer);
+
+				//Game.getInstance().getSpriteBatch().Draw(m_lineTexture, m_startPosition.getGlobalCartesian(), null, m_lineColor, t_angle - (float)(Math.PI / 2), Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, m_layer);
 			}
 			else
 			{
