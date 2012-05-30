@@ -62,7 +62,9 @@ namespace GrandLarceny
 				{
 					if (Game.getInstance().getProgress().hasClearedLevel(t_buttonIt.Value.getText()))
 					{
-						Environment t_cricle = new Environment(t_buttonIt.Value.getPosition().getGlobalCartesian(), "Images//GUI//cirkle", 0.5f);
+						Environment t_cricle = new Environment(t_buttonIt.Value.getPosition().getGlobalCartesian(), "Images//GUI//drawcirkle", 0.5f);
+						t_cricle.getImg().setLooping(false);
+						t_cricle.getImg().setAnimationSpeed(20);
 						t_cricle.getPosition().plusXWith(-t_cricle.getBox().Width / 3);
 						m_objects.AddLast(t_cricle);
 					}

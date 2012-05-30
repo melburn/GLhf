@@ -70,7 +70,7 @@ namespace GrandLarceny
 				{
 					Vector2 t_worldPos = f_go.getPosition().getGlobalCartesian() + (f_go.getImg().getSize() / 2f);
 					Vector2 t_screenPos = (m_centerPoint - t_worldPos) / m_zoom;
-					Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - ((t_screenPos)) + (new Vector2(m_mapPoint.Bounds.Width/2, m_mapPoint.Bounds.Height/2)/m_zoom);
+					Vector2 t_renderPos = Game.getInstance().m_camera.getPosition().getGlobalCartesian() - (t_screenPos);
 					m_goals.AddLast(t_renderPos);
 				}
 			}
