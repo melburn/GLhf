@@ -10,6 +10,8 @@ namespace GrandLarceny
 	[Serializable()]
 	public class CheckPoint : NonMovingObject
 	{
+		[NonSerialized]
+		private Particle m_feedback;
 
 		private bool m_hasSaved = true;
 
@@ -25,6 +27,15 @@ namespace GrandLarceny
 			{
 				base.draw(a_gameTime);
 			}
+
+			/*if (m_feedback != null)
+			{
+				m_feedback.draw(a_gameTime);
+				if (m_feedback.isDead())
+				{
+					m_feedback = null;
+				}
+			}*/
 		}
 
 		internal override void updateCollisionWith(Entity a_collider)
@@ -43,6 +54,14 @@ namespace GrandLarceny
 						Serializer.getInstance().SaveLevel(Game.getInstance().getCheckPointLevel(true), tLevel);
 						Serializer.getInstance().saveGame(Game.getInstance().getCheckPointProgress(true), Game.getInstance().getProgress());
 						m_hasSaved = false;
+
+
+						String t_textureName = "Images//GUI//GameGUI//checkpoint";
+						m_feedback = new Particle(new CartesianCoordinate(Vector2.Zero, Game.getInstance().m_camera.getPosition()), t_textureName, 33, 0.0015f);
+						m_feedback.getPosition().setLocalCartesian(new Vector2(0, -100) - m_feedback.getImg().getSize() / 2);
+						m_feedback.setTimer(((float)Game.getInstance().getTotalGameTime().TotalMilliseconds) + 3000f);
+						Game.getInstance().getState().addObject(m_feedback);
+						
 					/*}
 					else
 					{
