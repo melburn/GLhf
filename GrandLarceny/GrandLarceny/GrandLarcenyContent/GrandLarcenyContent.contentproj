@@ -475,6 +475,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Tile\Ventilation\Drum\ventilation_light.png">
+      <Name>ventilation_light</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Levels\LevelRequirement.txt">
       <Name>LevelRequirement</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
