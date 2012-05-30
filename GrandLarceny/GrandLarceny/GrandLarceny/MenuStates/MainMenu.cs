@@ -126,6 +126,8 @@ namespace GrandLarceny
 			Music.getInstance().stop();
 			Game.getInstance().setState(new LevelMenu());
 			Game.getInstance().m_progress = new Progress("LevelSelectClick.prog");
+			Serializer.getInstance().saveGame(Serializer.getInstance().getFileToStream("LevelSelectClick.prog", true), Game.getInstance().getProgress());
+			
 		}
 
 		private void creditsClick(Button a_button)

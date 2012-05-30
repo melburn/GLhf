@@ -56,5 +56,10 @@ namespace GrandLarceny
 		{
 			return false;
 		}
+
+		public bool isLocked()
+		{
+			return !m_unlocked;
+		}
 	}
 }

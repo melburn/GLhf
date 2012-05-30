@@ -152,9 +152,13 @@ namespace GrandLarceny
 			t2d_qmark			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//qmark");
 			t2d_emark			= Game.getInstance().Content.Load<Texture2D>("Images//Sprite//Guard//Exclmarks");
 			#endregion
-			if (m_img.isTexture(t2d_flashTurn) || m_img.isTexture(t2d_turn))
+			if (m_img.isTexture(t2d_flashTurn) || m_img.isTexture(t2d_turn) || m_img.isTexture(t2d_pickUpFlash) || m_img.isTexture(t2d_putDownFlash))
 			{
 				m_img.setLooping(false);
+			}
+			if (m_img.isTexture(t2d_walk) || m_img.isTexture(t2d_flashWalk))
+			{
+				m_img.setAnimationSpeed(WALKINGANIMATIONSPEED);
 			}
 		}
 
@@ -623,7 +627,9 @@ namespace GrandLarceny
 			Platform t_supportingPlatform = null;
 			foreach (Entity t_collision in a_collisionList)
 			{
-				if (t_collision is Wall || t_collision is Window ||t_collision is LockedDoor)
+				if (t_collision is Wall ||
+					t_collision is Window ||
+					(t_collision is LockedDoor && ((LockedDoor) (t_collision)).isLocked()))
 				{
 					if (m_speed.X < 0 && m_position.getGlobalX() > t_collision.getPosition().getGlobalX())
 					{
