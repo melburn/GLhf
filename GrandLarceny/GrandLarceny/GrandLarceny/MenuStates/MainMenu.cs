@@ -136,7 +136,7 @@ namespace GrandLarceny
 			m_credits = GuiListFactory.createTextListFromArray(new string[] { 
 				"Designers:", "  Linda Ruhmén", "  Otto Elggren", 
 				"Programmers:", "  Joakim Clysén", "  Anton Lindén", "  Oscar Bringsäter", "  Yuma Shimizu", 
-				"Artfags:", "  Buddha Babulanam", "  Sebastian Alonzo",
+				"Graphics:", "  Buddha Babulanam", "  Sebastian Alonzo",
 				"Sound:", "  Jonatan Firouzfar",
 				"Music:", "  Albin Fröjd"
 			}, "VerdanaBold", new Color(187, 194, 195));
