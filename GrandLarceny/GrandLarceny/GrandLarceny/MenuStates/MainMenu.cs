@@ -20,6 +20,7 @@ namespace GrandLarceny
 		{
 			base.load();
 			Loader.getInstance().loadSoundSettings("Content//wtf//settings.ini");
+			Loader.getInstance().loadGraphicSettings("Content//wtf//settings.ini");
 
 			if (!Directory.Exists("Content//levels//"))
 			{

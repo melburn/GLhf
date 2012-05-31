@@ -1266,11 +1266,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sounds\SoundEffects\GUI\button.wav">
-      <Name>button</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Tile\Wall\1x1_stone_wall_short.png">
       <Name>1x1_stone_wall_short</Name>
       <Importer>TextureImporter</Importer>
@@ -1343,13 +1338,6 @@
       <Name>light_guard_turn</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sounds\SoundEffects\GUI\ZMuFir00.wav">
-      <Name>ZMuFir00</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1507,11 +1495,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sounds\Music\AimaiElegy.mp3">
-      <Name>AimaiElegy</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Sprite\Guard\Exclmarks.png">
       <Name>Exclmarks</Name>
       <Importer>TextureImporter</Importer>
@@ -2575,7 +2558,9 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Sounds\SoundEffects\GUI\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
